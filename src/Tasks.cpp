@@ -270,7 +270,7 @@ void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 
 void CoMTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	/// @todo CoM dot jacobian
+	jacDotMat_ = jac_.jacobianDot(mb, mbc).block(3, 0, 3, mb.nrDof());
 }
 
 
