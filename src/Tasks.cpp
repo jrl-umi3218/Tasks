@@ -168,8 +168,17 @@ PostureTask::PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<doubl
 	jacMat_(mb.nrDof(), mb.nrDof()),
 	jacDotMat_(mb.nrDof(), mb.nrDof())
 {
+	eval_.setZero();
 	jacMat_.setIdentity();
 	jacDotMat_.setZero();
+
+	if(mb.nrDof() > 0 && mb.joint(0).type() == rbd::Joint::Free)
+	{
+		for(int i = 0; i < 6; ++i)
+		{
+			jacMat_(i, i) = 0;
+		}
+	}
 }
 
 
@@ -189,11 +198,11 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 {
 	using namespace Eigen;
 
+	int pos = mb.jointPosInDof(1);
+
 	// we drop the first joint (fixed or free flyier).
 	for(std::size_t i = 1; i < mb.nrJoints(); ++i)
 	{
-		int pos = 0;
-
 		// if dof == 1 is a prismatic/revolute joint
 		// else if dof == 4 is a spherical one
 		// else is a fixed one

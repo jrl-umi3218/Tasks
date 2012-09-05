@@ -24,7 +24,7 @@
 #include <Jacobian.h>
 
 // forward declarations
-// rbd
+// RBDyn
 namespace rbd
 {
 	class MultiBody;
