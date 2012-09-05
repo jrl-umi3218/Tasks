@@ -64,7 +64,7 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 
 	for(std::size_t i = 0; i < tasks_.size(); ++i)
 	{
-		tasks_[i]->update(mb, mb);
+		tasks_[i]->update(mb, mbc);
 	}
 
 	A1_.setZero();
@@ -129,8 +129,14 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		iter *= 10.;
 	}
 
+	if(success)
+	{
+		rbd::vectorToParam(res_.head(mb.nrDof()), mbc.alphaD);
+	}
+
 	return success;
 }
+
 
 void QPSolver::updateEqConstrSize()
 {
@@ -144,6 +150,7 @@ void QPSolver::updateEqConstrSize()
 	B1_.resize(nbEq);
 }
 
+
 void QPSolver::updateInEqConstrSize()
 {
 	int nbInEq = 0;
@@ -156,11 +163,11 @@ void QPSolver::updateInEqConstrSize()
 	B2_.resize(nbInEq);
 }
 
-void QPSolver::setNrVars(int nrVars)
+
+void QPSolver::nrVars(int nrVars)
 {
 	nrVars_ = nrVars;
 
-	// if the number of variable has changed
 	if(XL_.rows() != nrVars_)
 	{
 		XL_.resize(nrVars_);
@@ -173,11 +180,19 @@ void QPSolver::setNrVars(int nrVars)
 	}
 }
 
+
+int QPSolver::nrVars() const
+{
+	return nrVars_;
+}
+
+
 void QPSolver::addEqualityConstraint(EqualityConstraint* co)
 {
 	eqConstr_.push_back(co);
 	constr_.push_back(co);
 }
+
 
 void QPSolver::addInequalityConstraint(InequalityConstraint* co)
 {
@@ -185,16 +200,19 @@ void QPSolver::addInequalityConstraint(InequalityConstraint* co)
 	constr_.push_back(co);
 }
 
+
 void QPSolver::addBoundConstraint(BoundConstraint* co)
 {
 	boundConstr_.push_back(co);
 	constr_.push_back(co);
 }
 
+
 void QPSolver::addTask(Task* task)
 {
 	tasks_.push_back(task);
 }
+
 
 void QPSolver::removeTask(Task* task)
 {
@@ -208,6 +226,13 @@ void QPSolver::removeTask(Task* task)
 		}
 	}
 }
+
+
+int QPSolver::nrTasks() const
+{
+	return tasks_.size();
+}
+
 
 void QPSolver::resetTasks()
 {

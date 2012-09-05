@@ -18,7 +18,7 @@ include_directories(${RBD_INCLUDE_DIRS}/RBDyn)
 include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories(${Boost_INCLUDE_DIRS})
 
-# add_executable(BodyTest BodyTest.cpp)
-# target_link_libraries(BodyTest ${Boost_LIBRARIES} RBDyn Tasks)
-# add_test(BodyTestUnit BodyTest)
+add_executable(QPSolverTest QPSolverTest.cpp)
+target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks)
+add_test(QPSolverTestUnit QPSolverTest)
 

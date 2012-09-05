@@ -31,7 +31,7 @@ PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId),
   eval_(3),
-  shortJacMat_(3, jac_.jointsPath().size()),
+  shortJacMat_(3, jac_.dof()),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
@@ -90,7 +90,7 @@ OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eig
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId),
   eval_(3),
-  shortJacMat_(3, jac_.jointsPath().size()),
+  shortJacMat_(3, jac_.dof()),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
@@ -102,7 +102,7 @@ OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eig
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId),
   eval_(3),
-  shortJacMat_(3, jac_.jointsPath().size()),
+  shortJacMat_(3, jac_.dof()),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
@@ -129,7 +129,7 @@ const Eigen::Matrix3d& OrientationTask::orientation() const
 
 void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_);
+	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_, 1e-7);
 
 	shortJacMat_ = jac_.jacobian(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
 	jac_.fullJacobian(mb, shortJacMat_, jacMat_);

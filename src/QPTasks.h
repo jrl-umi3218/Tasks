@@ -51,7 +51,7 @@ public:
 
 	void stiffness(double stiffness);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;

@@ -134,7 +134,8 @@ public:
 	void updateEqConstrSize();
 	void updateInEqConstrSize();
 
-	void setNrVars(int nrVars);
+	void nrVars(int nrVars);
+	int nrVars() const;
 
 	void addEqualityConstraint(EqualityConstraint* co);
 	void addInequalityConstraint(InequalityConstraint* co);
@@ -143,6 +144,7 @@ public:
 	void addTask(Task* task);
 	void removeTask(Task* task);
 	void resetTasks();
+	int nrTasks() const;
 
 private:
 	std::vector<Constraint*> constr_;

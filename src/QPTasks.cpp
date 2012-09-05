@@ -120,7 +120,7 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 	C_.setZero();
 
 	// joint
-	C_.segment(mb.jointPosInDof(1), mb.nrDof()) = stiffness_*pt_.eval() +
+	C_.segment(mb.jointPosInDof(1), mb.nrDof()) = -stiffness_*pt_.eval() +
 		stiffnessSqrt_*alphaVec_.segment(mb.jointPosInDof(1), mb.nrDof());
 }
 
