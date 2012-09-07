@@ -81,10 +81,10 @@ private:
 
 
 
-class ContactConstraintAcc : public EqualityConstraint, public Constraint
+class ContactAccConstr : public EqualityConstraint, public Constraint
 {
 public:
-	ContactConstraintAcc(const rbd::MultiBody& mb);
+	ContactAccConstr(const rbd::MultiBody& mb);
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,

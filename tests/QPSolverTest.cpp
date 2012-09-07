@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::SetPointTask oriTaskSp(mb, &oriTask, 10., 1.);
 
 
-	qp::ContactConstraintAcc contCstrAcc(mb);
+	qp::ContactAccConstr contCstrAcc(mb);
 
 	// Test addEqualityConstraint
 	solver.addEqualityConstraint(&contCstrAcc);

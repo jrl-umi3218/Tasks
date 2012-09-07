@@ -152,7 +152,7 @@ const Eigen::VectorXd& MotionConstr::Upper() const
 
 
 
-ContactConstraintAcc::ContactConstraintAcc(const rbd::MultiBody& mb):
+ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 	cont_(),
 	fullJac_(6, mb.nrDof()),
 	alphaVec_(mb.nrDof()),
@@ -164,7 +164,7 @@ ContactConstraintAcc::ContactConstraintAcc(const rbd::MultiBody& mb):
 {}
 
 
-void ContactConstraintAcc::updateNrVars(const rbd::MultiBody& mb,
+void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
 {
 	cont_.resize(cont.size());
@@ -186,7 +186,7 @@ void ContactConstraintAcc::updateNrVars(const rbd::MultiBody& mb,
 }
 
 
-void ContactConstraintAcc::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	using namespace Eigen;
 
@@ -209,19 +209,19 @@ void ContactConstraintAcc::update(const rbd::MultiBody& mb, const rbd::MultiBody
 }
 
 
-int ContactConstraintAcc::nrEqLine()
+int ContactAccConstr::nrEqLine()
 {
 	return AEq_.rows();
 }
 
 
-const Eigen::MatrixXd& ContactConstraintAcc::AEq() const
+const Eigen::MatrixXd& ContactAccConstr::AEq() const
 {
 	return AEq_;
 }
 
 
-const Eigen::VectorXd& ContactConstraintAcc::BEq() const
+const Eigen::VectorXd& ContactAccConstr::BEq() const
 {
 	return BEq_;
 }
