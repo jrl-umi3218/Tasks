@@ -228,7 +228,7 @@ const Eigen::VectorXd& OrientationTask::eval()
 	*/
 
 
-CoMTask::CoMTask(const rbd::MultiBody& mb, Eigen::Vector3d& com):
+CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com):
 	ct_(mb, com)
 {}
 

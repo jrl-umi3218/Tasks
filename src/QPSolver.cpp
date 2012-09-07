@@ -238,7 +238,7 @@ void QPSolver::removeEqualityConstraint(EqualityConstraint* co)
 }
 
 
-int QPSolver::nrEqualityConstraint() const
+int QPSolver::nrEqualityConstraints() const
 {
 	return eqConstr_.size();
 }
@@ -256,7 +256,7 @@ void QPSolver::removeInequalityConstraint(InequalityConstraint* co)
 }
 
 
-int QPSolver::nrInequalityConstraint() const
+int QPSolver::nrInequalityConstraints() const
 {
 	return inEqConstr_.size();
 }
@@ -274,7 +274,7 @@ void QPSolver::removeBoundConstraint(BoundConstraint* co)
 }
 
 
-int QPSolver::nrBoundConstraint() const
+int QPSolver::nrBoundConstraints() const
 {
 	return boundConstr_.size();
 }
@@ -298,7 +298,7 @@ void QPSolver::removeConstraint(Constraint* co)
 	}
 }
 
-int QPSolver::nrConstraint() const
+int QPSolver::nrConstraints() const
 {
 	return constr_.size();
 }

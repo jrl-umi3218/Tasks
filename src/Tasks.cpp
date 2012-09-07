@@ -248,7 +248,7 @@ const Eigen::MatrixXd& PostureTask::jacDot() const
 
 
 
-CoMTask::CoMTask(const rbd::MultiBody& mb, Eigen::Vector3d& com):
+CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com):
   com_(com),
   jac_(mb),
   eval_(3),

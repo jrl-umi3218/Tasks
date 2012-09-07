@@ -150,19 +150,19 @@ public:
 
 	void addEqualityConstraint(EqualityConstraint* co);
 	void removeEqualityConstraint(EqualityConstraint* co);
-	int nrEqualityConstraint() const;
+	int nrEqualityConstraints() const;
 
 	void addInequalityConstraint(InequalityConstraint* co);
 	void removeInequalityConstraint(InequalityConstraint* co);
-	int nrInequalityConstraint() const;
+	int nrInequalityConstraints() const;
 
 	void addBoundConstraint(BoundConstraint* co);
 	void removeBoundConstraint(BoundConstraint* co);
-	int nrBoundConstraint() const;
+	int nrBoundConstraints() const;
 
 	void addConstraint(Constraint* co);
 	void removeConstraint(Constraint* co);
-	int nrConstraint() const;
+	int nrConstraints() const;
 
 	void addTask(Task* task);
 	void removeTask(Task* task);

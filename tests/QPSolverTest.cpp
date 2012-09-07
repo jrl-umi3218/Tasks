@@ -255,9 +255,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test addEqualityConstraint
 	solver.addEqualityConstraint(&contCstrAcc);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 1);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
 	solver.addConstraint(&contCstrAcc);
-	BOOST_CHECK_EQUAL(solver.nrConstraint(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec);
 	solver.updateEqConstrSize();
@@ -294,9 +294,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test removeEqualityConstraint
 	solver.removeEqualityConstraint(&contCstrAcc);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 0);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
 	solver.removeConstraint(&contCstrAcc);
-	BOOST_CHECK_EQUAL(solver.nrConstraint(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
 
 
@@ -304,11 +304,11 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::MotionConstr motionCstr(mb);
 
 	solver.addEqualityConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 1);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
 	solver.addBoundConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraint(), 1);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	solver.addConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrConstraint(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec);
 	solver.updateEqConstrSize();
@@ -344,9 +344,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test removeEqualityConstraint
 	solver.removeEqualityConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 0);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
 	solver.removeBoundConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraint(), 0);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	solver.removeConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrConstraint(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
