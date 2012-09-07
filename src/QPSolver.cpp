@@ -47,7 +47,11 @@ QPSolver::QPSolver():
   inEqConstr_(),
   boundConstr_(),
   tasks_(),
+  alphaD_(0),
+  lambda_(0),
+  torque_(0),
   nrVars_(0),
+  cont_(),
   A1_(),B1_(),A2_(),B2_(),
   XL_(),XU_(),
   Q_(),C_(),
@@ -132,6 +136,7 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 	if(success)
 	{
 		rbd::vectorToParam(res_.head(mb.nrDof()), mbc.alphaD);
+		rbd::vectorToParam(res_.tail(mb.nrDof() - mb.joint(0).dof()), mbc.jointTorque);
 	}
 
 	return success;
@@ -164,9 +169,19 @@ void QPSolver::updateInEqConstrSize()
 }
 
 
-void QPSolver::nrVars(int nrVars)
+void QPSolver::nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont)
 {
-	nrVars_ = nrVars;
+	alphaD_ = mb.nrDof();
+	lambda_ = 0;
+	torque_ = (mb.nrDof() - mb.joint(0).dof());
+	cont_ = cont;
+
+	for(const Contact& c: cont_)
+	{
+		lambda_ += c.points.size()*1;
+	}
+
+	nrVars_ = alphaD_ + lambda_ + torque_;
 
 	if(XL_.rows() != nrVars_)
 	{
@@ -177,6 +192,11 @@ void QPSolver::nrVars(int nrVars)
 		C_.resize(nrVars_);
 
 		res_.resize(nrVars_);
+	}
+
+	for(Constraint* c: constr_)
+	{
+		c->updateNrVars(mb, alphaD_, lambda_, torque_, cont_);
 	}
 }
 
@@ -190,21 +210,78 @@ int QPSolver::nrVars() const
 void QPSolver::addEqualityConstraint(EqualityConstraint* co)
 {
 	eqConstr_.push_back(co);
-	constr_.push_back(co);
+}
+
+
+void QPSolver::removeEqualityConstraint(EqualityConstraint* co)
+{
+	eqConstr_.erase(std::find(eqConstr_.begin(), eqConstr_.end(), co));
+}
+
+
+int QPSolver::nrEqualityConstraint() const
+{
+	return eqConstr_.size();
 }
 
 
 void QPSolver::addInequalityConstraint(InequalityConstraint* co)
 {
 	inEqConstr_.push_back(co);
-	constr_.push_back(co);
+}
+
+
+void QPSolver::removeInequalityConstraint(InequalityConstraint* co)
+{
+	inEqConstr_.erase(std::find(inEqConstr_.begin(), inEqConstr_.end(), co));
+}
+
+
+int QPSolver::nrInequalityConstraint() const
+{
+	return inEqConstr_.size();
 }
 
 
 void QPSolver::addBoundConstraint(BoundConstraint* co)
 {
 	boundConstr_.push_back(co);
-	constr_.push_back(co);
+}
+
+
+void QPSolver::removeBoundConstraint(BoundConstraint* co)
+{
+	boundConstr_.erase(std::find(boundConstr_.begin(), boundConstr_.end(), co));
+}
+
+
+int QPSolver::nrBoundConstraint() const
+{
+	return boundConstr_.size();
+}
+
+
+void QPSolver::addConstraint(Constraint* co)
+{
+	if(std::find(constr_.begin(), constr_.end(), co) == constr_.end())
+	{
+		constr_.push_back(co);
+	}
+}
+
+
+void QPSolver::removeConstraint(Constraint* co)
+{
+	auto it = std::find(constr_.begin(), constr_.end(), co);
+	if(it != constr_.end())
+	{
+		constr_.erase(it);
+	}
+}
+
+int QPSolver::nrConstraint() const
+{
+	return constr_.size();
 }
 
 
@@ -216,15 +293,7 @@ void QPSolver::addTask(Task* task)
 
 void QPSolver::removeTask(Task* task)
 {
-	std::vector<Task*>::iterator it;
-	for(it = tasks_.begin(); it != tasks_.end(); ++it)
-	{
-		if(*it == task)
-		{
-			tasks_.erase(it);
-			break;
-		}
-	}
+	tasks_.erase(std::find(tasks_.begin(), tasks_.end(), task));
 }
 
 

@@ -38,17 +38,28 @@ namespace tasks
 namespace qp
 {
 
-class SequenceController3;
+
+struct Contact
+{
+	int bodyId;
+	std::vector<Eigen::Vector3d> points;
+	std::vector<Eigen::Vector3d> normals;
+	// Friction cone
+};
+
 
 class Constraint
 {
 public:
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont) = 0;
+
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
 };
 
 
 
-class EqualityConstraint : public Constraint
+class EqualityConstraint
 {
 public:
 	virtual int nrEqLine() = 0;
@@ -59,7 +70,7 @@ public:
 
 
 
-class InequalityConstraint : public Constraint
+class InequalityConstraint
 {
 public:
 	virtual int nrInEqLine() = 0;
@@ -70,7 +81,7 @@ public:
 
 
 
-class BoundConstraint : public Constraint
+class BoundConstraint
 {
 public:
 	virtual int beginVar() = 0;
@@ -134,12 +145,24 @@ public:
 	void updateEqConstrSize();
 	void updateInEqConstrSize();
 
-	void nrVars(int nrVars);
+	void nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont);
 	int nrVars() const;
 
 	void addEqualityConstraint(EqualityConstraint* co);
+	void removeEqualityConstraint(EqualityConstraint* co);
+	int nrEqualityConstraint() const;
+
 	void addInequalityConstraint(InequalityConstraint* co);
+	void removeInequalityConstraint(InequalityConstraint* co);
+	int nrInequalityConstraint() const;
+
 	void addBoundConstraint(BoundConstraint* co);
+	void removeBoundConstraint(BoundConstraint* co);
+	int nrBoundConstraint() const;
+
+	void addConstraint(Constraint* co);
+	void removeConstraint(Constraint* co);
+	int nrConstraint() const;
 
 	void addTask(Task* task);
 	void removeTask(Task* task);
@@ -154,7 +177,9 @@ private:
 
 	std::vector<Task*> tasks_;
 
+	int alphaD_, lambda_, torque_;
 	int nrVars_;
+	std::vector<Contact> cont_;
 
 	Eigen::MatrixXd A1_;
 	Eigen::VectorXd B1_;

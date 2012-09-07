@@ -30,11 +30,13 @@
 #include <EulerIntegration.h>
 #include <FK.h>
 #include <FV.h>
+#include <ID.h>
 #include <MultiBody.h>
 #include <MultiBodyConfig.h>
 #include <MultiBodyGraph.h>
 
 // Tasks
+#include "QPConstr.h"
 #include "QPSolver.h"
 #include "QPTasks.h"
 
@@ -95,6 +97,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm()
 }
 
 
+
 BOOST_AUTO_TEST_CASE(QPTaskTest)
 {
 	using namespace Eigen;
@@ -113,7 +116,10 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 
 
 	qp::QPSolver solver;
-	solver.nrVars(mb.nrDof());
+
+	solver.nrVars(mb, {});
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 3);
+
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -208,4 +214,136 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	BOOST_CHECK_SMALL(comTask.eval().norm(), 0.00001);
 
 	solver.removeTask(&comTaskSp);
+}
+
+
+
+BOOST_AUTO_TEST_CASE(QPConstrTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+
+	qp::QPSolver solver;
+
+
+	std::vector<qp::Contact> contVec = {{3, {Vector3d::Zero()}, {Vector3d(0., -1., 0.)}}};
+
+	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
+	qp::PositionTask posTask(mb, 3, posD);
+	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
+
+	qp::OrientationTask oriTask(mb, 3, RotZ(cst::pi<double>()/2.));
+	qp::SetPointTask oriTaskSp(mb, &oriTask, 10., 1.);
+
+
+	qp::ContactConstraintAcc contCstrAcc(mb);
+
+	// Test addEqualityConstraint
+	solver.addEqualityConstraint(&contCstrAcc);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 1);
+	solver.addConstraint(&contCstrAcc);
+	BOOST_CHECK_EQUAL(solver.nrConstraint(), 1);
+
+	solver.nrVars(mb, contVec);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	solver.addTask(&oriTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
+
+	posTask.update(mb, mbcInit);
+	oriTask.update(mb, mbcInit);
+	Vector3d evalPos = posTask.eval();
+	Vector3d evalOri = oriTask.eval();
+
+	// Test ContactConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	BOOST_CHECK_SMALL((posTask.eval() - evalPos).norm(), 0.00001);
+	BOOST_CHECK_SMALL((oriTask.eval() - evalOri).norm(), 0.00001);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	solver.removeTask(&oriTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test removeEqualityConstraint
+	solver.removeEqualityConstraint(&contCstrAcc);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 0);
+	solver.removeConstraint(&contCstrAcc);
+	BOOST_CHECK_EQUAL(solver.nrConstraint(), 0);
+
+
+
+	contVec = {};
+	qp::MotionConstr motionCstr(mb);
+
+	solver.addEqualityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 1);
+	solver.addBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraint(), 1);
+	solver.addConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraint(), 1);
+
+	solver.nrVars(mb, contVec);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+	// Test MotionConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	BOOST_CHECK_SMALL(posTask.eval().norm(), 0.00001);
+
+	MultiBodyConfig mbcTest(mbcSolv);
+	mbcTest.jointTorque = {{}, {0.}, {0.}, {0.}};
+	InverseDynamics id(mb);
+	id.inverseDynamics(mb, mbcTest);
+
+	BOOST_CHECK_SMALL(
+		(dofToVector(mb, mbcSolv.jointTorque) -
+			dofToVector(mb, mbcTest.jointTorque)).norm(), 0.00001);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test removeEqualityConstraint
+	solver.removeEqualityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraint(), 0);
+	solver.removeBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraint(), 0);
+	solver.removeConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraint(), 0);
 }
