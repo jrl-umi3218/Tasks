@@ -79,6 +79,11 @@ public:
 		return pt_;
 	}
 
+	tasks::PostureTask* taskPtr()
+	{
+		return &pt_;
+	}
+
 	double stiffness() const
 	{
 		return stiffness_;
@@ -114,6 +119,11 @@ public:
 		return pt_;
 	}
 
+	tasks::PositionTask* taskPtr()
+	{
+		return &pt_;
+	}
+
 	virtual int dim();
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -138,6 +148,11 @@ public:
 		return ot_;
 	}
 
+	tasks::OrientationTask* taskPtr()
+	{
+		return &ot_;
+	}
+
 	virtual int dim();
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -159,6 +174,11 @@ public:
 	tasks::CoMTask& task()
 	{
 		return ct_;
+	}
+
+	tasks::CoMTask* taskPtr()
+	{
+		return &ct_;
 	}
 
 	virtual int dim();
