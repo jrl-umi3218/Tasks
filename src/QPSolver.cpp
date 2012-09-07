@@ -135,8 +135,27 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 
 	if(success)
 	{
-		rbd::vectorToParam(res_.head(mb.nrDof()), mbc.alphaD);
-		rbd::vectorToParam(res_.tail(mb.nrDof() - mb.joint(0).dof()), mbc.jointTorque);
+		rbd::vectorToParam(res_.head(alphaD_), mbc.alphaD);
+		rbd::vectorToParam(res_.tail(torque_), mbc.jointTorque);
+
+		int lambdaPos = alphaD_;
+		for(std::size_t i = 0; i < cont_.size(); ++i)
+		{
+			sva::ForceVec GF(Eigen::Vector6d::Zero());
+
+			for(std::size_t j = 0; j < cont_[i].points.size(); ++j)
+			{
+				double lambdaCoef = res_(lambdaPos);
+
+				sva::PTransform T(cont_[i].points[j]);
+				sva::ForceVec F(Eigen::Vector3d::Zero(), cont_[i].normals[j]*lambdaCoef);
+
+				GF = GF + T.transMul(F);
+				++lambdaPos;
+			}
+
+			mbc.force[mb.bodyIndexById(cont_[i].bodyId)] = GF;
+		}
 	}
 
 	return success;

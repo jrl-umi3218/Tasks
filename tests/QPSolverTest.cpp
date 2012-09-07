@@ -92,6 +92,9 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm()
 	mbc.q = {{}, {0.}, {0.}, {0.}};
 	mbc.alpha = {{}, {0.}, {0.}, {0.}};
 	mbc.alphaD = {{}, {0.}, {0.}, {0.}};
+	mbc.jointTorque = {{}, {0.}, {0.}, {0.}};
+	ForceVec f0(Vector6d::Zero());
+	mbc.force = {f0, f0, f0, f0};
 
 	return std::make_tuple(mb, mbc);
 }
