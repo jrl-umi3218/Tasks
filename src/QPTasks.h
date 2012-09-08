@@ -79,9 +79,14 @@ public:
 		return pt_;
 	}
 
-	tasks::PostureTask* taskPtr()
+	void posture(std::vector<std::vector<double>> q)
 	{
-		return &pt_;
+		pt_.posture(q);
+	}
+
+	const std::vector<std::vector<double>> posture() const
+	{
+		return pt_.posture();
 	}
 
 	double stiffness() const
@@ -119,9 +124,14 @@ public:
 		return pt_;
 	}
 
-	tasks::PositionTask* taskPtr()
+	void position(const Eigen::Vector3d& pos)
 	{
-		return &pt_;
+		pt_.position(pos);
+	}
+
+	const Eigen::Vector3d& position() const
+	{
+		return pt_.position();
 	}
 
 	virtual int dim();
@@ -148,9 +158,19 @@ public:
 		return ot_;
 	}
 
-	tasks::OrientationTask* taskPtr()
+	void orientation(const Eigen::Quaterniond& ori)
 	{
-		return &ot_;
+		ot_.orientation(ori);
+	}
+
+	void orientation(const Eigen::Matrix3d& ori)
+	{
+		ot_.orientation(ori);
+	}
+
+	const Eigen::Matrix3d& orientation() const
+	{
+		return ot_.orientation();
 	}
 
 	virtual int dim();
@@ -176,9 +196,14 @@ public:
 		return ct_;
 	}
 
-	tasks::CoMTask* taskPtr()
+	void com(const Eigen::Vector3d& com)
 	{
-		return &ct_;
+		ct_.com(com);
+	}
+
+	const Eigen::Vector3d com() const
+	{
+		return ct_.com();
 	}
 
 	virtual int dim();

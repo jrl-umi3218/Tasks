@@ -115,13 +115,13 @@ def build_qp(tasks):
 
   contact = qp.add_struct('Contact')
 
-  constr = qp.add_class('Constraint', allow_subclassing=True)
-  eqConstr = qp.add_class('EqualityConstraint', allow_subclassing=True)
-  ineqConstr = qp.add_class('InequalityConstraint', allow_subclassing=True)
-  boundConstr = qp.add_class('BoundConstraint', allow_subclassing=True)
+  constr = qp.add_class('Constraint')
+  eqConstr = qp.add_class('EqualityConstraint')
+  ineqConstr = qp.add_class('InequalityConstraint')
+  boundConstr = qp.add_class('BoundConstraint')
 
-  task = qp.add_class('Task', allow_subclassing=True)
-  hlTask = qp.add_class('HighLevelTask', allow_subclassing=True)
+  task = qp.add_class('Task')
+  hlTask = qp.add_class('HighLevelTask')
 
   spTask = qp.add_class('SetPointTask', parent=task)
 
@@ -141,12 +141,14 @@ def build_qp(tasks):
 
 
   # QPSolver
-  def add_std_solver_add_rm_nr(name):
-    ptr = '% s*' % name
-    sol.add_method('add%s' % name, None,
-                   [param(ptr, 'ptr', transfer_ownership=False)])
-    sol.add_method('remove%s' % name, None,
-                   [param(ptr, 'ptr', transfer_ownership=False)])
+  def add_std_solver_add_rm_nr(name, type):
+    for t in type:
+      ptr = '%s*' % t
+      sol.add_method('add%s' % name, None,
+                     [param(ptr, 'ptr', transfer_ownership=False)])
+      sol.add_method('remove%s' % name, None,
+                     [param(ptr, 'ptr', transfer_ownership=False)])
+
     sol.add_method('nr%ss' % name, retval('int'), [], is_const=True)
 
   sol.add_constructor([])
@@ -154,16 +156,25 @@ def build_qp(tasks):
                  [param('const rbd::MultiBody&', 'mb'),
                   param('const rbd::MultiBodyConfig&', 'mbc')])
 
+  sol.add_method('updateEqConstrSize', None, [])
+  sol.add_method('updateInEqConstrSize', None, [])
+
   sol.add_method('nrVars', None,
                  [param('const rbd::MultiBody&', 'mb'),
                   param('std::vector<tasks::qp::Contact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  add_std_solver_add_rm_nr('EqualityConstraint')
-  add_std_solver_add_rm_nr('InequalityConstraint')
-  add_std_solver_add_rm_nr('BoundConstraint')
-  add_std_solver_add_rm_nr('Constraint')
-  add_std_solver_add_rm_nr('Task')
+  constrName = ['MotionConstr', 'ContactAccConstr']
+  eqConstrName = ['MotionConstr', 'ContactAccConstr']
+  ineqConstrName = []
+  boundConstrName = ['MotionConstr']
+  taskName = ['SetPointTask', 'tasks::qp::PostureTask']
+
+  add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
+  # add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
+  add_std_solver_add_rm_nr('BoundConstraint', boundConstrName)
+  add_std_solver_add_rm_nr('Constraint', constrName)
+  add_std_solver_add_rm_nr('Task', taskName)
   sol.add_method('resetTasks', None, [])
 
 
@@ -179,33 +190,28 @@ def build_qp(tasks):
                      param('int', 'alphaD'),
                      param('int', 'lambda'),
                      param('int', 'torque'),
-                     param('const std::vector<tasks::qp::Contact>', 'cont')],
-                    is_virtual=True, is_pure_virtual=True)
+                     param('const std::vector<tasks::qp::Contact>', 'cont')])
 
   constr.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')],
-                    is_virtual=True, is_pure_virtual=True)
+                     param('const rbd::MultiBodyConfig&', 'mbc')])
 
   # EqualityConstraint
-  eqConstr.add_method('nrEqLine', retval('int'), [],
-                      is_virtual=True, is_pure_virtual=True)
+  eqConstr.add_method('nrEqLine', retval('int'), [])
   # eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [],
   #                     is_virtual=True, is_pure_virtual=True)
   # eqConstr.add_method('BEq', retval('Eigen::MatrixXd'), [],
   #                     is_virtual=True, is_pure_virtual=True)
 
   # InequalityConstraint
-  ineqConstr.add_method('nrInEqLine', retval('int'), [],
-                        is_virtual=True, is_pure_virtual=True)
+  ineqConstr.add_method('nrInEqLine', retval('int'), [])
   # ineqConstr.add_method('AInEq', retval('Eigen::MatrixXd'), [],
   #                       is_virtual=True, is_pure_virtual=True)
   # ineqConstr.add_method('BInEq', retval('Eigen::MatrixXd'), [],
   #                       is_virtual=True, is_pure_virtual=True)
 
   # BoundConstraint
-  boundConstr.add_method('beginVar', retval('int'), [],
-                         is_virtual=True, is_pure_virtual=True)
+  boundConstr.add_method('beginVar', retval('int'), [])
   # boundConstr.add_method('Lower', retval('Eigen::MatrixXd'), [],
   #                        is_virtual=True, is_pure_virtual=True)
   # boundConstr.add_method('Upper', retval('Eigen::VectorXd'), [],
@@ -228,21 +234,34 @@ def build_qp(tasks):
   #                 is_virtual=True, is_pure_virtual=True, is_const=True)
 
   # HighLevelTask
-  # TODO
+  hlTask.add_method('dim', retval('int'), [])
+
+  hlTask.add_method('update', None,
+                    [param('const rbd::MultiBody&', 'mb'),
+                     param('const rbd::MultiBodyConfig&', 'mbc')])
+
+  hlTask.add_method('jac', retval('Eigen::MatrixXd'), [])
+  hlTask.add_method('jacDot', retval('Eigen::MatrixXd'), [])
+  hlTask.add_method('eval', retval('Eigen::VectorXd'), [])
 
   # SetPointTask
-  spTask.add_constructor([param('const MultiBody&', 'mb'),
-                          param('HighLevelTask *', 'hlTask',
-                                transfer_ownership=False),
-                          param('double', 'stiffness'),
-                          param('double', 'weight')])
+  def spConstructor(hlTaskName):
+    for t in hlTaskName:
+      name = 'tasks::qp::%s *' % t
+      spTask.add_constructor([param('const MultiBody&', 'mb'),
+                              param(name, 'hlTask',
+                                    transfer_ownership=False),
+                              param('double', 'stiffness'),
+                              param('double', 'weight')])
+
+  spConstructor(['PositionTask', 'OrientationTask', 'CoMTask'])
 
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
   spTask.add_method('stiffness', None, [param('double', 'weight')])
 
   spTask.add_method('update', None,
-                  [param('const rbd::MultiBody&', 'mb'),
-                   param('const rbd::MultiBodyConfig&', 'mbc')])
+                    [param('const rbd::MultiBody&', 'mb'),
+                     param('const rbd::MultiBodyConfig&', 'mbc')])
 
   spTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   spTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
@@ -252,9 +271,8 @@ def build_qp(tasks):
                            param('int', 'bodyId'),
                            param('const Eigen::Vector3d&', 'pos')])
 
-  posTask.add_method('taskPtr', retval('tasks::PositionTask*',
-                                       caller_owns_return=False),
-                     [], custom_name='task')
+  posTask.add_method('position', None, [param('const Eigen::Vector3d&', 'pos')])
+  posTask.add_method('position', retval('Eigen::Vector3d'), [], is_const=True)
 
   # OrientationTask
   oriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
@@ -264,9 +282,9 @@ def build_qp(tasks):
                            param('int', 'bodyId'),
                            param('const Eigen::Matrix3d&', 'ori')])
 
-  oriTask.add_method('taskPtr', retval('tasks::OrientationTask*',
-                                       caller_owns_return=False),
-                     [], custom_name='task')
+  oriTask.add_method('orientation', None, [param('const Eigen::Matrix3d&', 'ori')])
+  oriTask.add_method('orientation', None, [param('const Eigen::Quaterniond&', 'ori')])
+  oriTask.add_method('orientation', retval('Eigen::Matrix3d'), [], is_const=True)
 
   # PostureTask
   postureTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
@@ -278,23 +296,26 @@ def build_qp(tasks):
   postureTask.add_method('stiffness', retval('double'), [], is_const=True)
   postureTask.add_method('stiffness', None, [param('double', 'weight')])
 
-  postureTask.add_method('taskPtr', retval('tasks::PostureTask*',
-                                           caller_owns_return=False),
-                         [], custom_name='task')
+  postureTask.add_method('posture', None,
+                         [param('std::vector<std::vector<double> >', 'q')])
+  postureTask.add_method('posture',
+                         retval('std::vector<std::vector<double> >','q'), [],
+                         is_const=True)
 
   # CoMTask
   comTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('const Eigen::Vector3d&', 'com')])
 
-  comTask.add_method('taskPtr', retval('tasks::CoMTask*',
-                                       caller_owns_return=False),
-                     [], custom_name='task')
+  comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
+  comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
+                     is_const=True)
 
   # MotionConstr
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
 
   # ContactAccConstr
   contactAccConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+  contactAccConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
 
 
 
