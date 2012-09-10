@@ -16,6 +16,13 @@
 from pybindgen import *
 import sys
 
+def import_SCD_types(mod):
+  mod.add_class('S_Object', foreign_cpp_namespace='SCD', import_from_module='scd')
+  mod.add_class('S_Sphere', foreign_cpp_namespace='SCD', import_from_module='scd')
+  mod.add_class('CD_Pair', foreign_cpp_namespace='SCD', import_from_module='scd')
+
+
+
 def import_rbd_types(mod):
   mod.add_class('Body', foreign_cpp_namespace='rbd', import_from_module='rbdyn')
   mod.add_class('Joint', foreign_cpp_namespace='rbd', import_from_module='rbdyn')
@@ -134,6 +141,8 @@ def build_qp(tasks):
                                                      constr])
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr])
 
+  selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
+
 
   # build list type
   tasks.add_container('std::vector<tasks::qp::Contact>', 'tasks::qp::Contact', 'vector')
@@ -164,14 +173,14 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::Contact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  constrName = ['MotionConstr', 'ContactAccConstr']
+  constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr']
   eqConstrName = ['MotionConstr', 'ContactAccConstr']
-  ineqConstrName = []
+  ineqConstrName = ['SelfCollisionConstr']
   boundConstrName = ['MotionConstr']
   taskName = ['SetPointTask', 'tasks::qp::PostureTask']
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
-  # add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
+  add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
   add_std_solver_add_rm_nr('BoundConstraint', boundConstrName)
   add_std_solver_add_rm_nr('Constraint', constrName)
   add_std_solver_add_rm_nr('Task', taskName)
@@ -315,8 +324,24 @@ def build_qp(tasks):
 
   # ContactAccConstr
   contactAccConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
-  contactAccConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
 
+  # SelfCollisionConstr
+  selfCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                       param('double', 'step')])
+  selfCollisionConstr.add_method('addCollision', None,
+                                 [param('const rbd::MultiBody', 'mb'),
+                                  param('int', 'body1Id'),
+                                  param('SCD::S_Object*', 'body1', transfer_ownership=False),
+                                  param('int', 'body2Id'),
+                                  param('SCD::S_Object*', 'body2', transfer_ownership=False),
+                                  param('double', 'di'),
+                                  param('double', 'ds'),
+                                  param('double', 'damping')])
+
+  selfCollisionConstr.add_method('rmCollision', None, [param('int', 'body1Id'),
+                                                       param('int', 'body2Id')])
+
+  selfCollisionConstr.add_method('reset', None, []),
 
 
 
@@ -332,6 +357,10 @@ if __name__ == '__main__':
 
   tasks.add_include('<MultiBodyConfig.h>')
 
+  tasks.add_include('<SCD/S_Object/S_Object.h>')
+  tasks.add_include('<SCD/S_Object/S_Sphere.h>')
+  tasks.add_include('<SCD/CD/CD_Pair.h>')
+
   dom_ex = tasks.add_exception('std::domain_error', foreign_cpp_namespace=' ',
                                message_rvalue='%(EXC)s.what()')
   out_ex = tasks.add_exception('std::out_of_range', foreign_cpp_namespace=' ',
@@ -341,6 +370,7 @@ if __name__ == '__main__':
   import_eigen3_types(tasks)
   import_sva_types(tasks)
   import_rbd_types(tasks)
+  import_SCD_types(tasks)
 
   posTask = tasks.add_class('PositionTask')
   oriTask = tasks.add_class('OrientationTask')
