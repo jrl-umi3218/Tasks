@@ -10,6 +10,13 @@ find_path(RBD_INCLUDE_DIRS RBDyn/
                            /usr/include
                            /usr/local/include)
 
+find_path(SCD_INCLUDE_DIRS SCD/
+                           /usr/include
+                           /usr/local/include)
+
+
+# Tasks
+
 # create the package in build dir for testing purpose
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/tasks)
 configure_file(__init__.py ${CMAKE_CURRENT_BINARY_DIR}/tasks/__init__.py COPYONLY)
@@ -36,6 +43,35 @@ add_library(_tasks SHARED ${SOURCES})
 target_link_libraries(_tasks RBDyn Tasks)
 set_target_properties(_tasks PROPERTIES PREFIX "")
 
+
+
+# SCD
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/scd)
+configure_file(__scd_init__.py ${CMAKE_CURRENT_BINARY_DIR}/scd/__init__.py COPYONLY)
+
+set(OUTPUT_BINDING ${CMAKE_CURRENT_BINARY_DIR}/scd.cpp)
+
+# generate python binding code
+add_custom_command (
+  OUTPUT ${OUTPUT_BINDING}
+  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate_scd.py ${OUTPUT_BINDING}
+  DEPENDS generate_scd.py
+)
+
+# build the library
+set(SOURCES ${OUTPUT_BINDING})
+include_directories(.)
+include_directories(${EIGEN3_INCLUDE_DIRS})
+include_directories(${PYTHON_INCLUDE_DIRS})
+include_directories(${SVA_INCLUDE_DIRS}/SpaceVecAlg)
+include_directories(${SCD_INCLUDE_DIRS})
+
+add_library(_scd SHARED ${SOURCES})
+target_link_libraries(_scd scd)
+set_target_properties(_scd PROPERTIES PREFIX "")
+
+
+
 # install rules
 # find python version (not implemented in cmake 2.8.5)
 execute_process(COMMAND "${PYTHON_EXECUTABLE}" -V ERROR_VARIABLE _VERSION
@@ -50,4 +86,9 @@ set(INSTALL_PATH
   "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/tasks/")
 install(TARGETS _tasks DESTINATION ${INSTALL_PATH})
 install(FILES __init__.py DESTINATION ${INSTALL_PATH})
+
+set(INSTALL_PATH
+  "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/scd/")
+install(TARGETS _scd DESTINATION ${INSTALL_PATH})
+install(FILES __scd_init__.py DESTINATION ${INSTALL_PATH} RENAME __init__.py)
 

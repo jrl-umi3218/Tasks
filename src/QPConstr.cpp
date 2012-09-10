@@ -253,8 +253,6 @@ SCD::Matrix4x4 fromSCD(const sva::PTransform& t)
 	m(1,3) = tran(1);
 	m(2,3) = tran(2);
 
-	m(3,0) = m(3,1) = m(3,2) = 0.;
-	m(3,3) = 1.;
 	return m;
 }
 

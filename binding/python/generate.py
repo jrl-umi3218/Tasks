@@ -18,7 +18,6 @@ import sys
 
 def import_SCD_types(mod):
   mod.add_class('S_Object', foreign_cpp_namespace='SCD', import_from_module='scd')
-  mod.add_class('S_Sphere', foreign_cpp_namespace='SCD', import_from_module='scd')
   mod.add_class('CD_Pair', foreign_cpp_namespace='SCD', import_from_module='scd')
 
 
