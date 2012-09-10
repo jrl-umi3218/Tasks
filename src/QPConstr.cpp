@@ -21,6 +21,9 @@
 #include <MultiBody.h>
 #include <MultiBodyConfig.h>
 
+// SCD
+#include <SCD/CD/CD_Pair.h>
+#include <SCD/S_Object/S_Object.h>
 
 namespace tasks
 {
@@ -225,6 +228,216 @@ const Eigen::VectorXd& ContactAccConstr::BEq() const
 {
 	return BEq_;
 }
+
+
+/**
+	*													SelfCollisionConstr
+	*/
+
+
+SCD::Matrix4x4 fromSCD(const sva::PTransform& t)
+{
+	SCD::Matrix4x4 m;
+	const Eigen::Matrix3d& rot = t.rotation();
+	const Eigen::Vector3d& tran = t.translation();
+
+	for(int i = 0; i < 3; ++i)
+	{
+		for(int j = 0; j < 3; ++j)
+		{
+			m(i,j) = rot(i,j);
+		}
+	}
+
+	m(0,3) = tran(0);
+	m(1,3) = tran(1);
+	m(2,3) = tran(2);
+
+	m(3,0) = m(3,1) = m(3,2) = 0.;
+	m(3,3) = 1.;
+	return m;
+}
+
+
+SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
+	int body1Id, SCD::S_Object* body1,
+	int body2Id, SCD::S_Object* body2,
+	double di, double ds, double damping):
+		pair(new SCD::CD_Pair(body1, body2)),
+		normVecDist(Eigen::Vector3d::Zero()),
+		jacB1(rbd::Jacobian(mb, body1Id)),
+		jacB2(rbd::Jacobian(mb, body2Id)),
+		di(di),
+		ds(ds),
+		damping(damping),
+		body1Id(body1Id),
+		body2Id(body2Id),
+		body1(mb.bodyIndexById(body1Id)),
+		body2(mb.bodyIndexById(body2Id))
+{
+}
+
+
+SelfCollisionConstr::CollData::~CollData()
+{
+  delete pair;
+}
+
+
+SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
+  dataVec_(),
+  step_(step),
+  nrVars_(0),
+  AInEq_(),
+  BInEq_(),
+  fullJac_(6, mb.nrDof()),
+  fullJacDot_(6, mb.nrDof()),
+  alphaVec_(mb.nrDof()),
+  calcVec_(mb.nrDof())
+{
+}
+
+
+void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb,
+																				int body1Id, SCD::S_Object* body1,
+																				int body2Id, SCD::S_Object* body2,
+																				double di, double ds, double damping)
+{
+	dataVec_.emplace_back(mb, body1Id, body1, body2Id, body2, di, ds, damping);
+}
+
+
+void SelfCollisionConstr::rmCollision(int body1Id, int body2Id)
+{
+	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
+		[body1Id, body2Id](const CollData& data)
+		{
+			return data.body1Id == body1Id && data.body2Id == body2Id;
+		});
+
+	if(it != dataVec_.end())
+	{
+		dataVec_.erase(it);
+	}
+}
+
+
+void SelfCollisionConstr::reset()
+{
+	dataVec_.clear();
+}
+
+
+void SelfCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	int alphaD, int lambda, int torque, const std::vector<Contact>& /* cont */)
+{
+	nrVars_ = alphaD + lambda + torque;
+}
+
+
+void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	using namespace Eigen;
+
+	if(static_cast<unsigned int>(AInEq_.rows()) != dataVec_.size()
+		 || AInEq_.cols() != nrVars_)
+	{
+		AInEq_.resize(dataVec_.size(), nrVars_);
+		BInEq_.resize(dataVec_.size());
+		AInEq_.setZero();
+		BInEq_.setZero();
+	}
+
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	int i = 0;
+	for(CollData& d: dataVec_)
+	{
+		SCD::Point3 pb1Tmp, pb2Tmp;
+
+		(*d.pair)[0]->setTransformation(fromSCD(mbc.bodyPosW[d.body1]));
+		(*d.pair)[1]->setTransformation(fromSCD(mbc.bodyPosW[d.body2]));
+
+		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+
+		Vector3d pb1(pb1Tmp[0], pb1Tmp[1], pb1Tmp[2]);
+		Vector3d pb2(pb2Tmp[0], pb2Tmp[1], pb2Tmp[2]);
+
+		Eigen::Vector3d normVecDist = (pb1 - pb2)/dist;
+
+		pb1 = (mbc.bodyPosW[d.body1].inv()*sva::PTransform(pb1)).translation();
+		pb2 = (mbc.bodyPosW[d.body2].inv()*sva::PTransform(pb2)).translation();
+
+		if(dist < d.di)
+		{
+			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
+
+			Vector3d nf = normVecDist;
+			Vector3d onf = d.normVecDist;
+			Vector3d dnf = (nf - onf)/step_;
+
+			// Compute body1
+			d.jacB1.point(pb1);
+			const MatrixXd& jac1 = d.jacB1.jacobian(mb, mbc);
+			const MatrixXd& jacDot1 = d.jacB1.jacobianDot(mb, mbc);
+
+			d.jacB1.fullJacobian(mb, jac1, fullJac_);
+			d.jacB1.fullJacobian(mb, jacDot1, fullJacDot_);
+
+			double jqdn = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
+			double jqdnd = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
+			double jdqdn = ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
+
+			calcVec_ = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+
+			// Compute body2
+			d.jacB2.point(pb2);
+			const MatrixXd& jac2 = d.jacB2.jacobian(mb, mbc);
+			const MatrixXd& jacDot2 = d.jacB2.jacobianDot(mb, mbc);
+
+			d.jacB2.fullJacobian(mb, jac2, fullJac_);
+			d.jacB2.fullJacobian(mb, jacDot2, fullJacDot_);
+
+			jqdn = -((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
+			jqdnd = -((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
+			jdqdn = -((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
+
+			calcVec_ += fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+
+			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
+			AInEq_.block(i, 0, 1, mb.nrDof()) = calcVec_.transpose();
+			BInEq_(i) = dampers + jqdn + jqdnd + jdqdn;
+		}
+		else
+		{
+			AInEq_.block(i, 0, 1, mb.nrDof()).setZero();
+			BInEq_(i) = 0.;
+		}
+
+		d.normVecDist = normVecDist;
+		++i;
+	}
+}
+
+
+int SelfCollisionConstr::nrInEqLine()
+{
+	return dataVec_.size();
+}
+
+
+const Eigen::MatrixXd& SelfCollisionConstr::AInEq() const
+{
+	return AInEq_;
+}
+
+
+const Eigen::VectorXd& SelfCollisionConstr::BInEq() const
+{
+	return BInEq_;
+}
+
 
 } // namespace qp
 

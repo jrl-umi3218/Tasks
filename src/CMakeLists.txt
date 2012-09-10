@@ -12,11 +12,17 @@ find_path(RBD_INCLUDE_DIRS RBDyn/
                            /usr/include
                            /usr/local/include)
 
+find_path(SCD_INCLUDE_DIRS SCD/
+                           /usr/include
+                           /usr/local/include)
+
 include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${SVA_INCLUDE_DIRS}/SpaceVecAlg)
 include_directories(${RBD_INCLUDE_DIRS}/RBDyn)
+include_directories(${SCD_INCLUDE_DIRS})
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS})
+target_link_libraries(Tasks RBDyn scd)
 
 set(INSTALL_PATH include/Tasks)
 install(FILES ${HEADERS} DESTINATION ${INSTALL_PATH})

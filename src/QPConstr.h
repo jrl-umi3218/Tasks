@@ -27,6 +27,15 @@
 #include "QPSolver.h"
 
 
+// forward declaration
+// SCD
+namespace SCD
+{
+class S_Object;
+class CD_Pair;
+}
+
+
 namespace tasks
 {
 
@@ -114,6 +123,64 @@ private:
 	Eigen::VectorXd BEq_;
 
 	int nrDof_, nrFor_, nrTor_;
+};
+
+
+
+class SelfCollisionConstr : public InequalityConstraint, public Constraint
+{
+public:
+	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
+
+	void addCollision(const rbd::MultiBody& mb,
+										 int body1Id, SCD::S_Object* body1,
+										 int body2Id, SCD::S_Object* body2,
+										 double di, double ds, double damping);
+	void rmCollision(int body1Id, int body2Id);
+	void reset();
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// InEquality Constraint
+	virtual int nrInEqLine();
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& BInEq() const;
+
+private:
+	struct CollData
+	{
+		CollData(const rbd::MultiBody& mb,
+			int body1Id, SCD::S_Object* body1,
+			int body2Id, SCD::S_Object* body2,
+			double di, double ds, double damping);
+		~CollData();
+
+		SCD::CD_Pair* pair;
+		Eigen::Vector3d normVecDist;
+		rbd::Jacobian jacB1, jacB2;
+		double di, ds;
+		double damping;
+		int body1Id, body2Id;
+		int body1, body2;
+	};
+
+private:
+	std::vector<CollData> dataVec_;
+	double step_;
+	int nrVars_;
+
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd BInEq_;
+
+	Eigen::MatrixXd fullJac_;
+	Eigen::MatrixXd fullJacDot_;
+	Eigen::VectorXd alphaVec_;
+	Eigen::VectorXd calcVec_;
 };
 
 } // namespace qp

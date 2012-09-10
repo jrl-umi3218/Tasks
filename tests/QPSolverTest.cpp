@@ -35,6 +35,10 @@
 #include <MultiBodyConfig.h>
 #include <MultiBodyGraph.h>
 
+// SCD
+#include <SCD/S_Object/S_Sphere.h>
+#include <SCD/CD/CD_Pair.h>
+
 // Tasks
 #include "QPConstr.h"
 #include "QPSolver.h"
@@ -349,4 +353,67 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	solver.removeConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
+
+
+BOOST_AUTO_TEST_CASE(QPAutoCollTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
+
+	SCD::S_Sphere b0(0.25), b3(0.25);
+	SCD::CD_Pair pair(&b0, &b3);
+
+	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
+	autoCollConstr.addCollision(mb, 0, &b0, 3, &b3, 0.01, 0.005, 1.);
+
+	// Test addInequalityConstraint
+	solver.addInequalityConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
+	solver.addConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mb, {});
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test ContactConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		SCD::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		BOOST_REQUIRE(dist >= 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
 }
