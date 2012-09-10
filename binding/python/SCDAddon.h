@@ -29,7 +29,7 @@ void transform(S_Object& obj, const sva::PTransform& t)
   {
     for(int j = 0; j < 3; ++j)
     {
-      m(i,j) = rot(i,j);
+      m(i,j) = rot(j,i);
     }
   }
 
@@ -61,6 +61,19 @@ S_Object* STPBV(const std::string& filename)
   STP_BV* s = new STP_BV;
   s->constructFromFile(filename);
   return s;
+}
+
+
+
+double distance(CD_Pair& pair, Eigen::Vector3d& p1, Eigen::Vector3d& p2)
+{
+  SCD::Point3 p1Tmp, p2Tmp;
+  double dist = pair.getClosestPoints(p1Tmp, p2Tmp);
+
+  p1 << p1Tmp[0], p1Tmp[1], p1Tmp[2];
+  p2 << p2Tmp[0], p2Tmp[1], p2Tmp[2];
+
+  return dist;
 }
 
 }

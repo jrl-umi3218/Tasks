@@ -36,8 +36,9 @@ def build_SCD(scd):
   obj = scd.add_class('S_Object')
   pair = scd.add_class('CD_Pair')
 
-  obj.add_function_as_method('transform', None, [param('S_Object&', 'obj'),
-                                                 param('const sva::PTransform&', 'trans')])
+  obj.add_function_as_method('transform', None, [param('SCD::S_Object&', 'obj'),
+                                                 param('const sva::PTransform&', 'trans')],
+                             custom_name='transform')
 
 
   scd.add_function('Sphere', retval('SCD::S_Object*', caller_owns_return=True),
@@ -52,6 +53,14 @@ def build_SCD(scd):
 
   pair.add_constructor([param('SCD::S_Object*', 'obj1', transfer_ownership=False),
                         param('SCD::S_Object*', 'obj2', transfer_ownership=False)])
+
+  pair.add_method('getDistance', retval('double'), [], custom_name='distance')
+
+  pair.add_function_as_method('distance', retval('double'),
+                              [param('SCD::CD_Pair&', 'pair'),
+                               param('Eigen::Vector3d&', 'p1'),
+                               param('Eigen::Vector3d&', 'p2')],
+                              custom_name='distance')
 
 
 

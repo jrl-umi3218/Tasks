@@ -245,7 +245,7 @@ SCD::Matrix4x4 fromSCD(const sva::PTransform& t)
 	{
 		for(int j = 0; j < 3; ++j)
 		{
-			m(i,j) = rot(i,j);
+			m(i,j) = rot(j,i);
 		}
 	}
 
