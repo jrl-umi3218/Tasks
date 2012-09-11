@@ -258,10 +258,12 @@ SCD::Matrix4x4 fromSCD(const sva::PTransform& t)
 
 
 SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
-	int body1Id, SCD::S_Object* body1,
-	int body2Id, SCD::S_Object* body2,
+	int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
+	int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
 	double di, double ds, double damping):
 		pair(new SCD::CD_Pair(body1, body2)),
+		body1T(body1T),
+		body2T(body2T),
 		normVecDist(Eigen::Vector3d::Zero()),
 		jacB1(rbd::Jacobian(mb, body1Id)),
 		jacB2(rbd::Jacobian(mb, body2Id)),
@@ -297,11 +299,12 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
 
 
 void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb,
-																				int body1Id, SCD::S_Object* body1,
-																				int body2Id, SCD::S_Object* body2,
-																				double di, double ds, double damping)
+	int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
+	int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
+	double di, double ds, double damping)
 {
-	dataVec_.emplace_back(mb, body1Id, body1, body2Id, body2, di, ds, damping);
+	dataVec_.emplace_back(mb, body1Id, body1, body1T,
+		body2Id, body2, body2T, di, ds, damping);
 }
 
 
@@ -353,8 +356,8 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 	{
 		SCD::Point3 pb1Tmp, pb2Tmp;
 
-		(*d.pair)[0]->setTransformation(fromSCD(mbc.bodyPosW[d.body1]));
-		(*d.pair)[1]->setTransformation(fromSCD(mbc.bodyPosW[d.body2]));
+		(*d.pair)[0]->setTransformation(fromSCD(d.body1T*mbc.bodyPosW[d.body1]));
+		(*d.pair)[1]->setTransformation(fromSCD(d.body2T*mbc.bodyPosW[d.body2]));
 
 		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);

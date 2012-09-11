@@ -331,8 +331,10 @@ def build_qp(tasks):
                                  [param('const rbd::MultiBody', 'mb'),
                                   param('int', 'body1Id'),
                                   param('SCD::S_Object*', 'body1', transfer_ownership=False),
+                                  param('const sva::PTransform&', 'body1T'),
                                   param('int', 'body2Id'),
                                   param('SCD::S_Object*', 'body2', transfer_ownership=False),
+                                  param('const sva::PTransform&', 'body2T'),
                                   param('double', 'di'),
                                   param('double', 'ds'),
                                   param('double', 'damping')])

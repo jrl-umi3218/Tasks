@@ -133,9 +133,9 @@ public:
 	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
 
 	void addCollision(const rbd::MultiBody& mb,
-										 int body1Id, SCD::S_Object* body1,
-										 int body2Id, SCD::S_Object* body2,
-										 double di, double ds, double damping);
+		int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
+		int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
+		double di, double ds, double damping);
 	void rmCollision(int body1Id, int body2Id);
 	void reset();
 
@@ -155,12 +155,13 @@ private:
 	struct CollData
 	{
 		CollData(const rbd::MultiBody& mb,
-			int body1Id, SCD::S_Object* body1,
-			int body2Id, SCD::S_Object* body2,
+			int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
+			int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
 			double di, double ds, double damping);
 		~CollData();
 
 		SCD::CD_Pair* pair;
+		sva::PTransform body1T, body2T;
 		Eigen::Vector3d normVecDist;
 		rbd::Jacobian jacB1, jacB2;
 		double di, ds;
