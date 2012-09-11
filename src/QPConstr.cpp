@@ -397,9 +397,9 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			d.jacB2.fullJacobian(mb, jac2, fullJac_);
 			d.jacB2.fullJacobian(mb, jacDot2, fullJacDot_);
 
-			jqdn = -((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
-			jqdnd = -((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
-			jdqdn = -((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
+			jqdn -= ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
+			jqdnd -= ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
+			jdqdn -= ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
 
 			calcVec_ += fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
 
