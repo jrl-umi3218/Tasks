@@ -383,8 +383,9 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	SCD::S_Sphere b0(0.25), b3(0.25);
 	SCD::CD_Pair pair(&b0, &b3);
 
+	PTransform I = PTransform::Identity();
 	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
-	autoCollConstr.addCollision(mb, 0, &b0, 3, &b3, 0.01, 0.005, 1.);
+	autoCollConstr.addCollision(mb, 0, &b0, I, 3, &b3, I, 0.01, 0.005, 1.);
 
 	// Test addInequalityConstraint
 	solver.addInequalityConstraint(&autoCollConstr);

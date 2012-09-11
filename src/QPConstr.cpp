@@ -278,11 +278,6 @@ SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
 }
 
 
-SelfCollisionConstr::CollData::~CollData()
-{
-  delete pair;
-}
-
 
 SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
   dataVec_(),
@@ -318,6 +313,7 @@ void SelfCollisionConstr::rmCollision(int body1Id, int body2Id)
 
 	if(it != dataVec_.end())
 	{
+		delete it->pair;
 		dataVec_.erase(it);
 	}
 }
@@ -356,8 +352,8 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 	{
 		SCD::Point3 pb1Tmp, pb2Tmp;
 
-		(*d.pair)[0]->setTransformation(fromSCD(d.body1T*mbc.bodyPosW[d.body1]));
-		(*d.pair)[1]->setTransformation(fromSCD(d.body2T*mbc.bodyPosW[d.body2]));
+		d.pair->operator[](0)->setTransformation(fromSCD(d.body1T*mbc.bodyPosW[d.body1]));
+		d.pair->operator[](1)->setTransformation(fromSCD(d.body2T*mbc.bodyPosW[d.body2]));
 
 		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);

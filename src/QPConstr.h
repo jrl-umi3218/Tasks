@@ -158,7 +158,6 @@ private:
 			int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
 			int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
 			double di, double ds, double damping);
-		~CollData();
 
 		SCD::CD_Pair* pair;
 		sva::PTransform body1T, body2T;

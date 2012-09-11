@@ -20,6 +20,7 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${SVA_INCLUDE_DIRS}/SpaceVecAlg)
 include_directories(${RBD_INCLUDE_DIRS}/RBDyn)
 include_directories(${SCD_INCLUDE_DIRS})
+add_definitions("-DWITH_OPENGL")
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS})
 target_link_libraries(Tasks RBDyn scd)

@@ -22,6 +22,7 @@ include_directories(${RBD_INCLUDE_DIRS}/RBDyn)
 include_directories(${SCD_INCLUDE_DIRS})
 include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories(${Boost_INCLUDE_DIRS})
+add_definitions("-DWITH_OPENGL")
 
 add_executable(QPSolverTest QPSolverTest.cpp)
 target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks scd)
