@@ -73,10 +73,14 @@ def build_tasks(posTask, oriTask, positionTask, comTask):
   # PositionTask
   posTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('int', 'bodyId'),
-                           param('const Eigen::Vector3d&', 'pos')])
+                           param('const Eigen::Vector3d&', 'pos'),
+                           param('const Eigen::Vector3d&', 'bodyPoint',
+                                 default_value='Eigen::Vector3d::Zero()')])
 
   posTask.add_method('position', None, [param('const Eigen::Vector3d&', 'pos')])
   posTask.add_method('position', retval('Eigen::Vector3d'), [], is_const=True)
+  posTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'point')])
+  posTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
   add_std_func(posTask)
 
   # OrientationTask
@@ -279,10 +283,15 @@ def build_qp(tasks):
   # PositionTask
   posTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('int', 'bodyId'),
-                           param('const Eigen::Vector3d&', 'pos')])
+                           param('const Eigen::Vector3d&', 'pos'),
+                           param('const Eigen::Vector3d&', 'bodyPoint',
+                                 default_value='Eigen::Vector3d::Zero()')])
 
   posTask.add_method('position', None, [param('const Eigen::Vector3d&', 'pos')])
   posTask.add_method('position', retval('Eigen::Vector3d'), [], is_const=True)
+
+  posTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'point')])
+  posTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
 
   # OrientationTask
   oriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),

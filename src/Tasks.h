@@ -38,10 +38,14 @@ namespace tasks
 class PositionTask
 {
 public:
-	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos);
+	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos,
+		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	void position(const Eigen::Vector3d& pos);
 	const Eigen::Vector3d& position() const;
+
+	void bodyPoint(const Eigen::Vector3d& point);
+	const Eigen::Vector3d& bodyPoint() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
@@ -52,6 +56,7 @@ public:
 
 private:
 	Eigen::Vector3d pos_;
+	sva::PTransform point_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
 

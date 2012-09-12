@@ -141,8 +141,8 @@ const Eigen::VectorXd& PostureTask::C() const
 
 
 PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& pos):
-  pt_(mb, bodyId, pos)
+  const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
+  pt_(mb, bodyId, pos, bodyPoint)
 {
 }
 

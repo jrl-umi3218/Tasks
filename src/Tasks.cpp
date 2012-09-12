@@ -26,10 +26,11 @@ namespace tasks
 {
 
 PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& pos):
+  const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
   pos_(pos),
+  point_(bodyPoint),
   bodyIndex_(mb.bodyIndexById(bodyId)),
-  jac_(mb, bodyId),
+  jac_(mb, bodyId, bodyPoint),
   eval_(3),
   shortJacMat_(3, jac_.dof()),
   jacMat_(3, mb.nrDof()),
@@ -50,9 +51,21 @@ const Eigen::Vector3d& PositionTask::position() const
 }
 
 
+void PositionTask::bodyPoint(const Eigen::Vector3d& point)
+{
+	jac_.point(point);
+}
+
+
+const Eigen::Vector3d& PositionTask::bodyPoint() const
+{
+	return jac_.point();
+}
+
+
 void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	eval_ = pos_ - mbc.bodyPosW[bodyIndex_].translation();
+	eval_ = pos_ - (point_*mbc.bodyPosW[bodyIndex_]).translation();
 
 	shortJacMat_ = jac_.jacobian(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
 	jac_.fullJacobian(mb, shortJacMat_, jacMat_);

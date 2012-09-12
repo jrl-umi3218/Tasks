@@ -117,7 +117,8 @@ private:
 class PositionTask : public HighLevelTask
 {
 public:
-	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos);
+	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos,
+		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	tasks::PositionTask& task()
 	{
@@ -132,6 +133,16 @@ public:
 	const Eigen::Vector3d& position() const
 	{
 		return pt_.position();
+	}
+
+	void bodyPoint(const Eigen::Vector3d& point)
+	{
+		pt_.bodyPoint(point);
+	}
+
+	const Eigen::Vector3d& bodyPoint() const
+	{
+		return pt_.bodyPoint();
 	}
 
 	virtual int dim();
