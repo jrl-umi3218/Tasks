@@ -491,7 +491,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 		SCD::Point3 pb1Tmp, pb2Tmp;
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
-		BOOST_REQUIRE(dist >= 0.001);
+		BOOST_REQUIRE_GT(dist, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);

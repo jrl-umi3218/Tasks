@@ -431,8 +431,8 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 		Eigen::Vector3d normVecDist = (pb1 - pb2)/dist;
 
-		pb1 = (mbc.bodyPosW[d.body1].inv()*sva::PTransform(pb1)).translation();
-		pb2 = (mbc.bodyPosW[d.body2].inv()*sva::PTransform(pb2)).translation();
+		pb1 = (sva::PTransform(pb1)*mbc.bodyPosW[d.body1].inv()).translation();
+		pb2 = (sva::PTransform(pb2)*mbc.bodyPosW[d.body2].inv()).translation();
 
 		if(dist < d.di)
 		{
