@@ -127,6 +127,36 @@ private:
 
 
 
+class JointLimitsConstr : public BoundConstraint, public Constraint
+{
+public:
+	JointLimitsConstr(const rbd::MultiBody& mb,
+		const std::vector<std::vector<double>>& lBound,
+		const std::vector<std::vector<double>>& uBound,
+		double step);
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// Bound Constraint
+	virtual int beginVar();
+
+	virtual const Eigen::VectorXd& Lower() const;
+	virtual const Eigen::VectorXd& Upper() const;
+
+private:
+	Eigen::VectorXd lower_, upper_;
+	Eigen::VectorXd qMin_, qMax_;
+	Eigen::VectorXd qVec_, alphaVec_;
+	int begin_;
+	double step_;
+};
+
+
+
 class SelfCollisionConstr : public InequalityConstraint, public Constraint
 {
 public:

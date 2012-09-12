@@ -231,6 +231,74 @@ const Eigen::VectorXd& ContactAccConstr::BEq() const
 
 
 /**
+	*															JointLimitsConstr
+	*/
+
+
+JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
+	const std::vector<std::vector<double>>& lBound,
+	const std::vector<std::vector<double>>& uBound,
+	double step):
+	lower_(),
+	upper_(),
+	qMin_(mb.nrParams()),
+	qMax_(mb.nrParams()),
+	qVec_(mb.nrParams()),
+	alphaVec_(mb.nrDof()),
+	begin_(mb.joint(0).dof()),
+	step_(step)
+{
+	int vars = mb.nrDof() - begin_;
+	lower_.resize(vars);
+	upper_.resize(vars);
+
+	rbd::paramToVector(lBound, qMin_);
+	rbd::paramToVector(uBound, qMax_);
+}
+
+
+void JointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	int /* alphaD */, int /* lambda */, int /* torque */,
+	const std::vector<Contact>& /* cont */)
+{
+}
+
+
+void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiBodyConfig& mbc)
+{
+	double dts = step_*step_*0.5;
+	int vars = lower_.rows();
+
+	rbd::paramToVector(mbc.q, qVec_);
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	lower_ = qMin_.tail(vars) - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
+	lower_ /= dts;
+
+	upper_ = qMax_.tail(vars) - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
+	upper_ /= dts;
+}
+
+
+int JointLimitsConstr::beginVar()
+{
+	return begin_;
+}
+
+
+const Eigen::VectorXd& JointLimitsConstr::Lower() const
+{
+	return lower_;
+}
+
+
+const Eigen::VectorXd& JointLimitsConstr::Upper() const
+{
+	return upper_;
+}
+
+
+/**
 	*													SelfCollisionConstr
 	*/
 

@@ -142,6 +142,8 @@ def build_qp(tasks):
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
 
+  jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
+
 
   # build list type
   tasks.add_container('std::vector<tasks::qp::Contact>', 'tasks::qp::Contact', 'vector')
@@ -172,10 +174,10 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::Contact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr']
+  constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr', 'JointLimitsConstr']
   eqConstrName = ['MotionConstr', 'ContactAccConstr']
   ineqConstrName = ['SelfCollisionConstr']
-  boundConstrName = ['MotionConstr']
+  boundConstrName = ['MotionConstr', 'JointLimitsConstr']
   taskName = ['SetPointTask', 'tasks::qp::PostureTask']
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
@@ -328,7 +330,7 @@ def build_qp(tasks):
   selfCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
                                        param('double', 'step')])
   selfCollisionConstr.add_method('addCollision', None,
-                                 [param('const rbd::MultiBody', 'mb'),
+                                 [param('const rbd::MultiBody&', 'mb'),
                                   param('int', 'body1Id'),
                                   param('SCD::S_Object*', 'body1', transfer_ownership=False),
                                   param('const sva::PTransform&', 'body1T'),
@@ -343,6 +345,12 @@ def build_qp(tasks):
                                                        param('int', 'body2Id')])
 
   selfCollisionConstr.add_method('reset', None, []),
+
+  # JointLimitsConstr
+  jointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                                    param('const std::vector<std::vector<double> >&', 'lbound'),
+                                    param('const std::vector<std::vector<double> >&', 'ubound'),
+                                    param('double', 'step')])
 
 
 

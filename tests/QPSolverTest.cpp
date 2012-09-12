@@ -357,6 +357,85 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 
 
+BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mb, 3,
+		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
+
+	double inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double>> lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
+	std::vector<std::vector<double>> uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
+
+	qp::JointLimitsConstr jointConstr(mb, lBound, uBound, 0.001);
+
+	// Test add*Constraint
+	solver.addBoundConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	solver.addConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mb, {});
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test JointLimitsConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+		BOOST_REQUIRE_GT(mbcSolv.q[1][0], -cst::pi<double>()/4. - 0.01);
+	}
+
+	posTask.position(RotZ(-cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+		BOOST_REQUIRE_LT(mbcSolv.q[1][0], cst::pi<double>()/4. + 0.01);
+	}
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	solver.removeBoundConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	solver.removeConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
+
+
 BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 {
 	using namespace Eigen;
