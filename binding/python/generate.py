@@ -145,6 +145,7 @@ def build_qp(tasks):
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr])
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
+  seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
 
@@ -178,9 +179,10 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::Contact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr', 'JointLimitsConstr']
+  constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr', 'JointLimitsConstr',
+                'StaticEnvCollisionConstr']
   eqConstrName = ['MotionConstr', 'ContactAccConstr']
-  ineqConstrName = ['SelfCollisionConstr']
+  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr']
   taskName = ['SetPointTask', 'tasks::qp::PostureTask']
 
@@ -354,6 +356,25 @@ def build_qp(tasks):
                                                        param('int', 'body2Id')])
 
   selfCollisionConstr.add_method('reset', None, []),
+
+  # StaticEnvCollisionConstr
+  seCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                     param('double', 'step')])
+  seCollisionConstr.add_method('addCollision', None,
+                               [param('const rbd::MultiBody&', 'mb'),
+                                param('int', 'bodyId'),
+                                param('SCD::S_Object*', 'body', transfer_ownership=False),
+                                param('const sva::PTransform&', 'bodyT'),
+                                param('int', 'envId'),
+                                param('SCD::S_Object*', 'env', transfer_ownership=False),
+                                param('double', 'di'),
+                                param('double', 'ds'),
+                                param('double', 'damping')])
+
+  seCollisionConstr.add_method('rmCollision', None, [param('int', 'bodyId'),
+                                                     param('int', 'envId')])
+
+  seCollisionConstr.add_method('reset', None, []),
 
   # JointLimitsConstr
   jointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),

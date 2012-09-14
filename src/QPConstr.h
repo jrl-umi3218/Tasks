@@ -23,9 +23,11 @@
 #include <FD.h>
 #include <Jacobian.h>
 
+// SCD
+#include <SCD/Matrix/SCD_Types.h>
+
 // Tasks
 #include "QPSolver.h"
-
 
 // forward declaration
 // SCD
@@ -41,6 +43,8 @@ namespace tasks
 
 namespace qp
 {
+
+SCD::Matrix4x4 toSCD(const sva::PTransform& t);
 
 class MotionConstr : public EqualityConstraint, public BoundConstraint, public Constraint
 {
@@ -197,6 +201,64 @@ private:
 		double damping;
 		int body1Id, body2Id;
 		int body1, body2;
+	};
+
+private:
+	std::vector<CollData> dataVec_;
+	double step_;
+	int nrVars_;
+
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd BInEq_;
+
+	Eigen::MatrixXd fullJac_;
+	Eigen::MatrixXd fullJacDot_;
+	Eigen::VectorXd alphaVec_;
+	Eigen::VectorXd calcVec_;
+};
+
+
+
+class StaticEnvCollisionConstr : public InequalityConstraint, public Constraint
+{
+public:
+	StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step);
+
+	void addCollision(const rbd::MultiBody& mb,
+		int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
+		int envId, SCD::S_Object* env,
+		double di, double ds, double damping);
+	void rmCollision(int bodyId, int envId);
+	void reset();
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// InEquality Constraint
+	virtual int nrInEqLine();
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& BInEq() const;
+
+private:
+	struct CollData
+	{
+		CollData(const rbd::MultiBody& mb,
+			int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
+			int envId, SCD::S_Object* env,
+			double di, double ds, double damping);
+
+		SCD::CD_Pair* pair;
+		sva::PTransform bodyT;
+		Eigen::Vector3d normVecDist;
+		rbd::Jacobian jacB1;
+		double di, ds;
+		double damping;
+		int bodyId, envId;
+		int body;
 	};
 
 private:

@@ -496,4 +496,87 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
 	}
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	solver.removeInequalityConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	solver.removeConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
+
+BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
+
+	SCD::S_Sphere b0(0.25), b3(0.25);
+	SCD::CD_Pair pair(&b0, &b3);
+
+	b0.setTransformation(qp::toSCD(mbcInit.bodyPosW[0]));
+
+	PTransform I = PTransform::Identity();
+	qp::StaticEnvCollisionConstr seCollConstr(mb, 0.001);
+	seCollConstr.addCollision(mb, 3, &b3, I, 0, &b0, 0.01, 0.005, 1.);
+
+	// Test addInequalityConstraint
+	solver.addInequalityConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
+	solver.addConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mb, {});
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test ContactConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		SCD::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		BOOST_REQUIRE_GT(dist, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	solver.removeInequalityConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	solver.removeConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
