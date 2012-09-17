@@ -167,7 +167,7 @@ def build_qp(tasks):
     sol.add_method('nr%ss' % name, retval('int'), [], is_const=True)
 
   sol.add_constructor([])
-  sol.add_method('update', None,
+  sol.add_method('update', retval('bool'),
                  [param('const rbd::MultiBody&', 'mb'),
                   param('const rbd::MultiBodyConfig&', 'mbc')])
 
