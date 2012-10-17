@@ -436,6 +436,105 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 
 
 
+BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mb, 3,
+		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
+
+	std::vector<std::vector<double>> lBound = {{}, {-30.}, {-30.}, {-30.}};
+	std::vector<std::vector<double>> uBound = {{}, {30.}, {30.}, {30.}};
+
+	qp::MotionConstr motionCstr(mb);
+	qp::TorqueLimitsConstr torqueConstr(mb, lBound, uBound);
+
+	// Test add*Constraint
+
+	solver.addEqualityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	solver.addBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	solver.addConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.addBoundConstraint(&torqueConstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 2);
+	solver.addConstraint(&torqueConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
+
+	solver.nrVars(mb, {});
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test TorqueLimitsConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], lBound[i+1][0] - 0.001);
+			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], uBound[i+1][0] + 0.001);
+		}
+	}
+
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], lBound[i+1][0] - 0.001);
+			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], uBound[i+1][0] + 0.001);
+		}
+	}
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	solver.removeBoundConstraint(&torqueConstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	solver.removeConstraint(&torqueConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.removeEqualityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	solver.removeBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	solver.removeConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
 BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 {
 	using namespace Eigen;

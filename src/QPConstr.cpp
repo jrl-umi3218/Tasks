@@ -298,6 +298,59 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 }
 
 
+
+/**
+	*															TorqueLimitsConstr
+	*/
+
+
+TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
+	const std::vector<std::vector<double>>& lBound,
+	const std::vector<std::vector<double>>& uBound):
+	lower_(),
+	upper_(),
+	begin_()
+{
+	int vars = mb.nrDof() - begin_;
+	lower_.resize(vars);
+	upper_.resize(vars);
+
+	rbd::paramToVector(lBound, lower_);
+	rbd::paramToVector(uBound, upper_);
+}
+
+
+void TorqueLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	int alphaD, int lambda, int /* torque */,
+	const std::vector<Contact>& /* cont */)
+{
+	begin_ = alphaD + lambda;
+}
+
+
+void TorqueLimitsConstr::update(const rbd::MultiBody& /* mb */,
+	const rbd::MultiBodyConfig& /* mbc */)
+{
+}
+
+
+int TorqueLimitsConstr::beginVar()
+{
+	return begin_;
+}
+
+
+const Eigen::VectorXd& TorqueLimitsConstr::Lower() const
+{
+	return lower_;
+}
+
+
+const Eigen::VectorXd& TorqueLimitsConstr::Upper() const
+{
+	return upper_;
+}
+
 /**
 	*													SelfCollisionConstr
 	*/

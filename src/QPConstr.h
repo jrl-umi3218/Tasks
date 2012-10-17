@@ -161,6 +161,33 @@ private:
 
 
 
+class TorqueLimitsConstr : public BoundConstraint, public Constraint
+{
+public:
+	TorqueLimitsConstr(const rbd::MultiBody& mb,
+		const std::vector<std::vector<double>>& lBound,
+		const std::vector<std::vector<double>>& uBound);
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// Bound Constraint
+	virtual int beginVar();
+
+	virtual const Eigen::VectorXd& Lower() const;
+	virtual const Eigen::VectorXd& Upper() const;
+
+private:
+	Eigen::VectorXd lower_, upper_;
+	int begin_;
+	double step_;
+};
+
+
+
 class SelfCollisionConstr : public InequalityConstraint, public Constraint
 {
 public:
