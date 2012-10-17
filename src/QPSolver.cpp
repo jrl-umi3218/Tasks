@@ -138,6 +138,11 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		rbd::vectorToParam(res_.head(alphaD_), mbc.alphaD);
 		rbd::vectorToParam(res_.tail(torque_), mbc.jointTorque);
 
+		// don't write contact force to the structure since there are
+		// to compute C vector.
+
+		/// @todo Change QPSolver api to allow to write contact force to mbc.
+		/*
 		int lambdaPos = alphaD_;
 		for(std::size_t i = 0; i < cont_.size(); ++i)
 		{
@@ -156,6 +161,7 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 
 			mbc.force[mb.bodyIndexById(cont_[i].bodyId)] = GF;
 		}
+		*/
 	}
 
 	return success;
