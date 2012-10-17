@@ -170,15 +170,19 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
 {
-	cont_.resize(cont.size());
-
 	nrDof_ = alphaD;
 	nrFor_ = lambda;
 	nrTor_ = torque;
 
-	for(std::size_t i = 0; i < cont_.size(); ++i)
+	for(std::size_t i = 0; i < cont.size(); ++i)
 	{
-		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId);
+		// if fixed base and support body we don't add the contact
+		if(mb.joint(0).type() != rbd::Joint::Fixed || cont[i].bodyId != mb.body(0).id())
+		{
+			ContactData data;
+			data.jac = rbd::Jacobian(mb, cont[i].bodyId);
+			cont_.push_back(data);
+		}
 	}
 
 	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
