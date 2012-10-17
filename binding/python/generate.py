@@ -148,6 +148,7 @@ def build_qp(tasks):
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
+  torqueLimitsConstr = qp.add_class('TorqueLimitsConstr', parent=[boundConstr, constr])
 
 
   # build list type
@@ -180,10 +181,10 @@ def build_qp(tasks):
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
   constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr', 'JointLimitsConstr',
-                'StaticEnvCollisionConstr']
+                'StaticEnvCollisionConstr', 'TorqueLimitsConstr']
   eqConstrName = ['MotionConstr', 'ContactAccConstr']
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
-  boundConstrName = ['MotionConstr', 'JointLimitsConstr']
+  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
   taskName = ['SetPointTask', 'tasks::qp::PostureTask']
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
@@ -381,6 +382,11 @@ def build_qp(tasks):
                                     param('const std::vector<std::vector<double> >&', 'lbound'),
                                     param('const std::vector<std::vector<double> >&', 'ubound'),
                                     param('double', 'step')])
+
+  # TorqueLimitsConstr
+  torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                                      param('const std::vector<std::vector<double> >&', 'lbound'),
+                                      param('const std::vector<std::vector<double> >&', 'ubound')])
 
 
 
