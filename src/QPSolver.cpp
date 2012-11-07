@@ -21,6 +21,9 @@
 #include <limits>
 #include <cmath>
 
+//boost
+#include <boost/math/constants/constants.hpp>
+
 // RBDyn
 #include <MultiBody.h>
 #include <MultiBodyConfig.h>
@@ -37,8 +40,51 @@ namespace qp
 
 
 /**
+	*													FrictionCone
+	*/
+
+
+
+FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle):
+	generators(nrGen)
+{
+	Eigen::Vector3d normal = frame.col(2);
+	Eigen::Vector3d tan = frame.col(0);
+
+	Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan)*normal;
+	double step = (boost::math::constants::pi<double>()*2.)/nrGen;
+
+	for(int i = 0; i < nrGen; ++i)
+	{
+		generators[i] = Eigen::AngleAxisd(step*i, normal)*gen;
+	}
+}
+
+
+
+/**
+	*													Contact
+	*/
+
+
+
+Contact::Contact(int bodyId, const std::vector<Eigen::Vector3d>& points,
+  Eigen::Matrix3d frame, int nrGen, double angle):
+  bodyId(bodyId),
+  point(Eigen::Vector3d::Zero()),
+  cone(frame, nrGen, angle)
+{
+	for(const Eigen::Vector3d& p: points)
+		point += p;
+	point /= points.size();
+}
+
+
+
+/**
 	*													QPSolver
 	*/
+
 
 
 QPSolver::QPSolver():
@@ -123,6 +169,11 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		C_.segment(0, a) += tasks_[i]->weight()*C;
 	}
 
+	/*
+	int tPos = alphaD_ + lambda_;
+	Q_.block(tPos, tPos, torque_, torque_).setIdentity();
+	*/
+
 	res_.setZero();
 	bool success = false;
 	double iter = 1e-8;
@@ -203,7 +254,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont)
 
 	for(const Contact& c: cont_)
 	{
-		lambda_ += c.points.size()*1;
+		lambda_ += c.cone.generators.size();
 	}
 
 	nrVars_ = alphaD_ + lambda_ + torque_;

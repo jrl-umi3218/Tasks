@@ -73,9 +73,8 @@ private:
 	struct ContactData
 	{
 		rbd::Jacobian jac;
-		Eigen::MatrixXd transJac;
-		std::vector<Eigen::Vector3d> points;
-		std::vector<Eigen::Vector3d> normals;
+		Eigen::Vector3d point;
+		FrictionCone cone;
 	};
 
 private:

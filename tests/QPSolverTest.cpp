@@ -105,6 +105,39 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm()
 
 
 
+BOOST_AUTO_TEST_CASE(FrictionConeTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	double angle = cst::pi<double>()/4.;
+	qp::FrictionCone cone(Matrix3d::Identity(), 4, angle);
+
+	for(Vector3d v: cone.generators)
+	{
+		// check cone equation x^2 + y^2 = z^2(tan(angle)^2)
+		BOOST_CHECK_SMALL(std::pow(v.x(), 2) + std::pow(v.y(), 2) -
+			std::pow(v.z(), 2)*std::pow(std::tan(angle), 2), 0.00001);
+	}
+
+	Matrix3d rep;
+	rep << 0., 0., 1.,
+				 1., 0., 0.,
+				 0., 1., 0.;
+	qp::FrictionCone cone2(rep, 4, angle);
+	for(Vector3d v: cone2.generators)
+	{
+		// check cone equation in rep frame z^2 + y^2 = x^2(tan(angle)^2)
+		BOOST_CHECK_SMALL(std::pow(v.z(), 2) + std::pow(v.y(), 2) -
+			std::pow(v.x(), 2)*std::pow(std::tan(angle), 2), 0.00001);
+	}
+}
+
+
+
 BOOST_AUTO_TEST_CASE(QPTaskTest)
 {
 	using namespace Eigen;
@@ -245,7 +278,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::QPSolver solver;
 
 
-	std::vector<qp::Contact> contVec = {{3, {Vector3d::Zero()}, {Vector3d(0., -1., 0.)}}};
+	std::vector<qp::Contact> contVec =
+		{qp::Contact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
 	qp::PositionTask posTask(mb, 3, posD);
@@ -304,6 +338,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 
 
+	// MotionConstr test
 	contVec = {};
 	qp::MotionConstr motionCstr(mb);
 
@@ -342,6 +377,50 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	BOOST_CHECK_SMALL(
 		(dofToVector(mb, mbcSolv.jointTorque) -
 			dofToVector(mb, mbcTest.jointTorque)).norm(), 0.00001);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test removeEqualityConstraint
+	solver.removeEqualityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	solver.removeBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	solver.removeConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
+
+
+	// MotionConstr test with contact
+	contVec =
+		{qp::Contact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
+
+	solver.addEqualityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	solver.addBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	solver.addConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mb, contVec);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+	// Test MotionConstr
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	BOOST_CHECK_SMALL(posTask.eval().norm(), 0.00001);
 
 	solver.removeTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);

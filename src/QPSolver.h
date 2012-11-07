@@ -39,12 +39,24 @@ namespace qp
 {
 
 
+struct FrictionCone
+{
+	FrictionCone(){}
+	FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle);
+
+	std::vector<Eigen::Vector3d> generators;
+};
+
+
 struct Contact
 {
+	Contact(){}
+	Contact(int bodyId, const std::vector<Eigen::Vector3d>& points,
+		Eigen::Matrix3d frame, int nrGen, double angle);
+
 	int bodyId;
-	std::vector<Eigen::Vector3d> points;
-	std::vector<Eigen::Vector3d> normals;
-	// Friction cone
+	Eigen::Vector3d point;
+	FrictionCone cone;
 };
 
 

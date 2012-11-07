@@ -57,10 +57,9 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
-		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId);
-		cont_[i].transJac.resize(6, cont_[i].jac.dof());
-		cont_[i].points = cont[i].points;
-		cont_[i].normals = cont[i].normals;
+		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId, cont[i].point);
+		cont_[i].point = cont[i].point;
+		cont_[i].cone = cont[i].cone;
 	}
 
 	AEq_.resize(nrDof_, nrDof_ + nrFor_ + nrTor_);
@@ -96,14 +95,12 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
+		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
 
-		for(std::size_t j = 0; j < cont_[i].points.size(); ++j)
+		for(std::size_t j = 0; j < cont_[i].cone.generators.size(); ++j)
 		{
-			cont_[i].jac.translateJacobian(jac, mbc, cont_[i].points[j], cont_[i].transJac);
-			cont_[i].jac.fullJacobian(mb, cont_[i].transJac, fullJac_);
-
 			AEq_.block(0, contPos, nrDof_, 1) =
-				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*cont_[i].normals[j];
+				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*cont_[i].cone.generators[j];
 
 			contPos += 1;
 		}
@@ -111,7 +108,6 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 
 	AEq_.block(mb.joint(0).dof(), contPos, nrTor_, nrTor_) =
 		-MatrixXd::Identity(nrTor_, nrTor_);
-
 
 	// BEq = -C
 	BEq_ = -fd_.C();
