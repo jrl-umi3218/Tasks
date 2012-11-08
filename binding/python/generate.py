@@ -123,6 +123,7 @@ def build_qp(tasks):
 
   sol = qp.add_class('QPSolver')
 
+  frictionCone = qp.add_struct('FrictionCone')
   contact = qp.add_struct('Contact')
 
   constr = qp.add_class('Constraint')
@@ -195,10 +196,23 @@ def build_qp(tasks):
   sol.add_method('resetTasks', None, [])
 
 
+  # FrictionCone
+  frictionCone.add_constructor([])
+  frictionCone.add_constructor([param('Eigen::Matrix3d', 'frame'), param('int', 'nrGen'),
+                                param('double', 'angle')])
+
+  frictionCone.add_instance_attribute('generators', 'std::vector<Eigen::Vector3d>')
+
   # Contact
+  contact.add_constructor([])
+  contact.add_constructor([param('int', 'bodyId'),
+                           param('const std::vector<Eigen::Vector3d>&', 'points'),
+                           param('Eigen::Matrix3d', 'frame'),
+                           param('int', 'nrGen'), param('double', 'angle')])
+
   contact.add_instance_attribute('bodyId', 'int')
-  contact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
-  contact.add_instance_attribute('normals', 'std::vector<Eigen::Vector3d>')
+  contact.add_instance_attribute('point', 'Eigen::Vector3d')
+  contact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
 
 
   # Constraint
