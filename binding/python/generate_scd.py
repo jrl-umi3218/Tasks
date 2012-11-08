@@ -49,6 +49,8 @@ def build_SCD(scd):
                     param('double', 'z')])
   scd.add_function('STPBV', retval('SCD::S_Object*', caller_owns_return=True),
                    [param('const std::string&', 'filename')])
+  scd.add_function('Polyhedron', retval('SCD::S_Object*', caller_owns_return=True),
+                   [param('const std::string&', 'filename')])
 
 
   pair.add_constructor([param('SCD::S_Object*', 'obj1', transfer_ownership=False),
@@ -74,6 +76,7 @@ if __name__ == '__main__':
   scd.add_include('<SCD/S_Object/S_Object.h>')
   scd.add_include('<SCD/S_Object/S_Sphere.h>')
   scd.add_include('<SCD/S_Object/S_Box.h>')
+  scd.add_include('<SCD/S_Polyhedron/S_Polyhedron.h>')
   scd.add_include('<SCD/STP-BV/STP_BV.h>')
   scd.add_include('<SCD/CD/CD_Pair.h>')
 

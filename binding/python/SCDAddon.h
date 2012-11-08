@@ -65,6 +65,15 @@ S_Object* STPBV(const std::string& filename)
 
 
 
+S_Object* Polyhedron(const std::string& filename)
+{
+  S_Polyhedron* s = new S_Polyhedron;
+  s->constructFromFile(filename);
+  return s;
+}
+
+
+
 double distance(CD_Pair& pair, Eigen::Vector3d& p1, Eigen::Vector3d& p2)
 {
   SCD::Point3 p1Tmp, p2Tmp;
