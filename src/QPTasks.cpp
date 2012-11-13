@@ -119,9 +119,11 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 	Q_ = pt_.jac();
 	C_.setZero();
 
+	int deb = mb.jointPosInDof(1);
+	int end = mb.nrDof() - deb;
 	// joint
-	C_.segment(mb.jointPosInDof(1), mb.nrDof()) = -stiffness_*pt_.eval() +
-		stiffnessSqrt_*alphaVec_.segment(mb.jointPosInDof(1), mb.nrDof());
+	C_.segment(deb, end) = -stiffness_*pt_.eval().segment(deb, end) +
+		stiffnessSqrt_*alphaVec_.segment(deb, end);
 }
 
 const Eigen::MatrixXd& PostureTask::Q() const
