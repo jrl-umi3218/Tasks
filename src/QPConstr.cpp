@@ -249,9 +249,12 @@ JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
 	step_(step)
 {
 	int vars = mb.nrDof() - mb.joint(0).dof();
+	qMin_.resize(vars);
+	qMax_.resize(vars);
 	lower_.resize(vars);
 	upper_.resize(vars);
 
+	// remove the joint 0
 	lBound[0] = {};
 	uBound[0] = {};
 
@@ -275,10 +278,10 @@ void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiB
 	rbd::paramToVector(mbc.q, qVec_);
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	lower_ = qMin_.tail(vars) - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
+	lower_ = qMin_ - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
 	lower_ /= dts;
 
-	upper_ = qMax_.tail(vars) - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
+	upper_ = qMax_ - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
 	upper_ /= dts;
 }
 
@@ -318,6 +321,7 @@ TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
 	lower_.resize(vars);
 	upper_.resize(vars);
 
+	// remove the joint 0
 	lBound[0] = {};
 	uBound[0] = {};
 
