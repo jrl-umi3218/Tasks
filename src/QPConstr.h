@@ -134,8 +134,8 @@ class JointLimitsConstr : public BoundConstraint, public Constraint
 {
 public:
 	JointLimitsConstr(const rbd::MultiBody& mb,
-		const std::vector<std::vector<double>>& lBound,
-		const std::vector<std::vector<double>>& uBound,
+		std::vector<std::vector<double>> lBound,
+		std::vector<std::vector<double>> uBound,
 		double step);
 
 	// Constraint
@@ -164,8 +164,8 @@ class TorqueLimitsConstr : public BoundConstraint, public Constraint
 {
 public:
 	TorqueLimitsConstr(const rbd::MultiBody& mb,
-		const std::vector<std::vector<double>>& lBound,
-		const std::vector<std::vector<double>>& uBound);
+		std::vector<std::vector<double>> lBound,
+		std::vector<std::vector<double>> uBound);
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,

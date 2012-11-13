@@ -393,14 +393,14 @@ def build_qp(tasks):
 
   # JointLimitsConstr
   jointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                    param('const std::vector<std::vector<double> >&', 'lbound'),
-                                    param('const std::vector<std::vector<double> >&', 'ubound'),
+                                    param('std::vector<std::vector<double> >', 'lbound'),
+                                    param('std::vector<std::vector<double> >', 'ubound'),
                                     param('double', 'step')])
 
   # TorqueLimitsConstr
   torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                      param('const std::vector<std::vector<double> >&', 'lbound'),
-                                      param('const std::vector<std::vector<double> >&', 'ubound')])
+                                      param('std::vector<std::vector<double> >', 'lbound'),
+                                      param('std::vector<std::vector<double> >', 'ubound')])
 
 
 

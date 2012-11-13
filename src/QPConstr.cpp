@@ -236,8 +236,8 @@ const Eigen::VectorXd& ContactAccConstr::BEq() const
 
 
 JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
-	const std::vector<std::vector<double>>& lBound,
-	const std::vector<std::vector<double>>& uBound,
+	std::vector<std::vector<double>> lBound,
+	std::vector<std::vector<double>> uBound,
 	double step):
 	lower_(),
 	upper_(),
@@ -248,9 +248,12 @@ JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
 	begin_(mb.joint(0).dof()),
 	step_(step)
 {
-	int vars = mb.nrDof() - begin_;
+	int vars = mb.nrDof() - mb.joint(0).dof();
 	lower_.resize(vars);
 	upper_.resize(vars);
+
+	lBound[0] = {};
+	uBound[0] = {};
 
 	rbd::paramToVector(lBound, qMin_);
 	rbd::paramToVector(uBound, qMax_);
@@ -305,15 +308,18 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 
 
 TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
-	const std::vector<std::vector<double>>& lBound,
-	const std::vector<std::vector<double>>& uBound):
+	std::vector<std::vector<double>> lBound,
+	std::vector<std::vector<double>> uBound):
 	lower_(),
 	upper_(),
 	begin_()
 {
-	int vars = mb.nrDof() - begin_;
+	int vars = mb.nrDof() - mb.joint(0).dof();
 	lower_.resize(vars);
 	upper_.resize(vars);
+
+	lBound[0] = {};
+	uBound[0] = {};
 
 	rbd::paramToVector(lBound, lower_);
 	rbd::paramToVector(uBound, upper_);
