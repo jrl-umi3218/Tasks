@@ -57,6 +57,7 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
+		cont_[i].body = mb.bodyIndexById(cont[i].bodyId);
 		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId, cont[i].point);
 		cont_[i].point = cont[i].point;
 		cont_[i].cone = cont[i].cone;
@@ -100,7 +101,8 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 		for(std::size_t j = 0; j < cont_[i].cone.generators.size(); ++j)
 		{
 			AEq_.block(0, contPos, nrDof_, 1) =
-				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*cont_[i].cone.generators[j];
+				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
+					mbc.bodyPosW[cont_[i].body].rotation()*cont_[i].cone.generators[j];
 
 			contPos += 1;
 		}

@@ -72,6 +72,7 @@ public:
 private:
 	struct ContactData
 	{
+		int body;
 		rbd::Jacobian jac;
 		Eigen::Vector3d point;
 		FrictionCone cone;
