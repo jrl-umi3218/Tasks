@@ -17,6 +17,9 @@
 #include "QPConstr.h"
 
 // includes
+// std
+#include <set>
+
 // RBDyn
 #include <MultiBody.h>
 #include <MultiBodyConfig.h>
@@ -172,14 +175,20 @@ void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	nrFor_ = lambda;
 	nrTor_ = torque;
 
+	std::set<int> bodyIdSet;
 	for(std::size_t i = 0; i < cont.size(); ++i)
 	{
 		// if fixed base and support body we don't add the contact
 		if(mb.joint(0).type() != rbd::Joint::Fixed || cont[i].bodyId != mb.body(0).id())
 		{
-			ContactData data;
-			data.jac = rbd::Jacobian(mb, cont[i].bodyId);
-			cont_.push_back(data);
+			// only add the constraint once by body
+			if(bodyIdSet.find(cont[i].bodyId) == bodyIdSet.end())
+			{
+				ContactData data;
+				data.jac = rbd::Jacobian(mb, cont[i].bodyId);
+				cont_.push_back(data);
+				bodyIdSet.insert(cont[i].bodyId);
+			}
 		}
 	}
 
