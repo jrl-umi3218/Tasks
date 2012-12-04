@@ -63,6 +63,7 @@ struct Contact
 class Constraint
 {
 public:
+	virtual ~Constraint() {}
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		int alphaD, int lambda, int torque, const std::vector<Contact>& cont) = 0;
 
@@ -74,6 +75,7 @@ public:
 class EqualityConstraint
 {
 public:
+	virtual ~EqualityConstraint() {}
 	virtual int nrEqLine() = 0;
 
 	virtual const Eigen::MatrixXd& AEq() const = 0;
@@ -85,6 +87,7 @@ public:
 class InequalityConstraint
 {
 public:
+	virtual ~InequalityConstraint() {}
 	virtual int nrInEqLine() = 0;
 
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
@@ -96,6 +99,7 @@ public:
 class BoundConstraint
 {
 public:
+	virtual ~BoundConstraint() {}
 	virtual int beginVar() = 0;
 
 	virtual const Eigen::VectorXd& Lower() const = 0;
@@ -110,6 +114,7 @@ public:
 	Task(double weight):
 		weight_(weight)
 	{}
+	virtual ~Task() {}
 
 	double weight() const
 	{
@@ -135,6 +140,8 @@ private:
 class HighLevelTask
 {
 public:
+	virtual ~HighLevelTask() {}
+
 	virtual int dim() = 0;
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
