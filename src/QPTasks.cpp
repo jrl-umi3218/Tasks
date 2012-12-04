@@ -87,6 +87,47 @@ const Eigen::VectorXd& SetPointTask::C() const
 
 
 /**
+	*														QuadraticTask
+	*/
+
+
+QuadraticTask::QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+  double weight):
+  Task(weight),
+  hlTask_(hlTask),
+  Q_(mb.nrDof(), mb.nrDof()),
+  C_(mb.nrDof()),
+  alphaVec_(mb.nrDof())
+{}
+
+
+void QuadraticTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	hlTask_->update(mb, mbc);
+
+	const Eigen::MatrixXd& J = hlTask_->jac();
+	const Eigen::MatrixXd& JD = hlTask_->jacDot();
+	const Eigen::VectorXd& err = hlTask_->eval();
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	Q_ = J.transpose()*J;
+	C_ = -J.transpose()*(err - JD*alphaVec_);
+}
+
+
+const Eigen::MatrixXd& QuadraticTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& QuadraticTask::C() const
+{
+	return C_;
+}
+
+
+/**
 	*												PostureTask
 	*/
 

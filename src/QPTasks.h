@@ -68,6 +68,27 @@ private:
 
 
 
+class QuadraticTask : public Task
+{
+public:
+	QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+		double weight);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	HighLevelTask* hlTask_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	Eigen::VectorXd alphaVec_;
+};
+
+
+
 class PostureTask : public Task
 {
 public:

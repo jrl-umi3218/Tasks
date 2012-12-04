@@ -135,6 +135,7 @@ def build_qp(tasks):
   hlTask = qp.add_class('HighLevelTask')
 
   spTask = qp.add_class('SetPointTask', parent=task)
+  qTask = qp.add_class('QuadraticTask', parent=task)
 
   posTask = qp.add_class('PositionTask', parent=hlTask)
   oriTask = qp.add_class('OrientationTask', parent=hlTask)
@@ -186,7 +187,7 @@ def build_qp(tasks):
   eqConstrName = ['MotionConstr', 'ContactAccConstr']
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
-  taskName = ['SetPointTask', 'tasks::qp::PostureTask']
+  taskName = ['QuadraticTask', 'SetPointTask', 'tasks::qp::PostureTask']
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
   add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
@@ -296,6 +297,24 @@ def build_qp(tasks):
 
   spTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   spTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
+
+  # QuadraticTask
+  def qConstructor(hlTaskName):
+    for t in hlTaskName:
+      name = 'tasks::qp::%s *' % t
+      qTask.add_constructor([param('const MultiBody&', 'mb'),
+                             param(name, 'hlTask',
+                                   transfer_ownership=False),
+                             param('double', 'weight')])
+
+  qConstructor(['PositionTask', 'OrientationTask', 'CoMTask'])
+
+  qTask.add_method('update', None,
+                   [param('const rbd::MultiBody&', 'mb'),
+                    param('const rbd::MultiBodyConfig&', 'mbc')])
+
+  qTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
+  qTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # PositionTask
   posTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
