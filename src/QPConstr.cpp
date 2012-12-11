@@ -246,6 +246,99 @@ const Eigen::VectorXd& ContactAccConstr::BEq() const
 
 
 /**
+	*															ContactSpeedConstr
+	*/
+
+
+ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep):
+	cont_(),
+	fullJac_(6, mb.nrDof()),
+	alphaVec_(mb.nrDof()),
+	AEq_(),
+	BEq_(),
+	nrDof_(0),
+	nrFor_(0),
+	nrTor_(0),
+	timeStep_(timeStep)
+{}
+
+
+void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
+	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
+{
+	nrDof_ = alphaD;
+	nrFor_ = lambda;
+	nrTor_ = torque;
+
+	std::set<int> bodyIdSet;
+	for(std::size_t i = 0; i < cont.size(); ++i)
+	{
+		// if fixed base and support body we don't add the contact
+		if(mb.joint(0).type() != rbd::Joint::Fixed || cont[i].bodyId != mb.body(0).id())
+		{
+			// only add the constraint once by body
+			if(bodyIdSet.find(cont[i].bodyId) == bodyIdSet.end())
+			{
+				ContactData data;
+				data.jac = rbd::Jacobian(mb, cont[i].bodyId);
+				data.body = mb.bodyIndexById(cont[i].bodyId);
+				cont_.push_back(data);
+				bodyIdSet.insert(cont[i].bodyId);
+			}
+		}
+	}
+
+	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
+	BEq_.resize(cont_.size()*6);
+
+	AEq_.setZero();
+	BEq_.setZero();
+}
+
+
+void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	using namespace Eigen;
+
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	// J_i*alphaD + JD_i*alpha = 0
+
+	for(std::size_t i = 0; i < cont_.size(); ++i)
+	{
+		// AEq = J_i
+		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
+		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
+		AEq_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+
+		// BEq = -JD_i*alpha
+		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
+		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
+		BEq_.segment(i*6, 6) = -fullJac_*alphaVec_ -
+			mbc.bodyVelW[cont_[i].body].vector()/timeStep_;
+	}
+}
+
+
+int ContactSpeedConstr::nrEqLine()
+{
+	return AEq_.rows();
+}
+
+
+const Eigen::MatrixXd& ContactSpeedConstr::AEq() const
+{
+	return AEq_;
+}
+
+
+const Eigen::VectorXd& ContactSpeedConstr::BEq() const
+{
+	return BEq_;
+}
+
+
+/**
 	*															JointLimitsConstr
 	*/
 

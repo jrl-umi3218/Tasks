@@ -145,6 +145,7 @@ def build_qp(tasks):
   motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
                                                      constr])
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr])
+  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, constr])
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
@@ -182,9 +183,10 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::Contact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  constrName = ['MotionConstr', 'ContactAccConstr', 'SelfCollisionConstr', 'JointLimitsConstr',
+  constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
+                'SelfCollisionConstr', 'JointLimitsConstr',
                 'StaticEnvCollisionConstr', 'TorqueLimitsConstr']
-  eqConstrName = ['MotionConstr', 'ContactAccConstr']
+  eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'tasks::qp::PostureTask']
@@ -375,6 +377,10 @@ def build_qp(tasks):
 
   # ContactAccConstr
   contactAccConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+
+  # ContactSpeedConstr
+  contactSpeedConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                    param('double', 'timeStep')])
 
   # SelfCollisionConstr
   selfCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),

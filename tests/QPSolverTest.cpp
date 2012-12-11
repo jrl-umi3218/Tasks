@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	Vector3d evalPos = posTask.eval();
 	Vector3d evalOri = oriTask.eval();
 
-	// Test ContactConstr
+	// Test ContactAccConstr
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 1000; ++i)
 	{
@@ -334,6 +334,55 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.removeEqualityConstraint(&contCstrAcc);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
 	solver.removeConstraint(&contCstrAcc);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
+
+
+	// Test ContactSpeedConstr
+	qp::ContactSpeedConstr contCstrSpeed(mb, 0.001);
+
+	// Test addEqualityConstraint
+	solver.addEqualityConstraint(&contCstrSpeed);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	solver.addConstraint(&contCstrSpeed);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mb, contVec);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	solver.addTask(&oriTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
+
+	posTask.update(mb, mbcInit);
+	oriTask.update(mb, mbcInit);
+	evalPos = posTask.eval();
+	evalOri = oriTask.eval();
+
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	BOOST_CHECK_SMALL((posTask.eval() - evalPos).norm(), 0.00001);
+	BOOST_CHECK_SMALL((oriTask.eval() - evalOri).norm(), 0.00001);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	solver.removeTask(&oriTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test removeEqualityConstraint
+	solver.removeEqualityConstraint(&contCstrSpeed);
+	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	solver.removeConstraint(&contCstrSpeed);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
 

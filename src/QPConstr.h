@@ -131,6 +131,45 @@ private:
 
 
 
+class ContactSpeedConstr : public EqualityConstraint, public Constraint
+{
+public:
+	ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep);
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// Equality Constraint
+	virtual int nrEqLine();
+
+	virtual const Eigen::MatrixXd& AEq() const;
+	virtual const Eigen::VectorXd& BEq() const;
+
+private:
+	struct ContactData
+	{
+		rbd::Jacobian jac;
+		int body;
+	};
+
+private:
+	std::vector<ContactData> cont_;
+
+	Eigen::MatrixXd fullJac_;
+	Eigen::VectorXd alphaVec_;
+
+	Eigen::MatrixXd AEq_;
+	Eigen::VectorXd BEq_;
+
+	int nrDof_, nrFor_, nrTor_;
+	double timeStep_;
+};
+
+
+
 class JointLimitsConstr : public BoundConstraint, public Constraint
 {
 public:
