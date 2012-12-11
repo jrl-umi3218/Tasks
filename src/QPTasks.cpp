@@ -177,6 +177,11 @@ const Eigen::VectorXd& PostureTask::C() const
 	return C_;
 }
 
+const Eigen::VectorXd& PostureTask::eval() const
+{
+	return pt_.eval();
+}
+
 
 /**
 	*											PositionTask

@@ -122,6 +122,8 @@ public:
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
 
+	const Eigen::VectorXd& eval() const;
+
 private:
 	tasks::PostureTask pt_;
 

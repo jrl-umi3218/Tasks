@@ -357,6 +357,11 @@ def build_qp(tasks):
                          retval('std::vector<std::vector<double> >','q'), [],
                          is_const=True)
 
+  postureTask.add_method('update', None,
+                    [param('const rbd::MultiBody&', 'mb'),
+                     param('const rbd::MultiBodyConfig&', 'mbc')])
+  postureTask.add_method('eval', retval('Eigen::VectorXd'), [])
+
   # CoMTask
   comTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('const Eigen::Vector3d&', 'com')])
