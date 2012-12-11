@@ -105,7 +105,7 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 		{
 			AEq_.block(0, contPos, nrDof_, 1) =
 				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
-					mbc.bodyPosW[cont_[i].body].rotation()*cont_[i].cone.generators[j];
+					mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].cone.generators[j];
 
 			contPos += 1;
 		}
@@ -154,6 +154,10 @@ const Eigen::VectorXd& MotionConstr::Upper() const
 	return XU_;
 }
 
+
+/**
+	*															ContactAccConstr
+	*/
 
 
 ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
