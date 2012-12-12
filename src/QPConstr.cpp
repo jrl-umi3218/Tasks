@@ -175,6 +175,7 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
 {
+	cont_.clear();
 	nrDof_ = alphaD;
 	nrFor_ = lambda;
 	nrTor_ = torque;
@@ -266,6 +267,7 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
 {
+	cont_.clear();
 	nrDof_ = alphaD;
 	nrFor_ = lambda;
 	nrTor_ = torque;
