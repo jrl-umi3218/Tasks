@@ -384,6 +384,31 @@ void QPSolver::resetTasks()
 	tasks_.clear();
 }
 
+
+const Eigen::VectorXd& QPSolver::result() const
+{
+	return res_;
+}
+
+
+Eigen::VectorXd QPSolver::alphaD() const
+{
+	return res_.head(alphaD_);
+}
+
+
+Eigen::VectorXd QPSolver::lambda() const
+{
+	return res_.segment(alphaD_, lambda_);
+}
+
+
+Eigen::VectorXd QPSolver::torque() const
+{
+	return res_.tail(torque_);
+}
+
+
 } // namespace qp
 
 } // namespace tasks

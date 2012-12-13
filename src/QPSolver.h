@@ -188,6 +188,11 @@ public:
 	void resetTasks();
 	int nrTasks() const;
 
+	const Eigen::VectorXd& result() const;
+	Eigen::VectorXd alphaD() const;
+	Eigen::VectorXd lambda() const;
+	Eigen::VectorXd torque() const;
+
 private:
 	std::vector<Constraint*> constr_;
 	std::vector<EqualityConstraint*> eqConstr_;

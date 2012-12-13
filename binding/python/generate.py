@@ -198,6 +198,11 @@ def build_qp(tasks):
   add_std_solver_add_rm_nr('Task', taskName)
   sol.add_method('resetTasks', None, [])
 
+  sol.add_method('result', retval('const Eigen::VectorXd&'), [], is_const=True)
+  sol.add_method('alphaD', retval('Eigen::VectorXd'), [], is_const=True)
+  sol.add_method('lambda', retval('Eigen::VectorXd'), [], is_const=True)
+  sol.add_method('torque', retval('Eigen::VectorXd'), [], is_const=True)
+
 
   # FrictionCone
   frictionCone.add_constructor([])
