@@ -189,9 +189,9 @@ public:
 	int nrTasks() const;
 
 	const Eigen::VectorXd& result() const;
-	Eigen::VectorXd alphaD() const;
-	Eigen::VectorXd lambda() const;
-	Eigen::VectorXd torque() const;
+	Eigen::VectorXd alphaDVec() const;
+	Eigen::VectorXd lambdaVec() const;
+	Eigen::VectorXd torqueVec() const;
 
 private:
 	std::vector<Constraint*> constr_;

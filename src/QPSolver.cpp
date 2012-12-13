@@ -391,19 +391,19 @@ const Eigen::VectorXd& QPSolver::result() const
 }
 
 
-Eigen::VectorXd QPSolver::alphaD() const
+Eigen::VectorXd QPSolver::alphaDVec() const
 {
 	return res_.head(alphaD_);
 }
 
 
-Eigen::VectorXd QPSolver::lambda() const
+Eigen::VectorXd QPSolver::lambdaVec() const
 {
 	return res_.segment(alphaD_, lambda_);
 }
 
 
-Eigen::VectorXd QPSolver::torque() const
+Eigen::VectorXd QPSolver::torqueVec() const
 {
 	return res_.tail(torque_);
 }
