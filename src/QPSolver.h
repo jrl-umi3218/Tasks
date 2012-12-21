@@ -126,6 +126,9 @@ public:
 		weight_ = w;
 	}
 
+	virtual std::pair<int, int> begin() const = 0;
+
+	virtual void updateNrVars(int alphaD, int lambda, int torque) = 0;
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
 
 	virtual const Eigen::MatrixXd& Q() const = 0;

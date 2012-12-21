@@ -164,9 +164,13 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 	{
 		const Eigen::MatrixXd& Q = tasks_[i]->Q();
 		const Eigen::VectorXd& C = tasks_[i]->C();
-		int a = Q.rows();
-		Q_.block(0, 0, a, a) += tasks_[i]->weight()*Q;
-		C_.segment(0, a) += tasks_[i]->weight()*C;
+		std::pair<int, int> b = tasks_[i]->begin();
+
+		int r = Q.rows();
+		int c = Q.cols();
+
+		Q_.block(b.first, b.second, r, c) += tasks_[i]->weight()*Q;
+		C_.segment(b.first, r) += tasks_[i]->weight()*C;
 	}
 
 	/*
@@ -268,6 +272,11 @@ void QPSolver::nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont)
 		C_.resize(nrVars_);
 
 		res_.resize(nrVars_);
+	}
+
+	for(Task* t: tasks_)
+	{
+		t->updateNrVars(alphaD_, lambda_, torque_);
 	}
 
 	for(Constraint* c: constr_)

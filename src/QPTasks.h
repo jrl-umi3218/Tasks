@@ -51,6 +51,12 @@ public:
 
 	void stiffness(double stiffness);
 
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	virtual void updateNrVars(int /* alphaD */, int /* lambda */, int /* torque */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -74,6 +80,12 @@ public:
 	QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 		double weight);
 
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	virtual void updateNrVars(int /* alphaD */, int /* lambda */, int /* torque */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -117,6 +129,12 @@ public:
 
 	void stiffness(double stiffness);
 
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	virtual void updateNrVars(int /* alphaD */, int /* lambda */, int /* torque */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
