@@ -128,7 +128,8 @@ public:
 
 	virtual std::pair<int, int> begin() const = 0;
 
-	virtual void updateNrVars(int alphaD, int lambda, int torque) = 0;
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont) = 0;
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
 
 	virtual const Eigen::MatrixXd& Q() const = 0;

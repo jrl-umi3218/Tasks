@@ -56,7 +56,9 @@ public:
 		return std::make_pair(0, 0);
 	}
 
-	virtual void updateNrVars(int /* alphaD */, int /* lambda */, int /* torque */) {}
+	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
+		int /* alphaD */, int /* lambda */, int /* torque */,
+		const std::vector<Contact>& /* cont */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -85,7 +87,9 @@ public:
 		return std::make_pair(0, 0);
 	}
 
-	virtual void updateNrVars(int /* alphaD */, int /* lambda */, int /* torque */) {}
+	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
+		int /* alphaD */, int /* lambda */, int /* torque */,
+		const std::vector<Contact>& /* cont */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -134,7 +138,9 @@ public:
 		return std::make_pair(0, 0);
 	}
 
-	virtual void updateNrVars(int /* alphaD */, int /* lambda */, int /* torque */) {}
+	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
+		int /* alphaD */, int /* lambda */, int /* torque */,
+		const std::vector<Contact>& /* cont */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;

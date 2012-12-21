@@ -276,7 +276,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont)
 
 	for(Task* t: tasks_)
 	{
-		t->updateNrVars(alphaD_, lambda_, torque_);
+		t->updateNrVars(mb, alphaD_, lambda_, torque_, cont_);
 	}
 
 	for(Constraint* c: constr_)
