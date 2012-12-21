@@ -311,6 +311,54 @@ const Eigen::VectorXd& CoMTask::eval()
 	return ct_.eval();
 }
 
+
+/**
+	*														ContactTask
+	*/
+
+
+void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
+	int alphaD, int /* lambda */, int /* torque */, const std::vector<Contact>& cont)
+{
+	int nrLambda = 0;
+	begin_ = alphaD;
+
+	std::size_t i;
+	for(i = 0; i < cont.size(); ++i)
+	{
+		if(cont[i].bodyId == bodyId_)
+			break;
+		begin_ += cont[i].cone.generators.size();
+	}
+
+	for(; i < cont.size(); ++i)
+	{
+		if(cont[i].bodyId != bodyId_)
+			break;
+		nrLambda += cont[i].cone.generators.size();
+	}
+
+	Q_ = dir_*Eigen::MatrixXd::Identity(nrLambda, nrLambda);
+	C_.setZero(nrLambda);
+}
+
+
+void ContactTask::update(const rbd::MultiBody& /* mb */,
+	const rbd::MultiBodyConfig& /* mbc */)
+{ }
+
+
+const Eigen::MatrixXd& ContactTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& ContactTask::C() const
+{
+	return C_;
+}
+
 } // namespace qp
 
 } // namespace tasks

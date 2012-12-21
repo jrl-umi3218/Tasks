@@ -141,6 +141,7 @@ def build_qp(tasks):
   oriTask = qp.add_class('OrientationTask', parent=hlTask)
   postureTask = qp.add_class('PostureTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
+  contactTask = qp.add_class('ContactTask', parent=task)
 
   motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
                                                      constr])
@@ -189,7 +190,8 @@ def build_qp(tasks):
   eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
-  taskName = ['QuadraticTask', 'SetPointTask', 'tasks::qp::PostureTask']
+  taskName = ['QuadraticTask', 'SetPointTask',
+              'tasks::qp::PostureTask', 'tasks::qp::ContactTask']
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
   add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
@@ -376,6 +378,11 @@ def build_qp(tasks):
   comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
                      is_const=True)
+
+  # ContactTask
+  contactTask.add_constructor([param('int', 'bodyId'),
+                               param('bool', 'min'),
+                               param('double', 'weight')])
 
   # MotionConstr
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])

@@ -275,6 +275,41 @@ private:
 	tasks::CoMTask ct_;
 };
 
+
+
+class ContactTask : public Task
+{
+public:
+	ContactTask(int bodyId, bool min, double weight):
+		Task(weight),
+		bodyId_(bodyId),
+		begin_(0),
+		dir_(min ? 1. : -1),
+		Q_(),
+		C_()
+	{}
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(begin_, begin_);
+	}
+
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	int bodyId_;
+	int begin_;
+	double dir_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+};
+
 } // namespace qp
 
 } // namespace tasks
