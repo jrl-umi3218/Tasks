@@ -28,3 +28,7 @@ add_executable(QPSolverTest QPSolverTest.cpp)
 target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks scd)
 add_test(QPSolverTestUnit QPSolverTest)
 
+add_executable(PGJacobianTest PGJacobianTest.cpp)
+target_link_libraries(PGJacobianTest ${Boost_LIBRARIES} RBDyn Tasks)
+add_test(PGJacobiantUnit PGJacobianTest)
+
