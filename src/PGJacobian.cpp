@@ -73,6 +73,8 @@ PGJacobian::PGJacobian(const rbd::MultiBody& mb, const rbd::Jacobian& jac):
 		curPos += j.dof();
 		curPosPG += j.params();
 	}
+
+	jac_.resize(6, curPosPG);
 }
 
 
