@@ -31,6 +31,9 @@
 #include <SpaceVecAlg/SpaceVecAlg>
 
 // RBDyn
+#include <EulerIntegration.h>
+#include <FK.h>
+#include <FV.h>
 #include <MultiBody.h>
 #include <MultiBodyConfig.h>
 #include <MultiBodyGraph.h>
@@ -54,7 +57,7 @@ std::vector<double> randomFree()
 }
 
 
-std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makFreeXArm()
+std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeXArm()
 {
 	using namespace Eigen;
 	using namespace sva;
@@ -142,5 +145,77 @@ BOOST_AUTO_TEST_CASE(angularVelToQuatVelVSquatVelToAngularVel)
 
 		BOOST_REQUIRE_SMALL((qv - qv2).norm(), TOL);
 	}
+}
+
+
+
+BOOST_AUTO_TEST_CASE(PGJacobianTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
+
+	std::tie(mb, mbcInit) = makeFreeXArm();
+	mbcInit.q[0] = randomFree();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	MultiBodyConfig mbcStd(mbcInit);
+	MultiBodyConfig mbcPg(mbcInit);
+
+	Jacobian jacStd(mb, 1);
+	pg::PGJacobian jacPg(mb, jacStd);
+
+	MatrixXd fullStd(6, mb.nrDof());
+	MatrixXd fullPg(6, mb.nrParams());
+
+	const int nrIt = 10000;
+	const double step = 0.005;
+	const Vector3d obj(100., 50., 10.);
+
+	for(int i = 0; i < nrIt; ++i)
+	{
+		Vector3d err = obj - mbcStd.bodyPosW[1].translation();
+
+		const MatrixXd& jac = jacStd.jacobian(mb, mbcStd);
+		jacStd.fullJacobian(mb, jac, fullStd);
+
+		VectorXd res =
+			fullStd.block(3, 0., 3, mb.nrDof()).jacobiSvd(ComputeThinU | ComputeThinV).solve(err);
+
+		mbcStd.alpha = vectorToDof(mb, res);
+
+		eulerIntegration(mb, mbcStd, step);
+
+		forwardKinematics(mb, mbcStd);
+		forwardVelocity(mb, mbcStd);
+	}
+	BOOST_CHECK_SMALL((mbcStd.bodyPosW[1].translation() - obj).norm(), TOL);
+
+	for(int i = 0; i < nrIt; ++i)
+	{
+		Vector3d err = obj - mbcPg.bodyPosW[1].translation();
+
+		const MatrixXd& jac = jacPg.jacobian(mb, mbcPg, jacStd.jacobian(mb, mbcPg));
+		jacPg.fullJacobian(mb, jacStd, jac, fullPg);
+
+		VectorXd res =
+			fullPg.block(3, 0., 3, mb.nrParams()).jacobiSvd(ComputeThinU | ComputeThinV).solve(err);
+
+		VectorXd q = paramToVector(mb, mbcPg.q);
+		q += res*step;
+		q.head<4>().normalize();
+		mbcPg.q = vectorToParam(mb, q);
+
+		forwardKinematics(mb, mbcPg);
+		forwardVelocity(mb, mbcPg);
+	}
+	BOOST_CHECK_SMALL((mbcPg.bodyPosW[1].translation() - obj).norm(), TOL);
 }
 
