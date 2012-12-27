@@ -1,7 +1,9 @@
 enable_language(Fortran)
 
-set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp QL.cpp QL.f)
-set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h QL.h)
+set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp QL.cpp QL.f
+            PGJacobian.cpp)
+set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h QL.h
+            PGJacobian.h)
 
 pkg_check_modules(EIGEN3 REQUIRED eigen3)
 find_path(SVA_INCLUDE_DIRS SpaceVecAlg/SpaceVecAlg
