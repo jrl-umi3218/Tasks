@@ -85,12 +85,9 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeXArm()
 	//  ---- b0 ---- b1
 	//  Free     X
 
-
 	PTransform to(Vector3d(0., 0.5, 0.));
-	PTransform from(Vector3d(0., 0., 0.));
 
-
-	mbg.linkBodies(0, PTransform::Identity(), 1, from, 0);
+	mbg.linkBodies(0, to, 1, PTransform::Identity(), 0);
 
 	MultiBody mb = mbg.makeMultiBody(0, false);
 
