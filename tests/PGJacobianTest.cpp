@@ -146,7 +146,52 @@ BOOST_AUTO_TEST_CASE(angularVelToQuatVelVSquatVelToAngularVel)
 
 
 
-BOOST_AUTO_TEST_CASE(PGJacobianTest)
+BOOST_AUTO_TEST_CASE(RotPGJacobianTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbc;
+
+	std::tie(mb, mbc) = makeFreeXArm();
+	for(int i = 0; i < 10; ++i)
+	{
+		mbc.q[0] = randomFree();
+		mbc.q[1][0] = Matrix<double, 1, 1>::Random()(0);
+
+		forwardKinematics(mb, mbc);
+		forwardVelocity(mb, mbc);
+
+		Jacobian jacStd(mb, 1);
+		pg::PGJacobian jacPg(mb, jacStd);
+
+		MatrixXd fullStd(6, mb.nrDof());
+		MatrixXd fullPg(6, mb.nrParams());
+
+		const MatrixXd& jacRefStd = jacStd.jacobian(mb, mbc);
+		jacStd.fullJacobian(mb, jacRefStd, fullStd);
+
+		const MatrixXd& jacRefPg = jacPg.jacobian(mb, mbc, jacRefStd);
+		jacPg.fullJacobian(mb, jacStd, jacRefPg, fullPg);
+
+		VectorXd alpha = VectorXd::Random(7);
+		VectorXd alphaPg(8);
+		alphaPg << pg::angularVelToQuatVel(mbc.q[0])*alpha.head<3>(),
+							 alpha.tail<4>();
+
+		VectorXd resStd = fullStd*alpha;
+		VectorXd resPg = fullPg*alphaPg;
+
+		BOOST_CHECK_SMALL((resStd.head<3>() - resPg.head<3>()).norm(), TOL);
+	}
+}
+
+
+
 {
 	using namespace Eigen;
 	using namespace sva;
