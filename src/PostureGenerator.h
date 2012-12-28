@@ -88,6 +88,9 @@ public:
 	virtual const Eigen::VectorXd& value() const = 0;
 	virtual const Eigen::VectorXd& jac() const = 0;
 
+	virtual Eigen::VectorXd lower() const = 0;
+	virtual Eigen::VectorXd upper() const = 0;
+
 private:
 	int size_;
 };

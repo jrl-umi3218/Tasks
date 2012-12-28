@@ -104,8 +104,17 @@ bool PostureGenerator::get_bounds_info(Ipopt::Index n,
 	Map<VectorXd>(x_l, n).fill(-std::numeric_limits<double>::infinity());
 	Map<VectorXd>(x_u, n).fill(std::numeric_limits<double>::infinity());
 
-	Map<VectorXd>(g_l, m).fill(0);
-	Map<VectorXd>(g_u, m).fill(0);
+	Map<VectorXd> gLow(g_l, m);
+	Map<VectorXd> gUpp(g_u, m);
+
+	int pos = 0;
+	for(Constraint* c: constr_)
+	{
+		int s = c->size();
+		gLow.segment(pos, s) = c->lower();
+		gUpp.segment(pos, s) = c->upper();
+		pos += s;
+	}
 
 	return true;
 }
