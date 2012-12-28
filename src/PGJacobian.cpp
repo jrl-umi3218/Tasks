@@ -117,7 +117,7 @@ const Eigen::MatrixXd& PGJacobian::jacobian(const rbd::MultiBody& mb,
 
 void PGJacobian::fullJacobian(const rbd::MultiBody& mb,
 	const rbd::Jacobian& jac,
-	const Eigen::MatrixXd& jacobian, Eigen::MatrixXd& res)
+	const Eigen::MatrixXd& jacobian, Eigen::MatrixXd& res) const
 {
 	res.setZero();
 	int jacPGPos = 0;

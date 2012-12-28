@@ -51,7 +51,7 @@ public:
 		const Eigen::MatrixXd& jacobian);
 
 	void fullJacobian(const rbd::MultiBody& mb, const rbd::Jacobian& jac,
-		const Eigen::MatrixXd& jacobian, Eigen::MatrixXd& res);
+		const Eigen::MatrixXd& jacobian, Eigen::MatrixXd& res) const;
 
 private:
 	struct Joint
