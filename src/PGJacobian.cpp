@@ -90,8 +90,10 @@ const Eigen::MatrixXd& PGJacobian::jacobian(const rbd::MultiBody& mb,
 		jac_.block(0, j.posPG, 3, 4) = jacobian.block(0, j.pos, 3, 3)*W;
 		jac_.block(3, j.posPG, 3, 4) = jacobian.block(3, j.pos, 3, 3)*W;
 
+		jac_.block(0, j.posPG + 4, 3, 3).setZero();
+		// Maybe set identity ?
 		jac_.block(3, j.posPG + 4, 3, 3) =
-			jacobian.block(3, j.pos + 3, 3, 3)*E.transpose();
+			jacobian.block(3, j.pos + 3, 3, 3)*E;
 	}
 
 	for(Joint j: spherical_)
