@@ -25,7 +25,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 add_definitions("-DWITH_OPENGL")
 
 add_executable(QPSolverTest QPSolverTest.cpp)
-target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks scd)
+target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks)
 add_test(QPSolverTestUnit QPSolverTest)
 
 add_executable(PGJacobianTest PGJacobianTest.cpp)
