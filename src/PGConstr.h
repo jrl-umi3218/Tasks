@@ -15,8 +15,13 @@
 
 #pragma once
 
+//includes
+// RBDyn
+#include <Jacobian.h>
+
 // Tasks
 #include "PostureGenerator.h"
+#include "PGJacobian.h"
 
 namespace tasks
 {
@@ -45,6 +50,32 @@ private:
 	Eigen::VectorXd val_, jac_;
 };
 
+
+
+class DummyContact : public Constraint
+{
+public:
+	DummyContact(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& obj);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::vector<std::pair<int, int>>
+		structure(const rbd::MultiBody& mb) const;
+
+	virtual const Eigen::VectorXd& value() const;
+	virtual const Eigen::VectorXd& jac() const;
+
+	virtual Eigen::VectorXd lower() const;
+	virtual Eigen::VectorXd upper() const;
+
+private:
+	Eigen::Vector3d obj_;
+	int body_;
+	rbd::Jacobian bodyJac_;
+	PGJacobian bodyPgJac_;
+
+	Eigen::VectorXd val_, jac_;
+};
 
 } // namespace pg
 
