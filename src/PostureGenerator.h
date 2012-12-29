@@ -103,26 +103,26 @@ public:
 	void removeConstraint(Constraint* co);
 	int nrConstraints() const;
 
-	// TNLP overloaded functions
-	virtual bool get_nlp_info(int& n, int& m,
+	// TNLP functions
+	bool get_nlp_info(int& n, int& m,
 		int& nnz_jac_g, int& nnz_h_lag);
 
-	virtual bool get_bounds_info(int n, double* x_l,
+	bool get_bounds_info(int n, double* x_l,
 		double* x_u, int m, double* g_l, double* g_u);
 
-	virtual bool get_starting_point(int n, bool init_x, double* x,
+	bool get_starting_point(int n, bool init_x, double* x,
 		bool init_z, double* z_L, double* z_U,
 		int m, bool init_lambda,
 		double* lambda);
 
-	virtual bool eval_f(int n, const double* x,
+	bool eval_f(int n, const double* x,
 		bool new_x, double& obj_value);
-	virtual bool eval_grad_f(int n, const double* x,
+	bool eval_grad_f(int n, const double* x,
 		bool new_x, double* grad_f);
 
-	virtual bool eval_g(int n, const double* x, bool new_x,
+	bool eval_g(int n, const double* x, bool new_x,
 		int m, double* g);
-	virtual bool eval_jac_g(int n, const double* x, bool new_x,
+	bool eval_jac_g(int n, const double* x, bool new_x,
 		int m, int nele_jac, int* iRow,
 		int *jCol, double* values);
 
