@@ -53,6 +53,11 @@ public:
 	void fullJacobian(const rbd::MultiBody& mb, const rbd::Jacobian& jac,
 		const Eigen::MatrixXd& jacobian, Eigen::MatrixXd& res) const;
 
+	int params() const
+	{
+		return jac_.cols();
+	}
+
 private:
 	struct Joint
 	{
