@@ -77,7 +77,9 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
 
-	virtual std::vector<std::pair<int, int>> structure() const = 0;
+	virtual std::vector<std::pair<int, int>>
+		structure(const rbd::MultiBody& mb) const = 0;
+
 	virtual const Eigen::VectorXd& value() const = 0;
 	virtual const Eigen::VectorXd& jac() const = 0;
 

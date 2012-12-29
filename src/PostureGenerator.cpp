@@ -196,8 +196,9 @@ bool PostureGenerator::get_nlp_info(int& n, int& m,
 
 	for(Constraint* c: constr_)
 	{
+		std::vector<std::pair<int, int> > v = c->structure(mb_);
+
 		size += c->size();
-		std::vector<std::pair<int, int> > v = c->structure();
 		nbNNZ += v.size();
 		struct_.insert(struct_.end(), v.begin(), v.end());
 	}
