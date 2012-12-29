@@ -1,0 +1,51 @@
+// This file is part of Tasks.
+//
+// Tasks is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Tasks is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
+
+#pragma once
+
+// Tasks
+#include "PostureGenerator.h"
+
+namespace tasks
+{
+
+namespace pg
+{
+
+class UnitQuaternion : public Constraint
+{
+public:
+	UnitQuaternion(const rbd::MultiBody& mb);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::vector<std::pair<int, int>>
+		structure(const rbd::MultiBody& mb) const;
+
+	virtual const Eigen::VectorXd& value() const;
+	virtual const Eigen::VectorXd& jac() const;
+
+	virtual Eigen::VectorXd lower() const;
+	virtual Eigen::VectorXd upper() const;
+
+private:
+	std::vector<int> quat_;
+	Eigen::VectorXd val_, jac_;
+};
+
+
+} // namespace pg
+
+} // namespace tasks
