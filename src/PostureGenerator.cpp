@@ -262,6 +262,11 @@ bool PostureGenerator::eval_f(int n, const double* x,
 		rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
 		rbd::forwardKinematics(mb_, mbc_);
 		rbd::forwardVelocity(mb_, mbc_);
+
+		for(Objective* o: obj_)
+		{
+			o->update(mb_, mbc_);
+		}
 	}
 
 	obj_value = 0.;
@@ -291,10 +296,22 @@ bool PostureGenerator::eval_grad_f(int n,
 
 
 bool PostureGenerator::eval_g(
-	int /* n */, const double* /* x */, bool /* new_x */,
+	int n, const double* x, bool new_x,
 	int m, double* g)
 {
 	using namespace Eigen;
+	if(new_x)
+	{
+		rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
+		rbd::forwardKinematics(mb_, mbc_);
+		rbd::forwardVelocity(mb_, mbc_);
+
+		for(Constraint* c: constr_)
+		{
+			c->update(mb_, mbc_);
+		}
+	}
+
 	Map<VectorXd> gVal(g, m);
 
 	int pos = 0;
