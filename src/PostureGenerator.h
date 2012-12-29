@@ -126,6 +126,9 @@ public:
 		int m, int nele_jac, int* iRow,
 		int *jCol, double* values);
 
+	void finalize_solution(int status, int n,
+		const double* x, int m, const double* g, double obj_value);
+
 private:
 	rbd::MultiBody mb_;
 	rbd::MultiBodyConfig mbc_;

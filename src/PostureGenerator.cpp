@@ -43,7 +43,7 @@ namespace pg
 
 
 
-class PostureGeneratorWrapper : Ipopt::TNLP
+class PostureGeneratorWrapper : public Ipopt::TNLP
 {
 public:
 	PostureGeneratorWrapper(PostureGenerator* pg):
@@ -96,6 +96,16 @@ public:
 		Ipopt::Index *jCol, Ipopt::Number* values)
 	{
 		return pg_->eval_jac_g(n, x, new_x, m, nele_jac, iRow, jCol, values);
+	}
+
+	virtual void finalize_solution(Ipopt::SolverReturn status, int n,
+		const Ipopt::Number* x, const Ipopt::Number* /* z_L */,
+		const Ipopt::Number* /* z_U */, Ipopt::Index m, const Ipopt::Number* g,
+		const Ipopt::Number* /* lambda */, Ipopt::Number obj_value,
+		const Ipopt::IpoptData* /* ip_data */,
+		Ipopt::IpoptCalculatedQuantities* /* ip_cq */)
+	{
+		pg_->finalize_solution(status, n, x, m, g, obj_value);
 	}
 
 private:
@@ -302,6 +312,21 @@ bool PostureGenerator::eval_jac_g(
 
 	return true;
 }
+
+
+void PostureGenerator::finalize_solution(int status, int n,
+	const double* x, int  /* m */, const double* /* g */, double /* obj_value */)
+{
+	using namespace Eigen;
+
+	if(status == Success)
+	{
+		rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
+		rbd::forwardKinematics(mb_, mbc_);
+		rbd::forwardVelocity(mb_, mbc_);
+	}
+}
+
 
 } // namespace pg
 
