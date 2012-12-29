@@ -32,3 +32,6 @@ add_executable(PGJacobianTest PGJacobianTest.cpp)
 target_link_libraries(PGJacobianTest ${Boost_LIBRARIES} RBDyn Tasks)
 add_test(PGJacobiantUnit PGJacobianTest)
 
+add_executable(PGTest PGTest.cpp)
+target_link_libraries(PGTest ${Boost_LIBRARIES} RBDyn Tasks)
+add_test(PGUnit PGTest)
