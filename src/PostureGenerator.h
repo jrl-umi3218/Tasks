@@ -38,6 +38,10 @@ namespace pg
 class Objective
 {
 public:
+	Objective():
+		weight_(1.)
+	{}
+
 	Objective(double weight):
 		weight_(weight)
 	{}
@@ -66,6 +70,10 @@ private:
 class Constraint
 {
 public:
+	Constraint():
+		size_(0)
+	{}
+
 	Constraint(int size):
 		size_(size)
 	{}
@@ -73,6 +81,11 @@ public:
 	int size() const
 	{
 		return size_;
+	}
+
+	void size(int size)
+	{
+		size_ = size;
 	}
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
