@@ -95,6 +95,8 @@ class PostureGenerator
 public:
 	PostureGenerator(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	bool solve();
+
 	void addObjective(Objective* obj);
 	void removeObjective(Objective* obj);
 	int nrObjectives() const;

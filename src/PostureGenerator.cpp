@@ -22,6 +22,7 @@
 // Remove unused parameter warning from IpTNLP header
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
+#include <IpIpoptApplication.hpp>
 #include <IpTNLP.hpp>
 #pragma GCC diagnostic pop
 
@@ -125,6 +126,28 @@ PostureGenerator::PostureGenerator(const rbd::MultiBody& mb,
   mb_(mb),
   mbc_(mbc)
 {}
+
+
+bool PostureGenerator::solve()
+{
+	using namespace Ipopt;
+	SmartPtr<TNLP> pg = new PostureGeneratorWrapper(this);
+
+	SmartPtr<IpoptApplication> app = IpoptApplicationFactory();
+	app->Options()->SetNumericValue("tol", 1e-9);
+	app->Options()->SetStringValue("mu_strategy", "adaptive");
+	app->Options()->SetStringValue("output_file", "ipopt.out");
+	app->Options()->SetStringValue("hessian_approximation", "limited-memory");
+
+	ApplicationReturnStatus status;
+	status = app->Initialize();
+	if(status != Solve_Succeeded)
+		return false;
+
+	status = app->OptimizeTNLP(pg);
+
+	return status == Solve_Succeeded;
+}
 
 
 void PostureGenerator::addObjective(Objective* obj)
