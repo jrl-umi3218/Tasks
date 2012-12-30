@@ -147,6 +147,9 @@ public:
 		const double* x, int m, const double* g, double obj_value);
 
 private:
+	void newX(int n, const double* x);
+
+private:
 	rbd::MultiBody mb_;
 	rbd::MultiBodyConfig mbc_;
 

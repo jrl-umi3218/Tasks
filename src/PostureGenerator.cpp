@@ -259,14 +259,7 @@ bool PostureGenerator::eval_f(int n, const double* x,
 	using namespace Eigen;
 	if(new_x)
 	{
-		rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
-		rbd::forwardKinematics(mb_, mbc_);
-		rbd::forwardVelocity(mb_, mbc_);
-
-		for(Objective* o: obj_)
-		{
-			o->update(mb_, mbc_);
-		}
+		newX(n, x);
 	}
 
 	obj_value = 0.;
@@ -274,15 +267,18 @@ bool PostureGenerator::eval_f(int n, const double* x,
 	{
 		obj_value += o->value()*o->weight();
 	}
-
 	return true;
 }
 
 
 bool PostureGenerator::eval_grad_f(int n,
-	const double* /* x */, bool /* new_x */, double* grad_f)
+	const double* x, bool new_x, double* grad_f)
 {
 	using namespace Eigen;
+	if(new_x)
+	{
+		newX(n, x);
+	}
 	Map<VectorXd> grad(grad_f, n);
 
 	grad.setZero();
@@ -290,7 +286,6 @@ bool PostureGenerator::eval_grad_f(int n,
 	{
 		grad += o->gradient()*o->weight();
 	}
-
 	return true;
 }
 
@@ -302,16 +297,8 @@ bool PostureGenerator::eval_g(
 	using namespace Eigen;
 	if(new_x)
 	{
-		rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
-		rbd::forwardKinematics(mb_, mbc_);
-		rbd::forwardVelocity(mb_, mbc_);
-
-		for(Constraint* c: constr_)
-		{
-			c->update(mb_, mbc_);
-		}
+		newX(n, x);
 	}
-
 	Map<VectorXd> gVal(g, m);
 
 	int pos = 0;
@@ -326,11 +313,15 @@ bool PostureGenerator::eval_g(
 
 
 bool PostureGenerator::eval_jac_g(
-	int /* n */, const double* /* x */, bool /* new_x */,
+	int n, const double* x, bool new_x,
 	int /* m */, int nele_jac,
 	int* iRow, int *jCol, double* values)
 {
 	using namespace Eigen;
+	if(new_x)
+	{
+		newX(n, x);
+	}
 
 	if(values == NULL)
 	{
@@ -354,7 +345,6 @@ bool PostureGenerator::eval_jac_g(
 			pos += s;
 		}
 	}
-
 	return true;
 }
 
@@ -372,6 +362,24 @@ void PostureGenerator::finalize_solution(int status, int n,
 	}
 }
 
+void PostureGenerator::newX(int n, const double* x)
+{
+	using namespace Eigen;
+
+	rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
+	rbd::forwardKinematics(mb_, mbc_);
+	rbd::forwardVelocity(mb_, mbc_);
+
+	for(Objective* o: obj_)
+	{
+		o->update(mb_, mbc_);
+	}
+
+	for(Constraint* c: constr_)
+	{
+		c->update(mb_, mbc_);
+	}
+}
 
 } // namespace pg
 
