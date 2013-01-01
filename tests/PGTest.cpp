@@ -132,10 +132,12 @@ BOOST_AUTO_TEST_CASE(DummyContact)
 	pg::PostureGenerator pg(mb, mbc);
 
 	pg::UnitQuaternion unitQConstr(mb);
-	pg::DummyContact contactConstr(mb, 2, Vector3d(1., 1., 1.));
+	pg::DummyContact rContactConstr(mb, 2, Vector3d(1., 1., 1.1));
+	pg::DummyContact lContactConstr(mb, 4, Vector3d(1., 1., 0.9));
 
 	pg.addConstraint(&unitQConstr);
-	pg.addConstraint(&contactConstr);
+	pg.addConstraint(&rContactConstr);
+	pg.addConstraint(&lContactConstr);
 
 	BOOST_CHECK(pg.solve());
 }
