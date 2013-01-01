@@ -93,7 +93,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeLegs()
 
 	mbg.linkBodies(0, toRLeg, 1, PTransform::Identity(), 0);
 	mbg.linkBodies(1, toFoot, 2, PTransform::Identity(), 1);
-	mbg.linkBodies(2, toLLeg, 3, PTransform::Identity(), 2);
+	mbg.linkBodies(0, toLLeg, 3, PTransform::Identity(), 2);
 	mbg.linkBodies(3, toFoot, 4, PTransform::Identity(), 3);
 
 	MultiBody mb = mbg.makeMultiBody(0, false);
