@@ -16,7 +16,6 @@
 // associated header
 #include "PGConstr.h"
 
-
 namespace tasks
 {
 
@@ -32,7 +31,7 @@ namespace pg
 
 
 UnitQuaternion::UnitQuaternion(const rbd::MultiBody& mb):
-  quat_(),
+  quatPos_(),
   val_(),
   jac_()
 {
@@ -41,22 +40,26 @@ UnitQuaternion::UnitQuaternion(const rbd::MultiBody& mb):
 		if(mb.joint(i).type() == rbd::Joint::Spherical ||
 			 mb.joint(i).type() == rbd::Joint::Free)
 		{
-			quat_.push_back(i);
+			quatPos_.push_back(mb.jointPosInParam(i));
 		}
 	}
-	val_.resize(quat_.size());
-	jac_.resize(quat_.size()*4);
-	size(quat_.size());
+	val_.resize(quatPos_.size());
+	jac_.resize(quatPos_.size()*4);
+	size(quatPos_.size());
 }
 
 
 void UnitQuaternion::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& mbc)
+	const rbd::MultiBodyConfig& /* mbc */,
+	int n, const double* x)
 {
-	for(std::size_t i = 0; i < quat_.size(); ++i)
+	using namespace Eigen;
+	Map<const VectorXd> qVec(x, n);
+	for(std::size_t i = 0; i < quatPos_.size(); ++i)
 	{
-		int j = quat_[i];
-		Eigen::Quaterniond q(mbc.q[j][0], mbc.q[j][1], mbc.q[j][2], mbc.q[j][3]);
+		int pos = quatPos_[i];
+		Quaterniond q(qVec[pos + 0], qVec[pos + 1],
+			qVec[pos + 2], qVec[pos + 3]);
 		val_(i) = q.coeffs().squaredNorm();
 		jac_.segment(i*4, 4) << q.w()*2., q.x()*2., q.y()*2., q.z()*2.;
 	}
@@ -67,9 +70,9 @@ std::vector<std::pair<int, int> >
 	UnitQuaternion::structure(const rbd::MultiBody& mb) const
 {
 	std::vector<std::pair<int, int> > s;
-	for(std::size_t i = 0; i < quat_.size(); ++i)
+	for(std::size_t i = 0; i < quatPos_.size(); ++i)
 	{
-		int pos = mb.jointPosInParam(quat_[i]);
+		int pos = quatPos_[i];
 		for(int j = 0; j < 4; ++j)
 		{
 			s.emplace_back(i, pos + j);
@@ -93,7 +96,7 @@ const Eigen::VectorXd& UnitQuaternion::jac() const
 
 Eigen::VectorXd UnitQuaternion::lower() const
 {
-	Eigen::VectorXd l(quat_.size());
+	Eigen::VectorXd l(quatPos_.size());
 	l.fill(1.);
 	return l;
 }
@@ -101,7 +104,7 @@ Eigen::VectorXd UnitQuaternion::lower() const
 
 Eigen::VectorXd UnitQuaternion::upper() const
 {
-	Eigen::VectorXd u(quat_.size());
+	Eigen::VectorXd u(quatPos_.size());
 	u.fill(1.);
 	return u;
 }
@@ -128,7 +131,8 @@ DummyContact::DummyContact(const rbd::MultiBody& mb, int bodyId,
 
 
 void DummyContact::update(const rbd::MultiBody& mb,
-	const rbd::MultiBodyConfig& mbc)
+	const rbd::MultiBodyConfig& mbc,
+	int /* n */, const double*  /* x */)
 {
 	val_ = mbc.bodyPosW[body_].translation() - obj_;
 	const Eigen::MatrixXd& jac =

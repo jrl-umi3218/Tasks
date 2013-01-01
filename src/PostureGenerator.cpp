@@ -125,7 +125,16 @@ PostureGenerator::PostureGenerator(const rbd::MultiBody& mb,
   const rbd::MultiBodyConfig& mbc):
   mb_(mb),
   mbc_(mbc)
-{}
+{
+	for(std::size_t i = 0; i < mb.nrJoints(); ++i)
+	{
+		if(mb.joint(i).type() == rbd::Joint::Spherical ||
+			 mb.joint(i).type() == rbd::Joint::Free)
+		{
+			quat_.push_back(i);
+		}
+	}
+}
 
 
 bool PostureGenerator::solve()
@@ -367,17 +376,30 @@ void PostureGenerator::newX(int n, const double* x)
 	using namespace Eigen;
 
 	rbd::vectorToParam(VectorXd(Map<const VectorXd>(x, n)), mbc_.q);
+	// we should normalize the quaternion in mbc or the fk computation
+	// will be incorect for non unit quaternion
+
+	for(int j: quat_)
+	{
+		Eigen::Quaterniond q(mbc_.q[j][0], mbc_.q[j][1], mbc_.q[j][2], mbc_.q[j][3]);
+		q.normalize();
+		mbc_.q[j][0] = q.w();
+		mbc_.q[j][1] = q.x();
+		mbc_.q[j][2] = q.y();
+		mbc_.q[j][3] = q.z();
+	}
+
 	rbd::forwardKinematics(mb_, mbc_);
 	rbd::forwardVelocity(mb_, mbc_);
 
 	for(Objective* o: obj_)
 	{
-		o->update(mb_, mbc_);
+		o->update(mb_, mbc_, n, x);
 	}
 
 	for(Constraint* c: constr_)
 	{
-		c->update(mb_, mbc_);
+		c->update(mb_, mbc_, n , x);
 	}
 }
 

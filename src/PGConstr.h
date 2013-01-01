@@ -34,7 +34,8 @@ class UnitQuaternion : public Constraint
 public:
 	UnitQuaternion(const rbd::MultiBody& mb);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		int n, const double* x);
 
 	virtual std::vector<std::pair<int, int>>
 		structure(const rbd::MultiBody& mb) const;
@@ -46,7 +47,7 @@ public:
 	virtual Eigen::VectorXd upper() const;
 
 private:
-	std::vector<int> quat_;
+	std::vector<int> quatPos_;
 	Eigen::VectorXd val_, jac_;
 };
 
@@ -57,7 +58,8 @@ class DummyContact : public Constraint
 public:
 	DummyContact(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& obj);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		int n, const double* x);
 
 	virtual std::vector<std::pair<int, int>>
 		structure(const rbd::MultiBody& mb) const;

@@ -56,7 +56,8 @@ public:
 		weight_ = w;
 	}
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		int n, const double* x) = 0;
 
 	virtual double value() const = 0;
 	virtual const Eigen::VectorXd& gradient() const = 0;
@@ -88,7 +89,8 @@ public:
 		size_ = size;
 	}
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		int n, const double* x) = 0;
 
 	virtual std::vector<std::pair<int, int>>
 		structure(const rbd::MultiBody& mb) const = 0;
@@ -156,6 +158,7 @@ private:
 private:
 	rbd::MultiBody mb_;
 	rbd::MultiBodyConfig mbc_;
+	std::vector<int> quat_;
 
 	std::vector<Objective*> obj_;
 	std::vector<Constraint*> constr_;
