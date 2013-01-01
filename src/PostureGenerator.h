@@ -111,6 +111,10 @@ public:
 	PostureGenerator(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	bool solve();
+	rbd::MultiBodyConfig mbc() const
+	{
+		return mbc_;
+	}
 
 	void addObjective(Objective* obj);
 	void removeObjective(Objective* obj);
