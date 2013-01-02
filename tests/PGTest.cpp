@@ -15,6 +15,7 @@
 
 // includes
 // std
+#include <fstream>
 #include <iostream>
 #include <tuple>
 
@@ -111,6 +112,18 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeLegs()
 }
 
 
+void writeMbc(std::ofstream& of,
+	std::string name, const rbd::MultiBodyConfig& mbc)
+{
+	of << name << " = [" << std::endl;
+	for(const sva::PTransform& p: mbc.bodyPosW)
+	{
+		Eigen::Vector3d pos = p.translation();
+		of << "(" << pos.x() << ", " << pos.y() << ", " << pos.z() << ")," << std::endl;
+	}
+	of << "]" << std::endl;
+}
+
 
 BOOST_AUTO_TEST_CASE(DummyContact)
 {
@@ -133,11 +146,16 @@ BOOST_AUTO_TEST_CASE(DummyContact)
 
 	pg::UnitQuaternion unitQConstr(mb);
 	pg::DummyContact rContactConstr(mb, 2, Vector3d(1., 1., 1.1));
-	pg::DummyContact lContactConstr(mb, 4, Vector3d(1., 1., 0.9));
+	pg::DummyContact lContactConstr(mb, 4, Vector3d(0.9, 1., 0.9));
 
 	pg.addConstraint(&unitQConstr);
 	pg.addConstraint(&rContactConstr);
 	pg.addConstraint(&lContactConstr);
 
+	std::ofstream legs;
+	legs.open("legs.py");
+
+	writeMbc(legs, "init", pg.mbc());
 	BOOST_CHECK(pg.solve());
+	writeMbc(legs, "sol", pg.mbc());
 }
