@@ -144,6 +144,15 @@ void DummyContact::update(const rbd::MultiBody& mb,
 	jac_.segment(0, jac.cols()) = jac.row(3);
 	jac_.segment(jac.cols(), jac.cols()) = jac.row(4);
 	jac_.segment(jac.cols()*2, jac.cols()) = jac.row(5);
+	/*
+	val_(0) = (mbc.bodyPosW[body_].translation() - obj_).norm();
+	const Eigen::MatrixXd& jac =
+		bodyPgJac_.jacobian(mb, mbc, bodyJac_.jacobian(mb, mbc));
+	Eigen::Vector3d err = (mbc.bodyPosW[body_].translation() - obj_);
+	jac_.segment(0, jac.cols()) = (err.x()*jac.row(3))/val_(0);
+	jac_.segment(0, jac.cols()) += (err.y()*jac.row(4))/val_(0);
+	jac_.segment(0, jac.cols()) += (err.z()*jac.row(5))/val_(0);
+	*/
 }
 
 
