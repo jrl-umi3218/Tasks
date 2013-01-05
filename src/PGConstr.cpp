@@ -60,8 +60,12 @@ void UnitQuaternion::update(const rbd::MultiBody& /* mb */,
 		int pos = quatPos_[i];
 		Quaterniond q(qVec[pos + 0], qVec[pos + 1],
 			qVec[pos + 2], qVec[pos + 3]);
+		/*
 		val_(i) = q.coeffs().squaredNorm();
 		jac_.segment(i*4, 4) << q.w()*2., q.x()*2., q.y()*2., q.z()*2.;
+		*/
+		val_(i) = q.coeffs().norm();
+		jac_.segment(i*4, 4) << q.w()/val_(i), q.x()/val_(i), q.y()/val_(i), q.z()/val_(i);
 	}
 }
 
