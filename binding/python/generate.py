@@ -55,7 +55,7 @@ def import_eigen3_types(mod):
 
 
 
-def build_tasks(posTask, oriTask, positionTask, comTask):
+def build_tasks(posTask, oriTask, positionTask, comTask, linVelTask):
   def add_std_func(cls):
     cls.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -116,6 +116,19 @@ def build_tasks(posTask, oriTask, positionTask, comTask):
                      is_const=True)
   add_std_func(comTask)
 
+  # LinVelocityTask
+  linVelTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                           param('int', 'bodyId'),
+                           param('const Eigen::Vector3d&', 'pos'),
+                           param('const Eigen::Vector3d&', 'bodyPoint',
+                                 default_value='Eigen::Vector3d::Zero()')])
+
+  linVelTask.add_method('velocity', None, [param('const Eigen::Vector3d&', 'pos')])
+  linVelTask.add_method('velocity', retval('Eigen::Vector3d'), [], is_const=True)
+  linVelTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'point')])
+  linVelTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
+  add_std_func(linVelTask)
+
 
 
 def build_qp(tasks):
@@ -142,6 +155,7 @@ def build_qp(tasks):
   postureTask = qp.add_class('PostureTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
   contactTask = qp.add_class('ContactTask', parent=task)
+  linVelTask = qp.add_class('LinVelocityTask', parent=hlTask)
 
   motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
                                                      constr])
@@ -295,7 +309,7 @@ def build_qp(tasks):
                               param('double', 'stiffness'),
                               param('double', 'weight')])
 
-  spConstructor(['PositionTask', 'OrientationTask', 'CoMTask'])
+  spConstructor(['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask'])
 
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
   spTask.add_method('stiffness', None, [param('double', 'weight')])
@@ -316,7 +330,7 @@ def build_qp(tasks):
                                    transfer_ownership=False),
                              param('double', 'weight')])
 
-  qConstructor(['PositionTask', 'OrientationTask', 'CoMTask'])
+  qConstructor(['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask'])
 
   qTask.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -383,6 +397,19 @@ def build_qp(tasks):
   contactTask.add_constructor([param('int', 'bodyId'),
                                param('bool', 'min'),
                                param('double', 'weight')])
+
+  # LinVelocityTask
+  linVelTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                           param('int', 'bodyId'),
+                           param('const Eigen::Vector3d&', 'pos'),
+                           param('const Eigen::Vector3d&', 'bodyPoint',
+                                 default_value='Eigen::Vector3d::Zero()')])
+
+  linVelTask.add_method('velocity', None, [param('const Eigen::Vector3d&', 'pos')])
+  linVelTask.add_method('velocity', retval('Eigen::Vector3d'), [], is_const=True)
+
+  linVelTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'point')])
+  linVelTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
 
   # MotionConstr
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
@@ -477,12 +504,13 @@ if __name__ == '__main__':
   oriTask = tasks.add_class('OrientationTask')
   postureTask = tasks.add_class('PostureTask')
   comTask = tasks.add_class('CoMTask')
+  linVelTask = tasks.add_class('LinVelocityTask')
 
   # build list type
   tasks.add_container('std::vector<double>', 'double', 'vector')
   tasks.add_container('std::vector<std::vector<double> >', 'std::vector<double>', 'vector')
 
-  build_tasks(posTask, oriTask, postureTask, comTask)
+  build_tasks(posTask, oriTask, postureTask, comTask, linVelTask)
 
   # qp
   build_qp(tasks)
