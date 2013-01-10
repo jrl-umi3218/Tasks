@@ -254,6 +254,28 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	BOOST_CHECK_SMALL(comTask.eval().norm(), 0.00001);
 
 	solver.removeTask(&comTaskSp);
+
+
+	qp::LinVelocityTask linVelocityTask(mb, 3, -Vector3d::UnitX()*0.005);
+	qp::SetPointTask linVelocityTaskSp(mb, &linVelocityTask, 1000., 10000.);
+
+	solver.addTask(&linVelocityTaskSp);
+
+	// Test LinVelocityTask
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 4000; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	// error is huge, why ?
+	BOOST_CHECK_SMALL(linVelocityTask.eval().norm(), 0.001);
+
+	solver.removeTask(&linVelocityTaskSp);
 }
 
 

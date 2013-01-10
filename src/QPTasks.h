@@ -310,6 +310,50 @@ private:
 	Eigen::VectorXd C_;
 };
 
+
+
+class LinVelocityTask : public HighLevelTask
+{
+public:
+	LinVelocityTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& vel,
+		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
+
+	tasks::LinVelocityTask& task()
+	{
+		return pt_;
+	}
+
+	void velocity(const Eigen::Vector3d& s)
+	{
+		pt_.velocity(s);
+	}
+
+	const Eigen::Vector3d& velocity() const
+	{
+		return pt_.velocity();
+	}
+
+	void bodyPoint(const Eigen::Vector3d& point)
+	{
+		pt_.bodyPoint(point);
+	}
+
+	const Eigen::Vector3d& bodyPoint() const
+	{
+		return pt_.bodyPoint();
+	}
+
+	virtual int dim();
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::MatrixXd& jacDot();
+	virtual const Eigen::VectorXd& eval();
+
+private:
+	tasks::LinVelocityTask pt_;
+};
+
 } // namespace qp
 
 } // namespace tasks

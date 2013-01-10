@@ -359,6 +359,49 @@ const Eigen::VectorXd& ContactTask::C() const
 	return C_;
 }
 
+
+/**
+	*											LinVelocityTask
+	*/
+
+
+LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, int bodyId,
+  const Eigen::Vector3d& speed, const Eigen::Vector3d& bodyPoint):
+  pt_(mb, bodyId, speed, bodyPoint)
+{
+}
+
+
+int LinVelocityTask::dim()
+{
+	return 3;
+}
+
+
+void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	pt_.update(mb, mbc);
+	pt_.updateDot(mb, mbc);
+}
+
+
+const Eigen::MatrixXd& LinVelocityTask::jac()
+{
+	return pt_.jac();
+}
+
+
+const Eigen::MatrixXd& LinVelocityTask::jacDot()
+{
+	return pt_.jacDot();
+}
+
+
+const Eigen::VectorXd& LinVelocityTask::eval()
+{
+	return pt_.eval();
+}
+
 } // namespace qp
 
 } // namespace tasks

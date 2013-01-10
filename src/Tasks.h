@@ -147,4 +147,37 @@ private:
 	Eigen::MatrixXd jacDotMat_;
 };
 
+
+
+class LinVelocityTask
+{
+public:
+	LinVelocityTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& vel,
+		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
+
+	void velocity(const Eigen::Vector3d& s);
+	const Eigen::Vector3d& velocity() const;
+
+	void bodyPoint(const Eigen::Vector3d& point);
+	const Eigen::Vector3d& bodyPoint() const;
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::MatrixXd& jac() const;
+	const Eigen::MatrixXd& jacDot() const;
+
+private:
+	Eigen::Vector3d vel_;
+	sva::PTransform point_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+
+	Eigen::VectorXd eval_;
+	Eigen::MatrixXd shortJacMat_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::MatrixXd jacDotMat_;
+};
+
 } // namespace tasks

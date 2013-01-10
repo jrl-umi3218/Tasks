@@ -25,6 +25,12 @@
 namespace tasks
 {
 
+
+/**
+	*													PositionTask
+	*/
+
+
 PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
   const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
   pos_(pos),
@@ -96,6 +102,10 @@ const Eigen::MatrixXd& PositionTask::jacDot() const
 	return jacDotMat_;
 }
 
+
+/**
+	*													OrientationTask
+	*/
 
 
 OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Quaterniond& ori):
@@ -174,8 +184,12 @@ const Eigen::MatrixXd& OrientationTask::jacDot() const
 }
 
 
+/**
+	*													PostureTask
+	*/
 
-PostureTask::PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double>> q):
+
+PostureTask::PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double> > q):
 	q_(q),
 	eval_(mb.nrDof()),
 	jacMat_(mb.nrDof(), mb.nrDof()),
@@ -195,13 +209,13 @@ PostureTask::PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<doubl
 }
 
 
-void PostureTask::posture(std::vector<std::vector<double>> q)
+void PostureTask::posture(std::vector<std::vector<double> > q)
 {
 	q_ = q;
 }
 
 
-const std::vector<std::vector<double>> PostureTask::posture() const
+const std::vector<std::vector<double> > PostureTask::posture() const
 {
 	return q_;
 }
@@ -260,6 +274,10 @@ const Eigen::MatrixXd& PostureTask::jacDot() const
 }
 
 
+/**
+	*													CoMTask
+	*/
+
 
 CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com):
   com_(com),
@@ -309,6 +327,84 @@ const Eigen::MatrixXd& CoMTask::jac() const
 
 
 const Eigen::MatrixXd& CoMTask::jacDot() const
+{
+	return jacDotMat_;
+}
+
+
+/**
+	*													LinVelocityTask
+	*/
+
+
+LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, int bodyId,
+  const Eigen::Vector3d& v, const Eigen::Vector3d& bodyPoint):
+  vel_(v),
+  point_(bodyPoint),
+  bodyIndex_(mb.bodyIndexById(bodyId)),
+  jac_(mb, bodyId, bodyPoint),
+  eval_(3),
+  shortJacMat_(3, jac_.dof()),
+  jacMat_(3, mb.nrDof()),
+  jacDotMat_(3, mb.nrDof())
+{
+}
+
+
+void LinVelocityTask::velocity(const Eigen::Vector3d& v)
+{
+	vel_ = v;
+}
+
+
+const Eigen::Vector3d& LinVelocityTask::velocity() const
+{
+	return vel_;
+}
+
+
+void LinVelocityTask::bodyPoint(const Eigen::Vector3d& point)
+{
+	jac_.point(point);
+}
+
+
+const Eigen::Vector3d& LinVelocityTask::bodyPoint() const
+{
+	return jac_.point();
+}
+
+
+void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	sva::PTransform E_0_b(mbc.bodyPosW[bodyIndex_].rotation());
+	eval_ = vel_ - (E_0_b.invMul(point_*mbc.bodyVelB[bodyIndex_])).linear();
+
+	shortJacMat_ = jac_.jacobian(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
+	jac_.fullJacobian(mb, shortJacMat_, jacMat_);
+}
+
+
+void LinVelocityTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	shortJacMat_ = jac_.jacobianDot(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
+	jac_.fullJacobian(mb, shortJacMat_, jacDotMat_);
+}
+
+
+const Eigen::VectorXd& LinVelocityTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::MatrixXd& LinVelocityTask::jac() const
+{
+	return jacMat_;
+}
+
+
+const Eigen::MatrixXd& LinVelocityTask::jacDot() const
 {
 	return jacDotMat_;
 }
