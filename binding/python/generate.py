@@ -149,6 +149,7 @@ def build_qp(tasks):
 
   spTask = qp.add_class('SetPointTask', parent=task)
   qTask = qp.add_class('QuadraticTask', parent=task)
+  linWTask = qp.add_class('LinWeightTask', parent=task)
 
   posTask = qp.add_class('PositionTask', parent=hlTask)
   oriTask = qp.add_class('OrientationTask', parent=hlTask)
@@ -167,6 +168,17 @@ def build_qp(tasks):
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   torqueLimitsConstr = qp.add_class('TorqueLimitsConstr', parent=[boundConstr, constr])
+
+
+  constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
+                'SelfCollisionConstr', 'JointLimitsConstr',
+                'StaticEnvCollisionConstr', 'TorqueLimitsConstr']
+  eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
+  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
+  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
+  taskName = ['QuadraticTask', 'SetPointTask', 'LinWeightTask',
+              'tasks::qp::PostureTask', 'tasks::qp::ContactTask']
+  hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask']
 
 
   # build list type
@@ -197,15 +209,6 @@ def build_qp(tasks):
                  [param('const rbd::MultiBody&', 'mb'),
                   param('std::vector<tasks::qp::Contact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
-
-  constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
-                'SelfCollisionConstr', 'JointLimitsConstr',
-                'StaticEnvCollisionConstr', 'TorqueLimitsConstr']
-  eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
-  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
-  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
-  taskName = ['QuadraticTask', 'SetPointTask',
-              'tasks::qp::PostureTask', 'tasks::qp::ContactTask']
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
   add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
@@ -309,7 +312,7 @@ def build_qp(tasks):
                               param('double', 'stiffness'),
                               param('double', 'weight')])
 
-  spConstructor(['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask'])
+  spConstructor(hlTaskName)
 
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
   spTask.add_method('stiffness', None, [param('double', 'weight')])
@@ -330,7 +333,7 @@ def build_qp(tasks):
                                    transfer_ownership=False),
                              param('double', 'weight')])
 
-  qConstructor(['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask'])
+  qConstructor(hlTaskName)
 
   qTask.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -338,6 +341,24 @@ def build_qp(tasks):
 
   qTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   qTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
+
+  # LinWeightTask
+  def linWConstructor(taskName):
+    for t in taskName:
+      name = '%s *' % t
+      linWTask.add_constructor([param(name, 'task',
+                                   transfer_ownership=False),
+                                param('double', 'step'),
+                                param('double', 'objWeight')])
+
+  linWConstructor(taskName)
+
+  linWTask.add_method('update', None,
+                      [param('const rbd::MultiBody&', 'mb'),
+                       param('const rbd::MultiBodyConfig&', 'mbc')])
+
+  linWTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
+  linWTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # PositionTask
   posTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
