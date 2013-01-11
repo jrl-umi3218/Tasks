@@ -105,6 +105,30 @@ private:
 
 
 
+class LinWeightTask : public Task
+{
+public:
+	LinWeightTask(Task* t, double step, double objWeight);
+
+	virtual void weight(double w);
+
+	virtual std::pair<int, int> begin() const;
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	Task* task_;
+
+	double step_;
+	double objWeight_;
+};
+
+
+
 class PostureTask : public Task
 {
 public:

@@ -128,6 +128,69 @@ const Eigen::VectorXd& QuadraticTask::C() const
 
 
 /**
+	*												LinWeightTask
+	*/
+
+
+LinWeightTask::LinWeightTask(Task* t, double step, double objWeight):
+  Task(0.),
+  task_(t),
+  step_(step),
+  objWeight_(objWeight)
+{
+}
+
+
+void LinWeightTask::weight(double w)
+{
+	objWeight_ = w;
+}
+
+
+std::pair<int, int> LinWeightTask::begin() const
+{
+	return task_->begin();
+}
+
+
+void LinWeightTask::updateNrVars(const rbd::MultiBody& mb,
+	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
+{
+	task_->updateNrVars(mb, alphaD, lambda, torque, cont);
+}
+
+
+void LinWeightTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	double curW = Task::weight();
+	if(objWeight_ > curW)
+	{
+		curW = std::min(objWeight_, curW + step_);
+	}
+	else
+	{
+		curW = std::max(objWeight_, curW - step_);
+	}
+
+	Task::weight(curW);
+
+	task_->update(mb, mbc);
+}
+
+
+const Eigen::MatrixXd& LinWeightTask::Q() const
+{
+	return task_->Q();
+}
+
+
+const Eigen::VectorXd& LinWeightTask::C() const
+{
+	return task_->C();
+}
+
+
+/**
 	*												PostureTask
 	*/
 

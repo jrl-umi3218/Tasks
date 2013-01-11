@@ -116,12 +116,12 @@ public:
 	{}
 	virtual ~Task() {}
 
-	double weight() const
+	virtual double weight() const
 	{
 		return weight_;
 	}
 
-	void weight(double w)
+	virtual void weight(double w)
 	{
 		weight_ = w;
 	}
