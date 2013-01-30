@@ -17,7 +17,7 @@
 
 //includes
 // RBDyn
-#include <Jacobian.h>
+#include <RBDyn/Jacobian.h>
 
 // Tasks
 #include "PostureGenerator.h"

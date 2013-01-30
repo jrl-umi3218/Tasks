@@ -20,8 +20,8 @@
 #include <Eigen/Core>
 
 // RBDyn
-#include <FD.h>
-#include <Jacobian.h>
+#include <RBDyn/FD.h>
+#include <RBDyn/Jacobian.h>
 
 // SCD
 #include <SCD/Matrix/SCD_Types.h>

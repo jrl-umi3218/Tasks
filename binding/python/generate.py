@@ -504,7 +504,7 @@ if __name__ == '__main__':
   tasks.add_include('<QPTasks.h>')
   tasks.add_include('<QPConstr.h>')
 
-  tasks.add_include('<MultiBodyConfig.h>')
+  tasks.add_include('<RBDyn/MultiBodyConfig.h>')
 
   tasks.add_include('<SCD/S_Object/S_Object.h>')
   tasks.add_include('<SCD/S_Object/S_Sphere.h>')

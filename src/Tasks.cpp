@@ -19,8 +19,8 @@
 
 // includes
 // rbd
-#include <MultiBody.h>
-#include <MultiBodyConfig.h>
+#include <RBDyn/MultiBody.h>
+#include <RBDyn/MultiBodyConfig.h>
 
 namespace tasks
 {

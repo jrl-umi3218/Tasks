@@ -31,13 +31,13 @@
 #include <SpaceVecAlg/SpaceVecAlg>
 
 // RBDyn
-#include <EulerIntegration.h>
-#include <FK.h>
-#include <FV.h>
-#include <MultiBody.h>
-#include <MultiBodyConfig.h>
-#include <MultiBodyGraph.h>
-#include <Jacobian.h>
+#include <RBDyn/EulerIntegration.h>
+#include <RBDyn/FK.h>
+#include <RBDyn/FV.h>
+#include <RBDyn/MultiBody.h>
+#include <RBDyn/MultiBodyConfig.h>
+#include <RBDyn/MultiBodyGraph.h>
+#include <RBDyn/Jacobian.h>
 
 // Tasks
 #include "PGJacobian.h"

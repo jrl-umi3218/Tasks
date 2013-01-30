@@ -18,9 +18,9 @@
 
 // includes
 // RBDyn
-#include <Jacobian.h>
-#include <MultiBody.h>
-#include <MultiBodyConfig.h>
+#include <RBDyn/Jacobian.h>
+#include <RBDyn/MultiBody.h>
+#include <RBDyn/MultiBodyConfig.h>
 
 namespace tasks
 {

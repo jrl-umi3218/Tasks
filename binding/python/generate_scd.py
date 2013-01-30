@@ -72,7 +72,7 @@ if __name__ == '__main__':
     sys.exit(1)
 
   scd = Module('_scd', cpp_namespace='::SCD')
-  scd.add_include('<SpaceVecAlg>')
+  scd.add_include('<SpaceVecAlg/SpaceVecAlg>')
   scd.add_include('<SCD/S_Object/S_Object.h>')
   scd.add_include('<SCD/S_Object/S_Sphere.h>')
   scd.add_include('<SCD/S_Object/S_Box.h>')

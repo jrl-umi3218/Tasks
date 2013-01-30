@@ -24,16 +24,16 @@
 #include <boost/math/constants/constants.hpp>
 
 // SpaceVecAlg
-#include <SpaceVecAlg>
+#include <SpaceVecAlg/SpaceVecAlg>
 
 // RBDyn
-#include <EulerIntegration.h>
-#include <FK.h>
-#include <FV.h>
-#include <ID.h>
-#include <MultiBody.h>
-#include <MultiBodyConfig.h>
-#include <MultiBodyGraph.h>
+#include <RBDyn/EulerIntegration.h>
+#include <RBDyn/FK.h>
+#include <RBDyn/FV.h>
+#include <RBDyn/ID.h>
+#include <RBDyn/MultiBody.h>
+#include <RBDyn/MultiBodyConfig.h>
+#include <RBDyn/MultiBodyGraph.h>
 
 // SCD
 #include <SCD/S_Object/S_Sphere.h>

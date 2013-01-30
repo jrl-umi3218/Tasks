@@ -27,8 +27,8 @@
 #pragma GCC diagnostic pop
 
 // RBDyn
-#include <FK.h>
-#include <FV.h>
+#include <RBDyn/FK.h>
+#include <RBDyn/FV.h>
 
 namespace tasks
 {

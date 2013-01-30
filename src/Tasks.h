@@ -20,8 +20,8 @@
 #include <Eigen/Core>
 
 // RBDyn
-#include <CoM.h>
-#include <Jacobian.h>
+#include <RBDyn/CoM.h>
+#include <RBDyn/Jacobian.h>
 
 // forward declarations
 // RBDyn
