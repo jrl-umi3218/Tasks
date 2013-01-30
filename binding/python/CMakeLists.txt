@@ -1,19 +1,5 @@
-pkg_check_modules(EIGEN3 REQUIRED eigen3)
 find_package(PythonInterp REQUIRED)
 find_package(PythonLibs REQUIRED)
-
-find_path(SVA_INCLUDE_DIRS SpaceVecAlg/SpaceVecAlg
-                           /usr/include
-                           /usr/local/include)
-
-find_path(RBD_INCLUDE_DIRS RBDyn/
-                           /usr/include
-                           /usr/local/include)
-
-find_path(SCD_INCLUDE_DIRS SCD/
-                           /usr/include
-                           /usr/local/include)
-
 
 # Tasks
 
@@ -34,14 +20,13 @@ add_custom_command (
 set(SOURCES ${OUTPUT_BINDING})
 include_directories(.)
 include_directories(../../src)
-include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${PYTHON_INCLUDE_DIRS})
-include_directories(${SVA_INCLUDE_DIRS}/SpaceVecAlg)
-include_directories(${RBD_INCLUDE_DIRS}/RBDyn)
 add_definitions("-DWITH_OPENGL")
 
 add_library(_tasks SHARED ${SOURCES})
-target_link_libraries(_tasks RBDyn Tasks)
+PKG_CONFIG_USE_DEPENDENCY(_tasks SpaceVecAlg)
+PKG_CONFIG_USE_DEPENDENCY(_tasks RBDyn)
+target_link_libraries(_tasks Tasks)
 set_target_properties(_tasks PROPERTIES PREFIX "")
 
 
@@ -62,14 +47,13 @@ add_custom_command (
 # build the library
 set(SOURCES ${OUTPUT_BINDING})
 include_directories(.)
-include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${SVA_INCLUDE_DIRS}/SpaceVecAlg)
 include_directories(${SCD_INCLUDE_DIRS})
 add_definitions("-DWITH_OPENGL")
 
 add_library(_scd SHARED ${SOURCES})
-target_link_libraries(_scd scd)
+PKG_CONFIG_USE_DEPENDENCY(_scd scd)
 set_target_properties(_scd PROPERTIES PREFIX "")
 
 
