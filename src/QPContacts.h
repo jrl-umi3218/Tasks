@@ -45,6 +45,15 @@ struct UnilateralContact
 	UnilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
 		Eigen::Matrix3d frame, int nrGen, double angle);
 
+	/// @return Force vector of the contact.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
+
+	/**
+		* Safe version of @see force.
+		* @throw std::domain_error If lambda don't match the number of generator.
+		*/
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda) const;
+
 	int bodyId;
 	std::vector<Eigen::Vector3d> points;
 	FrictionCone cone;

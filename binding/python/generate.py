@@ -241,6 +241,9 @@ def build_qp(tasks):
   unilateralContact.add_instance_attribute('bodyId', 'int')
   unilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
   unilateralContact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
+  unilateralContact.add_method('sForce', 'Eigen::Vector3d',
+                               [param('const Eigen::VectorXd', 'lambda')],
+                               throw=[dom_ex], custom_name='force')
 
 
   # Constraint

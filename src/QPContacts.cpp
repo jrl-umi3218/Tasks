@@ -17,6 +17,9 @@
 #include "QPContacts.h"
 
 // includes
+// std
+#include <stdexcept>
+
 // Eigen
 #include <Eigen/Geometry>
 
@@ -67,6 +70,34 @@ UnilateralContact::UnilateralContact(int bodyId,
 	cone(frame, nrGen, angle)
 {
 }
+
+
+Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda) const
+{
+	Eigen::Vector3d F(Eigen::Vector3d::Zero());
+
+	for(std::size_t i = 0; i < cone.generators.size(); ++i)
+	{
+		F += cone.generators[i]*lambda(i);
+	}
+
+	return F;
+}
+
+
+Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
+{
+	if(static_cast<std::size_t>(lambda.rows()) != cone.generators.size())
+	{
+		std::ostringstream str;
+		str << "number of lambda and generator mismatch: expected ("
+				<< cone.generators.size() << ") gived (" << lambda.rows() << ")";
+		throw std::domain_error(str.str());
+	}
+
+	return force(lambda);
+}
+
 
 } // namespace qp
 
