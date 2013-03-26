@@ -121,6 +121,8 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 			AEq_.block(0, contPos, nrDof_, cont_[i].generatorsComp.cols()) =
 				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
 					cont_[i].generatorsComp;
+
+			contPos += cont_[i].generatorsComp.cols();
 		}
 	}
 
