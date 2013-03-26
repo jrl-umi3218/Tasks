@@ -173,17 +173,28 @@ void QPSolver::updateInEqConstrSize()
 
 
 void QPSolver::nrVars(const rbd::MultiBody& mb,
-	std::vector<UnilateralContact> cont)
+	std::vector<UnilateralContact> uni,
+	std::vector<BilateralContact> bi)
 {
 	data_.alphaD_ = mb.nrDof();
 	data_.lambda_ = 0;
 	data_.torque_ = (mb.nrDof() - mb.joint(0).dof());
-	data_.uniCont_ = cont;
+	data_.uniCont_ = uni;
+	data_.biCont_ = bi;
 
+	// counting unilateral contact
 	for(const UnilateralContact& c: data_.uniCont_)
 	{
 		data_.lambda_ += c.cone.generators.size()*c.points.size();
 	}
+	data_.lambdaUni_ = data_.lambda_;
+
+	// counting bilateral contact
+	for(const BilateralContact& c: data_.biCont_)
+	{
+		data_.lambda_ += 3*c.points.size();
+	}
+	data_.lambdaBi_ = data_.lambda_ - data_.lambdaUni_;
 
 	data_.nrVars_ = data_.alphaD_ + data_.lambda_ + data_.torque_;
 

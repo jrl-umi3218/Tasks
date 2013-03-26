@@ -184,7 +184,10 @@ def build_qp(tasks):
 
 
   # build list type
-  tasks.add_container('std::vector<tasks::qp::UnilateralContact>', 'tasks::qp::UnilateralContact', 'vector')
+  tasks.add_container('std::vector<tasks::qp::UnilateralContact>',
+                      'tasks::qp::UnilateralContact', 'vector')
+  tasks.add_container('std::vector<tasks::qp::BilateralContact>',
+                      'tasks::qp::BilateralContact', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
 
 
@@ -209,7 +212,8 @@ def build_qp(tasks):
 
   sol.add_method('nrVars', None,
                  [param('const rbd::MultiBody&', 'mb'),
-                  param('std::vector<tasks::qp::UnilateralContact>&', 'cont')])
+                  param('std::vector<tasks::qp::UnilateralContact>&', 'cont'),
+                  param('std::vector<tasks::qp::BilateralContact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)

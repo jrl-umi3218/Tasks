@@ -71,6 +71,17 @@ public:
 	}
 
 
+	int unilateralBegin() const
+	{
+		return alphaD_;
+	}
+
+	int bilateralBegin() const
+	{
+		return alphaD_ + lambdaUni_;
+	}
+
+
 	const std::vector<UnilateralContact> unilateralContacts() const
 	{
 		return uniCont_;
@@ -82,7 +93,11 @@ private:
 	int torque_;
 	int nrVars_;
 
+	int lambdaUni_;
+	int lambdaBi_;
+
 	std::vector<UnilateralContact> uniCont_;
+	std::vector<BilateralContact> biCont_;
 };
 
 

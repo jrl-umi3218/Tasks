@@ -154,7 +154,9 @@ public:
 	void updateEqConstrSize();
 	void updateInEqConstrSize();
 
-	void nrVars(const rbd::MultiBody& mb, std::vector<UnilateralContact> cont);
+	void nrVars(const rbd::MultiBody& mb,
+		std::vector<UnilateralContact> uni,
+		std::vector<BilateralContact> bi);
 	int nrVars() const;
 
 	void addEqualityConstraint(EqualityConstraint* co);

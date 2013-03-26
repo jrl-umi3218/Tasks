@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 
 	qp::QPSolver solver;
 
-	solver.nrVars(mb, {});
+	solver.nrVars(mb, {}, {});
 	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 3);
 
 	solver.updateEqConstrSize();
@@ -319,7 +319,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.addConstraint(&contCstrAcc);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, contVec);
+	solver.nrVars(mb, contVec, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -369,7 +369,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.addConstraint(&contCstrSpeed);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, contVec);
+	solver.nrVars(mb, contVec, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -420,7 +420,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, contVec);
+	solver.nrVars(mb, contVec, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -473,7 +473,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, contVec);
+	solver.nrVars(mb, contVec, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -542,7 +542,7 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 	solver.addConstraint(&jointConstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, {});
+	solver.nrVars(mb, {}, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -629,7 +629,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	solver.addConstraint(&torqueConstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
-	solver.nrVars(mb, {});
+	solver.nrVars(mb, {}, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -721,7 +721,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	solver.addConstraint(&autoCollConstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, {});
+	solver.nrVars(mb, {}, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
@@ -795,7 +795,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	solver.addConstraint(&seCollConstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, {});
+	solver.nrVars(mb, {}, {});
 	solver.updateEqConstrSize();
 	solver.updateInEqConstrSize();
 
