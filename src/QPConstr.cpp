@@ -50,26 +50,27 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb):
 
 
 void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
+	const SolverData& data)
 {
-	cont_.resize(cont.size());
+	const auto& uniCont = data.unilateralContacts();
+	cont_.resize(uniCont.size());
 
-	nrDof_ = alphaD;
-	nrFor_ = lambda;
-	nrTor_ = torque;
+	nrDof_ = data.alphaD();
+	nrFor_ = data.lambda();
+	nrTor_ = data.torque();
 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
-		cont_[i].body = mb.bodyIndexById(cont[i].bodyId);
-		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId);
+		cont_[i].body = mb.bodyIndexById(uniCont[i].bodyId);
+		cont_[i].jac = rbd::Jacobian(mb, uniCont[i].bodyId);
 		cont_[i].jacTrans.resize(6, cont_[i].jac.dof());
-		cont_[i].points = cont[i].points;
-		cont_[i].generators.resize(3, cont[i].cone.generators.size());
-		cont_[i].generatorsComp.resize(3, cont[i].cone.generators.size());
+		cont_[i].points = uniCont[i].points;
+		cont_[i].generators.resize(3, uniCont[i].cone.generators.size());
+		cont_[i].generatorsComp.resize(3, uniCont[i].cone.generators.size());
 
-		for(std::size_t j = 0; j < cont[i].cone.generators.size(); ++j)
+		for(std::size_t j = 0; j < uniCont[i].cone.generators.size(); ++j)
 		{
-			cont_[i].generators.col(j) = cont[i].cone.generators[j];
+			cont_[i].generators.col(j) = uniCont[i].cone.generators[j];
 		}
 	}
 
@@ -185,26 +186,28 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 
 
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
+	const SolverData& data)
 {
+	const auto& uniCont = data.unilateralContacts();
+
 	cont_.clear();
-	nrDof_ = alphaD;
-	nrFor_ = lambda;
-	nrTor_ = torque;
+	nrDof_ = data.alphaD();
+	nrFor_ = data.lambda();
+	nrTor_ = data.torque();
 
 	std::set<int> bodyIdSet;
-	for(std::size_t i = 0; i < cont.size(); ++i)
+	for(std::size_t i = 0; i < uniCont.size(); ++i)
 	{
 		// if fixed base and support body we don't add the contact
-		if(mb.joint(0).type() != rbd::Joint::Fixed || cont[i].bodyId != mb.body(0).id())
+		if(mb.joint(0).type() != rbd::Joint::Fixed || uniCont[i].bodyId != mb.body(0).id())
 		{
 			// only add the constraint once by body
-			if(bodyIdSet.find(cont[i].bodyId) == bodyIdSet.end())
+			if(bodyIdSet.find(uniCont[i].bodyId) == bodyIdSet.end())
 			{
 				ContactData data;
-				data.jac = rbd::Jacobian(mb, cont[i].bodyId);
+				data.jac = rbd::Jacobian(mb, uniCont[i].bodyId);
 				cont_.push_back(data);
-				bodyIdSet.insert(cont[i].bodyId);
+				bodyIdSet.insert(uniCont[i].bodyId);
 			}
 		}
 	}
@@ -277,27 +280,29 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 
 
 void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
+	const SolverData& data)
 {
+	const auto& uniCont = data.unilateralContacts();
+
 	cont_.clear();
-	nrDof_ = alphaD;
-	nrFor_ = lambda;
-	nrTor_ = torque;
+	nrDof_ = data.alphaD();
+	nrFor_ = data.lambda();
+	nrTor_ = data.torque();
 
 	std::set<int> bodyIdSet;
-	for(std::size_t i = 0; i < cont.size(); ++i)
+	for(std::size_t i = 0; i < uniCont.size(); ++i)
 	{
 		// if fixed base and support body we don't add the contact
-		if(mb.joint(0).type() != rbd::Joint::Fixed || cont[i].bodyId != mb.body(0).id())
+		if(mb.joint(0).type() != rbd::Joint::Fixed || uniCont[i].bodyId != mb.body(0).id())
 		{
 			// only add the constraint once by body
-			if(bodyIdSet.find(cont[i].bodyId) == bodyIdSet.end())
+			if(bodyIdSet.find(uniCont[i].bodyId) == bodyIdSet.end())
 			{
 				ContactData data;
-				data.jac = rbd::Jacobian(mb, cont[i].bodyId);
-				data.body = mb.bodyIndexById(cont[i].bodyId);
+				data.jac = rbd::Jacobian(mb, uniCont[i].bodyId);
+				data.body = mb.bodyIndexById(uniCont[i].bodyId);
 				cont_.push_back(data);
-				bodyIdSet.insert(cont[i].bodyId);
+				bodyIdSet.insert(uniCont[i].bodyId);
 			}
 		}
 	}
@@ -386,8 +391,7 @@ JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
 
 
 void JointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	int /* alphaD */, int /* lambda */, int /* torque */,
-	const std::vector<UnilateralContact>& /* cont */)
+	const SolverData& /* data */)
 {
 }
 
@@ -453,10 +457,9 @@ TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
 
 
 void TorqueLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int lambda, int /* torque */,
-	const std::vector<UnilateralContact>& /* cont */)
+	const SolverData& data)
 {
-	begin_ = alphaD + lambda;
+	begin_ = data.torqueBegin();
 }
 
 
@@ -579,9 +582,9 @@ void SelfCollisionConstr::reset()
 
 
 void SelfCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& /* cont */)
+	const SolverData& data)
 {
-	nrVars_ = alphaD + lambda + torque;
+	nrVars_ = data.nrVars();
 }
 
 
@@ -693,6 +696,7 @@ const Eigen::VectorXd& SelfCollisionConstr::BInEq() const
 	*													StaticEnvCollisionConstr
 	*/
 
+
 StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
 	int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
 	int envId, SCD::S_Object* env,
@@ -758,9 +762,9 @@ void StaticEnvCollisionConstr::reset()
 
 
 void StaticEnvCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& /* cont */)
+	const SolverData& data)
 {
-	nrVars_ = alphaD + lambda + torque;
+	nrVars_ = data.nrVars();
 }
 
 

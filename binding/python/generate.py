@@ -135,6 +135,7 @@ def build_qp(tasks):
   qp = tasks.add_cpp_namespace('qp')
 
   sol = qp.add_class('QPSolver')
+  solData = qp.add_class('SolverData')
 
   frictionCone = qp.add_struct('FrictionCone')
   unilateralContact = qp.add_struct('UnilateralContact')
@@ -245,10 +246,7 @@ def build_qp(tasks):
   # Constraint
   constr.add_method('updateNrVars', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('int', 'alphaD'),
-                     param('int', 'lambda'),
-                     param('int', 'torque'),
-                     param('const std::vector<tasks::qp::UnilateralContact>', 'cont')])
+                     param('tasks::qp::SolverData', 'data')])
 
   constr.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),

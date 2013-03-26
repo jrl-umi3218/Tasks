@@ -23,6 +23,7 @@
 #include <Eigen/Core>
 
 // Tasks
+#include "QPSolverData.h"
 #include "QPContacts.h"
 
 
@@ -47,8 +48,7 @@ class Constraint
 public:
 	virtual ~Constraint() {}
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque,
-		const std::vector<UnilateralContact>& cont) = 0;
+		const SolverData& data) = 0;
 
 	virtual void update(const rbd::MultiBody& mb,
 		const rbd::MultiBodyConfig& mbc) = 0;
@@ -113,8 +113,7 @@ public:
 	virtual std::pair<int, int> begin() const = 0;
 
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque,
-		const std::vector<UnilateralContact>& cont) = 0;
+		const SolverData& data) = 0;
 	virtual void update(const rbd::MultiBody& mb,
 		const rbd::MultiBodyConfig& mbc) = 0;
 
@@ -192,9 +191,7 @@ private:
 
 	std::vector<Task*> tasks_;
 
-	int alphaD_, lambda_, torque_;
-	int nrVars_;
-	std::vector<UnilateralContact> cont_;
+	SolverData data_;
 
 	Eigen::MatrixXd A1_;
 	Eigen::VectorXd B1_;

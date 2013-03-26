@@ -57,8 +57,7 @@ public:
 	}
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		int /* alphaD */, int /* lambda */, int /* torque */,
-		const std::vector<UnilateralContact>& /* cont */) {}
+		const SolverData& /* data */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -88,8 +87,7 @@ public:
 	}
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		int /* alphaD */, int /* lambda */, int /* torque */,
-		const std::vector<UnilateralContact>& /* cont */) {}
+		const SolverData& /* data */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -114,8 +112,7 @@ public:
 
 	virtual std::pair<int, int> begin() const;
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque,
-		const std::vector<UnilateralContact>& cont);
+		const SolverData& data);
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -164,8 +161,7 @@ public:
 	}
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		int /* alphaD */, int /* lambda */, int /* torque */,
-		const std::vector<UnilateralContact>& /* cont */) {}
+		const SolverData& /* data */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -320,8 +316,7 @@ public:
 	}
 
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque,
-		const std::vector<UnilateralContact>& cont);
+		const SolverData& data);
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& Q() const;

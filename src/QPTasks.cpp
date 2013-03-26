@@ -154,9 +154,9 @@ std::pair<int, int> LinWeightTask::begin() const
 
 
 void LinWeightTask::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
+	const SolverData& data)
 {
-	task_->updateNrVars(mb, alphaD, lambda, torque, cont);
+	task_->updateNrVars(mb, data);
 }
 
 
@@ -381,25 +381,19 @@ const Eigen::VectorXd& CoMTask::eval()
 
 
 void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int /* lambda */, int /* torque */,
-	const std::vector<UnilateralContact>& cont)
+	const SolverData& data)
 {
 	int nrLambda = 0;
-	begin_ = alphaD;
+	begin_ = data.lambdaBegin();
 
-	std::size_t i;
-	for(i = 0; i < cont.size(); ++i)
+	for(const UnilateralContact& uc: data.unilateralContacts())
 	{
-		if(cont[i].bodyId == bodyId_)
+		if(uc.bodyId == bodyId_)
+		{
+			nrLambda = static_cast<int>(uc.cone.generators.size());
 			break;
-		begin_ += cont[i].cone.generators.size();
-	}
-
-	for(; i < cont.size(); ++i)
-	{
-		if(cont[i].bodyId != bodyId_)
-			break;
-		nrLambda += cont[i].cone.generators.size();
+		}
+		begin_ += static_cast<int>(uc.cone.generators.size());
 	}
 
 	Q_ = dir_*Eigen::MatrixXd::Identity(nrLambda, nrLambda);
