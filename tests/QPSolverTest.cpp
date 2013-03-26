@@ -300,8 +300,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::QPSolver solver;
 
 
-	std::vector<qp::Contact> contVec =
-		{qp::Contact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
+	std::vector<qp::UnilateralContact> contVec =
+		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
 	qp::PositionTask posTask(mb, 3, posD);
@@ -464,7 +464,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// MotionConstr test with contact
 	contVec =
-		{qp::Contact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
+		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
 
 	solver.addEqualityConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);

@@ -50,7 +50,7 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb):
 
 
 void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
+	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
 {
 	cont_.resize(cont.size());
 
@@ -173,7 +173,7 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 
 
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
+	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
 {
 	cont_.clear();
 	nrDof_ = alphaD;
@@ -265,7 +265,7 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 
 
 void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
+	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
 {
 	cont_.clear();
 	nrDof_ = alphaD;
@@ -375,7 +375,7 @@ JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
 
 void JointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 	int /* alphaD */, int /* lambda */, int /* torque */,
-	const std::vector<Contact>& /* cont */)
+	const std::vector<UnilateralContact>& /* cont */)
 {
 }
 
@@ -442,7 +442,7 @@ TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
 
 void TorqueLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 	int alphaD, int lambda, int /* torque */,
-	const std::vector<Contact>& /* cont */)
+	const std::vector<UnilateralContact>& /* cont */)
 {
 	begin_ = alphaD + lambda;
 }
@@ -567,7 +567,7 @@ void SelfCollisionConstr::reset()
 
 
 void SelfCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int lambda, int torque, const std::vector<Contact>& /* cont */)
+	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& /* cont */)
 {
 	nrVars_ = alphaD + lambda + torque;
 }
@@ -746,7 +746,7 @@ void StaticEnvCollisionConstr::reset()
 
 
 void StaticEnvCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int lambda, int torque, const std::vector<Contact>& /* cont */)
+	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& /* cont */)
 {
 	nrVars_ = alphaD + lambda + torque;
 }

@@ -137,7 +137,7 @@ def build_qp(tasks):
   sol = qp.add_class('QPSolver')
 
   frictionCone = qp.add_struct('FrictionCone')
-  contact = qp.add_struct('Contact')
+  unilateralContact = qp.add_struct('UnilateralContact')
 
   constr = qp.add_class('Constraint')
   eqConstr = qp.add_class('EqualityConstraint')
@@ -182,7 +182,7 @@ def build_qp(tasks):
 
 
   # build list type
-  tasks.add_container('std::vector<tasks::qp::Contact>', 'tasks::qp::Contact', 'vector')
+  tasks.add_container('std::vector<tasks::qp::UnilateralContact>', 'tasks::qp::UnilateralContact', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
 
 
@@ -207,7 +207,7 @@ def build_qp(tasks):
 
   sol.add_method('nrVars', None,
                  [param('const rbd::MultiBody&', 'mb'),
-                  param('std::vector<tasks::qp::Contact>&', 'cont')])
+                  param('std::vector<tasks::qp::UnilateralContact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
@@ -230,16 +230,16 @@ def build_qp(tasks):
 
   frictionCone.add_instance_attribute('generators', 'std::vector<Eigen::Vector3d>')
 
-  # Contact
-  contact.add_constructor([])
-  contact.add_constructor([param('int', 'bodyId'),
+  # UnilateralContact
+  unilateralContact.add_constructor([])
+  unilateralContact.add_constructor([param('int', 'bodyId'),
                            param('const std::vector<Eigen::Vector3d>&', 'points'),
                            param('Eigen::Matrix3d', 'frame'),
                            param('int', 'nrGen'), param('double', 'angle')])
 
-  contact.add_instance_attribute('bodyId', 'int')
-  contact.add_instance_attribute('point', 'Eigen::Vector3d')
-  contact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
+  unilateralContact.add_instance_attribute('bodyId', 'int')
+  unilateralContact.add_instance_attribute('point', 'Eigen::Vector3d')
+  unilateralContact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
 
 
   # Constraint
@@ -248,7 +248,7 @@ def build_qp(tasks):
                      param('int', 'alphaD'),
                      param('int', 'lambda'),
                      param('int', 'torque'),
-                     param('const std::vector<tasks::qp::Contact>', 'cont')])
+                     param('const std::vector<tasks::qp::UnilateralContact>', 'cont')])
 
   constr.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),

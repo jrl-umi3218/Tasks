@@ -154,7 +154,7 @@ std::pair<int, int> LinWeightTask::begin() const
 
 
 void LinWeightTask::updateNrVars(const rbd::MultiBody& mb,
-	int alphaD, int lambda, int torque, const std::vector<Contact>& cont)
+	int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont)
 {
 	task_->updateNrVars(mb, alphaD, lambda, torque, cont);
 }
@@ -381,7 +381,8 @@ const Eigen::VectorXd& CoMTask::eval()
 
 
 void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
-	int alphaD, int /* lambda */, int /* torque */, const std::vector<Contact>& cont)
+	int alphaD, int /* lambda */, int /* torque */,
+	const std::vector<UnilateralContact>& cont)
 {
 	int nrLambda = 0;
 	begin_ = alphaD;

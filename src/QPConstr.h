@@ -53,7 +53,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -101,7 +101,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -138,7 +138,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -180,7 +180,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -209,7 +209,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -241,7 +241,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
@@ -299,7 +299,7 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont);
+		int alphaD, int lambda, int torque, const std::vector<UnilateralContact>& cont);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 

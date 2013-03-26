@@ -48,10 +48,10 @@ struct FrictionCone
 };
 
 
-struct Contact
+struct UnilateralContact
 {
-	Contact(){}
-	Contact(int bodyId, const std::vector<Eigen::Vector3d>& points,
+	UnilateralContact(){}
+	UnilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
 		Eigen::Matrix3d frame, int nrGen, double angle);
 
 	int bodyId;
@@ -65,9 +65,11 @@ class Constraint
 public:
 	virtual ~Constraint() {}
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont) = 0;
+		int alphaD, int lambda, int torque,
+		const std::vector<UnilateralContact>& cont) = 0;
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
+	virtual void update(const rbd::MultiBody& mb,
+		const rbd::MultiBodyConfig& mbc) = 0;
 };
 
 
@@ -129,8 +131,10 @@ public:
 	virtual std::pair<int, int> begin() const = 0;
 
 	virtual void updateNrVars(const rbd::MultiBody& mb,
-		int alphaD, int lambda, int torque, const std::vector<Contact>& cont) = 0;
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
+		int alphaD, int lambda, int torque,
+		const std::vector<UnilateralContact>& cont) = 0;
+	virtual void update(const rbd::MultiBody& mb,
+		const rbd::MultiBodyConfig& mbc) = 0;
 
 	virtual const Eigen::MatrixXd& Q() const = 0;
 	virtual const Eigen::VectorXd& C() const = 0;
@@ -148,7 +152,8 @@ public:
 
 	virtual int dim() = 0;
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc) = 0;
+	virtual void update(const rbd::MultiBody& mb,
+		const rbd::MultiBodyConfig& mbc) = 0;
 
 	virtual const Eigen::MatrixXd& jac() = 0;
 	virtual const Eigen::MatrixXd& jacDot() = 0;
@@ -168,7 +173,7 @@ public:
 	void updateEqConstrSize();
 	void updateInEqConstrSize();
 
-	void nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont);
+	void nrVars(const rbd::MultiBody& mb, std::vector<UnilateralContact> cont);
 	int nrVars() const;
 
 	void addEqualityConstraint(EqualityConstraint* co);
@@ -207,7 +212,7 @@ private:
 
 	int alphaD_, lambda_, torque_;
 	int nrVars_;
-	std::vector<Contact> cont_;
+	std::vector<UnilateralContact> cont_;
 
 	Eigen::MatrixXd A1_;
 	Eigen::VectorXd B1_;

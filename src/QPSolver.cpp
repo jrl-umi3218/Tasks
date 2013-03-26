@@ -63,16 +63,17 @@ FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle):
 
 
 /**
-	*													Contact
+	*													UnilateralContact
 	*/
 
 
 
-Contact::Contact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-  Eigen::Matrix3d frame, int nrGen, double angle):
-  bodyId(bodyId),
-  point(Eigen::Vector3d::Zero()),
-  cone(frame, nrGen, angle)
+UnilateralContact::UnilateralContact(int bodyId,
+	const std::vector<Eigen::Vector3d>& points,
+	Eigen::Matrix3d frame, int nrGen, double angle):
+	bodyId(bodyId),
+	point(Eigen::Vector3d::Zero()),
+	cone(frame, nrGen, angle)
 {
 	for(const Eigen::Vector3d& p: points)
 		point += p;
@@ -249,14 +250,15 @@ void QPSolver::updateInEqConstrSize()
 }
 
 
-void QPSolver::nrVars(const rbd::MultiBody& mb, std::vector<Contact> cont)
+void QPSolver::nrVars(const rbd::MultiBody& mb,
+	std::vector<UnilateralContact> cont)
 {
 	alphaD_ = mb.nrDof();
 	lambda_ = 0;
 	torque_ = (mb.nrDof() - mb.joint(0).dof());
 	cont_ = cont;
 
-	for(const Contact& c: cont_)
+	for(const UnilateralContact& c: cont_)
 	{
 		lambda_ += c.cone.generators.size();
 	}
