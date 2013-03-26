@@ -21,9 +21,6 @@
 #include <limits>
 #include <cmath>
 
-//boost
-#include <boost/math/constants/constants.hpp>
-
 // RBDyn
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
@@ -37,49 +34,6 @@ namespace tasks
 
 namespace qp
 {
-
-
-/**
-	*													FrictionCone
-	*/
-
-
-
-FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle):
-	generators(nrGen)
-{
-	Eigen::Vector3d normal = frame.col(2);
-	Eigen::Vector3d tan = frame.col(0);
-
-	Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan)*normal;
-	double step = (boost::math::constants::pi<double>()*2.)/nrGen;
-
-	for(int i = 0; i < nrGen; ++i)
-	{
-		generators[i] = Eigen::AngleAxisd(step*i, normal)*gen;
-	}
-}
-
-
-
-/**
-	*													UnilateralContact
-	*/
-
-
-
-UnilateralContact::UnilateralContact(int bodyId,
-	const std::vector<Eigen::Vector3d>& points,
-	Eigen::Matrix3d frame, int nrGen, double angle):
-	bodyId(bodyId),
-	point(Eigen::Vector3d::Zero()),
-	cone(frame, nrGen, angle)
-{
-	for(const Eigen::Vector3d& p: points)
-		point += p;
-	point /= points.size();
-}
-
 
 
 /**
@@ -260,7 +214,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 
 	for(const UnilateralContact& c: cont_)
 	{
-		lambda_ += c.cone.generators.size();
+		data_.lambda_ += c.cone.generators.size()*c.points.size();
 	}
 
 	nrVars_ = alphaD_ + lambda_ + torque_;

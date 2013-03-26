@@ -1,8 +1,10 @@
 enable_language(Fortran)
 
 set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp QL.cpp QL.f
+            QPContacts.cpp
             PGJacobian.cpp PostureGenerator.cpp PGConstr.cpp)
 set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h QL.h
+            QPContacts.h
             PGJacobian.h PostureGenerator.h PGConstr.h)
 
 add_definitions("-DWITH_OPENGL")

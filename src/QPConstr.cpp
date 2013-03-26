@@ -61,9 +61,16 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		cont_[i].body = mb.bodyIndexById(cont[i].bodyId);
-		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId, cont[i].point);
-		cont_[i].point = cont[i].point;
-		cont_[i].cone = cont[i].cone;
+		cont_[i].jac = rbd::Jacobian(mb, cont[i].bodyId);
+		cont_[i].jacTrans.resize(6, cont_[i].jac.dof());
+		cont_[i].points = cont[i].points;
+		cont_[i].generators.resize(3, cont[i].cone.generators.size());
+		cont_[i].generatorsComp.resize(3, cont[i].cone.generators.size());
+
+		for(std::size_t j = 0; j < cont[i].cone.generators.size(); ++j)
+		{
+			cont_[i].generators.col(j) = cont[i].cone.generators[j];
+		}
 	}
 
 	AEq_.resize(nrDof_, nrDof_ + nrFor_ + nrTor_);
@@ -99,15 +106,20 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
+		cont_[i].generatorsComp =
+			mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].generators;
 
-		for(std::size_t j = 0; j < cont_[i].cone.generators.size(); ++j)
+		// for each contact point we compute all the torques
+		// due to each generator of the friction cone
+		for(std::size_t j = 0; j < cont_[i].points.size(); ++j)
 		{
-			AEq_.block(0, contPos, nrDof_, 1) =
-				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
-					mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].cone.generators[j];
+			cont_[i].jac.translateJacobian(jac, mbc,
+				cont_[i].points[j], cont_[i].jacTrans);
+			cont_[i].jac.fullJacobian(mb, cont_[i].jacTrans, fullJac_);
 
-			contPos += 1;
+			AEq_.block(0, contPos, nrDof_, cont_[i].generatorsComp.cols()) =
+				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
+					cont_[i].generatorsComp;
 		}
 	}
 

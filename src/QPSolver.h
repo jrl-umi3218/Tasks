@@ -22,6 +22,9 @@
 // Eigen
 #include <Eigen/Core>
 
+// Tasks
+#include "QPContacts.h"
+
 
 // forward declaration
 // RBDyn
@@ -37,27 +40,6 @@ namespace tasks
 
 namespace qp
 {
-
-
-struct FrictionCone
-{
-	FrictionCone(){}
-	FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle);
-
-	std::vector<Eigen::Vector3d> generators;
-};
-
-
-struct UnilateralContact
-{
-	UnilateralContact(){}
-	UnilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-		Eigen::Matrix3d frame, int nrGen, double angle);
-
-	int bodyId;
-	Eigen::Vector3d point;
-	FrictionCone cone;
-};
 
 
 class Constraint

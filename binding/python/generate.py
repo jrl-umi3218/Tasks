@@ -238,7 +238,7 @@ def build_qp(tasks):
                            param('int', 'nrGen'), param('double', 'angle')])
 
   unilateralContact.add_instance_attribute('bodyId', 'int')
-  unilateralContact.add_instance_attribute('point', 'Eigen::Vector3d')
+  unilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
   unilateralContact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
 
 

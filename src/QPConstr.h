@@ -74,8 +74,12 @@ private:
 	{
 		int body;
 		rbd::Jacobian jac;
-		Eigen::Vector3d point;
-		FrictionCone cone;
+		// Hold the translated jacobian
+		Eigen::MatrixXd jacTrans;
+		std::vector<Eigen::Vector3d> points;
+		Eigen::Matrix<double, 3, Eigen::Dynamic> generators;
+		// Hold the generator in world frame
+		Eigen::Matrix<double, 3, Eigen::Dynamic> generatorsComp;
 	};
 
 private:
