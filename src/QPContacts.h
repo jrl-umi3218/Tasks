@@ -64,11 +64,14 @@ struct BilateralContact
 {
 	BilateralContact(){}
 	BilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-		Eigen::Matrix3d frame, int nrGen, double angle);
+		Eigen::Matrix3d frame);
+
+	/// @return Force vector of the contact.
+	Eigen::Vector3d force(const Eigen::Vector3d& lambda) const;
 
 	int bodyId;
-	Eigen::Vector3d point;
-	FrictionCone cone;
+	std::vector<Eigen::Vector3d> points;
+	Eigen::Matrix3d frame;
 };
 
 

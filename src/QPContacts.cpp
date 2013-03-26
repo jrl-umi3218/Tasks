@@ -99,6 +99,28 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
 }
 
 
+
+/**
+	*													UnilateralContact
+	*/
+
+
+BilateralContact::BilateralContact(int bId,
+	const std::vector<Eigen::Vector3d>& pts,
+	Eigen::Matrix3d f):
+	bodyId(bId),
+	points(pts),
+	frame(f)
+{
+}
+
+
+Eigen::Vector3d BilateralContact::force(const Eigen::Vector3d& lambda) const
+{
+	return (frame.array().rowwise()*lambda.transpose().array()).colwise().sum();
+}
+
+
 } // namespace qp
 
 } // namespace tasks

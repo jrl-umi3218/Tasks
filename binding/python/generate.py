@@ -139,6 +139,7 @@ def build_qp(tasks):
 
   frictionCone = qp.add_struct('FrictionCone')
   unilateralContact = qp.add_struct('UnilateralContact')
+  bilateralContact = qp.add_struct('BilateralContact')
 
   constr = qp.add_class('Constraint')
   eqConstr = qp.add_class('EqualityConstraint')
@@ -242,8 +243,20 @@ def build_qp(tasks):
   unilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
   unilateralContact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
   unilateralContact.add_method('sForce', 'Eigen::Vector3d',
-                               [param('const Eigen::VectorXd', 'lambda')],
+                               [param('const Eigen::VectorXd&', 'lambda')],
                                throw=[dom_ex], custom_name='force')
+
+  # BilateralContact
+  bilateralContact.add_constructor([])
+  bilateralContact.add_constructor([param('int', 'bodyId'),
+                           param('const std::vector<Eigen::Vector3d>&', 'points'),
+                           param('Eigen::Matrix3d', 'frame')])
+
+  bilateralContact.add_instance_attribute('bodyId', 'int')
+  bilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
+  bilateralContact.add_instance_attribute('frame', 'Eigen::Matrix3d')
+  bilateralContact.add_method('force', 'Eigen::Vector3d',
+                               [param('const Eigen::Vector3d&', 'lambda')])
 
 
   # Constraint
