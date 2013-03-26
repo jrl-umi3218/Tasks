@@ -124,9 +124,9 @@ BOOST_AUTO_TEST_CASE(FrictionConeTest)
 	}
 
 	Matrix3d rep;
-	rep << 0., 0., 1.,
-				 1., 0., 0.,
-				 0., 1., 0.;
+	rep << 0., 1., 0.,
+				 0., 0., 1.,
+				 1., 0., 0.;
 	qp::FrictionCone cone2(rep, 4, angle);
 	for(Vector3d v: cone2.generators)
 	{

@@ -42,8 +42,8 @@ namespace qp
 FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle):
 	generators(nrGen)
 {
-	Eigen::Vector3d normal = frame.col(2);
-	Eigen::Vector3d tan = frame.col(0);
+	Eigen::Vector3d normal = frame.row(2);
+	Eigen::Vector3d tan = frame.row(0);
 
 	Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan)*normal;
 	double step = (boost::math::constants::pi<double>()*2.)/nrGen;
