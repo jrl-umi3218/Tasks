@@ -42,7 +42,7 @@ namespace qp
 
 
 
-QPSolver::QPSolver():
+QPSolver::QPSolver(bool silent):
   constr_(),
   eqConstr_(),
   inEqConstr_(),
@@ -51,7 +51,8 @@ QPSolver::QPSolver():
   A1_(),B1_(),A2_(),B2_(),
   XL_(),XU_(),
   Q_(),C_(),
-  res_()
+  res_(),
+  silent_(silent)
 { }
 
 
@@ -129,7 +130,7 @@ bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 	while(!success && iter < 1e-3)
 	{
 		success = solveQP(A1_.cols(), A1_.rows(), A2_.rows(),
-			Q_, C_, A1_, B1_, A2_, B2_, XL_, XU_, res_, iter);
+			Q_, C_, A1_, B1_, A2_, B2_, XL_, XU_, res_, iter, silent_);
 		iter *= 10.;
 	}
 

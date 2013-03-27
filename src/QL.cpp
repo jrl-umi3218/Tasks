@@ -33,7 +33,7 @@ bool solveQP(int N, int ME, int mi,
 		/*const*/ Eigen::VectorXd& XLower,
 		/*const*/ Eigen::VectorXd& XUpper,
 		Eigen::VectorXd& X,
-		double epsilon)
+		double epsilon, bool silent)
 {
 	int M = ME+mi;
 	int MMAX=M+1;
@@ -61,7 +61,7 @@ bool solveQP(int N, int ME, int mi,
 	double *U=new double[(MNN)];
 	int IOUT=6;
 	int IFAIL;
-	int IPRINT=1;
+	int IPRINT=silent ? 0 : 1;
 
 	int LWAR= std::ceil(3.0*(NMAX)*(NMAX)/2.0 + 10*(NMAX) + 2*(MMAX))+1;
 	int LIWAR= N;
@@ -84,7 +84,7 @@ bool solveQP(int N, int ME, int mi,
 	delete[] IWAR;
 
 
-	if(IFAIL!=0)
+	if(!silent && IFAIL!=0)
 		std::cerr<<"QP resolution failed. IFAIL: "<<IFAIL<<std::endl;
 
 	return (IFAIL==0);

@@ -147,7 +147,7 @@ public:
 class QPSolver
 {
 public:
-	QPSolver();
+	QPSolver(bool silent=false);
 
 	bool update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 
@@ -208,6 +208,8 @@ private:
 	Eigen::VectorXd C_;
 
 	Eigen::VectorXd res_;
+
+	bool silent_;
 };
 
 } // namespace qp

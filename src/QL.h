@@ -38,7 +38,7 @@ bool solveQP(int N, int ME, int mi,
 		/*const*/ Eigen::VectorXd& XLower,
 		/*const*/ Eigen::VectorXd& XUpper,
 		Eigen::VectorXd& X,
-		double epsilon);
+		double epsilon, bool silent);
 
 } // namespace tasks
 
