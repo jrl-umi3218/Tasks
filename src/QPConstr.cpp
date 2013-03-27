@@ -34,6 +34,17 @@ namespace tasks
 namespace qp
 {
 
+MotionConstr::ContactData::ContactData(const rbd::MultiBody& mb, int b,
+  std::vector<Eigen::Vector3d> p, int nrGen):
+  jac(mb, b),
+  body(jac.jointsPath().back()),
+  points(p),
+  generators(3, nrGen),
+  jacTrans(6, jac.dof()),
+  generatorsComp(3, nrGen)
+{ }
+
+
 MotionConstr::MotionConstr(const rbd::MultiBody& mb):
 	fd_(mb),
 	cont_(),
@@ -53,25 +64,32 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
 	const auto& uniCont = data.unilateralContacts();
-	cont_.resize(uniCont.size());
+	const auto& biCont = data.bilateralContacts();
+	cont_.resize(data.nrContacts());
 
 	nrDof_ = data.alphaD();
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
 
-	for(std::size_t i = 0; i < cont_.size(); ++i)
+	std::size_t iCont = 0;
+	for(const UnilateralContact& c: uniCont)
 	{
-		cont_[i].body = mb.bodyIndexById(uniCont[i].bodyId);
-		cont_[i].jac = rbd::Jacobian(mb, uniCont[i].bodyId);
-		cont_[i].jacTrans.resize(6, cont_[i].jac.dof());
-		cont_[i].points = uniCont[i].points;
-		cont_[i].generators.resize(3, uniCont[i].cone.generators.size());
-		cont_[i].generatorsComp.resize(3, uniCont[i].cone.generators.size());
-
-		for(std::size_t j = 0; j < uniCont[i].cone.generators.size(); ++j)
+		cont_[iCont] = ContactData(mb, c.bodyId, c.points,
+			static_cast<int>(c.cone.generators.size()));
+		for(std::size_t i = 0; i < c.cone.generators.size(); ++i)
 		{
-			cont_[i].generators.col(j) = uniCont[i].cone.generators[j];
+			cont_[iCont].generators.col(i) = c.cone.generators[i];
 		}
+
+		++iCont;
+	}
+
+	for(const BilateralContact& c: biCont)
+	{
+		cont_[iCont] = ContactData(mb, c.bodyId, c.points, 3);
+		cont_[iCont].generators = c.frame;
+
+		++iCont;
 	}
 
 	AEq_.resize(nrDof_, nrDof_ + nrFor_ + nrTor_);
@@ -175,6 +193,37 @@ const Eigen::VectorXd& MotionConstr::Upper() const
 	*/
 
 
+std::set<int> bodyIdInContact(const rbd::MultiBody& mb,
+	const SolverData& data)
+{
+	std::set<int> ret;
+	auto isValid = [&mb](int bodyId)
+	{
+		// if fixed base and support body we don't add the contact
+		return !(bodyId == mb.body(0).id() &&
+			mb.joint(0).type() == rbd::Joint::Fixed);
+	};
+
+	for(const UnilateralContact& c: data.unilateralContacts())
+	{
+		if(isValid(c.bodyId))
+		{
+			ret.insert(c.bodyId);
+		}
+	};
+
+	for(const BilateralContact& c: data.bilateralContacts())
+	{
+		if(isValid(c.bodyId))
+		{
+			ret.insert(c.bodyId);
+		}
+	}
+
+	return std::move(ret);
+}
+
+
 ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 	cont_(),
 	fullJac_(6, mb.nrDof()),
@@ -190,28 +239,15 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
-	const auto& uniCont = data.unilateralContacts();
-
 	cont_.clear();
 	nrDof_ = data.alphaD();
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
 
-	std::set<int> bodyIdSet;
-	for(std::size_t i = 0; i < uniCont.size(); ++i)
+	std::set<int> bodyIdSet = bodyIdInContact(mb, data);
+	for(int bodyId: bodyIdSet)
 	{
-		// if fixed base and support body we don't add the contact
-		if(mb.joint(0).type() != rbd::Joint::Fixed || uniCont[i].bodyId != mb.body(0).id())
-		{
-			// only add the constraint once by body
-			if(bodyIdSet.find(uniCont[i].bodyId) == bodyIdSet.end())
-			{
-				ContactData data;
-				data.jac = rbd::Jacobian(mb, uniCont[i].bodyId);
-				cont_.push_back(data);
-				bodyIdSet.insert(uniCont[i].bodyId);
-			}
-		}
+		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
 	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
@@ -284,29 +320,15 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
-	const auto& uniCont = data.unilateralContacts();
-
 	cont_.clear();
 	nrDof_ = data.alphaD();
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
 
-	std::set<int> bodyIdSet;
-	for(std::size_t i = 0; i < uniCont.size(); ++i)
+	std::set<int> bodyIdSet = bodyIdInContact(mb, data);
+	for(int bodyId: bodyIdSet)
 	{
-		// if fixed base and support body we don't add the contact
-		if(mb.joint(0).type() != rbd::Joint::Fixed || uniCont[i].bodyId != mb.body(0).id())
-		{
-			// only add the constraint once by body
-			if(bodyIdSet.find(uniCont[i].bodyId) == bodyIdSet.end())
-			{
-				ContactData data;
-				data.jac = rbd::Jacobian(mb, uniCont[i].bodyId);
-				data.body = mb.bodyIndexById(uniCont[i].bodyId);
-				cont_.push_back(data);
-				bodyIdSet.insert(uniCont[i].bodyId);
-			}
-		}
+		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
 	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);

@@ -71,6 +71,11 @@ public:
 	}
 
 
+	int nrContacts() const
+	{
+		return static_cast<int>(uniCont_.size() + biCont_.size());
+	}
+
 	int unilateralBegin() const
 	{
 		return alphaD_;
@@ -82,9 +87,14 @@ public:
 	}
 
 
-	const std::vector<UnilateralContact> unilateralContacts() const
+	const std::vector<UnilateralContact>& unilateralContacts() const
 	{
 		return uniCont_;
+	}
+
+	const std::vector<BilateralContact>& bilateralContacts() const
+	{
+		return biCont_;
 	}
 
 private:

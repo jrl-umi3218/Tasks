@@ -72,12 +72,17 @@ public:
 private:
 	struct ContactData
 	{
-		int body;
+		ContactData() {}
+		ContactData(const rbd::MultiBody& mb, int body,
+			std::vector<Eigen::Vector3d> points, int nrGen);
+
+
 		rbd::Jacobian jac;
-		// Hold the translated jacobian
-		Eigen::MatrixXd jacTrans;
+		int body;
 		std::vector<Eigen::Vector3d> points;
 		Eigen::Matrix<double, 3, Eigen::Dynamic> generators;
+		// Hold the translated jacobian
+		Eigen::MatrixXd jacTrans;
 		// Hold the generator in world frame
 		Eigen::Matrix<double, 3, Eigen::Dynamic> generatorsComp;
 	};
@@ -118,6 +123,11 @@ public:
 private:
 	struct ContactData
 	{
+		ContactData(rbd::Jacobian j):
+			jac(j)
+		{}
+
+
 		rbd::Jacobian jac;
 	};
 
@@ -155,6 +165,11 @@ public:
 private:
 	struct ContactData
 	{
+		ContactData(rbd::Jacobian j):
+			jac(j),
+			body(j.jointsPath().back())
+		{}
+
 		rbd::Jacobian jac;
 		int body;
 	};
