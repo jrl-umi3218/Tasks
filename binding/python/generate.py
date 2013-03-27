@@ -232,7 +232,7 @@ def build_qp(tasks):
   # FrictionCone
   frictionCone.add_constructor([])
   frictionCone.add_constructor([param('Eigen::Matrix3d', 'frame'), param('int', 'nrGen'),
-                                param('double', 'angle')])
+                                param('double', 'mu')])
 
   frictionCone.add_instance_attribute('generators', 'std::vector<Eigen::Vector3d>')
 
@@ -241,7 +241,7 @@ def build_qp(tasks):
   unilateralContact.add_constructor([param('int', 'bodyId'),
                            param('const std::vector<Eigen::Vector3d>&', 'points'),
                            param('Eigen::Matrix3d', 'frame'),
-                           param('int', 'nrGen'), param('double', 'angle')])
+                           param('int', 'nrGen'), param('double', 'mu')])
 
   unilateralContact.add_instance_attribute('bodyId', 'int')
   unilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')

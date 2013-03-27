@@ -33,7 +33,7 @@ namespace qp
 struct FrictionCone
 {
 	FrictionCone(){}
-	FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle);
+	FrictionCone(Eigen::Matrix3d frame, int nrGen, double mu);
 
 	std::vector<Eigen::Vector3d> generators;
 };
@@ -43,7 +43,7 @@ struct UnilateralContact
 {
 	UnilateralContact(){}
 	UnilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-		Eigen::Matrix3d frame, int nrGen, double angle);
+		Eigen::Matrix3d frame, int nrGen, double mu);
 
 	/// @return Force vector of the contact.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;

@@ -39,11 +39,12 @@ namespace qp
 
 
 
-FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle):
+FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double mu):
 	generators(nrGen)
 {
 	Eigen::Vector3d normal = frame.row(2);
 	Eigen::Vector3d tan = frame.row(0);
+	double angle = std::atan(mu);
 
 	Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan)*normal;
 	double step = (boost::math::constants::pi<double>()*2.)/nrGen;
@@ -64,10 +65,10 @@ FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double angle):
 
 UnilateralContact::UnilateralContact(int bodyId,
 	const std::vector<Eigen::Vector3d>& points,
-	Eigen::Matrix3d frame, int nrGen, double angle):
+	Eigen::Matrix3d frame, int nrGen, double mu):
 	bodyId(bodyId),
 	points(points),
-	cone(frame, nrGen, angle)
+	cone(frame, nrGen, mu)
 {
 }
 

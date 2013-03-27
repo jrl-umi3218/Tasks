@@ -109,25 +109,26 @@ BOOST_AUTO_TEST_CASE(FrictionConeTest)
 	namespace cst = boost::math::constants;
 
 	double angle = cst::pi<double>()/4.;
-	qp::FrictionCone cone(Matrix3d::Identity(), 4, angle);
+	double mu = std::tan(angle);
 
+	qp::FrictionCone cone(Matrix3d::Identity(), 4, mu);
 	for(Vector3d v: cone.generators)
 	{
 		// check cone equation x^2 + y^2 = z^2(tan(angle)^2)
 		BOOST_CHECK_SMALL(std::pow(v.x(), 2) + std::pow(v.y(), 2) -
-			std::pow(v.z(), 2)*std::pow(std::tan(angle), 2), 0.00001);
+			std::pow(v.z(), 2)*std::pow(mu, 2), 0.00001);
 	}
 
 	Matrix3d rep;
 	rep << 0., 1., 0.,
 				 0., 0., 1.,
 				 1., 0., 0.;
-	qp::FrictionCone cone2(rep, 4, angle);
+	qp::FrictionCone cone2(rep, 4, mu);
 	for(Vector3d v: cone2.generators)
 	{
 		// check cone equation in rep frame z^2 + y^2 = x^2(tan(angle)^2)
 		BOOST_CHECK_SMALL(std::pow(v.z(), 2) + std::pow(v.y(), 2) -
-			std::pow(v.x(), 2)*std::pow(std::tan(angle), 2), 0.00001);
+			std::pow(v.x(), 2)*std::pow(mu, 2), 0.00001);
 	}
 }
 
@@ -296,7 +297,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
+		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3,
+														std::tan(cst::pi<double>()/4.))};
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
 	qp::PositionTask posTask(mb, 3, posD);
@@ -459,7 +461,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// MotionConstr test with contact
 	contVec =
-		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3, cst::pi<double>()/4.)};
+		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3,
+														std::tan(cst::pi<double>()/4.))};
 
 	solver.addEqualityConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
