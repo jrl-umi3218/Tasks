@@ -44,7 +44,8 @@
 #include "QPSolver.h"
 #include "QPTasks.h"
 
-std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm()
+/// @return An simple ZXZ arm with Y as up axis.
+std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed=true)
 {
 	using namespace Eigen;
 	using namespace sva;
@@ -89,16 +90,10 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm()
 	mbg.linkBodies(1, to, 2, from, 1);
 	mbg.linkBodies(2, to, 3, from, 2);
 
-	MultiBody mb = mbg.makeMultiBody(0, true);
+	MultiBody mb = mbg.makeMultiBody(0, isFixed);
 
 	MultiBodyConfig mbc(mb);
-
-	mbc.q = {{}, {0.}, {0.}, {0.}};
-	mbc.alpha = {{}, {0.}, {0.}, {0.}};
-	mbc.alphaD = {{}, {0.}, {0.}, {0.}};
-	mbc.jointTorque = {{}, {0.}, {0.}, {0.}};
-	ForceVec f0(Vector6d::Zero());
-	mbc.force = {f0, f0, f0, f0};
+	mbc.zero(mb);
 
 	return std::make_tuple(mb, mbc);
 }
@@ -828,4 +823,81 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	solver.removeConstraint(&seCollConstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
+
+BOOST_AUTO_TEST_CASE(QPBilatContactTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm(false);
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+
+	qp::QPSolver solver(true);
+
+	qp::MotionConstr motionCstr(mb);
+	qp::ContactAccConstr contCstrAcc(mb);
+
+	solver.addEqualityConstraint(&motionCstr);
+	solver.addBoundConstraint(&motionCstr);
+	solver.addConstraint(&motionCstr);
+
+	solver.addEqualityConstraint(&contCstrAcc);
+	solver.addConstraint(&contCstrAcc);
+
+	std::vector<Eigen::Vector3d> points =
+		{
+			Vector3d(0.1, 0.1, 0.),
+			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, -0.1, 0.),
+			Vector3d(0.1, -0.1, 0.)
+		};
+
+	std::vector<qp::UnilateralContact> uni =
+		{qp::UnilateralContact(0, points, Matrix3d::Identity(), 3, 0.7)};
+	std::vector<qp::BilateralContact> bi =
+		{qp::BilateralContact(0, points, Matrix3d::Identity())};
+
+	solver.nrVars(mb, uni, {});
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	// This stance with unilateral contac is impossible so the solver must fail
+	mbcSolv = mbcInit;
+	BOOST_REQUIRE(!solver.update(mb, mbcSolv));
+
+
+	// We test it again with bilateral contact to check that the stance is now
+	// valid
+	solver.nrVars(mb, {}, bi);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 10; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+
+	solver.removeEqualityConstraint(&contCstrAcc);
+	solver.removeConstraint(&contCstrAcc);
+
+	solver.removeConstraint(&motionCstr);
+	solver.removeBoundConstraint(&motionCstr);
+	solver.removeEqualityConstraint(&motionCstr);
 }
