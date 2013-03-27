@@ -65,6 +65,7 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 {
 	const auto& uniCont = data.unilateralContacts();
 	const auto& biCont = data.bilateralContacts();
+	const auto& sliCont = data.slidingContacts();
 	cont_.resize(data.nrContacts());
 
 	nrDof_ = data.alphaD();
@@ -85,6 +86,14 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 	}
 
 	for(const BilateralContact& c: biCont)
+	{
+		cont_[iCont] = ContactData(mb, c.bodyId, c.points, 3);
+		cont_[iCont].generators = c.frame;
+
+		++iCont;
+	}
+
+	for(const SlidingContact& c: sliCont)
 	{
 		cont_[iCont] = ContactData(mb, c.bodyId, c.points, 3);
 		cont_[iCont].generators = c.frame;
