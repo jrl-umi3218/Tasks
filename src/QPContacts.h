@@ -75,6 +75,22 @@ struct BilateralContact
 };
 
 
+struct SlidingContact
+{
+	SlidingContact(){}
+	SlidingContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
+		Eigen::Matrix3d frame, double mu);
+
+	/// @return Force vector of the contact.
+	Eigen::Vector3d force(const Eigen::Vector3d& lambda) const;
+
+	int bodyId;
+	std::vector<Eigen::Vector3d> points;
+	Eigen::Matrix3d frame;
+	double mu;
+};
+
+
 } // namespace qp
 
 } // namespace tasks

@@ -140,6 +140,7 @@ def build_qp(tasks):
   frictionCone = qp.add_struct('FrictionCone')
   unilateralContact = qp.add_struct('UnilateralContact')
   bilateralContact = qp.add_struct('BilateralContact')
+  slidingContact = qp.add_struct('SlidingContact')
 
   constr = qp.add_class('Constraint')
   eqConstr = qp.add_class('EqualityConstraint')
@@ -188,6 +189,8 @@ def build_qp(tasks):
                       'tasks::qp::UnilateralContact', 'vector')
   tasks.add_container('std::vector<tasks::qp::BilateralContact>',
                       'tasks::qp::BilateralContact', 'vector')
+  tasks.add_container('std::vector<tasks::qp::SlidingContact>',
+                      'tasks::qp::SlidingContact', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
 
 
@@ -212,8 +215,9 @@ def build_qp(tasks):
 
   sol.add_method('nrVars', None,
                  [param('const rbd::MultiBody&', 'mb'),
-                  param('std::vector<tasks::qp::UnilateralContact>&', 'cont'),
-                  param('std::vector<tasks::qp::BilateralContact>&', 'cont')])
+                  param('std::vector<tasks::qp::UnilateralContact>&', 'uni'),
+                  param('std::vector<tasks::qp::BilateralContact>&', 'bi'),
+                  param('std::vector<tasks::qp::SlidingContact>&', 'sli')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
   add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
@@ -260,6 +264,20 @@ def build_qp(tasks):
   bilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
   bilateralContact.add_instance_attribute('frame', 'Eigen::Matrix3d')
   bilateralContact.add_method('force', 'Eigen::Vector3d',
+                               [param('const Eigen::Vector3d&', 'lambda')])
+
+  # SlidingContact
+  slidingContact.add_constructor([])
+  slidingContact.add_constructor([param('int', 'bodyId'),
+                 param('const std::vector<Eigen::Vector3d>&', 'points'),
+                 param('Eigen::Matrix3d', 'frame'),
+                 param('double', 'mu')])
+
+  slidingContact.add_instance_attribute('bodyId', 'int')
+  slidingContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
+  slidingContact.add_instance_attribute('frame', 'Eigen::Matrix3d')
+  slidingContact.add_instance_attribute('mu', 'double')
+  slidingContact.add_method('force', 'Eigen::Vector3d',
                                [param('const Eigen::Vector3d&', 'lambda')])
 
 

@@ -73,7 +73,7 @@ public:
 
 	int nrContacts() const
 	{
-		return static_cast<int>(uniCont_.size() + biCont_.size());
+		return static_cast<int>(uniCont_.size() + biCont_.size() + sliCont_.size());
 	}
 
 	int unilateralBegin() const
@@ -84,6 +84,11 @@ public:
 	int bilateralBegin() const
 	{
 		return alphaD_ + lambdaUni_;
+	}
+
+	int slidingBegin() const
+	{
+		return alphaD_ + lambdaUni_ + lambdaBi_;
 	}
 
 
@@ -97,6 +102,11 @@ public:
 		return biCont_;
 	}
 
+	const std::vector<SlidingContact>& slidingContacts() const
+	{
+		return sliCont_;
+	}
+
 private:
 	int alphaD_;
 	int lambda_;
@@ -105,9 +115,11 @@ private:
 
 	int lambdaUni_;
 	int lambdaBi_;
+	int lambdaSli_;
 
 	std::vector<UnilateralContact> uniCont_;
 	std::vector<BilateralContact> biCont_;
+	std::vector<SlidingContact> sliCont_;
 };
 
 

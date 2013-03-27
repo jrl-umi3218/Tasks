@@ -29,7 +29,8 @@ SolverData::SolverData():
   torque_(0),
   nrVars_(0),
   uniCont_(),
-  biCont_()
+  biCont_(),
+  sliCont_()
 {}
 
 } // namespace qp

@@ -102,7 +102,7 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
 
 
 /**
-	*													UnilateralContact
+	*													BilateralContact
 	*/
 
 
@@ -117,6 +117,28 @@ BilateralContact::BilateralContact(int bId,
 
 
 Eigen::Vector3d BilateralContact::force(const Eigen::Vector3d& lambda) const
+{
+	return (frame.array().rowwise()*lambda.transpose().array()).colwise().sum();
+}
+
+
+/**
+	*													SlidingContact
+	*/
+
+
+SlidingContact::SlidingContact(int bId,
+	const std::vector<Eigen::Vector3d>& pts,
+	Eigen::Matrix3d f, double m):
+	bodyId(bId),
+	points(pts),
+	frame(f),
+	mu(m)
+{
+}
+
+
+Eigen::Vector3d SlidingContact::force(const Eigen::Vector3d& lambda) const
 {
 	return (frame.array().rowwise()*lambda.transpose().array()).colwise().sum();
 }
