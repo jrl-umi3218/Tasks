@@ -78,7 +78,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed=true)
 	mbg.addJoint(j2);
 
 	//  Root     j0       j1     j2
-	//  ---- b0 ---- b1 ---- b2 ----b3
+	//  ---- b0 ---- b1 ---- b2 ---- b3
 	//  Fixed    Z       X       Z
 
 
@@ -98,6 +98,59 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed=true)
 	return std::make_tuple(mb, mbc);
 }
 
+/// @return An simple ZZZ arm with Y as up axis.
+std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZZZArm(bool isFixed=true)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+
+	MultiBodyGraph mbg;
+
+	double mass = 1.;
+	Matrix3d I = Matrix3d::Identity();
+	Vector3d h = Vector3d::Zero();
+
+	RBInertia rbi(mass, h, I);
+
+	Body b0(rbi, 0, "b0");
+	Body b1(rbi, 1, "b1");
+	Body b2(rbi, 2, "b2");
+	Body b3(rbi, 3, "b3");
+
+	mbg.addBody(b0);
+	mbg.addBody(b1);
+	mbg.addBody(b2);
+	mbg.addBody(b3);
+
+	Joint j0(Joint::RevZ, true, 0, "j0");
+	Joint j1(Joint::RevZ, true, 1, "j1");
+	Joint j2(Joint::RevZ, true, 2, "j2");
+
+	mbg.addJoint(j0);
+	mbg.addJoint(j1);
+	mbg.addJoint(j2);
+
+	//  Root     j0       j1     j2
+	//  ---- b0 ---- b1 ---- b2 ---- b3
+	//  Fixed    Z       X       Z
+
+
+	PTransform to(Vector3d(0., 0.5, 0.));
+	PTransform from(Vector3d(0., 0., 0.));
+
+
+	mbg.linkBodies(0, PTransform::Identity(), 1, from, 0);
+	mbg.linkBodies(1, to, 2, from, 1);
+	mbg.linkBodies(2, to, 3, from, 2);
+
+	MultiBody mb = mbg.makeMultiBody(0, isFixed);
+
+	MultiBodyConfig mbc(mb);
+	mbc.zero(mb);
+
+	return std::make_tuple(mb, mbc);
+}
 
 
 BOOST_AUTO_TEST_CASE(FrictionConeTest)
@@ -895,6 +948,97 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
 	}
+
+
+	solver.removeEqualityConstraint(&contCstrAcc);
+	solver.removeConstraint(&contCstrAcc);
+
+	solver.removeConstraint(&motionCstr);
+	solver.removeBoundConstraint(&motionCstr);
+	solver.removeEqualityConstraint(&motionCstr);
+}
+
+
+BOOST_AUTO_TEST_CASE(QPSlidingContactTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZZZArm();
+
+	mbcInit.q[2] = {cst::pi<double>()/2.};
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+
+	qp::QPSolver solver;
+
+	qp::MotionConstr motionCstr(mb);
+	qp::ContactAccConstr contCstrAcc(mb);
+
+	solver.addEqualityConstraint(&motionCstr);
+	solver.addBoundConstraint(&motionCstr);
+	solver.addConstraint(&motionCstr);
+
+	solver.addEqualityConstraint(&contCstrAcc);
+	solver.addConstraint(&contCstrAcc);
+
+	std::vector<Eigen::Vector3d> points =
+		{
+			Vector3d(0.1, 0.1, 0.),
+			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, -0.1, 0.),
+			Vector3d(0.1, -0.1, 0.)
+		};
+
+	// N is pointing on -Y local axis
+	Eigen::Matrix3d frame;
+	frame << 1., 0., 0.,
+					 0., 0., 1.,
+					 0., -1., 0.;
+
+	std::vector<qp::SlidingContact> sli =
+		{qp::SlidingContact(3, points, frame, 0.7)};
+
+
+	// The arm look like follow
+	// N indicate the normal vector of the body 3 (b3)
+	// j3 b3  j2 b2   j1
+	//  o ---- o ---- o
+	//    N-->         |
+	//                 | b1
+	//   Y             |
+	//   |             o j0
+	//   |___X         b0
+	//                /// Fixed
+
+	// The sliding constraint act on b3 and is normal is along the X axis
+	// so the arm can only moove along the Y and Z axis
+
+	solver.nrVars(mb, {}, {}, sli);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	mbcSolv = mbcInit;
+	Vector3d initPos(mbcSolv.bodyPosW[3].translation());
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	// We check if the X position has changed
+	Vector3d finalPos(mbcSolv.bodyPosW[3].translation());
+	BOOST_CHECK_SMALL(std::pow(finalPos.x() - initPos.x(), 2), 1e-8);
 
 
 	solver.removeEqualityConstraint(&contCstrAcc);

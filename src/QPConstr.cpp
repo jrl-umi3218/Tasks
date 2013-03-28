@@ -202,7 +202,7 @@ const Eigen::VectorXd& MotionConstr::Upper() const
 	*/
 
 
-std::set<int> bodyIdInContact(const rbd::MultiBody& mb,
+std::set<int> bodyIdInFixedContact(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
 	std::set<int> ret;
@@ -234,7 +234,8 @@ std::set<int> bodyIdInContact(const rbd::MultiBody& mb,
 
 
 ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
-	cont_(),
+	contFix_(),
+	contSli_(),
 	fullJac_(6, mb.nrDof()),
 	alphaVec_(mb.nrDof()),
 	AEq_(),
@@ -248,19 +249,26 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
-	cont_.clear();
+	contFix_.clear();
+	contSli_.clear();
+
 	nrDof_ = data.alphaD();
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
 
-	std::set<int> bodyIdSet = bodyIdInContact(mb, data);
+	std::set<int> bodyIdSet = bodyIdInFixedContact(mb, data);
 	for(int bodyId: bodyIdSet)
 	{
-		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
+		contFix_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
-	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
-	BEq_.resize(cont_.size()*6);
+	for(const SlidingContact& c: data.slidingContacts())
+	{
+		contSli_.emplace_back(rbd::Jacobian(mb, c.bodyId), c.frame);
+	}
+
+	AEq_.resize(contFix_.size()*6 + contSli_.size()*3, nrDof_ + nrFor_ + nrTor_);
+	BEq_.resize(contFix_.size()*6 + contSli_.size()*3);
 
 	AEq_.setZero();
 	BEq_.setZero();
@@ -273,19 +281,53 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	// J_i*alphaD + JD_i*alpha = 0
+	int index = 0;
 
-	for(std::size_t i = 0; i < cont_.size(); ++i)
+	// J_i·alphaD + JD_i·alpha = 0
+	for(FixedContactData& fc: contFix_)
 	{
 		// AEq = J_i
-		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-		AEq_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+		const MatrixXd& jac = fc.jac.jacobian(mb, mbc);
+		fc.jac.fullJacobian(mb, jac, fullJac_);
+		AEq_.block(index, 0, 6, mb.nrDof()) = fullJac_;
 
 		// BEq = -JD_i*alpha
-		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		BEq_.segment(i*6, 6) = -fullJac_*alphaVec_;
+		const MatrixXd& jacDot = fc.jac.jacobianDot(mb, mbc);
+		fc.jac.fullJacobian(mb, jacDot, fullJac_);
+		BEq_.segment(index, 6) = -fullJac_*alphaVec_;
+
+		index += 6;
+	}
+
+	// N^t·(JTran_i·alphaD + JTranD_i·alpha) = 0
+	// T^t·(JRot_i·alphaD + JRotD_i·alpha) = 0
+	// B^t·(JRot_i·alphaD + JRotD_i·alpha) = 0
+	for(SlidingContactData& sc: contSli_)
+	{
+		Matrix3d frame_w = sc.frame*mbc.bodyPosW[sc.body].rotation();
+
+		const MatrixXd& jac = sc.jac.jacobian(mb, mbc);
+		sc.jac.fullJacobian(mb, jac, fullJac_);
+
+		// AEq = N^t·JTran_i
+		AEq_.block(index, 0, 1, mb.nrDof()) =
+			frame_w.row(2)*fullJac_.block(3, 0, 3, mb.nrDof());
+
+		// AEq = T^t·JRot_i
+		// AEq = B^t·JRot_i
+		AEq_.block(index + 1, 0, 2, mb.nrDof()) =
+			frame_w.block<2,3>(0, 0)*fullJac_.block(0, 0, 3, mb.nrDof());
+
+		// BEq = -N^t·JTranD_i·alpha
+		const MatrixXd& jacDot = sc.jac.jacobianDot(mb, mbc);
+		sc.jac.fullJacobian(mb, jacDot, fullJac_);
+		BEq_.segment(index, 1) =
+			-frame_w.row(2)*fullJac_.block(3, 0, 3, mb.nrDof())*alphaVec_;
+
+		// BEq = -T^t·JRotD_i·alpha
+		// BEq = -B^t·JRotD_i·alpha
+		BEq_.segment(index + 1, 2) =
+			-frame_w.block<2,3>(0, 0)*fullJac_.block(0, 0, 3, mb.nrDof())*alphaVec_;
 	}
 }
 
@@ -334,7 +376,7 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
 
-	std::set<int> bodyIdSet = bodyIdInContact(mb, data);
+	std::set<int> bodyIdSet = bodyIdInFixedContact(mb, data);
 	for(int bodyId: bodyIdSet)
 	{
 		cont_.emplace_back(rbd::Jacobian(mb, bodyId));

@@ -121,18 +121,31 @@ public:
 	virtual const Eigen::VectorXd& BEq() const;
 
 private:
-	struct ContactData
+	struct FixedContactData
 	{
-		ContactData(rbd::Jacobian j):
+		FixedContactData(rbd::Jacobian j):
 			jac(j)
 		{}
-
 
 		rbd::Jacobian jac;
 	};
 
+	struct SlidingContactData
+	{
+		SlidingContactData(rbd::Jacobian j, const Eigen::Matrix3d& f):
+			jac(j),
+			body(jac.jointsPath().back()),
+			frame(f)
+		{}
+
+		rbd::Jacobian jac;
+		int body;
+		Eigen::Matrix3d frame;
+	};
+
 private:
-	std::vector<ContactData> cont_;
+	std::vector<FixedContactData> contFix_;
+	std::vector<SlidingContactData> contSli_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd alphaVec_;
