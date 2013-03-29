@@ -187,8 +187,22 @@ private:
 		int body;
 	};
 
+	struct SlidingContactData
+	{
+		SlidingContactData(rbd::Jacobian j, const Eigen::Matrix3d& f):
+			jac(j),
+			body(jac.jointsPath().back()),
+			frame(f)
+		{}
+
+		rbd::Jacobian jac;
+		int body;
+		Eigen::Matrix3d frame;
+	};
+
 private:
 	std::vector<FixedContactData> contFix_;
+	std::vector<SlidingContactData> contSli_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd alphaVec_;

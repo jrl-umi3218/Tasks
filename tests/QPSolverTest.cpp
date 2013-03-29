@@ -981,11 +981,13 @@ BOOST_AUTO_TEST_CASE(QPSlidingContactTest)
 
 	qp::MotionConstr motionCstr(mb);
 	qp::ContactAccConstr contCstrAcc(mb);
+	qp::ContactSpeedConstr contCstrSpeed(mb, 0.001);
 
 	solver.addEqualityConstraint(&motionCstr);
 	solver.addBoundConstraint(&motionCstr);
 	solver.addConstraint(&motionCstr);
 
+	// first test with ContactAccConstr
 	solver.addEqualityConstraint(&contCstrAcc);
 	solver.addConstraint(&contCstrAcc);
 
@@ -1040,9 +1042,34 @@ BOOST_AUTO_TEST_CASE(QPSlidingContactTest)
 	Vector3d finalPos(mbcSolv.bodyPosW[3].translation());
 	BOOST_CHECK_SMALL(std::pow(finalPos.x() - initPos.x(), 2), 1e-8);
 
-
 	solver.removeEqualityConstraint(&contCstrAcc);
 	solver.removeConstraint(&contCstrAcc);
+
+	// now same test but with ContactSpeedConstr
+	solver.addEqualityConstraint(&contCstrSpeed);
+	solver.addConstraint(&contCstrSpeed);
+
+	solver.nrVars(mb, {}, {}, sli);
+	solver.updateEqConstrSize();
+	solver.updateInEqConstrSize();
+
+	mbcSolv = mbcInit;
+	initPos = mbcSolv.bodyPosW[3].translation();
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	// We check if the X position has changed
+	finalPos = mbcSolv.bodyPosW[3].translation();
+	BOOST_CHECK_SMALL(std::pow(finalPos.x() - initPos.x(), 2), 1e-8);
+
+	solver.removeEqualityConstraint(&contCstrSpeed);
+	solver.removeConstraint(&contCstrSpeed);
 
 	solver.removeConstraint(&motionCstr);
 	solver.removeBoundConstraint(&motionCstr);

@@ -357,6 +357,7 @@ const Eigen::VectorXd& ContactAccConstr::BEq() const
 
 ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep):
 	contFix_(),
+	contSli_(),
 	fullJac_(6, mb.nrDof()),
 	alphaVec_(mb.nrDof()),
 	AEq_(),
@@ -372,6 +373,8 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
 	contFix_.clear();
+	contSli_.clear();
+
 	nrDof_ = data.alphaD();
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
@@ -382,8 +385,13 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 		contFix_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
-	AEq_.resize(contFix_.size()*6 , nrDof_ + nrFor_ + nrTor_);
-	BEq_.resize(contFix_.size()*6);
+	for(const SlidingContact& c: data.slidingContacts())
+	{
+		contSli_.emplace_back(rbd::Jacobian(mb, c.bodyId), c.frame);
+	}
+
+	AEq_.resize(contFix_.size()*6 + contSli_.size()*3, nrDof_ + nrFor_ + nrTor_);
+	BEq_.resize(contFix_.size()*6 + contSli_.size()*3);
 
 	AEq_.setZero();
 	BEq_.setZero();
@@ -410,13 +418,47 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 		fc.jac.fullJacobian(mb, jac, fullJac_);
 		AEq_.block(index, 0, 6, mb.nrDof()) = fullJac_;
 
-		// BEq = -JD_i·alpha - v_i_{n}/timeStep
+		// BEq = -JD_i·alpha - V_i_{n}/timeStep
 		const MatrixXd& jacDot = fc.jac.jacobianDot(mb, mbc);
 		fc.jac.fullJacobian(mb, jacDot, fullJac_);
 		BEq_.segment(index, 6) = -fullJac_*alphaVec_ -
 			mbc.bodyVelW[fc.body].vector()/timeStep_;
 
 		index += 6;
+	}
+
+	// N^t·(JTran_i·alphaD + JTranD_i·alpha) = -N^t·(v_i_{n}/timeStep)
+	// T^t·(JRot_i·alphaD + JRotD_i·alpha) = -T^t·(w_i_{n}/timeStep)
+	// B^t·(JRot_i·alphaD + JRotD_i·alpha) = -B^t·(w_i_{n}/timeStep)
+	for(SlidingContactData& sc: contSli_)
+	{
+		Matrix3d frame_w = sc.frame*mbc.bodyPosW[sc.body].rotation();
+		Vector3d angular_dt = mbc.bodyVelW[sc.body].angular()/timeStep_;
+
+		const MatrixXd& jac = sc.jac.jacobian(mb, mbc);
+		sc.jac.fullJacobian(mb, jac, fullJac_);
+
+		// AEq = N^t·JTran_i
+		AEq_.block(index, 0, 1, mb.nrDof()) =
+			frame_w.row(2)*fullJac_.block(3, 0, 3, mb.nrDof());
+
+		// AEq = T^t·JRot_i
+		// AEq = B^t·JRot_i
+		AEq_.block(index + 1, 0, 2, mb.nrDof()) =
+			frame_w.block<2,3>(0, 0)*fullJac_.block(0, 0, 3, mb.nrDof());
+
+		// BEq = -N^t·(JTranD_i·alpha + v_i_{n}/timeStep)
+		const MatrixXd& jacDot = sc.jac.jacobianDot(mb, mbc);
+		sc.jac.fullJacobian(mb, jacDot, fullJac_);
+		BEq_.segment(index, 1) =
+			-frame_w.row(2)*(fullJac_.block(3, 0, 3, mb.nrDof())*alphaVec_ +
+				mbc.bodyVelW[sc.body].linear()/timeStep_);
+
+		// BEq = -T^t·(JRotD_i·alpha + w_i_{n}/timeStep)
+		// BEq = -B^t·(JRotD_i·alpha + w_i_{n}/timeStep)
+		BEq_.segment(index + 1, 2) =
+			-frame_w.block<2,3>(0, 0)*(fullJac_.block(0, 0, 3, mb.nrDof())*alphaVec_ +
+				angular_dt);
 	}
 }
 
