@@ -356,7 +356,7 @@ const Eigen::VectorXd& ContactAccConstr::BEq() const
 
 
 ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep):
-	cont_(),
+	contFix_(),
 	fullJac_(6, mb.nrDof()),
 	alphaVec_(mb.nrDof()),
 	AEq_(),
@@ -371,7 +371,7 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
-	cont_.clear();
+	contFix_.clear();
 	nrDof_ = data.alphaD();
 	nrFor_ = data.lambda();
 	nrTor_ = data.torque();
@@ -379,11 +379,11 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	std::set<int> bodyIdSet = bodyIdInFixedContact(mb, data);
 	for(int bodyId: bodyIdSet)
 	{
-		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
+		contFix_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
-	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
-	BEq_.resize(cont_.size()*6);
+	AEq_.resize(contFix_.size()*6 , nrDof_ + nrFor_ + nrTor_);
+	BEq_.resize(contFix_.size()*6);
 
 	AEq_.setZero();
 	BEq_.setZero();
@@ -396,20 +396,27 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	// J_i*alphaD + JD_i*alpha = 0
+	// The acceleration integral must be equal to the minus speed to have
+	// V_i_{n+1} = 0
+	// V_i_{n+1} = V_i_{n} + A_i_{n}*timeStep
+	// A_i_{n} = -V_i_{n}/timeStep
+	// J_i·alphaD + JD_i·alpha = -V_i_{n}/timeStep
 
-	for(std::size_t i = 0; i < cont_.size(); ++i)
+	int index = 0;
+	for(FixedContactData& fc: contFix_)
 	{
 		// AEq = J_i
-		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-		AEq_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+		const MatrixXd& jac = fc.jac.jacobian(mb, mbc);
+		fc.jac.fullJacobian(mb, jac, fullJac_);
+		AEq_.block(index, 0, 6, mb.nrDof()) = fullJac_;
 
-		// BEq = -JD_i*alpha
-		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		BEq_.segment(i*6, 6) = -fullJac_*alphaVec_ -
-			mbc.bodyVelW[cont_[i].body].vector()/timeStep_;
+		// BEq = -JD_i·alpha - v_i_{n}/timeStep
+		const MatrixXd& jacDot = fc.jac.jacobianDot(mb, mbc);
+		fc.jac.fullJacobian(mb, jacDot, fullJac_);
+		BEq_.segment(index, 6) = -fullJac_*alphaVec_ -
+			mbc.bodyVelW[fc.body].vector()/timeStep_;
+
+		index += 6;
 	}
 }
 

@@ -176,9 +176,9 @@ public:
 	virtual const Eigen::VectorXd& BEq() const;
 
 private:
-	struct ContactData
+	struct FixedContactData
 	{
-		ContactData(rbd::Jacobian j):
+		FixedContactData(rbd::Jacobian j):
 			jac(j),
 			body(j.jointsPath().back())
 		{}
@@ -188,7 +188,7 @@ private:
 	};
 
 private:
-	std::vector<ContactData> cont_;
+	std::vector<FixedContactData> contFix_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd alphaVec_;
