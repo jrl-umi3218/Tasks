@@ -142,9 +142,9 @@ def build_qp(tasks):
   bilateralContact = qp.add_struct('BilateralContact')
 
   constr = qp.add_class('Constraint')
-  eqConstr = qp.add_class('EqualityConstraint')
-  ineqConstr = qp.add_class('InequalityConstraint')
-  boundConstr = qp.add_class('BoundConstraint')
+  eqConstr = qp.add_class('Equality')
+  ineqConstr = qp.add_class('Inequality')
+  boundConstr = qp.add_class('Bound')
 
   task = qp.add_class('Task')
   hlTask = qp.add_class('HighLevelTask')
@@ -181,6 +181,9 @@ def build_qp(tasks):
   taskName = ['QuadraticTask', 'SetPointTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask']
+  constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
+                selfCollisionConstr, seCollisionConstr,
+                jointLimitsConstr, torqueLimitsConstr]
 
 
   # build list type
@@ -509,6 +512,13 @@ def build_qp(tasks):
   torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
                                       param('std::vector<std::vector<double> >', 'lbound'),
                                       param('std::vector<std::vector<double> >', 'ubound')])
+
+  def add_add_remove_solver(constr):
+    for c in constr:
+      c.add_method('addToSolver', None, [param('tasks::qp::QPSolver&', 'solver')])
+      c.add_method('removeFromSolver', None, [param('tasks::qp::QPSolver&',  'solver')])
+  add_add_remove_solver(constrList)
+
 
 
 
