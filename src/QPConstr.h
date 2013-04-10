@@ -46,7 +46,7 @@ namespace qp
 
 SCD::Matrix4x4 toSCD(const sva::PTransform& t);
 
-class MotionConstr : public EqualityConstraint, public BoundConstraint, public Constraint
+class MotionConstr : public ConstraintFunction<Equality, Bound>
 {
 public:
 	MotionConstr(const rbd::MultiBody& mb);
@@ -103,7 +103,7 @@ private:
 
 
 
-class ContactAccConstr : public EqualityConstraint, public Constraint
+class ContactAccConstr : public ConstraintFunction<Equality>
 {
 public:
 	ContactAccConstr(const rbd::MultiBody& mb);
@@ -145,7 +145,7 @@ private:
 
 
 
-class ContactSpeedConstr : public EqualityConstraint, public Constraint
+class ContactSpeedConstr : public ConstraintFunction<Equality>
 {
 public:
 	ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep);
@@ -189,7 +189,7 @@ private:
 
 
 
-class JointLimitsConstr : public BoundConstraint, public Constraint
+class JointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	JointLimitsConstr(const rbd::MultiBody& mb,
@@ -219,7 +219,7 @@ private:
 
 
 
-class TorqueLimitsConstr : public BoundConstraint, public Constraint
+class TorqueLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	TorqueLimitsConstr(const rbd::MultiBody& mb,
@@ -246,7 +246,7 @@ private:
 
 
 
-class SelfCollisionConstr : public InequalityConstraint, public Constraint
+class SelfCollisionConstr : public ConstraintFunction<Inequality>
 {
 public:
 	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
@@ -304,7 +304,7 @@ private:
 
 
 
-class StaticEnvCollisionConstr : public InequalityConstraint, public Constraint
+class StaticEnvCollisionConstr : public ConstraintFunction<Inequality>
 {
 public:
 	StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step);

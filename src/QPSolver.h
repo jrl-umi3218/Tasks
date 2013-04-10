@@ -41,6 +41,82 @@ namespace tasks
 
 namespace qp
 {
+class Constraint;
+class Equality;
+class Inequality;
+class Bound;
+class Task;
+
+
+
+class QPSolver
+{
+public:
+	QPSolver(bool silent=false);
+
+	bool update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+
+	void updateEqConstrSize();
+	void updateInEqConstrSize();
+
+	void nrVars(const rbd::MultiBody& mb,
+		std::vector<UnilateralContact> uni,
+		std::vector<BilateralContact> bi);
+	int nrVars() const;
+
+	void addEqualityConstraint(Equality* co);
+	void removeEqualityConstraint(Equality* co);
+	int nrEqualityConstraints() const;
+
+	void addInequalityConstraint(Inequality* co);
+	void removeInequalityConstraint(Inequality* co);
+	int nrInequalityConstraints() const;
+
+	void addBoundConstraint(Bound* co);
+	void removeBoundConstraint(Bound* co);
+	int nrBoundConstraints() const;
+
+	void addConstraint(Constraint* co);
+	void removeConstraint(Constraint* co);
+	int nrConstraints() const;
+
+	void addTask(Task* task);
+	void removeTask(Task* task);
+	void resetTasks();
+	int nrTasks() const;
+
+	const Eigen::VectorXd& result() const;
+	Eigen::VectorXd alphaDVec() const;
+	Eigen::VectorXd lambdaVec() const;
+	Eigen::VectorXd torqueVec() const;
+
+private:
+	std::vector<Constraint*> constr_;
+	std::vector<Equality*> eqConstr_;
+	std::vector<Inequality*> inEqConstr_;
+	std::vector<Bound*> boundConstr_;
+
+	std::vector<Task*> tasks_;
+
+	SolverData data_;
+
+	Eigen::MatrixXd A1_;
+	Eigen::VectorXd B1_;
+
+	Eigen::MatrixXd A2_;
+	Eigen::VectorXd B2_;
+
+	Eigen::VectorXd XL_;
+	Eigen::VectorXd XU_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+
+	Eigen::VectorXd res_;
+
+	bool silent_;
+};
+
 
 
 class Constraint
@@ -56,38 +132,110 @@ public:
 
 
 
-class EqualityConstraint
+template<typename... Fun>
+class ConstraintFunction : public Constraint, public Fun...
 {
 public:
-	virtual ~EqualityConstraint() {}
+	virtual ~ConstraintFunction() {}
+
+	void addToSolver(QPSolver& sol)
+	{
+		sol.addConstraint(this);
+		addToSolver_p(sol, (&Fun::addToSolver)...);
+	}
+
+	void removeFromSolver(QPSolver& sol)
+	{
+		sol.removeConstraint(this);
+		removeFromSolver_p(sol, (&Fun::removeFromSolver)...);
+	}
+
+private:
+	void addToSolver_p(QPSolver& /* sol */)
+	{}
+
+	template<typename F, typename... NextFun>
+	void addToSolver_p(QPSolver& sol, F function, NextFun... nFun)
+	{
+		(this->*function)(sol);
+		addToSolver_p(sol, nFun...);
+	}
+
+	void removeFromSolver_p(QPSolver& /* sol */)
+	{}
+
+	template<typename F, typename... NextFun>
+	void removeFromSolver_p(QPSolver& sol, F function, NextFun... nFun)
+	{
+		(this->*function)(sol);
+		removeFromSolver_p(sol, nFun...);
+	}
+};
+
+
+
+class Equality
+{
+public:
+	virtual ~Equality() {}
 	virtual int nrEqLine() = 0;
 
 	virtual const Eigen::MatrixXd& AEq() const = 0;
 	virtual const Eigen::VectorXd& BEq() const = 0;
+
+	void addToSolver(QPSolver& sol)
+	{
+		sol.addEqualityConstraint(this);
+	}
+
+	void removeFromSolver(QPSolver& sol)
+	{
+		sol.removeEqualityConstraint(this);
+	}
 };
 
 
 
-class InequalityConstraint
+class Inequality
 {
 public:
-	virtual ~InequalityConstraint() {}
+	virtual ~Inequality() {}
 	virtual int nrInEqLine() = 0;
 
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
 	virtual const Eigen::VectorXd& BInEq() const = 0;
+
+	void addToSolver(QPSolver& sol)
+	{
+		sol.addInequalityConstraint(this);
+	}
+
+	void removeFromSolver(QPSolver& sol)
+	{
+		sol.removeInequalityConstraint(this);
+	}
 };
 
 
 
-class BoundConstraint
+class Bound
 {
 public:
-	virtual ~BoundConstraint() {}
+	virtual ~Bound() {}
 	virtual int beginVar() = 0;
 
 	virtual const Eigen::VectorXd& Lower() const = 0;
 	virtual const Eigen::VectorXd& Upper() const = 0;
+
+	void addToSolver(QPSolver& sol)
+	{
+		sol.addBoundConstraint(this);
+	}
+
+	void removeFromSolver(QPSolver& sol)
+	{
+		sol.removeBoundConstraint(this);
+	}
 };
 
 
@@ -143,74 +291,6 @@ public:
 };
 
 
-
-class QPSolver
-{
-public:
-	QPSolver(bool silent=false);
-
-	bool update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
-
-	void updateEqConstrSize();
-	void updateInEqConstrSize();
-
-	void nrVars(const rbd::MultiBody& mb,
-		std::vector<UnilateralContact> uni,
-		std::vector<BilateralContact> bi);
-	int nrVars() const;
-
-	void addEqualityConstraint(EqualityConstraint* co);
-	void removeEqualityConstraint(EqualityConstraint* co);
-	int nrEqualityConstraints() const;
-
-	void addInequalityConstraint(InequalityConstraint* co);
-	void removeInequalityConstraint(InequalityConstraint* co);
-	int nrInequalityConstraints() const;
-
-	void addBoundConstraint(BoundConstraint* co);
-	void removeBoundConstraint(BoundConstraint* co);
-	int nrBoundConstraints() const;
-
-	void addConstraint(Constraint* co);
-	void removeConstraint(Constraint* co);
-	int nrConstraints() const;
-
-	void addTask(Task* task);
-	void removeTask(Task* task);
-	void resetTasks();
-	int nrTasks() const;
-
-	const Eigen::VectorXd& result() const;
-	Eigen::VectorXd alphaDVec() const;
-	Eigen::VectorXd lambdaVec() const;
-	Eigen::VectorXd torqueVec() const;
-
-private:
-	std::vector<Constraint*> constr_;
-	std::vector<EqualityConstraint*> eqConstr_;
-	std::vector<InequalityConstraint*> inEqConstr_;
-	std::vector<BoundConstraint*> boundConstr_;
-
-	std::vector<Task*> tasks_;
-
-	SolverData data_;
-
-	Eigen::MatrixXd A1_;
-	Eigen::VectorXd B1_;
-
-	Eigen::MatrixXd A2_;
-	Eigen::VectorXd B2_;
-
-	Eigen::VectorXd XL_;
-	Eigen::VectorXd XU_;
-
-	Eigen::MatrixXd Q_;
-	Eigen::VectorXd C_;
-
-	Eigen::VectorXd res_;
-
-	bool silent_;
-};
 
 } // namespace qp
 

@@ -311,9 +311,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::ContactAccConstr contCstrAcc(mb);
 
 	// Test addEqualityConstraint
-	solver.addEqualityConstraint(&contCstrAcc);
+	contCstrAcc.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
-	solver.addConstraint(&contCstrAcc);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
@@ -350,9 +349,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
 	// Test removeEqualityConstraint
-	solver.removeEqualityConstraint(&contCstrAcc);
+	contCstrAcc.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
-	solver.removeConstraint(&contCstrAcc);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
 
@@ -361,9 +359,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::ContactSpeedConstr contCstrSpeed(mb, 0.001);
 
 	// Test addEqualityConstraint
-	solver.addEqualityConstraint(&contCstrSpeed);
+	contCstrSpeed.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
-	solver.addConstraint(&contCstrSpeed);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
@@ -410,11 +407,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	contVec = {};
 	qp::MotionConstr motionCstr(mb);
 
-	solver.addEqualityConstraint(&motionCstr);
+	motionCstr.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
-	solver.addBoundConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
@@ -450,11 +445,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
 	// Test removeEqualityConstraint
-	solver.removeEqualityConstraint(&motionCstr);
+	motionCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
-	solver.removeBoundConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-	solver.removeConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
 
@@ -495,11 +488,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
 	// Test removeEqualityConstraint
-	solver.removeEqualityConstraint(&motionCstr);
+	motionCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
-	solver.removeBoundConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-	solver.removeConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
 

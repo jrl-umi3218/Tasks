@@ -36,6 +36,7 @@ namespace qp
 {
 
 
+
 /**
 	*													QPSolver
 	*/
@@ -228,13 +229,13 @@ int QPSolver::nrVars() const
 }
 
 
-void QPSolver::addEqualityConstraint(EqualityConstraint* co)
+void QPSolver::addEqualityConstraint(Equality* co)
 {
 	eqConstr_.push_back(co);
 }
 
 
-void QPSolver::removeEqualityConstraint(EqualityConstraint* co)
+void QPSolver::removeEqualityConstraint(Equality* co)
 {
 	eqConstr_.erase(std::find(eqConstr_.begin(), eqConstr_.end(), co));
 }
@@ -246,13 +247,13 @@ int QPSolver::nrEqualityConstraints() const
 }
 
 
-void QPSolver::addInequalityConstraint(InequalityConstraint* co)
+void QPSolver::addInequalityConstraint(Inequality* co)
 {
 	inEqConstr_.push_back(co);
 }
 
 
-void QPSolver::removeInequalityConstraint(InequalityConstraint* co)
+void QPSolver::removeInequalityConstraint(Inequality* co)
 {
 	inEqConstr_.erase(std::find(inEqConstr_.begin(), inEqConstr_.end(), co));
 }
@@ -264,13 +265,13 @@ int QPSolver::nrInequalityConstraints() const
 }
 
 
-void QPSolver::addBoundConstraint(BoundConstraint* co)
+void QPSolver::addBoundConstraint(Bound* co)
 {
 	boundConstr_.push_back(co);
 }
 
 
-void QPSolver::removeBoundConstraint(BoundConstraint* co)
+void QPSolver::removeBoundConstraint(Bound* co)
 {
 	boundConstr_.erase(std::find(boundConstr_.begin(), boundConstr_.end(), co));
 }
