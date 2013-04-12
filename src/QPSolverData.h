@@ -76,6 +76,16 @@ public:
 		return static_cast<int>(uniCont_.size() + biCont_.size());
 	}
 
+	int nrUnilateralLambda() const
+	{
+		return lambdaUni_;
+	}
+
+	int nrBilateralLambda() const
+	{
+		return lambdaBi_;
+	}
+
 	int unilateralBegin() const
 	{
 		return alphaD_;

@@ -98,8 +98,8 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 	AEq_.setZero();
 	BEq_.setZero();
 
-	XL_.resize(nrFor_);
-	XU_.resize(nrFor_);
+	XL_.resize(data.nrUnilateralLambda());
+	XU_.resize(data.nrUnilateralLambda());
 
 	XL_.fill(0.);
 	XU_.fill(std::numeric_limits<double>::infinity());

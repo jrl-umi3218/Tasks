@@ -187,14 +187,14 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 	// counting unilateral contact
 	for(const UnilateralContact& c: data_.uniCont_)
 	{
-		data_.lambda_ += c.cone.generators.size()*c.points.size();
+		data_.lambda_ += c.nrLambda()*c.points.size();
 	}
 	data_.lambdaUni_ = data_.lambda_;
 
 	// counting bilateral contact
 	for(const BilateralContact& c: data_.biCont_)
 	{
-		data_.lambda_ += 3*c.points.size();
+		data_.lambda_ += c.nrLambda()*c.points.size();
 	}
 	data_.lambdaBi_ = data_.lambda_ - data_.lambdaUni_;
 
