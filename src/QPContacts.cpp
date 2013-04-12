@@ -86,19 +86,24 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda) const
 }
 
 
+int UnilateralContact::nrLambda() const
+{
+	return static_cast<int>(cone.generators.size());
+}
+
+
 Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
 {
-	if(static_cast<std::size_t>(lambda.rows()) != cone.generators.size())
+	if(static_cast<int>(lambda.rows()) != nrLambda())
 	{
 		std::ostringstream str;
 		str << "number of lambda and generator mismatch: expected ("
-				<< cone.generators.size() << ") gived (" << lambda.rows() << ")";
+				<< nrLambda() << ") gived (" << lambda.rows() << ")";
 		throw std::domain_error(str.str());
 	}
 
 	return force(lambda);
 }
-
 
 
 /**
@@ -119,6 +124,26 @@ BilateralContact::BilateralContact(int bId,
 Eigen::Vector3d BilateralContact::force(const Eigen::Vector3d& lambda) const
 {
 	return (frame.array().rowwise()*lambda.transpose().array()).colwise().sum();
+}
+
+
+int BilateralContact::nrLambda() const
+{
+	return 3;
+}
+
+
+Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda) const
+{
+	if(static_cast<int>(lambda.rows()) != nrLambda())
+	{
+		std::ostringstream str;
+		str << "number of lambda and generator mismatch: expected ("
+				<< nrLambda() << ") gived (" << lambda.rows() << ")";
+		throw std::domain_error(str.str());
+	}
+
+	return force(lambda);
 }
 
 

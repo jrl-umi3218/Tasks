@@ -252,6 +252,7 @@ def build_qp(tasks):
   unilateralContact.add_method('sForce', 'Eigen::Vector3d',
                                [param('const Eigen::VectorXd&', 'lambda')],
                                throw=[dom_ex], custom_name='force')
+  unilateralContact.add_method('nrLambda', 'int', [], is_const=True)
 
   # BilateralContact
   bilateralContact.add_constructor([])
@@ -262,8 +263,10 @@ def build_qp(tasks):
   bilateralContact.add_instance_attribute('bodyId', 'int')
   bilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
   bilateralContact.add_instance_attribute('frame', 'Eigen::Matrix3d')
-  bilateralContact.add_method('force', 'Eigen::Vector3d',
-                               [param('const Eigen::Vector3d&', 'lambda')])
+  bilateralContact.add_method('sForce', 'Eigen::Vector3d',
+                               [param('const Eigen::VectorXd&', 'lambda')],
+                               throw=[dom_ex], custom_name='force')
+  bilateralContact.add_method('nrLambda', 'int', [], is_const=True)
 
 
   # Constraint

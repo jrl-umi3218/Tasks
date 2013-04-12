@@ -48,6 +48,9 @@ struct UnilateralContact
 	/// @return Force vector of the contact.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
 
+	/// @return Number of lambda needed to compute the force vector
+	int nrLambda() const;
+
 	/**
 		* Safe version of @see force.
 		* @throw std::domain_error If lambda don't match the number of generator.
@@ -68,6 +71,15 @@ struct BilateralContact
 
 	/// @return Force vector of the contact.
 	Eigen::Vector3d force(const Eigen::Vector3d& lambda) const;
+
+	/// @return Number of lambda needed to compute the force vector
+	int nrLambda() const;
+
+	/**
+		* Safe version of @see force. Also the generic one for python bindingx
+		* @throw std::domain_error If lambda don't match the number of generator.
+		*/
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda) const;
 
 	int bodyId;
 	std::vector<Eigen::Vector3d> points;
