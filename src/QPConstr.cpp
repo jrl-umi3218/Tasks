@@ -583,7 +583,7 @@ void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb,
 }
 
 
-void SelfCollisionConstr::rmCollision(int body1Id, int body2Id)
+bool SelfCollisionConstr::rmCollision(int body1Id, int body2Id)
 {
 	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
 		[body1Id, body2Id](const CollData& data)
@@ -595,7 +595,10 @@ void SelfCollisionConstr::rmCollision(int body1Id, int body2Id)
 	{
 		delete it->pair;
 		dataVec_.erase(it);
+		return true;
 	}
+
+	return false;
 }
 
 
@@ -763,7 +766,7 @@ void StaticEnvCollisionConstr::addCollision(const rbd::MultiBody& mb,
 }
 
 
-void StaticEnvCollisionConstr::rmCollision(int bodyId, int envId)
+bool StaticEnvCollisionConstr::rmCollision(int bodyId, int envId)
 {
 	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
 		[bodyId, envId](const CollData& data)
@@ -775,7 +778,10 @@ void StaticEnvCollisionConstr::rmCollision(int bodyId, int envId)
 	{
 		delete it->pair;
 		dataVec_.erase(it);
+		return true;
 	}
+
+	return false;
 }
 
 

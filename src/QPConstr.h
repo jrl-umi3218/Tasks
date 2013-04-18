@@ -255,7 +255,7 @@ public:
 		int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
 		int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
 		double di, double ds, double damping);
-	void rmCollision(int body1Id, int body2Id);
+	bool rmCollision(int body1Id, int body2Id);
 	void reset();
 
 	// Constraint
@@ -313,7 +313,7 @@ public:
 		int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
 		int envId, SCD::S_Object* env,
 		double di, double ds, double damping);
-	void rmCollision(int bodyId, int envId);
+	bool rmCollision(int bodyId, int envId);
 	void reset();
 
 	// Constraint

@@ -481,8 +481,8 @@ def build_qp(tasks):
                                   param('double', 'ds'),
                                   param('double', 'damping')])
 
-  selfCollisionConstr.add_method('rmCollision', None, [param('int', 'body1Id'),
-                                                       param('int', 'body2Id')])
+  selfCollisionConstr.add_method('rmCollision', retval('bool'),
+                                 [param('int', 'body1Id'), param('int', 'body2Id')])
 
   selfCollisionConstr.add_method('reset', None, []),
 
@@ -500,8 +500,8 @@ def build_qp(tasks):
                                 param('double', 'ds'),
                                 param('double', 'damping')])
 
-  seCollisionConstr.add_method('rmCollision', None, [param('int', 'bodyId'),
-                                                     param('int', 'envId')])
+  seCollisionConstr.add_method('rmCollision', retval('bool'),
+                               [param('int', 'bodyId'), param('int', 'envId')])
 
   seCollisionConstr.add_method('reset', None, []),
 
