@@ -33,6 +33,21 @@ namespace tasks
 namespace qp
 {
 
+
+/// @throw std::domain_error if points is not a valid points index.
+void checkRange(int point, const std::vector<Eigen::Vector3d>& points)
+{
+	if(point < 0 || point >= static_cast<int>(points.size()))
+	{
+		std::ostringstream str;
+		str << "invalid point index: must be in the range [0," << points.size()
+				<< "[";
+		throw std::domain_error(str.str());
+	}
+}
+
+
+
 /**
 	*													FrictionCone
 	*/
@@ -73,7 +88,8 @@ UnilateralContact::UnilateralContact(int bodyId,
 }
 
 
-Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda,
+	int /* point */) const
 {
 	Eigen::Vector3d F(Eigen::Vector3d::Zero());
 
@@ -86,23 +102,32 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda) const
 }
 
 
-int UnilateralContact::nrLambda() const
+int UnilateralContact::nrLambda(int /* point */) const
 {
 	return static_cast<int>(cone.generators.size());
 }
 
 
-Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda,
+	int point) const
 {
-	if(static_cast<int>(lambda.rows()) != nrLambda())
+	checkRange(point, points);
+	if(static_cast<int>(lambda.rows()) != nrLambda(point))
 	{
 		std::ostringstream str;
 		str << "number of lambda and generator mismatch: expected ("
-				<< nrLambda() << ") gived (" << lambda.rows() << ")";
+				<< nrLambda(point) << ") gived (" << lambda.rows() << ")";
 		throw std::domain_error(str.str());
 	}
 
-	return force(lambda);
+	return force(lambda, point);
+}
+
+
+int UnilateralContact::sNrLambda(int point) const
+{
+	checkRange(point, points);
+	return nrLambda(point);
 }
 
 
@@ -133,36 +158,46 @@ BilateralContact::BilateralContact(int bId,
 }
 
 
-Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
+	int point) const
 {
 	Eigen::Vector3d F(Eigen::Vector3d::Zero());
 
-	for(std::size_t i = 0; i < cones[0].generators.size(); ++i)
+	for(std::size_t i = 0; i < cones[point].generators.size(); ++i)
 	{
-		F += cones[0].generators[i]*lambda(i);
+		F += cones[point].generators[i]*lambda(i);
 	}
 
 	return F;
 }
 
 
-int BilateralContact::nrLambda() const
+int BilateralContact::nrLambda(int point) const
 {
-	return cones[0].generators.size();
+	return static_cast<int>(cones[point].generators.size());
 }
 
 
-Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda,
+	int point) const
 {
-	if(static_cast<int>(lambda.rows()) != nrLambda())
+	checkRange(point, points);
+	if(static_cast<int>(lambda.rows()) != nrLambda(point))
 	{
 		std::ostringstream str;
 		str << "number of lambda and generator mismatch: expected ("
-				<< nrLambda() << ") gived (" << lambda.rows() << ")";
+				<< nrLambda(point) << ") gived (" << lambda.rows() << ")";
 		throw std::domain_error(str.str());
 	}
 
-	return force(lambda);
+	return force(lambda, point);
+}
+
+
+int BilateralContact::sNrLambda(int point) const
+{
+	checkRange(point, points);
+	return nrLambda(point);
 }
 
 
