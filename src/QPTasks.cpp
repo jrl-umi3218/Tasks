@@ -390,7 +390,10 @@ void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
 	{
 		if(uc.bodyId == bodyId_)
 		{
-			nrLambda = static_cast<int>(uc.cone.generators.size());
+			for(std::size_t i = 0; i < uc.points.size(); ++i)
+			{
+				nrLambda += uc.nrLambda(static_cast<int>(i));
+			}
 			break;
 		}
 		begin_ += static_cast<int>(uc.cone.generators.size());
