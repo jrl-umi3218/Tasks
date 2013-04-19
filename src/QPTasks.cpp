@@ -388,15 +388,40 @@ void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
 
 	for(const UnilateralContact& uc: data.unilateralContacts())
 	{
+		int curLambda = 0;
+		for(std::size_t i = 0; i < uc.points.size(); ++i)
+		{
+			curLambda += uc.nrLambda(static_cast<int>(i));
+		}
+
 		if(uc.bodyId == bodyId_)
 		{
-			for(std::size_t i = 0; i < uc.points.size(); ++i)
-			{
-				nrLambda += uc.nrLambda(static_cast<int>(i));
-			}
+			nrLambda = curLambda;
 			break;
 		}
-		begin_ += static_cast<int>(uc.cone.generators.size());
+
+		begin_ += curLambda;
+	}
+
+	// if body Id is not unilateral we search in bilateral
+	if(nrLambda == 0)
+	{
+		for(const BilateralContact& uc: data.bilateralContacts())
+		{
+			int curLambda = 0;
+			for(std::size_t i = 0; i < uc.points.size(); ++i)
+			{
+				curLambda += uc.nrLambda(static_cast<int>(i));
+			}
+
+			if(uc.bodyId == bodyId_)
+			{
+				nrLambda = curLambda;
+				break;
+			}
+
+			begin_ += curLambda;
+		}
 	}
 
 	Q_ = dir_*Eigen::MatrixXd::Identity(nrLambda, nrLambda);
