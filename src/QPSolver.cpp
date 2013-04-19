@@ -315,13 +315,20 @@ int QPSolver::nrConstraints() const
 
 void QPSolver::addTask(Task* task)
 {
-	tasks_.push_back(task);
+	if(std::find(tasks_.begin(), tasks_.end(), task) == tasks_.end())
+	{
+		tasks_.push_back(task);
+	}
 }
 
 
 void QPSolver::removeTask(Task* task)
 {
-	tasks_.erase(std::find(tasks_.begin(), tasks_.end(), task));
+	auto it = std::find(tasks_.begin(), tasks_.end(), task);
+	if(it != tasks_.end())
+	{
+		tasks_.erase(it);
+	}
 }
 
 
