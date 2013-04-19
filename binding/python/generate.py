@@ -187,6 +187,8 @@ def build_qp(tasks):
 
 
   # build list type
+  tasks.add_container('std::vector<tasks::qp::FrictionCone>',
+                      'tasks::qp::FrictionCone', 'vector')
   tasks.add_container('std::vector<tasks::qp::UnilateralContact>',
                       'tasks::qp::UnilateralContact', 'vector')
   tasks.add_container('std::vector<tasks::qp::BilateralContact>',
@@ -243,30 +245,38 @@ def build_qp(tasks):
   unilateralContact.add_constructor([])
   unilateralContact.add_constructor([param('int', 'bodyId'),
                            param('const std::vector<Eigen::Vector3d>&', 'points'),
-                           param('Eigen::Matrix3d', 'frame'),
+                           param('const Eigen::Matrix3d&', 'frame'),
                            param('int', 'nrGen'), param('double', 'mu')])
 
   unilateralContact.add_instance_attribute('bodyId', 'int')
   unilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
   unilateralContact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
-  unilateralContact.add_method('sForce', 'Eigen::Vector3d',
-                               [param('const Eigen::VectorXd&', 'lambda')],
+  unilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
+                               [param('const Eigen::VectorXd&', 'lambda'),
+                                param('int', 'point')],
                                throw=[dom_ex], custom_name='force')
-  unilateralContact.add_method('nrLambda', 'int', [], is_const=True)
+  unilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
+                               is_const=True, throw=[dom_ex], custom_name='nrLambda')
 
   # BilateralContact
   bilateralContact.add_constructor([])
   bilateralContact.add_constructor([param('int', 'bodyId'),
-                           param('const std::vector<Eigen::Vector3d>&', 'points'),
-                           param('Eigen::Matrix3d', 'frame')])
+                                    param('const Eigen::Vector3d&', 'center'),
+                                    param('double', 'radius'),
+                                    param('int', 'nrPoints'),
+                                    param('const Eigen::Matrix3d&', 'frame'),
+                                    param('int', 'nrGen'), param('double', 'mu')
+                                   ])
 
   bilateralContact.add_instance_attribute('bodyId', 'int')
   bilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
-  bilateralContact.add_instance_attribute('frame', 'Eigen::Matrix3d')
-  bilateralContact.add_method('sForce', 'Eigen::Vector3d',
-                               [param('const Eigen::VectorXd&', 'lambda')],
-                               throw=[dom_ex], custom_name='force')
-  bilateralContact.add_method('nrLambda', 'int', [], is_const=True)
+  bilateralContact.add_instance_attribute('cones', 'std::vector<tasks::qp::FrictionCone>')
+  bilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
+                              [param('const Eigen::VectorXd&', 'lambda'),
+                               param('int', 'point')],
+                              throw=[dom_ex], custom_name='force')
+  bilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
+                              is_const=True, throw=[dom_ex], custom_name='nrLambda')
 
 
   # Constraint
