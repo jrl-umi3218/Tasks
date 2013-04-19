@@ -74,17 +74,18 @@ private:
 	{
 		ContactData() {}
 		ContactData(const rbd::MultiBody& mb, int body,
-			std::vector<Eigen::Vector3d> points, int nrGen);
+			std::vector<Eigen::Vector3d> points,
+			const std::vector<FrictionCone>& cones);
 
 
 		rbd::Jacobian jac;
 		int body;
 		std::vector<Eigen::Vector3d> points;
-		Eigen::Matrix<double, 3, Eigen::Dynamic> generators;
+		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generators;
 		// Hold the translated jacobian
 		Eigen::MatrixXd jacTrans;
 		// Hold the generator in world frame
-		Eigen::Matrix<double, 3, Eigen::Dynamic> generatorsComp;
+		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generatorsComp;
 	};
 
 private:

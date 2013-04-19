@@ -35,14 +35,25 @@ namespace qp
 {
 
 MotionConstr::ContactData::ContactData(const rbd::MultiBody& mb, int b,
-  std::vector<Eigen::Vector3d> p, int nrGen):
-  jac(mb, b),
-  body(jac.jointsPath().back()),
-  points(p),
-  generators(3, nrGen),
-  jacTrans(6, jac.dof()),
-  generatorsComp(3, nrGen)
-{ }
+	std::vector<Eigen::Vector3d> p,
+	const std::vector<FrictionCone>& cones):
+	jac(mb, b),
+	body(jac.jointsPath().back()),
+	points(std::move(p)),
+	generators(cones.size()),
+	jacTrans(6, jac.dof()),
+	generatorsComp(cones.size())
+{
+	for(std::size_t i = 0; i < cones.size(); ++i)
+	{
+		generators[i].resize(3, cones[i].generators.size());
+		generatorsComp[i].resize(3, cones[i].generators.size());
+		for(std::size_t j = 0; j < cones[i].generators.size(); ++j)
+		{
+			generators[i].col(j) = cones[i].generators[j];
+		}
+	}
+}
 
 
 MotionConstr::MotionConstr(const rbd::MultiBody& mb):
@@ -75,19 +86,14 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 	for(const UnilateralContact& c: uniCont)
 	{
 		cont_[iCont] = ContactData(mb, c.bodyId, c.points,
-			static_cast<int>(c.cone.generators.size()));
-		for(std::size_t i = 0; i < c.cone.generators.size(); ++i)
-		{
-			cont_[iCont].generators.col(i) = c.cone.generators[i];
-		}
+			std::vector<FrictionCone>(c.points.size(), c.cone));
 
 		++iCont;
 	}
 
 	for(const BilateralContact& c: biCont)
 	{
-		cont_[iCont] = ContactData(mb, c.bodyId, c.points, 3);
-		cont_[iCont].generators = c.frame;
+		cont_[iCont] = ContactData(mb, c.bodyId, c.points, c.cones);
 
 		++iCont;
 	}
@@ -125,22 +131,23 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
-		cont_[i].generatorsComp =
-			mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].generators;
 
 		// for each contact point we compute all the torques
 		// due to each generator of the friction cone
 		for(std::size_t j = 0; j < cont_[i].points.size(); ++j)
 		{
+			cont_[i].generatorsComp[j] =
+				mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].generators[j];
+
 			cont_[i].jac.translateJacobian(jac, mbc,
 				cont_[i].points[j], cont_[i].jacTrans);
 			cont_[i].jac.fullJacobian(mb, cont_[i].jacTrans, fullJac_);
 
-			AEq_.block(0, contPos, nrDof_, cont_[i].generatorsComp.cols()) =
+			AEq_.block(0, contPos, nrDof_, cont_[i].generatorsComp[j].cols()) =
 				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
-					cont_[i].generatorsComp;
+					cont_[i].generatorsComp[j];
 
-			contPos += cont_[i].generatorsComp.cols();
+			contPos += cont_[i].generatorsComp[j].cols();
 		}
 	}
 

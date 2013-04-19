@@ -134,6 +134,45 @@ BOOST_AUTO_TEST_CASE(FrictionConeTest)
 
 
 
+BOOST_AUTO_TEST_CASE(BilateralContactTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	const double radius = 0.1;
+	double angle = cst::pi<double>()/4.;
+	double mu = std::tan(angle);
+
+	qp::BilateralContact bi(0, Vector3d::Zero(), radius, 4, Matrix3d::Identity(), 4, mu);
+	for(const Vector3d& p: bi.points)
+	{
+		// check if the point belong to the circle of radius radius
+		BOOST_CHECK_SMALL(p.squaredNorm() - std::pow(radius, 2), 1e-6);
+	}
+
+	std::vector<Vector3d> T = {Vector3d::UnitX(), Vector3d::UnitX(),
+															Vector3d::UnitX(), Vector3d::UnitX()};
+	std::vector<Vector3d> B = {Vector3d::UnitY(), Vector3d::UnitZ(),
+															-Vector3d::UnitY(), -Vector3d::UnitZ()};
+	std::vector<Vector3d> N = {Vector3d::UnitZ(), -Vector3d::UnitY(),
+															-Vector3d::UnitZ(), Vector3d::UnitY()};
+
+	for(int i = 0; i < 4; ++i)
+	{
+		// check cone equation T^2 + B^2 = N^2(tan(angle)^2)
+		for(const Vector3d& g: bi.cones[i].generators)
+		{
+			BOOST_CHECK_SMALL(std::pow(T[i].dot(g), 2) + std::pow(B[i].dot(g), 2) -
+				std::pow(N[i].dot(g), 2)*std::pow(mu, 2), 1e-6);
+		}
+	}
+}
+
+
+
 BOOST_AUTO_TEST_CASE(QPTaskTest)
 {
 	using namespace Eigen;
@@ -860,7 +899,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	std::vector<qp::UnilateralContact> uni =
 		{qp::UnilateralContact(0, points, Matrix3d::Identity(), 3, 0.7)};
 	std::vector<qp::BilateralContact> bi =
-		{qp::BilateralContact(0, points, Matrix3d::Identity())};
+		{qp::BilateralContact(0, Vector3d::Zero(), 0.1, 4, Matrix3d::Identity(), 3., 0.7)};
 
 	solver.nrVars(mb, uni, {});
 	solver.updateEqConstrSize();

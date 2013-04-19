@@ -39,11 +39,11 @@ namespace qp
 
 
 
-FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double mu):
+FrictionCone::FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu):
 	generators(nrGen)
 {
-	Eigen::Vector3d normal = frame.row(2);
-	Eigen::Vector3d tan = frame.row(0);
+	Eigen::Vector3d normal(frame.row(2));
+	Eigen::Vector3d tan(frame.row(0));
 	double angle = std::atan(mu);
 
 	Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan)*normal;
@@ -65,7 +65,7 @@ FrictionCone::FrictionCone(Eigen::Matrix3d frame, int nrGen, double mu):
 
 UnilateralContact::UnilateralContact(int bodyId,
 	const std::vector<Eigen::Vector3d>& points,
-	Eigen::Matrix3d frame, int nrGen, double mu):
+	const Eigen::Matrix3d& frame, int nrGen, double mu):
 	bodyId(bodyId),
 	points(points),
 	cone(frame, nrGen, mu)
@@ -107,29 +107,48 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
 
 
 /**
-	*													UnilateralContact
+	*													BilateralContact
 	*/
 
 
 BilateralContact::BilateralContact(int bId,
-	const std::vector<Eigen::Vector3d>& pts,
-	Eigen::Matrix3d f):
+	const Eigen::Vector3d& center, double radius, int nrPoints,
+	const Eigen::Matrix3d& frame, int nrGen, double mu):
 	bodyId(bId),
-	points(pts),
-	frame(f)
+	points(nrPoints),
+	cones(nrPoints)
 {
+	Eigen::Vector3d normal(frame.row(2));
+	Eigen::Vector3d tan(frame.row(0));
+
+	double step = (boost::math::constants::pi<double>()*2.)/nrPoints;
+	Eigen::Vector3d sPoint = center + normal*radius;
+
+	for(int i = 0; i < nrPoints; ++i)
+	{
+		Eigen::AngleAxisd rot(step*i, tan);
+		points[i] = rot*sPoint;
+		cones[i] = FrictionCone(rot*frame, nrGen, mu);
+	}
 }
 
 
-Eigen::Vector3d BilateralContact::force(const Eigen::Vector3d& lambda) const
+Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda) const
 {
-	return (frame.array().rowwise()*lambda.transpose().array()).colwise().sum();
+	Eigen::Vector3d F(Eigen::Vector3d::Zero());
+
+	for(std::size_t i = 0; i < cones[0].generators.size(); ++i)
+	{
+		F += cones[0].generators[i]*lambda(i);
+	}
+
+	return F;
 }
 
 
 int BilateralContact::nrLambda() const
 {
-	return 3;
+	return cones[0].generators.size();
 }
 
 

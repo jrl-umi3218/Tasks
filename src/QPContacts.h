@@ -33,7 +33,7 @@ namespace qp
 struct FrictionCone
 {
 	FrictionCone(){}
-	FrictionCone(Eigen::Matrix3d frame, int nrGen, double mu);
+	FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu);
 
 	std::vector<Eigen::Vector3d> generators;
 };
@@ -43,7 +43,7 @@ struct UnilateralContact
 {
 	UnilateralContact(){}
 	UnilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-		Eigen::Matrix3d frame, int nrGen, double mu);
+		const Eigen::Matrix3d& frame, int nrGen, double mu);
 
 	/// @return Force vector of the contact.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
@@ -66,11 +66,12 @@ struct UnilateralContact
 struct BilateralContact
 {
 	BilateralContact(){}
-	BilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-		Eigen::Matrix3d frame);
+	BilateralContact(int bodyId, const Eigen::Vector3d& center,
+		double radius, int nrPoints,
+		const Eigen::Matrix3d& frame, int nrGen, double mu);
 
 	/// @return Force vector of the contact.
-	Eigen::Vector3d force(const Eigen::Vector3d& lambda) const;
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
 
 	/// @return Number of lambda needed to compute the force vector
 	int nrLambda() const;
@@ -83,7 +84,7 @@ struct BilateralContact
 
 	int bodyId;
 	std::vector<Eigen::Vector3d> points;
-	Eigen::Matrix3d frame;
+	std::vector<FrictionCone> cones;
 };
 
 
