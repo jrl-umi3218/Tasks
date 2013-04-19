@@ -147,13 +147,14 @@ BilateralContact::BilateralContact(int bId,
 	Eigen::Vector3d tan(frame.row(0));
 
 	double step = (boost::math::constants::pi<double>()*2.)/nrPoints;
-	Eigen::Vector3d sPoint = center + normal*radius;
+	Eigen::Vector3d sPoint = normal*radius;
 
 	for(int i = 0; i < nrPoints; ++i)
 	{
 		Eigen::AngleAxisd rot(step*i, tan);
-		points[i] = rot*sPoint;
-		cones[i] = FrictionCone(rot*frame, nrGen, mu);
+		points[i] = center + rot*sPoint;
+		// we must inverse rot because we are in anti trig frame
+		cones[i] = FrictionCone(rot.inverse()*frame, nrGen, mu);
 	}
 }
 

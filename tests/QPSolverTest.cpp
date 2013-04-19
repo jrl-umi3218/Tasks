@@ -146,11 +146,14 @@ BOOST_AUTO_TEST_CASE(BilateralContactTest)
 	double angle = cst::pi<double>()/4.;
 	double mu = std::tan(angle);
 
-	qp::BilateralContact bi(0, Vector3d::Zero(), radius, 4, Matrix3d::Identity(), 4, mu);
+	Vector3d center(1., 0.5, -0.2);
+	center = Vector3d::Zero();
+
+	qp::BilateralContact bi(0, center, radius, 4, Matrix3d::Identity(), 4, mu);
 	for(const Vector3d& p: bi.points)
 	{
 		// check if the point belong to the circle of radius radius
-		BOOST_CHECK_SMALL(p.squaredNorm() - std::pow(radius, 2), 1e-6);
+		BOOST_CHECK_SMALL((p - center).squaredNorm() - std::pow(radius, 2), 1e-6);
 	}
 
 	std::vector<Vector3d> T = {Vector3d::UnitX(), Vector3d::UnitX(),
