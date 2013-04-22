@@ -159,6 +159,20 @@ BilateralContact::BilateralContact(int bId,
 }
 
 
+BilateralContact::BilateralContact(int bId, std::vector<Eigen::Vector3d>& p,
+	const std::vector<Eigen::Matrix3d>& frames,
+	int nrGen, double mu):
+	bodyId(bId),
+	points(p),
+	cones(p.size())
+{
+	for(std::size_t i = 0; i < frames.size(); ++i)
+	{
+		cones[i] = FrictionCone(frames[i], nrGen, mu);
+	}
+}
+
+
 Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
 	int point) const
 {

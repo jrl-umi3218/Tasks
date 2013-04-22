@@ -77,6 +77,9 @@ struct BilateralContact
 	BilateralContact(int bodyId, const Eigen::Vector3d& center,
 		double radius, int nrPoints,
 		const Eigen::Matrix3d& frame, int nrGen, double mu);
+	BilateralContact(int bodyId, std::vector<Eigen::Vector3d>& points,
+		const std::vector<Eigen::Matrix3d>& frames,
+		int nrGen, double mu);
 
 	/// @return Force vector of the contact point.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int point) const;
