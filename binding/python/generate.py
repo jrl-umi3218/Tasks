@@ -194,6 +194,7 @@ def build_qp(tasks):
   tasks.add_container('std::vector<tasks::qp::BilateralContact>',
                       'tasks::qp::BilateralContact', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
+  tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
 
 
   # QPSolver
@@ -265,6 +266,11 @@ def build_qp(tasks):
                                     param('double', 'radius'),
                                     param('int', 'nrPoints'),
                                     param('const Eigen::Matrix3d&', 'frame'),
+                                    param('int', 'nrGen'), param('double', 'mu')
+                                   ])
+  bilateralContact.add_constructor([param('int', 'bodyId'),
+                                    param('const std::vector<Eigen::Vector3d>&', 'center'),
+                                    param('const std::vector<Eigen::Matrix3d>&', 'frames'),
                                     param('int', 'nrGen'), param('double', 'mu')
                                    ])
 
