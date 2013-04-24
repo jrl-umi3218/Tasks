@@ -892,6 +892,133 @@ const Eigen::VectorXd& StaticEnvCollisionConstr::BInEq() const
 	return BInEq_;
 }
 
+
+/**
+	*													GripperTorqueConstr
+	*/
+
+
+GripperTorqueConstr::GripperData::GripperData(int bId, double tl,
+  const Eigen::Vector3d& o, const Eigen::Vector3d& a):
+  bodyId(bId),
+  torqueLimit(tl),
+  origin(o),
+  axis(a)
+{}
+
+
+GripperTorqueConstr::GripperTorqueConstr():
+  dataVec_(),
+  AInEq_(),
+  BInEq_()
+{}
+
+
+void GripperTorqueConstr::addGripper(int bodyId, double torqueLimit,
+	const Eigen::Vector3d& origin, const Eigen::Vector3d& axis)
+{
+	dataVec_.emplace_back(bodyId, torqueLimit, origin, axis);
+}
+
+
+bool GripperTorqueConstr::rmGripper(int bodyId)
+{
+	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
+		[bodyId](const GripperData& data)
+		{
+			return data.bodyId == bodyId;
+		});
+
+	if(it != dataVec_.end())
+	{
+		dataVec_.erase(it);
+		return true;
+	}
+
+	return false;
+}
+
+
+void GripperTorqueConstr::reset()
+{
+	dataVec_.clear();
+}
+
+
+void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	const SolverData& data)
+{
+	using namespace Eigen;
+	AInEq_.resize(dataVec_.size(), data.nrVars());
+	BInEq_.resize(dataVec_.size());
+	AInEq_.setZero();
+	BInEq_.setZero();
+
+	int line = 0;
+	for(const GripperData& gd: dataVec_)
+	{
+		int begin = data.bilateralBegin();
+		for(const BilateralContact& bc: data.bilateralContacts())
+		{
+			int curLambda = 0;
+			// compute the number of lambda needed by the current bilateral
+			for(std::size_t i = 0; i < bc.points.size(); ++i)
+			{
+				curLambda += bc.nrLambda(static_cast<int>(i));
+			}
+
+			if(bc.bodyId == gd.bodyId)
+			{
+				int col = begin;
+				// Torque applied on the gripper motor
+				// Sum_i^nrF  T_i·( p_i^T_o x f_i)
+				for(std::size_t i = 0; i < bc.cones.size(); ++i)
+				{
+					Vector3d T_o_p = bc.points[i] - gd.origin;
+					for(std::size_t j = 0; j < bc.cones[i].generators.size(); ++j)
+					{
+						// we use abs because the contact force cannot apply
+						// negative torque on the gripper
+						AInEq_(line, col) = std::abs(
+							gd.axis.transpose()*(T_o_p.cross(bc.cones[i].generators[j])));
+						++col;
+					}
+				}
+				BInEq_(line) = gd.torqueLimit;
+				break;
+			}
+
+			begin += curLambda;
+			// if the bodyId is not found the AInEq_ and BInEq_ line stay at zero
+		}
+
+		++line;
+	}
+}
+
+
+void GripperTorqueConstr::update(const rbd::MultiBody& /* mb */,
+	const rbd::MultiBodyConfig& /* mbc */)
+{}
+
+
+int GripperTorqueConstr::nrInEqLine()
+{
+	return static_cast<int>(dataVec_.size());
+}
+
+
+const Eigen::MatrixXd& GripperTorqueConstr::AInEq() const
+{
+	return AInEq_;
+}
+
+
+const Eigen::VectorXd& GripperTorqueConstr::BInEq() const
+{
+	return BInEq_;
+}
+
 } // namespace qp
 
 } // namespace tasks

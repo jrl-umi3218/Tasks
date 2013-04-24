@@ -361,6 +361,49 @@ private:
 	Eigen::VectorXd calcVec_;
 };
 
+
+
+class GripperTorqueConstr : public ConstraintFunction<Inequality>
+{
+public:
+	GripperTorqueConstr();
+
+	void addGripper(int bodyId, double torqueLimit,
+		const Eigen::Vector3d& origin, const Eigen::Vector3d& axis);
+	bool rmGripper(int bodyId);
+	void reset();
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		const SolverData& data);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// InEquality Constraint
+	virtual int nrInEqLine();
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& BInEq() const;
+
+private:
+	struct GripperData
+	{
+		GripperData(int bId, double tl,
+			const Eigen::Vector3d& o, const Eigen::Vector3d& a);
+
+		int bodyId;
+		double torqueLimit;
+		Eigen::Vector3d origin;
+		Eigen::Vector3d axis;
+	};
+
+private:
+	std::vector<GripperData> dataVec_;
+
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd BInEq_;
+};
+
 } // namespace qp
 
 } // namespace tasks

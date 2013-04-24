@@ -171,19 +171,23 @@ def build_qp(tasks):
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   torqueLimitsConstr = qp.add_class('TorqueLimitsConstr', parent=[boundConstr, constr])
 
+  gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
+
 
   constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr',
-                'StaticEnvCollisionConstr', 'TorqueLimitsConstr']
+                'StaticEnvCollisionConstr', 'TorqueLimitsConstr',
+                'GripperTorqueConstr']
   eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
-  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr']
+  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr',
+                    'GripperTorqueConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask']
   constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
-                jointLimitsConstr, torqueLimitsConstr]
+                jointLimitsConstr, torqueLimitsConstr, gripperTorqueConstr]
 
 
   # build list type
@@ -531,6 +535,16 @@ def build_qp(tasks):
   torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
                                       param('std::vector<std::vector<double> >', 'lbound'),
                                       param('std::vector<std::vector<double> >', 'ubound')])
+
+  # GripperTorqueConstr
+  gripperTorqueConstr.add_constructor([])
+  gripperTorqueConstr.add_method('addGripper', None,
+                                 [param('int', 'bodyId'), param('double', 'torqueLimit'),
+                                  param('const Eigen::Vector3d&', 'origin'),
+                                  param('const Eigen::Vector3d&', 'axis')]);
+  gripperTorqueConstr.add_method('rmGripper', retval('bool'),
+                                 [param('int', 'bodyId')])
+  gripperTorqueConstr.add_method('reset', None, [])
 
   def add_add_remove_solver(constr):
     for c in constr:
