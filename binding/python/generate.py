@@ -300,24 +300,18 @@ def build_qp(tasks):
 
   # EqualityConstraint
   eqConstr.add_method('nrEqLine', retval('int'), [])
-  # eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [],
-  #                     is_virtual=True, is_pure_virtual=True)
-  # eqConstr.add_method('BEq', retval('Eigen::MatrixXd'), [],
-  #                     is_virtual=True, is_pure_virtual=True)
+  eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
+  eqConstr.add_method('BEq', retval('Eigen::MatrixXd'), [])
 
   # InequalityConstraint
   ineqConstr.add_method('nrInEqLine', retval('int'), [])
-  # ineqConstr.add_method('AInEq', retval('Eigen::MatrixXd'), [],
-  #                       is_virtual=True, is_pure_virtual=True)
-  # ineqConstr.add_method('BInEq', retval('Eigen::MatrixXd'), [],
-  #                       is_virtual=True, is_pure_virtual=True)
+  ineqConstr.add_method('AInEq', retval('Eigen::MatrixXd'), [])
+  ineqConstr.add_method('BInEq', retval('Eigen::MatrixXd'), [])
 
   # BoundConstraint
   boundConstr.add_method('beginVar', retval('int'), [])
-  # boundConstr.add_method('Lower', retval('Eigen::MatrixXd'), [],
-  #                        is_virtual=True, is_pure_virtual=True)
-  # boundConstr.add_method('Upper', retval('Eigen::VectorXd'), [],
-  #                        is_virtual=True, is_pure_virtual=True)
+  boundConstr.add_method('Lower', retval('Eigen::MatrixXd'), [])
+  boundConstr.add_method('Upper', retval('Eigen::VectorXd'), [])
 
   # Task
   # task.add_constructor([param('double', 'weight')])
