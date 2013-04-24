@@ -424,8 +424,8 @@ void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
 		}
 	}
 
-	Q_ = dir_*Eigen::MatrixXd::Identity(nrLambda, nrLambda);
-	C_.setZero(nrLambda);
+	Q_.setZero(nrLambda, nrLambda);
+	C_.setConstant(nrLambda, dir_);
 }
 
 
