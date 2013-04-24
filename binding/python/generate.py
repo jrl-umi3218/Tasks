@@ -158,6 +158,7 @@ def build_qp(tasks):
   postureTask = qp.add_class('PostureTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
   contactTask = qp.add_class('ContactTask', parent=task)
+  gripperTorqueTask = qp.add_class('GripperTorqueTask', parent=task)
   linVelTask = qp.add_class('LinVelocityTask', parent=hlTask)
 
   motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
@@ -183,7 +184,8 @@ def build_qp(tasks):
                     'GripperTorqueConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'LinWeightTask',
-              'tasks::qp::PostureTask', 'tasks::qp::ContactTask']
+              'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
+              'tasks::qp::GripperTorqueTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask']
   constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
@@ -456,6 +458,12 @@ def build_qp(tasks):
   contactTask.add_constructor([param('int', 'bodyId'),
                                param('bool', 'min'),
                                param('double', 'weight')])
+
+  # GripperTorqueTask
+  gripperTorqueTask.add_constructor([param('int', 'bodyId'),
+                                     param('const Eigen::Vector3d&', 'origin'),
+                                     param('const Eigen::Vector3d&', 'axis'),
+                                     param('double', 'weight')])
 
   # LinVelocityTask
   linVelTask.add_constructor([param('const rbd::MultiBody&', 'mb'),

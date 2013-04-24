@@ -949,10 +949,8 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 	const SolverData& data)
 {
 	using namespace Eigen;
-	AInEq_.resize(dataVec_.size(), data.nrVars());
-	BInEq_.resize(dataVec_.size());
-	AInEq_.setZero();
-	BInEq_.setZero();
+	AInEq_.setZero(dataVec_.size(), data.nrVars());
+	BInEq_.setZero(dataVec_.size());
 
 	int line = 0;
 	for(const GripperData& gd: dataVec_)

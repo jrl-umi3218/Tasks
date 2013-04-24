@@ -447,6 +447,82 @@ const Eigen::VectorXd& ContactTask::C() const
 
 
 /**
+	*														GripperTorqueTask
+	*/
+
+
+void GripperTorqueTask::updateNrVars(const rbd::MultiBody& /* mb */,
+	const SolverData& data)
+{
+	using namespace Eigen;
+	bool found = false;
+
+	begin_ = data.bilateralBegin();
+	for(const BilateralContact& bc: data.bilateralContacts())
+	{
+		int curLambda = 0;
+		// compute the number of lambda needed by the current bilateral
+		for(std::size_t i = 0; i < bc.points.size(); ++i)
+		{
+			curLambda += bc.nrLambda(static_cast<int>(i));
+		}
+
+		if(bc.bodyId == bodyId_)
+		{
+			found = true;
+			Q_.setZero(curLambda, curLambda);
+			C_.resize(curLambda);
+
+			int pos = 0;
+			// minimize Torque applied on the gripper motor
+			// min Sum_i^nrF  T_i·( p_i^T_o x f_i)
+			for(std::size_t i = 0; i < bc.cones.size(); ++i)
+			{
+				Vector3d T_o_p = bc.points[i] - origin_;
+				for(std::size_t j = 0; j < bc.cones[i].generators.size(); ++j)
+				{
+					// we use abs because the contact force cannot apply
+					// negative torque on the gripper
+					C_(pos) = std::abs(
+						axis_.transpose()*(T_o_p.cross(bc.cones[i].generators[j])));
+					++pos;
+				}
+			}
+			break;
+		}
+
+		begin_ += curLambda;
+	}
+
+	// if no contact was found we don't activate the task
+	// (safe position and empty matrix)
+	if(!found)
+	{
+		begin_ = 0;
+		Q_.resize(0, 0);
+		C_.resize(0);
+	}
+}
+
+
+void GripperTorqueTask::update(const rbd::MultiBody& /* mb */,
+	const rbd::MultiBodyConfig& /* mbc */)
+{ }
+
+
+const Eigen::MatrixXd& GripperTorqueTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& GripperTorqueTask::C() const
+{
+	return C_;
+}
+
+
+/**
 	*											LinVelocityTask
 	*/
 

@@ -333,6 +333,44 @@ private:
 
 
 
+class GripperTorqueTask : public Task
+{
+public:
+	GripperTorqueTask(int bodyId, const Eigen::Vector3d& origin,
+		const Eigen::Vector3d& axis, double weight):
+		Task(weight),
+		bodyId_(bodyId),
+		origin_(origin),
+		axis_(axis),
+		begin_(0),
+		Q_(),
+		C_()
+	{}
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(begin_, begin_);
+	}
+
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		const SolverData& data);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	int bodyId_;
+	Eigen::Vector3d origin_;
+	Eigen::Vector3d axis_;
+	int begin_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+};
+
+
+
 class LinVelocityTask : public HighLevelTask
 {
 public:
