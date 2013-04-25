@@ -180,4 +180,47 @@ private:
 	Eigen::MatrixXd jacDotMat_;
 };
 
+
+
+class OrientationTrackingTask
+{
+public:
+	OrientationTrackingTask(const rbd::MultiBody& mb, int bodyId,
+		const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
+		const std::vector<int>& trackingJointsId,
+		const Eigen::Vector3d& trackedPoint);
+
+	void trackedPoint(const Eigen::Vector3d& tp);
+	const Eigen::Vector3d& trackedPoint() const;
+
+	void bodyPoint(const Eigen::Vector3d& bp);
+	const Eigen::Vector3d& bodyPoint() const;
+
+	void bodyAxis(const Eigen::Vector3d& ba);
+	const Eigen::Vector3d& bodyAxis() const;
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::MatrixXd& jacDot();
+	virtual const Eigen::VectorXd& eval();
+
+private:
+	void zeroJacobian(Eigen::MatrixXd& jac) const;
+
+private:
+	int bodyIndex_;
+	sva::PTransform bodyPoint_;
+	Eigen::Vector3d bodyAxis_;
+	std::vector<int> zeroJacIndex_;
+	Eigen::Vector3d trackedPoint_;
+	rbd::Jacobian jac_;
+
+	Eigen::VectorXd eval_;
+	Eigen::MatrixXd shortJacMat_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::MatrixXd jacDotMat_;
+};
+
 } // namespace tasks

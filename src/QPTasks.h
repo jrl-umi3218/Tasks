@@ -413,6 +413,62 @@ private:
 	tasks::LinVelocityTask pt_;
 };
 
+
+
+class OrientationTrackingTask : public HighLevelTask
+{
+public:
+	OrientationTrackingTask(const rbd::MultiBody& mb, int bodyId,
+		const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
+		const std::vector<int>& trackingJointsId,
+		const Eigen::Vector3d& trackedPoint);
+
+	tasks::OrientationTrackingTask& task()
+	{
+		return ott_;
+	}
+
+	void trackedPoint(const Eigen::Vector3d& tp)
+	{
+		ott_.trackedPoint(tp);
+	}
+
+	const Eigen::Vector3d& trackedPoint() const
+	{
+		return ott_.trackedPoint();
+	}
+
+	void bodyPoint(const Eigen::Vector3d& bp)
+	{
+		ott_.bodyPoint(bp);
+	}
+
+	const Eigen::Vector3d& bodyPoint() const
+	{
+		return ott_.bodyPoint();
+	}
+
+	void bodyAxis(const Eigen::Vector3d& ba)
+	{
+		ott_.bodyAxis(ba);
+	}
+
+	const Eigen::Vector3d& bodyAxis() const
+	{
+		return ott_.bodyAxis();
+	}
+
+	virtual int dim();
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::MatrixXd& jacDot();
+	virtual const Eigen::VectorXd& eval();
+
+private:
+	tasks::OrientationTrackingTask ott_;
+};
+
 } // namespace qp
 
 } // namespace tasks

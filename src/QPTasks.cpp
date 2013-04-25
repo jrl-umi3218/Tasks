@@ -564,6 +564,50 @@ const Eigen::VectorXd& LinVelocityTask::eval()
 	return pt_.eval();
 }
 
+
+/**
+	*											OrientationTrackingTask
+	*/
+
+
+OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody& mb, int bodyId,
+	const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
+	const std::vector<int>& trackingJointsId,
+	const Eigen::Vector3d& trackedPoint):
+	ott_(mb, bodyId, bodyPoint, bodyAxis, trackingJointsId, trackedPoint)
+{}
+
+
+int OrientationTrackingTask::dim()
+{
+	return 3;
+}
+
+
+void OrientationTrackingTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	ott_.update(mb, mbc);
+	ott_.updateDot(mb, mbc);
+}
+
+
+const Eigen::MatrixXd& OrientationTrackingTask::jac()
+{
+	return ott_.jac();
+}
+
+
+const Eigen::MatrixXd& OrientationTrackingTask::jacDot()
+{
+	return ott_.jacDot();
+}
+
+
+const Eigen::VectorXd& OrientationTrackingTask::eval()
+{
+	return ott_.eval();
+}
+
 } // namespace qp
 
 } // namespace tasks

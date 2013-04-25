@@ -18,6 +18,9 @@
 #include "Tasks.h"
 
 // includes
+// std
+#include <set>
+
 // rbd
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
@@ -408,5 +411,143 @@ const Eigen::MatrixXd& LinVelocityTask::jacDot() const
 {
 	return jacDotMat_;
 }
+
+
+/**
+	*													OrientationTrackingTask
+	*/
+
+
+OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody& mb,
+	int bodyId, const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
+	const std::vector<int>& trackingJointsId,
+	const Eigen::Vector3d& trackedPoint):
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	bodyPoint_(bodyPoint),
+	bodyAxis_(bodyAxis),
+	zeroJacIndex_(),
+	trackedPoint_(trackedPoint),
+	jac_(mb, bodyId),
+	eval_(3),
+	shortJacMat_(3, jac_.dof()),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
+{
+	std::set<int> trackingJointsIndex;
+	for(int id: trackingJointsId)
+	{
+		trackingJointsIndex.insert(mb.jointIndexById(id));
+	}
+
+	int jacPos = 0;
+	for(int i: jac_.jointsPath())
+	{
+		const rbd::Joint& curJoint = mb.joint(i);
+		if(trackingJointsIndex.find(i) == std::end(trackingJointsIndex))
+		{
+			for(int j = 0; j < curJoint.dof(); ++j)
+			{
+				zeroJacIndex_.push_back(jacPos + j);
+			}
+		}
+
+		jacPos += curJoint.dof();
+	}
+}
+
+
+void OrientationTrackingTask::trackedPoint(const Eigen::Vector3d& tp)
+{
+	trackedPoint_ = tp;
+}
+
+
+const Eigen::Vector3d& OrientationTrackingTask::trackedPoint() const
+{
+	return trackedPoint_;
+}
+
+
+void OrientationTrackingTask::bodyPoint(const Eigen::Vector3d& bp)
+{
+	bodyPoint_ = sva::PTransform(bp);
+}
+
+
+const Eigen::Vector3d& OrientationTrackingTask::bodyPoint() const
+{
+	return bodyPoint_.translation();
+}
+
+
+void OrientationTrackingTask::bodyAxis(const Eigen::Vector3d& ba)
+{
+	bodyAxis_ = ba;
+}
+
+
+const Eigen::Vector3d& OrientationTrackingTask::bodyAxis() const
+{
+	return bodyAxis_;
+}
+
+
+void OrientationTrackingTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc)
+{
+	using namespace Eigen;
+	const sva::PTransform& bodyTf = mbc.bodyPosW[bodyIndex_];
+	Vector3d desDir(trackedPoint_ - (bodyPoint_*bodyTf).translation());
+	Vector3d curDir(bodyTf.rotation().transpose()*bodyAxis_);
+	desDir.normalize();
+	curDir.normalize();
+
+	Matrix3d targetOri(
+		Quaterniond::FromTwoVectors(curDir, desDir).inverse().matrix());
+
+	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(),
+															targetOri*mbc.bodyPosW[bodyIndex_].rotation(), 1e-7);
+
+	shortJacMat_ = jac_.jacobian(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
+	zeroJacobian(shortJacMat_);
+	jac_.fullJacobian(mb, shortJacMat_, jacMat_);
+}
+
+
+void OrientationTrackingTask::updateDot(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc)
+{
+	shortJacMat_ = jac_.jacobianDot(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
+	zeroJacobian(shortJacMat_);
+	jac_.fullJacobian(mb, shortJacMat_, jacDotMat_);
+}
+
+
+const Eigen::MatrixXd& OrientationTrackingTask::jac()
+{
+	return jacMat_;
+}
+
+
+const Eigen::MatrixXd& OrientationTrackingTask::jacDot()
+{
+	return jacDotMat_;
+}
+
+
+const Eigen::VectorXd& OrientationTrackingTask::eval()
+{
+	return eval_;
+}
+
+
+void OrientationTrackingTask::zeroJacobian(Eigen::MatrixXd& jac) const
+{
+	for(int i: zeroJacIndex_)
+	{
+		jac.col(i).setZero();
+	}
+}
+
 
 } // namespace tasks

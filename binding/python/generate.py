@@ -55,7 +55,7 @@ def import_eigen3_types(mod):
 
 
 
-def build_tasks(posTask, oriTask, positionTask, comTask, linVelTask):
+def build_tasks(posTask, oriTask, positionTask, comTask, linVelTask, oriTrackTask):
   def add_std_func(cls):
     cls.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -129,6 +129,22 @@ def build_tasks(posTask, oriTask, positionTask, comTask, linVelTask):
   linVelTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
   add_std_func(linVelTask)
 
+  # OrientationTrackingTask
+  oriTrackTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                                param('int', 'bodyId'),
+                                param('const Eigen::Vector3d&', 'bodyPoint'),
+                                param('const Eigen::Vector3d&', 'bodyAxis'),
+                                param('const std::vector<int>&', 'trackingJointId'),
+                                param('const Eigen::Vector3d&', 'trackedPoint')])
+
+  oriTrackTask.add_method('trackedPoint', None, [param('const Eigen::Vector3d&', 'bPoint')])
+  oriTrackTask.add_method('trackedPoint', retval('Eigen::Vector3d'), [], is_const=True)
+  oriTrackTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'tPoint')])
+  oriTrackTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
+  oriTrackTask.add_method('bodyAxis', None, [param('const Eigen::Vector3d&', 'axis')])
+  oriTrackTask.add_method('bodyAxis', retval('Eigen::Vector3d'), [], is_const=True)
+  add_std_func(oriTrackTask)
+
 
 
 def build_qp(tasks):
@@ -160,6 +176,7 @@ def build_qp(tasks):
   contactTask = qp.add_class('ContactTask', parent=task)
   gripperTorqueTask = qp.add_class('GripperTorqueTask', parent=task)
   linVelTask = qp.add_class('LinVelocityTask', parent=hlTask)
+  oriTrackTask = qp.add_class('OrientationTrackingTask', parent=hlTask)
 
   motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
                                                      constr])
@@ -186,7 +203,8 @@ def build_qp(tasks):
   taskName = ['QuadraticTask', 'SetPointTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
-  hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask']
+  hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
+                'OrientationTrackingTask']
   constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
                 jointLimitsConstr, torqueLimitsConstr, gripperTorqueConstr]
@@ -467,16 +485,31 @@ def build_qp(tasks):
 
   # LinVelocityTask
   linVelTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                           param('int', 'bodyId'),
-                           param('const Eigen::Vector3d&', 'pos'),
-                           param('const Eigen::Vector3d&', 'bodyPoint',
-                                 default_value='Eigen::Vector3d::Zero()')])
+                              param('int', 'bodyId'),
+                              param('const Eigen::Vector3d&', 'pos'),
+                              param('const Eigen::Vector3d&', 'bodyPoint',
+                                    default_value='Eigen::Vector3d::Zero()')])
 
   linVelTask.add_method('velocity', None, [param('const Eigen::Vector3d&', 'pos')])
   linVelTask.add_method('velocity', retval('Eigen::Vector3d'), [], is_const=True)
 
   linVelTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'point')])
   linVelTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
+
+  # OrientationTrackingTask
+  oriTrackTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                                param('int', 'bodyId'),
+                                param('const Eigen::Vector3d&', 'bodyPoint'),
+                                param('const Eigen::Vector3d&', 'bodyAxis'),
+                                param('const std::vector<int>&', 'trackingJointId'),
+                                param('const Eigen::Vector3d&', 'trackedPoint')])
+
+  oriTrackTask.add_method('trackedPoint', None, [param('const Eigen::Vector3d&', 'bPoint')])
+  oriTrackTask.add_method('trackedPoint', retval('Eigen::Vector3d'), [], is_const=True)
+  oriTrackTask.add_method('bodyPoint', None, [param('const Eigen::Vector3d&', 'tPoint')])
+  oriTrackTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
+  oriTrackTask.add_method('bodyAxis', None, [param('const Eigen::Vector3d&', 'axis')])
+  oriTrackTask.add_method('bodyAxis', retval('Eigen::Vector3d'), [], is_const=True)
 
   # MotionConstr
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
@@ -589,12 +622,14 @@ if __name__ == '__main__':
   postureTask = tasks.add_class('PostureTask')
   comTask = tasks.add_class('CoMTask')
   linVelTask = tasks.add_class('LinVelocityTask')
+  oriTrackTask = tasks.add_class('OrientationTrackingTask')
 
   # build list type
+  tasks.add_container('std::vector<int>', 'int', 'vector')
   tasks.add_container('std::vector<double>', 'double', 'vector')
   tasks.add_container('std::vector<std::vector<double> >', 'std::vector<double>', 'vector')
 
-  build_tasks(posTask, oriTask, postureTask, comTask, linVelTask)
+  build_tasks(posTask, oriTask, postureTask, comTask, linVelTask, oriTrackTask)
 
   # qp
   build_qp(tasks)
