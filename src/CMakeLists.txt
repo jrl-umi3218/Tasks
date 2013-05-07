@@ -10,7 +10,6 @@ if(${POSTURE_GENERATOR})
   list(APPEND HEADERS PGJacobian.h PostureGenerator.h PGConstr.h)
 endif()
 
-add_definitions("-DWITH_OPENGL")
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS})
 

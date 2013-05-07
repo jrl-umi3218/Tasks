@@ -21,9 +21,9 @@ set(SOURCES ${OUTPUT_BINDING})
 include_directories(.)
 include_directories(../../src)
 include_directories(${PYTHON_INCLUDE_DIRS})
-add_definitions("-DWITH_OPENGL")
 
 add_library(_tasks SHARED ${SOURCES})
+PKG_CONFIG_USE_DEPENDENCY(_tasks scd) # usefull because of WITH_OPENGL flags
 PKG_CONFIG_USE_DEPENDENCY(_tasks SpaceVecAlg)
 PKG_CONFIG_USE_DEPENDENCY(_tasks RBDyn)
 target_link_libraries(_tasks Tasks)
@@ -50,7 +50,6 @@ include_directories(.)
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(${SVA_INCLUDE_DIRS}/SpaceVecAlg)
 include_directories(${SCD_INCLUDE_DIRS})
-add_definitions("-DWITH_OPENGL")
 
 add_library(_scd SHARED ${SOURCES})
 PKG_CONFIG_USE_DEPENDENCY(_scd scd)
