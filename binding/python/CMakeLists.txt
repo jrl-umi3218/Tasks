@@ -26,6 +26,8 @@ add_library(_tasks SHARED ${SOURCES})
 PKG_CONFIG_USE_DEPENDENCY(_tasks scd) # usefull because of WITH_OPENGL flags
 PKG_CONFIG_USE_DEPENDENCY(_tasks SpaceVecAlg)
 PKG_CONFIG_USE_DEPENDENCY(_tasks RBDyn)
+PKG_CONFIG_USE_DEPENDENCY(_tasks EigenQP)
+
 target_link_libraries(_tasks Tasks)
 set_target_properties(_tasks PROPERTIES PREFIX "")
 

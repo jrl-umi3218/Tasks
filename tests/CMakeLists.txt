@@ -11,7 +11,10 @@ target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks)
 PKG_CONFIG_USE_DEPENDENCY(QPSolverTest scd)
 PKG_CONFIG_USE_DEPENDENCY(QPSolverTest SpaceVecAlg)
 PKG_CONFIG_USE_DEPENDENCY(QPSolverTest RBDyn)
+PKG_CONFIG_USE_DEPENDENCY(QPSolverTest EigenQP)
+
 add_test(QPSolverTestUnit QPSolverTest)
+
 
 if(${POSTURE_GENERATOR})
   add_executable(PGJacobianTest PGJacobianTest.cpp)

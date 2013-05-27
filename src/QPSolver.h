@@ -22,6 +22,10 @@
 // Eigen
 #include <Eigen/Core>
 
+// Eigen
+#include <EigenQP/QLD.h>
+#include <EigenQP/LSSOL.h>
+
 // Tasks
 #include "QPSolverData.h"
 #include "QPContacts.h"
@@ -55,6 +59,8 @@ public:
 	QPSolver(bool silent=false);
 
 	bool update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	bool updateQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	bool updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 
 	void updateEqConstrSize();
 	void updateInEqConstrSize();
@@ -90,6 +96,15 @@ public:
 	Eigen::VectorXd lambdaVec() const;
 	Eigen::VectorXd torqueVec() const;
 
+protected:
+	void updateSolverSize(int nrVar, int nrEq, int nrIneq);
+	void updateQLDSize(int nrVar, int nrEq, int nrIneq);
+	void updateLSSOLSize(int nrVar, int nrEq, int nrIneq);
+
+	void preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	void postUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc,
+		bool success, const Eigen::VectorXd& result);
+
 private:
 	std::vector<Constraint*> constr_;
 	std::vector<Equality*> eqConstr_;
@@ -113,6 +128,10 @@ private:
 	Eigen::VectorXd C_;
 
 	Eigen::VectorXd res_;
+	Eigen::VectorXd torqueRes_;
+
+	Eigen::QLD qld_;
+	Eigen::StdLSSOL lssol_;
 
 	bool silent_;
 };
