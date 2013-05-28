@@ -201,7 +201,7 @@ def build_qp(tasks):
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr',
                     'GripperTorqueConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
-  taskName = ['QuadraticTask', 'SetPointTask', 'LinWeightTask',
+  taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
