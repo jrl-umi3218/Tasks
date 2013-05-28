@@ -55,13 +55,13 @@ QPSolver::QPSolver(bool silent):
   res_(),
   silent_(silent)
 {
-  lssol_.warm(true);
+  lssol_.warm(false);
 }
 
 
 bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
-  return updateQLD(mb, mbc);
+  return updateLSSOL(mb, mbc);
 }
 
 
@@ -338,7 +338,7 @@ Eigen::VectorXd QPSolver::torqueVec() const
 
 void QPSolver::updateSolverSize(int nrVar, int nrEq, int nrIneq)
 {
-	updateQLDSize(nrVar, nrEq, nrIneq);
+	updateLSSOLSize(nrVar, nrEq, nrIneq);
 }
 
 
