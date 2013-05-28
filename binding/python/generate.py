@@ -166,6 +166,7 @@ def build_qp(tasks):
   hlTask = qp.add_class('HighLevelTask')
 
   spTask = qp.add_class('SetPointTask', parent=task)
+  toTask = qp.add_class('TargetObjectiveTask', parent=task)
   qTask = qp.add_class('QuadraticTask', parent=task)
   linWTask = qp.add_class('LinWeightTask', parent=task)
 
@@ -381,6 +382,39 @@ def build_qp(tasks):
 
   spTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   spTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
+
+  # TargetObjectiveTask
+  def toConstructor(hlTaskName):
+    for t in hlTaskName:
+      name = 'tasks::qp::%s *' % t
+      toTask.add_constructor([param('const MultiBody&', 'mb'),
+                              param(name, 'hlTask',
+                                    transfer_ownership=False),
+                              param('double', 'timeStep'),
+                              param('double', 'duration'),
+                              param('const Eigen::VectorXd&', 'objDot'),
+                              param('double', 'weight')])
+
+  toConstructor(hlTaskName)
+
+  toTask.add_method('t0', retval('double'), [], is_const=True)
+  toTask.add_method('t0', None, [param('double', 't')])
+
+  toTask.add_method('tf', retval('double'), [], is_const=True)
+  toTask.add_method('tf', None, [param('double', 't')])
+
+  toTask.add_method('objDot', retval('const Eigen::VectorXd&'), [], is_const=True)
+  toTask.add_method('objDot', None, [param('const Eigen::VectorXd&', 'obj')])
+
+  toTask.add_method('phi', retval('const Eigen::VectorXd&'), [], is_const=True)
+  toTask.add_method('psi', retval('const Eigen::VectorXd&'), [], is_const=True)
+
+  toTask.add_method('update', None,
+                    [param('const rbd::MultiBody&', 'mb'),
+                     param('const rbd::MultiBodyConfig&', 'mbc')])
+
+  toTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
+  toTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # QuadraticTask
   def qConstructor(hlTaskName):

@@ -75,6 +75,79 @@ private:
 
 
 
+class TargetObjectiveTask : public Task
+{
+public:
+	TargetObjectiveTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+		double timeStep, double duration, const Eigen::VectorXd& objDot,
+		double weight);
+
+	double t0() const
+	{
+		return t0_;
+	}
+	void t0(double t)
+	{
+		t0_ = t;
+	}
+
+	double tf() const
+	{
+		return tf_;
+	}
+	void tf(double t)
+	{
+		tf_ = t;
+	}
+
+	const Eigen::VectorXd& objDot() const
+	{
+		return objDot_;
+	}
+	void objDot(const Eigen::VectorXd& o)
+	{
+		objDot_ = o;
+	}
+
+	const Eigen::VectorXd& phi() const
+	{
+		return phi_;
+	}
+	const Eigen::VectorXd& psi() const
+	{
+		return psi_;
+	}
+
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
+		const SolverData& /* data */) {}
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	HighLevelTask* hlTask_;
+
+	double t0_, tf_;
+	double dt_;
+	Eigen::VectorXd objDot_;
+	Eigen::VectorXd curObjDot_;
+
+	Eigen::VectorXd phi_, psi_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	Eigen::VectorXd alphaVec_;
+};
+
+
+
 class QuadraticTask : public Task
 {
 public:

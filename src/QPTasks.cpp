@@ -87,6 +87,104 @@ const Eigen::VectorXd& SetPointTask::C() const
 
 
 /**
+	*														TargetObjectiveTask
+	*/
+
+
+TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
+	HighLevelTask* hlTask, double timeStep, double duration,
+	const Eigen::VectorXd& objDot, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	t0_(0.),
+	tf_(duration),
+	dt_(timeStep),
+	objDot_(objDot),
+	curObjDot_(hlTask->dim()),
+	phi_(hlTask->dim()),
+	psi_(hlTask->dim()),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof()),
+	alphaVec_(mb.nrDof())
+{}
+
+
+void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	using namespace Eigen;
+
+	hlTask_->update(mb, mbc);
+
+	const MatrixXd& J = hlTask_->jac();
+	const MatrixXd& JD = hlTask_->jacDot();
+	const VectorXd& err = hlTask_->eval();
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	// M·[phi, psi]^T = Obj
+
+	// M =
+	//  ⎡          2            2⎤
+	//  ⎢(-t₀ + tf)   (-t₀ + tf) ⎥
+	//  ⎢───────────  ───────────⎥
+	//  ⎢     3            6     ⎥
+	//  ⎢                        ⎥
+	//  ⎢   t₀   tf      t₀   tf ⎥
+	//  ⎢ - ── + ──    - ── + ── ⎥
+	//  ⎣   2    2       2    2  ⎦
+
+	// M^I =
+	//  ⎡          6               2    ⎤
+	//  ⎢ ───────────────────   ─────── ⎥
+	//  ⎢   2               2   t₀ - tf ⎥
+	//  ⎢ t₀  - 2⋅t₀⋅tf + tf            ⎥
+	//  ⎢                               ⎥
+	//  ⎢          6               4    ⎥
+	//  ⎢─────────────────────  ────────⎥
+	//  ⎢    2               2  -t₀ + tf⎥
+	//  ⎣- t₀  + 2⋅t₀⋅tf - tf           ⎦
+
+	// Obj = [ err - (tf - t₀)·J α, objDot - J·α ]
+
+	double d = tf_ - t0_;
+	double ds = std::pow(t0_, 2) - 2.*t0_*tf_ + std::pow(tf_, 2);
+
+	Matrix2d MI;
+	Vector2d Obj;
+
+	MI << 6./ds, 2./(-d),
+				6./(-ds), 4./d;
+
+	curObjDot_ = J*alphaVec_;
+
+	for(int i = 0; i < hlTask_->dim(); ++i)
+	{
+		Obj << err(i) - d*curObjDot_(i),
+					 objDot_(i) - curObjDot_(i);
+		Vector2d pp(MI*Obj);
+		phi_(i) = pp(0);
+		psi_(i) = pp(1);
+	}
+
+	Q_ = J.transpose()*J;
+	C_ = -J.transpose()*(phi_ - JD*alphaVec_);
+
+	t0_ += dt_;
+}
+
+
+const Eigen::MatrixXd& TargetObjectiveTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& TargetObjectiveTask::C() const
+{
+	return C_;
+}
+
+
+/**
 	*														QuadraticTask
 	*/
 
