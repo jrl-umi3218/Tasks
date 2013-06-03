@@ -103,8 +103,24 @@ private:
 };
 
 
+class ContactConstrCommon
+{
+public:
+	bool addVirtualContact(int bodyId);
+	bool removeVirtualContact(int bodyId);
+	void resetVirtualContacts();
 
-class ContactAccConstr : public ConstraintFunction<Equality>
+protected:
+	std::set<int> bodyIdInContact(const rbd::MultiBody& mb,
+		const SolverData& data);
+
+protected:
+	std::set<int> virtualContacts_;
+};
+
+
+class ContactAccConstr : public ConstraintFunction<Equality>,
+	public ContactConstrCommon
 {
 public:
 	ContactAccConstr(const rbd::MultiBody& mb);
@@ -146,7 +162,8 @@ private:
 
 
 
-class ContactSpeedConstr : public ConstraintFunction<Equality>
+class ContactSpeedConstr : public ConstraintFunction<Equality>,
+	public ContactConstrCommon
 {
 public:
 	ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep);

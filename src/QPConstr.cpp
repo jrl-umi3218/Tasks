@@ -196,6 +196,61 @@ const Eigen::VectorXd& MotionConstr::Upper() const
 
 
 /**
+	*															ContactCommon
+	*/
+
+
+bool ContactConstrCommon::addVirtualContact(int bodyId)
+{
+	return virtualContacts_.insert(bodyId).second;
+}
+
+
+bool ContactConstrCommon::removeVirtualContact(int bodyId)
+{
+	return virtualContacts_.erase(bodyId) == 1;
+}
+
+
+void ContactConstrCommon::resetVirtualContacts()
+{
+	virtualContacts_.clear();
+}
+
+
+std::set<int> ContactConstrCommon::bodyIdInContact(const rbd::MultiBody& mb,
+	const SolverData& data)
+{
+	std::set<int> ret;
+	auto isValid = [&mb, this](int bodyId)
+	{
+		// if is virtualContacts we don't add it
+		// if fixed base and support body we don't add the contact
+		return (virtualContacts_.find(bodyId) == virtualContacts_.end()) ||
+			(!(bodyId == mb.body(0).id() &&
+			mb.joint(0).type() == rbd::Joint::Fixed));
+	};
+
+	for(const UnilateralContact& c: data.unilateralContacts())
+	{
+		if(isValid(c.bodyId))
+		{
+			ret.insert(c.bodyId);
+		}
+	};
+
+	for(const BilateralContact& c: data.bilateralContacts())
+	{
+		if(isValid(c.bodyId))
+		{
+			ret.insert(c.bodyId);
+		}
+	}
+
+	return std::move(ret);
+}
+
+/**
 	*															ContactAccConstr
 	*/
 

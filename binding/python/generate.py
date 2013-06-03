@@ -181,8 +181,9 @@ def build_qp(tasks):
 
   motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
                                                      constr])
-  contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr])
-  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, constr])
+  contactConstrCommon = qp.add_class('ContactConstrCommon')
+  contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr, contactConstrCommon])
+  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, contactConstrCommon])
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
@@ -547,6 +548,11 @@ def build_qp(tasks):
 
   # MotionConstr
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+
+  # ContactConstrCommon
+  contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])
+  contactConstrCommon.add_method('removeVirtualContact', retval('bool'), [param('int', 'bodyId')])
+  contactConstrCommon.add_method('resetVirtualContacts', None, [])
 
   # ContactAccConstr
   contactAccConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
