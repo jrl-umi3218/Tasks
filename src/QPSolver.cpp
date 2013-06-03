@@ -29,12 +29,16 @@
 #include "QL.h"
 
 
+
 namespace tasks
 {
 
 namespace qp
 {
 
+
+// Value add to the diagonal to ensure positive matrix
+static const double DIAG_CONSTANT = 1e-5;
 
 
 /**
@@ -426,6 +430,21 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 
 		Q_.block(b.first, b.second, r, c) += tasks_[i]->weight()*Q;
 		C_.segment(b.first, r) += tasks_[i]->weight()*C;
+	}
+
+	// try to transform Q_ to a positive matrix
+	// we just add a small value to the diagonal since
+	// the first necessary condition is to have
+	// Q_(i,i) > 0
+	// may be we can try to check the second
+	// condition in a near futur
+	// Q_(i,i) + Q_(j,j) > 2·Q_(i,j) for i≠j
+	for(int i = 0; i < data_.nrVars_; ++i)
+	{
+		if(std::abs(Q_(i, i)) < DIAG_CONSTANT)
+		{
+			Q_(i, i) += DIAG_CONSTANT;
+		}
 	}
 }
 

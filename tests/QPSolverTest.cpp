@@ -472,7 +472,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 		forwardVelocity(mb, mbcSolv);
 	}
 
-	BOOST_CHECK_SMALL(posTask.eval().norm(), 0.00001);
+	BOOST_CHECK_SMALL(posTask.eval().norm(), 5e-05);
 
 	MultiBodyConfig mbcTest(mbcSolv);
 	mbcTest.jointTorque = {{}, {0.}, {0.}, {0.}};
@@ -524,7 +524,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 		forwardVelocity(mb, mbcSolv);
 	}
 
-	BOOST_CHECK_SMALL(posTask.eval().norm(), 0.00001);
+	BOOST_CHECK_SMALL(posTask.eval().norm(), 5e-5);
 
 	solver.removeTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
