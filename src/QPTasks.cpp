@@ -92,12 +92,10 @@ const Eigen::VectorXd& SetPointTask::C() const
 
 
 TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
-	HighLevelTask* hlTask, double timeStep, double duration,
+	HighLevelTask* hlTask, double timeStep, double dur,
 	const Eigen::VectorXd& objDot, double weight):
 	Task(weight),
 	hlTask_(hlTask),
-	t0_(0.),
-	tf_(duration),
 	dt_(timeStep),
 	objDot_(objDot),
 	curObjDot_(hlTask->dim()),
@@ -108,18 +106,17 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	C_(mb.nrDof()),
 	alphaVec_(mb.nrDof())
 {
+	duration(dur);
 	dimWeight_.setOnes();
 }
 
 
 TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	HighLevelTask* hlTask,
-	double timeStep, double duration, const Eigen::VectorXd& objDot,
+	double timeStep, double dur, const Eigen::VectorXd& objDot,
 	const Eigen::VectorXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
-	t0_(0.),
-	tf_(duration),
 	dt_(timeStep),
 	objDot_(objDot),
 	curObjDot_(hlTask->dim()),
@@ -129,7 +126,22 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
 	alphaVec_(mb.nrDof())
-{ }
+{
+	duration(dur);
+}
+
+
+double TargetObjectiveTask::duration() const
+{
+	return (nrIter_ - iter_)*dt_;
+}
+
+
+void TargetObjectiveTask::duration(double d)
+{
+	nrIter_ = static_cast<int>(std::round(d/dt_));
+	iter_ = 0;
+}
 
 
 void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
@@ -168,8 +180,8 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 	// Obj = [ err - (tf - t₀)·J α, objDot - J·α ]
 
-	double d = tf_ - t0_;
-	double ds = std::pow(t0_, 2) - 2.*t0_*tf_ + std::pow(tf_, 2);
+	double d = (nrIter_ - iter_)*dt_;
+	double ds = std::pow(d, 2);
 
 	Matrix2d MI;
 	Vector2d Obj;
@@ -188,10 +200,11 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		psi_(i) = pp(1);
 	}
 
-	Q_ = (J.array().colwise()*dimWeight_).matrix().transpose()*J;
-	C_ = -(J.array().colwise()*dimWeight_).matrix().transpose()*(phi_ - JD*alphaVec_);
+	Q_ = (J.array().colwise()*dimWeight_.array()).matrix().transpose()*J;
+	C_ = -(J.array().colwise()*dimWeight_.array()).matrix().transpose()*
+		(phi_ - JD*alphaVec_);
 
-	t0_ += dt_;
+	++iter_;
 }
 
 

@@ -407,14 +407,17 @@ def build_qp(tasks):
 
   toConstructor(hlTaskName)
 
-  toTask.add_method('t0', retval('double'), [], is_const=True)
-  toTask.add_method('t0', None, [param('double', 't')])
+  toTask.add_method('duration', retval('double'), [], is_const=True)
+  toTask.add_method('duration', None, [param('double', 'd')])
 
-  toTask.add_method('tf', retval('double'), [], is_const=True)
-  toTask.add_method('tf', None, [param('double', 't')])
+  toTask.add_method('nrIter', retval('int'), [], is_const=True)
+  toTask.add_method('nrIter', None, [param('int', 'i')])
 
   toTask.add_method('objDot', retval('const Eigen::VectorXd&'), [], is_const=True)
   toTask.add_method('objDot', None, [param('const Eigen::VectorXd&', 'obj')])
+
+  toTask.add_method('dimWeight', retval('const Eigen::VectorXd&'), [], is_const=True)
+  toTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'w')])
 
   toTask.add_method('phi', retval('const Eigen::VectorXd&'), [], is_const=True)
   toTask.add_method('psi', retval('const Eigen::VectorXd&'), [], is_const=True)

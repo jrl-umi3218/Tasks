@@ -86,22 +86,25 @@ public:
 		double timeStep, double duration, const Eigen::VectorXd& objDot,
 		const Eigen::VectorXd& dimWeight, double weight);
 
-	double t0() const
+	double duration() const;
+	void duration(double d);
+
+	int iter() const
 	{
-		return t0_;
+		return iter_;
 	}
-	void t0(double t)
+	void iter(int i)
 	{
-		t0_ = t;
+		iter_ = i;
 	}
 
-	double tf() const
+	int nrIter() const
 	{
-		return tf_;
+		return nrIter_;
 	}
-	void tf(double t)
+	void nrIter(int i)
 	{
-		tf_ = t;
+		nrIter_ = i;
 	}
 
 	const Eigen::VectorXd& objDot() const
@@ -147,11 +150,11 @@ public:
 private:
 	HighLevelTask* hlTask_;
 
-	double t0_, tf_;
+	int iter_, nrIter_;
 	double dt_;
 	Eigen::VectorXd objDot_;
 	Eigen::VectorXd curObjDot_;
-	Eigen::ArrayXd dimWeight_;
+	Eigen::VectorXd dimWeight_;
 
 	Eigen::VectorXd phi_, psi_;
 
