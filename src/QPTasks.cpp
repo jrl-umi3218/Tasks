@@ -101,12 +101,35 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	dt_(timeStep),
 	objDot_(objDot),
 	curObjDot_(hlTask->dim()),
+	dimWeight_(hlTask->dim()),
 	phi_(hlTask->dim()),
 	psi_(hlTask->dim()),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
 	alphaVec_(mb.nrDof())
-{}
+{
+	dimWeight_.setOnes();
+}
+
+
+TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
+	HighLevelTask* hlTask,
+	double timeStep, double duration, const Eigen::VectorXd& objDot,
+	const Eigen::VectorXd& dimWeight, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	t0_(0.),
+	tf_(duration),
+	dt_(timeStep),
+	objDot_(objDot),
+	curObjDot_(hlTask->dim()),
+	dimWeight_(dimWeight),
+	phi_(hlTask->dim()),
+	psi_(hlTask->dim()),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof()),
+	alphaVec_(mb.nrDof())
+{ }
 
 
 void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
@@ -165,8 +188,8 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		psi_(i) = pp(1);
 	}
 
-	Q_ = J.transpose()*J;
-	C_ = -J.transpose()*(phi_ - JD*alphaVec_);
+	Q_ = (J.array().colwise()*dimWeight_).matrix().transpose()*J;
+	C_ = -(J.array().colwise()*dimWeight_).matrix().transpose()*(phi_ - JD*alphaVec_);
 
 	t0_ += dt_;
 }

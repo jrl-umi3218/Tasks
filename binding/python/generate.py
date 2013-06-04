@@ -396,6 +396,15 @@ def build_qp(tasks):
                               param('const Eigen::VectorXd&', 'objDot'),
                               param('double', 'weight')])
 
+      toTask.add_constructor([param('const MultiBody&', 'mb'),
+                              param(name, 'hlTask',
+                                    transfer_ownership=False),
+                              param('double', 'timeStep'),
+                              param('double', 'duration'),
+                              param('const Eigen::VectorXd&', 'objDot'),
+                              param('const Eigen::VectorXd&', 'dimWeight'),
+                              param('double', 'weight')])
+
   toConstructor(hlTaskName)
 
   toTask.add_method('t0', retval('double'), [], is_const=True)

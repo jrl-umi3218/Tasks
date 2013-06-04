@@ -82,6 +82,10 @@ public:
 		double timeStep, double duration, const Eigen::VectorXd& objDot,
 		double weight);
 
+	TargetObjectiveTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+		double timeStep, double duration, const Eigen::VectorXd& objDot,
+		const Eigen::VectorXd& dimWeight, double weight);
+
 	double t0() const
 	{
 		return t0_;
@@ -107,6 +111,15 @@ public:
 	void objDot(const Eigen::VectorXd& o)
 	{
 		objDot_ = o;
+	}
+
+	const Eigen::VectorXd& dimWeight() const
+	{
+		return dimWeight_;
+	}
+	void dimWeight(const Eigen::VectorXd& o)
+	{
+		dimWeight_ = o;
 	}
 
 	const Eigen::VectorXd& phi() const
@@ -138,6 +151,7 @@ private:
 	double dt_;
 	Eigen::VectorXd objDot_;
 	Eigen::VectorXd curObjDot_;
+	Eigen::ArrayXd dimWeight_;
 
 	Eigen::VectorXd phi_, psi_;
 
