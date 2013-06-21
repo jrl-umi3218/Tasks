@@ -410,6 +410,9 @@ def build_qp(tasks):
   toTask.add_method('duration', retval('double'), [], is_const=True)
   toTask.add_method('duration', None, [param('double', 'd')])
 
+  toTask.add_method('iter', retval('int'), [], is_const=True)
+  toTask.add_method('iter', None, [param('int', 'i')])
+
   toTask.add_method('nrIter', retval('int'), [], is_const=True)
   toTask.add_method('nrIter', None, [param('int', 'i')])
 
