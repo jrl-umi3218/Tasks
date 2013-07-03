@@ -625,6 +625,7 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
   dataVec_(),
   step_(step),
   nrVars_(0),
+  nrActivated_(0),
   AInEq_(),
   BInEq_(),
   fullJac_(6, mb.nrDof()),
@@ -692,7 +693,7 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	int i = 0;
+	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
 		SCD::Point3 pb1Tmp, pb2Tmp;
@@ -748,18 +749,19 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			calcVec_ += fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
-			AInEq_.block(i, 0, 1, mb.nrDof()) = calcVec_.transpose();
-			BInEq_(i) = dampers + jqdn + jqdnd + jdqdn;
-		}
-		else
-		{
-			AInEq_.block(i, 0, 1, mb.nrDof()).setZero();
-			BInEq_(i) = 0.;
+			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
+			BInEq_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
+			++nrActivated_;
 		}
 
 		d.normVecDist = normVecDist;
-		++i;
 	}
+}
+
+
+int SelfCollisionConstr::nrInEq()
+{
+	return nrActivated_;
 }
 
 
@@ -808,6 +810,7 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
   dataVec_(),
   step_(step),
   nrVars_(0),
+  nrActivated_(0),
   AInEq_(),
   BInEq_(),
   fullJac_(6, mb.nrDof()),
@@ -875,7 +878,7 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	int i = 0;
+	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
 		SCD::Point3 pb1Tmp, pb2Tmp;
@@ -915,18 +918,19 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 			calcVec_ = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
-			AInEq_.block(i, 0, 1, mb.nrDof()) = calcVec_.transpose();
-			BInEq_(i) = dampers + jqdn + jqdnd + jdqdn;
-		}
-		else
-		{
-			AInEq_.block(i, 0, 1, mb.nrDof()).setZero();
-			BInEq_(i) = 0.;
+			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
+			BInEq_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
+			++nrActivated_;
 		}
 
 		d.normVecDist = normVecDist;
-		++i;
 	}
+}
+
+
+int StaticEnvCollisionConstr::nrInEq()
+{
+	return nrActivated_;
 }
 
 

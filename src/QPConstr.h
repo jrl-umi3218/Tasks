@@ -283,6 +283,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// InEquality Constraint
+	virtual int nrInEq();
 	virtual int maxInEq();
 
 	virtual const Eigen::MatrixXd& AInEq() const;
@@ -310,6 +311,7 @@ private:
 	std::vector<CollData> dataVec_;
 	double step_;
 	int nrVars_;
+	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd BInEq_;
@@ -341,6 +343,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// InEquality Constraint
+	virtual int nrInEq();
 	virtual int maxInEq();
 
 	virtual const Eigen::MatrixXd& AInEq() const;
@@ -368,6 +371,7 @@ private:
 	std::vector<CollData> dataVec_;
 	double step_;
 	int nrVars_;
+	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd BInEq_;
