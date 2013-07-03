@@ -405,8 +405,9 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		const Eigen::MatrixXd& A1 = eqConstr_[i]->AEq();
 		const Eigen::VectorXd& B1 = eqConstr_[i]->BEq();
 
-		A1_.block(nrEq_, 0, nrConstr, data_.nrVars_) = A1;
-		B1_.segment(nrEq_, nrConstr) = B1;
+		A1_.block(nrEq_, 0, nrConstr, data_.nrVars_) =
+			A1.block(0, 0, nrConstr, data_.nrVars_);
+		B1_.segment(nrEq_, nrConstr) = B1.head(nrConstr);
 
 		nrEq_ += nrConstr;
 	}
@@ -420,8 +421,9 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		const Eigen::MatrixXd& A2 = inEqConstr_[i]->AInEq();
 		const Eigen::VectorXd& B2 = inEqConstr_[i]->BInEq();
 
-		A2_.block(nrInEq_, 0, nrConstr, data_.nrVars_) = A2;
-		B2_.segment(nrInEq_, nrConstr) = B2;
+		A2_.block(nrInEq_, 0, nrConstr, data_.nrVars_) =
+			A2.block(0, 0, nrConstr, data_.nrVars_);
+		B2_.segment(nrInEq_, nrConstr) = B2.head(nrConstr);
 
 		nrInEq_ += nrConstr;
 	}
