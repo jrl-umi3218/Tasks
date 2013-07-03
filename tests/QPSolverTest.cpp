@@ -562,8 +562,8 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
 
 	double inf = std::numeric_limits<double>::infinity();
-	std::vector<std::vector<double>> lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
-	std::vector<std::vector<double>> uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
+	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
+	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
 
 	qp::JointLimitsConstr jointConstr(mb, lBound, uBound, 0.001);
 
@@ -640,8 +640,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
 
-	std::vector<std::vector<double>> lBound = {{}, {-30.}, {-30.}, {-30.}};
-	std::vector<std::vector<double>> uBound = {{}, {30.}, {30.}, {30.}};
+	std::vector<std::vector<double> > lBound = {{}, {-30.}, {-30.}, {-30.}};
+	std::vector<std::vector<double> > uBound = {{}, {30.}, {30.}, {30.}};
 
 	qp::MotionConstr motionCstr(mb);
 	qp::TorqueLimitsConstr torqueConstr(mb, lBound, uBound);

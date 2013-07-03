@@ -101,10 +101,10 @@ private:
 class PostureTask
 {
 public:
-	PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double>> q);
+	PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double> > q);
 
-	void posture(std::vector<std::vector<double>> q);
-	const std::vector<std::vector<double>> posture() const;
+	void posture(std::vector<std::vector<double> > q);
+	const std::vector<std::vector<double> > posture() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
@@ -114,7 +114,7 @@ public:
 	const Eigen::MatrixXd& jacDot() const;
 
 private:
-	std::vector<std::vector<double>> q_;
+	std::vector<std::vector<double> > q_;
 
 	Eigen::VectorXd eval_;
 	Eigen::MatrixXd jacMat_;

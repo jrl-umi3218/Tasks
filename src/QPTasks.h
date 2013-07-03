@@ -220,7 +220,7 @@ private:
 class PostureTask : public Task
 {
 public:
-	PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double>> q,
+	PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double> > q,
 		double stiffness, double weight);
 
 	tasks::PostureTask& task()
@@ -228,12 +228,12 @@ public:
 		return pt_;
 	}
 
-	void posture(std::vector<std::vector<double>> q)
+	void posture(std::vector<std::vector<double> > q)
 	{
 		pt_.posture(q);
 	}
 
-	const std::vector<std::vector<double>> posture() const
+	const std::vector<std::vector<double> > posture() const
 	{
 		return pt_.posture();
 	}

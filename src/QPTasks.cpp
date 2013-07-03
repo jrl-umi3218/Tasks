@@ -330,7 +330,7 @@ const Eigen::VectorXd& LinWeightTask::C() const
 
 
 PostureTask::PostureTask(const rbd::MultiBody& mb,
-	std::vector<std::vector<double>> q,
+	std::vector<std::vector<double> > q,
 	double stiffness, double weight):
 	Task(weight),
 	pt_(mb, q),

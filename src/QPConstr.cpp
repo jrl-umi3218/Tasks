@@ -449,8 +449,8 @@ const Eigen::VectorXd& ContactSpeedConstr::BEq() const
 
 
 JointLimitsConstr::JointLimitsConstr(const rbd::MultiBody& mb,
-	std::vector<std::vector<double>> lBound,
-	std::vector<std::vector<double>> uBound,
+	std::vector<std::vector<double> > lBound,
+	std::vector<std::vector<double> > uBound,
 	double step):
 	lower_(),
 	upper_(),
@@ -523,8 +523,8 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 
 
 TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
-	std::vector<std::vector<double>> lBound,
-	std::vector<std::vector<double>> uBound):
+	std::vector<std::vector<double> > lBound,
+	std::vector<std::vector<double> > uBound):
 	lower_(),
 	upper_(),
 	begin_()
