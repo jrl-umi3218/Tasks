@@ -147,7 +147,7 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
 					cont_[i].generatorsComp[j];
 
-			contPos += cont_[i].generatorsComp[j].cols();
+			contPos += int(cont_[i].generatorsComp[j].cols());
 		}
 	}
 
@@ -159,7 +159,7 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 }
 
 
-int MotionConstr::nrEqLine()
+int MotionConstr::maxEq()
 {
 	return nrDof_;
 }
@@ -343,9 +343,9 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 }
 
 
-int ContactAccConstr::nrEqLine()
+int ContactAccConstr::maxEq()
 {
-	return AEq_.rows();
+	return int(AEq_.rows());
 }
 
 
@@ -425,9 +425,9 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 }
 
 
-int ContactSpeedConstr::nrEqLine()
+int ContactSpeedConstr::maxEq()
 {
-	return AEq_.rows();
+	return int(AEq_.rows());
 }
 
 
@@ -485,7 +485,7 @@ void JointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiBodyConfig& mbc)
 {
 	double dts = step_*step_*0.5;
-	int vars = lower_.rows();
+	int vars = int(lower_.rows());
 
 	rbd::paramToVector(mbc.q, qVec_);
 	rbd::paramToVector(mbc.alpha, alphaVec_);
@@ -763,9 +763,9 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 }
 
 
-int SelfCollisionConstr::nrInEqLine()
+int SelfCollisionConstr::maxInEq()
 {
-	return dataVec_.size();
+	return int(dataVec_.size());
 }
 
 
@@ -930,9 +930,9 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 }
 
 
-int StaticEnvCollisionConstr::nrInEqLine()
+int StaticEnvCollisionConstr::maxInEq()
 {
-	return dataVec_.size();
+	return int(dataVec_.size());
 }
 
 
@@ -1055,7 +1055,7 @@ void GripperTorqueConstr::update(const rbd::MultiBody& /* mb */,
 {}
 
 
-int GripperTorqueConstr::nrInEqLine()
+int GripperTorqueConstr::maxInEq()
 {
 	return static_cast<int>(dataVec_.size());
 }

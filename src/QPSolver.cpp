@@ -53,7 +53,10 @@ QPSolver::QPSolver(bool silent):
   inEqConstr_(),
   boundConstr_(),
   tasks_(),
-  A1_(),B1_(),A2_(),B2_(),
+  nrEq_(0),
+  A1_(),B1_(),
+  nrInEq_(0),
+  A2_(),B2_(),
   XL_(),XU_(),
   Q_(),C_(),
   res_(),
@@ -113,13 +116,14 @@ void QPSolver::updateEqConstrSize()
 	int nbEq = 0;
 	for(std::size_t i = 0; i < eqConstr_.size(); ++i)
 	{
-		nbEq += eqConstr_[i]->nrEqLine();
+		nbEq += eqConstr_[i]->maxEq();
 	}
 
+	nrEq_ = 0;
 	A1_.resize(nbEq, data_.nrVars_);
 	B1_.resize(nbEq);
 
-	updateSolverSize(data_.nrVars_, nbEq, static_cast<int>(B2_.rows()));
+	updateSolverSize(data_.nrVars_, nbEq, int(B2_.rows()));
 }
 
 
@@ -128,13 +132,14 @@ void QPSolver::updateInEqConstrSize()
 	int nbInEq = 0;
 	for(std::size_t i = 0; i < inEqConstr_.size(); ++i)
 	{
-		nbInEq += inEqConstr_[i]->nrInEqLine();
+		nbInEq += inEqConstr_[i]->maxInEq();
 	}
 
+	nrInEq_ = 0;
 	A2_.resize(nbInEq, data_.nrVars_);
 	B2_.resize(nbInEq);
 
-	updateSolverSize(data_.nrVars_, static_cast<int>(B1_.rows()), nbInEq);
+	updateSolverSize(data_.nrVars_, int(B1_.rows()), nbInEq);
 }
 
 
@@ -153,7 +158,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 	{
 		for(std::size_t i = 0; i < c.points.size(); ++i)
 		{
-			data_.lambda_ += c.nrLambda(static_cast<int>(i));
+			data_.lambda_ += c.nrLambda(int(i));
 		}
 	}
 	data_.lambdaUni_ = data_.lambda_;
@@ -163,7 +168,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 	{
 		for(std::size_t i = 0; i < c.points.size(); ++i)
 		{
-			data_.lambda_ += c.nrLambda(static_cast<int>(i));
+			data_.lambda_ += c.nrLambda(int(i));
 		}
 	}
 	data_.lambdaBi_ = data_.lambda_ - data_.lambdaUni_;
@@ -385,28 +390,34 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 	Q_.setZero();
 	C_.setZero();
 
-	int count = 0;
+	nrEq_ = 0;
 	for(std::size_t i = 0; i < eqConstr_.size(); ++i)
 	{
+		// eq constraint can return a matrix with more line
+		// than the number of constraint
+		int nrConstr = eqConstr_[i]->nrEq();
 		const Eigen::MatrixXd& A1 = eqConstr_[i]->AEq();
 		const Eigen::VectorXd& B1 = eqConstr_[i]->BEq();
 
-		A1_.block(count, 0, A1.rows(), data_.nrVars_) = A1;
-		B1_.segment(count, A1.rows()) = B1;
+		A1_.block(nrEq_, 0, nrConstr, data_.nrVars_) = A1;
+		B1_.segment(nrEq_, nrConstr) = B1;
 
-		count += static_cast<int>(A1.rows());
+		nrEq_ += nrConstr;
 	}
 
-	count = 0;
+	nrInEq_ = 0;
 	for(std::size_t i = 0; i < inEqConstr_.size(); ++i)
 	{
+		// ineq constraint can return a matrix with more line
+		// than the number of constraint
+		int nrConstr = inEqConstr_[i]->nrInEq();
 		const Eigen::MatrixXd& A2 = inEqConstr_[i]->AInEq();
 		const Eigen::VectorXd& B2 = inEqConstr_[i]->BInEq();
 
-		A2_.block(count, 0, A2.rows(), data_.nrVars_) = A2;
-		B2_.segment(count, A2.rows()) = B2;
+		A2_.block(nrInEq_, 0, nrConstr, data_.nrVars_) = A2;
+		B2_.segment(nrInEq_, nrConstr) = B2;
 
-		count += static_cast<int>(A2.rows());
+		nrInEq_ += nrConstr;
 	}
 
 	for(std::size_t i = 0; i < boundConstr_.size(); ++i)

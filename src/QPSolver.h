@@ -115,9 +115,11 @@ private:
 
 	SolverData data_;
 
+	int nrEq_;
 	Eigen::MatrixXd A1_;
 	Eigen::VectorXd B1_;
 
+	int nrInEq_;
 	Eigen::MatrixXd A2_;
 	Eigen::VectorXd B2_;
 
@@ -197,7 +199,8 @@ class Equality
 {
 public:
 	virtual ~Equality() {}
-	virtual int nrEqLine() = 0;
+	virtual int maxEq() = 0;
+	virtual int nrEq() { return maxEq(); }
 
 	virtual const Eigen::MatrixXd& AEq() const = 0;
 	virtual const Eigen::VectorXd& BEq() const = 0;
@@ -219,7 +222,8 @@ class Inequality
 {
 public:
 	virtual ~Inequality() {}
-	virtual int nrInEqLine() = 0;
+	virtual int maxInEq() = 0;
+	virtual int nrInEq() { return maxInEq(); }
 
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
 	virtual const Eigen::VectorXd& BInEq() const = 0;

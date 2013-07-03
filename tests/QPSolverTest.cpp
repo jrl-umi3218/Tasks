@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	solver.removeTask(&postureTask);
 
 
-	Vector3d comD = RotZ(cst::pi<double>()/4.)*rbd::computeCoM(mb, mbcInit);
+	Vector3d comD(RotZ(cst::pi<double>()/4.)*rbd::computeCoM(mb, mbcInit));
 	qp::CoMTask comTask(mb, comD);
 	qp::SetPointTask comTaskSp(mb, &comTask, 10., 1.);
 
