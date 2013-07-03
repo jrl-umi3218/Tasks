@@ -321,12 +321,14 @@ def build_qp(tasks):
                      param('const rbd::MultiBodyConfig&', 'mbc')])
 
   # EqualityConstraint
-  eqConstr.add_method('nrEqLine', retval('int'), [])
+  eqConstr.add_method('maxEq', retval('int'), [])
+  eqConstr.add_method('nrEq', retval('int'), [])
   eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
   eqConstr.add_method('BEq', retval('Eigen::MatrixXd'), [])
 
   # InequalityConstraint
-  ineqConstr.add_method('nrInEqLine', retval('int'), [])
+  ineqConstr.add_method('maxInEq', retval('int'), [])
+  ineqConstr.add_method('nrInEq', retval('int'), [])
   ineqConstr.add_method('AInEq', retval('Eigen::MatrixXd'), [])
   ineqConstr.add_method('BInEq', retval('Eigen::MatrixXd'), [])
 
