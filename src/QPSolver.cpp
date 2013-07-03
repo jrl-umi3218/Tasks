@@ -80,7 +80,10 @@ bool QPSolver::updateQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 	double iter = 1e-8;
 	while(!success && iter < 1e-3)
 	{
-		success = qld_.solve(Q_, C_, A1_, B1_, A2_, B2_, XL_, XU_, iter);
+		success = qld_.solve(Q_, C_,
+			A1_.block(0, 0, nrEq_, data_.nrVars_), B1_.head(nrEq_),
+			A2_.block(0, 0, nrInEq_, data_.nrVars_), B2_.head(nrInEq_),
+			XL_, XU_, iter);
 		iter *= 10.;
 	}
 	postUpdate(mb, mbc, success, qld_.result());
@@ -103,7 +106,10 @@ bool QPSolver::updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
 	preUpdate(mb, mbc);
 
-	bool success = lssol_.solve(Q_, C_, A1_, B1_, A2_, B2_, XL_, XU_);
+	bool success = lssol_.solve(Q_, C_,
+		A1_.block(0, 0, nrEq_, data_.nrVars_), B1_.head(nrEq_),
+		A2_.block(0, 0, nrInEq_, data_.nrVars_), B2_.head(nrInEq_),
+		XL_, XU_);
 
 	postUpdate(mb, mbc, success, lssol_.result());
 
