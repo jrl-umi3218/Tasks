@@ -237,6 +237,58 @@ private:
 
 
 
+class DamperJointLimitsConstr : public ConstraintFunction<Bound>
+{
+public:
+	DamperJointLimitsConstr(const rbd::MultiBody& mb,
+		std::vector<std::vector<double> > lBound,
+		std::vector<std::vector<double> > uBound,
+		double interPercent, double step);
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		const SolverData& data);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	// Bound Constraint
+	virtual int beginVar();
+
+	virtual const Eigen::VectorXd& Lower() const;
+	virtual const Eigen::VectorXd& Upper() const;
+
+	/// compute damping that avoid speed jump
+	double computeDamping(double alpha, double dist, double iDist);
+	double computeDamper(double dist, double iDist, double damping);
+
+private:
+	struct DampData
+	{
+		enum State {Low, Upp, Free};
+
+		DampData(double mi, double ma, double idi, int vp, int i):
+			min(mi), max(ma), iDist(idi), index(i), vecPos(vp),
+			damping(0.), state(Free)
+		{}
+
+		double min, max;
+		double iDist;
+		int index;
+		int vecPos;
+		double damping;
+		State state;
+	};
+
+private:
+	std::vector<DampData> data_;
+
+	Eigen::VectorXd lower_, upper_;
+	int begin_;
+	double step_;
+};
+
+
+
 class TorqueLimitsConstr : public ConstraintFunction<Bound>
 {
 public:

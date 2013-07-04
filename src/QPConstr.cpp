@@ -518,6 +518,125 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 
 
 /**
+	*												DamperJointLimitsConstr
+	*/
+
+
+DamperJointLimitsConstr::DamperJointLimitsConstr(const rbd::MultiBody& mb,
+	std::vector<std::vector<double> > lBound,
+	std::vector<std::vector<double> > uBound,
+	double interPercent, double step):
+	data_(),
+	lower_(),
+	upper_(),
+	begin_(mb.joint(0).dof()),
+	step_(step)
+{
+	int vars = mb.nrDof() - begin_;
+	lower_.resize(vars);
+	lower_.fill(-std::numeric_limits<double>::infinity());
+	upper_.resize(vars);
+	upper_.fill(std::numeric_limits<double>::infinity());
+
+	for(int i = 0; i < mb.nrJoints(); ++i)
+	{
+		if(mb.joint(i).dof() == 1)
+		{
+			data_.emplace_back(lBound[i][0], uBound[i][0],
+				(uBound[i][0] - lBound[i][0])*interPercent,
+				mb.jointPosInDof(i) - begin_, i);
+		}
+	}
+}
+
+
+void DamperJointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	const SolverData& /* data */)
+{
+}
+
+
+void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
+	const rbd::MultiBodyConfig& mbc)
+{
+	for(DampData& d: data_)
+	{
+		double ld = mbc.q[d.index][0] - d.min;
+		double ud = d.max - mbc.q[d.index][0];
+
+		lower_[d.vecPos] = -std::numeric_limits<double>::infinity();
+		upper_[d.vecPos] = std::numeric_limits<double>::infinity();
+
+		if(ld < d.iDist)
+		{
+			// damper(dist) < alpha
+			// dist > 0 -> negative < alpha -> joint angle can decrease
+			// dist < 0 -> positive < alpha -> joint angle must increase
+			if(d.state != DampData::Low)
+			{
+				d.damping = computeDamping(mbc.alpha[d.index][0], ld, d.iDist);
+				d.state = DampData::Low;
+			}
+
+			double damper = computeDamper(ld, d.iDist, d.damping);
+			lower_[d.vecPos] = (damper - mbc.alpha[d.index][0])/step_;
+		}
+		else if(ud < d.iDist)
+		{
+			// alpha < damper(dist)
+			// dist > 0 -> alpha < positive -> joint angle can increase
+			// dist < 0 -> alpha < negative -> joint angle must decrease
+			if(d.state != DampData::Upp)
+			{
+				d.damping = computeDamping(mbc.alpha[d.index][0], ud, d.iDist);
+				d.state = DampData::Upp;
+			}
+
+			double damper = computeDamper(ud, d.iDist, d.damping);
+			upper_[d.vecPos] = (damper - mbc.alpha[d.index][0])/step_;
+		}
+		else
+		{
+			d.state = DampData::Free;
+		}
+	}
+}
+
+
+int DamperJointLimitsConstr::beginVar()
+{
+	return begin_;
+}
+
+
+const Eigen::VectorXd& DamperJointLimitsConstr::Lower() const
+{
+	return lower_;
+}
+
+
+const Eigen::VectorXd& DamperJointLimitsConstr::Upper() const
+{
+	return upper_;
+}
+
+
+double DamperJointLimitsConstr::computeDamping(double alpha, double dist,
+	double iDist)
+{
+	return (iDist/dist)*alpha;
+}
+
+
+double DamperJointLimitsConstr::computeDamper(double dist,
+	double iDist, double damping)
+{
+	return damping*(dist/iDist);
+}
+
+
+
+/**
 	*															TorqueLimitsConstr
 	*/
 
