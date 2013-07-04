@@ -189,19 +189,21 @@ def build_qp(tasks):
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
+  damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
   torqueLimitsConstr = qp.add_class('TorqueLimitsConstr', parent=[boundConstr, constr])
 
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
 
 
   constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
-                'SelfCollisionConstr', 'JointLimitsConstr',
+                'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'StaticEnvCollisionConstr', 'TorqueLimitsConstr',
                 'GripperTorqueConstr']
   eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr',
                     'GripperTorqueConstr']
-  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'TorqueLimitsConstr']
+  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
+                     'TorqueLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
@@ -209,7 +211,8 @@ def build_qp(tasks):
                 'OrientationTrackingTask']
   constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
-                jointLimitsConstr, torqueLimitsConstr, gripperTorqueConstr]
+                jointLimitsConstr, damperJointLimitsConstr, torqueLimitsConstr,
+                gripperTorqueConstr]
 
 
   # build list type
@@ -621,6 +624,13 @@ def build_qp(tasks):
   jointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
                                     param('std::vector<std::vector<double> >', 'lbound'),
                                     param('std::vector<std::vector<double> >', 'ubound'),
+                                    param('double', 'step')])
+
+  # JointLimitsConstr
+  damperJointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                                    param('std::vector<std::vector<double> >', 'lbound'),
+                                    param('std::vector<std::vector<double> >', 'ubound'),
+                                    param('double', 'interPercent'),
                                     param('double', 'step')])
 
   # TorqueLimitsConstr
