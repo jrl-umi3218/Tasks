@@ -644,7 +644,7 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
 	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
 
-	qp::DamperJointLimitsConstr dampJointConstr(mb, lBound, uBound, 0.1, 0.001);
+	qp::DamperJointLimitsConstr dampJointConstr(mb, lBound, uBound, 0.1, 1., 0.001);
 
 	// Test add*Constraint
 	dampJointConstr.addToSolver(solver);
@@ -661,7 +661,7 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 
 	// Test JointLimitsConstr
 	mbcSolv = mbcInit;
-	for(int i = 0; i < 5000; ++i)
+	for(int i = 0; i < 1000; ++i)
 	{
 		BOOST_REQUIRE(solver.update(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
@@ -673,7 +673,7 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 
 	posTask.position(RotZ(-cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
 	mbcSolv = mbcInit;
-	for(int i = 0; i < 5000; ++i)
+	for(int i = 0; i < 1000; ++i)
 	{
 		BOOST_REQUIRE(solver.update(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);

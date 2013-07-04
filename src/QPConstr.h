@@ -243,7 +243,7 @@ public:
 	DamperJointLimitsConstr(const rbd::MultiBody& mb,
 		std::vector<std::vector<double> > lBound,
 		std::vector<std::vector<double> > uBound,
-		double interPercent, double step);
+		double interPercent, double damperOffset, double step);
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
@@ -285,6 +285,7 @@ private:
 	Eigen::VectorXd lower_, upper_;
 	int begin_;
 	double step_;
+	double damperOff_;
 };
 
 

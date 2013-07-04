@@ -626,11 +626,11 @@ def build_qp(tasks):
                                     param('std::vector<std::vector<double> >', 'ubound'),
                                     param('double', 'step')])
 
-  # JointLimitsConstr
+  # DamperJointLimitsConstr
   damperJointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
                                     param('std::vector<std::vector<double> >', 'lbound'),
                                     param('std::vector<std::vector<double> >', 'ubound'),
-                                    param('double', 'interPercent'),
+                                    param('double', 'interPercent'), param('double', 'damperOffset'),
                                     param('double', 'step')])
 
   # TorqueLimitsConstr
