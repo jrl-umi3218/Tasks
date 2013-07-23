@@ -287,8 +287,13 @@ def build_qp(tasks):
                                [param('const Eigen::VectorXd&', 'lambda'),
                                 param('int', 'point')],
                                throw=[dom_ex], custom_name='force')
+  unilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
+                               [param('const Eigen::VectorXd&', 'lambda')],
+                               throw=[dom_ex], custom_name='force')
   unilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
                                is_const=True, throw=[dom_ex], custom_name='nrLambda')
+  unilateralContact.add_method('nrLambda', retval('int'), [],
+                               is_const=True, throw=[dom_ex])
 
   # BilateralContact
   bilateralContact.add_constructor([])
@@ -312,8 +317,13 @@ def build_qp(tasks):
                               [param('const Eigen::VectorXd&', 'lambda'),
                                param('int', 'point')],
                               throw=[dom_ex], custom_name='force')
+  bilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
+                              [param('const Eigen::VectorXd&', 'lambda')],
+                              throw=[dom_ex], custom_name='force')
   bilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
                               is_const=True, throw=[dom_ex], custom_name='nrLambda')
+  bilateralContact.add_method('nrLambda', retval('int'), [],
+                              is_const=True, throw=[dom_ex])
 
 
   # Constraint

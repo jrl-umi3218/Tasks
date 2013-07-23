@@ -47,9 +47,13 @@ struct UnilateralContact
 
 	/// @return Force vector of the contact point.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int point) const;
+	/// @return Force vector.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
 
-	/// @return Number of lambda needed to compute the force vector the contact point.
+	/// @return Number of lambda needed to compute the force vector of the contact point.
 	int nrLambda(int point) const;
+	/// @return Number of lambda needed to compute the force vector.
+	int nrLambda() const;
 
 	/**
 		* Safe version of @see force.
@@ -57,6 +61,11 @@ struct UnilateralContact
 		* or if point is not a valid index.
 		*/
 	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda, int point) const;
+	/**
+		* Safe version of @see force.
+		* @throw std::domain_error If lambda don't match the number of generator.
+		*/
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda) const;
 
 	/**
 		* Safe version of @see nrLambda.
@@ -83,16 +92,25 @@ struct BilateralContact
 
 	/// @return Force vector of the contact point.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int point) const;
+	/// @return Force vector.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
 
-	/// @return Number of lambda needed to compute the force vector the contact point.
+	/// @return Number of lambda needed to compute the force vector of the contact point.
 	int nrLambda(int point) const;
+	/// @return Number of lambda needed to compute the force vector.
+	int nrLambda() const;
 
 	/**
-		* Safe version of @see force. Also the generic one for python bindingx
+		* Safe version of @see force. Also the generic one for python binding.
 		* @throw std::domain_error If lambda don't match the number of generator
 		* or if point it not a valid index.
 		*/
 	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda, int point) const;
+	/**
+		* Safe version of @see force. Also the generic one for python binding.
+		* @throw std::domain_error If lambda don't match the number of generator.
+		*/
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda) const;
 
 	/**
 		* Safe version of @see nrLambda.
