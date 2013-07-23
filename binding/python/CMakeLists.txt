@@ -1,5 +1,15 @@
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibs REQUIRED)
+INCLUDE(../../cmake/python.cmake)
+FINDPYTHON()
+
+## Define PYTHON_DISTLIB
+EXECUTE_PROCESS(
+  COMMAND "${PYTHON_EXECUTABLE}" "-c"
+  "import sys, os; print os.sep.join(['lib', 'python' + sys.version[:3], 'dist-packages'])"
+  OUTPUT_VARIABLE PYTHON_DISTLIB
+  ERROR_QUIET)
+# Remove final \n of the variable PYTHON_DISTLIB
+STRING(REPLACE "\n" "" PYTHON_DISTLIB "${PYTHON_DISTLIB}")
+
 
 # Tasks
 
@@ -58,24 +68,12 @@ PKG_CONFIG_USE_DEPENDENCY(_scd scd)
 set_target_properties(_scd PROPERTIES PREFIX "")
 
 
-
 # install rules
-# find python version (not implemented in cmake 2.8.5)
-execute_process(COMMAND "${PYTHON_EXECUTABLE}" -V ERROR_VARIABLE _VERSION
-                OUTPUT_QUIET ERROR_STRIP_TRAILING_WHITESPACE)
-string(REPLACE "Python " "" PYTHON_VERSION_STRING "${_VERSION}")
-string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1"
-       PYTHON_VERSION_MAJOR "${PYTHON_VERSION_STRING}")
-string(REGEX REPLACE "^[0-9]+\\.([0-9])+\\.[0-9]+.*" "\\1"
-       PYTHON_VERSION_MINOR "${PYTHON_VERSION_STRING}")
-
-set(INSTALL_PATH
-  "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/tasks/")
+set(INSTALL_PATH "${PYTHON_DISTLIB}/tasks/")
 install(TARGETS _tasks DESTINATION ${INSTALL_PATH})
 install(FILES __init__.py DESTINATION ${INSTALL_PATH})
 
-set(INSTALL_PATH
-  "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/scd/")
+set(INSTALL_PATH "${PYTHON_DISTLIB}/scd/")
 install(TARGETS _scd DESTINATION ${INSTALL_PATH})
 install(FILES __scd_init__.py DESTINATION ${INSTALL_PATH} RENAME __init__.py)
 
