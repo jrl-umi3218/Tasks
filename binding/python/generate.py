@@ -263,6 +263,8 @@ def build_qp(tasks):
   sol.add_method('lambdaVec', retval('Eigen::VectorXd'), [], is_const=True)
   sol.add_method('torqueVec', retval('Eigen::VectorXd'), [], is_const=True)
 
+  sol.add_method('contactLambdaPosition', retval('int'), [param('int', 'bodyId')], is_const=True)
+
 
   # FrictionCone
   frictionCone.add_constructor([])

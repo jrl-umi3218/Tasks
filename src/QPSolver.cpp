@@ -351,6 +351,39 @@ Eigen::VectorXd QPSolver::torqueVec() const
 }
 
 
+int QPSolver::contactLambdaPosition(int bodyId) const
+{
+	int pos = 0;
+	for(const UnilateralContact& uc: data_.unilateralContacts())
+	{
+		if(uc.bodyId == bodyId)
+		{
+			return pos;
+		}
+
+		for(std::size_t i = 0; i < uc.points.size(); ++i)
+		{
+			pos += uc.nrLambda(int(i));
+		}
+	}
+
+	for(const BilateralContact& bc: data_.bilateralContacts())
+	{
+		if(bc.bodyId == bodyId)
+		{
+			return pos;
+		}
+
+		for(std::size_t i = 0; i < bc.points.size(); ++i)
+		{
+			pos += bc.nrLambda(int(i));
+		}
+	}
+
+	return -1;
+}
+
+
 void QPSolver::updateSolverSize(int nrVar, int nrEq, int nrIneq)
 {
 	updateLSSOLSize(nrVar, nrEq, nrIneq);

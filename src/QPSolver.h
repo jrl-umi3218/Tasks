@@ -96,6 +96,8 @@ public:
 	Eigen::VectorXd lambdaVec() const;
 	Eigen::VectorXd torqueVec() const;
 
+	int contactLambdaPosition(int bodyId) const;
+
 protected:
 	void updateSolverSize(int nrVar, int nrEq, int nrIneq);
 	void updateQLDSize(int nrVar, int nrEq, int nrIneq);
