@@ -69,7 +69,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeXArm()
 	Matrix3d I = Matrix3d::Identity();
 	Vector3d h = Vector3d::Zero();
 
-	RBInertia rbi(mass, h, I);
+	RBInertiad rbi(mass, h, I);
 
 	Body b0(rbi, 0, "b0");
 	Body b1(rbi, 1, "b1");
@@ -85,9 +85,9 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeXArm()
 	//  ---- b0 ---- b1
 	//  Free     X
 
-	PTransform to(Vector3d(0., 0.5, 0.));
+	PTransformd to(Vector3d(0., 0.5, 0.));
 
-	mbg.linkBodies(0, to, 1, PTransform::Identity(), 0);
+	mbg.linkBodies(0, to, 1, PTransformd::Identity(), 0);
 
 	MultiBody mb = mbg.makeMultiBody(0, false);
 
@@ -97,7 +97,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeXArm()
 	mbc.alpha = {{0., 0., 0., 0., 0., 0.}, {0.}};
 	mbc.alphaD = {{0., 0., 0., 0., 0., 0.}, {0.}};
 	mbc.jointTorque = {{0., 0., 0., 0., 0., 0.}, {0.}, {0.}, {0.}};
-	ForceVec f0(Vector6d::Zero());
+	ForceVecd f0(Vector6d::Zero());
 	mbc.force = {f0, f0};
 
 	return std::make_tuple(mb, mbc);

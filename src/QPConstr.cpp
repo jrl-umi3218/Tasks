@@ -699,7 +699,7 @@ const Eigen::VectorXd& TorqueLimitsConstr::Upper() const
 	*/
 
 
-SCD::Matrix4x4 toSCD(const sva::PTransform& t)
+SCD::Matrix4x4 toSCD(const sva::PTransformd& t)
 {
 	SCD::Matrix4x4 m;
 	const Eigen::Matrix3d& rot = t.rotation();
@@ -722,8 +722,8 @@ SCD::Matrix4x4 toSCD(const sva::PTransform& t)
 
 
 SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
-	int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
-	int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
+	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
+	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 	double di, double ds, double damping):
 		pair(new SCD::CD_Pair(body1, body2)),
 		body1T(body1T),
@@ -759,8 +759,8 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
 
 
 void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb,
-	int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
-	int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
+	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
+	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 	double di, double ds, double damping)
 {
 	dataVec_.emplace_back(mb, body1Id, body1, body1T,
@@ -831,8 +831,8 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 		Eigen::Vector3d normVecDist = (pb1 - pb2)/dist;
 
-		pb1 = (sva::PTransform(pb1)*mbc.bodyPosW[d.body1].inv()).translation();
-		pb2 = (sva::PTransform(pb2)*mbc.bodyPosW[d.body2].inv()).translation();
+		pb1 = (sva::PTransformd(pb1)*mbc.bodyPosW[d.body1].inv()).translation();
+		pb2 = (sva::PTransformd(pb2)*mbc.bodyPosW[d.body2].inv()).translation();
 
 		if(dist < d.di)
 		{
@@ -911,7 +911,7 @@ const Eigen::VectorXd& SelfCollisionConstr::BInEq() const
 
 
 StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
-	int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
+	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 	int envId, SCD::S_Object* env,
 	double di, double ds, double damping):
 		pair(new SCD::CD_Pair(body, env)),
@@ -944,7 +944,7 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
 
 
 void StaticEnvCollisionConstr::addCollision(const rbd::MultiBody& mb,
-	int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
+	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 	int envId, SCD::S_Object* env,
 	double di, double ds, double damping)
 {
@@ -1015,7 +1015,7 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 
 		Eigen::Vector3d normVecDist = (pb1 - pb2)/dist;
 
-		pb1 = (sva::PTransform(pb1)*mbc.bodyPosW[d.body].inv()).translation();
+		pb1 = (sva::PTransformd(pb1)*mbc.bodyPosW[d.body].inv()).translation();
 
 		if(dist < d.di)
 		{

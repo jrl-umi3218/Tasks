@@ -60,7 +60,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeLegs()
 	Matrix3d I = Matrix3d::Identity();
 	Vector3d h = Vector3d::Zero();
 
-	RBInertia rbi(mass, h, I);
+	RBInertiad rbi(mass, h, I);
 
 	Body b0(rbi, 0, "waist");
 	Body b1(rbi, 1, "rleg");
@@ -88,14 +88,14 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeLegs()
 	//  ---- b0 ---- b1
 	//  Free     X
 
-	PTransform toRLeg(Vector3d(0., 0., 0.1));
-	PTransform toLLeg(Vector3d(0., 0., -0.1));
-	PTransform toFoot(Vector3d(0., -0.3, 0.));
+	PTransformd toRLeg(Vector3d(0., 0., 0.1));
+	PTransformd toLLeg(Vector3d(0., 0., -0.1));
+	PTransformd toFoot(Vector3d(0., -0.3, 0.));
 
-	mbg.linkBodies(0, toRLeg, 1, PTransform::Identity(), 0);
-	mbg.linkBodies(1, toFoot, 2, PTransform::Identity(), 1);
-	mbg.linkBodies(0, toLLeg, 3, PTransform::Identity(), 2);
-	mbg.linkBodies(3, toFoot, 4, PTransform::Identity(), 3);
+	mbg.linkBodies(0, toRLeg, 1, PTransformd::Identity(), 0);
+	mbg.linkBodies(1, toFoot, 2, PTransformd::Identity(), 1);
+	mbg.linkBodies(0, toLLeg, 3, PTransformd::Identity(), 2);
+	mbg.linkBodies(3, toFoot, 4, PTransformd::Identity(), 3);
 
 	MultiBody mb = mbg.makeMultiBody(0, false);
 
@@ -105,7 +105,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeFreeLegs()
 	mbc.alpha = {{0., 0., 0., 0., 0., 0.}, {0.}, {0.}, {0.}, {0.}};
 	mbc.alphaD = {{0., 0., 0., 0., 0., 0.}, {0.}, {0.}, {0.}, {0.}};
 	mbc.jointTorque = {{0., 0., 0., 0., 0., 0.}, {0.}, {0.}, {0.}};
-	ForceVec f0(Vector6d::Zero());
+	ForceVecd f0(Vector6d::Zero());
 	mbc.force = {f0, f0, f0, f0, f0};
 
 	return std::make_tuple(mb, mbc);
@@ -116,7 +116,7 @@ void writeMbc(std::ofstream& of,
 	std::string name, const rbd::MultiBodyConfig& mbc)
 {
 	of << name << " = [" << std::endl;
-	for(const sva::PTransform& p: mbc.bodyPosW)
+	for(const sva::PTransformd& p: mbc.bodyPosW)
 	{
 		Eigen::Vector3d pos = p.translation();
 		of << "(" << pos.x() << ", " << pos.y() << ", " << pos.z() << ")," << std::endl;

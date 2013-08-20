@@ -19,7 +19,7 @@
 namespace SCD
 {
 
-void transform(S_Object& obj, const sva::PTransform& t)
+void transform(S_Object& obj, const sva::PTransformd& t)
 {
   SCD::Matrix4x4 m;
   const Eigen::Matrix3d& rot = t.rotation();

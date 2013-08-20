@@ -33,11 +33,11 @@ def import_rbd_types(mod):
 
 
 def import_sva_types(mod):
-  mod.add_class('MotionVec', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
-  mod.add_class('ForceVec', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
-  mod.add_class('RBInertia', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
-  mod.add_class('ABInertia', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
-  mod.add_class('PTransform', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
+  mod.add_class('MotionVecd', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
+  mod.add_class('ForceVecd', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
+  mod.add_class('RBInertiad', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
+  mod.add_class('ABInertiad', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
+  mod.add_class('PTransformd', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
 
 
 
@@ -600,10 +600,10 @@ def build_qp(tasks):
                                  [param('const rbd::MultiBody&', 'mb'),
                                   param('int', 'body1Id'),
                                   param('SCD::S_Object*', 'body1', transfer_ownership=False),
-                                  param('const sva::PTransform&', 'body1T'),
+                                  param('const sva::PTransformd&', 'body1T'),
                                   param('int', 'body2Id'),
                                   param('SCD::S_Object*', 'body2', transfer_ownership=False),
-                                  param('const sva::PTransform&', 'body2T'),
+                                  param('const sva::PTransformd&', 'body2T'),
                                   param('double', 'di'),
                                   param('double', 'ds'),
                                   param('double', 'damping')])
@@ -620,7 +620,7 @@ def build_qp(tasks):
                                [param('const rbd::MultiBody&', 'mb'),
                                 param('int', 'bodyId'),
                                 param('SCD::S_Object*', 'body', transfer_ownership=False),
-                                param('const sva::PTransform&', 'bodyT'),
+                                param('const sva::PTransformd&', 'bodyT'),
                                 param('int', 'envId'),
                                 param('SCD::S_Object*', 'env', transfer_ownership=False),
                                 param('double', 'di'),

@@ -231,7 +231,7 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 	int pos = mb.jointPosInDof(1);
 
 	// we drop the first joint (fixed or free flyier).
-	for(std::size_t i = 1; i < mb.nrJoints(); ++i)
+	for(int i = 1; i < mb.nrJoints(); ++i)
 	{
 		// if dof == 1 is a prismatic/revolute joint
 		// else if dof == 4 is a spherical one
@@ -380,7 +380,7 @@ const Eigen::Vector3d& LinVelocityTask::bodyPoint() const
 
 void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	sva::PTransform E_0_b(mbc.bodyPosW[bodyIndex_].rotation());
+	sva::PTransformd E_0_b(mbc.bodyPosW[bodyIndex_].rotation());
 	eval_ = vel_ - (E_0_b.invMul(point_*mbc.bodyVelB[bodyIndex_])).linear();
 
 	shortJacMat_ = jac_.jacobian(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
@@ -470,7 +470,7 @@ const Eigen::Vector3d& OrientationTrackingTask::trackedPoint() const
 
 void OrientationTrackingTask::bodyPoint(const Eigen::Vector3d& bp)
 {
-	bodyPoint_ = sva::PTransform(bp);
+	bodyPoint_ = sva::PTransformd(bp);
 }
 
 
@@ -496,7 +496,7 @@ void OrientationTrackingTask::update(const rbd::MultiBody& mb,
 	const rbd::MultiBodyConfig& mbc)
 {
 	using namespace Eigen;
-	const sva::PTransform& bodyTf = mbc.bodyPosW[bodyIndex_];
+	const sva::PTransformd& bodyTf = mbc.bodyPosW[bodyIndex_];
 	Vector3d desDir(trackedPoint_ - (bodyPoint_*bodyTf).translation());
 	Vector3d curDir(bodyTf.rotation().transpose()*bodyAxis_);
 	desDir.normalize();
@@ -505,8 +505,8 @@ void OrientationTrackingTask::update(const rbd::MultiBody& mb,
 	Matrix3d targetOri(
 		Quaterniond::FromTwoVectors(curDir, desDir).inverse().matrix());
 
-	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(),
-															targetOri*mbc.bodyPosW[bodyIndex_].rotation(), 1e-7);
+	eval_ = sva::rotationError<double>(mbc.bodyPosW[bodyIndex_].rotation(),
+														targetOri*mbc.bodyPosW[bodyIndex_].rotation(), 1e-7);
 
 	shortJacMat_ = jac_.jacobian(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
 	zeroJacobian(shortJacMat_);

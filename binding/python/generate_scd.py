@@ -28,7 +28,7 @@ def import_eigen3_types(mod):
 
 
 def import_sva_types(mod):
-  mod.add_class('PTransform', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
+  mod.add_class('PTransformd', foreign_cpp_namespace='sva', import_from_module='spacevecalg')
 
 
 
@@ -37,7 +37,7 @@ def build_SCD(scd):
   pair = scd.add_class('CD_Pair')
 
   obj.add_function_as_method('transform', None, [param('SCD::S_Object&', 'obj'),
-                                                 param('const sva::PTransform&', 'trans')],
+                                                 param('const sva::PTransformd&', 'trans')],
                              custom_name='transform')
 
 
