@@ -821,7 +821,8 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 
 	PTransformd I = PTransformd::Identity();
 	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
-	autoCollConstr.addCollision(mb, 0, &b0, I, 3, &b3, I, 0.01, 0.005, 1.);
+	int collId1 = 10;
+	autoCollConstr.addCollision(mb, collId1, 0, &b0, I, 3, &b3, I, 0.01, 0.005, 1.);
 
 	// Test addInequalityConstraint
 	solver.addInequalityConstraint(&autoCollConstr);
@@ -895,7 +896,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 
 	PTransformd I = PTransformd::Identity();
 	qp::StaticEnvCollisionConstr seCollConstr(mb, 0.001);
-	seCollConstr.addCollision(mb, 3, &b3, I, 0, &b0, 0.01, 0.005, 1.);
+	int collId1 = 10;
+	seCollConstr.addCollision(mb, collId1, 3, &b3, I, 0, &b0, 0.01, 0.005, 1.);
 
 	// Test addInequalityConstraint
 	solver.addInequalityConstraint(&seCollConstr);

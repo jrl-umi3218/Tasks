@@ -322,11 +322,11 @@ class SelfCollisionConstr : public ConstraintFunction<Inequality>
 public:
 	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
 
-	void addCollision(const rbd::MultiBody& mb,
+	void addCollision(const rbd::MultiBody& mb, int collId,
 		int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 		int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 		double di, double ds, double damping);
-	bool rmCollision(int body1Id, int body2Id);
+	bool rmCollision(int collId);
 	void reset();
 
 	// Constraint
@@ -345,7 +345,7 @@ public:
 private:
 	struct CollData
 	{
-		CollData(const rbd::MultiBody& mb,
+		CollData(const rbd::MultiBody& mb, int collId,
 			int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 			int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 			double di, double ds, double damping);
@@ -356,6 +356,7 @@ private:
 		rbd::Jacobian jacB1, jacB2;
 		double di, ds;
 		double damping;
+		int collId;
 		int body1Id, body2Id;
 		int body1, body2;
 	};
@@ -382,11 +383,11 @@ class StaticEnvCollisionConstr : public ConstraintFunction<Inequality>
 public:
 	StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step);
 
-	void addCollision(const rbd::MultiBody& mb,
+	void addCollision(const rbd::MultiBody& mb, int collId,
 		int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 		int envId, SCD::S_Object* env,
 		double di, double ds, double damping);
-	bool rmCollision(int bodyId, int envId);
+	bool rmCollision(int collId);
 	void reset();
 
 	// Constraint
@@ -405,7 +406,7 @@ public:
 private:
 	struct CollData
 	{
-		CollData(const rbd::MultiBody& mb,
+		CollData(const rbd::MultiBody& mb, int collId,
 			int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 			int envId, SCD::S_Object* env,
 			double di, double ds, double damping);
@@ -416,6 +417,7 @@ private:
 		rbd::Jacobian jacB1;
 		double di, ds;
 		double damping;
+		int collId;
 		int bodyId, envId;
 		int body;
 	};

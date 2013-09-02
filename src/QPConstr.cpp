@@ -721,7 +721,7 @@ SCD::Matrix4x4 toSCD(const sva::PTransformd& t)
 }
 
 
-SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
+SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 	double di, double ds, double damping):
@@ -734,6 +734,7 @@ SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
 		di(di),
 		ds(ds),
 		damping(damping),
+		collId(collId),
 		body1Id(body1Id),
 		body2Id(body2Id),
 		body1(mb.bodyIndexById(body1Id)),
@@ -758,22 +759,22 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
 }
 
 
-void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb,
+void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
 	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 	double di, double ds, double damping)
 {
-	dataVec_.emplace_back(mb, body1Id, body1, body1T,
+	dataVec_.emplace_back(mb, collId, body1Id, body1, body1T,
 		body2Id, body2, body2T, di, ds, damping);
 }
 
 
-bool SelfCollisionConstr::rmCollision(int body1Id, int body2Id)
+bool SelfCollisionConstr::rmCollision(int collId)
 {
 	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
-		[body1Id, body2Id](const CollData& data)
+		[collId](const CollData& data)
 		{
-			return data.body1Id == body1Id && data.body2Id == body2Id;
+			return data.collId == collId;
 		});
 
 	if(it != dataVec_.end())
@@ -910,7 +911,7 @@ const Eigen::VectorXd& SelfCollisionConstr::BInEq() const
 	*/
 
 
-StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
+StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 	int envId, SCD::S_Object* env,
 	double di, double ds, double damping):
@@ -921,6 +922,7 @@ StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
 		di(di),
 		ds(ds),
 		damping(damping),
+		collId(collId),
 		bodyId(bodyId),
 		envId(envId),
 		body(mb.bodyIndexById(bodyId))
@@ -943,22 +945,22 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
 }
 
 
-void StaticEnvCollisionConstr::addCollision(const rbd::MultiBody& mb,
+void StaticEnvCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
 	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 	int envId, SCD::S_Object* env,
 	double di, double ds, double damping)
 {
-	dataVec_.emplace_back(mb, bodyId, body, bodyT, envId, env,
+	dataVec_.emplace_back(mb, collId, bodyId, body, bodyT, envId, env,
 		di, ds, damping);
 }
 
 
-bool StaticEnvCollisionConstr::rmCollision(int bodyId, int envId)
+bool StaticEnvCollisionConstr::rmCollision(int collId)
 {
 	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
-		[bodyId, envId](const CollData& data)
+		[collId](const CollData& data)
 		{
-			return data.bodyId == bodyId && data.envId == envId;
+			return data.collId == collId;
 		});
 
 	if(it != dataVec_.end())

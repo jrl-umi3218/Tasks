@@ -598,6 +598,7 @@ def build_qp(tasks):
                                        param('double', 'step')])
   selfCollisionConstr.add_method('addCollision', None,
                                  [param('const rbd::MultiBody&', 'mb'),
+                                  param('int', 'collId'),
                                   param('int', 'body1Id'),
                                   param('SCD::S_Object*', 'body1', transfer_ownership=False),
                                   param('const sva::PTransformd&', 'body1T'),
@@ -609,7 +610,7 @@ def build_qp(tasks):
                                   param('double', 'damping')])
 
   selfCollisionConstr.add_method('rmCollision', retval('bool'),
-                                 [param('int', 'body1Id'), param('int', 'body2Id')])
+                                 [param('int', 'collId')])
 
   selfCollisionConstr.add_method('reset', None, []),
 
@@ -618,6 +619,7 @@ def build_qp(tasks):
                                      param('double', 'step')])
   seCollisionConstr.add_method('addCollision', None,
                                [param('const rbd::MultiBody&', 'mb'),
+                                param('int', 'collId'),
                                 param('int', 'bodyId'),
                                 param('SCD::S_Object*', 'body', transfer_ownership=False),
                                 param('const sva::PTransformd&', 'bodyT'),
@@ -627,8 +629,7 @@ def build_qp(tasks):
                                 param('double', 'ds'),
                                 param('double', 'damping')])
 
-  seCollisionConstr.add_method('rmCollision', retval('bool'),
-                               [param('int', 'bodyId'), param('int', 'envId')])
+  seCollisionConstr.add_method('rmCollision', retval('bool'), [param('int', 'collId')])
 
   seCollisionConstr.add_method('reset', None, []),
 
