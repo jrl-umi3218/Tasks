@@ -45,8 +45,8 @@ def anim():
   b1a.user_transform = tvtk.Transform()
   b2a.user_transform = tvtk.Transform()
 
-  b1T = sva.PTransform.Identity()
-  b2T = sva.PTransform(Vector3d.UnitZ()*2.)
+  b1T = sva.PTransformd.Identity()
+  b2T = sva.PTransformd(Vector3d.UnitZ()*2.)
 
   setTransform(b1a, b1T)
   setTransform(b2a, b2T)
@@ -57,8 +57,8 @@ def anim():
   rx = ry = rz = 0.
   t = 0
   while True:
-    b1T = sva.PTransform(sva.RotZ(rz)*sva.RotY(ry)*sva.RotX(rx))
-    b2T = sva.PTransform(Vector3d(0., 0., 2. + np.sin(t)))
+    b1T = sva.PTransformd(sva.RotZ(rz)*sva.RotY(ry)*sva.RotX(rx))
+    b2T = sva.PTransformd(Vector3d(0., 0., 2. + np.sin(t)))
 
     setTransform(b1a, b1T)
     setTransform(b2a, b2T)

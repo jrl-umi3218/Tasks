@@ -57,7 +57,7 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed=true)
 	Matrix3d I = Matrix3d::Identity();
 	Vector3d h = Vector3d::Zero();
 
-	RBInertia rbi(mass, h, I);
+	RBInertiad rbi(mass, h, I);
 
 	Body b0(rbi, 0, "b0");
 	Body b1(rbi, 1, "b1");
@@ -82,11 +82,11 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed=true)
 	//  Fixed    Z       X       Z
 
 
-	PTransform to(Vector3d(0., 0.5, 0.));
-	PTransform from(Vector3d(0., 0., 0.));
+	PTransformd to(Vector3d(0., 0.5, 0.));
+	PTransformd from(Vector3d(0., 0., 0.));
 
 
-	mbg.linkBodies(0, PTransform::Identity(), 1, from, 0);
+	mbg.linkBodies(0, PTransformd::Identity(), 1, from, 0);
 	mbg.linkBodies(1, to, 2, from, 1);
 	mbg.linkBodies(2, to, 3, from, 2);
 
@@ -819,7 +819,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	SCD::S_Sphere b0(0.25), b3(0.25);
 	SCD::CD_Pair pair(&b0, &b3);
 
-	PTransform I = PTransform::Identity();
+	PTransformd I = PTransformd::Identity();
 	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
 	autoCollConstr.addCollision(mb, 0, &b0, I, 3, &b3, I, 0.01, 0.005, 1.);
 
@@ -893,7 +893,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 
 	b0.setTransformation(qp::toSCD(mbcInit.bodyPosW[0]));
 
-	PTransform I = PTransform::Identity();
+	PTransformd I = PTransformd::Identity();
 	qp::StaticEnvCollisionConstr seCollConstr(mb, 0.001);
 	seCollConstr.addCollision(mb, 3, &b3, I, 0, &b0, 0.01, 0.005, 1.);
 

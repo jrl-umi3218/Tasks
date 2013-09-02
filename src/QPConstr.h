@@ -44,7 +44,7 @@ namespace tasks
 namespace qp
 {
 
-SCD::Matrix4x4 toSCD(const sva::PTransform& t);
+SCD::Matrix4x4 toSCD(const sva::PTransformd& t);
 
 class MotionConstr : public ConstraintFunction<Equality, Bound>
 {
@@ -323,8 +323,8 @@ public:
 	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
 
 	void addCollision(const rbd::MultiBody& mb,
-		int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
-		int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
+		int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
+		int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 		double di, double ds, double damping);
 	bool rmCollision(int body1Id, int body2Id);
 	void reset();
@@ -346,12 +346,12 @@ private:
 	struct CollData
 	{
 		CollData(const rbd::MultiBody& mb,
-			int body1Id, SCD::S_Object* body1, const sva::PTransform& body1T,
-			int body2Id, SCD::S_Object* body2, const sva::PTransform& body2T,
+			int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
+			int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
 			double di, double ds, double damping);
 
 		SCD::CD_Pair* pair;
-		sva::PTransform body1T, body2T;
+		sva::PTransformd body1T, body2T;
 		Eigen::Vector3d normVecDist;
 		rbd::Jacobian jacB1, jacB2;
 		double di, ds;
@@ -383,7 +383,7 @@ public:
 	StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step);
 
 	void addCollision(const rbd::MultiBody& mb,
-		int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
+		int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 		int envId, SCD::S_Object* env,
 		double di, double ds, double damping);
 	bool rmCollision(int bodyId, int envId);
@@ -406,12 +406,12 @@ private:
 	struct CollData
 	{
 		CollData(const rbd::MultiBody& mb,
-			int bodyId, SCD::S_Object* body, const sva::PTransform& bodyT,
+			int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 			int envId, SCD::S_Object* env,
 			double di, double ds, double damping);
 
 		SCD::CD_Pair* pair;
-		sva::PTransform bodyT;
+		sva::PTransformd bodyT;
 		Eigen::Vector3d normVecDist;
 		rbd::Jacobian jacB1;
 		double di, ds;

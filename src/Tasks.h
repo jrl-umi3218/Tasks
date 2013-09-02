@@ -56,7 +56,7 @@ public:
 
 private:
 	Eigen::Vector3d pos_;
-	sva::PTransform point_;
+	sva::PTransformd point_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
 
@@ -170,7 +170,7 @@ public:
 
 private:
 	Eigen::Vector3d vel_;
-	sva::PTransform point_;
+	sva::PTransformd point_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
 
@@ -211,7 +211,7 @@ private:
 
 private:
 	int bodyIndex_;
-	sva::PTransform bodyPoint_;
+	sva::PTransformd bodyPoint_;
 	Eigen::Vector3d bodyAxis_;
 	std::vector<int> zeroJacIndex_;
 	Eigen::Vector3d trackedPoint_;
