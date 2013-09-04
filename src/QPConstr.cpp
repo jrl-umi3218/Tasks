@@ -523,8 +523,10 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 
 
 DamperJointLimitsConstr::DamperJointLimitsConstr(const rbd::MultiBody& mb,
-	std::vector<std::vector<double> > lBound,
-	std::vector<std::vector<double> > uBound,
+	const std::vector<std::vector<double> >& lBound,
+	const std::vector<std::vector<double> >& uBound,
+	std::vector<std::vector<double> > lVel,
+	std::vector<std::vector<double> > uVel,
 	double interPercent, double damperOffset, double step):
 	data_(),
 	lower_(),
@@ -535,15 +537,20 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(const rbd::MultiBody& mb,
 {
 	int vars = mb.nrDof() - begin_;
 	lower_.resize(vars);
-	lower_.fill(-std::numeric_limits<double>::infinity());
 	upper_.resize(vars);
-	upper_.fill(std::numeric_limits<double>::infinity());
+
+	// remove the joint 0
+	lVel[0] = {};
+	uVel[0] = {};
+
+	rbd::paramToVector(lVel, lower_);
+	rbd::paramToVector(uVel, upper_);
 
 	for(int i = 0; i < mb.nrJoints(); ++i)
 	{
 		if(mb.joint(i).dof() == 1)
 		{
-			data_.emplace_back(lBound[i][0], uBound[i][0],
+			data_.emplace_back(lBound[i][0], uBound[i][0], lVel[i][0], uVel[i][0],
 				(uBound[i][0] - lBound[i][0])*interPercent,
 				mb.jointPosInDof(i) - begin_, i);
 		}
@@ -564,9 +571,10 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 	{
 		double ld = mbc.q[d.index][0] - d.min;
 		double ud = d.max - mbc.q[d.index][0];
+		double alpha = mbc.alpha[d.index][0];
 
-		lower_[d.vecPos] = -std::numeric_limits<double>::infinity();
-		upper_[d.vecPos] = std::numeric_limits<double>::infinity();
+		lower_[d.vecPos] = (d.minVel - alpha)/step_;
+		upper_[d.vecPos] = (d.maxVel - alpha)/step_;
 
 		if(ld < d.iDist)
 		{
@@ -576,12 +584,12 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 			if(d.state != DampData::Low)
 			{
 				d.damping =
-					std::abs(computeDamping(mbc.alpha[d.index][0], ld, d.iDist)) + damperOff_;
+					std::abs(computeDamping(alpha, ld, d.iDist)) + damperOff_;
 				d.state = DampData::Low;
 			}
 
 			double damper = -computeDamper(ld, d.iDist, d.damping);
-			lower_[d.vecPos] = (damper - mbc.alpha[d.index][0])/step_;
+			lower_[d.vecPos] = std::max((damper - alpha)/step_, lower_[d.vecPos]);
 		}
 		else if(ud < d.iDist)
 		{
@@ -591,12 +599,12 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 			if(d.state != DampData::Upp)
 			{
 				d.damping =
-					std::abs(computeDamping(mbc.alpha[d.index][0], ud, d.iDist)) + damperOff_;
+					std::abs(computeDamping(alpha, ud, d.iDist)) + damperOff_;
 				d.state = DampData::Upp;
 			}
 
 			double damper = computeDamper(ud, d.iDist, d.damping);
-			upper_[d.vecPos] = (damper - mbc.alpha[d.index][0])/step_;
+			upper_[d.vecPos] = std::min((damper - alpha)/step_, upper_[d.vecPos]);
 		}
 		else
 		{

@@ -643,8 +643,11 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	double inf = std::numeric_limits<double>::infinity();
 	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
 	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
+	std::vector<std::vector<double> > lVel = {{}, {-inf}, {-inf}, {-inf}};
+	std::vector<std::vector<double> > uVel = {{}, {inf}, {inf}, {inf}};
 
-	qp::DamperJointLimitsConstr dampJointConstr(mb, lBound, uBound, 0.1, 1., 0.001);
+	qp::DamperJointLimitsConstr dampJointConstr(mb, lBound, uBound, lVel, uVel,
+																						0.1, 1., 0.001);
 
 	// Test add*Constraint
 	dampJointConstr.addToSolver(solver);

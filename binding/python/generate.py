@@ -641,8 +641,10 @@ def build_qp(tasks):
 
   # DamperJointLimitsConstr
   damperJointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                    param('std::vector<std::vector<double> >', 'lbound'),
-                                    param('std::vector<std::vector<double> >', 'ubound'),
+                                    param('const std::vector<std::vector<double> >&', 'lBound'),
+                                    param('const std::vector<std::vector<double> >&', 'uBound'),
+                                    param('std::vector<std::vector<double> >', 'lVel'),
+                                    param('std::vector<std::vector<double> >', 'uVel'),
                                     param('double', 'interPercent'), param('double', 'damperOffset'),
                                     param('double', 'step')])
 

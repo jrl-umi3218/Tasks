@@ -241,8 +241,10 @@ class DamperJointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	DamperJointLimitsConstr(const rbd::MultiBody& mb,
-		std::vector<std::vector<double> > lBound,
-		std::vector<std::vector<double> > uBound,
+		const std::vector<std::vector<double> >& lBound,
+		const std::vector<std::vector<double> >& uBound,
+		std::vector<std::vector<double> > lVel,
+		std::vector<std::vector<double> > uVel,
 		double interPercent, double damperOffset, double step);
 
 	// Constraint
@@ -266,12 +268,14 @@ private:
 	{
 		enum State {Low, Upp, Free};
 
-		DampData(double mi, double ma, double idi, int vp, int i):
-			min(mi), max(ma), iDist(idi), index(i), vecPos(vp),
-			damping(0.), state(Free)
+		DampData(double mi, double ma, double miV, double maV,
+						 double idi, int vp, int i):
+			min(mi), max(ma), minVel(miV), maxVel(maV), iDist(idi),
+			index(i), vecPos(vp), damping(0.), state(Free)
 		{}
 
 		double min, max;
+		double minVel, maxVel;
 		double iDist;
 		int index;
 		int vecPos;
