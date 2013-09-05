@@ -607,11 +607,13 @@ def build_qp(tasks):
                                   param('const sva::PTransformd&', 'body2T'),
                                   param('double', 'di'),
                                   param('double', 'ds'),
-                                  param('double', 'damping')])
+                                  param('double', 'damping'),
+                                  param('double', 'dampingOff', default_value='0.')])
 
   selfCollisionConstr.add_method('rmCollision', retval('bool'),
                                  [param('int', 'collId')])
-
+  selfCollisionConstr.add_method('nrCollisions', retval('int'),
+                                 [], is_const=True)
   selfCollisionConstr.add_method('reset', None, []),
 
   # StaticEnvCollisionConstr
@@ -627,10 +629,12 @@ def build_qp(tasks):
                                 param('SCD::S_Object*', 'env', transfer_ownership=False),
                                 param('double', 'di'),
                                 param('double', 'ds'),
-                                param('double', 'damping')])
+                                param('double', 'damping'),
+                                param('double', 'dampingOff', default_value='0.')])
 
   seCollisionConstr.add_method('rmCollision', retval('bool'), [param('int', 'collId')])
-
+  seCollisionConstr.add_method('nrCollisions', retval('int'),
+                               [], is_const=True)
   seCollisionConstr.add_method('reset', None, []),
 
   # JointLimitsConstr
