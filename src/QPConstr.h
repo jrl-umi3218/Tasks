@@ -329,8 +329,9 @@ public:
 	void addCollision(const rbd::MultiBody& mb, int collId,
 		int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 		int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
-		double di, double ds, double damping);
+		double di, double ds, double damping, double dampingOff=0.);
 	bool rmCollision(int collId);
+	std::size_t nrCollisions() const;
 	void reset();
 
 	// Constraint
@@ -349,10 +350,11 @@ public:
 private:
 	struct CollData
 	{
+		enum class DampingType {Hard, Soft, Free};
 		CollData(const rbd::MultiBody& mb, int collId,
 			int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 			int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
-			double di, double ds, double damping);
+			double di, double ds, double damping, double dampingOff);
 
 		SCD::CD_Pair* pair;
 		sva::PTransformd body1T, body2T;
@@ -363,6 +365,8 @@ private:
 		int collId;
 		int body1Id, body2Id;
 		int body1, body2;
+		DampingType dampingType;
+		double dampingOff;
 	};
 
 private:

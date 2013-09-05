@@ -732,7 +732,7 @@ SCD::Matrix4x4 toSCD(const sva::PTransformd& t)
 SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
-	double di, double ds, double damping):
+	double di, double ds, double damping, double dampOff):
 		pair(new SCD::CD_Pair(body1, body2)),
 		body1T(body1T),
 		body2T(body2T),
@@ -746,7 +746,9 @@ SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 		body1Id(body1Id),
 		body2Id(body2Id),
 		body1(mb.bodyIndexById(body1Id)),
-		body2(mb.bodyIndexById(body2Id))
+		body2(mb.bodyIndexById(body2Id)),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Soft),
+		dampingOff(dampOff)
 {
 }
 
@@ -770,10 +772,10 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
 void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
 	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
 	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
-	double di, double ds, double damping)
+	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(mb, collId, body1Id, body1, body1T,
-		body2Id, body2, body2T, di, ds, damping);
+		body2Id, body2, body2T, di, ds, damping, dampingOff);
 }
 
 
@@ -793,6 +795,12 @@ bool SelfCollisionConstr::rmCollision(int collId)
 	}
 
 	return false;
+}
+
+
+std::size_t SelfCollisionConstr::nrCollisions() const
+{
+	return dataVec_.size();
 }
 
 
@@ -845,6 +853,17 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 		if(dist < d.di)
 		{
+			if(d.dampingType == CollData::DampingType::Free)
+			{
+				d.dampingType = CollData::DampingType::Soft;
+				Vector3d v1(mbc.bodyPosW[d.body1].rotation().transpose()*
+						(sva::PTransformd(pb1)*mbc.bodyVelB[d.body1]).linear());
+				Vector3d v2(mbc.bodyPosW[d.body2].rotation().transpose()*
+						(sva::PTransformd(pb2)*mbc.bodyVelB[d.body2]).linear());
+				double distDot = std::abs((v1 - v2).dot(normVecDist));
+				d.damping = ((d.di - d.ds)/(dist - d.ds))*distDot + d.dampingOff;
+			}
+
 			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
 
 			Vector3d nf = normVecDist;
@@ -883,6 +902,13 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
 			BInEq_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
 			++nrActivated_;
+		}
+		else
+		{
+			if(d.dampingType == CollData::DampingType::Soft)
+			{
+				d.dampingType = CollData::DampingType::Free;
+			}
 		}
 
 		d.normVecDist = normVecDist;

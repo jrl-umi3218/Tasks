@@ -15,6 +15,7 @@
 
 // includes
 // std
+#include <fstream>
 #include <iostream>
 #include <tuple>
 
@@ -826,6 +827,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
 	int collId1 = 10;
 	autoCollConstr.addCollision(mb, collId1, 0, &b0, I, 3, &b3, I, 0.01, 0.005, 1.);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
 
 	// Test addInequalityConstraint
 	solver.addInequalityConstraint(&autoCollConstr);
@@ -840,9 +842,9 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
-
-	// Test ContactConstr
 	mbcSolv = mbcInit;
+	std::ofstream distHard("selfDistHard.py");
+	distHard << "dist = [";
 	for(int i = 0; i < 1000; ++i)
 	{
 		posTask.position(RotX(0.01)*posTask.position());
@@ -851,12 +853,47 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 
 		SCD::Point3 pb1Tmp, pb2Tmp;
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
-		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
+		distHard << dist << ", ";
 		BOOST_REQUIRE_GT(dist, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
 	}
+	distHard << "]" << std::endl;
+
+	autoCollConstr.rmCollision(collId1);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
+
+
+	// test automatic damping computation
+	autoCollConstr.addCollision(mb, collId1, 0, &b0, I, 3, &b3, I, 0.1, 0.01, 0., 0.1);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
+
+	mbcSolv = mbcInit;
+	std::ofstream distSoft("selfDistSoft.py");
+	distSoft << "dist = [";
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		SCD::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
+		distSoft << dist << ", ";
+		BOOST_REQUIRE_GT(dist, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+	distSoft << "]" << std::endl;
+
+	autoCollConstr.rmCollision(collId1);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
+
 
 	solver.removeTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
