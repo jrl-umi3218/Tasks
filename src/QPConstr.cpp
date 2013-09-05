@@ -948,7 +948,7 @@ const Eigen::VectorXd& SelfCollisionConstr::BInEq() const
 StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 	int envId, SCD::S_Object* env,
-	double di, double ds, double damping):
+	double di, double ds, double damping, double dampOff):
 		pair(new SCD::CD_Pair(body, env)),
 		bodyT(bodyT),
 		normVecDist(Eigen::Vector3d::Zero()),
@@ -959,7 +959,9 @@ StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collI
 		collId(collId),
 		bodyId(bodyId),
 		envId(envId),
-		body(mb.bodyIndexById(bodyId))
+		body(mb.bodyIndexById(bodyId)),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Soft),
+		dampingOff(dampOff)
 {
 }
 
@@ -982,10 +984,10 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
 void StaticEnvCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
 	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
 	int envId, SCD::S_Object* env,
-	double di, double ds, double damping)
+	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(mb, collId, bodyId, body, bodyT, envId, env,
-		di, ds, damping);
+		di, ds, damping, dampingOff);
 }
 
 
@@ -1005,6 +1007,12 @@ bool StaticEnvCollisionConstr::rmCollision(int collId)
 	}
 
 	return false;
+}
+
+
+std::size_t StaticEnvCollisionConstr::nrCollisions() const
+{
+	return dataVec_.size();
 }
 
 
@@ -1055,6 +1063,15 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 
 		if(dist < d.di)
 		{
+			if(d.dampingType == CollData::DampingType::Free)
+			{
+				d.dampingType = CollData::DampingType::Soft;
+				Vector3d v1(mbc.bodyPosW[d.body].rotation().transpose()*
+						(sva::PTransformd(pb1)*mbc.bodyVelB[d.body]).linear());
+				double distDot = std::abs(v1.dot(normVecDist));
+				d.damping = ((d.di - d.ds)/(dist - d.ds))*distDot + d.dampingOff;
+			}
+
 			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
 
 			Vector3d nf = normVecDist;
@@ -1079,6 +1096,13 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
 			BInEq_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
 			++nrActivated_;
+		}
+		else
+		{
+			if(d.dampingType == CollData::DampingType::Soft)
+			{
+				d.dampingType = CollData::DampingType::Free;
+			}
 		}
 
 		d.normVecDist = normVecDist;
