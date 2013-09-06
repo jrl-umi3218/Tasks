@@ -527,7 +527,8 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(const rbd::MultiBody& mb,
 	const std::vector<std::vector<double> >& uBound,
 	std::vector<std::vector<double> > lVel,
 	std::vector<std::vector<double> > uVel,
-	double interPercent, double damperOffset, double step):
+	double interPercent, double securityPercent,
+	double damperOffset, double step):
 	data_(),
 	lower_(),
 	upper_(),
@@ -550,8 +551,9 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(const rbd::MultiBody& mb,
 	{
 		if(mb.joint(i).dof() == 1)
 		{
+			double dist = (uBound[i][0] - lBound[i][0]);
 			data_.emplace_back(lBound[i][0], uBound[i][0], lVel[i][0], uVel[i][0],
-				(uBound[i][0] - lBound[i][0])*interPercent,
+				dist*interPercent, dist*securityPercent,
 				mb.jointPosInDof(i) - begin_, i);
 		}
 	}
@@ -584,11 +586,11 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 			if(d.state != DampData::Low)
 			{
 				d.damping =
-					std::abs(computeDamping(alpha, ld, d.iDist)) + damperOff_;
+					std::abs(computeDamping(alpha, ld, d.iDist, d.sDist)) + damperOff_;
 				d.state = DampData::Low;
 			}
 
-			double damper = -computeDamper(ld, d.iDist, d.damping);
+			double damper = -computeDamper(ld, d.iDist, d.sDist, d.damping);
 			lower_[d.vecPos] = std::max((damper - alpha)/step_, lower_[d.vecPos]);
 		}
 		else if(ud < d.iDist)
@@ -599,11 +601,11 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 			if(d.state != DampData::Upp)
 			{
 				d.damping =
-					std::abs(computeDamping(alpha, ud, d.iDist)) + damperOff_;
+					std::abs(computeDamping(alpha, ud, d.iDist, d.sDist)) + damperOff_;
 				d.state = DampData::Upp;
 			}
 
-			double damper = computeDamper(ud, d.iDist, d.damping);
+			double damper = computeDamper(ud, d.iDist, d.sDist, d.damping);
 			upper_[d.vecPos] = std::min((damper - alpha)/step_, upper_[d.vecPos]);
 		}
 		else
@@ -633,16 +635,16 @@ const Eigen::VectorXd& DamperJointLimitsConstr::Upper() const
 
 
 double DamperJointLimitsConstr::computeDamping(double alpha, double dist,
-	double iDist)
+	double iDist, double sDist)
 {
-	return (iDist/dist)*alpha;
+	return ((iDist - sDist)/(dist - sDist))*alpha;
 }
 
 
 double DamperJointLimitsConstr::computeDamper(double dist,
-	double iDist, double damping)
+	double iDist, double sDist ,double damping)
 {
-	return damping*(dist/iDist);
+	return damping*((dist - sDist)/(iDist - sDist));
 }
 
 

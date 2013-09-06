@@ -245,7 +245,7 @@ public:
 		const std::vector<std::vector<double> >& uBound,
 		std::vector<std::vector<double> > lVel,
 		std::vector<std::vector<double> > uVel,
-		double interPercent, double damperOffset, double step);
+		double interPercent, double securityPercent, double damperOffset, double step);
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
@@ -260,8 +260,8 @@ public:
 	virtual const Eigen::VectorXd& Upper() const;
 
 	/// compute damping that avoid speed jump
-	double computeDamping(double alpha, double dist, double iDist);
-	double computeDamper(double dist, double iDist, double damping);
+	double computeDamping(double alpha, double dist, double iDist, double sDist);
+	double computeDamper(double dist, double iDist, double sDist, double damping);
 
 private:
 	struct DampData
@@ -269,14 +269,14 @@ private:
 		enum State {Low, Upp, Free};
 
 		DampData(double mi, double ma, double miV, double maV,
-						 double idi, int vp, int i):
-			min(mi), max(ma), minVel(miV), maxVel(maV), iDist(idi),
+						 double idi, double sdi, int vp, int i):
+			min(mi), max(ma), minVel(miV), maxVel(maV), iDist(idi), sDist(sdi),
 			index(i), vecPos(vp), damping(0.), state(Free)
 		{}
 
 		double min, max;
 		double minVel, maxVel;
-		double iDist;
+		double iDist, sDist;
 		int index;
 		int vecPos;
 		double damping;

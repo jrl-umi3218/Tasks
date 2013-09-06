@@ -649,8 +649,8 @@ def build_qp(tasks):
                                     param('const std::vector<std::vector<double> >&', 'uBound'),
                                     param('std::vector<std::vector<double> >', 'lVel'),
                                     param('std::vector<std::vector<double> >', 'uVel'),
-                                    param('double', 'interPercent'), param('double', 'damperOffset'),
-                                    param('double', 'step')])
+                                    param('double', 'interPercent'), param('double', 'securityPercent'),
+                                    param('double', 'damperOffset'), param('double', 'step')])
 
   # TorqueLimitsConstr
   torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
