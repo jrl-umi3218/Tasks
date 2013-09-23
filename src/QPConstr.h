@@ -57,14 +57,10 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameEq() const
-	{
-		return "MotionConstr";
-	}
-	virtual std::string nameBound() const
-	{
-		return "MotionConstr";
-	}
+	virtual std::string nameEq() const;
+	virtual std::string descEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameBound() const;
+	virtual std::string descBound(const rbd::MultiBody& mb, int line);
 
 	// Equality Constraint
 	virtual int maxEq() const;
@@ -140,10 +136,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameEq() const
-	{
-		return "ContactAccConstr";
-	}
+	virtual std::string nameEq() const;
+	virtual std::string descEq(const rbd::MultiBody& mb, int line);
 
 	// Equality Constraint
 	virtual int maxEq() const;
@@ -188,10 +182,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameEq() const
-	{
-		return "ContactSpeedConstr";
-	}
+	virtual std::string nameEq() const;
+	virtual std::string descEq(const rbd::MultiBody& mb, int line);
 
 	// Equality Constraint
 	virtual int maxEq() const;
@@ -240,10 +232,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameBound() const
-	{
-		return "JointLimitsConstr";
-	}
+	virtual std::string nameBound() const;
+	virtual std::string descBound(const rbd::MultiBody& mb, int line);
 
 	// Bound Constraint
 	virtual int beginVar() const;
@@ -277,10 +267,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameBound() const
-	{
-		return "DamperJointLimitsConstr";
-	}
+	virtual std::string nameBound() const;
+	virtual std::string descBound(const rbd::MultiBody& mb, int line);
 
 	// Bound Constraint
 	virtual int beginVar() const;
@@ -336,10 +324,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameBound() const
-	{
-		return "TorqueLimitsConstr";
-	}
+	virtual std::string nameBound() const;
+	virtual std::string descBound(const rbd::MultiBody& mb, int line);
 
 	// Bound Constraint
 	virtual int beginVar() const;
@@ -374,10 +360,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameInEq() const
-	{
-		return "SelfCollisionConstr";
-	}
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
 	// InEquality Constraint
 	virtual int nrInEq() const;
@@ -444,10 +428,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameInEq() const
-	{
-		return "StaticEnvCollisionConstr";
-	}
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
 	// InEquality Constraint
 	virtual int nrInEq() const;
@@ -511,10 +493,8 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameInEq() const
-	{
-		return "GripperTorqueConstr";
-	}
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
 	// InEquality Constraint
 	virtual int maxInEq() const;

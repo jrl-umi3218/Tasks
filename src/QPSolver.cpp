@@ -122,13 +122,15 @@ bool QPSolver::updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		{
 			if(istate(i) < 0)
 			{
-				for(const Bound* b: boundConstr_)
+				for(Bound* b: boundConstr_)
 				{
 					int start = b->beginVar();
 					int end = start + int(b->Lower().rows());
 					if(i >= start && i < end)
 					{
-						std::cerr << b->nameBound() << " violated at line: " << (i - start) << std::endl;
+						int line = i - start;
+						std::cerr << b->nameBound() << " violated at line: " << line << std::endl;
+						std::cerr << b->descBound(mb, line) << std::endl;
 						std::cerr << XL_(i) << " <= " << lssol_.result()(i) << " <= " << XU_(i) << std::endl;
 						break;
 					}
@@ -144,13 +146,14 @@ bool QPSolver::updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 			{
 				int start = 0;
 				int end = 0;
-				for(const Equality* e: eqConstr_)
+				for(Equality* e: eqConstr_)
 				{
 					end += e->nrEq();
 					if(i >= start && i < end)
 					{
 						int line = i - start;
 						std::cerr << e->nameEq() << " violated at line: " << line << std::endl;
+						std::cerr << e->descEq(mb, line) << std::endl;
 						std::cerr << e->AEq().row(line)*lssol_.result() << " = " << e->BEq()(line) << std::endl;
 						break;
 					}
@@ -167,13 +170,14 @@ bool QPSolver::updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 			{
 				int start = 0;
 				int end = 0;
-				for(const Inequality* ie: inEqConstr_)
+				for(Inequality* ie: inEqConstr_)
 				{
 					end += ie->nrInEq();
 					if(i >= start && i < end)
 					{
 						int line = i - start;
 						std::cerr << ie->nameInEq() << " violated at line: " << line << std::endl;
+						std::cerr << ie->descInEq(mb, line) << std::endl;
 						std::cerr << ie->AInEq().row(line)*lssol_.result() << " <= " << ie->BInEq()(line) << std::endl;
 						break;
 					}

@@ -34,6 +34,20 @@ namespace tasks
 namespace qp
 {
 
+int findJointFromVector(const rbd::MultiBody& mb, int line, bool withBase)
+{
+	int start = withBase ? 0 : 1;
+	for(int j = start; j < int(mb.nrJoints()); ++j)
+	{
+		if(line >= start && line <= (start + mb.joint(j).dof()))
+		{
+			return j;
+		}
+		start += mb.joint(j).dof();
+	}
+	return -1;
+}
+
 MotionConstr::ContactData::ContactData(const rbd::MultiBody& mb, int b,
 	std::vector<Eigen::Vector3d> p,
 	const std::vector<FrictionCone>& cones):
@@ -156,6 +170,42 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 
 	// BEq = -C
 	BEq_ = -fd_.C();
+}
+
+
+std::string MotionConstr::nameEq() const
+{
+	return "MotionConstr";
+}
+
+
+std::string MotionConstr::descEq(const rbd::MultiBody& mb, int line)
+{
+	int jIndex = findJointFromVector(mb, line, true);
+	return std::string("Joint: ") + mb.joint(jIndex).name();
+}
+
+
+std::string MotionConstr::nameBound() const
+{
+	return "MotionConstr";
+}
+
+
+std::string MotionConstr::descBound(const rbd::MultiBody& mb, int line)
+{
+	int start = 0;
+	int end = 0;
+	for(const ContactData& cd: cont_)
+	{
+		end += int(cd.points.size());
+		if(line >= start && line < end)
+		{
+			return std::string("Body: ") + mb.body(cd.body).name();
+		}
+		start = end;
+	}
+	return "";
 }
 
 
@@ -343,6 +393,20 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 }
 
 
+std::string ContactAccConstr::nameEq() const
+{
+	return "ContactAccConstr";
+}
+
+
+std::string ContactAccConstr::descEq(const rbd::MultiBody& mb, int line)
+{
+	int contact = line/6;
+	int body = cont_[contact].jac.jointsPath().back();
+	return std::string("Contact: ") + mb.body(body).name();
+}
+
+
 int ContactAccConstr::maxEq() const
 {
 	return int(AEq_.rows());
@@ -425,6 +489,20 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 }
 
 
+std::string ContactSpeedConstr::nameEq() const
+{
+	return "ContactSpeedConstr";
+}
+
+
+std::string ContactSpeedConstr::descEq(const rbd::MultiBody& mb, int line)
+{
+	int contact = line/6;
+	int body = cont_[contact].jac.jointsPath().back();
+	return std::string("Contact: ") + mb.body(body).name();
+}
+
+
 int ContactSpeedConstr::maxEq() const
 {
 	return int(AEq_.rows());
@@ -495,6 +573,19 @@ void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiB
 
 	upper_ = qMax_ - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
 	upper_ /= dts;
+}
+
+
+std::string JointLimitsConstr::nameBound() const
+{
+	return "JointLimitsConstr";
+}
+
+
+std::string JointLimitsConstr::descBound(const rbd::MultiBody& mb, int line)
+{
+	int jIndex = findJointFromVector(mb, line, false);
+	return std::string("Joint: ") + mb.joint(jIndex).name();
 }
 
 
@@ -616,6 +707,19 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 }
 
 
+std::string DamperJointLimitsConstr::nameBound() const
+{
+	return "DamperJointLimitsConstr";
+}
+
+
+std::string DamperJointLimitsConstr::descBound(const rbd::MultiBody& mb, int line)
+{
+	int jIndex = findJointFromVector(mb, line, false);
+	return std::string("Joint: ") + mb.joint(jIndex).name();
+}
+
+
 int DamperJointLimitsConstr::beginVar() const
 {
 	return begin_;
@@ -684,6 +788,19 @@ void TorqueLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 void TorqueLimitsConstr::update(const rbd::MultiBody& /* mb */,
 	const rbd::MultiBodyConfig& /* mbc */)
 {
+}
+
+
+std::string TorqueLimitsConstr::nameBound() const
+{
+	return "TorqueLimitsConstr";
+}
+
+
+std::string TorqueLimitsConstr::descBound(const rbd::MultiBody& mb, int line)
+{
+	int jIndex = findJointFromVector(mb, line, false);
+	return std::string("Joint: ") + mb.joint(jIndex).name();
 }
 
 
@@ -918,6 +1035,39 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 }
 
 
+std::string SelfCollisionConstr::nameInEq() const
+{
+	return "SelfCollisionConstr";
+}
+
+
+std::string SelfCollisionConstr::descInEq(const rbd::MultiBody& mb, int line)
+{
+	int curLine = 0;
+	for(CollData& d: dataVec_)
+	{
+		double dist = d.pair->getDistance();
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		if(dist < d.di)
+		{
+			if(curLine == line)
+			{
+				std::stringstream ss;
+				ss << mb.body(d.body1).name() << " / " << mb.body(d.body2).name() << std::endl;
+				ss << "collId: " << d.collId << std::endl;
+				ss << "dist: " << dist << std::endl;
+				ss << "di: " << d.di << std::endl;
+				ss << "ds: " << d.ds << std::endl;
+				ss << "damp: " << d.damping + d.dampingOff << std::endl;
+				return ss.str();
+			}
+			++curLine;
+		}
+	}
+	return "";
+}
+
+
 int SelfCollisionConstr::nrInEq() const
 {
 	return nrActivated_;
@@ -1112,6 +1262,39 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 }
 
 
+std::string StaticEnvCollisionConstr::nameInEq() const
+{
+	return "StaticEnvCollisionConstr";
+}
+
+
+std::string StaticEnvCollisionConstr::descInEq(const rbd::MultiBody& mb, int line)
+{
+	int curLine = 0;
+	for(CollData& d: dataVec_)
+	{
+		double dist = d.pair->getDistance();
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		if(dist < d.di)
+		{
+			if(curLine == line)
+			{
+				std::stringstream ss;
+				ss << mb.body(d.body).name() << " / " << d.envId << std::endl;
+				ss << "collId: " << d.collId << std::endl;
+				ss << "dist: " << dist << std::endl;
+				ss << "di: " << d.di << std::endl;
+				ss << "ds: " << d.ds << std::endl;
+				ss << "damp: " << d.damping + d.dampingOff << std::endl;
+				return ss.str();
+			}
+			++curLine;
+		}
+	}
+	return "";
+}
+
+
 int StaticEnvCollisionConstr::nrInEq() const
 {
 	return nrActivated_;
@@ -1241,6 +1424,22 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 void GripperTorqueConstr::update(const rbd::MultiBody& /* mb */,
 	const rbd::MultiBodyConfig& /* mbc */)
 {}
+
+
+std::string GripperTorqueConstr::nameInEq() const
+{
+	return "GripperTorqueConstr";
+}
+
+
+std::string GripperTorqueConstr::descInEq(const rbd::MultiBody& mb, int line)
+{
+	std::stringstream ss;
+	int bodyIndex = mb.bodyIndexById(dataVec_[line].bodyId);
+	ss << mb.body(bodyIndex).name() << std::endl;
+	ss << "limits: " << dataVec_[line].torqueLimit << std::endl;
+	return ss.str();
+}
 
 
 int GripperTorqueConstr::maxInEq() const

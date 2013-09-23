@@ -208,6 +208,7 @@ public:
 	virtual const Eigen::VectorXd& BEq() const = 0;
 
 	virtual std::string nameEq() const = 0;
+	virtual std::string descEq(const rbd::MultiBody& mb, int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{
@@ -233,6 +234,7 @@ public:
 	virtual const Eigen::VectorXd& BInEq() const = 0;
 
 	virtual std::string nameInEq() const = 0;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{
@@ -257,6 +259,7 @@ public:
 	virtual const Eigen::VectorXd& Upper() const = 0;
 
 	virtual std::string nameBound() const = 0;
+	virtual std::string descBound(const rbd::MultiBody& mb, int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{
