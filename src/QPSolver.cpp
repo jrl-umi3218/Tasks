@@ -63,6 +63,7 @@ QPSolver::QPSolver(bool silent):
   silent_(silent)
 {
   lssol_.warm(false);
+  lssol_.feasibilityTol(1e-6);
 }
 
 
