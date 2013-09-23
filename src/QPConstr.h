@@ -58,13 +58,13 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Equality Constraint
-	virtual int maxEq();
+	virtual int maxEq() const;
 
 	virtual const Eigen::MatrixXd& AEq() const;
 	virtual const Eigen::VectorXd& BEq() const;
 
 	// Bound Constraint
-	virtual int beginVar();
+	virtual int beginVar() const;
 
 	virtual const Eigen::VectorXd& Lower() const;
 	virtual const Eigen::VectorXd& Upper() const;
@@ -132,7 +132,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Equality Constraint
-	virtual int maxEq();
+	virtual int maxEq() const;
 
 	virtual const Eigen::MatrixXd& AEq() const;
 	virtual const Eigen::VectorXd& BEq() const;
@@ -175,7 +175,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Equality Constraint
-	virtual int maxEq();
+	virtual int maxEq() const;
 
 	virtual const Eigen::MatrixXd& AEq() const;
 	virtual const Eigen::VectorXd& BEq() const;
@@ -222,7 +222,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Bound Constraint
-	virtual int beginVar();
+	virtual int beginVar() const;
 
 	virtual const Eigen::VectorXd& Lower() const;
 	virtual const Eigen::VectorXd& Upper() const;
@@ -254,7 +254,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Bound Constraint
-	virtual int beginVar();
+	virtual int beginVar() const;
 
 	virtual const Eigen::VectorXd& Lower() const;
 	virtual const Eigen::VectorXd& Upper() const;
@@ -308,7 +308,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Bound Constraint
-	virtual int beginVar();
+	virtual int beginVar() const;
 
 	virtual const Eigen::VectorXd& Lower() const;
 	virtual const Eigen::VectorXd& Upper() const;
@@ -341,8 +341,8 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// InEquality Constraint
-	virtual int nrInEq();
-	virtual int maxInEq();
+	virtual int nrInEq() const;
+	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
 	virtual const Eigen::VectorXd& BInEq() const;
@@ -406,8 +406,8 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// InEquality Constraint
-	virtual int nrInEq();
-	virtual int maxInEq();
+	virtual int nrInEq() const;
+	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
 	virtual const Eigen::VectorXd& BInEq() const;
@@ -468,7 +468,7 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// InEquality Constraint
-	virtual int maxInEq();
+	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
 	virtual const Eigen::VectorXd& BInEq() const;

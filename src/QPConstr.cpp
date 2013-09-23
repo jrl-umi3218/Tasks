@@ -159,7 +159,7 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 }
 
 
-int MotionConstr::maxEq()
+int MotionConstr::maxEq() const
 {
 	return nrDof_;
 }
@@ -177,7 +177,7 @@ const Eigen::VectorXd& MotionConstr::BEq() const
 }
 
 
-int MotionConstr::beginVar()
+int MotionConstr::beginVar() const
 {
 	return nrDof_;
 }
@@ -343,7 +343,7 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 }
 
 
-int ContactAccConstr::maxEq()
+int ContactAccConstr::maxEq() const
 {
 	return int(AEq_.rows());
 }
@@ -425,7 +425,7 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 }
 
 
-int ContactSpeedConstr::maxEq()
+int ContactSpeedConstr::maxEq() const
 {
 	return int(AEq_.rows());
 }
@@ -498,7 +498,7 @@ void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiB
 }
 
 
-int JointLimitsConstr::beginVar()
+int JointLimitsConstr::beginVar() const
 {
 	return begin_;
 }
@@ -616,7 +616,7 @@ void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
 }
 
 
-int DamperJointLimitsConstr::beginVar()
+int DamperJointLimitsConstr::beginVar() const
 {
 	return begin_;
 }
@@ -687,7 +687,7 @@ void TorqueLimitsConstr::update(const rbd::MultiBody& /* mb */,
 }
 
 
-int TorqueLimitsConstr::beginVar()
+int TorqueLimitsConstr::beginVar() const
 {
 	return begin_;
 }
@@ -918,13 +918,13 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 }
 
 
-int SelfCollisionConstr::nrInEq()
+int SelfCollisionConstr::nrInEq() const
 {
 	return nrActivated_;
 }
 
 
-int SelfCollisionConstr::maxInEq()
+int SelfCollisionConstr::maxInEq() const
 {
 	return int(dataVec_.size());
 }
@@ -1112,13 +1112,13 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 }
 
 
-int StaticEnvCollisionConstr::nrInEq()
+int StaticEnvCollisionConstr::nrInEq() const
 {
 	return nrActivated_;
 }
 
 
-int StaticEnvCollisionConstr::maxInEq()
+int StaticEnvCollisionConstr::maxInEq() const
 {
 	return int(dataVec_.size());
 }
@@ -1243,7 +1243,7 @@ void GripperTorqueConstr::update(const rbd::MultiBody& /* mb */,
 {}
 
 
-int GripperTorqueConstr::maxInEq()
+int GripperTorqueConstr::maxInEq() const
 {
 	return static_cast<int>(dataVec_.size());
 }

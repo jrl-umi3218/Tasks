@@ -201,8 +201,8 @@ class Equality
 {
 public:
 	virtual ~Equality() {}
-	virtual int maxEq() = 0;
-	virtual int nrEq() { return maxEq(); }
+	virtual int maxEq() const = 0;
+	virtual int nrEq() const { return maxEq(); }
 
 	virtual const Eigen::MatrixXd& AEq() const = 0;
 	virtual const Eigen::VectorXd& BEq() const = 0;
@@ -224,8 +224,8 @@ class Inequality
 {
 public:
 	virtual ~Inequality() {}
-	virtual int maxInEq() = 0;
-	virtual int nrInEq() { return maxInEq(); }
+	virtual int maxInEq() const = 0;
+	virtual int nrInEq() const { return maxInEq(); }
 
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
 	virtual const Eigen::VectorXd& BInEq() const = 0;
@@ -247,7 +247,7 @@ class Bound
 {
 public:
 	virtual ~Bound() {}
-	virtual int beginVar() = 0;
+	virtual int beginVar() const = 0;
 
 	virtual const Eigen::VectorXd& Lower() const = 0;
 	virtual const Eigen::VectorXd& Upper() const = 0;
