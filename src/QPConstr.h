@@ -57,6 +57,15 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	virtual std::string nameEq() const
+	{
+		return "MotionConstr";
+	}
+	virtual std::string nameBound() const
+	{
+		return "MotionConstr";
+	}
+
 	// Equality Constraint
 	virtual int maxEq() const;
 
@@ -131,6 +140,11 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	virtual std::string nameEq() const
+	{
+		return "ContactAccConstr";
+	}
+
 	// Equality Constraint
 	virtual int maxEq() const;
 
@@ -173,6 +187,11 @@ public:
 		const SolverData& data);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::string nameEq() const
+	{
+		return "ContactSpeedConstr";
+	}
 
 	// Equality Constraint
 	virtual int maxEq() const;
@@ -221,6 +240,11 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	virtual std::string nameBound() const
+	{
+		return "JointLimitsConstr";
+	}
+
 	// Bound Constraint
 	virtual int beginVar() const;
 
@@ -252,6 +276,11 @@ public:
 		const SolverData& data);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::string nameBound() const
+	{
+		return "DamperJointLimitsConstr";
+	}
 
 	// Bound Constraint
 	virtual int beginVar() const;
@@ -307,6 +336,11 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	virtual std::string nameBound() const
+	{
+		return "TorqueLimitsConstr";
+	}
+
 	// Bound Constraint
 	virtual int beginVar() const;
 
@@ -339,6 +373,11 @@ public:
 		const SolverData& data);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::string nameInEq() const
+	{
+		return "SelfCollisionConstr";
+	}
 
 	// InEquality Constraint
 	virtual int nrInEq() const;
@@ -405,6 +444,11 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	virtual std::string nameInEq() const
+	{
+		return "StaticEnvCollisionConstr";
+	}
+
 	// InEquality Constraint
 	virtual int nrInEq() const;
 	virtual int maxInEq() const;
@@ -466,6 +510,11 @@ public:
 		const SolverData& data);
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::string nameInEq() const
+	{
+		return "GripperTorqueConstr";
+	}
 
 	// InEquality Constraint
 	virtual int maxInEq() const;

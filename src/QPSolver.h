@@ -207,6 +207,8 @@ public:
 	virtual const Eigen::MatrixXd& AEq() const = 0;
 	virtual const Eigen::VectorXd& BEq() const = 0;
 
+	virtual std::string nameEq() const = 0;
+
 	void addToSolver(QPSolver& sol)
 	{
 		sol.addEqualityConstraint(this);
@@ -230,6 +232,8 @@ public:
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
 	virtual const Eigen::VectorXd& BInEq() const = 0;
 
+	virtual std::string nameInEq() const = 0;
+
 	void addToSolver(QPSolver& sol)
 	{
 		sol.addInequalityConstraint(this);
@@ -251,6 +255,8 @@ public:
 
 	virtual const Eigen::VectorXd& Lower() const = 0;
 	virtual const Eigen::VectorXd& Upper() const = 0;
+
+	virtual std::string nameBound() const = 0;
 
 	void addToSolver(QPSolver& sol)
 	{

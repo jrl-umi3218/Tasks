@@ -18,6 +18,7 @@
 
 // includes
 // std
+#include <iostream>
 #include <limits>
 #include <cmath>
 
@@ -111,6 +112,76 @@ bool QPSolver::updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		A1_.block(0, 0, nrEq_, data_.nrVars_), B1_.head(nrEq_),
 		A2_.block(0, 0, nrInEq_, data_.nrVars_), B2_.head(nrInEq_),
 		XL_, XU_);
+
+	if(!success)
+	{
+		std::cerr << "lssol output: " << lssol_.fail() << std::endl;
+		const Eigen::VectorXi& istate = lssol_.istate();
+		// check bound constraint
+		for(int i = 0; i < data_.nrVars_; ++i)
+		{
+			if(istate(i) < 0)
+			{
+				for(const Bound* b: boundConstr_)
+				{
+					int start = b->beginVar();
+					int end = start + int(b->Lower().rows());
+					if(i >= start && i < end)
+					{
+						std::cerr << b->nameBound() << " violated at line: " << (i - start) << std::endl;
+						std::cerr << XL_(i) << " <= " << lssol_.result()(i) << " <= " << XU_(i) << std::endl;
+						break;
+					}
+				}
+			}
+		}
+
+		// check equality constraint
+		for(int i = 0; i < nrEq_; ++i)
+		{
+			int iInIstate = i + data_.nrVars_;
+			if(istate(iInIstate) < 0)
+			{
+				int start = 0;
+				int end = 0;
+				for(const Equality* e: eqConstr_)
+				{
+					end += e->nrEq();
+					if(i >= start && i < end)
+					{
+						int line = i - start;
+						std::cerr << e->nameEq() << " violated at line: " << line << std::endl;
+						std::cerr << e->AEq().row(line)*lssol_.result() << " = " << e->BEq()(line) << std::endl;
+						break;
+					}
+					start = end;
+				}
+			}
+		}
+
+		// check inequality constraint
+		for(int i = 0; i < nrInEq_; ++i)
+		{
+			int iInIstate = i + data_.nrVars_ + nrEq_;
+			if(istate(iInIstate) < 0)
+			{
+				int start = 0;
+				int end = 0;
+				for(const Inequality* ie: inEqConstr_)
+				{
+					end += ie->nrInEq();
+					if(i >= start && i < end)
+					{
+						int line = i - start;
+						std::cerr << ie->nameInEq() << " violated at line: " << line << std::endl;
+						std::cerr << ie->AInEq().row(line)*lssol_.result() << " <= " << ie->BInEq()(line) << std::endl;
+						break;
+					}
+					start = end;
+				}
+			}
+		}
+	}
 
 	postUpdate(mb, mbc, success, lssol_.result());
 
