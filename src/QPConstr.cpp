@@ -980,7 +980,11 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 				Vector3d v2(mbc.bodyPosW[d.body2].rotation().transpose()*
 						(sva::PTransformd(pb2)*mbc.bodyVelB[d.body2]).linear());
 				double distDot = std::abs((v1 - v2).dot(normVecDist));
-				d.damping = ((d.di - d.ds)/(dist - d.ds))*distDot + d.dampingOff;
+
+				/// @todo find a bette solution.
+				// use a value slightly upper ds if dist <= ds
+				double fixedDist = dist <= d.ds ? d.ds + (d.di - d.ds)*0.2 : dist;
+				d.damping = ((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
 			}
 
 			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
@@ -1221,7 +1225,11 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 				Vector3d v1(mbc.bodyPosW[d.body].rotation().transpose()*
 						(sva::PTransformd(pb1)*mbc.bodyVelB[d.body]).linear());
 				double distDot = std::abs(v1.dot(normVecDist));
-				d.damping = ((d.di - d.ds)/(dist - d.ds))*distDot + d.dampingOff;
+
+				/// @todo find a bette solution.
+				// use a value slightly upper ds if dist <= ds
+				double fixedDist = dist <= d.ds ? d.ds + (d.di - d.ds)*0.2 : dist;
+				d.damping = ((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
 			}
 
 			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
