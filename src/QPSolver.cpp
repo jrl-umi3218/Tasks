@@ -68,13 +68,13 @@ QPSolver::QPSolver(bool silent):
 }
 
 
-bool QPSolver::update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
+bool QPSolver::solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
-  return updateLSSOL(mb, mbc);
+	return solveLSSOL(mb, mbc);
 }
 
 
-bool QPSolver::updateQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
+bool QPSolver::solveQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
 	preUpdate(mb, mbc);
 
@@ -104,7 +104,7 @@ bool QPSolver::updateQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 }
 
 
-bool QPSolver::updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
+bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
 	preUpdate(mb, mbc);
 

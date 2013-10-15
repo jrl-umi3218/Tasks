@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -240,7 +240,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -283,7 +283,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -304,7 +304,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 4000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -376,7 +376,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 1000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -423,7 +423,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 1000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -466,7 +466,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -518,7 +518,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -586,7 +586,7 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 1000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -598,7 +598,7 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 1000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -667,7 +667,7 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 2000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -679,7 +679,7 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 2000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -753,7 +753,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -768,7 +768,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	posTask.position(mbcInit.bodyPosW[bodyI].translation());
 	for(int i = 0; i < 10000; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);
@@ -848,7 +848,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	for(int i = 0; i < 1000; ++i)
 	{
 		posTask.position(RotX(0.01)*posTask.position());
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		SCD::Point3 pb1Tmp, pb2Tmp;
@@ -877,7 +877,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	for(int i = 0; i < 1000; ++i)
 	{
 		posTask.position(RotX(0.01)*posTask.position());
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		SCD::Point3 pb1Tmp, pb2Tmp;
@@ -960,7 +960,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	for(int i = 0; i < 1000; ++i)
 	{
 		posTask.position(RotX(0.01)*posTask.position());
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		SCD::Point3 pb1Tmp, pb2Tmp;
@@ -988,7 +988,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	for(int i = 0; i < 1000; ++i)
 	{
 		posTask.position(RotX(0.01)*posTask.position());
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		SCD::Point3 pb1Tmp, pb2Tmp;
@@ -1065,7 +1065,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 
 	// This stance with unilateral contac is impossible so the solver must fail
 	mbcSolv = mbcInit;
-	BOOST_REQUIRE(!solver.update(mb, mbcSolv));
+	BOOST_REQUIRE(!solver.solve(mb, mbcSolv));
 
 
 	// We test it again with bilateral contact to check that the stance is now
@@ -1077,7 +1077,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10; ++i)
 	{
-		BOOST_REQUIRE(solver.update(mb, mbcSolv));
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
 		forwardKinematics(mb, mbcSolv);

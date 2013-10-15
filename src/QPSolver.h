@@ -58,9 +58,13 @@ class QPSolver
 public:
 	QPSolver(bool silent=false);
 
-	bool update(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
-	bool updateQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
-	bool updateLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	/*! \brief solve the problem
+	 *  \param mb current multibody
+	 *  \param mbc result of the solving problem
+	 */
+	bool solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	bool solveQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	bool solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 
 	void updateEqConstrSize();
 	void updateInEqConstrSize();
