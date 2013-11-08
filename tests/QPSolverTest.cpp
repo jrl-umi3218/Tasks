@@ -199,8 +199,8 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	solver.nrVars(mb, {}, {});
 	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 3);
 
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
@@ -355,12 +355,12 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test addEqualityConstraint
 	contCstrAcc.addToSolver(solver);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -393,7 +393,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test removeEqualityConstraint
 	contCstrAcc.removeFromSolver(solver);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
 
@@ -403,12 +403,12 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test addEqualityConstraint
 	contCstrSpeed.addToSolver(solver);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -439,8 +439,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
 	// Test removeEqualityConstraint
-	solver.removeEqualityConstraint(&contCstrSpeed);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	solver.removeInequalityConstraint(&contCstrSpeed);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	solver.removeConstraint(&contCstrSpeed);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
@@ -451,13 +451,13 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	qp::MotionConstr motionCstr(mb);
 
 	motionCstr.addToSolver(solver);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -489,7 +489,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test removeEqualityConstraint
 	motionCstr.removeFromSolver(solver);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 
@@ -500,16 +500,16 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 		{qp::UnilateralContact(3, {Vector3d::Zero()}, Matrix3d::Identity(), 3,
 														std::tan(cst::pi<double>()/4.))};
 
-	solver.addEqualityConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	solver.addInequalityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
 	solver.addBoundConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, contVec, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -532,7 +532,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// Test removeEqualityConstraint
 	motionCstr.removeFromSolver(solver);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
@@ -575,8 +575,8 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, {}, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -656,8 +656,8 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, {}, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -729,8 +729,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 	// Test add*Constraint
 
-	solver.addEqualityConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 1);
+	solver.addInequalityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
 	solver.addBoundConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	solver.addConstraint(&motionCstr);
@@ -742,8 +742,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
 	solver.nrVars(mb, {}, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -789,8 +789,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	solver.removeConstraint(&torqueConstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.removeEqualityConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrEqualityConstraints(), 0);
+	solver.removeInequalityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	solver.removeBoundConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	solver.removeConstraint(&motionCstr);
@@ -836,8 +836,8 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, {}, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -947,8 +947,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 	solver.nrVars(mb, {}, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -1039,11 +1039,11 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	qp::MotionConstr motionCstr(mb);
 	qp::ContactAccConstr contCstrAcc(mb);
 
-	solver.addEqualityConstraint(&motionCstr);
+	solver.addInequalityConstraint(&motionCstr);
 	solver.addBoundConstraint(&motionCstr);
 	solver.addConstraint(&motionCstr);
 
-	solver.addEqualityConstraint(&contCstrAcc);
+	solver.addInequalityConstraint(&contCstrAcc);
 	solver.addConstraint(&contCstrAcc);
 
 	std::vector<Eigen::Vector3d> points =
@@ -1060,8 +1060,8 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 		{qp::BilateralContact(0, Vector3d::Zero(), 0.1, 4, Matrix3d::Identity(), 3., 0.7)};
 
 	solver.nrVars(mb, uni, {});
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	// This stance with unilateral contac is impossible so the solver must fail
 	mbcSolv = mbcInit;
@@ -1071,8 +1071,8 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	// We test it again with bilateral contact to check that the stance is now
 	// valid
 	solver.nrVars(mb, {}, bi);
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.updateConstrSize();
+	solver.updateConstrSize();
 
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10; ++i)
@@ -1085,10 +1085,10 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	}
 
 
-	solver.removeEqualityConstraint(&contCstrAcc);
+	solver.removeInequalityConstraint(&contCstrAcc);
 	solver.removeConstraint(&contCstrAcc);
 
 	solver.removeConstraint(&motionCstr);
 	solver.removeBoundConstraint(&motionCstr);
-	solver.removeEqualityConstraint(&motionCstr);
+	solver.removeInequalityConstraint(&motionCstr);
 }

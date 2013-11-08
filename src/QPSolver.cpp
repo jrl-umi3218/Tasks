@@ -49,22 +49,19 @@ static const double DIAG_CONSTANT = 1e-5;
 
 
 QPSolver::QPSolver(bool silent):
-  constr_(),
-  eqConstr_(),
-  inEqConstr_(),
-  boundConstr_(),
-  tasks_(),
-  nrEq_(0),
-  A1_(),B1_(),
-  nrInEq_(0),
-  A2_(),B2_(),
-  XL_(),XU_(),
-  Q_(),C_(),
-  res_(),
-  silent_(silent)
+	constr_(),
+	inEqConstr_(),
+	boundConstr_(),
+	tasks_(),
+	nrALine_(0),
+	A_(),AL_(),AU_(),
+	XL_(),XU_(),
+	Q_(),C_(),
+	res_(),
+	silent_(silent)
 {
-  lssol_.warm(false);
-  lssol_.feasibilityTol(1e-6);
+	lssol_.warm(false);
+	lssol_.feasibilityTol(1e-6);
 }
 
 
@@ -74,44 +71,13 @@ bool QPSolver::solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 }
 
 
-bool QPSolver::solveQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
-{
-	preUpdate(mb, mbc);
-
-	bool success = false;
-	double iter = 1e-8;
-	while(!success && iter < 1e-3)
-	{
-		success = qld_.solve(Q_, C_,
-			A1_.block(0, 0, nrEq_, data_.nrVars_), B1_.head(nrEq_),
-			A2_.block(0, 0, nrInEq_, data_.nrVars_), B2_.head(nrInEq_),
-			XL_, XU_, iter);
-		iter *= 10.;
-	}
-	postUpdate(mb, mbc, success, qld_.result());
-
-	/*
-	while(!success && iter < 1e-3)
-	{
-		success = solveQP(A1_.cols(), A1_.rows(), A2_.rows(),
-			Q_, C_, A1_, B1_, A2_, B2_, XL_, XU_, res_, iter, silent_);
-		iter *= 10.;
-	}
-	postUpdate(mb, mbc, success, res_);
-	*/
-
-	return success;
-}
-
-
 bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
 	preUpdate(mb, mbc);
 
 	bool success = lssol_.solve(Q_, C_,
-		A1_.block(0, 0, nrEq_, data_.nrVars_), B1_.head(nrEq_),
-		A2_.block(0, 0, nrInEq_, data_.nrVars_), B2_.head(nrInEq_),
-		XL_, XU_);
+		A_.block(0, 0, nrALine_, data_.nrVars_),
+		AL_.segment(0, nrALine_), AU_.segment(0, nrALine_), XL_, XU_);
 
 	if(!success)
 	{
@@ -138,34 +104,10 @@ bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 			}
 		}
 
-		// check equality constraint
-		for(int i = 0; i < nrEq_; ++i)
+		// check inequality constraint
+		for(int i = 0; i < nrALine_; ++i)
 		{
 			int iInIstate = i + data_.nrVars_;
-			if(istate(iInIstate) < 0)
-			{
-				int start = 0;
-				int end = 0;
-				for(Equality* e: eqConstr_)
-				{
-					end += e->nrEq();
-					if(i >= start && i < end)
-					{
-						int line = i - start;
-						std::cerr << e->nameEq() << " violated at line: " << line << std::endl;
-						std::cerr << e->descEq(mb, line) << std::endl;
-						std::cerr << e->AEq().row(line)*lssol_.result() << " = " << e->BEq()(line) << std::endl;
-						break;
-					}
-					start = end;
-				}
-			}
-		}
-
-		// check inequality constraint
-		for(int i = 0; i < nrInEq_; ++i)
-		{
-			int iInIstate = i + data_.nrVars_ + nrEq_;
 			if(istate(iInIstate) < 0)
 			{
 				int start = 0;
@@ -178,7 +120,9 @@ bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 						int line = i - start;
 						std::cerr << ie->nameInEq() << " violated at line: " << line << std::endl;
 						std::cerr << ie->descInEq(mb, line) << std::endl;
-						std::cerr << ie->AInEq().row(line)*lssol_.result() << " <= " << ie->BInEq()(line) << std::endl;
+						std::cerr << ie->LowerInEq()(line) << " <= " <<
+												 ie->AInEq().row(line)*lssol_.result() <<" <= " <<
+												 ie->UpperInEq()(line) << std::endl;
 						break;
 					}
 					start = end;
@@ -193,35 +137,20 @@ bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 }
 
 
-void QPSolver::updateEqConstrSize()
+void QPSolver::updateConstrSize()
 {
-	int nbEq = 0;
-	for(std::size_t i = 0; i < eqConstr_.size(); ++i)
-	{
-		nbEq += eqConstr_[i]->maxEq();
-	}
-
-	nrEq_ = 0;
-	A1_.resize(nbEq, data_.nrVars_);
-	B1_.resize(nbEq);
-
-	updateSolverSize(data_.nrVars_, nbEq, int(B2_.rows()));
-}
-
-
-void QPSolver::updateInEqConstrSize()
-{
-	int nbInEq = 0;
+	int maxALine = 0;
 	for(std::size_t i = 0; i < inEqConstr_.size(); ++i)
 	{
-		nbInEq += inEqConstr_[i]->maxInEq();
+		maxALine += inEqConstr_[i]->maxInEq();
 	}
 
-	nrInEq_ = 0;
-	A2_.resize(nbInEq, data_.nrVars_);
-	B2_.resize(nbInEq);
+	nrALine_ = 0;
+	A_.resize(maxALine, data_.nrVars_);
+	AL_.resize(maxALine);
+	AU_.resize(maxALine);
 
-	updateSolverSize(data_.nrVars_, int(B1_.rows()), nbInEq);
+	updateSolverSize(data_.nrVars_, maxALine);
 }
 
 
@@ -283,32 +212,13 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 		c->updateNrVars(mb, data_);
 	}
 
-	updateSolverSize(data_.nrVars_, static_cast<int>(B1_.rows()),
-		static_cast<int>(B2_.rows()));
+	updateSolverSize(data_.nrVars_, int(A_.rows()));
 }
 
 
 int QPSolver::nrVars() const
 {
 	return data_.nrVars_;
-}
-
-
-void QPSolver::addEqualityConstraint(Equality* co)
-{
-	eqConstr_.push_back(co);
-}
-
-
-void QPSolver::removeEqualityConstraint(Equality* co)
-{
-	eqConstr_.erase(std::find(eqConstr_.begin(), eqConstr_.end(), co));
-}
-
-
-int QPSolver::nrEqualityConstraints() const
-{
-	return static_cast<int>(eqConstr_.size());
 }
 
 
@@ -460,27 +370,15 @@ int QPSolver::contactLambdaPosition(int bodyId) const
 }
 
 
-void QPSolver::updateSolverSize(int nrVar, int nrEq, int nrIneq)
+void QPSolver::updateSolverSize(int nrVar, int nrConstr)
 {
-	updateLSSOLSize(nrVar, nrEq, nrIneq);
+	updateLSSOLSize(nrVar, nrConstr);
 }
 
 
-void QPSolver::updateQLDSize(int nrVar, int nrEq, int nrIneq)
+void QPSolver::updateLSSOLSize(int nrVar, int nrConstr)
 {
-	qld_.problem(nrVar, nrEq, nrIneq);
-}
-
-
-void QPSolver::updateLSSOLSize(int nrVar, int nrEq, int nrIneq)
-{
-	lssol_.problem(nrVar, nrEq, nrIneq);
-	// warning, if the user change the number of dof of the robot those lines
-	// don't have any sense
-	/*
-	lssol_.result().head(data_.alphaD_) = res_.head(data_.alphaD_);
-	lssol_.result().tail(data_.torque_) = res_.tail(data_.torque_);
-	*/
+	lssol_.problem(nrVar, nrConstr);
 }
 
 
@@ -496,45 +394,30 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		tasks_[i]->update(mb, mbc);
 	}
 
-	A1_.setZero();
-	B1_.setZero();
-	A2_.setZero();
-	B2_.setZero();
+	A_.setZero();
+	AL_.setZero();
+	AU_.setZero();
 	XL_.fill(-std::numeric_limits<double>::infinity());
 	XU_.fill(std::numeric_limits<double>::infinity());
 	Q_.setZero();
 	C_.setZero();
 
-	nrEq_ = 0;
-	for(std::size_t i = 0; i < eqConstr_.size(); ++i)
-	{
-		// eq constraint can return a matrix with more line
-		// than the number of constraint
-		int nrConstr = eqConstr_[i]->nrEq();
-		const Eigen::MatrixXd& A1 = eqConstr_[i]->AEq();
-		const Eigen::VectorXd& B1 = eqConstr_[i]->BEq();
-
-		A1_.block(nrEq_, 0, nrConstr, data_.nrVars_) =
-			A1.block(0, 0, nrConstr, data_.nrVars_);
-		B1_.segment(nrEq_, nrConstr) = B1.head(nrConstr);
-
-		nrEq_ += nrConstr;
-	}
-
-	nrInEq_ = 0;
+	nrALine_ = 0;
 	for(std::size_t i = 0; i < inEqConstr_.size(); ++i)
 	{
 		// ineq constraint can return a matrix with more line
 		// than the number of constraint
 		int nrConstr = inEqConstr_[i]->nrInEq();
-		const Eigen::MatrixXd& A2 = inEqConstr_[i]->AInEq();
-		const Eigen::VectorXd& B2 = inEqConstr_[i]->BInEq();
+		const Eigen::MatrixXd& A = inEqConstr_[i]->AInEq();
+		const Eigen::VectorXd& AL = inEqConstr_[i]->LowerInEq();
+		const Eigen::VectorXd& AU = inEqConstr_[i]->UpperInEq();
 
-		A2_.block(nrInEq_, 0, nrConstr, data_.nrVars_) =
-			A2.block(0, 0, nrConstr, data_.nrVars_);
-		B2_.segment(nrInEq_, nrConstr) = B2.head(nrConstr);
+		A_.block(nrALine_, 0, nrConstr, data_.nrVars_) =
+			A.block(0, 0, nrConstr, data_.nrVars_);
+		AL_.segment(nrALine_, nrConstr) = AL.head(nrConstr);
+		AU_.segment(nrALine_, nrConstr) = AU.head(nrConstr);
 
-		nrInEq_ += nrConstr;
+		nrALine_ += nrConstr;
 	}
 
 	for(std::size_t i = 0; i < boundConstr_.size(); ++i)
