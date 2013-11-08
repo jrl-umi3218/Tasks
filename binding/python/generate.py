@@ -158,7 +158,6 @@ def build_qp(tasks):
   bilateralContact = qp.add_struct('BilateralContact')
 
   constr = qp.add_class('Constraint')
-  eqConstr = qp.add_class('Equality')
   ineqConstr = qp.add_class('Inequality')
   boundConstr = qp.add_class('Bound')
 
@@ -179,11 +178,11 @@ def build_qp(tasks):
   linVelTask = qp.add_class('LinVelocityTask', parent=hlTask)
   oriTrackTask = qp.add_class('OrientationTrackingTask', parent=hlTask)
 
-  motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
+  motionConstr = qp.add_class('MotionConstr', parent=[ineqConstr, boundConstr,
                                                      constr])
   contactConstrCommon = qp.add_class('ContactConstrCommon')
-  contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr, contactConstrCommon])
-  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, contactConstrCommon])
+  contactAccConstr = qp.add_class('ContactAccConstr', parent=[ineqConstr, constr, contactConstrCommon])
+  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[ineqConstr, contactConstrCommon])
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
@@ -199,8 +198,8 @@ def build_qp(tasks):
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'StaticEnvCollisionConstr', 'TorqueLimitsConstr',
                 'GripperTorqueConstr']
-  eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
-  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr',
+  ineqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
+                    'SelfCollisionConstr', 'StaticEnvCollisionConstr',
                     'GripperTorqueConstr']
   boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                      'TorqueLimitsConstr']
@@ -242,8 +241,7 @@ def build_qp(tasks):
                  [param('const rbd::MultiBody&', 'mb'),
                   param('const rbd::MultiBodyConfig&', 'mbc')])
 
-  sol.add_method('updateEqConstrSize', None, [])
-  sol.add_method('updateInEqConstrSize', None, [])
+  sol.add_method('updateConstrSize', None, [])
 
   sol.add_method('nrVars', None,
                  [param('const rbd::MultiBody&', 'mb'),
@@ -251,7 +249,6 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::BilateralContact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
   add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
   add_std_solver_add_rm_nr('BoundConstraint', boundConstrName)
   add_std_solver_add_rm_nr('Constraint', constrName)
@@ -335,17 +332,12 @@ def build_qp(tasks):
                     [param('const rbd::MultiBody&', 'mb'),
                      param('const rbd::MultiBodyConfig&', 'mbc')])
 
-  # EqualityConstraint
-  eqConstr.add_method('maxEq', retval('int'), [])
-  eqConstr.add_method('nrEq', retval('int'), [])
-  eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
-  eqConstr.add_method('BEq', retval('Eigen::MatrixXd'), [])
-
   # InequalityConstraint
   ineqConstr.add_method('maxInEq', retval('int'), [])
   ineqConstr.add_method('nrInEq', retval('int'), [])
   ineqConstr.add_method('AInEq', retval('Eigen::MatrixXd'), [])
-  ineqConstr.add_method('BInEq', retval('Eigen::MatrixXd'), [])
+  ineqConstr.add_method('LowerInEq', retval('Eigen::MatrixXd'), [])
+  ineqConstr.add_method('UpperInEq', retval('Eigen::MatrixXd'), [])
 
   # BoundConstraint
   boundConstr.add_method('beginVar', retval('int'), [])
