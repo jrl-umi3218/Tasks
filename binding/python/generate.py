@@ -189,20 +189,18 @@ def build_qp(tasks):
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
-  torqueLimitsConstr = qp.add_class('TorqueLimitsConstr', parent=[boundConstr, constr])
 
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
 
 
   constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                'StaticEnvCollisionConstr', 'TorqueLimitsConstr',
+                'StaticEnvCollisionConstr',
                 'GripperTorqueConstr']
   ineqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                     'SelfCollisionConstr', 'StaticEnvCollisionConstr',
                     'GripperTorqueConstr']
-  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                     'TorqueLimitsConstr']
+  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
@@ -210,7 +208,7 @@ def build_qp(tasks):
                 'OrientationTrackingTask']
   constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
-                jointLimitsConstr, damperJointLimitsConstr, torqueLimitsConstr,
+                jointLimitsConstr, damperJointLimitsConstr,
                 gripperTorqueConstr]
 
 
@@ -571,7 +569,9 @@ def build_qp(tasks):
   oriTrackTask.add_method('bodyAxis', retval('Eigen::Vector3d'), [], is_const=True)
 
   # MotionConstr
-  motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+  motionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                param('std::vector<std::vector<double> >', 'lTorqueBounds'),
+                                param('std::vector<std::vector<double> >', 'uTorqueBounds')])
 
   # ContactConstrCommon
   contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])
@@ -643,11 +643,6 @@ def build_qp(tasks):
                                     param('std::vector<std::vector<double> >', 'uVel'),
                                     param('double', 'interPercent'), param('double', 'securityPercent'),
                                     param('double', 'damperOffset'), param('double', 'step')])
-
-  # TorqueLimitsConstr
-  torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                      param('std::vector<std::vector<double> >', 'lbound'),
-                                      param('std::vector<std::vector<double> >', 'ubound')])
 
   # GripperTorqueConstr
   gripperTorqueConstr.add_constructor([])

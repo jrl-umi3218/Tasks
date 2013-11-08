@@ -49,7 +49,10 @@ SCD::Matrix4x4 toSCD(const sva::PTransformd& t);
 class MotionConstr : public ConstraintFunction<Inequality, Bound>
 {
 public:
-	MotionConstr(const rbd::MultiBody& mb);
+	MotionConstr(const rbd::MultiBody& mb,
+							 std::vector<std::vector<double>> lTorqueBounds,
+							 std::vector<std::vector<double>> uTorqueBounds);
+
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
@@ -101,8 +104,9 @@ private:
 	Eigen::MatrixXd fullJac_;
 
 	Eigen::MatrixXd A_;
-	Eigen::VectorXd ALU_;
+	Eigen::VectorXd AL_, AU_;
 
+	Eigen::VectorXd torqueL_, torqueU_;
 	Eigen::VectorXd XL_, XU_;
 
 	int nrDof_, nrFor_, nrTor_;
@@ -310,36 +314,6 @@ private:
 	int begin_;
 	double step_;
 	double damperOff_;
-};
-
-
-
-class TorqueLimitsConstr : public ConstraintFunction<Bound>
-{
-public:
-	TorqueLimitsConstr(const rbd::MultiBody& mb,
-		std::vector<std::vector<double> > lBound,
-		std::vector<std::vector<double> > uBound);
-
-	// Constraint
-	virtual void updateNrVars(const rbd::MultiBody& mb,
-		const SolverData& data);
-
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
-
-	virtual std::string nameBound() const;
-	virtual std::string descBound(const rbd::MultiBody& mb, int line);
-
-	// Bound Constraint
-	virtual int beginVar() const;
-
-	virtual const Eigen::VectorXd& Lower() const;
-	virtual const Eigen::VectorXd& Upper() const;
-
-private:
-	Eigen::VectorXd lower_, upper_;
-	int begin_;
-	double step_;
 };
 
 

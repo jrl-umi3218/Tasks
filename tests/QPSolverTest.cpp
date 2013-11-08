@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	qp::QPSolver solver;
 
 	solver.nrVars(mb, {}, {});
-	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 3);
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3);
 
 	solver.updateConstrSize();
 	solver.updateConstrSize();
@@ -448,7 +448,10 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	// MotionConstr test
 	contVec = {};
-	qp::MotionConstr motionCstr(mb);
+	double Inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double>> torqueMin = {{},{-Inf},{-Inf},{-Inf}};
+	std::vector<std::vector<double>> torqueMax = {{},{Inf},{Inf},{Inf}};
+	qp::MotionConstr motionCstr(mb, torqueMin, torqueMax);
 
 	motionCstr.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
@@ -724,8 +727,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	std::vector<std::vector<double> > lBound = {{}, {-30.}, {-30.}, {-30.}};
 	std::vector<std::vector<double> > uBound = {{}, {30.}, {30.}, {30.}};
 
-	qp::MotionConstr motionCstr(mb);
-	qp::TorqueLimitsConstr torqueConstr(mb, lBound, uBound);
+	qp::MotionConstr motionCstr(mb, lBound, uBound);
 
 	// Test add*Constraint
 
@@ -735,11 +737,6 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
-
-	solver.addBoundConstraint(&torqueConstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 2);
-	solver.addConstraint(&torqueConstr);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
 	solver.nrVars(mb, {}, {});
 	solver.updateConstrSize();
@@ -784,11 +781,6 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
 	// Test remove*Constraint
-	solver.removeBoundConstraint(&torqueConstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-	solver.removeConstraint(&torqueConstr);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
-
 	solver.removeInequalityConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
 	solver.removeBoundConstraint(&motionCstr);
@@ -1036,7 +1028,10 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 
 	qp::QPSolver solver(true);
 
-	qp::MotionConstr motionCstr(mb);
+	double Inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double>> torqueMin = {{},{-Inf},{-Inf},{-Inf}};
+	std::vector<std::vector<double>> torqueMax = {{},{Inf},{Inf},{Inf}};
+	qp::MotionConstr motionCstr(mb, torqueMin, torqueMax);
 	qp::ContactAccConstr contCstrAcc(mb);
 
 	solver.addInequalityConstraint(&motionCstr);
