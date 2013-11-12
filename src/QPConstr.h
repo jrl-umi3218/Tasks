@@ -53,6 +53,10 @@ public:
 							 std::vector<std::vector<double>> lTorqueBounds,
 							 std::vector<std::vector<double>> uTorqueBounds);
 
+	void computeTorque(const Eigen::VectorXd& alphaD,
+										const Eigen::VectorXd& lambda);
+	const Eigen::VectorXd& torque() const;
+	void torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const;
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
@@ -108,6 +112,8 @@ private:
 
 	Eigen::VectorXd torqueL_, torqueU_;
 	Eigen::VectorXd XL_, XU_;
+
+	Eigen::VectorXd curTorque_;
 
 	int nrDof_, nrFor_, nrTor_;
 };

@@ -83,6 +83,7 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 	torqueU_(),
 	XL_(),
 	XU_(),
+	curTorque_(),
 	nrDof_(0),
 	nrFor_(0),
 	nrTor_(0)
@@ -90,6 +91,7 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 	int vars = mb.nrDof() - mb.joint(0).dof();
 	torqueL_.resize(vars);
 	torqueU_.resize(vars);
+	curTorque_.resize(vars);
 
 	// remove the joint 0
 	lTorqueBounds[0] = {};
@@ -97,6 +99,35 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 
 	rbd::paramToVector(lTorqueBounds, torqueL_);
 	rbd::paramToVector(uTorqueBounds, torqueU_);
+}
+
+
+void MotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+															 const Eigen::VectorXd& lambda)
+{
+	curTorque_ = fd_.H()*alphaD;
+	curTorque_ += fd_.C();
+	curTorque_ += A_.block(0, nrDof_, A_.rows(), A_.cols() - nrDof_)*lambda;
+}
+
+
+const Eigen::VectorXd& MotionConstr::torque() const
+{
+	return curTorque_;
+}
+
+
+void MotionConstr::torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const
+{
+	int pos = mb.joint(0).dof();
+	for(std::size_t i = 1; i < mbc.jointTorque.size(); ++i)
+	{
+		for(double& d: mbc.jointTorque[i])
+		{
+			d = curTorque_(pos);
+			++pos;
+		}
+	}
 }
 
 
@@ -130,6 +161,7 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 	A_.setZero(nrDof_, data.nrVars());
 	AL_.setZero(nrDof_);
 	AU_.setZero(nrDof_);
+	curTorque_.resize(nrDof_);
 
 	XL_.resize(data.lambda());
 	XU_.resize(data.lambda());

@@ -91,7 +91,6 @@ public:
 	const Eigen::VectorXd& result() const;
 	Eigen::VectorXd alphaDVec() const;
 	Eigen::VectorXd lambdaVec() const;
-	Eigen::VectorXd torqueVec() const;
 
 	int contactLambdaPosition(int bodyId) const;
 
@@ -123,7 +122,6 @@ private:
 	Eigen::VectorXd C_;
 
 	Eigen::VectorXd res_;
-	Eigen::VectorXd torqueRes_;
 
 	Eigen::LSSOL lssol_;
 

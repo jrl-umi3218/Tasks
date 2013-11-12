@@ -195,11 +195,6 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 		C_.resize(data_.nrVars_);
 
 		res_.resize(data_.nrVars_);
-		torqueRes_.resize(mb.nrDof());
-		if(mb.joint(0).type() == rbd::Joint::Free)
-		{
-			torqueRes_.segment(0, mb.joint(0).dof()).setZero();
-		}
 	}
 
 	for(Task* t: tasks_)
@@ -328,12 +323,6 @@ Eigen::VectorXd QPSolver::alphaDVec() const
 Eigen::VectorXd QPSolver::lambdaVec() const
 {
 	return res_.segment(data_.alphaD_, data_.lambda_);
-}
-
-
-Eigen::VectorXd QPSolver::torqueVec() const
-{
-	return res_.tail(data_.torque_);
 }
 
 
@@ -466,12 +455,8 @@ void QPSolver::postUpdate(const rbd::MultiBody& mb,
 	if(success)
 	{
 		res_ = result;
-		// int dof0 = mb.joint(0).dof();
-		// torqueRes_.segment(dof0, mb.nrDof() - dof0) = result.tail(data_.torque_);
-		torqueRes_.setZero();
 
 		rbd::vectorToParam(res_.head(data_.alphaD_), mbc.alphaD);
-		rbd::vectorToParam(torqueRes_, mbc.jointTorque);
 
 		// don't write contact force to the structure since contact force are used
 		// to compute C vector.

@@ -256,7 +256,6 @@ def build_qp(tasks):
   sol.add_method('result', retval('const Eigen::VectorXd&'), [], is_const=True)
   sol.add_method('alphaDVec', retval('Eigen::VectorXd'), [], is_const=True)
   sol.add_method('lambdaVec', retval('Eigen::VectorXd'), [], is_const=True)
-  sol.add_method('torqueVec', retval('Eigen::VectorXd'), [], is_const=True)
 
   sol.add_method('contactLambdaPosition', retval('int'), [param('int', 'bodyId')], is_const=True)
 
@@ -572,6 +571,11 @@ def build_qp(tasks):
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
                                 param('std::vector<std::vector<double> >', 'lTorqueBounds'),
                                 param('std::vector<std::vector<double> >', 'uTorqueBounds')])
+  motionConstr.add_method('computeTorque', None, [param('const Eigen::VectorXd&', 'alphaD'),
+                                                  param('const Eigen::VectorXd&', 'lambda')])
+  motionConstr.add_method('torque', retval('Eigen::VectorXd'), [], is_const=True)
+  motionConstr.add_method('torque', None, [param('const rbd::MultiBody&', 'mb'),
+                                           param('rbd::MultiBodyConfig&', 'mbc')], is_const=True)
 
   # ContactConstrCommon
   contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])

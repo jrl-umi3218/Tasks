@@ -475,6 +475,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
 	}
+	motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+	motionCstr.torque(mb, mbcSolv);
 
 	BOOST_CHECK_SMALL(posTask.eval().norm(), 5e-05);
 
