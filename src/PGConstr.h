@@ -77,6 +77,9 @@ private:
 	PGJacobian bodyPgJac_;
 
 	Eigen::VectorXd val_, jac_;
+
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 } // namespace pg

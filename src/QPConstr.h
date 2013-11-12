@@ -390,6 +390,9 @@ private:
 		int body1, body2;
 		DampingType dampingType;
 		double dampingOff;
+
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -458,6 +461,9 @@ private:
 		int body;
 		DampingType dampingType;
 		double dampingOff;
+
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -512,6 +518,9 @@ private:
 		double torqueLimit;
 		Eigen::Vector3d origin;
 		Eigen::Vector3d axis;
+
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
