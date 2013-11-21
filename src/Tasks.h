@@ -64,9 +64,6 @@ private:
 	Eigen::MatrixXd shortJacMat_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -97,8 +94,6 @@ private:
 	Eigen::MatrixXd shortJacMat_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -150,9 +145,6 @@ private:
 	Eigen::VectorXd eval_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -186,9 +178,6 @@ private:
 	Eigen::MatrixXd shortJacMat_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -232,9 +221,6 @@ private:
 	Eigen::MatrixXd shortJacMat_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 } // namespace tasks
