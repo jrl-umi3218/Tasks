@@ -70,18 +70,64 @@ MotionConstr::ContactData::ContactData(const rbd::MultiBody& mb, int b,
 }
 
 
-MotionConstr::MotionConstr(const rbd::MultiBody& mb):
+MotionConstr::MotionConstr(const rbd::MultiBody& mb,
+													std::vector<std::vector<double>> lTorqueBounds,
+													std::vector<std::vector<double>> uTorqueBounds):
 	fd_(mb),
 	cont_(),
 	fullJac_(6, mb.nrDof()),
-	AEq_(),
-	BEq_(),
+	A_(),
+	AL_(),
+	AU_(),
+	torqueL_(),
+	torqueU_(),
 	XL_(),
 	XU_(),
+	curTorque_(),
 	nrDof_(0),
 	nrFor_(0),
 	nrTor_(0)
 {
+	int vars = mb.nrDof() - mb.joint(0).dof();
+	torqueL_.resize(vars);
+	torqueU_.resize(vars);
+	curTorque_.resize(vars);
+
+	// remove the joint 0
+	lTorqueBounds[0] = {};
+	uTorqueBounds[0] = {};
+
+	rbd::paramToVector(lTorqueBounds, torqueL_);
+	rbd::paramToVector(uTorqueBounds, torqueU_);
+}
+
+
+void MotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+															 const Eigen::VectorXd& lambda)
+{
+	curTorque_ = fd_.H()*alphaD;
+	curTorque_ += fd_.C();
+	curTorque_ += A_.block(0, nrDof_, A_.rows(), A_.cols() - nrDof_)*lambda;
+}
+
+
+const Eigen::VectorXd& MotionConstr::torque() const
+{
+	return curTorque_;
+}
+
+
+void MotionConstr::torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const
+{
+	int pos = mb.joint(0).dof();
+	for(std::size_t i = 1; i < mbc.jointTorque.size(); ++i)
+	{
+		for(double& d: mbc.jointTorque[i])
+		{
+			d = curTorque_(pos);
+			++pos;
+		}
+	}
 }
 
 
@@ -112,11 +158,10 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 		++iCont;
 	}
 
-	AEq_.resize(nrDof_, nrDof_ + nrFor_ + nrTor_);
-	BEq_.resize(nrDof_);
-
-	AEq_.setZero();
-	BEq_.setZero();
+	A_.setZero(nrDof_, data.nrVars());
+	AL_.setZero(nrDof_);
+	AU_.setZero(nrDof_);
+	curTorque_.resize(nrDof_);
 
 	XL_.resize(data.lambda());
 	XU_.resize(data.lambda());
@@ -139,7 +184,7 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	//         nrDof      nrFor            nrTor
 	// nrDof [   H      -Sum J_i^t*ni     [0 ... -1]
 
-	AEq_.block(0, 0, nrDof_, nrDof_) = fd_.H();
+	A_.block(0, 0, nrDof_, nrDof_) = fd_.H();
 
 	int contPos = nrDof_;
 	for(std::size_t i = 0; i < cont_.size(); ++i)
@@ -157,7 +202,7 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 				cont_[i].points[j], cont_[i].jacTrans);
 			cont_[i].jac.fullJacobian(mb, cont_[i].jacTrans, fullJac_);
 
-			AEq_.block(0, contPos, nrDof_, cont_[i].generatorsComp[j].cols()) =
+			A_.block(0, contPos, nrDof_, cont_[i].generatorsComp[j].cols()) =
 				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
 					cont_[i].generatorsComp[j];
 
@@ -165,21 +210,26 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 		}
 	}
 
-	AEq_.block(mb.joint(0).dof(), contPos, nrTor_, nrTor_) =
+	/*
+	A_.block(mb.joint(0).dof(), contPos, nrTor_, nrTor_) =
 		-MatrixXd::Identity(nrTor_, nrTor_);
+		*/
 
 	// BEq = -C
-	BEq_ = -fd_.C();
+	AL_ = -fd_.C();
+	AL_.segment(mb.joint(0).dof(), nrTor_) += torqueL_;
+	AU_ = -fd_.C();
+	AU_.segment(mb.joint(0).dof(), nrTor_) += torqueU_;
 }
 
 
-std::string MotionConstr::nameEq() const
+std::string MotionConstr::nameInEq() const
 {
 	return "MotionConstr";
 }
 
 
-std::string MotionConstr::descEq(const rbd::MultiBody& mb, int line)
+std::string MotionConstr::descInEq(const rbd::MultiBody& mb, int line)
 {
 	int jIndex = findJointFromVector(mb, line, true);
 	return std::string("Joint: ") + mb.joint(jIndex).name();
@@ -209,21 +259,27 @@ std::string MotionConstr::descBound(const rbd::MultiBody& mb, int line)
 }
 
 
-int MotionConstr::maxEq() const
+int MotionConstr::maxInEq() const
 {
 	return nrDof_;
 }
 
 
-const Eigen::MatrixXd& MotionConstr::AEq() const
+const Eigen::MatrixXd& MotionConstr::AInEq() const
 {
-	return AEq_;
+	return A_;
 }
 
 
-const Eigen::VectorXd& MotionConstr::BEq() const
+const Eigen::VectorXd& MotionConstr::LowerInEq() const
 {
-	return BEq_;
+	return AL_;
+}
+
+
+const Eigen::VectorXd& MotionConstr::UpperInEq() const
+{
+	return AU_;
 }
 
 
@@ -340,8 +396,8 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 	cont_(),
 	fullJac_(6, mb.nrDof()),
 	alphaVec_(mb.nrDof()),
-	AEq_(),
-	BEq_(),
+	A_(),
+	ALU_(),
 	nrDof_(0),
 	nrFor_(0),
 	nrTor_(0)
@@ -362,11 +418,11 @@ void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
-	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
-	BEq_.resize(cont_.size()*6);
+	A_.resize(cont_.size()*6, data.nrVars());
+	ALU_.resize(cont_.size()*6);
 
-	AEq_.setZero();
-	BEq_.setZero();
+	A_.setZero();
+	ALU_.setZero();
 }
 
 
@@ -383,23 +439,23 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 		// AEq = J_i
 		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-		AEq_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+		A_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
 
 		// BEq = -JD_i*alpha
 		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		BEq_.segment(i*6, 6) = -fullJac_*alphaVec_;
+		ALU_.segment(i*6, 6) = -fullJac_*alphaVec_;
 	}
 }
 
 
-std::string ContactAccConstr::nameEq() const
+std::string ContactAccConstr::nameInEq() const
 {
 	return "ContactAccConstr";
 }
 
 
-std::string ContactAccConstr::descEq(const rbd::MultiBody& mb, int line)
+std::string ContactAccConstr::descInEq(const rbd::MultiBody& mb, int line)
 {
 	int contact = line/6;
 	int body = cont_[contact].jac.jointsPath().back();
@@ -407,21 +463,27 @@ std::string ContactAccConstr::descEq(const rbd::MultiBody& mb, int line)
 }
 
 
-int ContactAccConstr::maxEq() const
+int ContactAccConstr::maxInEq() const
 {
-	return int(AEq_.rows());
+	return int(A_.rows());
 }
 
 
-const Eigen::MatrixXd& ContactAccConstr::AEq() const
+const Eigen::MatrixXd& ContactAccConstr::AInEq() const
 {
-	return AEq_;
+	return A_;
 }
 
 
-const Eigen::VectorXd& ContactAccConstr::BEq() const
+const Eigen::VectorXd& ContactAccConstr::LowerInEq() const
 {
-	return BEq_;
+	return ALU_;
+}
+
+
+const Eigen::VectorXd& ContactAccConstr::UpperInEq() const
+{
+	return ALU_;
 }
 
 
@@ -434,8 +496,8 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 	cont_(),
 	fullJac_(6, mb.nrDof()),
 	alphaVec_(mb.nrDof()),
-	AEq_(),
-	BEq_(),
+	A_(),
+	ALU_(),
 	nrDof_(0),
 	nrFor_(0),
 	nrTor_(0),
@@ -457,11 +519,11 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
 	}
 
-	AEq_.resize(cont_.size()*6 , nrDof_ + nrFor_ + nrTor_);
-	BEq_.resize(cont_.size()*6);
+	A_.resize(cont_.size()*6, data.nrVars());
+	ALU_.resize(cont_.size()*6);
 
-	AEq_.setZero();
-	BEq_.setZero();
+	A_.setZero();
+	ALU_.setZero();
 }
 
 
@@ -478,24 +540,24 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 		// AEq = J_i
 		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-		AEq_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+		A_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
 
 		// BEq = -JD_i*alpha
 		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		BEq_.segment(i*6, 6) = -fullJac_*alphaVec_ -
+		ALU_.segment(i*6, 6) = -fullJac_*alphaVec_ -
 			mbc.bodyVelW[cont_[i].body].vector()/timeStep_;
 	}
 }
 
 
-std::string ContactSpeedConstr::nameEq() const
+std::string ContactSpeedConstr::nameInEq() const
 {
 	return "ContactSpeedConstr";
 }
 
 
-std::string ContactSpeedConstr::descEq(const rbd::MultiBody& mb, int line)
+std::string ContactSpeedConstr::descInEq(const rbd::MultiBody& mb, int line)
 {
 	int contact = line/6;
 	int body = cont_[contact].jac.jointsPath().back();
@@ -503,21 +565,27 @@ std::string ContactSpeedConstr::descEq(const rbd::MultiBody& mb, int line)
 }
 
 
-int ContactSpeedConstr::maxEq() const
+int ContactSpeedConstr::maxInEq() const
 {
-	return int(AEq_.rows());
+	return int(A_.rows());
 }
 
 
-const Eigen::MatrixXd& ContactSpeedConstr::AEq() const
+const Eigen::MatrixXd& ContactSpeedConstr::AInEq() const
 {
-	return AEq_;
+	return A_;
 }
 
 
-const Eigen::VectorXd& ContactSpeedConstr::BEq() const
+const Eigen::VectorXd& ContactSpeedConstr::LowerInEq() const
 {
-	return BEq_;
+	return ALU_;
+}
+
+
+const Eigen::VectorXd& ContactSpeedConstr::UpperInEq() const
+{
+	return ALU_;
 }
 
 
@@ -752,75 +820,6 @@ double DamperJointLimitsConstr::computeDamper(double dist,
 }
 
 
-
-/**
-	*															TorqueLimitsConstr
-	*/
-
-
-TorqueLimitsConstr::TorqueLimitsConstr(const rbd::MultiBody& mb,
-	std::vector<std::vector<double> > lBound,
-	std::vector<std::vector<double> > uBound):
-	lower_(),
-	upper_(),
-	begin_()
-{
-	int vars = mb.nrDof() - mb.joint(0).dof();
-	lower_.resize(vars);
-	upper_.resize(vars);
-
-	// remove the joint 0
-	lBound[0] = {};
-	uBound[0] = {};
-
-	rbd::paramToVector(lBound, lower_);
-	rbd::paramToVector(uBound, upper_);
-}
-
-
-void TorqueLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-	const SolverData& data)
-{
-	begin_ = data.torqueBegin();
-}
-
-
-void TorqueLimitsConstr::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */)
-{
-}
-
-
-std::string TorqueLimitsConstr::nameBound() const
-{
-	return "TorqueLimitsConstr";
-}
-
-
-std::string TorqueLimitsConstr::descBound(const rbd::MultiBody& mb, int line)
-{
-	int jIndex = findJointFromVector(mb, line, false);
-	return std::string("Joint: ") + mb.joint(jIndex).name();
-}
-
-
-int TorqueLimitsConstr::beginVar() const
-{
-	return begin_;
-}
-
-
-const Eigen::VectorXd& TorqueLimitsConstr::Lower() const
-{
-	return lower_;
-}
-
-
-const Eigen::VectorXd& TorqueLimitsConstr::Upper() const
-{
-	return upper_;
-}
-
 /**
 	*													SelfCollisionConstr
 	*/
@@ -879,7 +878,8 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
   nrVars_(0),
   nrActivated_(0),
   AInEq_(),
-  BInEq_(),
+  AL_(),
+  AU_(),
   fullJac_(6, mb.nrDof()),
   fullJacDot_(6, mb.nrDof()),
   alphaVec_(mb.nrDof()),
@@ -944,9 +944,11 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		 || AInEq_.cols() != nrVars_)
 	{
 		AInEq_.resize(dataVec_.size(), nrVars_);
-		BInEq_.resize(dataVec_.size());
+		AL_.resize(dataVec_.size());
+		AU_.resize(dataVec_.size());
 		AInEq_.setZero();
-		BInEq_.setZero();
+		AL_.fill(-std::numeric_limits<double>::infinity());
+		AU_.setZero();
 	}
 
 	rbd::paramToVector(mbc.alpha, alphaVec_);
@@ -1023,7 +1025,7 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
-			BInEq_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
+			AU_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
 			++nrActivated_;
 		}
 		else
@@ -1090,9 +1092,15 @@ const Eigen::MatrixXd& SelfCollisionConstr::AInEq() const
 }
 
 
-const Eigen::VectorXd& SelfCollisionConstr::BInEq() const
+const Eigen::VectorXd& SelfCollisionConstr::LowerInEq() const
 {
-	return BInEq_;
+	return AL_;
+}
+
+
+const Eigen::VectorXd& SelfCollisionConstr::UpperInEq() const
+{
+	return AU_;
 }
 
 
@@ -1128,7 +1136,8 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
   nrVars_(0),
   nrActivated_(0),
   AInEq_(),
-  BInEq_(),
+  AL_(),
+  AU_(),
   fullJac_(6, mb.nrDof()),
   fullJacDot_(6, mb.nrDof()),
   alphaVec_(mb.nrDof()),
@@ -1193,9 +1202,11 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 		 || AInEq_.cols() != nrVars_)
 	{
 		AInEq_.resize(dataVec_.size(), nrVars_);
-		BInEq_.resize(dataVec_.size());
+		AL_.resize(dataVec_.size());
+		AU_.resize(dataVec_.size());
 		AInEq_.setZero();
-		BInEq_.setZero();
+		AL_.fill(-std::numeric_limits<double>::infinity());
+		AU_.setZero();
 	}
 
 	rbd::paramToVector(mbc.alpha, alphaVec_);
@@ -1254,7 +1265,7 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
-			BInEq_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
+			AU_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
 			++nrActivated_;
 		}
 		else
@@ -1321,9 +1332,15 @@ const Eigen::MatrixXd& StaticEnvCollisionConstr::AInEq() const
 }
 
 
-const Eigen::VectorXd& StaticEnvCollisionConstr::BInEq() const
+const Eigen::VectorXd& StaticEnvCollisionConstr::LowerInEq() const
 {
-	return BInEq_;
+	return AL_;
+}
+
+
+const Eigen::VectorXd& StaticEnvCollisionConstr::UpperInEq() const
+{
+	return AU_;
 }
 
 
@@ -1344,7 +1361,8 @@ GripperTorqueConstr::GripperData::GripperData(int bId, double tl,
 GripperTorqueConstr::GripperTorqueConstr():
   dataVec_(),
   AInEq_(),
-  BInEq_()
+  AL_(),
+  AU_()
 {}
 
 
@@ -1384,7 +1402,9 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 {
 	using namespace Eigen;
 	AInEq_.setZero(dataVec_.size(), data.nrVars());
-	BInEq_.setZero(dataVec_.size());
+	AL_.resize(dataVec_.size());
+	AL_.fill(-std::numeric_limits<double>::infinity());
+	AU_.setZero(dataVec_.size());
 
 	int line = 0;
 	for(const GripperData& gd: dataVec_)
@@ -1416,7 +1436,7 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 						++col;
 					}
 				}
-				BInEq_(line) = gd.torqueLimit;
+				AU_(line) = gd.torqueLimit;
 				break;
 			}
 
@@ -1462,9 +1482,15 @@ const Eigen::MatrixXd& GripperTorqueConstr::AInEq() const
 }
 
 
-const Eigen::VectorXd& GripperTorqueConstr::BInEq() const
+const Eigen::VectorXd& GripperTorqueConstr::LowerInEq() const
 {
-	return BInEq_;
+	return AL_;
+}
+
+
+const Eigen::VectorXd& GripperTorqueConstr::UpperInEq() const
+{
+	return AU_;
 }
 
 } // namespace qp

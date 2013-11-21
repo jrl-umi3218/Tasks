@@ -23,7 +23,6 @@
 #include <Eigen/Core>
 
 // Eigen
-#include <EigenQP/QLD.h>
 #include <EigenQP/LSSOL.h>
 
 // Tasks
@@ -63,20 +62,14 @@ public:
 	 *  \param mbc result of the solving problem
 	 */
 	bool solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
-	bool solveQLD(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 	bool solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 
-	void updateEqConstrSize();
-	void updateInEqConstrSize();
+	void updateConstrSize();
 
 	void nrVars(const rbd::MultiBody& mb,
 		std::vector<UnilateralContact> uni,
 		std::vector<BilateralContact> bi);
 	int nrVars() const;
-
-	void addEqualityConstraint(Equality* co);
-	void removeEqualityConstraint(Equality* co);
-	int nrEqualityConstraints() const;
 
 	void addInequalityConstraint(Inequality* co);
 	void removeInequalityConstraint(Inequality* co);
@@ -98,14 +91,12 @@ public:
 	const Eigen::VectorXd& result() const;
 	Eigen::VectorXd alphaDVec() const;
 	Eigen::VectorXd lambdaVec() const;
-	Eigen::VectorXd torqueVec() const;
 
 	int contactLambdaPosition(int bodyId) const;
 
 protected:
-	void updateSolverSize(int nrVar, int nrEq, int nrIneq);
-	void updateQLDSize(int nrVar, int nrEq, int nrIneq);
-	void updateLSSOLSize(int nrVar, int nrEq, int nrIneq);
+	void updateSolverSize(int nrVar, int nrConstr);
+	void updateLSSOLSize(int nrVar, int nrConstr);
 
 	void preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 	void postUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc,
@@ -113,7 +104,6 @@ protected:
 
 private:
 	std::vector<Constraint*> constr_;
-	std::vector<Equality*> eqConstr_;
 	std::vector<Inequality*> inEqConstr_;
 	std::vector<Bound*> boundConstr_;
 
@@ -121,13 +111,9 @@ private:
 
 	SolverData data_;
 
-	int nrEq_;
-	Eigen::MatrixXd A1_;
-	Eigen::VectorXd B1_;
-
-	int nrInEq_;
-	Eigen::MatrixXd A2_;
-	Eigen::VectorXd B2_;
+	int nrALine_;
+	Eigen::MatrixXd A_;
+	Eigen::VectorXd AL_, AU_;
 
 	Eigen::VectorXd XL_;
 	Eigen::VectorXd XU_;
@@ -136,10 +122,8 @@ private:
 	Eigen::VectorXd C_;
 
 	Eigen::VectorXd res_;
-	Eigen::VectorXd torqueRes_;
 
-	Eigen::QLD qld_;
-	Eigen::StdLSSOL lssol_;
+	Eigen::LSSOL lssol_;
 
 	bool silent_;
 };
@@ -201,32 +185,6 @@ private:
 
 
 
-class Equality
-{
-public:
-	virtual ~Equality() {}
-	virtual int maxEq() const = 0;
-	virtual int nrEq() const { return maxEq(); }
-
-	virtual const Eigen::MatrixXd& AEq() const = 0;
-	virtual const Eigen::VectorXd& BEq() const = 0;
-
-	virtual std::string nameEq() const = 0;
-	virtual std::string descEq(const rbd::MultiBody& mb, int i) = 0;
-
-	void addToSolver(QPSolver& sol)
-	{
-		sol.addEqualityConstraint(this);
-	}
-
-	void removeFromSolver(QPSolver& sol)
-	{
-		sol.removeEqualityConstraint(this);
-	}
-};
-
-
-
 class Inequality
 {
 public:
@@ -235,7 +193,8 @@ public:
 	virtual int nrInEq() const { return maxInEq(); }
 
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
-	virtual const Eigen::VectorXd& BInEq() const = 0;
+	virtual const Eigen::VectorXd& LowerInEq() const = 0;
+	virtual const Eigen::VectorXd& UpperInEq() const = 0;
 
 	virtual std::string nameInEq() const = 0;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int i) = 0;

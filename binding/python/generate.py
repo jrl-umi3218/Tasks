@@ -158,7 +158,6 @@ def build_qp(tasks):
   bilateralContact = qp.add_struct('BilateralContact')
 
   constr = qp.add_class('Constraint')
-  eqConstr = qp.add_class('Equality')
   ineqConstr = qp.add_class('Inequality')
   boundConstr = qp.add_class('Bound')
 
@@ -179,31 +178,29 @@ def build_qp(tasks):
   linVelTask = qp.add_class('LinVelocityTask', parent=hlTask)
   oriTrackTask = qp.add_class('OrientationTrackingTask', parent=hlTask)
 
-  motionConstr = qp.add_class('MotionConstr', parent=[eqConstr, boundConstr,
+  motionConstr = qp.add_class('MotionConstr', parent=[ineqConstr, boundConstr,
                                                      constr])
   contactConstrCommon = qp.add_class('ContactConstrCommon')
-  contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr, contactConstrCommon])
-  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, contactConstrCommon])
+  contactAccConstr = qp.add_class('ContactAccConstr', parent=[ineqConstr, constr, contactConstrCommon])
+  contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[ineqConstr, contactConstrCommon])
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
-  torqueLimitsConstr = qp.add_class('TorqueLimitsConstr', parent=[boundConstr, constr])
 
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
 
 
   constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                'StaticEnvCollisionConstr', 'TorqueLimitsConstr',
+                'StaticEnvCollisionConstr',
                 'GripperTorqueConstr']
-  eqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr']
-  ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr',
+  ineqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
+                    'SelfCollisionConstr', 'StaticEnvCollisionConstr',
                     'GripperTorqueConstr']
-  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                     'TorqueLimitsConstr']
+  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
@@ -211,7 +208,7 @@ def build_qp(tasks):
                 'OrientationTrackingTask']
   constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
-                jointLimitsConstr, damperJointLimitsConstr, torqueLimitsConstr,
+                jointLimitsConstr, damperJointLimitsConstr,
                 gripperTorqueConstr]
 
 
@@ -242,8 +239,7 @@ def build_qp(tasks):
                  [param('const rbd::MultiBody&', 'mb'),
                   param('const rbd::MultiBodyConfig&', 'mbc')])
 
-  sol.add_method('updateEqConstrSize', None, [])
-  sol.add_method('updateInEqConstrSize', None, [])
+  sol.add_method('updateConstrSize', None, [])
 
   sol.add_method('nrVars', None,
                  [param('const rbd::MultiBody&', 'mb'),
@@ -251,7 +247,6 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::BilateralContact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
-  add_std_solver_add_rm_nr('EqualityConstraint', eqConstrName)
   add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
   add_std_solver_add_rm_nr('BoundConstraint', boundConstrName)
   add_std_solver_add_rm_nr('Constraint', constrName)
@@ -261,7 +256,6 @@ def build_qp(tasks):
   sol.add_method('result', retval('const Eigen::VectorXd&'), [], is_const=True)
   sol.add_method('alphaDVec', retval('Eigen::VectorXd'), [], is_const=True)
   sol.add_method('lambdaVec', retval('Eigen::VectorXd'), [], is_const=True)
-  sol.add_method('torqueVec', retval('Eigen::VectorXd'), [], is_const=True)
 
   sol.add_method('contactLambdaPosition', retval('int'), [param('int', 'bodyId')], is_const=True)
 
@@ -335,17 +329,12 @@ def build_qp(tasks):
                     [param('const rbd::MultiBody&', 'mb'),
                      param('const rbd::MultiBodyConfig&', 'mbc')])
 
-  # EqualityConstraint
-  eqConstr.add_method('maxEq', retval('int'), [])
-  eqConstr.add_method('nrEq', retval('int'), [])
-  eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
-  eqConstr.add_method('BEq', retval('Eigen::MatrixXd'), [])
-
   # InequalityConstraint
   ineqConstr.add_method('maxInEq', retval('int'), [])
   ineqConstr.add_method('nrInEq', retval('int'), [])
   ineqConstr.add_method('AInEq', retval('Eigen::MatrixXd'), [])
-  ineqConstr.add_method('BInEq', retval('Eigen::MatrixXd'), [])
+  ineqConstr.add_method('LowerInEq', retval('Eigen::MatrixXd'), [])
+  ineqConstr.add_method('UpperInEq', retval('Eigen::MatrixXd'), [])
 
   # BoundConstraint
   boundConstr.add_method('beginVar', retval('int'), [])
@@ -579,7 +568,14 @@ def build_qp(tasks):
   oriTrackTask.add_method('bodyAxis', retval('Eigen::Vector3d'), [], is_const=True)
 
   # MotionConstr
-  motionConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+  motionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                param('std::vector<std::vector<double> >', 'lTorqueBounds'),
+                                param('std::vector<std::vector<double> >', 'uTorqueBounds')])
+  motionConstr.add_method('computeTorque', None, [param('const Eigen::VectorXd&', 'alphaD'),
+                                                  param('const Eigen::VectorXd&', 'lambda')])
+  motionConstr.add_method('torque', retval('Eigen::VectorXd'), [], is_const=True)
+  motionConstr.add_method('torque', None, [param('const rbd::MultiBody&', 'mb'),
+                                           param('rbd::MultiBodyConfig&', 'mbc')], is_const=True)
 
   # ContactConstrCommon
   contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])
@@ -651,11 +647,6 @@ def build_qp(tasks):
                                     param('std::vector<std::vector<double> >', 'uVel'),
                                     param('double', 'interPercent'), param('double', 'securityPercent'),
                                     param('double', 'damperOffset'), param('double', 'step')])
-
-  # TorqueLimitsConstr
-  torqueLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                      param('std::vector<std::vector<double> >', 'lbound'),
-                                      param('std::vector<std::vector<double> >', 'ubound')])
 
   # GripperTorqueConstr
   gripperTorqueConstr.add_constructor([])

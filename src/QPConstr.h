@@ -46,10 +46,17 @@ namespace qp
 
 SCD::Matrix4x4 toSCD(const sva::PTransformd& t);
 
-class MotionConstr : public ConstraintFunction<Equality, Bound>
+class MotionConstr : public ConstraintFunction<Inequality, Bound>
 {
 public:
-	MotionConstr(const rbd::MultiBody& mb);
+	MotionConstr(const rbd::MultiBody& mb,
+							 std::vector<std::vector<double>> lTorqueBounds,
+							 std::vector<std::vector<double>> uTorqueBounds);
+
+	void computeTorque(const Eigen::VectorXd& alphaD,
+										const Eigen::VectorXd& lambda);
+	const Eigen::VectorXd& torque() const;
+	void torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const;
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
@@ -57,16 +64,17 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameEq() const;
-	virtual std::string descEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 	virtual std::string nameBound() const;
 	virtual std::string descBound(const rbd::MultiBody& mb, int line);
 
-	// Equality Constraint
-	virtual int maxEq() const;
+	// Inequality Constraint
+	virtual int maxInEq() const;
 
-	virtual const Eigen::MatrixXd& AEq() const;
-	virtual const Eigen::VectorXd& BEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
 
 	// Bound Constraint
 	virtual int beginVar() const;
@@ -99,10 +107,13 @@ private:
 	std::vector<ContactData> cont_;
 	Eigen::MatrixXd fullJac_;
 
-	Eigen::MatrixXd AEq_;
-	Eigen::VectorXd BEq_;
+	Eigen::MatrixXd A_;
+	Eigen::VectorXd AL_, AU_;
 
+	Eigen::VectorXd torqueL_, torqueU_;
 	Eigen::VectorXd XL_, XU_;
+
+	Eigen::VectorXd curTorque_;
 
 	int nrDof_, nrFor_, nrTor_;
 };
@@ -124,7 +135,7 @@ protected:
 };
 
 
-class ContactAccConstr : public ConstraintFunction<Equality>,
+class ContactAccConstr : public ConstraintFunction<Inequality>,
 	public ContactConstrCommon
 {
 public:
@@ -136,14 +147,15 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameEq() const;
-	virtual std::string descEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
-	// Equality Constraint
-	virtual int maxEq() const;
+	// Inequality Constraint
+	virtual int maxInEq() const;
 
-	virtual const Eigen::MatrixXd& AEq() const;
-	virtual const Eigen::VectorXd& BEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
 
 private:
 	struct ContactData
@@ -162,15 +174,15 @@ private:
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd alphaVec_;
 
-	Eigen::MatrixXd AEq_;
-	Eigen::VectorXd BEq_;
+	Eigen::MatrixXd A_;
+	Eigen::VectorXd ALU_;
 
 	int nrDof_, nrFor_, nrTor_;
 };
 
 
 
-class ContactSpeedConstr : public ConstraintFunction<Equality>,
+class ContactSpeedConstr : public ConstraintFunction<Inequality>,
 	public ContactConstrCommon
 {
 public:
@@ -182,14 +194,15 @@ public:
 
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
-	virtual std::string nameEq() const;
-	virtual std::string descEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
-	// Equality Constraint
-	virtual int maxEq() const;
+	// Inequality Constraint
+	virtual int maxInEq() const;
 
-	virtual const Eigen::MatrixXd& AEq() const;
-	virtual const Eigen::VectorXd& BEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
 
 private:
 	struct ContactData
@@ -209,8 +222,8 @@ private:
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd alphaVec_;
 
-	Eigen::MatrixXd AEq_;
-	Eigen::VectorXd BEq_;
+	Eigen::MatrixXd A_;
+	Eigen::VectorXd ALU_;
 
 	int nrDof_, nrFor_, nrTor_;
 	double timeStep_;
@@ -311,36 +324,6 @@ private:
 
 
 
-class TorqueLimitsConstr : public ConstraintFunction<Bound>
-{
-public:
-	TorqueLimitsConstr(const rbd::MultiBody& mb,
-		std::vector<std::vector<double> > lBound,
-		std::vector<std::vector<double> > uBound);
-
-	// Constraint
-	virtual void updateNrVars(const rbd::MultiBody& mb,
-		const SolverData& data);
-
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
-
-	virtual std::string nameBound() const;
-	virtual std::string descBound(const rbd::MultiBody& mb, int line);
-
-	// Bound Constraint
-	virtual int beginVar() const;
-
-	virtual const Eigen::VectorXd& Lower() const;
-	virtual const Eigen::VectorXd& Upper() const;
-
-private:
-	Eigen::VectorXd lower_, upper_;
-	int begin_;
-	double step_;
-};
-
-
-
 class SelfCollisionConstr : public ConstraintFunction<Inequality>
 {
 public:
@@ -363,12 +346,13 @@ public:
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
-	// InEquality Constraint
+	// InInequality Constraint
 	virtual int nrInEq() const;
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& BInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
 
 private:
 	struct CollData
@@ -399,7 +383,7 @@ private:
 	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd BInEq_;
+	Eigen::VectorXd AL_, AU_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::MatrixXd fullJacDot_;
@@ -431,12 +415,13 @@ public:
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
-	// InEquality Constraint
+	// InInequality Constraint
 	virtual int nrInEq() const;
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& BInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
 
 private:
 	struct CollData
@@ -467,7 +452,7 @@ private:
 	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd BInEq_;
+	Eigen::VectorXd AL_, AU_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::MatrixXd fullJacDot_;
@@ -496,11 +481,12 @@ public:
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
-	// InEquality Constraint
+	// InInequality Constraint
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& BInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
 
 private:
 	struct GripperData
@@ -518,7 +504,7 @@ private:
 	std::vector<GripperData> dataVec_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd BInEq_;
+	Eigen::VectorXd AL_, AU_;
 };
 
 } // namespace qp
