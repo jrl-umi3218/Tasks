@@ -83,7 +83,7 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 	torqueU_(),
 	XL_(),
 	XU_(),
-	curTorque_(),
+	curTorque_(mb.nrDof()),
 	nrDof_(0),
 	nrFor_(0),
 	nrTor_(0)
@@ -91,7 +91,6 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 	int vars = mb.nrDof() - mb.joint(0).dof();
 	torqueL_.resize(vars);
 	torqueU_.resize(vars);
-	curTorque_.resize(vars);
 
 	// remove the joint 0
 	lTorqueBounds[0] = {};
