@@ -26,10 +26,6 @@
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 
-// Tasks
-#include "QL.h"
-
-
 
 namespace tasks
 {

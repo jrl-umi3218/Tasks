@@ -1,8 +1,6 @@
-enable_language(Fortran)
-
-set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp QL.cpp QL.f
+set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp
             QPContacts.cpp QPSolverData.cpp)
-set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h QL.h
+set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h
             QPContacts.h QPSolverData.h)
 
 if(${POSTURE_GENERATOR})
