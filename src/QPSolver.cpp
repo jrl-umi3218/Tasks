@@ -72,7 +72,7 @@ bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 	preUpdate(mb, mbc);
 
 	bool success = lssol_.solve(Q_, C_,
-		A_.block(0, 0, nrALine_, data_.nrVars_), A_.rows(),
+		A_.block(0, 0, nrALine_, data_.nrVars_), int(A_.rows()),
 		AL_.segment(0, nrALine_), AU_.segment(0, nrALine_), XL_, XU_);
 
 	if(!success)
@@ -445,7 +445,7 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 }
 
 
-void QPSolver::postUpdate(const rbd::MultiBody& mb,
+void QPSolver::postUpdate(const rbd::MultiBody& /* mb */,
 	rbd::MultiBodyConfig& mbc, bool success, const Eigen::VectorXd& result)
 {
 	if(success)

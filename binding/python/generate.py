@@ -179,7 +179,9 @@ def build_qp(tasks):
   oriTrackTask = qp.add_class('OrientationTrackingTask', parent=hlTask)
 
   motionConstr = qp.add_class('MotionConstr', parent=[ineqConstr, boundConstr,
-                                                     constr])
+                                                      constr])
+  motionPolyConstr = qp.add_class('MotionPolyConstr', parent=[ineqConstr, boundConstr,
+                                                          constr])
   contactConstrCommon = qp.add_class('ContactConstrCommon')
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[ineqConstr, constr, contactConstrCommon])
   contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[ineqConstr, contactConstrCommon])
@@ -193,20 +195,20 @@ def build_qp(tasks):
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
 
 
-  constrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
+  constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'StaticEnvCollisionConstr',
                 'GripperTorqueConstr']
-  ineqConstrName = ['MotionConstr', 'ContactAccConstr', 'ContactSpeedConstr',
+  ineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                     'SelfCollisionConstr', 'StaticEnvCollisionConstr',
                     'GripperTorqueConstr']
-  boundConstrName = ['MotionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr']
+  boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
                 'OrientationTrackingTask']
-  constrList = [motionConstr, contactAccConstr, contactSpeedConstr,
+  constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
                 jointLimitsConstr, damperJointLimitsConstr,
                 gripperTorqueConstr]
@@ -221,6 +223,8 @@ def build_qp(tasks):
                       'tasks::qp::BilateralContact', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
   tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
+  tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
+  tasks.add_container('std::vector<std::vector<Eigen::VectorXd> >', 'std::vector<Eigen::VectorXd>', 'vector')
 
 
   # QPSolver
@@ -568,14 +572,23 @@ def build_qp(tasks):
   oriTrackTask.add_method('bodyAxis', retval('Eigen::Vector3d'), [], is_const=True)
 
   # MotionConstr
+  def addMotionDefault(motion):
+    motion.add_method('computeTorque', None, [param('const Eigen::VectorXd&', 'alphaD'),
+                                              param('const Eigen::VectorXd&', 'lambda')])
+    motion.add_method('torque', retval('Eigen::VectorXd'), [], is_const=True)
+    motion.add_method('torque', None, [param('const rbd::MultiBody&', 'mb'),
+                                             param('rbd::MultiBodyConfig&', 'mbc')], is_const=True)
+
   motionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
                                 param('std::vector<std::vector<double> >', 'lTorqueBounds'),
                                 param('std::vector<std::vector<double> >', 'uTorqueBounds')])
-  motionConstr.add_method('computeTorque', None, [param('const Eigen::VectorXd&', 'alphaD'),
-                                                  param('const Eigen::VectorXd&', 'lambda')])
-  motionConstr.add_method('torque', retval('Eigen::VectorXd'), [], is_const=True)
-  motionConstr.add_method('torque', None, [param('const rbd::MultiBody&', 'mb'),
-                                           param('rbd::MultiBodyConfig&', 'mbc')], is_const=True)
+  addMotionDefault(motionConstr)
+
+  # MotionPolyConstr
+  motionPolyConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                    param('std::vector<std::vector<Eigen::VectorXd> >', 'lTorqueBounds'),
+                                    param('std::vector<std::vector<Eigen::VectorXd> >', 'uTorqueBounds')])
+  addMotionDefault(motionPolyConstr)
 
   # ContactConstrCommon
   contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])

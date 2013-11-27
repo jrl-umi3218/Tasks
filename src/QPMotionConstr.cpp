@@ -17,6 +17,9 @@
 #include "QPMotionConstr.h"
 
 // includes
+// Eigen
+#include <unsupported/Eigen/Polynomials>
+
 // RBDyn
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
@@ -300,6 +303,59 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 
 	AL_.segment(mb.joint(0).dof(), nrTor_) += torqueL_;
 	AU_.segment(mb.joint(0).dof(), nrTor_) += torqueU_;
+}
+
+
+/**
+	*															MotionPolyConstr
+	*/
+
+
+template<typename Type, typename Container>
+void paramToVector(const std::vector<std::vector<Type> >& v, Container& e)
+{
+	int pos = 0;
+	for(const auto& inV: v)
+	{
+		for(const Type& d: inV)
+		{
+			e[pos] = d;
+			++pos;
+		}
+	}
+}
+
+
+MotionPolyConstr::MotionPolyConstr(const rbd::MultiBody& mb,
+																 std::vector<std::vector<Eigen::VectorXd>> lTorqueBounds,
+																 std::vector<std::vector<Eigen::VectorXd>> uTorqueBounds):
+	MotionConstrCommon(mb),
+	torqueL_(),
+	torqueU_()
+{
+	int vars = mb.nrDof() - mb.joint(0).dof();
+	torqueL_.resize(vars);
+	torqueU_.resize(vars);
+
+	// remove the joint 0
+	lTorqueBounds[0] = {};
+	uTorqueBounds[0] = {};
+
+	paramToVector(lTorqueBounds, torqueL_);
+	paramToVector(uTorqueBounds, torqueU_);
+}
+
+
+void MotionPolyConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	computeMatrix(mb, mbc);
+
+	int j0Dof = mb.joint(0).dof();
+	for(int i = 0; i < nrTor_; ++i)
+	{
+		AL_(j0Dof + i) += Eigen::poly_eval(torqueL_[i], mbc.q[i + 1][0]);
+		AU_(j0Dof + i) += Eigen::poly_eval(torqueU_[i], mbc.q[i + 1][0]);
+	}
 }
 
 

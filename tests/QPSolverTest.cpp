@@ -24,6 +24,9 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/math/constants/constants.hpp>
 
+// Eigen
+#include <unsupported/Eigen/Polynomials>
+
 // SpaceVecAlg
 #include <SpaceVecAlg/SpaceVecAlg>
 
@@ -741,15 +744,14 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-	solver.nrVars(mb, {}, {});
-	solver.updateConstrSize();
-	solver.updateConstrSize();
-
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
+	solver.nrVars(mb, {}, {});
+	solver.updateConstrSize();
 
-	// Test TorqueLimitsConstr
+
+	// Test MotionConstr torque limits
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 10000; ++i)
 	{
@@ -758,6 +760,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
+		motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionCstr.torque(mb, mbcSolv);
 		for(int i = 0; i < 3; ++i)
 		{
 			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], lBound[i+1][0] - 0.001);
@@ -773,6 +777,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
+		motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionCstr.torque(mb, mbcSolv);
 		for(int i = 0; i < 3; ++i)
 		{
 			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], lBound[i+1][0] - 0.001);
@@ -780,16 +786,73 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 		}
 	}
 
+	motionCstr.removeFromSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
+
+
+	Eigen::VectorXd lpoly(2), upoly(2);
+	Eigen::VectorXd null;
+	lpoly << -30, 1.;
+	upoly << 30, 1.;
+	std::vector<std::vector<Eigen::VectorXd> > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
+	std::vector<std::vector<Eigen::VectorXd> > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
+	qp::MotionPolyConstr motionPolyCstr(mb, lBoundPoly, uBoundPoly);
+
+	motionPolyCstr.addToSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mb, {}, {});
+	solver.updateConstrSize();
+
+	// Test MotionPolyConstr torque limits
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
+		std::vector<std::vector<double>> oldQ = mbcSolv.q;
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+		motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionPolyCstr.torque(mb, mbcSolv);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
+			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(uBoundPoly[i+1][0], oldQ[i+1][0]));
+		}
+	}
+
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
+		std::vector<std::vector<double>> oldQ = mbcSolv.q;
+		eulerIntegration(mb, mbcSolv, 0.001);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+		motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionPolyCstr.torque(mb, mbcSolv);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
+			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(uBoundPoly[i+1][0], oldQ[i+1][0]));
+		}
+	}
+
+	motionPolyCstr.removeFromSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
 	solver.removeTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
-
-	// Test remove*Constraint
-	solver.removeInequalityConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
-	solver.removeBoundConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-	solver.removeConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
 
 BOOST_AUTO_TEST_CASE(QPAutoCollTest)

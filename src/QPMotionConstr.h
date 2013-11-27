@@ -120,6 +120,26 @@ private:
 };
 
 
+
+/**
+ * @brief Use polynome in function of q to compute torque limits.
+ * BEWARE: Only work with 1 dof/param joint
+ */
+class MotionPolyConstr : public MotionConstrCommon
+{
+public:
+	MotionPolyConstr(const rbd::MultiBody& mb,
+									std::vector<std::vector<Eigen::VectorXd>> lTorqueBounds,
+									std::vector<std::vector<Eigen::VectorXd>> uTorqueBounds);
+
+	// Constraint
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+private:
+	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
+};
+
+
 } // namespace qp
 
 } // namespace tasks
