@@ -311,38 +311,23 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	*/
 
 
-template<typename Type, typename Container>
-void paramToVector(const std::vector<std::vector<Type> >& v, Container& e)
-{
-	int pos = 0;
-	for(const auto& inV: v)
-	{
-		for(const Type& d: inV)
-		{
-			e[pos] = d;
-			++pos;
-		}
-	}
-}
-
-
 MotionPolyConstr::MotionPolyConstr(const rbd::MultiBody& mb,
-																 std::vector<std::vector<Eigen::VectorXd>> lTorqueBounds,
-																 std::vector<std::vector<Eigen::VectorXd>> uTorqueBounds):
+																 const std::vector<std::vector<Eigen::VectorXd>>& lTorqueBounds,
+																 const std::vector<std::vector<Eigen::VectorXd>>& uTorqueBounds):
 	MotionConstrCommon(mb),
 	torqueL_(),
 	torqueU_()
 {
-	int vars = mb.nrDof() - mb.joint(0).dof();
-	torqueL_.resize(vars);
-	torqueU_.resize(vars);
-
-	// remove the joint 0
-	lTorqueBounds[0] = {};
-	uTorqueBounds[0] = {};
-
-	paramToVector(lTorqueBounds, torqueL_);
-	paramToVector(uTorqueBounds, torqueU_);
+	// remove non managed joint
+	for(int i = 0; i < mb.nrJoints(); ++i)
+	{
+		if(mb.joint(i).dof() == 1)
+		{
+			jointIndex_.push_back(i);
+			torqueL_.push_back(lTorqueBounds[i][0]);
+			torqueU_.push_back(uTorqueBounds[i][0]);
+		}
+	}
 }
 
 
@@ -350,11 +335,12 @@ void MotionPolyConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 {
 	computeMatrix(mb, mbc);
 
-	int j0Dof = mb.joint(0).dof();
-	for(int i = 0; i < nrTor_; ++i)
+	for(std::size_t i = 0; i < jointIndex_.size(); ++i)
 	{
-		AL_(j0Dof + i) += Eigen::poly_eval(torqueL_[i], mbc.q[i + 1][0]);
-		AU_(j0Dof + i) += Eigen::poly_eval(torqueU_[i], mbc.q[i + 1][0]);
+		int index = jointIndex_[i];
+		int dofPos = mb.jointPosInDof(index);
+		AL_(dofPos) += Eigen::poly_eval(torqueL_[i], mbc.q[index][0]);
+		AU_(dofPos) += Eigen::poly_eval(torqueU_[i], mbc.q[index][0]);
 	}
 }
 

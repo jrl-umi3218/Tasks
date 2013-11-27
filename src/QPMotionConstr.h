@@ -129,14 +129,15 @@ class MotionPolyConstr : public MotionConstrCommon
 {
 public:
 	MotionPolyConstr(const rbd::MultiBody& mb,
-									std::vector<std::vector<Eigen::VectorXd>> lTorqueBounds,
-									std::vector<std::vector<Eigen::VectorXd>> uTorqueBounds);
+									const std::vector<std::vector<Eigen::VectorXd>>& lTorqueBounds,
+									const std::vector<std::vector<Eigen::VectorXd>>& uTorqueBounds);
 
 	// Constraint
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 private:
 	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
+	std::vector<int> jointIndex_;
 };
 
 
