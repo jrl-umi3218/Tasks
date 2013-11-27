@@ -42,6 +42,7 @@
 
 // Tasks
 #include "QPConstr.h"
+#include "QPMotionConstr.h"
 #include "QPSolver.h"
 #include "QPTasks.h"
 

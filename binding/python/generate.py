@@ -676,6 +676,7 @@ if __name__ == '__main__':
   tasks.add_include('<QPSolver.h>')
   tasks.add_include('<QPTasks.h>')
   tasks.add_include('<QPConstr.h>')
+  tasks.add_include('<QPMotionConstr.h>')
 
   tasks.add_include('<RBDyn/MultiBodyConfig.h>')
 

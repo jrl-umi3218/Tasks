@@ -1,7 +1,8 @@
 set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp
-            QPContacts.cpp QPSolverData.cpp)
+            QPContacts.cpp QPSolverData.cpp QPMotionConstr.cpp)
 set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h
-            QPContacts.h QPSolverData.h)
+            QPContacts.h QPSolverData.h QPMotionConstr.h)
+set(PRIVATE_HEADERS utils.h)
 
 if(${POSTURE_GENERATOR})
   list(APPEND SOURCES PGJacobian.cpp PostureGenerator.cpp PGConstr.cpp)
@@ -9,7 +10,7 @@ if(${POSTURE_GENERATOR})
 endif()
 
 
-add_library(Tasks SHARED ${SOURCES} ${HEADERS})
+add_library(Tasks SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
 
 
 PKG_CONFIG_USE_DEPENDENCY(Tasks scd)
