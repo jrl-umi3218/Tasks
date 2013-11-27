@@ -33,12 +33,10 @@ namespace tasks
 namespace qp
 {
 
-class MotionConstr : public ConstraintFunction<Inequality, Bound>
+class MotionConstrCommon : public ConstraintFunction<Inequality, Bound>
 {
 public:
-	MotionConstr(const rbd::MultiBody& mb,
-							 std::vector<std::vector<double>> lTorqueBounds,
-							 std::vector<std::vector<double>> uTorqueBounds);
+	MotionConstrCommon(const rbd::MultiBody& mb);
 
 	void computeTorque(const Eigen::VectorXd& alphaD,
 										const Eigen::VectorXd& lambda);
@@ -49,8 +47,9 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void computeMatrix(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	// Description
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 	virtual std::string nameBound() const;
@@ -69,7 +68,7 @@ public:
 	virtual const Eigen::VectorXd& Lower() const;
 	virtual const Eigen::VectorXd& Upper() const;
 
-private:
+protected:
 	struct ContactData
 	{
 		ContactData() {}
@@ -88,7 +87,7 @@ private:
 		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generatorsComp;
 	};
 
-private:
+protected:
 	rbd::ForwardDynamics fd_;
 
 	std::vector<ContactData> cont_;
@@ -97,12 +96,27 @@ private:
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd AL_, AU_;
 
-	Eigen::VectorXd torqueL_, torqueU_;
 	Eigen::VectorXd XL_, XU_;
 
 	Eigen::VectorXd curTorque_;
 
 	int nrDof_, nrFor_, nrTor_;
+};
+
+
+
+class MotionConstr : public MotionConstrCommon
+{
+public:
+	MotionConstr(const rbd::MultiBody& mb,
+							 std::vector<std::vector<double>> lTorqueBounds,
+							 std::vector<std::vector<double>> uTorqueBounds);
+
+	// Constraint
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+private:
+	Eigen::VectorXd torqueL_, torqueU_;
 };
 
 

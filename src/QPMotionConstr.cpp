@@ -33,11 +33,11 @@ namespace qp
 
 
 /**
-	*															MotionConstr
+	*															MotionConstrCommon
 	*/
 
 
-MotionConstr::ContactData::ContactData(const rbd::MultiBody& mb, int b,
+MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb, int b,
 	std::vector<Eigen::Vector3d> p,
 	const std::vector<FrictionCone>& cones):
 	jac(mb, b),
@@ -59,17 +59,14 @@ MotionConstr::ContactData::ContactData(const rbd::MultiBody& mb, int b,
 }
 
 
-MotionConstr::MotionConstr(const rbd::MultiBody& mb,
-													std::vector<std::vector<double>> lTorqueBounds,
-													std::vector<std::vector<double>> uTorqueBounds):
+
+MotionConstrCommon::MotionConstrCommon(const rbd::MultiBody& mb):
 	fd_(mb),
 	cont_(),
 	fullJac_(6, mb.nrDof()),
 	A_(),
 	AL_(),
 	AU_(),
-	torqueL_(),
-	torqueU_(),
 	XL_(),
 	XU_(),
 	curTorque_(mb.nrDof()),
@@ -77,20 +74,10 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 	nrFor_(0),
 	nrTor_(0)
 {
-	int vars = mb.nrDof() - mb.joint(0).dof();
-	torqueL_.resize(vars);
-	torqueU_.resize(vars);
-
-	// remove the joint 0
-	lTorqueBounds[0] = {};
-	uTorqueBounds[0] = {};
-
-	rbd::paramToVector(lTorqueBounds, torqueL_);
-	rbd::paramToVector(uTorqueBounds, torqueU_);
 }
 
 
-void MotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+void MotionConstrCommon::computeTorque(const Eigen::VectorXd& alphaD,
 															 const Eigen::VectorXd& lambda)
 {
 	curTorque_ = fd_.H()*alphaD;
@@ -99,13 +86,13 @@ void MotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
 }
 
 
-const Eigen::VectorXd& MotionConstr::torque() const
+const Eigen::VectorXd& MotionConstrCommon::torque() const
 {
 	return curTorque_;
 }
 
 
-void MotionConstr::torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const
+void MotionConstrCommon::torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const
 {
 	int pos = mb.joint(0).dof();
 	for(std::size_t i = 1; i < mbc.jointTorque.size(); ++i)
@@ -119,7 +106,7 @@ void MotionConstr::torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) c
 }
 
 
-void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
+void MotionConstrCommon::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
 	const auto& uniCont = data.unilateralContacts();
@@ -159,7 +146,7 @@ void MotionConstr::updateNrVars(const rbd::MultiBody& mb,
 }
 
 
-void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void MotionConstrCommon::computeMatrix(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	using namespace Eigen;
 
@@ -200,32 +187,72 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 
 	// BEq = -C
 	AL_ = -fd_.C();
-	AL_.segment(mb.joint(0).dof(), nrTor_) += torqueL_;
 	AU_ = -fd_.C();
-	AU_.segment(mb.joint(0).dof(), nrTor_) += torqueU_;
 }
 
 
-std::string MotionConstr::nameInEq() const
+int MotionConstrCommon::maxInEq() const
+{
+	return nrDof_;
+}
+
+
+const Eigen::MatrixXd& MotionConstrCommon::AInEq() const
+{
+	return A_;
+}
+
+
+const Eigen::VectorXd& MotionConstrCommon::LowerInEq() const
+{
+	return AL_;
+}
+
+
+const Eigen::VectorXd& MotionConstrCommon::UpperInEq() const
+{
+	return AU_;
+}
+
+
+int MotionConstrCommon::beginVar() const
+{
+	return nrDof_;
+}
+
+
+const Eigen::VectorXd& MotionConstrCommon::Lower() const
+{
+	return XL_;
+}
+
+
+const Eigen::VectorXd& MotionConstrCommon::Upper() const
+{
+	return XU_;
+}
+
+
+std::string MotionConstrCommon::nameInEq() const
 {
 	return "MotionConstr";
 }
 
 
-std::string MotionConstr::descInEq(const rbd::MultiBody& mb, int line)
+std::string MotionConstrCommon::descInEq(const rbd::MultiBody& mb, int line)
 {
 	int jIndex = findJointFromVector(mb, line, true);
 	return std::string("Joint: ") + mb.joint(jIndex).name();
 }
 
 
-std::string MotionConstr::nameBound() const
+std::string MotionConstrCommon::nameBound() const
 {
 	return "MotionConstr";
 }
 
 
-std::string MotionConstr::descBound(const rbd::MultiBody& mb, int line)
+std::string MotionConstrCommon::descBound(const rbd::MultiBody& mb, int line)
 {
 	int start = 0;
 	int end = 0;
@@ -242,46 +269,39 @@ std::string MotionConstr::descBound(const rbd::MultiBody& mb, int line)
 }
 
 
-int MotionConstr::maxInEq() const
+/**
+	*															MotionConstr
+	*/
+
+
+MotionConstr::MotionConstr(const rbd::MultiBody& mb,
+													std::vector<std::vector<double>> lTorqueBounds,
+													std::vector<std::vector<double>> uTorqueBounds):
+	MotionConstrCommon(mb),
+	torqueL_(),
+	torqueU_()
 {
-	return nrDof_;
+	int vars = mb.nrDof() - mb.joint(0).dof();
+	torqueL_.resize(vars);
+	torqueU_.resize(vars);
+
+	// remove the joint 0
+	lTorqueBounds[0] = {};
+	uTorqueBounds[0] = {};
+
+	rbd::paramToVector(lTorqueBounds, torqueL_);
+	rbd::paramToVector(uTorqueBounds, torqueU_);
 }
 
 
-const Eigen::MatrixXd& MotionConstr::AInEq() const
+void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	return A_;
+	computeMatrix(mb, mbc);
+
+	AL_.segment(mb.joint(0).dof(), nrTor_) += torqueL_;
+	AU_.segment(mb.joint(0).dof(), nrTor_) += torqueU_;
 }
 
-
-const Eigen::VectorXd& MotionConstr::LowerInEq() const
-{
-	return AL_;
-}
-
-
-const Eigen::VectorXd& MotionConstr::UpperInEq() const
-{
-	return AU_;
-}
-
-
-int MotionConstr::beginVar() const
-{
-	return nrDof_;
-}
-
-
-const Eigen::VectorXd& MotionConstr::Lower() const
-{
-	return XL_;
-}
-
-
-const Eigen::VectorXd& MotionConstr::Upper() const
-{
-	return XU_;
-}
 
 } // namespace qp
 
