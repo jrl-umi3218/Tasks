@@ -35,7 +35,7 @@ namespace qp
 
 
 // Value add to the diagonal to ensure positive matrix
-static const double DIAG_CONSTANT = 1e-5;
+static const double DIAG_CONSTANT = 1e-4;
 
 
 /**
