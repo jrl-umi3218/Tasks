@@ -217,6 +217,14 @@ private:
 
 
 
+struct JointStiffness
+{
+	int jointId;
+	double stiffness;
+};
+
+
+
 class PostureTask : public Task
 {
 public:
@@ -245,6 +253,9 @@ public:
 
 	void stiffness(double stiffness);
 
+	void jointsStiffness(const rbd::MultiBody& mb,
+										 const std::vector<JointStiffness>& jsv);
+
 	virtual std::pair<int, int> begin() const
 	{
 		return std::make_pair(0, 0);
@@ -260,10 +271,19 @@ public:
 	const Eigen::VectorXd& eval() const;
 
 private:
+	struct JointData
+	{
+		double stiffness, stiffnessSqrt;
+		int start, size;
+	};
+
+private:
 	tasks::PostureTask pt_;
 
 	double stiffness_;
 	double stiffnessSqrt_;
+
+	std::vector<JointData> jointDatas_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;

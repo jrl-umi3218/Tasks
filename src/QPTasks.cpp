@@ -336,6 +336,7 @@ PostureTask::PostureTask(const rbd::MultiBody& mb,
 	pt_(mb, q),
 	stiffness_(stiffness),
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	jointDatas_(),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
 	alphaVec_(mb.nrDof())
@@ -346,6 +347,21 @@ void PostureTask::stiffness(double stiffness)
 {
 	stiffness_ = stiffness;
 	stiffnessSqrt_ = 2.*std::sqrt(stiffness);
+}
+
+
+void PostureTask::jointsStiffness(const rbd::MultiBody& mb,
+																const std::vector<JointStiffness>& jsv)
+{
+	jointDatas_.clear();
+	jointDatas_.reserve(jsv.size());
+	for(const JointStiffness& js: jsv)
+	{
+		int jointIndex = mb.jointIndexById(js.jointId);
+		jointDatas_.push_back({js.stiffness, 2.*std::sqrt(js.stiffness),
+													mb.jointPosInDof(jointIndex),
+													mb.joint(jointIndex).dof()});
+	}
 }
 
 
@@ -362,6 +378,13 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 	// joint
 	C_.segment(deb, end) = -stiffness_*pt_.eval().segment(deb, end) +
 		stiffnessSqrt_*alphaVec_.segment(deb, end);
+
+	for(const JointData& pjd: jointDatas_)
+	{
+		C_.segment(pjd.start, pjd.size) +=
+				-pjd.stiffness*pt_.eval().segment(pjd.start, pjd.size) +
+				pjd.stiffnessSqrt*alphaVec_.segment(pjd.start, pjd.size);
+	}
 }
 
 const Eigen::MatrixXd& PostureTask::Q() const
