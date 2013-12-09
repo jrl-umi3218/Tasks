@@ -219,6 +219,15 @@ private:
 
 struct JointStiffness
 {
+	JointStiffness():
+		jointId(),
+		stiffness()
+	{}
+	JointStiffness(int jId, double stif):
+		jointId(jId),
+		stiffness(stif)
+	{}
+
 	int jointId;
 	double stiffness;
 };

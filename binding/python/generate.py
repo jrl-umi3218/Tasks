@@ -156,6 +156,7 @@ def build_qp(tasks):
   frictionCone = qp.add_struct('FrictionCone')
   unilateralContact = qp.add_struct('UnilateralContact')
   bilateralContact = qp.add_struct('BilateralContact')
+  jointStiffness = qp.add_struct('JointStiffness')
 
   constr = qp.add_class('Constraint')
   ineqConstr = qp.add_class('Inequality')
@@ -221,6 +222,8 @@ def build_qp(tasks):
                       'tasks::qp::UnilateralContact', 'vector')
   tasks.add_container('std::vector<tasks::qp::BilateralContact>',
                       'tasks::qp::BilateralContact', 'vector')
+  tasks.add_container('std::vector<tasks::qp::JointStiffness>',
+                      'tasks::qp::JointStiffness', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
   tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
   tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
@@ -322,6 +325,13 @@ def build_qp(tasks):
                               is_const=True, throw=[dom_ex], custom_name='nrLambda')
   bilateralContact.add_method('nrLambda', retval('int'), [],
                               is_const=True, throw=[dom_ex])
+
+  # JointStiffness
+  jointStiffness.add_constructor([])
+  jointStiffness.add_constructor([param('int', 'jointId'),
+                                  param('double', 'stiffness')])
+  jointStiffness.add_instance_attribute('jointId', 'int')
+  jointStiffness.add_instance_attribute('stiffness', 'std::vector<Eigen::Vector3d>')
 
 
   # Constraint
