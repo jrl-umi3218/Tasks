@@ -501,9 +501,15 @@ CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com):
 {}
 
 
+CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com,
+							 std::vector<double> weight):
+	ct_(mb, com, std::move(weight))
+{}
+
+
 int CoMTask::dim()
 {
-  return 3;
+	return 3;
 }
 
 

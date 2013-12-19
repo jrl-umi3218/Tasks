@@ -110,6 +110,10 @@ def build_tasks(posTask, oriTask, positionTask, comTask, linVelTask, oriTrackTas
   # CoMTask
   comTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('const Eigen::Vector3d&', 'com')])
+  comTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                           param('const Eigen::Vector3d&', 'com'),
+                           param('std::vector<double>', 'weight')],
+                           throw=[dom_ex])
 
   comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
@@ -537,6 +541,10 @@ def build_qp(tasks):
   # CoMTask
   comTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('const Eigen::Vector3d&', 'com')])
+  comTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                           param('const Eigen::Vector3d&', 'com'),
+                           param('std::vector<double>', 'weight')],
+                           throw=[dom_ex])
 
   comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],

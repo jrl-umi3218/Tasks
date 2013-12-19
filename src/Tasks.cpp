@@ -283,23 +283,33 @@ const Eigen::MatrixXd& PostureTask::jacDot() const
 
 
 CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com):
-  com_(com),
-  jac_(mb),
-  eval_(3),
-  jacMat_(3, mb.nrDof()),
-  jacDotMat_(3, mb.nrDof())
+	com_(com),
+	jac_(mb),
+	eval_(3),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
+{}
+
+
+CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com,
+								std::vector<double> weight):
+	com_(com),
+	jac_(mb, std::move(weight)),
+	eval_(3),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
 {}
 
 
 void CoMTask::com(const Eigen::Vector3d& com)
 {
-  com_ = com;
+	com_ = com;
 }
 
 
 const Eigen::Vector3d CoMTask::com() const
 {
-  return com_;
+	return com_;
 }
 
 

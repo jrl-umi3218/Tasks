@@ -127,6 +127,8 @@ class CoMTask
 {
 public:
 	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com);
+	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com,
+				 std::vector<double> weight);
 
 	void com(const Eigen::Vector3d& com);
 	const Eigen::Vector3d com() const;

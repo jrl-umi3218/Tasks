@@ -388,6 +388,8 @@ class CoMTask : public HighLevelTask
 {
 public:
 	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com);
+	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com,
+				 std::vector<double> weight);
 
 	tasks::CoMTask& task()
 	{
