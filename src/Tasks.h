@@ -22,6 +22,7 @@
 // RBDyn
 #include <RBDyn/CoM.h>
 #include <RBDyn/Jacobian.h>
+#include <RBDyn/Momentum.h>
 
 // forward declarations
 // RBDyn
@@ -164,6 +165,32 @@ private:
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::MatrixXd jacDotMat_;
+};
+
+
+
+class MomentumTask
+{
+public:
+	MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd mom);
+
+	void momentum(const sva::ForceVecd& mom);
+	const sva::ForceVec<double> momentum() const;
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::MatrixXd& jac() const;
+	const Eigen::MatrixXd& jacDot() const;
+
+private:
+
+	sva::ForceVec<double> momentum_;
+	rbd::CentroidalMomentumMatrix momentumMatrix_;
+	Eigen::VectorXd eval_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
 };

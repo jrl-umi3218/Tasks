@@ -434,6 +434,66 @@ const Eigen::MatrixXd& CoMTask::jacDot() const
 
 
 /**
+	*													MomentumTask
+	*/
+
+
+MomentumTask::MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd mom):
+  momentum_(mom),
+  momentumMatrix_(mb),
+  eval_(6),
+  jacMat_(6,mb.nrDof()),
+  jacDotMat_(6,mb.nrDof())
+{
+}
+
+
+void MomentumTask::momentum(const sva::ForceVecd& mom)
+{
+	momentum_ = mom;
+}
+
+
+const sva::ForceVec<double> MomentumTask::momentum() const
+{
+	return momentum_;
+}
+
+
+void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+
+	eval_ = momentum_.vector() - rbd::computeCentroidalMomentum(mb, mbc, com).vector();
+	jacMat_ = momentumMatrix_.matrix(mb, mbc, com);
+}
+
+
+void MomentumTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	jacDotMat_ = momentumMatrix_.matrixDot(mb, mbc, rbd::computeCoM(mb, mbc));
+}
+
+
+const Eigen::VectorXd& MomentumTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::MatrixXd& MomentumTask::jac() const
+{
+	return jacMat_;
+}
+
+
+const Eigen::MatrixXd& MomentumTask::jacDot() const
+{
+	return jacDotMat_;
+}
+
+
+/**
 	*													LinVelocityTask
 	*/
 
