@@ -44,6 +44,9 @@ public:
 	SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 		double stiffness, double weight);
 
+	SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+		double stiffness, Eigen::VectorXd dimWeight, double weight);
+
 	double stiffness() const
 	{
 		return stiffness_;
@@ -67,6 +70,7 @@ private:
 	HighLevelTask* hlTask_;
 
 	double stiffness_, stiffnessSqrt_;
+	Eigen::VectorXd dimWeight_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;

@@ -46,11 +46,23 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
   hlTask_(hlTask),
   stiffness_(stiffness),
   stiffnessSqrt_(2.*std::sqrt(stiffness)),
+  dimWeight_(Eigen::VectorXd::Ones(mb.nrDof())),
   Q_(mb.nrDof(), mb.nrDof()),
   C_(mb.nrDof()),
   alphaVec_(mb.nrDof())
 {}
 
+SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+  double stiffness, Eigen::VectorXd dimWeight, double weight):
+  Task(weight),
+  hlTask_(hlTask),
+  stiffness_(stiffness),
+  stiffnessSqrt_(2.*std::sqrt(stiffness)),
+  dimWeight_(dimWeight),
+  Q_(mb.nrDof(), mb.nrDof()),
+  C_(mb.nrDof()),
+  alphaVec_(mb.nrDof())
+{}
 
 void SetPointTask::stiffness(double stiffness)
 {
@@ -69,8 +81,9 @@ void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	const Eigen::VectorXd& err = hlTask_->eval();
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	Q_ = J.transpose()*J;
-	C_ = -J.transpose()*(stiffness_*err - stiffnessSqrt_*J*alphaVec_ - JD*alphaVec_);
+	Q_ = J.transpose()*dimWeight_.asDiagonal()*J;
+	C_ = -J.transpose()*dimWeight_.asDiagonal()*(stiffness_*err - 
+			stiffnessSqrt_*J*alphaVec_ - JD*alphaVec_);
 }
 
 
