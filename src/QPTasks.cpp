@@ -46,7 +46,7 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
   hlTask_(hlTask),
   stiffness_(stiffness),
   stiffnessSqrt_(2.*std::sqrt(stiffness)),
-  dimWeight_(Eigen::VectorXd::Ones(mb.nrDof())),
+  dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
   Q_(mb.nrDof(), mb.nrDof()),
   C_(mb.nrDof()),
   alphaVec_(mb.nrDof())
