@@ -396,6 +396,13 @@ def build_qp(tasks):
                               param('double', 'stiffness'),
                               param('double', 'weight')])
 
+      spTask.add_constructor([param('const MultiBody&', 'mb'),
+                              param(name, 'hlTask',
+                                    transfer_ownership=False),
+                              param('double', 'stiffness'),
+                              param('Eigen::VectorXd', 'dimWeight'),
+                              param('double', 'weight')])
+
   spConstructor(hlTaskName)
 
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
