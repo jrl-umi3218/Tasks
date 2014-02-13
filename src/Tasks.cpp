@@ -317,13 +317,13 @@ void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	eval_ = com_ - rbd::computeCoM(mb, mbc);
 
-	jacMat_ = jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jacMat_ = jac_.jacobian(mb, mbc);
 }
 
 
 void CoMTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	jacDotMat_ = jac_.jacobianDot(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jacDotMat_ = jac_.jacobianDot(mb, mbc);
 }
 
 
