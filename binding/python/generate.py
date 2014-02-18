@@ -408,6 +408,9 @@ def build_qp(tasks):
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
   spTask.add_method('stiffness', None, [param('double', 'weight')])
 
+  spTask.add_method('dimWeight', retval('Eigen::VectorXd'), [], is_const=True)
+  spTask.add_method('dimWeight', None, [param('Eigen::VectorXd', 'dim')])
+
   spTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
                      param('const rbd::MultiBodyConfig&', 'mbc')])

@@ -59,6 +59,13 @@ public:
 		return std::make_pair(0, 0);
 	}
 
+	void dimWeight(Eigen::VectorXd& dim);
+
+	Eigen::VectorXd dimWeight() const
+	{
+		return dimWeight_;
+	}
+
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
 		const SolverData& /* data */) {}
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);

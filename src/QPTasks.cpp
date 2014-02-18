@@ -70,6 +70,10 @@ void SetPointTask::stiffness(double stiffness)
   stiffnessSqrt_ = 2.*std::sqrt(stiffness);
 }
 
+void SetPointTask::dimWeight(Eigen::VectorXd& dim)
+{
+	dimWeight_ = dim;
+}
 
 
 void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
