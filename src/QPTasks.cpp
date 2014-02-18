@@ -81,8 +81,8 @@ void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	const Eigen::VectorXd& err = hlTask_->eval();
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	Q_ = J.transpose()*dimWeight_.asDiagonal()*J;
-	C_ = -J.transpose()*dimWeight_.asDiagonal()*(stiffness_*err - 
+	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
+	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(stiffness_*err -
 			stiffnessSqrt_*J*alphaVec_ - JD*alphaVec_);
 }
 
