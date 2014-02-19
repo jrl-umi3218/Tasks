@@ -120,6 +120,45 @@ private:
 };
 
 
+struct SpringJoint
+{
+	SpringJoint(){}
+	SpringJoint(int jId, double K, double C, double O):
+		jointId(jId),K(K),C(C),O(O)
+	{}
+
+	int jointId;
+	double K, C, O;
+};
+
+
+class MotionSpringConstr : public MotionConstrCommon
+{
+public:
+	MotionSpringConstr(const rbd::MultiBody& mb,
+										std::vector<std::vector<double>> lTorqueBounds,
+										std::vector<std::vector<double>> uTorqueBounds,
+										const std::vector<SpringJoint>& springs);
+
+	// Constraint
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+private:
+	struct SpringJointData
+	{
+		int index;
+		int posInDof;
+		double K;
+		double C;
+		double O;
+	};
+
+private:
+	Eigen::VectorXd torqueL_, torqueU_;
+	std::vector<SpringJointData> springs_;
+};
+
+
 
 /**
  * @brief Use polynome in function of q to compute torque limits.

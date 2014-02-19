@@ -307,6 +307,57 @@ void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 
 
 /**
+	*															MotionSpringConstr
+	*/
+
+
+MotionSpringConstr::MotionSpringConstr(const rbd::MultiBody& mb,
+																		 std::vector<std::vector<double>> lTorqueBounds,
+																		 std::vector<std::vector<double>> uTorqueBounds,
+																		 const std::vector<SpringJoint>& springs):
+	MotionConstrCommon(mb),
+	torqueL_(),
+	torqueU_(),
+	springs_()
+{
+	int vars = mb.nrDof() - mb.joint(0).dof();
+	torqueL_.resize(vars);
+	torqueU_.resize(vars);
+
+	// remove the joint 0
+	lTorqueBounds[0] = {};
+	uTorqueBounds[0] = {};
+
+	rbd::paramToVector(lTorqueBounds, torqueL_);
+	rbd::paramToVector(uTorqueBounds, torqueU_);
+
+	springs_.reserve(springs.size());
+	for(const SpringJoint& sj: springs)
+	{
+		int index = mb.jointIndexById(sj.jointId);
+		int posInDof = mb.jointPosInDof(index) - mb.joint(0).dof();
+		springs_.push_back({index, posInDof, sj.K, sj.C, sj.O});
+	}
+}
+
+
+void MotionSpringConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	computeMatrix(mb, mbc);
+
+	for(const SpringJointData& sj: springs_)
+	{
+		double spring = mbc.q[sj.index][0]*sj.K + mbc.alpha[sj.index][0]*sj.C + sj.O;
+		torqueL_(sj.posInDof) = -spring;
+		torqueU_(sj.posInDof) = -spring;
+	}
+
+	AL_.segment(mb.joint(0).dof(), nrTor_) += torqueL_;
+	AU_.segment(mb.joint(0).dof(), nrTor_) += torqueU_;
+}
+
+
+/**
 	*															MotionPolyConstr
 	*/
 

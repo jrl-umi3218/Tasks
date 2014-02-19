@@ -161,6 +161,7 @@ def build_qp(tasks):
   unilateralContact = qp.add_struct('UnilateralContact')
   bilateralContact = qp.add_struct('BilateralContact')
   jointStiffness = qp.add_struct('JointStiffness')
+  springJoint = qp.add_struct('SpringJoint')
 
   constr = qp.add_class('Constraint')
   ineqConstr = qp.add_class('Inequality')
@@ -186,7 +187,9 @@ def build_qp(tasks):
   motionConstr = qp.add_class('MotionConstr', parent=[ineqConstr, boundConstr,
                                                       constr])
   motionPolyConstr = qp.add_class('MotionPolyConstr', parent=[ineqConstr, boundConstr,
-                                                          constr])
+                                                              constr])
+  motionSpringConstr = qp.add_class('MotionSpringConstr', parent=[ineqConstr, boundConstr,
+                                                                  constr])
   contactConstrCommon = qp.add_class('ContactConstrCommon')
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[ineqConstr, constr, contactConstrCommon])
   contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[ineqConstr, contactConstrCommon])
@@ -202,12 +205,12 @@ def build_qp(tasks):
 
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                'StaticEnvCollisionConstr',
+                'StaticEnvCollisionConstr', 'MotionSpringConstr',
                 'GripperTorqueConstr']
   ineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
-                    'SelfCollisionConstr', 'StaticEnvCollisionConstr',
+                    'SelfCollisionConstr', 'StaticEnvCollisionConstr', 'MotionSpringConstr',
                     'GripperTorqueConstr']
-  boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr']
+  boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr','JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
@@ -215,7 +218,7 @@ def build_qp(tasks):
                 'OrientationTrackingTask']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr,
-                jointLimitsConstr, damperJointLimitsConstr,
+                jointLimitsConstr, damperJointLimitsConstr, motionSpringConstr,
                 gripperTorqueConstr]
 
 
@@ -228,6 +231,8 @@ def build_qp(tasks):
                       'tasks::qp::BilateralContact', 'vector')
   tasks.add_container('std::vector<tasks::qp::JointStiffness>',
                       'tasks::qp::JointStiffness', 'vector')
+  tasks.add_container('std::vector<tasks::qp::SpringJoint>',
+                      'tasks::qp::SpringJoint', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
   tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
   tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
@@ -337,6 +342,15 @@ def build_qp(tasks):
   jointStiffness.add_instance_attribute('jointId', 'int')
   jointStiffness.add_instance_attribute('stiffness', 'std::vector<Eigen::Vector3d>')
 
+  # SpringJoint
+  springJoint.add_constructor([])
+  springJoint.add_constructor([param('int', 'jointId'),
+                               param('double', 'K'), param('double', 'C'),
+                               param('double', 'O')])
+  springJoint.add_instance_attribute('jointId', 'int')
+  springJoint.add_instance_attribute('K', 'double')
+  springJoint.add_instance_attribute('C', 'double')
+  springJoint.add_instance_attribute('O', 'double')
 
   # Constraint
   constr.add_method('updateNrVars', None,
@@ -617,6 +631,13 @@ def build_qp(tasks):
                                     param('std::vector<std::vector<Eigen::VectorXd> >', 'lTorqueBounds'),
                                     param('std::vector<std::vector<Eigen::VectorXd> >', 'uTorqueBounds')])
   addMotionDefault(motionPolyConstr)
+
+  # MotionSpringConstr
+  motionSpringConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                      param('std::vector<std::vector<double> >', 'lTorqueBounds'),
+                                      param('std::vector<std::vector<double> >', 'uTorqueBounds'),
+                                      param('const std::vector<tasks::qp::SpringJoint>&', 'springs')])
+  addMotionDefault(motionSpringConstr)
 
   # ContactConstrCommon
   contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])
