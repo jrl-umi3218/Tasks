@@ -19,6 +19,7 @@
 // includes
 // std
 #include <set>
+#include <cmath>
 
 // RBDyn
 #include <RBDyn/MultiBody.h>
@@ -1076,6 +1077,237 @@ const Eigen::VectorXd& StaticEnvCollisionConstr::LowerInEq() const
 
 
 const Eigen::VectorXd& StaticEnvCollisionConstr::UpperInEq() const
+{
+	return AU_;
+}
+
+/**
+	*													CoMCollisionConstr
+	*/
+
+
+CoMCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
+	int collId, SCD::S_Object* env,
+	double di, double ds, double damping, double dampOff):
+		comSphere_(ds/5.),
+		pair(new SCD::CD_Pair(&comSphere_, env)),
+		normVecDist(Eigen::Vector3d::Zero()),
+		jacCoM(rbd::CoMJacobian(mb)),
+		di(di),
+		ds(ds),
+		damping(damping),
+		collId(collId),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Soft),
+		dampingOff(dampOff)
+{
+}
+
+
+CoMCollisionConstr::CoMCollisionConstr(const rbd::MultiBody& mb, double step):
+  dataVec_(),
+  step_(step),
+  nrVars_(0),
+  nrActivated_(0),
+  AInEq_(),
+  AL_(),
+  AU_(),
+  fullJac_(6, mb.nrDof()),
+  fullJacDot_(6, mb.nrDof()),
+  alphaVec_(mb.nrDof()),
+  calcVec_(mb.nrDof())
+{
+}
+
+
+void CoMCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
+	SCD::S_Object* env,
+	double di, double ds, double damping, double dampingOff)
+{
+	dataVec_.emplace_back(mb, collId, env,
+		di, ds, damping, dampingOff);
+}
+
+
+bool CoMCollisionConstr::rmCollision(int collId)
+{
+	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
+		[collId](const CollData& data)
+		{
+			return data.collId == collId;
+		});
+
+	if(it != dataVec_.end())
+	{
+		delete it->pair;
+		dataVec_.erase(it);
+		return true;
+	}
+
+	return false;
+}
+
+
+std::size_t CoMCollisionConstr::nrCollisions() const
+{
+	return dataVec_.size();
+}
+
+
+void CoMCollisionConstr::reset()
+{
+	dataVec_.clear();
+}
+
+
+void CoMCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	const SolverData& data)
+{
+	nrVars_ = data.nrVars();
+}
+
+
+void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	using namespace Eigen;
+
+	if(static_cast<unsigned int>(AInEq_.rows()) != dataVec_.size()
+		 || AInEq_.cols() != nrVars_)
+	{
+		AInEq_.resize(dataVec_.size(), nrVars_);
+		AL_.resize(dataVec_.size());
+		AU_.resize(dataVec_.size());
+		AInEq_.setZero();
+		AL_.fill(-std::numeric_limits<double>::infinity());
+		AU_.setZero();
+	}
+
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+
+	nrActivated_ = 0;
+	for(CollData& d: dataVec_)
+	{
+		SCD::Point3 pb1Tmp, pb2Tmp;
+
+		d.pair->operator[](0)->setTransformation(toSCD(sva::PTransformd(com)));
+
+		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
+		Vector3d pb2(pb2Tmp[0], pb2Tmp[1], pb2Tmp[2]);
+
+		dist = -std::copysign((com - pb2).norm(), dist);
+
+		Eigen::Vector3d normVecDist = (com - pb2)/dist;
+
+		if(dist < d.di)
+		{
+			/*if(d.dampingType == CollData::DampingType::Free)
+			{
+				d.dampingType = CollData::DampingType::Soft;
+				Vector3d v1(mbc.bodyPosW[d.body].rotation().transpose()*
+						(sva::PTransformd(pb1)*mbc.bodyVelB[d.body]).linear());
+				double distDot = std::abs(v1.dot(normVecDist));
+
+				/// @todo find a bette solution.
+				// use a value slightly upper ds if dist <= ds
+				double fixedDist = dist <= d.ds ? d.ds + (d.di - d.ds)*0.2 : dist;
+				d.damping = ((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
+			}*/
+
+			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
+
+			Vector3d nf = normVecDist;
+			Vector3d onf = d.normVecDist;
+			Vector3d dnf = (nf - onf)/step_;
+
+			// Compute body
+			//d.jacB1.point(pb1);
+			const MatrixXd& jac1 = d.jacCoM.jacobian(mb, mbc);
+			const MatrixXd& jacDot1 = d.jacCoM.jacobianDot(mb, mbc);
+
+			//d.jacB1.fullJacobian(mb, jac1, fullJac_);
+			//d.jacB1.fullJacobian(mb, jacDot1, fullJacDot_);
+
+			double jqdn = ((jac1*alphaVec_).transpose()*nf)(0);
+			double jqdnd = ((jac1*alphaVec_).transpose()*dnf*step_)(0);
+			double jdqdn = ((jacDot1*alphaVec_).transpose()*nf*step_)(0);
+
+			calcVec_ = -jac1.transpose()*nf*step_;
+
+			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
+			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
+			AU_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
+			++nrActivated_;
+		}
+		else
+		{
+			if(d.dampingType == CollData::DampingType::Soft)
+			{
+				d.dampingType = CollData::DampingType::Free;
+			}
+		}
+
+		d.normVecDist = normVecDist;
+	}
+}
+
+
+std::string CoMCollisionConstr::nameInEq() const
+{
+	return "CoMCollisionConstr";
+}
+
+
+std::string CoMCollisionConstr::descInEq(const rbd::MultiBody& /*mb*/, int line)
+{
+	int curLine = 0;
+	for(CollData& d: dataVec_)
+	{
+		double dist = d.pair->getDistance();
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		if(dist < d.di)
+		{
+			if(curLine == line)
+			{
+				std::stringstream ss;
+				ss << "collId: " << d.collId << std::endl;
+				ss << "dist: " << dist << std::endl;
+				ss << "di: " << d.di << std::endl;
+				ss << "ds: " << d.ds << std::endl;
+				ss << "damp: " << d.damping + d.dampingOff << std::endl;
+				return ss.str();
+			}
+			++curLine;
+		}
+	}
+	return "";
+}
+
+
+int CoMCollisionConstr::nrInEq() const
+{
+	return nrActivated_;
+}
+
+
+int CoMCollisionConstr::maxInEq() const
+{
+	return int(dataVec_.size());
+}
+
+
+const Eigen::MatrixXd& CoMCollisionConstr::AInEq() const
+{
+	return AInEq_;
+}
+
+
+const Eigen::VectorXd& CoMCollisionConstr::LowerInEq() const
+{
+	return AL_;
+}
+
+
+const Eigen::VectorXd& CoMCollisionConstr::UpperInEq() const
 {
 	return AU_;
 }

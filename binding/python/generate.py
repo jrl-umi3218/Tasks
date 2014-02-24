@@ -196,6 +196,7 @@ def build_qp(tasks):
 
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
+  comCollisionConstr = qp.add_class('CoMCollisionConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
@@ -205,11 +206,11 @@ def build_qp(tasks):
 
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                'StaticEnvCollisionConstr', 'MotionSpringConstr',
+                'StaticEnvCollisionConstr', 'CoMCollisionConstr', 'MotionSpringConstr',
                 'GripperTorqueConstr']
   ineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
-                    'SelfCollisionConstr', 'StaticEnvCollisionConstr', 'MotionSpringConstr',
-                    'GripperTorqueConstr']
+                    'SelfCollisionConstr', 'StaticEnvCollisionConstr', 'CoMCollisionConstr',
+                    'MotionSpringConstr', 'GripperTorqueConstr']
   boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr','JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
@@ -217,7 +218,7 @@ def build_qp(tasks):
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
                 'OrientationTrackingTask']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
-                selfCollisionConstr, seCollisionConstr,
+                selfCollisionConstr, seCollisionConstr, comCollisionConstr,
                 jointLimitsConstr, damperJointLimitsConstr, motionSpringConstr,
                 gripperTorqueConstr]
 
@@ -694,6 +695,24 @@ def build_qp(tasks):
   seCollisionConstr.add_method('nrCollisions', retval('int'),
                                [], is_const=True)
   seCollisionConstr.add_method('reset', None, []),
+
+  #CoMCollisionConstr
+  comCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                      param('double', 'step')])
+  comCollisionConstr.add_method('addCollision', None,
+                               [param('const rbd::MultiBody&', 'mb'),
+                                param('int', 'collId'),
+                                param('SCD::S_Object*', 'env', transfer_ownership=False),
+                                param('double', 'di'),
+                                param('double', 'ds'),
+                                param('double', 'damping'),
+                                param('double', 'dampingOff', default_value='0.')])
+
+  comCollisionConstr.add_method('rmCollision', retval('bool'), [param('int', 'collId')])
+  comCollisionConstr.add_method('nrCollisions', retval('int'),
+                               [], is_const=True)
+  comCollisionConstr.add_method('reset', None, []),
+
 
   # JointLimitsConstr
   jointLimitsConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),

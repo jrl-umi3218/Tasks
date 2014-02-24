@@ -22,9 +22,11 @@
 // RBDyn
 #include <RBDyn/FD.h>
 #include <RBDyn/Jacobian.h>
+#include <RBDyn/CoM.h>
 
 // SCD
 #include <SCD/Matrix/SCD_Types.h>
+#include <SCD/S_Object/S_Sphere.h>
 
 // Tasks
 #include "QPSolver.h"
@@ -369,6 +371,68 @@ private:
 		int collId;
 		int bodyId, envId;
 		int body;
+		DampingType dampingType;
+		double dampingOff;
+	};
+
+private:
+	std::vector<CollData> dataVec_;
+	double step_;
+	int nrVars_;
+	int nrActivated_;
+
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd AL_, AU_;
+
+	Eigen::MatrixXd fullJac_;
+	Eigen::MatrixXd fullJacDot_;
+	Eigen::VectorXd alphaVec_;
+	Eigen::VectorXd calcVec_;
+};
+
+class CoMCollisionConstr : public ConstraintFunction<Inequality>
+{
+public:
+	CoMCollisionConstr(const rbd::MultiBody& mb, double step);
+
+	void addCollision(const rbd::MultiBody& mb,
+		int collId, SCD::S_Object* env,
+		double di, double ds, double damping, double dampingOff=0.);
+	bool rmCollision(int collId);
+	std::size_t nrCollisions() const;
+	void reset();
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		const SolverData& data);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+
+	// InInequality Constraint
+	virtual int nrInEq() const;
+	virtual int maxInEq() const;
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
+
+private:
+	struct CollData
+	{
+		enum class DampingType {Hard, Soft, Free};
+		CollData(const rbd::MultiBody& mb, int collId,
+			SCD::S_Object* env,
+			double di, double ds, double damping, double dampingOff);
+		SCD::S_Sphere comSphere_;
+		SCD::CD_Pair* pair;
+		Eigen::Vector3d normVecDist;
+		rbd::CoMJacobian jacCoM;
+		double di, ds;
+		double damping;
+		int collId;
 		DampingType dampingType;
 		double dampingOff;
 	};
