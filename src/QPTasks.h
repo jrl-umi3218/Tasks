@@ -85,6 +85,57 @@ private:
 };
 
 
+class PIDTask : public Task
+{
+public:
+	PIDTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+		double P, double I, double D, double weight);
+
+	PIDTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+		double P, double I, double D, Eigen::VectorXd dimWeight, double weight);
+
+	double P() const;
+	void P(double p);
+	double I() const;
+	void I(double i);
+	double D() const;
+	void D(double d);
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	void dimWeight(Eigen::VectorXd& dim);
+
+	Eigen::VectorXd dimWeight() const
+	{
+		return dimWeight_;
+	}
+
+	void error(const Eigen::VectorXd& err);
+	void errorD(const Eigen::VectorXd& errD);
+	void errorI(const Eigen::VectorXd& errI);
+
+	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
+		const SolverData& /* data */) {}
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	HighLevelTask* hlTask_;
+
+	double P_, I_, D_;
+	Eigen::VectorXd dimWeight_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	Eigen::VectorXd alphaVec_;
+	Eigen::VectorXd error_, errorD_, errorI_;
+};
+
 
 class TargetObjectiveTask : public Task
 {

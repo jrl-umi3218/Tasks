@@ -171,6 +171,7 @@ def build_qp(tasks):
   hlTask = qp.add_class('HighLevelTask')
 
   spTask = qp.add_class('SetPointTask', parent=task)
+  pidTask = qp.add_class('PIDTask', parent=task)
   toTask = qp.add_class('TargetObjectiveTask', parent=task)
   qTask = qp.add_class('QuadraticTask', parent=task)
   linWTask = qp.add_class('LinWeightTask', parent=task)
@@ -212,7 +213,7 @@ def build_qp(tasks):
                     'SelfCollisionConstr', 'StaticEnvCollisionConstr', 'CoMCollisionConstr',
                     'MotionSpringConstr', 'GripperTorqueConstr']
   boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr','JointLimitsConstr', 'DamperJointLimitsConstr']
-  taskName = ['QuadraticTask', 'SetPointTask', 'TargetObjectiveTask', 'LinWeightTask',
+  taskName = ['QuadraticTask', 'SetPointTask', 'PIDTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
@@ -480,6 +481,50 @@ def build_qp(tasks):
 
   toTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   toTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
+
+  # PIDTask
+  def pidConstructor(hlTaskName):
+    for t in hlTaskName:
+      name = 'tasks::qp::%s *' % t
+      pidTask.add_constructor([param('const MultiBody&', 'mb'),
+                              param(name, 'hlTask',
+                                    transfer_ownership=False),
+                              param('double', 'P'),
+                              param('double', 'I'),
+                              param('double', 'D'),
+                              param('double', 'weight')])
+
+      pidTask.add_constructor([param('const MultiBody&', 'mb'),
+                              param(name, 'hlTask',
+                                    transfer_ownership=False),
+                              param('double', 'P'),
+                              param('double', 'I'),
+                              param('double', 'D'),
+                              param('Eigen::VectorXd', 'dimWeight'),
+                              param('double', 'weight')])
+
+  pidConstructor(hlTaskName)
+
+  pidTask.add_method('P', retval('double'), [], is_const=True)
+  pidTask.add_method('P', None, [param('double', 'weight')])
+  pidTask.add_method('I', retval('double'), [], is_const=True)
+  pidTask.add_method('I', None, [param('double', 'weight')])
+  pidTask.add_method('D', retval('double'), [], is_const=True)
+  pidTask.add_method('D', None, [param('double', 'weight')])
+
+  pidTask.add_method('error', None, [param('const Eigen::VectorXd&', 'error')])
+  pidTask.add_method('errorD', None, [param('const Eigen::VectorXd&', 'errorD')])
+  pidTask.add_method('errorI', None, [param('const Eigen::VectorXd&', 'errorI')])
+
+  pidTask.add_method('dimWeight', retval('Eigen::VectorXd'), [], is_const=True)
+  pidTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'dim')])
+
+  pidTask.add_method('update', None,
+                    [param('const rbd::MultiBody&', 'mb'),
+                     param('const rbd::MultiBodyConfig&', 'mbc')])
+
+  pidTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
+  pidTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # QuadraticTask
   def qConstructor(hlTaskName):

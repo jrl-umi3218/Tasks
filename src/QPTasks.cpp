@@ -41,34 +41,37 @@ namespace qp
 
 
 SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-  double stiffness, double weight):
-  Task(weight),
-  hlTask_(hlTask),
-  stiffness_(stiffness),
-  stiffnessSqrt_(2.*std::sqrt(stiffness)),
-  dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
-  Q_(mb.nrDof(), mb.nrDof()),
-  C_(mb.nrDof()),
-  alphaVec_(mb.nrDof())
+	double stiffness, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	stiffness_(stiffness),
+	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof()),
+	alphaVec_(mb.nrDof())
 {}
 
+
 SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-  double stiffness, Eigen::VectorXd dimWeight, double weight):
-  Task(weight),
-  hlTask_(hlTask),
-  stiffness_(stiffness),
-  stiffnessSqrt_(2.*std::sqrt(stiffness)),
-  dimWeight_(dimWeight),
-  Q_(mb.nrDof(), mb.nrDof()),
-  C_(mb.nrDof()),
-  alphaVec_(mb.nrDof())
+	double stiffness, Eigen::VectorXd dimWeight, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	stiffness_(stiffness),
+	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	dimWeight_(dimWeight),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof()),
+	alphaVec_(mb.nrDof())
 {}
+
 
 void SetPointTask::stiffness(double stiffness)
 {
-  stiffness_ = stiffness;
-  stiffnessSqrt_ = 2.*std::sqrt(stiffness);
+	stiffness_ = stiffness;
+	stiffnessSqrt_ = 2.*std::sqrt(stiffness);
 }
+
 
 void SetPointTask::dimWeight(Eigen::VectorXd& dim)
 {
@@ -83,11 +86,12 @@ void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::MatrixXd& JD = hlTask_->jacDot();
 	const Eigen::VectorXd& err = hlTask_->eval();
+
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
 	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
 	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(stiffness_*err -
-			stiffnessSqrt_*J*alphaVec_ - JD*alphaVec_);
+			stiffnessSqrt_*(J*alphaVec_) - JD*alphaVec_);
 }
 
 
@@ -98,6 +102,135 @@ const Eigen::MatrixXd& SetPointTask::Q() const
 
 
 const Eigen::VectorXd& SetPointTask::C() const
+{
+	return C_;
+}
+
+
+/**
+	*														PIDTask
+	*/
+
+
+PIDTask::PIDTask(const rbd::MultiBody& mb,
+	HighLevelTask* hlTask,
+	double P, double I, double D, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	P_(P),
+	I_(I),
+	D_(D),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof()),
+	alphaVec_(mb.nrDof()),
+	error_(hlTask->dim()),
+	errorD_(hlTask->dim()),
+	errorI_(hlTask->dim())
+{}
+
+
+PIDTask::PIDTask(const rbd::MultiBody& mb,
+	HighLevelTask* hlTask,
+	double P, double I, double D,
+	Eigen::VectorXd dimWeight, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	P_(P),
+	I_(I),
+	D_(D),
+	dimWeight_(dimWeight),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof()),
+	alphaVec_(mb.nrDof()),
+	error_(hlTask->dim()),
+	errorD_(hlTask->dim()),
+	errorI_(hlTask->dim())
+{}
+
+
+double PIDTask::P() const
+{
+	return P_;
+}
+
+
+void PIDTask::P(double p)
+{
+	P_ = p;
+}
+
+
+double PIDTask::I() const
+{
+	return I_;
+}
+
+
+void PIDTask::I(double i)
+{
+	I_ = i;
+}
+
+
+double PIDTask::D() const
+{
+	return D_;
+}
+
+
+void PIDTask::D(double d)
+{
+	D_ = d;
+}
+
+
+void PIDTask::dimWeight(Eigen::VectorXd& dim)
+{
+	dimWeight_ = dim;
+}
+
+
+void PIDTask::error(const Eigen::VectorXd& err)
+{
+	error_ = err;
+}
+
+
+void PIDTask::errorD(const Eigen::VectorXd& errD)
+{
+	errorD_ = errD;
+}
+
+
+void PIDTask::errorI(const Eigen::VectorXd& errI)
+{
+	errorI_ = errI;
+}
+
+
+void PIDTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	hlTask_->update(mb, mbc);
+
+	const Eigen::MatrixXd& J = hlTask_->jac();
+	const Eigen::MatrixXd& JD = hlTask_->jacDot();
+
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
+	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(P_*error_ -
+			D_*errorD_ - I_*errorI_ - JD*alphaVec_);
+}
+
+
+const Eigen::MatrixXd& PIDTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& PIDTask::C() const
 {
 	return C_;
 }
