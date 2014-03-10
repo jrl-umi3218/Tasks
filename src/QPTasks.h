@@ -484,11 +484,15 @@ private:
 class ContactTask : public Task
 {
 public:
-	ContactTask(int bodyId, bool min, double weight):
+	ContactTask(int bodyId, double stiffness, double weight):
 		Task(weight),
 		bodyId_(bodyId),
 		begin_(0),
-		dir_(min ? 1. : -1),
+		stiffness_(stiffness),
+		stiffnessSqrt_(2*std::sqrt(stiffness)),
+		conesJac_(),
+		error_(Eigen::Vector3d::Zero()),
+		errorD_(Eigen::Vector3d::Zero()),
 		Q_(),
 		C_()
 	{}
@@ -497,6 +501,9 @@ public:
 	{
 		return std::make_pair(begin_, begin_);
 	}
+
+	void error(const Eigen::Vector3d& error);
+	void errorD(const Eigen::Vector3d& errorD);
 
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
@@ -508,7 +515,10 @@ public:
 private:
 	int bodyId_;
 	int begin_;
-	double dir_;
+
+	double stiffness_, stiffnessSqrt_;
+	Eigen::MatrixXd conesJac_;
+	Eigen::Vector3d error_, errorD_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;

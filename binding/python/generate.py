@@ -626,8 +626,11 @@ def build_qp(tasks):
 
   # ContactTask
   contactTask.add_constructor([param('int', 'bodyId'),
-                               param('bool', 'min'),
+                               param('double', 'stiffness'),
                                param('double', 'weight')])
+
+  contactTask.add_method('error', None, [param('const Eigen::Vector3d&', 'error')])
+  contactTask.add_method('errorD', None, [param('const Eigen::Vector3d&', 'errorD')])
 
   # GripperTorqueTask
   gripperTorqueTask.add_constructor([param('int', 'bodyId'),
