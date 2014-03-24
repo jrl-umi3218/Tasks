@@ -16,6 +16,9 @@
 #pragma once
 
 // includes
+// std
+#include <map>
+
 // Eigen
 #include <Eigen/Core>
 
@@ -56,12 +59,17 @@ public:
 	bool removeVirtualContact(int bodyId);
 	void resetVirtualContacts();
 
+	bool addDofContact(int bodyId, const Eigen::MatrixXd& dof);
+	bool removeDofContact(int bodyId);
+	void resetDofContacts();
+
 protected:
 	std::set<int> bodyIdInContact(const rbd::MultiBody& mb,
 		const SolverData& data);
 
 protected:
 	std::set<int> virtualContacts_;
+	std::map<int, Eigen::MatrixXd> dofContacts_;
 };
 
 
@@ -70,6 +78,8 @@ class ContactAccConstr : public ConstraintFunction<Inequality>,
 {
 public:
 	ContactAccConstr(const rbd::MultiBody& mb);
+
+	void updateDofContacts();
 
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
@@ -81,6 +91,7 @@ public:
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
 	// Inequality Constraint
+	virtual int nrInEq() const;
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
@@ -90,13 +101,19 @@ public:
 private:
 	struct ContactData
 	{
-		ContactData(rbd::Jacobian j):
-			jac(j)
+		ContactData(rbd::Jacobian j, const Eigen::MatrixXd& d, int bId):
+			jac(j),
+			dof(d),
+			bodyId(bId)
 		{}
 
-
 		rbd::Jacobian jac;
+		Eigen::MatrixXd dof;
+		int bodyId;
 	};
+
+private:
+	void updateNrInEq();
 
 private:
 	std::vector<ContactData> cont_;
@@ -107,6 +124,7 @@ private:
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd ALU_;
 
+	int nrInEq_;
 	int nrDof_, nrFor_, nrTor_;
 };
 
@@ -118,6 +136,8 @@ class ContactSpeedConstr : public ConstraintFunction<Inequality>,
 public:
 	ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep);
 
+	void updateDofContacts();
+
 	// Constraint
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
@@ -128,6 +148,7 @@ public:
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
 
 	// Inequality Constraint
+	virtual int nrInEq() const;
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
@@ -137,14 +158,21 @@ public:
 private:
 	struct ContactData
 	{
-		ContactData(rbd::Jacobian j):
+		ContactData(rbd::Jacobian j, const Eigen::MatrixXd& d, int bId):
 			jac(j),
-			body(j.jointsPath().back())
+			dof(d),
+			body(j.jointsPath().back()),
+			bodyId(bId)
 		{}
 
 		rbd::Jacobian jac;
+		Eigen::MatrixXd dof;
 		int body;
+		int bodyId;
 	};
+
+private:
+	void updateNrInEq();
 
 private:
 	std::vector<ContactData> cont_;
@@ -156,6 +184,7 @@ private:
 	Eigen::VectorXd ALU_;
 
 	int nrDof_, nrFor_, nrTor_;
+	int nrInEq_;
 	double timeStep_;
 };
 

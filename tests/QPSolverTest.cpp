@@ -1218,7 +1218,6 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 
 	solver.nrVars(mb, uni, {});
 	solver.updateConstrSize();
-	solver.updateConstrSize();
 
 	// This stance with unilateral contac is impossible so the solver must fail
 	mbcSolv = mbcInit;
@@ -1228,7 +1227,6 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	// We test it again with bilateral contact to check that the stance is now
 	// valid
 	solver.nrVars(mb, {}, bi);
-	solver.updateConstrSize();
 	solver.updateConstrSize();
 
 	mbcSolv = mbcInit;
@@ -1248,4 +1246,112 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	solver.removeConstraint(&motionCstr);
 	solver.removeBoundConstraint(&motionCstr);
 	solver.removeInequalityConstraint(&motionCstr);
+}
+
+
+Eigen::Vector6d compute6dError(const sva::PTransformd& b1, const sva::PTransformd& b2)
+{
+	Eigen::Vector6d error;
+	error.head<3>() = sva::rotationError(b1.rotation(), b2.rotation(), 1e-7);
+	error.tail<3>() = b1.translation() - b2.translation();
+	return error;
+}
+
+
+double computeDofError(const sva::PTransformd& b1, const sva::PTransformd& b2,
+										const Eigen::MatrixXd& dof)
+{
+	return (dof*compute6dError(b1, b2)).norm();
+}
+
+
+BOOST_AUTO_TEST_CASE(QPDofContactsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm(false);
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	qp::QPSolver solver(true);
+
+	qp::ContactSpeedConstr contCstrSpeed(mb, 0.005);
+	qp::PositionTask posTask(mb, 0, Vector3d(1., 1., -1.));
+	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
+
+	contCstrSpeed.addToSolver(solver);
+	solver.addTask(&posTaskSp);
+
+	std::vector<Eigen::Vector3d> points =
+		{
+			Vector3d(0.1, 0.1, 0.),
+			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, -0.1, 0.),
+			Vector3d(0.1, -0.1, 0.)
+		};
+
+	std::vector<qp::UnilateralContact> uni =
+		{qp::UnilateralContact(0, points, Matrix3d::Identity(), 3, 0.7)};
+
+	MatrixXd contactDof(5, 6);
+	contactDof.setZero();
+	contactDof(0, 0) = 1.;
+	contactDof(1, 1) = 1.;
+	contactDof(2, 2) = 1.;
+	contactDof(3, 3) = 1.;
+	contactDof(4, 4) = 1.;
+
+	// test Z free
+	contCstrSpeed.addDofContact(0, contactDof);
+	solver.nrVars(mb, uni, {});
+	solver.updateConstrSize();
+
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.005);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	BOOST_CHECK_SMALL(computeDofError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0],
+		contactDof), 1e-6);
+	BOOST_CHECK_GT(std::pow(
+		compute6dError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0])(5), 2), 0.1);
+
+
+	// test Y Free and updateDofContacts
+	contactDof.setZero();
+	contactDof(0, 0) = 1.;
+	contactDof(1, 1) = 1.;
+	contactDof(2, 2) = 1.;
+	contactDof(3, 3) = 1.;
+	contactDof(4, 5) = 1.;
+	contCstrSpeed.resetDofContacts();
+	contCstrSpeed.addDofContact(0, contactDof);
+	contCstrSpeed.updateDofContacts();
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.005);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	BOOST_CHECK_SMALL(computeDofError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0],
+		contactDof), 1e-6);
+	BOOST_CHECK_GT(std::pow(
+		compute6dError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
 }

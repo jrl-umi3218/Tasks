@@ -62,6 +62,24 @@ void ContactConstrCommon::resetVirtualContacts()
 }
 
 
+bool ContactConstrCommon::addDofContact(int bodyId, const Eigen::MatrixXd& dof)
+{
+	return dofContacts_.insert({bodyId, dof}).second;
+}
+
+
+bool ContactConstrCommon::removeDofContact(int bodyId)
+{
+	return dofContacts_.erase(bodyId) == 1;
+}
+
+
+void ContactConstrCommon::resetDofContacts()
+{
+	dofContacts_.clear();
+}
+
+
 std::set<int> ContactConstrCommon::bodyIdInContact(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
@@ -142,6 +160,24 @@ ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 {}
 
 
+void ContactAccConstr::updateDofContacts()
+{
+	for(ContactData& c: cont_)
+	{
+		auto it = dofContacts_.find(c.bodyId);
+		if(it != dofContacts_.end())
+		{
+			c.dof = it->second;
+		}
+		else
+		{
+			c.dof.setIdentity(6, 6);
+		}
+	}
+	updateNrInEq();
+}
+
+
 void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
@@ -153,8 +189,15 @@ void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 	std::set<int> bodyIdSet = bodyIdInContact(mb, data);
 	for(int bodyId: bodyIdSet)
 	{
-		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
+		Eigen::MatrixXd dof(Eigen::MatrixXd::Identity(6, 6));
+		auto it = dofContacts_.find(bodyId);
+		if(it != dofContacts_.end())
+		{
+			dof = it->second;
+		}
+		cont_.emplace_back(rbd::Jacobian(mb, bodyId), dof, bodyId);
 	}
+	updateNrInEq();
 
 	A_.resize(cont_.size()*6, data.nrVars());
 	ALU_.resize(cont_.size()*6);
@@ -172,17 +215,21 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 
 	// J_i*alphaD + JD_i*alpha = 0
 
+	int index = 0;
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
+		int rows = int(cont_[i].dof.rows());
+
 		// AEq = J_i
 		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-		A_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq = -JD_i*alpha
 		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		ALU_.segment(i*6, 6) = -fullJac_*alphaVec_;
+		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-fullJac_*alphaVec_);
+		index += rows;
 	}
 }
 
@@ -198,6 +245,12 @@ std::string ContactAccConstr::descInEq(const rbd::MultiBody& mb, int line)
 	int contact = line/6;
 	int body = cont_[contact].jac.jointsPath().back();
 	return std::string("Contact: ") + mb.body(body).name();
+}
+
+
+int ContactAccConstr::nrInEq() const
+{
+	return nrInEq_;
 }
 
 
@@ -225,6 +278,16 @@ const Eigen::VectorXd& ContactAccConstr::UpperInEq() const
 }
 
 
+void ContactAccConstr::updateNrInEq()
+{
+	nrInEq_ = 0;
+	for(const ContactData& c: cont_)
+	{
+		nrInEq_ += int(c.dof.rows());
+	}
+}
+
+
 /**
 	*															ContactSpeedConstr
 	*/
@@ -243,6 +306,24 @@ ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep
 {}
 
 
+void ContactSpeedConstr::updateDofContacts()
+{
+	for(ContactData& c: cont_)
+	{
+		auto it = dofContacts_.find(c.bodyId);
+		if(it != dofContacts_.end())
+		{
+			c.dof = it->second;
+		}
+		else
+		{
+			c.dof.setIdentity(6, 6);
+		}
+	}
+	updateNrInEq();
+}
+
+
 void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	const SolverData& data)
 {
@@ -254,8 +335,15 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 	std::set<int> bodyIdSet = bodyIdInContact(mb, data);
 	for(int bodyId: bodyIdSet)
 	{
-		cont_.emplace_back(rbd::Jacobian(mb, bodyId));
+		Eigen::MatrixXd dof(Eigen::MatrixXd::Identity(6, 6));
+		auto it = dofContacts_.find(bodyId);
+		if(it != dofContacts_.end())
+		{
+			dof = it->second;
+		}
+		cont_.emplace_back(rbd::Jacobian(mb, bodyId), dof, bodyId);
 	}
+	updateNrInEq();
 
 	A_.resize(cont_.size()*6, data.nrVars());
 	ALU_.resize(cont_.size()*6);
@@ -273,19 +361,29 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 
 	// J_i*alphaD + JD_i*alpha = 0
 
+	int index = 0;
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
+		int rows = int(cont_[i].dof.rows());
+
 		// AEq = J_i
 		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-		A_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
+		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq = -JD_i*alpha
 		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		ALU_.segment(i*6, 6) = -fullJac_*alphaVec_ -
-			mbc.bodyVelB[cont_[i].body].vector()/timeStep_;
+		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-fullJac_*alphaVec_ -
+			mbc.bodyVelB[cont_[i].body].vector()/timeStep_);
+		index += rows;
 	}
+}
+
+
+int ContactSpeedConstr::nrInEq() const
+{
+	return nrInEq_;
 }
 
 
@@ -324,6 +422,16 @@ const Eigen::VectorXd& ContactSpeedConstr::LowerInEq() const
 const Eigen::VectorXd& ContactSpeedConstr::UpperInEq() const
 {
 	return ALU_;
+}
+
+
+void ContactSpeedConstr::updateNrInEq()
+{
+	nrInEq_ = 0;
+	for(const ContactData& c: cont_)
+	{
+		nrInEq_ += int(c.dof.rows());
+	}
 }
 
 
