@@ -175,12 +175,12 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		// AEq = J_i
-		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
+		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
 		A_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
 
 		// BEq = -JD_i*alpha
-		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
+		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
 		ALU_.segment(i*6, 6) = -fullJac_*alphaVec_;
 	}
@@ -276,15 +276,15 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		// AEq = J_i
-		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
+		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
 		A_.block(i*6, 0, 6, mb.nrDof()) = fullJac_;
 
 		// BEq = -JD_i*alpha
-		const MatrixXd& jacDot = cont_[i].jac.jacobianDot(mb, mbc);
+		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
 		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
 		ALU_.segment(i*6, 6) = -fullJac_*alphaVec_ -
-			mbc.bodyVelW[cont_[i].body].vector()/timeStep_;
+			mbc.bodyVelB[cont_[i].body].vector()/timeStep_;
 	}
 }
 
