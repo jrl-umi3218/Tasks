@@ -697,12 +697,19 @@ def build_qp(tasks):
   contactConstrCommon.add_method('removeVirtualContact', retval('bool'), [param('int', 'bodyId')])
   contactConstrCommon.add_method('resetVirtualContacts', None, [])
 
+  contactConstrCommon.add_method('addDofContact', retval('bool'), [param('int', 'bodyId', ),
+                                                                   param('const Eigen::MatrixXd&', 'dof')])
+  contactConstrCommon.add_method('removeDofContact', retval('bool'), [param('int', 'bodyId')])
+  contactConstrCommon.add_method('resetDofContacts', None, [])
+
   # ContactAccConstr
   contactAccConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+  contactAccConstr.add_method('updateDofContacts', None, [])
 
   # ContactSpeedConstr
   contactSpeedConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
-                                    param('double', 'timeStep')])
+                                      param('double', 'timeStep')])
+  contactSpeedConstr.add_method('updateDofContacts', None, [])
 
   # SelfCollisionConstr
   selfCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
