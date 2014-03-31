@@ -265,6 +265,13 @@ def build_qp(tasks):
                   param('std::vector<tasks::qp::BilateralContact>&', 'cont')])
   sol.add_method('nrVars', retval('int'), [], is_const=True)
 
+  sol.add_method('updateTasksNrVars', None, [param('const rbd::MultiBody&', 'mb')],
+                 is_const=True)
+  sol.add_method('updateConstrsNrVars', None, [param('const rbd::MultiBody&', 'mb')],
+                 is_const=True)
+  sol.add_method('updateNrVars', None, [param('const rbd::MultiBody&', 'mb')],
+                 is_const=True)
+
   add_std_solver_add_rm_nr('InequalityConstraint', ineqConstrName)
   add_std_solver_add_rm_nr('BoundConstraint', boundConstrName)
   add_std_solver_add_rm_nr('Constraint', constrName)

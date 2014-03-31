@@ -213,6 +213,31 @@ int QPSolver::nrVars() const
 }
 
 
+void QPSolver::updateTasksNrVars(const rbd::MultiBody& mb) const
+{
+	for(Task* t: tasks_)
+	{
+		t->updateNrVars(mb, data_);
+	}
+}
+
+
+void QPSolver::updateConstrsNrVars(const rbd::MultiBody& mb) const
+{
+	for(Constraint* c: constr_)
+	{
+		c->updateNrVars(mb, data_);
+	}
+}
+
+
+void QPSolver::updateNrVars(const rbd::MultiBody& mb) const
+{
+	updateTasksNrVars(mb);
+	updateConstrsNrVars(mb);
+}
+
+
 void QPSolver::addInequalityConstraint(Inequality* co)
 {
 	inEqConstr_.push_back(co);

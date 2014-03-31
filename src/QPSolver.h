@@ -71,6 +71,13 @@ public:
 		std::vector<BilateralContact> bi);
 	int nrVars() const;
 
+	/// call updateNrVars on all tasks
+	void updateTasksNrVars(const rbd::MultiBody& mb) const;
+	/// call updateNrVars on all constraints
+	void updateConstrsNrVars(const rbd::MultiBody& mb) const;
+	/// call updateNrVars on all tasks and constraints
+	void updateNrVars(const rbd::MultiBody& mb) const;
+
 	void addInequalityConstraint(Inequality* co);
 	void removeInequalityConstraint(Inequality* co);
 	int nrInequalityConstraints() const;
