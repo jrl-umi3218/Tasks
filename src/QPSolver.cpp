@@ -190,7 +190,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 		Q_.resize(data_.nrVars_, data_.nrVars_);
 		C_.resize(data_.nrVars_);
 
-		res_.resize(data_.nrVars_);
+		res_.setZero(data_.nrVars_);
 	}
 
 	for(Task* t: tasks_)
