@@ -853,7 +853,7 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			double jqdnd = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
 			double jdqdn = ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
 
-			calcVec_ = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+			calcVec_.noalias() = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
 
 			// Compute body2
 			d.jacB2.point(pb2);
@@ -867,10 +867,10 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			jqdnd -= ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
 			jdqdn -= ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
 
-			calcVec_ += fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+			calcVec_.noalias() += fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
-			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
+			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() = calcVec_.transpose();
 			AU_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
 			++nrActivated_;
 		}
@@ -1107,10 +1107,10 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 			double jqdnd = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
 			double jdqdn = ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
 
-			calcVec_ = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+			calcVec_.noalias() = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
-			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
+			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() = calcVec_.transpose();
 			AU_(nrActivated_) = dampers + jqdn + jqdnd + jdqdn;
 			++nrActivated_;
 		}
