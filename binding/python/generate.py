@@ -203,15 +203,16 @@ def build_qp(tasks):
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
 
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
+  constantSpeedConstr = qp.add_class('ConstantSpeedConstr', parent=[ineqConstr, constr])
 
 
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'StaticEnvCollisionConstr', 'CoMCollisionConstr', 'MotionSpringConstr',
-                'GripperTorqueConstr']
+                'GripperTorqueConstr', 'ConstantSpeedConstr']
   ineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                     'SelfCollisionConstr', 'StaticEnvCollisionConstr', 'CoMCollisionConstr',
-                    'MotionSpringConstr', 'GripperTorqueConstr']
+                    'MotionSpringConstr', 'GripperTorqueConstr', 'ContactSpeedConstr']
   boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr','JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'PIDTask', 'TargetObjectiveTask', 'LinWeightTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
@@ -221,7 +222,7 @@ def build_qp(tasks):
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr, comCollisionConstr,
                 jointLimitsConstr, damperJointLimitsConstr, motionSpringConstr,
-                gripperTorqueConstr]
+                gripperTorqueConstr, constantSpeedConstr]
 
 
   # build list type
@@ -804,6 +805,20 @@ def build_qp(tasks):
   gripperTorqueConstr.add_method('rmGripper', retval('bool'),
                                  [param('int', 'bodyId')])
   gripperTorqueConstr.add_method('reset', None, [])
+
+  # ConstantSpeedConstr
+  constantSpeedConstr.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                                       param('double', 'timeStep')])
+  constantSpeedConstr.add_method('addConstantSpeed', None,
+                                 [param('const rbd::MultiBody&', 'mb'), param('int', 'bodyId'),
+                                  param('const Eigen::Vector3d&', 'bodyPoint'),
+                                  param('const Eigen::MatrixXd&', 'dof'),
+                                  param('const Eigen::VectorXd&', 'speed')])
+  constantSpeedConstr.add_method('removeConstantSpeed', retval('bool'),
+                                 [param('int', 'bodyId')])
+  constantSpeedConstr.add_method('resetConstantSpeed', None, [])
+  constantSpeedConstr.add_method('nrConstantSpeed', retval('int'), [])
+
 
   def add_add_remove_solver(constr):
     for c in constr:
