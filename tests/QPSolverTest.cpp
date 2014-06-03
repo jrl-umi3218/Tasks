@@ -1355,3 +1355,89 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	BOOST_CHECK_GT(std::pow(
 		compute6dError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
 }
+
+
+BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit, mbcSolv;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	qp::QPSolver solver(true);
+
+	int bodyId = 3;
+	int bodyIndex = mb.bodyIndexById(bodyId);
+	sva::PTransformd bodyPoint(Vector3d(0., 0.1, 0.));
+
+	qp::ConstantSpeedConstr constSpeed(mb, 0.005);
+	qp::PositionTask posTask(mb, bodyId, Vector3d(1., -1., 1.), bodyPoint.translation());
+	qp::SetPointTask posTaskSp(mb, &posTask, 20., 1.);
+	MatrixXd dof(1, 6);
+	VectorXd speed(1);
+
+	// X body axis must have 0 velocity
+	dof << 0.,0.,0.,1.,0.,0.;
+	speed << 0.;
+	constSpeed.addConstantSpeed(mb, bodyId, bodyPoint.translation(), dof, speed);
+	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeed(), 1);
+
+	constSpeed.addToSolver(solver);
+	solver.addTask(&posTaskSp);
+
+	solver.nrVars(mb, {}, {});
+	solver.updateConstrSize();
+
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.005);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	sva::PTransformd initPos(bodyPoint*mbcInit.bodyPosW[bodyIndex]);
+	sva::PTransformd finalPos(bodyPoint*mbcSolv.bodyPosW[bodyIndex]);
+	BOOST_CHECK_SMALL(computeDofError(finalPos, initPos,
+		dof), 1e-6);
+	BOOST_CHECK_GT(std::pow(
+		compute6dError(finalPos, initPos)(4), 2), 0.1);
+
+
+	// same test but with Z axis
+	BOOST_CHECK(constSpeed.removeConstantSpeed(bodyId));
+	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeed(), 0);
+	dof << 0.,0.,0.,0.,0.,1.;
+	constSpeed.addConstantSpeed(mb, bodyId, bodyPoint.translation(), dof, speed);
+	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeed(), 1);
+	solver.nrVars(mb, {}, {});
+	solver.updateConstrSize();
+
+	mbcSolv = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
+		eulerIntegration(mb, mbcSolv, 0.005);
+
+		forwardKinematics(mb, mbcSolv);
+		forwardVelocity(mb, mbcSolv);
+	}
+
+	initPos = bodyPoint*mbcInit.bodyPosW[bodyIndex];
+	finalPos = bodyPoint*mbcSolv.bodyPosW[bodyIndex];
+	BOOST_CHECK_SMALL(computeDofError(finalPos, initPos,
+		dof), 1e-6);
+	BOOST_CHECK_GT(std::pow(
+		compute6dError(finalPos, initPos)(4), 2), 0.1);
+}

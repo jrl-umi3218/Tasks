@@ -419,6 +419,8 @@ private:
 	Eigen::VectorXd calcVec_;
 };
 
+
+
 class CoMCollisionConstr : public ConstraintFunction<Inequality>
 {
 public:
@@ -526,6 +528,74 @@ private:
 
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd AL_, AU_;
+};
+
+
+
+class ConstantSpeedConstr : public ConstraintFunction<Inequality>
+{
+public:
+	ConstantSpeedConstr(const rbd::MultiBody& mb, double timeStep);
+
+	void addConstantSpeed(const rbd::MultiBody& mb, int bodyId,
+											const Eigen::Vector3d& bodyPoint,
+											const Eigen::MatrixXd& dof,
+											const Eigen::VectorXd& speed);
+	bool removeConstantSpeed(int bodyId);
+	void resetConstantSpeed();
+	std::size_t nrConstantSpeed() const;
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		const SolverData& data);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+
+	// Inequality Constraint
+	virtual int maxInEq() const;
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& LowerInEq() const;
+	virtual const Eigen::VectorXd& UpperInEq() const;
+
+private:
+	struct ConstantSpeedData
+	{
+		ConstantSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
+										 const Eigen::VectorXd& s, int bId):
+			jac(j),
+			bodyPoint(j.point()),
+			dof(d),
+			speed(s),
+			body(j.jointsPath().back()),
+			bodyId(bId)
+		{}
+
+		rbd::Jacobian jac;
+		sva::PTransformd bodyPoint;
+		Eigen::MatrixXd dof;
+		Eigen::VectorXd speed;
+		int body;
+		int bodyId;
+	};
+
+private:
+	void updateNrInEq();
+
+private:
+	std::vector<ConstantSpeedData> cont_;
+
+	Eigen::MatrixXd fullJac_;
+	Eigen::VectorXd alphaVec_;
+
+	Eigen::MatrixXd A_;
+	Eigen::VectorXd ALU_;
+
+	int nrVars_;
+	double timeStep_;
 };
 
 } // namespace qp
