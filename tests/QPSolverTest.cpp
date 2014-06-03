@@ -1418,10 +1418,13 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 	// same test but with Z axis
 	BOOST_CHECK(constSpeed.removeConstantSpeed(bodyId));
 	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeed(), 0);
+	BOOST_CHECK_EQUAL(constSpeed.maxInEq(), 0);
+	// must resize constraint matrix since nrMaxIneq has changed
+	solver.updateConstrSize();
 	dof << 0.,0.,0.,0.,0.,1.;
 	constSpeed.addConstantSpeed(mb, bodyId, bodyPoint.translation(), dof, speed);
 	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeed(), 1);
-	solver.nrVars(mb, {}, {});
+	BOOST_CHECK_EQUAL(constSpeed.maxInEq(), 1);
 	solver.updateConstrSize();
 
 	mbcSolv = mbcInit;
