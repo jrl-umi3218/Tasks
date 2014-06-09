@@ -8,7 +8,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(QPSolverTest QPSolverTest.cpp)
 target_link_libraries(QPSolverTest ${Boost_LIBRARIES} RBDyn Tasks)
-PKG_CONFIG_USE_DEPENDENCY(QPSolverTest scd)
+PKG_CONFIG_USE_DEPENDENCY(QPSolverTest sch-core)
 PKG_CONFIG_USE_DEPENDENCY(QPSolverTest SpaceVecAlg)
 PKG_CONFIG_USE_DEPENDENCY(QPSolverTest RBDyn)
 PKG_CONFIG_USE_DEPENDENCY(QPSolverTest EigenQP)

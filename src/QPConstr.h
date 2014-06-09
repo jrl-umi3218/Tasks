@@ -27,16 +27,16 @@
 #include <RBDyn/Jacobian.h>
 #include <RBDyn/CoM.h>
 
-// SCD
-#include <SCD/Matrix/SCD_Types.h>
-#include <SCD/S_Object/S_Sphere.h>
+// sch
+#include <sch/Matrix/SCH_Types.h>
+#include <sch/S_Object/S_Sphere.h>
 
 // Tasks
 #include "QPSolver.h"
 
 // forward declaration
-// SCD
-namespace SCD
+// sch
+namespace sch
 {
 class S_Object;
 class CD_Pair;
@@ -49,7 +49,7 @@ namespace tasks
 namespace qp
 {
 
-SCD::Matrix4x4 toSCD(const sva::PTransformd& t);
+sch::Matrix4x4 tosch(const sva::PTransformd& t);
 
 
 class ContactConstrCommon
@@ -289,8 +289,8 @@ public:
 	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
 
 	void addCollision(const rbd::MultiBody& mb, int collId,
-		int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
-		int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
+		int body1Id, sch::S_Object* body1, const sva::PTransformd& body1T,
+		int body2Id, sch::S_Object* body2, const sva::PTransformd& body2T,
 		double di, double ds, double damping, double dampingOff=0.);
 	bool rmCollision(int collId);
 	std::size_t nrCollisions() const;
@@ -318,11 +318,11 @@ private:
 	{
 		enum class DampingType {Hard, Soft, Free};
 		CollData(const rbd::MultiBody& mb, int collId,
-			int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
-			int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
+			int body1Id, sch::S_Object* body1, const sva::PTransformd& body1T,
+			int body2Id, sch::S_Object* body2, const sva::PTransformd& body2T,
 			double di, double ds, double damping, double dampingOff);
 
-		SCD::CD_Pair* pair;
+		sch::CD_Pair* pair;
 		sva::PTransformd body1T, body2T;
 		Eigen::Vector3d normVecDist;
 		rbd::Jacobian jacB1, jacB2;
@@ -358,8 +358,8 @@ public:
 	StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step);
 
 	void addCollision(const rbd::MultiBody& mb, int collId,
-		int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
-		int envId, SCD::S_Object* env,
+		int bodyId, sch::S_Object* body, const sva::PTransformd& bodyT,
+		int envId, sch::S_Object* env,
 		double di, double ds, double damping, double dampingOff=0.);
 	bool rmCollision(int collId);
 	std::size_t nrCollisions() const;
@@ -387,11 +387,11 @@ private:
 	{
 		enum class DampingType {Hard, Soft, Free};
 		CollData(const rbd::MultiBody& mb, int collId,
-			int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
-			int envId, SCD::S_Object* env,
+			int bodyId, sch::S_Object* body, const sva::PTransformd& bodyT,
+			int envId, sch::S_Object* env,
 			double di, double ds, double damping, double dampingOff);
 
-		SCD::CD_Pair* pair;
+		sch::CD_Pair* pair;
 		sva::PTransformd bodyT;
 		Eigen::Vector3d normVecDist;
 		rbd::Jacobian jacB1;
@@ -427,7 +427,7 @@ public:
 	CoMCollisionConstr(const rbd::MultiBody& mb, double step);
 
 	void addCollision(const rbd::MultiBody& mb,
-		int collId, SCD::S_Object* env,
+		int collId, sch::S_Object* env,
 		double di, double ds, double damping, double dampingOff=0.);
 	bool rmCollision(int collId);
 	std::size_t nrCollisions() const;
@@ -455,10 +455,10 @@ private:
 	{
 		enum class DampingType {Hard, Soft, Free};
 		CollData(const rbd::MultiBody& mb, int collId,
-			SCD::S_Object* env,
+			sch::S_Object* env,
 			double di, double ds, double damping, double dampingOff);
-		SCD::S_Sphere comSphere_;
-		SCD::CD_Pair* pair;
+		sch::S_Sphere comSphere_;
+		sch::CD_Pair* pair;
 		Eigen::Vector3d normVecDist;
 		rbd::CoMJacobian jacCoM;
 		double di, ds;

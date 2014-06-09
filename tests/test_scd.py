@@ -6,7 +6,7 @@ from tvtk.api import tvtk
 from eigen3 import *
 import spacevecalg as sva
 
-import scd
+import sch
 
 def setTransform(actor, transform):
   R = transform.rotation()
@@ -24,10 +24,10 @@ def anim():
   y = 0.3
   z = 0.4
 
-  cb1 = scd.Box(x, y, z)
-  cb2 = scd.Box(x, y, z)
+  cb1 = sch.Box(x, y, z)
+  cb2 = sch.Box(x, y, z)
 
-  pair = scd.CD_Pair(cb1, cb2)
+  pair = sch.CD_Pair(cb1, cb2)
 
   b1s = tvtk.CubeSource(x_length=x, y_length=y, z_length=z)
   b2s = tvtk.CubeSource(x_length=x, y_length=y, z_length=z)

@@ -32,34 +32,34 @@ def import_sva_types(mod):
 
 
 
-def build_SCD(scd):
-  obj = scd.add_class('S_Object')
-  pair = scd.add_class('CD_Pair')
+def build_sch(sch):
+  obj = sch.add_class('S_Object')
+  pair = sch.add_class('CD_Pair')
 
-  obj.add_function_as_method('transform', None, [param('SCD::S_Object&', 'obj'),
+  obj.add_function_as_method('transform', None, [param('sch::S_Object&', 'obj'),
                                                  param('const sva::PTransformd&', 'trans')],
                              custom_name='transform')
 
 
-  scd.add_function('Sphere', retval('SCD::S_Object*', caller_owns_return=True),
+  sch.add_function('Sphere', retval('sch::S_Object*', caller_owns_return=True),
                    [param('double', 'radius')])
-  scd.add_function('Box', retval('SCD::S_Object*', caller_owns_return=True),
+  sch.add_function('Box', retval('sch::S_Object*', caller_owns_return=True),
                    [param('double', 'x'),
                     param('double', 'y'),
                     param('double', 'z')])
-  scd.add_function('STPBV', retval('SCD::S_Object*', caller_owns_return=True),
+  sch.add_function('STPBV', retval('sch::S_Object*', caller_owns_return=True),
                    [param('const std::string&', 'filename')])
-  scd.add_function('Polyhedron', retval('SCD::S_Object*', caller_owns_return=True),
+  sch.add_function('Polyhedron', retval('sch::S_Object*', caller_owns_return=True),
                    [param('const std::string&', 'filename')])
 
 
-  pair.add_constructor([param('SCD::S_Object*', 'obj1', transfer_ownership=False),
-                        param('SCD::S_Object*', 'obj2', transfer_ownership=False)])
+  pair.add_constructor([param('sch::S_Object*', 'obj1', transfer_ownership=False),
+                        param('sch::S_Object*', 'obj2', transfer_ownership=False)])
 
   pair.add_method('getDistance', retval('double'), [], custom_name='distance')
 
   pair.add_function_as_method('distance', retval('double'),
-                              [param('SCD::CD_Pair&', 'pair'),
+                              [param('sch::CD_Pair&', 'pair'),
                                param('Eigen::Vector3d&', 'p1'),
                                param('Eigen::Vector3d&', 'p2')],
                               custom_name='distance')
@@ -71,29 +71,29 @@ if __name__ == '__main__':
   if len(sys.argv) < 2:
     sys.exit(1)
 
-  scd = Module('_scd', cpp_namespace='::SCD')
-  scd.add_include('<SpaceVecAlg/SpaceVecAlg>')
-  scd.add_include('<SCD/S_Object/S_Object.h>')
-  scd.add_include('<SCD/S_Object/S_Sphere.h>')
-  scd.add_include('<SCD/S_Object/S_Box.h>')
-  scd.add_include('<SCD/S_Polyhedron/S_Polyhedron.h>')
-  scd.add_include('<SCD/STP-BV/STP_BV.h>')
-  scd.add_include('<SCD/CD/CD_Pair.h>')
+  sch = Module('_sch', cpp_namespace='::sch')
+  sch.add_include('<SpaceVecAlg/SpaceVecAlg>')
+  sch.add_include('<sch/S_Object/S_Object.h>')
+  sch.add_include('<sch/S_Object/S_Sphere.h>')
+  sch.add_include('<sch/S_Object/S_Box.h>')
+  sch.add_include('<sch/S_Polyhedron/S_Polyhedron.h>')
+  sch.add_include('<sch/STP-BV/STP_BV.h>')
+  sch.add_include('<sch/CD/CD_Pair.h>')
 
-  scd.add_include('"SCDAddon.h"')
+  sch.add_include('"SCHAddon.h"')
 
-  dom_ex = scd.add_exception('std::domain_error', foreign_cpp_namespace=' ',
+  dom_ex = sch.add_exception('std::domain_error', foreign_cpp_namespace=' ',
                                message_rvalue='%(EXC)s.what()')
-  out_ex = scd.add_exception('std::out_of_range', foreign_cpp_namespace=' ',
+  out_ex = sch.add_exception('std::out_of_range', foreign_cpp_namespace=' ',
                                message_rvalue='%(EXC)s.what()')
 
   # import Eigen3, and sva
-  import_eigen3_types(scd)
-  import_sva_types(scd)
+  import_eigen3_types(sch)
+  import_sva_types(sch)
 
-  # SCD
-  build_SCD(scd)
+  # sch
+  build_sch(sch)
 
   with open(sys.argv[1], 'w') as f:
-    scd.generate(f)
+    sch.generate(f)
 

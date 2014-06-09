@@ -25,9 +25,9 @@
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 
-// SCD
-#include <SCD/CD/CD_Pair.h>
-#include <SCD/S_Object/S_Object.h>
+// sch
+#include <sch/CD/CD_Pair.h>
+#include <sch/S_Object/S_Object.h>
 
 // Tasks
 #include "utils.h"
@@ -671,9 +671,9 @@ double DamperJointLimitsConstr::computeDamper(double dist,
 	*/
 
 
-SCD::Matrix4x4 toSCD(const sva::PTransformd& t)
+sch::Matrix4x4 tosch(const sva::PTransformd& t)
 {
-	SCD::Matrix4x4 m;
+	sch::Matrix4x4 m;
 	const Eigen::Matrix3d& rot = t.rotation();
 	const Eigen::Vector3d& tran = t.translation();
 
@@ -694,10 +694,10 @@ SCD::Matrix4x4 toSCD(const sva::PTransformd& t)
 
 
 SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
-	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
-	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
+	int body1Id, sch::S_Object* body1, const sva::PTransformd& body1T,
+	int body2Id, sch::S_Object* body2, const sva::PTransformd& body2T,
 	double di, double ds, double damping, double dampOff):
-		pair(new SCD::CD_Pair(body1, body2)),
+		pair(new sch::CD_Pair(body1, body2)),
 		body1T(body1T),
 		body2T(body2T),
 		normVecDist(Eigen::Vector3d::Zero()),
@@ -735,8 +735,8 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
 
 
 void SelfCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
-	int body1Id, SCD::S_Object* body1, const sva::PTransformd& body1T,
-	int body2Id, SCD::S_Object* body2, const sva::PTransformd& body2T,
+	int body1Id, sch::S_Object* body1, const sva::PTransformd& body1T,
+	int body2Id, sch::S_Object* body2, const sva::PTransformd& body2T,
 	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(mb, collId, body1Id, body1, body1T,
@@ -802,10 +802,10 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 
-		d.pair->operator[](0)->setTransformation(toSCD(d.body1T*mbc.bodyPosW[d.body1]));
-		d.pair->operator[](1)->setTransformation(toSCD(d.body2T*mbc.bodyPosW[d.body2]));
+		d.pair->operator[](0)->setTransformation(tosch(d.body1T*mbc.bodyPosW[d.body1]));
+		d.pair->operator[](1)->setTransformation(tosch(d.body2T*mbc.bodyPosW[d.body2]));
 
 		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
@@ -956,10 +956,10 @@ const Eigen::VectorXd& SelfCollisionConstr::UpperInEq() const
 
 
 StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
-	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
-	int envId, SCD::S_Object* env,
+	int bodyId, sch::S_Object* body, const sva::PTransformd& bodyT,
+	int envId, sch::S_Object* env,
 	double di, double ds, double damping, double dampOff):
-		pair(new SCD::CD_Pair(body, env)),
+		pair(new sch::CD_Pair(body, env)),
 		bodyT(bodyT),
 		normVecDist(Eigen::Vector3d::Zero()),
 		jacB1(rbd::Jacobian(mb, bodyId)),
@@ -993,8 +993,8 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
 
 
 void StaticEnvCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
-	int bodyId, SCD::S_Object* body, const sva::PTransformd& bodyT,
-	int envId, SCD::S_Object* env,
+	int bodyId, sch::S_Object* body, const sva::PTransformd& bodyT,
+	int envId, sch::S_Object* env,
 	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(mb, collId, bodyId, body, bodyT, envId, env,
@@ -1060,9 +1060,9 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 
-		d.pair->operator[](0)->setTransformation(toSCD(d.bodyT*mbc.bodyPosW[d.body]));
+		d.pair->operator[](0)->setTransformation(tosch(d.bodyT*mbc.bodyPosW[d.body]));
 
 		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
@@ -1195,10 +1195,10 @@ const Eigen::VectorXd& StaticEnvCollisionConstr::UpperInEq() const
 
 
 CoMCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
-	int collId, SCD::S_Object* env,
+	int collId, sch::S_Object* env,
 	double di, double ds, double damping, double dampOff):
 		comSphere_(ds/5.),
-		pair(new SCD::CD_Pair(&comSphere_, env)),
+		pair(new sch::CD_Pair(&comSphere_, env)),
 		normVecDist(Eigen::Vector3d::Zero()),
 		jacCoM(rbd::CoMJacobian(mb)),
 		di(di),
@@ -1228,7 +1228,7 @@ CoMCollisionConstr::CoMCollisionConstr(const rbd::MultiBody& mb, double step):
 
 
 void CoMCollisionConstr::addCollision(const rbd::MultiBody& mb, int collId,
-	SCD::S_Object* env,
+	sch::S_Object* env,
 	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(mb, collId, env,
@@ -1295,9 +1295,9 @@ void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 
-		d.pair->operator[](0)->setTransformation(toSCD(sva::PTransformd(com)));
+		d.pair->operator[](0)->setTransformation(tosch(sva::PTransformd(com)));
 
 		double dist = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
 		Vector3d pb2(pb2Tmp[0], pb2Tmp[1], pb2Tmp[2]);

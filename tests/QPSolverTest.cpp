@@ -39,10 +39,10 @@
 #include <RBDyn/MultiBodyConfig.h>
 #include <RBDyn/MultiBodyGraph.h>
 
-// SCD
-#include <SCD/S_Object/S_Sphere.h>
-#include <SCD/S_Object/S_Box.h>
-#include <SCD/CD/CD_Pair.h>
+// sch
+#include <sch/S_Object/S_Sphere.h>
+#include <sch/S_Object/S_Box.h>
+#include <sch/CD/CD_Pair.h>
 
 // Tasks
 #include "QPConstr.h"
@@ -880,8 +880,8 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
 
-	SCD::S_Sphere b0(0.25), b3(0.25);
-	SCD::CD_Pair pair(&b0, &b3);
+	sch::S_Sphere b0(0.25), b3(0.25);
+	sch::CD_Pair pair(&b0, &b3);
 
 	PTransformd I = PTransformd::Identity();
 	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
@@ -911,7 +911,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
 		distHard << dist << ", ";
@@ -940,7 +940,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
 		distSoft << dist << ", ";
@@ -989,10 +989,10 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
 
-	SCD::S_Sphere b0(0.25), b3(0.25);
-	SCD::CD_Pair pair(&b0, &b3);
+	sch::S_Sphere b0(0.25), b3(0.25);
+	sch::CD_Pair pair(&b0, &b3);
 
-	b0.setTransformation(qp::toSCD(mbcInit.bodyPosW[0]));
+	b0.setTransformation(qp::tosch(mbcInit.bodyPosW[0]));
 
 	PTransformd I = PTransformd::Identity();
 	qp::StaticEnvCollisionConstr seCollConstr(mb, 0.001);
@@ -1023,7 +1023,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
 		distHard << dist << ", ";
@@ -1051,7 +1051,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
 		distSoft << dist << ", ";
@@ -1098,14 +1098,14 @@ BOOST_AUTO_TEST_CASE(QPCoMCollTest)
 	int bodyI = mb.bodyIndexById(3);
 	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
-	SCD::S_Box b0(0.25, 0.25, 0.25);
-	SCD::S_Sphere comSphere(0.001);
-	SCD::CD_Pair pair(&comSphere, &b0);
+	sch::S_Box b0(0.25, 0.25, 0.25);
+	sch::S_Sphere comSphere(0.001);
+	sch::CD_Pair pair(&comSphere, &b0);
 
 	Eigen::Vector3d com = rbd::computeCoM(mb, mbcInit);
 	sva::PTransformd comT(com);
 
-	b0.setTransformation(qp::toSCD(comT));
+	b0.setTransformation(qp::tosch(comT));
 
 	qp::CoMCollisionConstr comCollConstr(mb, 0.001);
 	int collId1 = 10;
@@ -1133,11 +1133,11 @@ BOOST_AUTO_TEST_CASE(QPCoMCollTest)
 		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 		//Update comSphere position because comCollConstr attributes are private
 		com = rbd::computeCoM(mb, mbcInit);
 		comT = sva::PTransformd(com);
-		comSphere.setTransformation(qp::toSCD(comT));
+		comSphere.setTransformation(qp::tosch(comT));
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		double norm = (com - Vector3d(pb2Tmp[0],pb2Tmp[1],pb2Tmp[2])).norm();
 		dist = dist >= 0 ? -norm : norm;
@@ -1153,10 +1153,10 @@ BOOST_AUTO_TEST_CASE(QPCoMCollTest)
 		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
 		eulerIntegration(mb, mbcSolv, 0.001);
 
-		SCD::Point3 pb1Tmp, pb2Tmp;
+		sch::Point3 pb1Tmp, pb2Tmp;
 		com = rbd::computeCoM(mb, mbcInit);
 		comT = sva::PTransformd(com);
-		comSphere.setTransformation(qp::toSCD(comT));
+		comSphere.setTransformation(qp::tosch(comT));
 		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
 		double norm = (com - Vector3d(pb2Tmp[0],pb2Tmp[1],pb2Tmp[2])).norm();
 		dist = dist >= 0 ? -norm : norm;

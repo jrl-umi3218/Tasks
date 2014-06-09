@@ -16,9 +16,9 @@
 from pybindgen import *
 import sys
 
-def import_SCD_types(mod):
-  mod.add_class('S_Object', foreign_cpp_namespace='SCD', import_from_module='scd')
-  mod.add_class('CD_Pair', foreign_cpp_namespace='SCD', import_from_module='scd')
+def import_sch_types(mod):
+  mod.add_class('S_Object', foreign_cpp_namespace='sch', import_from_module='sch')
+  mod.add_class('CD_Pair', foreign_cpp_namespace='sch', import_from_module='sch')
 
 
 
@@ -726,10 +726,10 @@ def build_qp(tasks):
                                  [param('const rbd::MultiBody&', 'mb'),
                                   param('int', 'collId'),
                                   param('int', 'body1Id'),
-                                  param('SCD::S_Object*', 'body1', transfer_ownership=False),
+                                  param('sch::S_Object*', 'body1', transfer_ownership=False),
                                   param('const sva::PTransformd&', 'body1T'),
                                   param('int', 'body2Id'),
-                                  param('SCD::S_Object*', 'body2', transfer_ownership=False),
+                                  param('sch::S_Object*', 'body2', transfer_ownership=False),
                                   param('const sva::PTransformd&', 'body2T'),
                                   param('double', 'di'),
                                   param('double', 'ds'),
@@ -749,10 +749,10 @@ def build_qp(tasks):
                                [param('const rbd::MultiBody&', 'mb'),
                                 param('int', 'collId'),
                                 param('int', 'bodyId'),
-                                param('SCD::S_Object*', 'body', transfer_ownership=False),
+                                param('sch::S_Object*', 'body', transfer_ownership=False),
                                 param('const sva::PTransformd&', 'bodyT'),
                                 param('int', 'envId'),
-                                param('SCD::S_Object*', 'env', transfer_ownership=False),
+                                param('sch::S_Object*', 'env', transfer_ownership=False),
                                 param('double', 'di'),
                                 param('double', 'ds'),
                                 param('double', 'damping'),
@@ -769,7 +769,7 @@ def build_qp(tasks):
   comCollisionConstr.add_method('addCollision', None,
                                [param('const rbd::MultiBody&', 'mb'),
                                 param('int', 'collId'),
-                                param('SCD::S_Object*', 'env', transfer_ownership=False),
+                                param('sch::S_Object*', 'env', transfer_ownership=False),
                                 param('double', 'di'),
                                 param('double', 'ds'),
                                 param('double', 'damping'),
@@ -842,9 +842,9 @@ if __name__ == '__main__':
 
   tasks.add_include('<RBDyn/MultiBodyConfig.h>')
 
-  tasks.add_include('<SCD/S_Object/S_Object.h>')
-  tasks.add_include('<SCD/S_Object/S_Sphere.h>')
-  tasks.add_include('<SCD/CD/CD_Pair.h>')
+  tasks.add_include('<sch/S_Object/S_Object.h>')
+  tasks.add_include('<sch/S_Object/S_Sphere.h>')
+  tasks.add_include('<sch/CD/CD_Pair.h>')
 
   dom_ex = tasks.add_exception('std::domain_error', foreign_cpp_namespace=' ',
                                message_rvalue='%(EXC)s.what()')
@@ -855,7 +855,7 @@ if __name__ == '__main__':
   import_eigen3_types(tasks)
   import_sva_types(tasks)
   import_rbd_types(tasks)
-  import_SCD_types(tasks)
+  import_sch_types(tasks)
 
   posTask = tasks.add_class('PositionTask')
   oriTask = tasks.add_class('OrientationTask')

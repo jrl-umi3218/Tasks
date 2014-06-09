@@ -1,5 +1,3 @@
-
-
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -16,12 +14,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace SCD
+namespace sch
 {
 
 void transform(S_Object& obj, const sva::PTransformd& t)
 {
-  SCD::Matrix4x4 m;
+  sch::Matrix4x4 m;
   const Eigen::Matrix3d& rot = t.rotation();
   const Eigen::Vector3d& tran = t.translation();
 
@@ -76,7 +74,7 @@ S_Object* Polyhedron(const std::string& filename)
 
 double distance(CD_Pair& pair, Eigen::Vector3d& p1, Eigen::Vector3d& p2)
 {
-  SCD::Point3 p1Tmp, p2Tmp;
+  sch::Point3 p1Tmp, p2Tmp;
   double dist = pair.getClosestPoints(p1Tmp, p2Tmp);
 
   p1 << p1Tmp[0], p1Tmp[1], p1Tmp[2];

@@ -13,5 +13,5 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
-from _scd import *
+from _sch import *
 
