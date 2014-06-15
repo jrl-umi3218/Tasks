@@ -48,6 +48,8 @@ public:
 	const Eigen::Vector3d& bodyPoint() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
@@ -83,6 +85,8 @@ public:
 	const Eigen::Matrix3d& orientation() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
@@ -142,6 +146,8 @@ public:
 	const Eigen::Vector3d com() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const Eigen::Vector3d& com, const std::vector<sva::MotionVecd>& normalAccB);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
@@ -177,6 +183,8 @@ public:
 	const Eigen::Vector3d& bodyPoint() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;

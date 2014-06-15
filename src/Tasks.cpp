@@ -85,6 +85,19 @@ void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 }
 
 
+void PositionTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
+{
+	eval_ = pos_ - (point_*mbc.bodyPosW[bodyIndex_]).translation();
+	speed_ = jac_.velocity(mb, mbc).linear();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
+
+	const auto& shortJacMat =
+		jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
 void PositionTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	const auto& shortJacMat =
@@ -177,6 +190,18 @@ void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_, 1e-7);
 	speed_ = jac_.velocity(mb, mbc).angular();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc).angular();
+
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+void OrientationTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
+{
+	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_, 1e-7);
+	speed_ = jac_.velocity(mb, mbc).angular();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).angular();
 
 	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, mb.nrDof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
@@ -360,6 +385,18 @@ void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 }
 
 
+void CoMTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const Eigen::Vector3d& com,
+	const std::vector<sva::MotionVecd>& normalAccB)
+{
+	eval_ = com_ - com;
+
+	speed_ = jac_.velocity(mb, mbc);
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB);
+	jacMat_ = jac_.jacobian(mb, mbc);
+}
+
+
 void CoMTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	jacDotMat_ = jac_.jacobianDot(mb, mbc);
@@ -446,6 +483,17 @@ void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 {
 	eval_ = vel_ - jac_.velocity(mb, mbc).linear();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc).linear();
+
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+void LinVelocityTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
+{
+	eval_ = vel_ - jac_.velocity(mb, mbc).linear();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
 
 	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
