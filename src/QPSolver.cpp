@@ -329,6 +329,12 @@ void QPSolver::resetTasks()
 }
 
 
+const SolverData& QPSolver::data() const
+{
+	return data_;
+}
+
+
 const Eigen::VectorXd& QPSolver::result() const
 {
 	return res_;
@@ -401,7 +407,7 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 
 	for(std::size_t i = 0; i < tasks_.size(); ++i)
 	{
-		tasks_[i]->update(mb, mbc);
+		tasks_[i]->update(mb, mbc, data_);
 	}
 
 	A_.setZero();

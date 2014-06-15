@@ -68,7 +68,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
 		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -118,7 +119,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
 		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -202,7 +204,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
 		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -236,7 +239,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
 		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -260,7 +264,8 @@ public:
 	virtual std::pair<int, int> begin() const;
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -329,7 +334,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
 		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -390,7 +396,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
 	virtual const Eigen::VectorXd& eval();
@@ -430,7 +437,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
 	virtual const Eigen::VectorXd& eval();
@@ -466,7 +474,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
 	virtual const Eigen::VectorXd& eval();
@@ -505,7 +514,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -545,7 +555,8 @@ public:
 
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
@@ -594,7 +605,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
 	virtual const Eigen::VectorXd& eval();
@@ -651,7 +663,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
 	virtual const Eigen::VectorXd& eval();

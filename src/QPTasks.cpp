@@ -77,9 +77,10 @@ void SetPointTask::dimWeight(Eigen::VectorXd& dim)
 }
 
 
-void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
-	hlTask_->update(mb, mbc);
+	hlTask_->update(mb, mbc, data);
 
 	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::VectorXd& err = hlTask_->eval();
@@ -204,9 +205,10 @@ void PIDTask::errorI(const Eigen::VectorXd& errI)
 }
 
 
-void PIDTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void PIDTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
-	hlTask_->update(mb, mbc);
+	hlTask_->update(mb, mbc, data);
 
 	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
@@ -283,11 +285,12 @@ void TargetObjectiveTask::duration(double d)
 }
 
 
-void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 
-	hlTask_->update(mb, mbc);
+	hlTask_->update(mb, mbc, data);
 
 	const MatrixXd& J = hlTask_->jac();
 	const VectorXd& err = hlTask_->eval();
@@ -371,9 +374,10 @@ QuadraticTask::QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 {}
 
 
-void QuadraticTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void QuadraticTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
-	hlTask_->update(mb, mbc);
+	hlTask_->update(mb, mbc, data);
 
 	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::VectorXd& err = hlTask_->eval();
@@ -429,7 +433,8 @@ void LinWeightTask::updateNrVars(const rbd::MultiBody& mb,
 }
 
 
-void LinWeightTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void LinWeightTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	double curW = Task::weight();
 	if(objWeight_ > curW)
@@ -443,7 +448,7 @@ void LinWeightTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig&
 
 	Task::weight(curW);
 
-	task_->update(mb, mbc);
+	task_->update(mb, mbc, data);
 }
 
 
@@ -500,7 +505,8 @@ void PostureTask::jointsStiffness(const rbd::MultiBody& mb,
 }
 
 
-void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	pt_.update(mb, mbc);
 	rbd::paramToVector(mbc.alpha, alphaVec_);
@@ -556,7 +562,8 @@ int PositionTask::dim()
 }
 
 
-void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	pt_.update(mb, mbc);
 }
@@ -605,7 +612,8 @@ int OrientationTask::dim()
 }
 
 
-void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	ot_.update(mb, mbc);
 }
@@ -657,7 +665,8 @@ int CoMTask::dim()
 }
 
 
-void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	ct_.update(mb, mbc);
 }
@@ -769,7 +778,7 @@ void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void ContactTask::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */)
+	const rbd::MultiBodyConfig& /* mbc */, const SolverData& data)
 {
 	C_.noalias() = -conesJac_.transpose()*
 			(stiffness_*error_ - stiffnessSqrt_*errorD_);
@@ -848,7 +857,7 @@ void GripperTorqueTask::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void GripperTorqueTask::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */)
+	const rbd::MultiBodyConfig& /* mbc */, const SolverData& data)
 { }
 
 
@@ -882,7 +891,8 @@ int LinVelocityTask::dim()
 }
 
 
-void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	pt_.update(mb, mbc);
 }
@@ -934,7 +944,8 @@ int OrientationTrackingTask::dim()
 }
 
 
-void OrientationTrackingTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void OrientationTrackingTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	ott_.update(mb, mbc);
 	rbd::paramToVector(mbc.alpha, alphaVec_);

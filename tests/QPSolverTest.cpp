@@ -373,8 +373,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.addTask(&oriTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
 
-	posTask.update(mb, mbcInit);
-	oriTask.update(mb, mbcInit);
+	posTask.update(mb, mbcInit, solver.data());
+	oriTask.update(mb, mbcInit, solver.data());
 	Vector3d evalPos = posTask.eval();
 	Vector3d evalOri = oriTask.eval();
 
@@ -421,8 +421,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	solver.addTask(&oriTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
 
-	posTask.update(mb, mbcInit);
-	oriTask.update(mb, mbcInit);
+	posTask.update(mb, mbcInit, solver.data());
+	oriTask.update(mb, mbcInit, solver.data());
 	evalPos = posTask.eval();
 	evalOri = oriTask.eval();
 

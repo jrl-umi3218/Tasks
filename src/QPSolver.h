@@ -95,6 +95,8 @@ public:
 	void resetTasks();
 	int nrTasks() const;
 
+	const SolverData& data() const;
+
 	const Eigen::VectorXd& result() const;
 	Eigen::VectorXd alphaDVec() const;
 	Eigen::VectorXd lambdaVec() const;
@@ -267,7 +269,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data) = 0;
 	virtual void update(const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc) = 0;
+		const rbd::MultiBodyConfig& mbc,
+		const SolverData& data) = 0;
 
 	virtual const Eigen::MatrixXd& Q() const = 0;
 	virtual const Eigen::VectorXd& C() const = 0;
@@ -286,7 +289,8 @@ public:
 	virtual int dim() = 0;
 
 	virtual void update(const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc) = 0;
+		const rbd::MultiBodyConfig& mbc,
+		const SolverData& data) = 0;
 
 	virtual const Eigen::MatrixXd& jac() = 0;
 	virtual const Eigen::VectorXd& eval() = 0;
