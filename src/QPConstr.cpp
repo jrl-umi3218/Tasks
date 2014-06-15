@@ -719,17 +719,17 @@ SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 
 
 SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
-  dataVec_(),
-  step_(step),
-  nrVars_(0),
-  nrActivated_(0),
-  AInEq_(),
-  AL_(),
-  AU_(),
-  fullJac_(6, mb.nrDof()),
-  fullJacDot_(6, mb.nrDof()),
-  alphaVec_(mb.nrDof()),
-  calcVec_(mb.nrDof())
+	dataVec_(),
+	step_(step),
+	nrVars_(0),
+	nrActivated_(0),
+	AInEq_(),
+	AL_(),
+	AU_(),
+	fullJac_(6, mb.nrDof()),
+	fullJacDot_(6, mb.nrDof()),
+	alphaVec_(mb.nrDof()),
+	calcVec_(mb.nrDof())
 {
 }
 
@@ -977,17 +977,17 @@ StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collI
 
 
 StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step):
-  dataVec_(),
-  step_(step),
-  nrVars_(0),
-  nrActivated_(0),
-  AInEq_(),
-  AL_(),
-  AU_(),
-  fullJac_(6, mb.nrDof()),
-  fullJacDot_(6, mb.nrDof()),
-  alphaVec_(mb.nrDof()),
-  calcVec_(mb.nrDof())
+	dataVec_(),
+	step_(step),
+	nrVars_(0),
+	nrActivated_(0),
+	AInEq_(),
+	AL_(),
+	AU_(),
+	fullJac_(6, mb.nrDof()),
+	fullJacDot_(6, mb.nrDof()),
+	alphaVec_(mb.nrDof()),
+	calcVec_(mb.nrDof())
 {
 }
 
@@ -1212,17 +1212,17 @@ CoMCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
 
 
 CoMCollisionConstr::CoMCollisionConstr(const rbd::MultiBody& mb, double step):
-  dataVec_(),
-  step_(step),
-  nrVars_(0),
-  nrActivated_(0),
-  AInEq_(),
-  AL_(),
-  AU_(),
-  fullJac_(6, mb.nrDof()),
-  fullJacDot_(6, mb.nrDof()),
-  alphaVec_(mb.nrDof()),
-  calcVec_(mb.nrDof())
+	dataVec_(),
+	step_(step),
+	nrVars_(0),
+	nrActivated_(0),
+	AInEq_(),
+	AL_(),
+	AU_(),
+	fullJac_(6, mb.nrDof()),
+	fullJacDot_(6, mb.nrDof()),
+	alphaVec_(mb.nrDof()),
+	calcVec_(mb.nrDof())
 {
 }
 
@@ -1427,19 +1427,19 @@ const Eigen::VectorXd& CoMCollisionConstr::UpperInEq() const
 
 
 GripperTorqueConstr::GripperData::GripperData(int bId, double tl,
-  const Eigen::Vector3d& o, const Eigen::Vector3d& a):
-  bodyId(bId),
-  torqueLimit(tl),
-  origin(o),
-  axis(a)
+	const Eigen::Vector3d& o, const Eigen::Vector3d& a):
+	bodyId(bId),
+	torqueLimit(tl),
+	origin(o),
+	axis(a)
 {}
 
 
 GripperTorqueConstr::GripperTorqueConstr():
-  dataVec_(),
-  AInEq_(),
-  AL_(),
-  AU_()
+	dataVec_(),
+	AInEq_(),
+	AL_(),
+	AU_()
 {}
 
 

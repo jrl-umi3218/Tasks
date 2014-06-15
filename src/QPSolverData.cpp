@@ -24,12 +24,12 @@ namespace qp
 {
 
 SolverData::SolverData():
-  alphaD_(0),
-  lambda_(0),
-  torque_(0),
-  nrVars_(0),
-  uniCont_(),
-  biCont_()
+	alphaD_(0),
+	lambda_(0),
+	torque_(0),
+	nrVars_(0),
+	uniCont_(),
+	biCont_()
 {}
 
 } // namespace qp

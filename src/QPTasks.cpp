@@ -363,11 +363,11 @@ const Eigen::VectorXd& TargetObjectiveTask::C() const
 
 
 QuadraticTask::QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-  double weight):
-  Task(weight),
-  hlTask_(hlTask),
-  Q_(mb.nrDof(), mb.nrDof()),
-  C_(mb.nrDof())
+	double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	Q_(mb.nrDof(), mb.nrDof()),
+	C_(mb.nrDof())
 {}
 
 
@@ -402,10 +402,10 @@ const Eigen::VectorXd& QuadraticTask::C() const
 
 
 LinWeightTask::LinWeightTask(Task* t, double step, double objWeight):
-  Task(0.),
-  task_(t),
-  step_(step),
-  objWeight_(objWeight)
+	Task(0.),
+	task_(t),
+	step_(step),
+	objWeight_(objWeight)
 {
 }
 
@@ -544,8 +544,8 @@ const Eigen::VectorXd& PostureTask::eval() const
 
 
 PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
-  pt_(mb, bodyId, pos, bodyPoint)
+	const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
+	pt_(mb, bodyId, pos, bodyPoint)
 {
 }
 
@@ -588,14 +588,14 @@ const Eigen::VectorXd& PositionTask::normalAcc()
 
 
 OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Quaterniond& ori):
-  ot_(mb, bodyId, ori)
+	const Eigen::Quaterniond& ori):
+	ot_(mb, bodyId, ori)
 {}
 
 
 OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Matrix3d& ori):
-  ot_(mb, bodyId, ori)
+	const Eigen::Matrix3d& ori):
+	ot_(mb, bodyId, ori)
 {}
 
 
@@ -870,8 +870,8 @@ const Eigen::VectorXd& GripperTorqueTask::C() const
 
 
 LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& speed, const Eigen::Vector3d& bodyPoint):
-  pt_(mb, bodyId, speed, bodyPoint)
+	const Eigen::Vector3d& speed, const Eigen::Vector3d& bodyPoint):
+	pt_(mb, bodyId, speed, bodyPoint)
 {
 }
 
