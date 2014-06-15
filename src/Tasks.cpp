@@ -41,7 +41,8 @@ PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId, bodyPoint),
   eval_(3),
-  shortJacMat_(3, jac_.dof()),
+  speed_(3),
+  normalAcc_(3),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
@@ -75,22 +76,38 @@ const Eigen::Vector3d& PositionTask::bodyPoint() const
 void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	eval_ = pos_ - (point_*mbc.bodyPosW[bodyIndex_]).translation();
+	speed_ = jac_.velocity(mb, mbc).linear();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc).linear();
 
-	shortJacMat_ = jac_.jacobian(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
-	jac_.fullJacobian(mb, shortJacMat_, jacMat_);
+	const auto& shortJacMat =
+		jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
 
 void PositionTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	shortJacMat_ = jac_.jacobianDot(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
-	jac_.fullJacobian(mb, shortJacMat_, jacDotMat_);
+	const auto& shortJacMat =
+		jac_.jacobianDot(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
 }
 
 
 const Eigen::VectorXd& PositionTask::eval() const
 {
 	return eval_;
+}
+
+
+const Eigen::VectorXd& PositionTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& PositionTask::normalAcc() const
+{
+	return normalAcc_;
 }
 
 
@@ -116,7 +133,8 @@ OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eig
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId),
   eval_(3),
-  shortJacMat_(3, jac_.dof()),
+  speed_(3),
+  normalAcc_(3),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
@@ -128,7 +146,8 @@ OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eig
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId),
   eval_(3),
-  shortJacMat_(3, jac_.dof()),
+  speed_(3),
+  normalAcc_(3),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
@@ -156,22 +175,36 @@ const Eigen::Matrix3d& OrientationTask::orientation() const
 void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_, 1e-7);
+	speed_ = jac_.velocity(mb, mbc).angular();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc).angular();
 
-	shortJacMat_ = jac_.jacobian(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
-	jac_.fullJacobian(mb, shortJacMat_, jacMat_);
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
 
 void OrientationTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	shortJacMat_ = jac_.jacobianDot(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
-	jac_.fullJacobian(mb, shortJacMat_, jacDotMat_);
+	const auto& shortJacMat = jac_.jacobianDot(mb, mbc).block(0, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
 }
 
 
 const Eigen::VectorXd& OrientationTask::eval() const
 {
 	return eval_;
+}
+
+
+const Eigen::VectorXd& OrientationTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& OrientationTask::normalAcc() const
+{
+	return normalAcc_;
 }
 
 
@@ -286,6 +319,8 @@ CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com):
 	com_(com),
 	jac_(mb),
 	eval_(3),
+	speed_(3),
+	normalAcc_(3),
 	jacMat_(3, mb.nrDof()),
 	jacDotMat_(3, mb.nrDof())
 {}
@@ -296,6 +331,8 @@ CoMTask::CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com,
 	com_(com),
 	jac_(mb, std::move(weight)),
 	eval_(3),
+	speed_(3),
+	normalAcc_(3),
 	jacMat_(3, mb.nrDof()),
 	jacDotMat_(3, mb.nrDof())
 {}
@@ -317,6 +354,8 @@ void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	eval_ = com_ - rbd::computeCoM(mb, mbc);
 
+	speed_ = jac_.velocity(mb, mbc);
+	normalAcc_ = jac_.normalAcceleration(mb, mbc);
 	jacMat_ = jac_.jacobian(mb, mbc);
 }
 
@@ -330,6 +369,18 @@ void CoMTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mb
 const Eigen::VectorXd& CoMTask::eval() const
 {
 	return eval_;
+}
+
+
+const Eigen::VectorXd& CoMTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& CoMTask::normalAcc() const
+{
+	return normalAcc_;
 }
 
 
@@ -357,10 +408,13 @@ LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, int bodyId,
   bodyIndex_(mb.bodyIndexById(bodyId)),
   jac_(mb, bodyId, bodyPoint),
   eval_(3),
-  shortJacMat_(3, jac_.dof()),
+  speed_(3),
+  normalAcc_(3),
   jacMat_(3, mb.nrDof()),
   jacDotMat_(3, mb.nrDof())
 {
+  // this task don't have any derivative
+  speed_.setZero();
 }
 
 
@@ -390,24 +444,36 @@ const Eigen::Vector3d& LinVelocityTask::bodyPoint() const
 
 void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	sva::PTransformd E_0_b(mbc.bodyPosW[bodyIndex_].rotation());
-	eval_ = vel_ - (E_0_b.invMul(point_*mbc.bodyVelB[bodyIndex_])).linear();
+	eval_ = vel_ - jac_.velocity(mb, mbc).linear();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc).linear();
 
-	shortJacMat_ = jac_.jacobian(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
-	jac_.fullJacobian(mb, shortJacMat_, jacMat_);
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
 
 void LinVelocityTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	shortJacMat_ = jac_.jacobianDot(mb, mbc).block(3, 0, 3, shortJacMat_.cols());
-	jac_.fullJacobian(mb, shortJacMat_, jacDotMat_);
+	const auto& shortJacMat = jac_.jacobianDot(mb, mbc).block(3, 0, 3, mb.nrDof());
+	jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
 }
 
 
 const Eigen::VectorXd& LinVelocityTask::eval() const
 {
 	return eval_;
+}
+
+
+const Eigen::VectorXd& LinVelocityTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& LinVelocityTask::normalAcc() const
+{
+	return normalAcc_;
 }
 
 

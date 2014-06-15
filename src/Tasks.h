@@ -51,6 +51,9 @@ public:
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
 	const Eigen::MatrixXd& jac() const;
 	const Eigen::MatrixXd& jacDot() const;
 
@@ -61,7 +64,8 @@ private:
 	rbd::Jacobian jac_;
 
 	Eigen::VectorXd eval_;
-	Eigen::MatrixXd shortJacMat_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
 };
@@ -82,6 +86,9 @@ public:
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
 	const Eigen::MatrixXd& jac() const;
 	const Eigen::MatrixXd& jacDot() const;
 
@@ -91,7 +98,8 @@ private:
 	rbd::Jacobian jac_;
 
 	Eigen::VectorXd eval_;
-	Eigen::MatrixXd shortJacMat_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
 };
@@ -137,6 +145,9 @@ public:
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
 	const Eigen::MatrixXd& jac() const;
 	const Eigen::MatrixXd& jacDot() const;
 
@@ -145,6 +156,8 @@ private:
 	rbd::CoMJacobian jac_;
 
 	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
 };
@@ -167,6 +180,9 @@ public:
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
 	const Eigen::MatrixXd& jac() const;
 	const Eigen::MatrixXd& jacDot() const;
 
@@ -177,7 +193,8 @@ private:
 	rbd::Jacobian jac_;
 
 	Eigen::VectorXd eval_;
-	Eigen::MatrixXd shortJacMat_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
 };
