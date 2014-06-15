@@ -207,7 +207,8 @@ void ContactAccConstr::updateNrVars(const rbd::MultiBody& mb,
 }
 
 
-void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 
@@ -353,7 +354,8 @@ void ContactSpeedConstr::updateNrVars(const rbd::MultiBody& mb,
 }
 
 
-void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 
@@ -474,7 +476,8 @@ void JointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 }
 
 
-void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiBodyConfig& mbc)
+void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	double dts = step_*step_*0.5;
 	int vars = int(lower_.rows());
@@ -572,7 +575,7 @@ void DamperJointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& mbc)
+	const rbd::MultiBodyConfig& mbc, const SolverData& data)
 {
 	for(DampData& d: data_)
 	{
@@ -782,7 +785,8 @@ void SelfCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 }
 
 
-void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 
@@ -1040,7 +1044,8 @@ void StaticEnvCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 }
 
 
-void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 
@@ -1274,7 +1279,8 @@ void CoMCollisionConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 }
 
 
-void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 
@@ -1527,7 +1533,7 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void GripperTorqueConstr::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */)
+	const rbd::MultiBodyConfig& /* mbc */, const SolverData& data)
 {}
 
 
@@ -1638,7 +1644,8 @@ void ConstantSpeedConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 }
 
 
-void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
 	using namespace Eigen;
 

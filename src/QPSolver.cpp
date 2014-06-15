@@ -402,7 +402,7 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
 	for(std::size_t i = 0; i < constr_.size(); ++i)
 	{
-		constr_[i]->update(mb, mbc);
+		constr_[i]->update(mb, mbc, data_);
 	}
 
 	for(std::size_t i = 0; i < tasks_.size(); ++i)

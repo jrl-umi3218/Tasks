@@ -85,7 +85,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
@@ -142,7 +143,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
@@ -202,7 +204,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameBound() const;
 	virtual std::string descBound(const rbd::MultiBody& mb, int line);
@@ -237,7 +240,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameBound() const;
 	virtual std::string descBound(const rbd::MultiBody& mb, int line);
@@ -300,7 +304,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
@@ -369,7 +374,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
@@ -437,7 +443,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
@@ -499,7 +506,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
@@ -549,7 +557,8 @@ public:
 	virtual void updateNrVars(const rbd::MultiBody& mb,
 		const SolverData& data);
 
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int line);

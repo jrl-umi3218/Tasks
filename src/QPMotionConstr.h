@@ -113,7 +113,8 @@ public:
 							 std::vector<std::vector<double>> uTorqueBounds);
 
 	// Constraint
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 private:
 	Eigen::VectorXd torqueL_, torqueU_;
@@ -141,8 +142,8 @@ public:
 										const std::vector<SpringJoint>& springs);
 
 	// Constraint
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
-
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 private:
 	struct SpringJointData
 	{
@@ -172,7 +173,8 @@ public:
 									const std::vector<std::vector<Eigen::VectorXd>>& uTorqueBounds);
 
 	// Constraint
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 private:
 	std::vector<Eigen::VectorXd> torqueL_, torqueU_;

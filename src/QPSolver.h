@@ -147,7 +147,7 @@ public:
 		const SolverData& data) = 0;
 
 	virtual void update(const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc) = 0;
+		const rbd::MultiBodyConfig& mbc, const SolverData& data) = 0;
 };
 
 
