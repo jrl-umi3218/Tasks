@@ -35,16 +35,16 @@ namespace tasks
 
 
 PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
-  pos_(pos),
-  point_(bodyPoint),
-  bodyIndex_(mb.bodyIndexById(bodyId)),
-  jac_(mb, bodyId, bodyPoint),
-  eval_(3),
-  speed_(3),
-  normalAcc_(3),
-  jacMat_(3, mb.nrDof()),
-  jacDotMat_(3, mb.nrDof())
+	const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
+	pos_(pos),
+	point_(bodyPoint),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId, bodyPoint),
+	eval_(3),
+	speed_(3),
+	normalAcc_(3),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
 {
 }
 
@@ -129,27 +129,27 @@ const Eigen::MatrixXd& PositionTask::jacDot() const
 
 
 OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Quaterniond& ori):
-  ori_(ori.matrix()),
-  bodyIndex_(mb.bodyIndexById(bodyId)),
-  jac_(mb, bodyId),
-  eval_(3),
-  speed_(3),
-  normalAcc_(3),
-  jacMat_(3, mb.nrDof()),
-  jacDotMat_(3, mb.nrDof())
+	ori_(ori.matrix()),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	eval_(3),
+	speed_(3),
+	normalAcc_(3),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
 {
 }
 
 
 OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Matrix3d& ori):
-  ori_(ori),
-  bodyIndex_(mb.bodyIndexById(bodyId)),
-  jac_(mb, bodyId),
-  eval_(3),
-  speed_(3),
-  normalAcc_(3),
-  jacMat_(3, mb.nrDof()),
-  jacDotMat_(3, mb.nrDof())
+	ori_(ori),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	eval_(3),
+	speed_(3),
+	normalAcc_(3),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
 {
 }
 
@@ -402,19 +402,19 @@ const Eigen::MatrixXd& CoMTask::jacDot() const
 
 
 LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& v, const Eigen::Vector3d& bodyPoint):
-  vel_(v),
-  point_(bodyPoint),
-  bodyIndex_(mb.bodyIndexById(bodyId)),
-  jac_(mb, bodyId, bodyPoint),
-  eval_(3),
-  speed_(3),
-  normalAcc_(3),
-  jacMat_(3, mb.nrDof()),
-  jacDotMat_(3, mb.nrDof())
+	const Eigen::Vector3d& v, const Eigen::Vector3d& bodyPoint):
+	vel_(v),
+	point_(bodyPoint),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId, bodyPoint),
+	eval_(3),
+	speed_(3),
+	normalAcc_(3),
+	jacMat_(3, mb.nrDof()),
+	jacDotMat_(3, mb.nrDof())
 {
-  // this task don't have any derivative
-  speed_.setZero();
+	// this task don't have any derivative
+	speed_.setZero();
 }
 
 
