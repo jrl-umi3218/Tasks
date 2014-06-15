@@ -289,9 +289,9 @@ public:
 		const rbd::MultiBodyConfig& mbc) = 0;
 
 	virtual const Eigen::MatrixXd& jac() = 0;
-	virtual const Eigen::MatrixXd& jacDot() = 0;
-
 	virtual const Eigen::VectorXd& eval() = 0;
+	virtual const Eigen::VectorXd& speed() = 0;
+	virtual const Eigen::VectorXd& normalAcc() = 0;
 };
 
 

@@ -81,7 +81,6 @@ private:
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-	Eigen::VectorXd alphaVec_;
 };
 
 
@@ -132,7 +131,6 @@ private:
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd error_, errorD_, errorI_;
 };
 
@@ -215,14 +213,12 @@ private:
 	int iter_, nrIter_;
 	double dt_;
 	Eigen::VectorXd objDot_;
-	Eigen::VectorXd curObjDot_;
 	Eigen::VectorXd dimWeight_;
 
 	Eigen::VectorXd phi_, psi_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-	Eigen::VectorXd alphaVec_;
 };
 
 
@@ -250,7 +246,6 @@ private:
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-	Eigen::VectorXd alphaVec_;
 };
 
 
@@ -398,8 +393,9 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::MatrixXd& jacDot();
 	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
 	tasks::PositionTask pt_;
@@ -437,8 +433,9 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::MatrixXd& jacDot();
 	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
 	tasks::OrientationTask ot_;
@@ -472,8 +469,9 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::MatrixXd& jacDot();
 	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
 	tasks::CoMTask ct_;
@@ -599,8 +597,9 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::MatrixXd& jacDot();
 	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
 	tasks::LinVelocityTask pt_;
@@ -655,11 +654,14 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::MatrixXd& jacDot();
 	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
 	tasks::OrientationTrackingTask ott_;
+	Eigen::VectorXd alphaVec_;
+	Eigen::VectorXd speed_, normalAcc_;
 };
 
 } // namespace qp

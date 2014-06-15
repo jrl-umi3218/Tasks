@@ -48,8 +48,7 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
 	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof()),
-	alphaVec_(mb.nrDof())
+	C_(mb.nrDof())
 {}
 
 
@@ -61,8 +60,7 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
 	dimWeight_(dimWeight),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof()),
-	alphaVec_(mb.nrDof())
+	C_(mb.nrDof())
 {}
 
 
@@ -84,14 +82,13 @@ void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	hlTask_->update(mb, mbc);
 
 	const Eigen::MatrixXd& J = hlTask_->jac();
-	const Eigen::MatrixXd& JD = hlTask_->jacDot();
 	const Eigen::VectorXd& err = hlTask_->eval();
-
-	rbd::paramToVector(mbc.alpha, alphaVec_);
+	const Eigen::VectorXd& speed = hlTask_->speed();
+	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
 	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
 	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(stiffness_*err -
-			stiffnessSqrt_*(J*alphaVec_) - JD*alphaVec_);
+			stiffnessSqrt_*speed - normalAcc);
 }
 
 
@@ -123,7 +120,6 @@ PIDTask::PIDTask(const rbd::MultiBody& mb,
 	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
-	alphaVec_(mb.nrDof()),
 	error_(hlTask->dim()),
 	errorD_(hlTask->dim()),
 	errorI_(hlTask->dim())
@@ -142,7 +138,6 @@ PIDTask::PIDTask(const rbd::MultiBody& mb,
 	dimWeight_(dimWeight),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
-	alphaVec_(mb.nrDof()),
 	error_(hlTask->dim()),
 	errorD_(hlTask->dim()),
 	errorI_(hlTask->dim())
@@ -214,13 +209,11 @@ void PIDTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 	hlTask_->update(mb, mbc);
 
 	const Eigen::MatrixXd& J = hlTask_->jac();
-	const Eigen::MatrixXd& JD = hlTask_->jacDot();
-
-	rbd::paramToVector(mbc.alpha, alphaVec_);
+	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
 	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
 	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(P_*error_ -
-			D_*errorD_ - I_*errorI_ - JD*alphaVec_);
+			D_*errorD_ - I_*errorI_ - normalAcc);
 }
 
 
@@ -248,13 +241,11 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	hlTask_(hlTask),
 	dt_(timeStep),
 	objDot_(objDot),
-	curObjDot_(hlTask->dim()),
 	dimWeight_(hlTask->dim()),
 	phi_(hlTask->dim()),
 	psi_(hlTask->dim()),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof()),
-	alphaVec_(mb.nrDof())
+	C_(mb.nrDof())
 {
 	duration(dur);
 	dimWeight_.setOnes();
@@ -269,13 +260,11 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	hlTask_(hlTask),
 	dt_(timeStep),
 	objDot_(objDot),
-	curObjDot_(hlTask->dim()),
 	dimWeight_(dimWeight),
 	phi_(hlTask->dim()),
 	psi_(hlTask->dim()),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof()),
-	alphaVec_(mb.nrDof())
+	C_(mb.nrDof())
 {
 	duration(dur);
 }
@@ -301,9 +290,9 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 	hlTask_->update(mb, mbc);
 
 	const MatrixXd& J = hlTask_->jac();
-	const MatrixXd& JD = hlTask_->jacDot();
 	const VectorXd& err = hlTask_->eval();
-	rbd::paramToVector(mbc.alpha, alphaVec_);
+	const VectorXd& speed = hlTask_->speed();
+	const VectorXd& normalAcc = hlTask_->normalAcc();
 
 	// M·[phi, psi]^T = Obj
 
@@ -339,12 +328,10 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 	MI << 6./ds, 2./(-d),
 				6./(-ds), 4./d;
 
-	curObjDot_ = J*alphaVec_;
-
 	for(int i = 0; i < hlTask_->dim(); ++i)
 	{
-		Obj << err(i) - d*curObjDot_(i),
-					 objDot_(i) - curObjDot_(i);
+		Obj << err(i) - d*speed(i),
+					 objDot_(i) - speed(i);
 		Vector2d pp(MI*Obj);
 		phi_(i) = pp(0);
 		psi_(i) = pp(1);
@@ -352,7 +339,7 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 	Q_ = (J.array().colwise()*dimWeight_.array()).matrix().transpose()*J;
 	C_ = -(J.array().colwise()*dimWeight_.array()).matrix().transpose()*
-		(phi_ - JD*alphaVec_);
+		(phi_ - normalAcc);
 
 	++iter_;
 }
@@ -380,8 +367,7 @@ QuadraticTask::QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
   Task(weight),
   hlTask_(hlTask),
   Q_(mb.nrDof(), mb.nrDof()),
-  C_(mb.nrDof()),
-  alphaVec_(mb.nrDof())
+  C_(mb.nrDof())
 {}
 
 
@@ -390,12 +376,11 @@ void QuadraticTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig&
 	hlTask_->update(mb, mbc);
 
 	const Eigen::MatrixXd& J = hlTask_->jac();
-	const Eigen::MatrixXd& JD = hlTask_->jacDot();
 	const Eigen::VectorXd& err = hlTask_->eval();
-	rbd::paramToVector(mbc.alpha, alphaVec_);
+	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
 	Q_ = J.transpose()*J;
-	C_ = -J.transpose()*(err - JD*alphaVec_);
+	C_ = -J.transpose()*(err - normalAcc);
 }
 
 
@@ -574,7 +559,6 @@ int PositionTask::dim()
 void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	pt_.update(mb, mbc);
-	pt_.updateDot(mb, mbc);
 }
 
 const Eigen::MatrixXd& PositionTask::jac()
@@ -582,14 +566,19 @@ const Eigen::MatrixXd& PositionTask::jac()
 	return pt_.jac();
 }
 
-const Eigen::MatrixXd& PositionTask::jacDot()
-{
-	return pt_.jacDot();
-}
-
 const Eigen::VectorXd& PositionTask::eval()
 {
 	return pt_.eval();
+}
+
+const Eigen::VectorXd& PositionTask::speed()
+{
+	return pt_.speed();
+}
+
+const Eigen::VectorXd& PositionTask::normalAcc()
+{
+	return pt_.normalAcc();
 }
 
 
@@ -619,7 +608,6 @@ int OrientationTask::dim()
 void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	ot_.update(mb, mbc);
-	ot_.updateDot(mb, mbc);
 }
 
 
@@ -629,15 +617,21 @@ const Eigen::MatrixXd& OrientationTask::jac()
 }
 
 
-const Eigen::MatrixXd& OrientationTask::jacDot()
-{
-	return ot_.jacDot();
-}
-
-
 const Eigen::VectorXd& OrientationTask::eval()
 {
 	return ot_.eval();
+}
+
+
+const Eigen::VectorXd& OrientationTask::speed()
+{
+	return ot_.speed();
+}
+
+
+const Eigen::VectorXd& OrientationTask::normalAcc()
+{
+	return ot_.normalAcc();
 }
 
 
@@ -666,7 +660,6 @@ int CoMTask::dim()
 void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	ct_.update(mb, mbc);
-	ct_.updateDot(mb, mbc);
 }
 
 
@@ -676,15 +669,21 @@ const Eigen::MatrixXd& CoMTask::jac()
 }
 
 
-const Eigen::MatrixXd& CoMTask::jacDot()
-{
-	return ct_.jacDot();
-}
-
-
 const Eigen::VectorXd& CoMTask::eval()
 {
 	return ct_.eval();
+}
+
+
+const Eigen::VectorXd& CoMTask::speed()
+{
+	return ct_.speed();
+}
+
+
+const Eigen::VectorXd& CoMTask::normalAcc()
+{
+	return ct_.normalAcc();
 }
 
 
@@ -886,7 +885,6 @@ int LinVelocityTask::dim()
 void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	pt_.update(mb, mbc);
-	pt_.updateDot(mb, mbc);
 }
 
 
@@ -896,15 +894,21 @@ const Eigen::MatrixXd& LinVelocityTask::jac()
 }
 
 
-const Eigen::MatrixXd& LinVelocityTask::jacDot()
-{
-	return pt_.jacDot();
-}
-
-
 const Eigen::VectorXd& LinVelocityTask::eval()
 {
 	return pt_.eval();
+}
+
+
+const Eigen::VectorXd& LinVelocityTask::speed()
+{
+	return pt_.speed();
+}
+
+
+const Eigen::VectorXd& LinVelocityTask::normalAcc()
+{
+	return pt_.normalAcc();
 }
 
 
@@ -917,7 +921,10 @@ OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody& mb, int b
 	const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
 	const std::vector<int>& trackingJointsId,
 	const Eigen::Vector3d& trackedPoint):
-	ott_(mb, bodyId, bodyPoint, bodyAxis, trackingJointsId, trackedPoint)
+	ott_(mb, bodyId, bodyPoint, bodyAxis, trackingJointsId, trackedPoint),
+	alphaVec_(mb.nrDof()),
+	speed_(3),
+	normalAcc_(3)
 {}
 
 
@@ -930,7 +937,10 @@ int OrientationTrackingTask::dim()
 void OrientationTrackingTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	ott_.update(mb, mbc);
-	ott_.updateDot(mb, mbc);
+	rbd::paramToVector(mbc.alpha, alphaVec_);
+
+	speed_.noalias() = ott_.jac()*alphaVec_;
+	normalAcc_.noalias() = ott_.jacDot()*alphaVec_;
 }
 
 
@@ -940,15 +950,21 @@ const Eigen::MatrixXd& OrientationTrackingTask::jac()
 }
 
 
-const Eigen::MatrixXd& OrientationTrackingTask::jacDot()
-{
-	return ott_.jacDot();
-}
-
-
 const Eigen::VectorXd& OrientationTrackingTask::eval()
 {
 	return ott_.eval();
+}
+
+
+const Eigen::VectorXd& OrientationTrackingTask::speed()
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& OrientationTrackingTask::normalAcc()
+{
+	return normalAcc_;
 }
 
 } // namespace qp
