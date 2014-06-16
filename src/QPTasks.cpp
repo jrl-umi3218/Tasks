@@ -506,7 +506,7 @@ void PostureTask::jointsStiffness(const rbd::MultiBody& mb,
 
 
 void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-	const SolverData& data)
+	const SolverData& /* data */)
 {
 	pt_.update(mb, mbc);
 	rbd::paramToVector(mbc.alpha, alphaVec_);
@@ -565,7 +565,7 @@ int PositionTask::dim()
 void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const SolverData& data)
 {
-	pt_.update(mb, mbc);
+	pt_.update(mb, mbc, data.normalAccB());
 }
 
 const Eigen::MatrixXd& PositionTask::jac()
@@ -615,7 +615,7 @@ int OrientationTask::dim()
 void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const SolverData& data)
 {
-	ot_.update(mb, mbc);
+	ot_.update(mb, mbc, data.normalAccB());
 }
 
 
@@ -668,7 +668,7 @@ int CoMTask::dim()
 void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const SolverData& data)
 {
-	ct_.update(mb, mbc);
+	ct_.update(mb, mbc, rbd::computeCoM(mb, mbc), data.normalAccB());
 }
 
 
@@ -778,7 +778,7 @@ void ContactTask::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void ContactTask::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */, const SolverData& data)
+	const rbd::MultiBodyConfig& /* mbc */, const SolverData& /* data */)
 {
 	C_.noalias() = -conesJac_.transpose()*
 			(stiffness_*error_ - stiffnessSqrt_*errorD_);
@@ -857,7 +857,7 @@ void GripperTorqueTask::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void GripperTorqueTask::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */, const SolverData& data)
+	const rbd::MultiBodyConfig& /* mbc */, const SolverData& /* data */)
 { }
 
 
@@ -894,7 +894,7 @@ int LinVelocityTask::dim()
 void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const SolverData& data)
 {
-	pt_.update(mb, mbc);
+	pt_.update(mb, mbc, data.normalAccB());
 }
 
 
@@ -945,7 +945,7 @@ int OrientationTrackingTask::dim()
 
 
 void OrientationTrackingTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-	const SolverData& data)
+	const SolverData& /* data */)
 {
 	ott_.update(mb, mbc);
 	rbd::paramToVector(mbc.alpha, alphaVec_);

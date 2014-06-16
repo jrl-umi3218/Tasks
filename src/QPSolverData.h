@@ -120,6 +120,11 @@ public:
 
 	void computeNormalAccB(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
+	const std::vector<sva::MotionVecd>& normalAccB() const
+	{
+		return normalAccB_;
+	}
+
 private:
 	int alphaD_;
 	int lambda_;

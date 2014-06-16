@@ -224,7 +224,8 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq = -JD_i*alpha
-		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
+			mb, mbc, data.normalAccB()).vector();
 		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc);
 		index += rows;
 	}
@@ -367,7 +368,8 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq = -JD_i*alpha
-		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
+			mb, mbc, data.normalAccB()).vector();
 		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
 			mbc.bodyVelB[cont_[i].body].vector()/timeStep_);
 		index += rows;
@@ -469,7 +471,7 @@ void JointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void JointLimitsConstr::update(const rbd::MultiBody& /* mb */, const rbd::MultiBodyConfig& mbc,
-	const SolverData& data)
+	const SolverData& /* data */)
 {
 	double dts = step_*step_*0.5;
 	int vars = int(lower_.rows());
@@ -567,7 +569,7 @@ void DamperJointLimitsConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void DamperJointLimitsConstr::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& mbc, const SolverData& data)
+	const rbd::MultiBodyConfig& mbc, const SolverData& /* data */)
 {
 	for(DampData& d: data_)
 	{
@@ -837,7 +839,8 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			d.jacB1.point(pb1);
 			const MatrixXd& jac1 = d.jacB1.jacobian(mb, mbc);
 			Eigen::Vector3d p1Speed = d.jacB1.velocity(mb, mbc).linear();
-			Eigen::Vector3d p1NormalAcc = d.jacB1.normalAcceleration(mb, mbc).linear();
+			Eigen::Vector3d p1NormalAcc = d.jacB1.normalAcceleration(
+				mb, mbc, data.normalAccB()).linear();
 
 			d.jacB1.fullJacobian(mb, jac1.block(3, 0, 3, jac1.cols()), fullJac_);
 
@@ -851,7 +854,8 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			d.jacB2.point(pb2);
 			const MatrixXd& jac2 = d.jacB2.jacobian(mb, mbc);
 			Eigen::Vector3d p2Speed = d.jacB2.velocity(mb, mbc).linear();
-			Eigen::Vector3d p2NormalAcc = d.jacB2.normalAcceleration(mb, mbc).linear();
+			Eigen::Vector3d p2NormalAcc = d.jacB2.normalAcceleration(
+				mb, mbc, data.normalAccB()).linear();
 
 			d.jacB2.fullJacobian(mb, jac2.block(3, 0, 3, jac2.cols()), fullJac_);
 
@@ -1090,7 +1094,8 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 
 			d.jacB1.fullJacobian(mb, jac1.block(3, 0, 3, jac1.cols()), fullJac_);
 			Eigen::Vector3d p1Speed = d.jacB1.velocity(mb, mbc).linear();
-			Eigen::Vector3d p1NormalAcc = d.jacB1.normalAcceleration(mb, mbc).linear();
+			Eigen::Vector3d p1NormalAcc = d.jacB1.normalAcceleration(
+				mb, mbc, data.normalAccB()).linear();
 
 			double jqdn = (p1Speed.transpose()*nf)(0);
 			double jqdnd = (p1Speed.transpose()*dnf*step_)(0);
@@ -1317,7 +1322,8 @@ void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 			//d.jacB1.point(pb1);
 			const MatrixXd& jac1 = d.jacCoM.jacobian(mb, mbc);
 			Eigen::Vector3d comSpeed = d.jacCoM.velocity(mb, mbc);
-			Eigen::Vector3d comNormalAcc = d.jacCoM.normalAcceleration(mb, mbc);
+			Eigen::Vector3d comNormalAcc = d.jacCoM.normalAcceleration(
+				mb, mbc, data.normalAccB());
 
 			double jqdn = (comSpeed.transpose()*nf)(0);
 			double jqdnd = (comSpeed.transpose()*dnf*step_)(0);
@@ -1511,7 +1517,7 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 
 
 void GripperTorqueConstr::update(const rbd::MultiBody& /* mb */,
-	const rbd::MultiBodyConfig& /* mbc */, const SolverData& data)
+	const rbd::MultiBodyConfig& /* mbc */, const SolverData& /* data */)
 {}
 
 
@@ -1642,7 +1648,8 @@ void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 
 		// BEq
 		Vector6d speed = cont_[i].jac.bodyVelocity(mb, mbc).vector();
-		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
+			mb, mbc, data.normalAccB()).vector();
 		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
 			(speed/timeStep_)) + (cont_[i].speed/timeStep_);
 		index += rows;

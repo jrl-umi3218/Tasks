@@ -298,7 +298,7 @@ MotionConstr::MotionConstr(const rbd::MultiBody& mb,
 
 
 void MotionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-	const SolverData& data)
+	const SolverData& /* data */)
 {
 	computeMatrix(mb, mbc);
 
@@ -343,7 +343,7 @@ MotionSpringConstr::MotionSpringConstr(const rbd::MultiBody& mb,
 
 
 void MotionSpringConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-	const SolverData& data)
+	const SolverData& /* data */)
 {
 	computeMatrix(mb, mbc);
 
@@ -385,7 +385,7 @@ MotionPolyConstr::MotionPolyConstr(const rbd::MultiBody& mb,
 
 
 void MotionPolyConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-	const SolverData& data)
+	const SolverData& /* data */)
 {
 	computeMatrix(mb, mbc);
 
