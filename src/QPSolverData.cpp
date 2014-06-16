@@ -16,6 +16,11 @@
 // associated header
 #include "QPSolverData.h"
 
+// includes
+// RBDyn
+#include <RBDyn/MultiBody.h>
+#include <RBDyn/MultiBodyConfig.h>
+
 
 namespace tasks
 {
@@ -31,6 +36,26 @@ SolverData::SolverData():
 	uniCont_(),
 	biCont_()
 {}
+
+
+void SolverData::computeNormalAccB(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc)
+{
+	const std::vector<int>& pred = mb.predecessors();
+	const std::vector<int>& succ = mb.successors();
+
+	for(int i = 0; i < mb.nrJoints(); ++i)
+	{
+		const sva::PTransformd& X_p_i = mbc.parentToSon[i];
+		const sva::MotionVecd& vj_i = mbc.jointVelocity[i];
+		const sva::MotionVecd& vb_i = mbc.bodyVelB[i];
+
+		if(pred[i] != -1)
+			normalAccB_[succ[i]] = X_p_i*normalAccB_[pred[i]] + vb_i.cross(vj_i);
+		else
+			normalAccB_[succ[i]] = vb_i.cross(vj_i);
+	}
+}
 
 } // namespace qp
 

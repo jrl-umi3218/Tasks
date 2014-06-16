@@ -154,6 +154,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 	std::vector<UnilateralContact> uni,
 	std::vector<BilateralContact> bi)
 {
+	data_.normalAccB_.resize(mb.nrBodies());
 	data_.alphaD_ = mb.nrDof();
 	data_.lambda_ = 0;
 	data_.torque_ = (mb.nrDof() - mb.joint(0).dof());
@@ -335,6 +336,12 @@ const SolverData& QPSolver::data() const
 }
 
 
+SolverData& QPSolver::data()
+{
+	return data_;
+}
+
+
 const Eigen::VectorXd& QPSolver::result() const
 {
 	return res_;
@@ -400,6 +407,7 @@ void QPSolver::updateLSSOLSize(int nrVar, int nrConstr)
 
 void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
+	data_.computeNormalAccB(mb, mbc);
 	for(std::size_t i = 0; i < constr_.size(); ++i)
 	{
 		constr_[i]->update(mb, mbc, data_);

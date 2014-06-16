@@ -16,9 +16,19 @@
 #pragma once
 
 // includes
+// SpaceVecAlg
+#include <SpaceVecAlg/SpaceVecAlg>
+
 // Tasks
 #include "QPContacts.h"
 
+
+// forward declaration
+namespace rbd
+{
+class MultiBody;
+class MultiBodyConfig;
+}
 
 namespace tasks
 {
@@ -107,6 +117,9 @@ public:
 		return biCont_;
 	}
 
+
+	void computeNormalAccB(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
 private:
 	int alphaD_;
 	int lambda_;
@@ -118,6 +131,8 @@ private:
 
 	std::vector<UnilateralContact> uniCont_;
 	std::vector<BilateralContact> biCont_;
+
+	std::vector<sva::MotionVecd> normalAccB_;
 };
 
 

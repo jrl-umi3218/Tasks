@@ -96,6 +96,7 @@ public:
 	int nrTasks() const;
 
 	const SolverData& data() const;
+	SolverData& data();
 
 	const Eigen::VectorXd& result() const;
 	Eigen::VectorXd alphaDVec() const;
