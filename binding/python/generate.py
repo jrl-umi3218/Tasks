@@ -284,6 +284,7 @@ def build_qp(tasks):
   sol.add_method('lambdaVec', retval('Eigen::VectorXd'), [], is_const=True)
 
   sol.add_method('contactLambdaPosition', retval('int'), [param('int', 'bodyId')], is_const=True)
+  sol.add_method('data', retval('tasks::qp::SolverData'), [], is_const=True)
 
 
   # FrictionCone
@@ -369,7 +370,8 @@ def build_qp(tasks):
 
   constr.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')])
+                     param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   # InequalityConstraint
   ineqConstr.add_method('maxInEq', retval('int'), [])
@@ -404,11 +406,13 @@ def build_qp(tasks):
 
   hlTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')])
+                     param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   hlTask.add_method('jac', retval('Eigen::MatrixXd'), [])
-  hlTask.add_method('jacDot', retval('Eigen::MatrixXd'), [])
   hlTask.add_method('eval', retval('Eigen::VectorXd'), [])
+  hlTask.add_method('speed', retval('Eigen::VectorXd'), [])
+  hlTask.add_method('normalAcc', retval('Eigen::VectorXd'), [])
 
   # SetPointTask
   def spConstructor(hlTaskName):
@@ -437,7 +441,8 @@ def build_qp(tasks):
 
   spTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')])
+                     param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   spTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   spTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
@@ -485,7 +490,8 @@ def build_qp(tasks):
 
   toTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')])
+                     param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   toTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   toTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
@@ -529,7 +535,8 @@ def build_qp(tasks):
 
   pidTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')])
+                     param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   pidTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   pidTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
@@ -547,7 +554,8 @@ def build_qp(tasks):
 
   qTask.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
-                    param('const rbd::MultiBodyConfig&', 'mbc')])
+                    param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   qTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   qTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
@@ -565,7 +573,8 @@ def build_qp(tasks):
 
   linWTask.add_method('update', None,
                       [param('const rbd::MultiBody&', 'mb'),
-                       param('const rbd::MultiBodyConfig&', 'mbc')])
+                       param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
 
   linWTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   linWTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
@@ -617,7 +626,8 @@ def build_qp(tasks):
 
   postureTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
-                     param('const rbd::MultiBodyConfig&', 'mbc')])
+                     param('const rbd::MultiBodyConfig&', 'mbc'),
+                     param('const tasks::qp::SolverData&', 'data')])
   postureTask.add_method('eval', retval('Eigen::VectorXd'), [])
 
   # CoMTask
