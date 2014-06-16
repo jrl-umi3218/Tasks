@@ -151,7 +151,6 @@ std::set<int> bodyIdInContact(const rbd::MultiBody& mb,
 ContactAccConstr::ContactAccConstr(const rbd::MultiBody& mb):
 	cont_(),
 	fullJac_(6, mb.nrDof()),
-	alphaVec_(mb.nrDof()),
 	A_(),
 	ALU_(),
 	nrDof_(0),
@@ -212,8 +211,6 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 {
 	using namespace Eigen;
 
-	rbd::paramToVector(mbc.alpha, alphaVec_);
-
 	// J_i*alphaD + JD_i*alpha = 0
 
 	int index = 0;
@@ -227,9 +224,8 @@ void ContactAccConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq = -JD_i*alpha
-		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-fullJac_*alphaVec_);
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc);
 		index += rows;
 	}
 }
@@ -297,7 +293,6 @@ void ContactAccConstr::updateNrInEq()
 ContactSpeedConstr::ContactSpeedConstr(const rbd::MultiBody& mb, double timeStep):
 	cont_(),
 	fullJac_(6, mb.nrDof()),
-	alphaVec_(mb.nrDof()),
 	A_(),
 	ALU_(),
 	nrDof_(0),
@@ -359,8 +354,6 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 {
 	using namespace Eigen;
 
-	rbd::paramToVector(mbc.alpha, alphaVec_);
-
 	// J_i*alphaD + JD_i*alpha = 0
 
 	int index = 0;
@@ -374,9 +367,8 @@ void ContactSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq = -JD_i*alpha
-		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-fullJac_*alphaVec_ -
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
 			mbc.bodyVelB[cont_[i].body].vector()/timeStep_);
 		index += rows;
 	}
@@ -729,9 +721,7 @@ SelfCollisionConstr::SelfCollisionConstr(const rbd::MultiBody& mb, double step):
 	AInEq_(),
 	AL_(),
 	AU_(),
-	fullJac_(6, mb.nrDof()),
-	fullJacDot_(6, mb.nrDof()),
-	alphaVec_(mb.nrDof()),
+	fullJac_(3, mb.nrDof()),
 	calcVec_(mb.nrDof())
 {
 }
@@ -801,8 +791,6 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		AU_.setZero();
 	}
 
-	rbd::paramToVector(mbc.alpha, alphaVec_);
-
 	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
@@ -848,30 +836,30 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			// Compute body1
 			d.jacB1.point(pb1);
 			const MatrixXd& jac1 = d.jacB1.jacobian(mb, mbc);
-			const MatrixXd& jacDot1 = d.jacB1.jacobianDot(mb, mbc);
+			Eigen::Vector3d p1Speed = d.jacB1.velocity(mb, mbc).linear();
+			Eigen::Vector3d p1NormalAcc = d.jacB1.normalAcceleration(mb, mbc).linear();
 
-			d.jacB1.fullJacobian(mb, jac1, fullJac_);
-			d.jacB1.fullJacobian(mb, jacDot1, fullJacDot_);
+			d.jacB1.fullJacobian(mb, jac1.block(3, 0, 3, jac1.cols()), fullJac_);
 
-			double jqdn = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
-			double jqdnd = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
-			double jdqdn = ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
+			double jqdn = (p1Speed.transpose()*nf)(0);
+			double jqdnd = (p1Speed.transpose()*dnf*step_)(0);
+			double jdqdn = (p1NormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_.noalias() = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+			calcVec_.noalias() = -fullJac_.transpose()*nf*step_;
 
 			// Compute body2
 			d.jacB2.point(pb2);
 			const MatrixXd& jac2 = d.jacB2.jacobian(mb, mbc);
-			const MatrixXd& jacDot2 = d.jacB2.jacobianDot(mb, mbc);
+			Eigen::Vector3d p2Speed = d.jacB2.velocity(mb, mbc).linear();
+			Eigen::Vector3d p2NormalAcc = d.jacB2.normalAcceleration(mb, mbc).linear();
 
-			d.jacB2.fullJacobian(mb, jac2, fullJac_);
-			d.jacB2.fullJacobian(mb, jacDot2, fullJacDot_);
+			d.jacB2.fullJacobian(mb, jac2.block(3, 0, 3, jac2.cols()), fullJac_);
 
-			jqdn -= ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
-			jqdnd -= ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
-			jdqdn -= ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
+			jqdn -= (p2Speed.transpose()*nf)(0);
+			jqdnd -= (p2Speed.transpose()*dnf*step_)(0);
+			jdqdn -= (p2NormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_.noalias() += fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+			calcVec_.noalias() += fullJac_.transpose()*nf*step_;
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() = calcVec_.transpose();
@@ -988,9 +976,7 @@ StaticEnvCollisionConstr::StaticEnvCollisionConstr(const rbd::MultiBody& mb, dou
 	AInEq_(),
 	AL_(),
 	AU_(),
-	fullJac_(6, mb.nrDof()),
-	fullJacDot_(6, mb.nrDof()),
-	alphaVec_(mb.nrDof()),
+	fullJac_(3, mb.nrDof()),
 	calcVec_(mb.nrDof())
 {
 }
@@ -1060,8 +1046,6 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 		AU_.setZero();
 	}
 
-	rbd::paramToVector(mbc.alpha, alphaVec_);
-
 	nrActivated_ = 0;
 	for(CollData& d: dataVec_)
 	{
@@ -1103,16 +1087,16 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 			// Compute body
 			d.jacB1.point(pb1);
 			const MatrixXd& jac1 = d.jacB1.jacobian(mb, mbc);
-			const MatrixXd& jacDot1 = d.jacB1.jacobianDot(mb, mbc);
 
-			d.jacB1.fullJacobian(mb, jac1, fullJac_);
-			d.jacB1.fullJacobian(mb, jacDot1, fullJacDot_);
+			d.jacB1.fullJacobian(mb, jac1.block(3, 0, 3, jac1.cols()), fullJac_);
+			Eigen::Vector3d p1Speed = d.jacB1.velocity(mb, mbc).linear();
+			Eigen::Vector3d p1NormalAcc = d.jacB1.normalAcceleration(mb, mbc).linear();
 
-			double jqdn = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf)(0);
-			double jqdnd = ((fullJac_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*dnf*step_)(0);
-			double jdqdn = ((fullJacDot_.block(3, 0, 3, fullJac_.cols())*alphaVec_).transpose()*nf*step_)(0);
+			double jqdn = (p1Speed.transpose()*nf)(0);
+			double jqdnd = (p1Speed.transpose()*dnf*step_)(0);
+			double jdqdn = (p1NormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_.noalias() = -fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*nf*step_;
+			calcVec_.noalias() = -fullJac_.transpose()*nf*step_;
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() = calcVec_.transpose();
@@ -1224,9 +1208,6 @@ CoMCollisionConstr::CoMCollisionConstr(const rbd::MultiBody& mb, double step):
 	AInEq_(),
 	AL_(),
 	AU_(),
-	fullJac_(6, mb.nrDof()),
-	fullJacDot_(6, mb.nrDof()),
-	alphaVec_(mb.nrDof()),
 	calcVec_(mb.nrDof())
 {
 }
@@ -1295,7 +1276,6 @@ void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 		AU_.setZero();
 	}
 
-	rbd::paramToVector(mbc.alpha, alphaVec_);
 	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
 
 	nrActivated_ = 0;
@@ -1336,14 +1316,12 @@ void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 			// Compute body
 			//d.jacB1.point(pb1);
 			const MatrixXd& jac1 = d.jacCoM.jacobian(mb, mbc);
-			const MatrixXd& jacDot1 = d.jacCoM.jacobianDot(mb, mbc);
+			Eigen::Vector3d comSpeed = d.jacCoM.velocity(mb, mbc);
+			Eigen::Vector3d comNormalAcc = d.jacCoM.normalAcceleration(mb, mbc);
 
-			//d.jacB1.fullJacobian(mb, jac1, fullJac_);
-			//d.jacB1.fullJacobian(mb, jacDot1, fullJacDot_);
-
-			double jqdn = ((jac1*alphaVec_).transpose()*nf)(0);
-			double jqdnd = ((jac1*alphaVec_).transpose()*dnf*step_)(0);
-			double jdqdn = ((jacDot1*alphaVec_).transpose()*nf*step_)(0);
+			double jqdn = (comSpeed.transpose()*nf)(0);
+			double jqdnd = (comSpeed.transpose()*dnf*step_)(0);
+			double jdqdn = (comNormalAcc.transpose()*nf*step_)(0);
 
 			calcVec_ = -jac1.transpose()*nf*step_;
 
@@ -1585,7 +1563,6 @@ const Eigen::VectorXd& GripperTorqueConstr::UpperInEq() const
 ConstantSpeedConstr::ConstantSpeedConstr(const rbd::MultiBody& mb, double timeStep):
 	cont_(),
 	fullJac_(6, mb.nrDof()),
-	alphaVec_(mb.nrDof()),
 	A_(),
 	ALU_(),
 	nrVars_(0),
@@ -1649,8 +1626,6 @@ void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 {
 	using namespace Eigen;
 
-	rbd::paramToVector(mbc.alpha, alphaVec_);
-
 	// TargetSpeed = V_k + A_{k+1}*dt
 	// TargetSpeed - V_k = J_k*alphaD_{k+1} + JD_k*alpha_k
 	// (TargetSpeed - V_k)/dt - JD_k*alpha_k = J_k*alphaD_{k+1}
@@ -1666,11 +1641,10 @@ void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
 
 		// BEq
-		const MatrixXd& jacDot = cont_[i].jac.bodyJacobianDot(mb, mbc);
-		Eigen::Vector6d vel = (cont_[i].bodyPoint*mbc.bodyVelB[cont_[i].body]).vector();
-		cont_[i].jac.fullJacobian(mb, jacDot, fullJac_);
-		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-fullJac_*alphaVec_ -
-			(vel/timeStep_)) + (cont_[i].speed/timeStep_);
+		Vector6d speed = cont_[i].jac.bodyVelocity(mb, mbc).vector();
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
+			(speed/timeStep_)) + (cont_[i].speed/timeStep_);
 		index += rows;
 	}
 }

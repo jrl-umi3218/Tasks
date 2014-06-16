@@ -120,7 +120,6 @@ private:
 	std::vector<ContactData> cont_;
 
 	Eigen::MatrixXd fullJac_;
-	Eigen::VectorXd alphaVec_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd ALU_;
@@ -180,7 +179,6 @@ private:
 	std::vector<ContactData> cont_;
 
 	Eigen::MatrixXd fullJac_;
-	Eigen::VectorXd alphaVec_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd ALU_;
@@ -350,8 +348,6 @@ private:
 	Eigen::VectorXd AL_, AU_;
 
 	Eigen::MatrixXd fullJac_;
-	Eigen::MatrixXd fullJacDot_;
-	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd calcVec_;
 };
 
@@ -420,8 +416,6 @@ private:
 	Eigen::VectorXd AL_, AU_;
 
 	Eigen::MatrixXd fullJac_;
-	Eigen::MatrixXd fullJacDot_;
-	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd calcVec_;
 };
 
@@ -484,9 +478,6 @@ private:
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd AL_, AU_;
 
-	Eigen::MatrixXd fullJac_;
-	Eigen::MatrixXd fullJacDot_;
-	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd calcVec_;
 };
 
@@ -598,7 +589,6 @@ private:
 	std::vector<ConstantSpeedData> cont_;
 
 	Eigen::MatrixXd fullJac_;
-	Eigen::VectorXd alphaVec_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd ALU_;
