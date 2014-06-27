@@ -80,7 +80,7 @@ void PositionTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	normalAcc_ = jac_.normalAcceleration(mb, mbc).linear();
 
 	const auto& shortJacMat =
-		jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+		jac_.jacobian(mb, mbc).block(3, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
@@ -93,7 +93,7 @@ void PositionTask::update(const rbd::MultiBody& mb,
 	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
 
 	const auto& shortJacMat =
-		jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+		jac_.jacobian(mb, mbc).block(3, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
@@ -101,7 +101,7 @@ void PositionTask::update(const rbd::MultiBody& mb,
 void PositionTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	const auto& shortJacMat =
-		jac_.jacobianDot(mb, mbc).block(3, 0, 3, mb.nrDof());
+		jac_.jacobianDot(mb, mbc).block(3, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
 }
 
@@ -191,7 +191,7 @@ void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 	speed_ = jac_.velocity(mb, mbc).angular();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc).angular();
 
-	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, mb.nrDof());
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
@@ -203,14 +203,14 @@ void OrientationTask::update(const rbd::MultiBody& mb,
 	speed_ = jac_.velocity(mb, mbc).angular();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).angular();
 
-	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, mb.nrDof());
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(0, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
 
 void OrientationTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	const auto& shortJacMat = jac_.jacobianDot(mb, mbc).block(0, 0, 3, mb.nrDof());
+	const auto& shortJacMat = jac_.jacobianDot(mb, mbc).block(0, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
 }
 
@@ -484,7 +484,7 @@ void LinVelocityTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 	eval_ = vel_ - jac_.velocity(mb, mbc).linear();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc).linear();
 
-	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
@@ -495,14 +495,14 @@ void LinVelocityTask::update(const rbd::MultiBody& mb,
 	eval_ = vel_ - jac_.velocity(mb, mbc).linear();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
 
-	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, mb.nrDof());
+	const auto& shortJacMat = jac_.jacobian(mb, mbc).block(3, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
 
 void LinVelocityTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	const auto& shortJacMat = jac_.jacobianDot(mb, mbc).block(3, 0, 3, mb.nrDof());
+	const auto& shortJacMat = jac_.jacobianDot(mb, mbc).block(3, 0, 3, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
 }
 
