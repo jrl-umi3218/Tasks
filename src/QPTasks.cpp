@@ -46,21 +46,26 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 	hlTask_(hlTask),
 	stiffness_(stiffness),
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
-	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
+	dimWeight_(Eigen::MatrixXd::Identity(hlTask->dim(), hlTask->dim())),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof())
+	C_(mb.nrDof()),
+	preQ_(hlTask->dim(), mb.nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
 {}
 
 
 SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-	double stiffness, Eigen::VectorXd dimWeight, double weight):
+	double stiffness, const Eigen::MatrixXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
 	stiffness_(stiffness),
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
 	dimWeight_(dimWeight),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof())
+	C_(mb.nrDof()),
+	preQ_(hlTask->dim(), mb.nrDof()),
+	CVecSum_(mb.nrDof())
 {}
 
 
@@ -71,7 +76,7 @@ void SetPointTask::stiffness(double stiffness)
 }
 
 
-void SetPointTask::dimWeight(Eigen::VectorXd& dim)
+void SetPointTask::dimWeight(const Eigen::MatrixXd& dim)
 {
 	dimWeight_ = dim;
 }
@@ -87,9 +92,14 @@ void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	const Eigen::VectorXd& speed = hlTask_->speed();
 	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
-	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
-	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(stiffness_*err -
-			stiffnessSqrt_*speed - normalAcc);
+	preQ_.noalias() = dimWeight_*J;
+	Q_.noalias() = J.transpose()*preQ_;
+
+	CVecSum_.noalias() = stiffness_*err;
+	CVecSum_.noalias() -= stiffnessSqrt_*speed;
+	CVecSum_.noalias() -= normalAcc;
+	preC_.noalias() = dimWeight_*CVecSum_;
+	C_.noalias() = -J.transpose()*preC_;
 }
 
 
@@ -118,19 +128,22 @@ PIDTask::PIDTask(const rbd::MultiBody& mb,
 	P_(P),
 	I_(I),
 	D_(D),
-	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
+	dimWeight_(Eigen::MatrixXd::Identity(hlTask->dim(), hlTask->dim())),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
 	error_(hlTask->dim()),
 	errorD_(hlTask->dim()),
-	errorI_(hlTask->dim())
+	errorI_(hlTask->dim()),
+	preQ_(hlTask->dim(), mb.nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
 {}
 
 
 PIDTask::PIDTask(const rbd::MultiBody& mb,
 	HighLevelTask* hlTask,
 	double P, double I, double D,
-	Eigen::VectorXd dimWeight, double weight):
+	const Eigen::MatrixXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
 	P_(P),
@@ -141,7 +154,10 @@ PIDTask::PIDTask(const rbd::MultiBody& mb,
 	C_(mb.nrDof()),
 	error_(hlTask->dim()),
 	errorD_(hlTask->dim()),
-	errorI_(hlTask->dim())
+	errorI_(hlTask->dim()),
+	preQ_(hlTask->dim(), mb.nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
 {}
 
 
@@ -181,7 +197,7 @@ void PIDTask::D(double d)
 }
 
 
-void PIDTask::dimWeight(Eigen::VectorXd& dim)
+void PIDTask::dimWeight(const Eigen::MatrixXd& dim)
 {
 	dimWeight_ = dim;
 }
@@ -213,9 +229,15 @@ void PIDTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
-	Q_.noalias() = J.transpose()*dimWeight_.asDiagonal()*J;
-	C_.noalias() = -J.transpose()*dimWeight_.asDiagonal()*(P_*error_ -
-			D_*errorD_ - I_*errorI_ - normalAcc);
+	preQ_.noalias() = dimWeight_*J;
+	Q_.noalias() = J.transpose()*preQ_;
+
+	CVecSum_.noalias() = P_*error_;
+	CVecSum_.noalias() -= D_*errorD_;
+	CVecSum_.noalias() -= I_*errorI_;
+	CVecSum_.noalias() -= normalAcc;
+	preC_.noalias() = dimWeight_*CVecSum_;
+	C_.noalias() = -J.transpose()*preC_;
 }
 
 
@@ -243,21 +265,23 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	hlTask_(hlTask),
 	dt_(timeStep),
 	objDot_(objDot),
-	dimWeight_(hlTask->dim()),
+	dimWeight_(Eigen::MatrixXd::Identity(hlTask->dim(), hlTask->dim())),
 	phi_(hlTask->dim()),
 	psi_(hlTask->dim()),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof())
+	C_(mb.nrDof()),
+	preQ_(hlTask->dim(), mb.nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
 {
 	duration(dur);
-	dimWeight_.setOnes();
 }
 
 
 TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	HighLevelTask* hlTask,
 	double timeStep, double dur, const Eigen::VectorXd& objDot,
-	const Eigen::VectorXd& dimWeight, double weight):
+	const Eigen::MatrixXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
 	dt_(timeStep),
@@ -266,7 +290,10 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	phi_(hlTask->dim()),
 	psi_(hlTask->dim()),
 	Q_(mb.nrDof(), mb.nrDof()),
-	C_(mb.nrDof())
+	C_(mb.nrDof()),
+	preQ_(hlTask->dim(), mb.nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
 {
 	duration(dur);
 }
@@ -340,9 +367,12 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		psi_(i) = pp(1);
 	}
 
-	Q_ = (J.array().colwise()*dimWeight_.array()).matrix().transpose()*J;
-	C_ = -(J.array().colwise()*dimWeight_.array()).matrix().transpose()*
-		(phi_ - normalAcc);
+	preQ_.noalias() = dimWeight_*J;
+	Q_.noalias() = J.transpose()*preQ_;
+
+	CVecSum_.noalias() = phi_ - normalAcc;
+	preC_.noalias() = dimWeight_*CVecSum_;
+	C_.noalias() = -J.transpose()*preC_;
 
 	++iter_;
 }

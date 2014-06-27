@@ -45,7 +45,7 @@ public:
 		double stiffness, double weight);
 
 	SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double stiffness, Eigen::VectorXd dimWeight, double weight);
+		double stiffness, const Eigen::MatrixXd& dimWeight, double weight);
 
 	double stiffness() const
 	{
@@ -59,9 +59,9 @@ public:
 		return std::make_pair(0, 0);
 	}
 
-	void dimWeight(Eigen::VectorXd& dim);
+	void dimWeight(const Eigen::MatrixXd& dim);
 
-	Eigen::VectorXd dimWeight() const
+	const Eigen::MatrixXd& dimWeight() const
 	{
 		return dimWeight_;
 	}
@@ -78,10 +78,13 @@ private:
 	HighLevelTask* hlTask_;
 
 	double stiffness_, stiffnessSqrt_;
-	Eigen::VectorXd dimWeight_;
+	Eigen::MatrixXd dimWeight_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
+	// cache
+	Eigen::MatrixXd preQ_;
+	Eigen::VectorXd CVecSum_, preC_;
 };
 
 
@@ -92,7 +95,7 @@ public:
 		double P, double I, double D, double weight);
 
 	PIDTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double P, double I, double D, Eigen::VectorXd dimWeight, double weight);
+		double P, double I, double D, const Eigen::MatrixXd& dimWeight, double weight);
 
 	double P() const;
 	void P(double p);
@@ -106,9 +109,9 @@ public:
 		return std::make_pair(0, 0);
 	}
 
-	void dimWeight(Eigen::VectorXd& dim);
+	void dimWeight(const Eigen::MatrixXd& dim);
 
-	Eigen::VectorXd dimWeight() const
+	const Eigen::MatrixXd& dimWeight() const
 	{
 		return dimWeight_;
 	}
@@ -129,11 +132,14 @@ private:
 	HighLevelTask* hlTask_;
 
 	double P_, I_, D_;
-	Eigen::VectorXd dimWeight_;
+	Eigen::MatrixXd dimWeight_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
 	Eigen::VectorXd error_, errorD_, errorI_;
+	// cache
+	Eigen::MatrixXd preQ_;
+	Eigen::VectorXd CVecSum_, preC_;
 };
 
 
@@ -146,7 +152,7 @@ public:
 
 	TargetObjectiveTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 		double timeStep, double duration, const Eigen::VectorXd& objDot,
-		const Eigen::VectorXd& dimWeight, double weight);
+		const Eigen::MatrixXd& dimWeight, double weight);
 
 	double duration() const;
 	void duration(double d);
@@ -178,11 +184,11 @@ public:
 		objDot_ = o;
 	}
 
-	const Eigen::VectorXd& dimWeight() const
+	const Eigen::MatrixXd& dimWeight() const
 	{
 		return dimWeight_;
 	}
-	void dimWeight(const Eigen::VectorXd& o)
+	void dimWeight(const Eigen::MatrixXd& o)
 	{
 		dimWeight_ = o;
 	}
@@ -216,12 +222,15 @@ private:
 	int iter_, nrIter_;
 	double dt_;
 	Eigen::VectorXd objDot_;
-	Eigen::VectorXd dimWeight_;
+	Eigen::MatrixXd dimWeight_;
 
 	Eigen::VectorXd phi_, psi_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
+	// cache
+	Eigen::MatrixXd preQ_;
+	Eigen::VectorXd CVecSum_, preC_;
 };
 
 

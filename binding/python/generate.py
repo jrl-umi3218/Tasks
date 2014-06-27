@@ -428,7 +428,7 @@ def build_qp(tasks):
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'stiffness'),
-                              param('Eigen::VectorXd', 'dimWeight'),
+                              param('const Eigen::MatrixXd&', 'dimWeight'),
                               param('double', 'weight')])
 
   spConstructor(hlTaskName)
@@ -436,8 +436,8 @@ def build_qp(tasks):
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
   spTask.add_method('stiffness', None, [param('double', 'weight')])
 
-  spTask.add_method('dimWeight', retval('Eigen::VectorXd'), [], is_const=True)
-  spTask.add_method('dimWeight', None, [param('Eigen::VectorXd', 'dim')])
+  spTask.add_method('dimWeight', retval('const Eigen::MatrixXd&'), [], is_const=True)
+  spTask.add_method('dimWeight', None, [param('const Eigen::MatrixXd&', 'dim')])
 
   spTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
@@ -465,7 +465,7 @@ def build_qp(tasks):
                               param('double', 'timeStep'),
                               param('double', 'duration'),
                               param('const Eigen::VectorXd&', 'objDot'),
-                              param('const Eigen::VectorXd&', 'dimWeight'),
+                              param('const Eigen::MatrixXd&', 'dimWeight'),
                               param('double', 'weight')])
 
   toConstructor(hlTaskName)
@@ -482,8 +482,8 @@ def build_qp(tasks):
   toTask.add_method('objDot', retval('const Eigen::VectorXd&'), [], is_const=True)
   toTask.add_method('objDot', None, [param('const Eigen::VectorXd&', 'obj')])
 
-  toTask.add_method('dimWeight', retval('const Eigen::VectorXd&'), [], is_const=True)
-  toTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'w')])
+  toTask.add_method('dimWeight', retval('const Eigen::MatrixXd&'), [], is_const=True)
+  toTask.add_method('dimWeight', None, [param('const Eigen::MatrixXd&', 'w')])
 
   toTask.add_method('phi', retval('const Eigen::VectorXd&'), [], is_const=True)
   toTask.add_method('psi', retval('const Eigen::VectorXd&'), [], is_const=True)
@@ -514,7 +514,7 @@ def build_qp(tasks):
                               param('double', 'P'),
                               param('double', 'I'),
                               param('double', 'D'),
-                              param('Eigen::VectorXd', 'dimWeight'),
+                              param('const Eigen::MatrixXd&', 'dimWeight'),
                               param('double', 'weight')])
 
   pidConstructor(hlTaskName)
@@ -530,8 +530,8 @@ def build_qp(tasks):
   pidTask.add_method('errorD', None, [param('const Eigen::VectorXd&', 'errorD')])
   pidTask.add_method('errorI', None, [param('const Eigen::VectorXd&', 'errorI')])
 
-  pidTask.add_method('dimWeight', retval('Eigen::VectorXd'), [], is_const=True)
-  pidTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'dim')])
+  pidTask.add_method('dimWeight', retval('const Eigen::MatrixXd&'), [], is_const=True)
+  pidTask.add_method('dimWeight', None, [param('const Eigen::MatrixXd&', 'dim')])
 
   pidTask.add_method('update', None,
                     [param('const rbd::MultiBody&', 'mb'),
