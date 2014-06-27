@@ -848,7 +848,7 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			double jqdnd = (p1Speed.transpose()*dnf*step_)(0);
 			double jdqdn = (p1NormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_.noalias() = -fullJac_.transpose()*nf*step_;
+			calcVec_.noalias() = -fullJac_.transpose()*(nf*step_);
 
 			// Compute body2
 			d.jacB2.point(pb2);
@@ -863,7 +863,7 @@ void SelfCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 			jqdnd -= (p2Speed.transpose()*dnf*step_)(0);
 			jdqdn -= (p2NormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_.noalias() += fullJac_.transpose()*nf*step_;
+			calcVec_.noalias() += fullJac_.transpose()*(nf*step_);
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() = calcVec_.transpose();
@@ -1101,7 +1101,7 @@ void StaticEnvCollisionConstr::update(const rbd::MultiBody& mb, const rbd::Multi
 			double jqdnd = (p1Speed.transpose()*dnf*step_)(0);
 			double jdqdn = (p1NormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_.noalias() = -fullJac_.transpose()*nf*step_;
+			calcVec_.noalias() = -fullJac_.transpose()*(nf*step_);
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() = calcVec_.transpose();
@@ -1329,7 +1329,7 @@ void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 			double jqdnd = (comSpeed.transpose()*dnf*step_)(0);
 			double jdqdn = (comNormalAcc.transpose()*nf*step_)(0);
 
-			calcVec_ = -jac1.transpose()*nf*step_;
+			calcVec_.noalias() = -jac1.transpose()*(nf*step_);
 
 			// distdot + distdotdot*dt > -damp*((d - ds)/(di - ds))
 			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()) = calcVec_.transpose();
@@ -1651,7 +1651,8 @@ void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
 			mb, mbc, data.normalAccB()).vector();
 		ALU_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
-			(speed/timeStep_)) + (cont_[i].speed/timeStep_);
+			(speed/timeStep_));
+		ALU_.segment(index, rows).noalias() += (cont_[i].speed/timeStep_);
 		index += rows;
 	}
 }

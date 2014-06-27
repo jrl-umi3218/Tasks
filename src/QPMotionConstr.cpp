@@ -173,14 +173,14 @@ void MotionConstrCommon::computeMatrix(const rbd::MultiBody& mb, const rbd::Mult
 		// due to each generator of the friction cone
 		for(std::size_t j = 0; j < cont_[i].points.size(); ++j)
 		{
-			cont_[i].generatorsComp[j] =
+			cont_[i].generatorsComp[j].noalias() =
 				mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].generators[j];
 
 			cont_[i].jac.translateJacobian(jac, mbc,
 				cont_[i].points[j], cont_[i].jacTrans);
 			cont_[i].jac.fullJacobian(mb, cont_[i].jacTrans, fullJac_);
 
-			A_.block(0, contPos, nrDof_, cont_[i].generatorsComp[j].cols()) =
+			A_.block(0, contPos, nrDof_, cont_[i].generatorsComp[j].cols()).noalias() =
 				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
 					cont_[i].generatorsComp[j];
 
