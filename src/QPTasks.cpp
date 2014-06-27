@@ -46,7 +46,7 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 	hlTask_(hlTask),
 	stiffness_(stiffness),
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
-	dimWeight_(Eigen::MatrixXd::Identity(hlTask->dim(), hlTask->dim())),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
 	preQ_(hlTask->dim(), mb.nrDof()),
@@ -56,7 +56,7 @@ SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
 
 
 SetPointTask::SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-	double stiffness, const Eigen::MatrixXd& dimWeight, double weight):
+	double stiffness, const Eigen::VectorXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
 	stiffness_(stiffness),
@@ -76,7 +76,7 @@ void SetPointTask::stiffness(double stiffness)
 }
 
 
-void SetPointTask::dimWeight(const Eigen::MatrixXd& dim)
+void SetPointTask::dimWeight(const Eigen::VectorXd& dim)
 {
 	dimWeight_ = dim;
 }
@@ -92,13 +92,13 @@ void SetPointTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	const Eigen::VectorXd& speed = hlTask_->speed();
 	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
-	preQ_.noalias() = dimWeight_*J;
+	preQ_.noalias() = dimWeight_.asDiagonal()*J;
 	Q_.noalias() = J.transpose()*preQ_;
 
 	CVecSum_.noalias() = stiffness_*err;
 	CVecSum_.noalias() -= stiffnessSqrt_*speed;
 	CVecSum_.noalias() -= normalAcc;
-	preC_.noalias() = dimWeight_*CVecSum_;
+	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
 	C_.noalias() = -J.transpose()*preC_;
 }
 
@@ -128,7 +128,7 @@ PIDTask::PIDTask(const rbd::MultiBody& mb,
 	P_(P),
 	I_(I),
 	D_(D),
-	dimWeight_(Eigen::MatrixXd::Identity(hlTask->dim(), hlTask->dim())),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
 	Q_(mb.nrDof(), mb.nrDof()),
 	C_(mb.nrDof()),
 	error_(hlTask->dim()),
@@ -143,7 +143,7 @@ PIDTask::PIDTask(const rbd::MultiBody& mb,
 PIDTask::PIDTask(const rbd::MultiBody& mb,
 	HighLevelTask* hlTask,
 	double P, double I, double D,
-	const Eigen::MatrixXd& dimWeight, double weight):
+	const Eigen::VectorXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
 	P_(P),
@@ -197,7 +197,7 @@ void PIDTask::D(double d)
 }
 
 
-void PIDTask::dimWeight(const Eigen::MatrixXd& dim)
+void PIDTask::dimWeight(const Eigen::VectorXd& dim)
 {
 	dimWeight_ = dim;
 }
@@ -229,14 +229,14 @@ void PIDTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
-	preQ_.noalias() = dimWeight_*J;
+	preQ_.noalias() = dimWeight_.asDiagonal()*J;
 	Q_.noalias() = J.transpose()*preQ_;
 
 	CVecSum_.noalias() = P_*error_;
 	CVecSum_.noalias() -= D_*errorD_;
 	CVecSum_.noalias() -= I_*errorI_;
 	CVecSum_.noalias() -= normalAcc;
-	preC_.noalias() = dimWeight_*CVecSum_;
+	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
 	C_.noalias() = -J.transpose()*preC_;
 }
 
@@ -265,7 +265,7 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	hlTask_(hlTask),
 	dt_(timeStep),
 	objDot_(objDot),
-	dimWeight_(Eigen::MatrixXd::Identity(hlTask->dim(), hlTask->dim())),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
 	phi_(hlTask->dim()),
 	psi_(hlTask->dim()),
 	Q_(mb.nrDof(), mb.nrDof()),
@@ -281,7 +281,7 @@ TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 TargetObjectiveTask::TargetObjectiveTask(const rbd::MultiBody& mb,
 	HighLevelTask* hlTask,
 	double timeStep, double dur, const Eigen::VectorXd& objDot,
-	const Eigen::MatrixXd& dimWeight, double weight):
+	const Eigen::VectorXd& dimWeight, double weight):
 	Task(weight),
 	hlTask_(hlTask),
 	dt_(timeStep),
@@ -367,11 +367,11 @@ void TargetObjectiveTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyC
 		psi_(i) = pp(1);
 	}
 
-	preQ_.noalias() = dimWeight_*J;
+	preQ_.noalias() = dimWeight_.asDiagonal()*J;
 	Q_.noalias() = J.transpose()*preQ_;
 
 	CVecSum_.noalias() = phi_ - normalAcc;
-	preC_.noalias() = dimWeight_*CVecSum_;
+	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
 	C_.noalias() = -J.transpose()*preC_;
 
 	++iter_;
