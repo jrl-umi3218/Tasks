@@ -496,6 +496,37 @@ private:
 };
 
 
+class MomentumTask : public HighLevelTask
+{
+public:
+	MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd& mom);
+
+	tasks::MomentumTask& task()
+	{
+		return momt_;
+	}
+
+	void momentum(const sva::ForceVecd& mom)
+	{
+		momt_.momentum(mom);
+	}
+
+	const sva::ForceVecd momentum()
+	{
+		return momt_.momentum();
+	}
+
+	virtual int dim();
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::MatrixXd& jacDot();
+	virtual const Eigen::VectorXd& eval();
+
+private:
+	tasks::MomentumTask momt_;
+};
+
 
 class ContactTask : public Task
 {

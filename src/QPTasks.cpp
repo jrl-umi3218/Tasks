@@ -727,6 +727,47 @@ const Eigen::VectorXd& CoMTask::normalAcc()
 
 
 /**
+	*													MomentumTask
+	*/
+
+
+MomentumTask::MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd& mom):
+	momt_(mb, mom)
+{}
+
+
+int MomentumTask::dim()
+{
+  return 6;
+}
+
+
+void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	momt_.update(mb, mbc);
+	momt_.updateDot(mb, mbc);
+}
+
+
+const Eigen::MatrixXd& MomentumTask::jac()
+{
+	return momt_.jac();
+}
+
+
+const Eigen::MatrixXd& MomentumTask::jacDot()
+{
+	return momt_.jacDot();
+}
+
+
+const Eigen::VectorXd& MomentumTask::eval()
+{
+	return momt_.eval();
+}
+
+
+/**
 	*														ContactTask
 	*/
 
