@@ -465,20 +465,27 @@ void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
 
 	eval_ = momentum_.vector() - rbd::computeCentroidalMomentum(mb, mbc, com).vector();
-	jacMat_ = momentumMatrix_.matrix(mb, mbc, com);
+
+	momentumMatrix_.computeMatrix(mb, mbc, com);
+	jacMat_ = momentumMatrix_.matrix();
 }
 
 
 void MomentumTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	jacDotMat_ = momentumMatrix_.matrixDot(mb, mbc, rbd::computeCoM(mb, mbc));
+	momentumMatrix_.computeMatrixDot(mb, mbc, rbd::computeCoM(mb, mbc),
+				rbd::computeCoMVelocity(mb, mbc));
+	jacDotMat_ = momentumMatrix_.matrixDot();
 }
 
 
 void MomentumTask::updateAll(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	momentumMatrix_.computeMatrixAndMatrixDot(mb, mbc, rbd::computeCoM(mb, mbc),
-			rbd::computeCoMVel(mb, mbc));
+	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+
+	eval_ = momentum_.vector() - rbd::computeCentroidalMomentum(mb, mbc, com).vector();
+
+	momentumMatrix_.computeMatrixAndMatrixDot(mb, mbc, com,	rbd::computeCoMVelocity(mb, mbc));
 	jacMat_ = momentumMatrix_.matrix();
 	jacDotMat_ = momentumMatrix_.matrixDot();
 }
