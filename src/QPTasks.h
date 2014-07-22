@@ -517,11 +517,13 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::MatrixXd& jacDot();
 	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
 	tasks::MomentumTask momt_;

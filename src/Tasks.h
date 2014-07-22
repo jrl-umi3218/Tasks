@@ -177,21 +177,27 @@ public:
 	MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd mom);
 
 	void momentum(const sva::ForceVecd& mom);
-	const sva::ForceVec<double> momentum() const;
+	const sva::ForceVecd momentum() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
-	void updateAll(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
 	const Eigen::MatrixXd& jac() const;
 	const Eigen::MatrixXd& jacDot() const;
 
 private:
 
-	sva::ForceVec<double> momentum_;
+	sva::ForceVecd momentum_;
 	rbd::CentroidalMomentumMatrix momentumMatrix_;
 	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
 };

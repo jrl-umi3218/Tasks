@@ -738,13 +738,14 @@ MomentumTask::MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd& mom):
 
 int MomentumTask::dim()
 {
-  return 6;
+	return 6;
 }
 
 
-void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const SolverData& data)
 {
-	momt_.updateAll(mb, mbc);
+	momt_.update(mb, mbc, data.normalAccB());
 }
 
 
@@ -754,15 +755,21 @@ const Eigen::MatrixXd& MomentumTask::jac()
 }
 
 
-const Eigen::MatrixXd& MomentumTask::jacDot()
-{
-	return momt_.jacDot();
-}
-
-
 const Eigen::VectorXd& MomentumTask::eval()
 {
 	return momt_.eval();
+}
+
+
+const Eigen::VectorXd& MomentumTask::speed()
+{
+	return momt_.speed();
+}
+
+
+const Eigen::VectorXd& MomentumTask::normalAcc()
+{
+	return momt_.normalAcc();
 }
 
 

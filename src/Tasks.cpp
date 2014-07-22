@@ -439,12 +439,15 @@ const Eigen::MatrixXd& CoMTask::jacDot() const
 
 
 MomentumTask::MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd mom):
-  momentum_(mom),
-  momentumMatrix_(mb),
-  eval_(6),
-  jacMat_(6,mb.nrDof()),
-  jacDotMat_(6,mb.nrDof())
+	momentum_(mom),
+	momentumMatrix_(mb),
+	eval_(6),
+	speed_(6),
+	normalAcc_(6),
+	jacMat_(6,mb.nrDof()),
+	jacDotMat_(6,mb.nrDof())
 {
+	speed_.setZero();
 }
 
 
@@ -454,7 +457,7 @@ void MomentumTask::momentum(const sva::ForceVecd& mom)
 }
 
 
-const sva::ForceVec<double> MomentumTask::momentum() const
+const sva::ForceVecd MomentumTask::momentum() const
 {
 	return momentum_;
 }
@@ -465,6 +468,22 @@ void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& 
 	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
 
 	eval_ = momentum_.vector() - rbd::computeCentroidalMomentum(mb, mbc, com).vector();
+	normalAcc_ = momentumMatrix_.normalMomentumDot(mb, mbc,
+		com,  rbd::computeCoMVelocity(mb, mbc)).vector();
+
+	momentumMatrix_.computeMatrix(mb, mbc, com);
+	jacMat_ = momentumMatrix_.matrix();
+}
+
+
+void MomentumTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const std::vector<sva::MotionVecd>& normalAccB)
+{
+	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+
+	eval_ = momentum_.vector() - rbd::computeCentroidalMomentum(mb, mbc, com).vector();
+	normalAcc_ = momentumMatrix_.normalMomentumDot(mb, mbc,
+		com,  rbd::computeCoMVelocity(mb, mbc), normalAccB).vector();
 
 	momentumMatrix_.computeMatrix(mb, mbc, com);
 	jacMat_ = momentumMatrix_.matrix();
@@ -479,21 +498,21 @@ void MomentumTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 }
 
 
-void MomentumTask::updateAll(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
-{
-	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
-
-	eval_ = momentum_.vector() - rbd::computeCentroidalMomentum(mb, mbc, com).vector();
-
-	momentumMatrix_.computeMatrixAndMatrixDot(mb, mbc, com,	rbd::computeCoMVelocity(mb, mbc));
-	jacMat_ = momentumMatrix_.matrix();
-	jacDotMat_ = momentumMatrix_.matrixDot();
-}
-
-
 const Eigen::VectorXd& MomentumTask::eval() const
 {
 	return eval_;
+}
+
+
+const Eigen::VectorXd& MomentumTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& MomentumTask::normalAcc() const
+{
+	return normalAcc_;
 }
 
 

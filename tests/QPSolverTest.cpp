@@ -1447,6 +1447,7 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 		compute6dError(finalPos, initPos)(4), 2), 0.1);
 }
 
+
 BOOST_AUTO_TEST_CASE(MomentumTask)
 {
 	using namespace Eigen;
@@ -1465,10 +1466,8 @@ BOOST_AUTO_TEST_CASE(MomentumTask)
 
 	qp::QPSolver solver(true);
 
-	solver.nrVars(mb, {}, {}, {}, {});
-
-	solver.updateEqConstrSize();
-	solver.updateInEqConstrSize();
+	solver.nrVars(mb, {}, {});
+	solver.updateConstrSize();
 
 	sva::ForceVecd momTarget(Vector3d(1., 1., 1.), Vector3d(0., 0., 0.));
 
@@ -1480,5 +1479,5 @@ BOOST_AUTO_TEST_CASE(MomentumTask)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
 	// Test MomentumTask
-	BOOST_REQUIRE(solver.update(mb, mbc, 0));
+	BOOST_REQUIRE(solver.solve(mb, mbc));
 }
