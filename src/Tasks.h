@@ -181,6 +181,7 @@ public:
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 	void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void updateAll(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	const Eigen::VectorXd& eval() const;
 	const Eigen::MatrixXd& jac() const;

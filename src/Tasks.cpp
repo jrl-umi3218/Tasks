@@ -475,6 +475,15 @@ void MomentumTask::updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 }
 
 
+void MomentumTask::updateAll(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+{
+	momentumMatrix_.computeMatrixAndMatrixDot(mb, mbc, rbd::computeCoM(mb, mbc),
+			rbd::computeCoMVel(mb, mbc));
+	jacMat_ = momentumMatrix_.matrix();
+	jacDotMat_ = momentumMatrix_.matrixDot();
+}
+
+
 const Eigen::VectorXd& MomentumTask::eval() const
 {
 	return eval_;
