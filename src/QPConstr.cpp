@@ -1361,7 +1361,7 @@ std::string CoMCollisionConstr::descInEq(const rbd::MultiBody& /*mb*/, int line)
 	for(CollData& d: dataVec_)
 	{
 		double dist = d.pair->getDistance();
-		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		dist = dist >= 0 ? -std::sqrt(dist) : std::sqrt(-dist);
 		if(dist < d.di)
 		{
 			if(curLine == line)
