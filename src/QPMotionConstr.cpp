@@ -194,25 +194,25 @@ void MotionConstrCommon::computeMatrix(const rbd::MultiBody& mb, const rbd::Mult
 }
 
 
-int MotionConstrCommon::maxInEq() const
+int MotionConstrCommon::maxGenInEq() const
 {
 	return nrDof_;
 }
 
 
-const Eigen::MatrixXd& MotionConstrCommon::AInEq() const
+const Eigen::MatrixXd& MotionConstrCommon::AGenInEq() const
 {
 	return A_;
 }
 
 
-const Eigen::VectorXd& MotionConstrCommon::LowerInEq() const
+const Eigen::VectorXd& MotionConstrCommon::LowerGenInEq() const
 {
 	return AL_;
 }
 
 
-const Eigen::VectorXd& MotionConstrCommon::UpperInEq() const
+const Eigen::VectorXd& MotionConstrCommon::UpperGenInEq() const
 {
 	return AU_;
 }
@@ -236,13 +236,13 @@ const Eigen::VectorXd& MotionConstrCommon::Upper() const
 }
 
 
-std::string MotionConstrCommon::nameInEq() const
+std::string MotionConstrCommon::nameGenInEq() const
 {
 	return "MotionConstr";
 }
 
 
-std::string MotionConstrCommon::descInEq(const rbd::MultiBody& mb, int line)
+std::string MotionConstrCommon::descGenInEq(const rbd::MultiBody& mb, int line)
 {
 	int jIndex = findJointFromVector(mb, line, true);
 	return std::string("Joint: ") + mb.joint(jIndex).name();

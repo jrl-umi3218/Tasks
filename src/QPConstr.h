@@ -18,6 +18,7 @@
 // includes
 // std
 #include <map>
+#include <set>
 
 // Eigen
 #include <Eigen/Core>
@@ -73,7 +74,7 @@ protected:
 };
 
 
-class ContactAccConstr : public ConstraintFunction<Inequality>,
+class ContactAccConstr : public ConstraintFunction<Equality>,
 	public ContactConstrCommon
 {
 public:
@@ -88,16 +89,15 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 		const SolverData& data);
 
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameEq() const;
+	virtual std::string descEq(const rbd::MultiBody& mb, int line);
 
 	// Inequality Constraint
-	virtual int nrInEq() const;
-	virtual int maxInEq() const;
+	virtual int nrEq() const;
+	virtual int maxEq() const;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::MatrixXd& AEq() const;
+	virtual const Eigen::VectorXd& bEq() const;
 
 private:
 	struct ContactData
@@ -114,7 +114,7 @@ private:
 	};
 
 private:
-	void updateNrInEq();
+	void updateNrEq();
 
 private:
 	std::vector<ContactData> cont_;
@@ -122,15 +122,15 @@ private:
 	Eigen::MatrixXd fullJac_;
 
 	Eigen::MatrixXd A_;
-	Eigen::VectorXd ALU_;
+	Eigen::VectorXd b_;
 
-	int nrInEq_;
+	int nrEq_;
 	int nrDof_, nrFor_, nrTor_;
 };
 
 
 
-class ContactSpeedConstr : public ConstraintFunction<Inequality>,
+class ContactSpeedConstr : public ConstraintFunction<Equality>,
 	public ContactConstrCommon
 {
 public:
@@ -145,16 +145,15 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 		const SolverData& data);
 
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameEq() const;
+	virtual std::string descEq(const rbd::MultiBody& mb, int line);
 
 	// Inequality Constraint
-	virtual int nrInEq() const;
-	virtual int maxInEq() const;
+	virtual int nrEq() const;
+	virtual int maxEq() const;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::MatrixXd& AEq() const;
+	virtual const Eigen::VectorXd& bEq() const;
 
 private:
 	struct ContactData
@@ -173,7 +172,7 @@ private:
 	};
 
 private:
-	void updateNrInEq();
+	void updateNrEq();
 
 private:
 	std::vector<ContactData> cont_;
@@ -181,10 +180,10 @@ private:
 	Eigen::MatrixXd fullJac_;
 
 	Eigen::MatrixXd A_;
-	Eigen::VectorXd ALU_;
+	Eigen::VectorXd b_;
 
+	int nrEq_;
 	int nrDof_, nrFor_, nrTor_;
-	int nrInEq_;
 	double timeStep_;
 };
 
@@ -313,8 +312,7 @@ public:
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
 
 private:
 	struct CollData
@@ -345,7 +343,7 @@ private:
 	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd AL_, AU_;
+	Eigen::VectorXd bInEq_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd calcVec_;
@@ -381,8 +379,7 @@ public:
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
 
 private:
 	struct CollData
@@ -413,7 +410,7 @@ private:
 	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd AL_, AU_;
+	Eigen::VectorXd bInEq_;
 
 	Eigen::MatrixXd fullJac_;
 	Eigen::VectorXd calcVec_;
@@ -448,8 +445,7 @@ public:
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
 
 private:
 	struct CollData
@@ -476,7 +472,7 @@ private:
 	int nrActivated_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd AL_, AU_;
+	Eigen::VectorXd bInEq_;
 
 	Eigen::VectorXd calcVec_;
 };
@@ -531,7 +527,7 @@ private:
 
 
 
-class ConstantSpeedConstr : public ConstraintFunction<Inequality>
+class ConstantSpeedConstr : public ConstraintFunction<Equality>
 {
 public:
 	ConstantSpeedConstr(const rbd::MultiBody& mb, double timeStep);
@@ -551,15 +547,14 @@ public:
 	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 		const SolverData& data);
 
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameEq() const;
+	virtual std::string descEq(const rbd::MultiBody& mb, int line);
 
 	// Inequality Constraint
-	virtual int maxInEq() const;
+	virtual int maxEq() const;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::MatrixXd& AEq() const;
+	virtual const Eigen::VectorXd& bEq() const;
 
 private:
 	struct ConstantSpeedData
@@ -583,7 +578,7 @@ private:
 	};
 
 private:
-	void updateNrInEq();
+	void updateNrEq();
 
 private:
 	std::vector<ConstantSpeedData> cont_;
@@ -591,7 +586,7 @@ private:
 	Eigen::MatrixXd fullJac_;
 
 	Eigen::MatrixXd A_;
-	Eigen::VectorXd ALU_;
+	Eigen::VectorXd b_;
 
 	int nrVars_;
 	double timeStep_;

@@ -26,6 +26,9 @@
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 
+// Tasks
+#include "GenQPSolver.h"
+
 
 namespace tasks
 {
@@ -33,9 +36,6 @@ namespace tasks
 namespace qp
 {
 
-
-// Value add to the diagonal to ensure positive matrix
-static const double DIAG_CONSTANT = 1e-4;
 
 
 /**
@@ -46,35 +46,32 @@ static const double DIAG_CONSTANT = 1e-4;
 
 QPSolver::QPSolver(bool silent):
 	constr_(),
+	eqConstr_(),
 	inEqConstr_(),
+	genInEqConstr_(),
 	boundConstr_(),
 	tasks_(),
-	nrALine_(0),
-	A_(),AL_(),AU_(),
-	XL_(),XU_(),
-	Q_(),C_(),
-	res_(),
+	maxEqLines_(0),
+	maxInEqLines_(0),
+	maxGenInEqLines_(0),
+	solver_(new LSSOLQPSolver),
 	silent_(silent)
 {
-	lssol_.warm(false);
-	lssol_.feasibilityTol(1e-6);
 }
+
+
+// must declare it in cpp because of GenQPSolver fwd declarition
+QPSolver::~QPSolver()
+{}
 
 
 bool QPSolver::solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
-	return solveLSSOL(mb, mbc);
-}
-
-
-bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
-{
 	preUpdate(mb, mbc);
 
-	bool success = lssol_.solve(Q_, C_,
-		A_.block(0, 0, nrALine_, data_.nrVars_), int(A_.rows()),
-		AL_.segment(0, nrALine_), AU_.segment(0, nrALine_), XL_, XU_);
+	bool success = solver_->solve();
 
+	/*
 	if(!success)
 	{
 		std::cerr << "lssol output: " << lssol_.fail() << std::endl;
@@ -126,27 +123,31 @@ bool QPSolver::solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 			}
 		}
 	}
+	*/
 
-	postUpdate(mb, mbc, success, lssol_.result());
+	postUpdate(mb, mbc, success);
 
 	return success;
 }
 
 
+template <typename T>
+int accumMaxLines(int acc, T* constr)
+{
+	return acc + constr_traits<T>::maxLines(constr);
+}
+
+
 void QPSolver::updateConstrSize()
 {
-	int maxALine = 0;
-	for(std::size_t i = 0; i < inEqConstr_.size(); ++i)
-	{
-		maxALine += inEqConstr_[i]->maxInEq();
-	}
+	maxEqLines_ = std::accumulate(eqConstr_.begin(), eqConstr_.end(), 0,
+		accumMaxLines<Equality>);
+	maxInEqLines_ = std::accumulate(inEqConstr_.begin(), inEqConstr_.end(), 0,
+		accumMaxLines<Inequality>);
+	maxGenInEqLines_ = std::accumulate(genInEqConstr_.begin(), genInEqConstr_.end(),
+		0, accumMaxLines<GenInequality>);
 
-	nrALine_ = 0;
-	A_.resize(maxALine, data_.nrVars_);
-	AL_.resize(maxALine);
-	AU_.resize(maxALine);
-
-	updateSolverSize(data_.nrVars_, maxALine);
+	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 
 
@@ -183,17 +184,6 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 
 	data_.nrVars_ = data_.alphaD_ + data_.lambda_;
 
-	if(XL_.rows() != data_.nrVars_)
-	{
-		XL_.resize(data_.nrVars_);
-		XU_.resize(data_.nrVars_);
-
-		Q_.resize(data_.nrVars_, data_.nrVars_);
-		C_.resize(data_.nrVars_);
-
-		res_.setZero(data_.nrVars_);
-	}
-
 	for(Task* t: tasks_)
 	{
 		t->updateNrVars(mb, data_);
@@ -204,7 +194,7 @@ void QPSolver::nrVars(const rbd::MultiBody& mb,
 		c->updateNrVars(mb, data_);
 	}
 
-	updateSolverSize(data_.nrVars_, int(A_.rows()));
+	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 
 
@@ -239,6 +229,24 @@ void QPSolver::updateNrVars(const rbd::MultiBody& mb) const
 }
 
 
+void QPSolver::addEqualityConstraint(Equality* co)
+{
+	eqConstr_.push_back(co);
+}
+
+
+void QPSolver::removeEqualityConstraint(Equality* co)
+{
+	eqConstr_.erase(std::find(eqConstr_.begin(), eqConstr_.end(), co));
+}
+
+
+int QPSolver::nrEqualityConstraints() const
+{
+	return static_cast<int>(eqConstr_.size());
+}
+
+
 void QPSolver::addInequalityConstraint(Inequality* co)
 {
 	inEqConstr_.push_back(co);
@@ -254,6 +262,24 @@ void QPSolver::removeInequalityConstraint(Inequality* co)
 int QPSolver::nrInequalityConstraints() const
 {
 	return static_cast<int>(inEqConstr_.size());
+}
+
+
+void QPSolver::addGenInequalityConstraint(GenInequality* co)
+{
+	genInEqConstr_.push_back(co);
+}
+
+
+void QPSolver::removeGenInequalityConstraint(GenInequality* co)
+{
+	genInEqConstr_.erase(std::find(genInEqConstr_.begin(), genInEqConstr_.end(), co));
+}
+
+
+int QPSolver::nrGenInequalityConstraints() const
+{
+	return static_cast<int>(genInEqConstr_.size());
 }
 
 
@@ -344,19 +370,19 @@ SolverData& QPSolver::data()
 
 const Eigen::VectorXd& QPSolver::result() const
 {
-	return res_;
+	return solver_->result();
 }
 
 
 Eigen::VectorXd QPSolver::alphaDVec() const
 {
-	return res_.head(data_.alphaD_);
+	return solver_->result().head(data_.alphaD_);
 }
 
 
 Eigen::VectorXd QPSolver::lambdaVec() const
 {
-	return res_.segment(data_.alphaD_, data_.lambda_);
+	return solver_->result().segment(data_.alphaD_, data_.lambda_);
 }
 
 
@@ -393,18 +419,6 @@ int QPSolver::contactLambdaPosition(int bodyId) const
 }
 
 
-void QPSolver::updateSolverSize(int nrVar, int nrConstr)
-{
-	updateLSSOLSize(nrVar, nrConstr);
-}
-
-
-void QPSolver::updateLSSOLSize(int nrVar, int nrConstr)
-{
-	lssol_.problem(nrVar, nrConstr);
-}
-
-
 void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 {
 	data_.computeNormalAccB(mb, mbc);
@@ -418,80 +432,17 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 		tasks_[i]->update(mb, mbc, data_);
 	}
 
-	A_.setZero();
-	AL_.setZero();
-	AU_.setZero();
-	XL_.fill(-std::numeric_limits<double>::infinity());
-	XU_.fill(std::numeric_limits<double>::infinity());
-	Q_.setZero();
-	C_.setZero();
-
-	nrALine_ = 0;
-	for(std::size_t i = 0; i < inEqConstr_.size(); ++i)
-	{
-		// ineq constraint can return a matrix with more line
-		// than the number of constraint
-		int nrConstr = inEqConstr_[i]->nrInEq();
-		const Eigen::MatrixXd& A = inEqConstr_[i]->AInEq();
-		const Eigen::VectorXd& AL = inEqConstr_[i]->LowerInEq();
-		const Eigen::VectorXd& AU = inEqConstr_[i]->UpperInEq();
-
-		A_.block(nrALine_, 0, nrConstr, data_.nrVars_) =
-			A.block(0, 0, nrConstr, data_.nrVars_);
-		AL_.segment(nrALine_, nrConstr) = AL.head(nrConstr);
-		AU_.segment(nrALine_, nrConstr) = AU.head(nrConstr);
-
-		nrALine_ += nrConstr;
-	}
-
-	for(std::size_t i = 0; i < boundConstr_.size(); ++i)
-	{
-		const Eigen::VectorXd& XL = boundConstr_[i]->Lower();
-		const Eigen::VectorXd& XU = boundConstr_[i]->Upper();
-		int bv = boundConstr_[i]->beginVar();
-
-		XL_.segment(bv, XL.size()) = XL;
-		XU_.segment(bv, XU.size()) = XU;
-	}
-
-	for(std::size_t i = 0; i < tasks_.size(); ++i)
-	{
-		const Eigen::MatrixXd& Q = tasks_[i]->Q();
-		const Eigen::VectorXd& C = tasks_[i]->C();
-		std::pair<int, int> b = tasks_[i]->begin();
-
-		int r = static_cast<int>(Q.rows());
-		int c = static_cast<int>(Q.cols());
-
-		Q_.block(b.first, b.second, r, c) += tasks_[i]->weight()*Q;
-		C_.segment(b.first, r) += tasks_[i]->weight()*C;
-	}
-
-	// try to transform Q_ to a positive matrix
-	// we just add a small value to the diagonal since
-	// the first necessary condition is to have
-	// Q_(i,i) > 0
-	// may be we can try to check the second
-	// condition in a near futur
-	// Q_(i,i) + Q_(j,j) > 2·Q_(i,j) for i≠j
-	for(int i = 0; i < data_.nrVars_; ++i)
-	{
-		if(std::abs(Q_(i, i)) < DIAG_CONSTANT)
-		{
-			Q_(i, i) += DIAG_CONSTANT;
-		}
-	}
+	solver_->updateMatrix(tasks_, eqConstr_, inEqConstr_, genInEqConstr_,
+		boundConstr_);
 }
 
 
 void QPSolver::postUpdate(const rbd::MultiBody& /* mb */,
-	rbd::MultiBodyConfig& mbc, bool success, const Eigen::VectorXd& result)
+	rbd::MultiBodyConfig& mbc, bool success)
 {
 	if(success)
 	{
-		res_ = result;
-
-		rbd::vectorToParam(res_.head(data_.alphaD_), mbc.alphaD);
+		rbd::vectorToParam(solver_->result().head(data_.alphaD_), mbc.alphaD);
 
 		// don't write contact force to the structure since contact force are used
 		// to compute C vector.
