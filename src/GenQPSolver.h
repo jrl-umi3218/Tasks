@@ -52,7 +52,7 @@ public:
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr) = 0;
 	virtual bool solve() = 0;
-	virtual const Eigen::VectorXd& result() = 0;
+	virtual const Eigen::VectorXd& result() const = 0;
 };
 
 
@@ -69,7 +69,7 @@ public:
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr);
 	virtual bool solve();
-	virtual const Eigen::VectorXd& result();
+	virtual const Eigen::VectorXd& result() const;
 
 private:
 	Eigen::LSSOL lssol_;
@@ -82,8 +82,6 @@ private:
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-
-	Eigen::VectorXd res_;
 
 	int nrALines_;
 };

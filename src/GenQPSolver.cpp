@@ -168,7 +168,6 @@ LSSOLQPSolver::LSSOLQPSolver():
 	A_(),AL_(),AU_(),
 	XL_(),XU_(),
 	Q_(),C_(),
-	res_(),
 	nrALines_(0)
 {
 	lssol_.warm(false);
@@ -188,8 +187,6 @@ void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 
 	Q_.resize(nrVars, nrVars);
 	C_.resize(nrVars);
-
-	res_.setZero(nrVars);
 
 	lssol_.problem(nrVars, maxALines);
 }
@@ -231,7 +228,7 @@ bool LSSOLQPSolver::solve()
 }
 
 
-const Eigen::VectorXd& LSSOLQPSolver::result()
+const Eigen::VectorXd& LSSOLQPSolver::result() const
 {
 	return lssol_.result();
 }
