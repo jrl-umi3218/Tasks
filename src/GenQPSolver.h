@@ -24,6 +24,7 @@
 
 // Eigen
 #include <EigenQP/LSSOL.h>
+#include <EigenQP/QLD.h>
 
 
 namespace tasks
@@ -84,6 +85,38 @@ private:
 	Eigen::VectorXd C_;
 
 	int nrALines_;
+};
+
+
+
+class QLDQPSolver : public GenQPSolver
+{
+public:
+	QLDQPSolver();
+
+	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq);
+	virtual void updateMatrix(const std::vector<Task*>& tasks,
+		const std::vector<Equality*>& eqConstr,
+		const std::vector<Inequality*>& inEqConstr,
+		const std::vector<GenInequality*>& genInEqConstr,
+		const std::vector<Bound*>& boundConstr);
+	virtual bool solve();
+	virtual const Eigen::VectorXd& result() const;
+
+private:
+	Eigen::QLD qld_;
+
+	Eigen::MatrixXd Aeq_, Aineq_;
+	Eigen::VectorXd beq_, bineq_;
+
+	Eigen::VectorXd XL_;
+	Eigen::VectorXd XU_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+
+	int nrAeqLines_;
+	int nrAineqLines_;
 };
 
 

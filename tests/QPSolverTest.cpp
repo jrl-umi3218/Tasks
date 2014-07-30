@@ -1379,6 +1379,7 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 	sva::PTransformd bodyPoint(Vector3d(0., 0.1, 0.));
 
 	qp::ConstantSpeedConstr constSpeed(mb, 0.005);
+	qp::PostureTask postureTask(mb, {{}, {0.}, {0.}, {0.}}, 1., 0.01);
 	qp::PositionTask posTask(mb, bodyId, Vector3d(1., -1., 1.), bodyPoint.translation());
 	qp::SetPointTask posTaskSp(mb, &posTask, 20., 1.);
 	MatrixXd dof(1, 6);
@@ -1391,6 +1392,7 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeed(), 1);
 
 	constSpeed.addToSolver(solver);
+	solver.addTask(&postureTask);
 	solver.addTask(&posTaskSp);
 
 	solver.nrVars(mb, {}, {});

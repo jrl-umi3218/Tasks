@@ -72,6 +72,9 @@ void fillQC(const std::vector<Task*>& tasks, int nrVars,
 }
 
 
+// general qp form
+
+
 int fillEq(const std::vector<Equality*>& eq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& AL, Eigen::VectorXd& AU)
 {
@@ -142,6 +145,82 @@ int fillGenInEq(const std::vector<GenInequality*>& genInEq, int nrVars,
 }
 
 
+// standard qp form
+
+
+int fillEq(const std::vector<Equality*>& eq, int nrVars,
+	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& b)
+{
+	for(std::size_t i = 0; i < eq.size(); ++i)
+	{
+		// ineq constraint can return a matrix with more line
+		// than the number of constraint
+		int nrConstr = eq[i]->nrEq();
+		const Eigen::MatrixXd& Ai = eq[i]->AEq();
+		const Eigen::VectorXd& bi = eq[i]->bEq();
+
+		A.block(nrALines, 0, nrConstr, nrVars) =
+			Ai.block(0, 0, nrConstr, nrVars);
+		b.segment(nrALines, nrConstr) = bi.head(nrConstr);
+
+		nrALines += nrConstr;
+	}
+
+	return nrALines;
+}
+
+
+int fillInEq(const std::vector<Inequality*>& inEq, int nrVars,
+	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& b)
+{
+	for(std::size_t i = 0; i < inEq.size(); ++i)
+	{
+		// ineq constraint can return a matrix with more line
+		// than the number of constraint
+		int nrConstr = inEq[i]->nrInEq();
+		const Eigen::MatrixXd& Ai = inEq[i]->AInEq();
+		const Eigen::VectorXd& bi = inEq[i]->bInEq();
+
+		A.block(nrALines, 0, nrConstr, nrVars) =
+			Ai.block(0, 0, nrConstr, nrVars);
+		b.segment(nrALines, nrConstr) = bi.head(nrConstr);
+
+		nrALines += nrConstr;
+	}
+
+	return nrALines;
+}
+
+
+int fillGenInEq(const std::vector<GenInequality*>& genInEq, int nrVars,
+	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& b)
+{
+	for(std::size_t i = 0; i < genInEq.size(); ++i)
+	{
+		// ineq constraint can return a matrix with more line
+		// than the number of constraint
+		int nrConstr = genInEq[i]->nrGenInEq();
+		const Eigen::MatrixXd& Ai = genInEq[i]->AGenInEq();
+		const Eigen::VectorXd& ALi = genInEq[i]->LowerGenInEq();
+		const Eigen::VectorXd& AUi = genInEq[i]->UpperGenInEq();
+
+		A.block(nrALines, 0, nrConstr, nrVars) =
+			-Ai.block(0, 0, nrConstr, nrVars);
+		b.segment(nrALines, nrConstr) = -ALi.head(nrConstr);
+
+		nrALines += nrConstr;
+
+		A.block(nrALines, 0, nrConstr, nrVars) =
+			Ai.block(0, 0, nrConstr, nrVars);
+		b.segment(nrALines, nrConstr) = AUi.head(nrConstr);
+
+		nrALines += nrConstr;
+	}
+
+	return nrALines;
+}
+
+
 void fillBound(const std::vector<Bound*>& bounds,
 	Eigen::VectorXd& XL, Eigen::VectorXd& XU)
 {
@@ -165,6 +244,7 @@ void fillBound(const std::vector<Bound*>& bounds,
 
 
 LSSOLQPSolver::LSSOLQPSolver():
+	lssol_(),
 	A_(),AL_(),AU_(),
 	XL_(),XU_(),
 	Q_(),C_(),
@@ -234,6 +314,88 @@ const Eigen::VectorXd& LSSOLQPSolver::result() const
 }
 
 
+
+/**
+	*																QLDQPSolver
+	*/
+
+
+
+QLDQPSolver::QLDQPSolver():
+	qld_(),
+	Aeq_(),Aineq_(),
+	beq_(), bineq_(),
+	XL_(),XU_(),
+	Q_(),C_(),
+	nrAeqLines_(0), nrAineqLines_(0)
+{
+}
+
+
+void QLDQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
+{
+	int maxAeqLines = nrEq;
+	int maxAineqLines = nrInEq + nrGenInEq*2;
+
+	Aeq_.resize(maxAeqLines, nrVars);
+	Aineq_.resize(maxAineqLines, nrVars);
+
+	beq_.resize(maxAeqLines);
+	bineq_.resize(maxAineqLines);
+
+	XL_.resize(nrVars);
+	XU_.resize(nrVars);
+
+	Q_.resize(nrVars, nrVars);
+	C_.resize(nrVars);
+
+	qld_.problem(nrVars, maxAeqLines, maxAineqLines);
+}
+
+
+void QLDQPSolver::updateMatrix(
+	const std::vector<Task*>& tasks,
+	const std::vector<Equality*>& eqConstr,
+	const std::vector<Inequality*>& inEqConstr,
+	const std::vector<GenInequality*>& genInEqConstr,
+	const std::vector<Bound*>& boundConstr)
+{
+	Aeq_.setZero();
+	Aineq_.setZero();
+	beq_.setZero();
+	bineq_.setZero();
+	XL_.fill(-std::numeric_limits<double>::infinity());
+	XU_.fill(std::numeric_limits<double>::infinity());
+	Q_.setZero();
+	C_.setZero();
+
+	const int nrVars = int(Q_.rows());
+
+	nrAeqLines_ = 0;
+	nrAeqLines_ = fillEq(eqConstr, nrVars, nrAeqLines_, Aeq_, beq_);
+	nrAineqLines_ = 0;
+	nrAineqLines_ = fillInEq(inEqConstr, nrVars, nrAineqLines_, Aineq_, bineq_);
+	nrAineqLines_ = fillGenInEq(genInEqConstr, nrVars, nrAineqLines_, Aineq_, bineq_);
+
+	fillBound(boundConstr, XL_, XU_);
+	fillQC(tasks, nrVars, Q_, C_);
+}
+
+
+bool QLDQPSolver::solve()
+{
+	bool success = qld_.solve(Q_, C_,
+		Aeq_.block(0, 0, nrAeqLines_, int(Aeq_.cols())), beq_.segment(0, nrAeqLines_),
+		Aineq_.block(0, 0, nrAineqLines_, int(Aineq_.cols())), bineq_.segment(0, nrAineqLines_),
+		XL_, XU_, 1e-6);
+	return success;
+}
+
+
+const Eigen::VectorXd& QLDQPSolver::result() const
+{
+	return qld_.result();
+}
 
 } // namespace qp
 
