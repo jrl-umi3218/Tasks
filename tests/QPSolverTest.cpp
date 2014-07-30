@@ -1373,6 +1373,7 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 	forwardVelocity(mb, mbcInit);
 
 	qp::QPSolver solver(true);
+	solver.solver("QLD");
 
 	int bodyId = 3;
 	int bodyIndex = mb.bodyIndexById(bodyId);

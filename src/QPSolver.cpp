@@ -350,6 +350,13 @@ int QPSolver::nrTasks() const
 }
 
 
+void QPSolver::solver(const std::string& name)
+{
+	solver_ = std::unique_ptr<GenQPSolver>(createQPSolver(name));
+	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
+}
+
+
 void QPSolver::resetTasks()
 {
 	tasks_.clear();

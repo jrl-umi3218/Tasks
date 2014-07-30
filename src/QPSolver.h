@@ -103,6 +103,8 @@ public:
 	void resetTasks();
 	int nrTasks() const;
 
+	void solver(const std::string& name);
+
 	const SolverData& data() const;
 	SolverData& data();
 
