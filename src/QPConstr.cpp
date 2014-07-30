@@ -1380,8 +1380,7 @@ GripperTorqueConstr::GripperData::GripperData(int bId, double tl,
 GripperTorqueConstr::GripperTorqueConstr():
 	dataVec_(),
 	AInEq_(),
-	AL_(),
-	AU_()
+	bInEq_()
 {}
 
 
@@ -1421,9 +1420,7 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 {
 	using namespace Eigen;
 	AInEq_.setZero(dataVec_.size(), data.nrVars());
-	AL_.resize(dataVec_.size());
-	AL_.fill(-std::numeric_limits<double>::infinity());
-	AU_.setZero(dataVec_.size());
+	bInEq_.setZero(dataVec_.size());
 
 	int line = 0;
 	for(const GripperData& gd: dataVec_)
@@ -1455,7 +1452,7 @@ void GripperTorqueConstr::updateNrVars(const rbd::MultiBody& /* mb */,
 						++col;
 					}
 				}
-				AU_(line) = gd.torqueLimit;
+				bInEq_(line) = gd.torqueLimit;
 				break;
 			}
 
@@ -1501,15 +1498,9 @@ const Eigen::MatrixXd& GripperTorqueConstr::AInEq() const
 }
 
 
-const Eigen::VectorXd& GripperTorqueConstr::LowerInEq() const
+const Eigen::VectorXd& GripperTorqueConstr::bInEq() const
 {
-	return AL_;
-}
-
-
-const Eigen::VectorXd& GripperTorqueConstr::UpperInEq() const
-{
-	return AU_;
+	return bInEq_;
 }
 
 

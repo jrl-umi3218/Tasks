@@ -503,8 +503,7 @@ public:
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
 
 private:
 	struct GripperData
@@ -522,7 +521,7 @@ private:
 	std::vector<GripperData> dataVec_;
 
 	Eigen::MatrixXd AInEq_;
-	Eigen::VectorXd AL_, AU_;
+	Eigen::VectorXd bInEq_;
 };
 
 
