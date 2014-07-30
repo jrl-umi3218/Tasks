@@ -17,6 +17,9 @@
 #include "GenQPSolver.h"
 
 // includes
+// std
+#include <map>
+
 // tasks
 #include "QPSolver.h"
 
@@ -26,6 +29,33 @@ namespace tasks
 
 namespace qp
 {
+
+
+
+/**
+	*													Factory
+	*/
+
+
+
+template <typename T>
+T* allocateQP()
+{
+	return new T;
+}
+
+
+static const
+std::map<std::string, std::function<GenQPSolver*(void)> > qpFactory = {
+	{"LSSOL", allocateQP<LSSOLQPSolver>},
+	{"QLD", allocateQP<QLDQPSolver>}
+};
+
+
+GenQPSolver* createQPSolver(const std::string& name)
+{
+	return qpFactory.at(name)();
+}
 
 
 

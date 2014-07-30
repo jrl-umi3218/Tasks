@@ -54,7 +54,7 @@ QPSolver::QPSolver(bool silent):
 	maxEqLines_(0),
 	maxInEqLines_(0),
 	maxGenInEqLines_(0),
-	solver_(new LSSOLQPSolver),
+	solver_(createQPSolver("LSSOL")),
 	silent_(silent)
 {
 }

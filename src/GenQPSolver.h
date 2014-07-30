@@ -38,7 +38,10 @@ class Equality;
 class Inequality;
 class GenInequality;
 class Bound;
+class GenQPSolver;
 
+
+GenQPSolver* createQPSolver(const std::string& name);
 
 
 class GenQPSolver
