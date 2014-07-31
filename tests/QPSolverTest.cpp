@@ -1187,7 +1187,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	forwardVelocity(mb, mbcInit);
 
 
-	qp::QPSolver solver(true);
+	qp::QPSolver solver;
 
 	double Inf = std::numeric_limits<double>::infinity();
 	std::vector<std::vector<double>> torqueMin = {{},{-Inf},{-Inf},{-Inf}};
@@ -1280,7 +1280,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	forwardKinematics(mb, mbcInit);
 	forwardVelocity(mb, mbcInit);
 
-	qp::QPSolver solver(true);
+	qp::QPSolver solver;
 
 	qp::ContactSpeedConstr contCstrSpeed(mb, 0.005);
 	qp::PositionTask posTask(mb, 0, Vector3d(1., 1., -1.));
@@ -1372,7 +1372,7 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 	forwardKinematics(mb, mbcInit);
 	forwardVelocity(mb, mbcInit);
 
-	qp::QPSolver solver(true);
+	qp::QPSolver solver;
 	solver.solver("QLD");
 
 	int bodyId = 3;
@@ -1464,7 +1464,7 @@ BOOST_AUTO_TEST_CASE(MomentumTask)
 	forwardKinematics(mb, mbc);
 	forwardVelocity(mb, mbc);
 
-	qp::QPSolver solver(true);
+	qp::QPSolver solver;
 
 	solver.nrVars(mb, {}, {});
 	solver.updateConstrSize();

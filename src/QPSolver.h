@@ -55,7 +55,7 @@ class GenQPSolver;
 class QPSolver
 {
 public:
-	QPSolver(bool silent=false);
+	QPSolver();
 	~QPSolver();
 
 	/*! \brief solve the problem
@@ -133,8 +133,6 @@ private:
 	int maxEqLines_, maxInEqLines_, maxGenInEqLines_;
 
 	std::unique_ptr<GenQPSolver> solver_;
-
-	bool silent_;
 };
 
 

@@ -44,7 +44,7 @@ namespace qp
 
 
 
-QPSolver::QPSolver(bool silent):
+QPSolver::QPSolver():
 	constr_(),
 	eqConstr_(),
 	inEqConstr_(),
@@ -54,8 +54,7 @@ QPSolver::QPSolver(bool silent):
 	maxEqLines_(0),
 	maxInEqLines_(0),
 	maxGenInEqLines_(0),
-	solver_(createQPSolver("LSSOL")),
-	silent_(silent)
+	solver_(createQPSolver("LSSOL"))
 {
 }
 
