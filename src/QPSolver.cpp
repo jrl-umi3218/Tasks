@@ -70,59 +70,13 @@ bool QPSolver::solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 
 	bool success = solver_->solve();
 
-	/*
 	if(!success)
 	{
-		std::cerr << "lssol output: " << lssol_.fail() << std::endl;
-		const Eigen::VectorXi& istate = lssol_.istate();
-		// check bound constraint
-		for(int i = 0; i < data_.nrVars_; ++i)
-		{
-			if(istate(i) < 0)
-			{
-				for(Bound* b: boundConstr_)
-				{
-					int start = b->beginVar();
-					int end = start + int(b->Lower().rows());
-					if(i >= start && i < end)
-					{
-						int line = i - start;
-						std::cerr << b->nameBound() << " violated at line: " << line << std::endl;
-						std::cerr << b->descBound(mb, line) << std::endl;
-						std::cerr << XL_(i) << " <= " << lssol_.result()(i) << " <= " << XU_(i) << std::endl;
-						break;
-					}
-				}
-			}
-		}
-
-		// check inequality constraint
-		for(int i = 0; i < nrALine_; ++i)
-		{
-			int iInIstate = i + data_.nrVars_;
-			if(istate(iInIstate) < 0)
-			{
-				int start = 0;
-				int end = 0;
-				for(Inequality* ie: inEqConstr_)
-				{
-					end += ie->nrInEq();
-					if(i >= start && i < end)
-					{
-						int line = i - start;
-						std::cerr << ie->nameInEq() << " violated at line: " << line << std::endl;
-						std::cerr << ie->descInEq(mb, line) << std::endl;
-						std::cerr << ie->LowerInEq()(line) << " <= " <<
-												 ie->AInEq().row(line)*lssol_.result() <<" <= " <<
-												 ie->UpperInEq()(line) << std::endl;
-						break;
-					}
-					start = end;
-				}
-			}
-		}
+		solver_->errorMsg(mb,
+										 tasks_, eqConstr_, inEqConstr_,
+										 genInEqConstr_, boundConstr_,
+										 std::cerr) << std::endl;
 	}
-	*/
 
 	postUpdate(mb, mbc, success);
 

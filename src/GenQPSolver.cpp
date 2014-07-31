@@ -266,6 +266,63 @@ void fillBound(const std::vector<Bound*>& bounds,
 }
 
 
+// print of a constraint at a given line
+template<typename T>
+std::ostream& printConstr(const Eigen::VectorXd& result, T* constr, int line,
+	std::ostream& out);
+
+template<>
+std::ostream& printConstr(const Eigen::VectorXd& result, Equality* constr,
+	int line, std::ostream& out)
+{
+	out << constr->AEq().row(line)*result <<" = " <<
+				 constr->bEq()(line);
+	return out;
+}
+
+template<>
+std::ostream& printConstr(const Eigen::VectorXd& result, Inequality* constr,
+	int line, std::ostream& out)
+{
+	out << constr->AInEq().row(line)*result <<" <= " <<
+				 constr->bInEq()(line);
+	return out;
+}
+
+template<>
+std::ostream& printConstr(const Eigen::VectorXd& result, GenInequality* constr,
+	int line, std::ostream& out)
+{
+	out << constr->LowerGenInEq()(line) << " <= " <<
+				 constr->AGenInEq().row(line)*result <<" <= " <<
+				 constr->UpperGenInEq()(line);
+	return out;
+}
+
+
+template <typename T>
+std::ostream& constrErrorMsg(const rbd::MultiBody& mb, const Eigen::VectorXd& result,
+	int ALine, const std::vector<T*>& constr, int& start, int& end,
+	std::ostream& out)
+{
+	for(T* e: constr)
+	{
+		end += constr_traits<T>::nrLines(e);
+		if(ALine >= start && ALine < end)
+		{
+			int line = ALine - start;
+			out << constr_traits<T>::name(e) << " violated at line: " << line << std::endl;
+			out << constr_traits<T>::desc(e, mb, line) << std::endl;
+			printConstr(result, e, line, out) << std::endl;
+			start = end;
+			break;
+		}
+		start = end;
+	}
+	return out;
+}
+
+
 
 /**
 	*																LSSOLQPSolver
@@ -341,6 +398,59 @@ bool LSSOLQPSolver::solve()
 const Eigen::VectorXd& LSSOLQPSolver::result() const
 {
 	return lssol_.result();
+}
+
+
+std::ostream& LSSOLQPSolver::errorMsg(
+	const rbd::MultiBody& mb,
+	const std::vector<Task*>& /* tasks */,
+	const std::vector<Equality*>& eqConstr,
+	const std::vector<Inequality*>& inEqConstr,
+	const std::vector<GenInequality*>& genInEqConstr,
+	const std::vector<Bound*>& boundConstr,
+	std::ostream& out) const
+{
+	const int nrVars = int(Q_.rows());
+
+	out << "lssol output: " << lssol_.fail() << std::endl;
+	const Eigen::VectorXi& istate = lssol_.istate();
+	// check bound constraint
+	for(int i = 0; i < nrVars; ++i)
+	{
+		if(istate(i) < 0)
+		{
+			for(Bound* b: boundConstr)
+			{
+				int start = b->beginVar();
+				int end = start + int(b->Lower().rows());
+				if(i >= start && i < end)
+				{
+					int line = i - start;
+					out << b->nameBound() << " violated at line: " << line << std::endl;
+					out << b->descBound(mb, line) << std::endl;
+					out << XL_(i) << " <= " << lssol_.result()(i) << " <= " << XU_(i) << std::endl;
+					break;
+				}
+			}
+		}
+	}
+
+	// check inequality constraint
+	for(int i = 0; i < nrALines_; ++i)
+	{
+		int iInIstate = i + nrVars;
+		if(istate(iInIstate) < 0)
+		{
+			int start = 0;
+			int end = 0;
+
+			constrErrorMsg(mb, lssol_.result(), i, eqConstr, start, end, out);
+			constrErrorMsg(mb, lssol_.result(), i, inEqConstr, start, end, out);
+			constrErrorMsg(mb, lssol_.result(), i, genInEqConstr, start, end, out);
+			out << std::endl;
+		}
+	}
+	return out;
 }
 
 
@@ -425,6 +535,19 @@ bool QLDQPSolver::solve()
 const Eigen::VectorXd& QLDQPSolver::result() const
 {
 	return qld_.result();
+}
+
+
+std::ostream& QLDQPSolver::errorMsg(
+	const rbd::MultiBody& /* mb */,
+	const std::vector<Task*>& /* tasks */,
+	const std::vector<Equality*>& /* eqConstr */,
+	const std::vector<Inequality*>& /* inEqConstr */,
+	const std::vector<GenInequality*>& /* genInEqConstr */,
+	const std::vector<Bound*>& /* boundConstr */,
+	std::ostream& out) const
+{
+	return out;
 }
 
 } // namespace qp

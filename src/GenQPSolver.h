@@ -27,6 +27,14 @@
 #include <EigenQP/QLD.h>
 
 
+// forward declaration
+// RBDyn
+namespace rbd
+{
+class MultiBody;
+}
+
+
 namespace tasks
 {
 
@@ -55,8 +63,17 @@ public:
 		const std::vector<Inequality*>& inEqConstr,
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr) = 0;
+
 	virtual bool solve() = 0;
+
 	virtual const Eigen::VectorXd& result() const = 0;
+	virtual std::ostream& errorMsg(const rbd::MultiBody& mb,
+		const std::vector<Task*>& tasks,
+		const std::vector<Equality*>& eqConstr,
+		const std::vector<Inequality*>& inEqConstr,
+		const std::vector<GenInequality*>& genInEqConstr,
+		const std::vector<Bound*>& boundConstr,
+		std::ostream& out) const = 0;
 };
 
 
@@ -74,6 +91,13 @@ public:
 		const std::vector<Bound*>& boundConstr);
 	virtual bool solve();
 	virtual const Eigen::VectorXd& result() const;
+	virtual std::ostream& errorMsg(const rbd::MultiBody& mb,
+		const std::vector<Task*>& tasks,
+		const std::vector<Equality*>& eqConstr,
+		const std::vector<Inequality*>& inEqConstr,
+		const std::vector<GenInequality*>& genInEqConstr,
+		const std::vector<Bound*>& boundConstr,
+		std::ostream& out) const;
 
 private:
 	Eigen::LSSOL lssol_;
@@ -105,6 +129,13 @@ public:
 		const std::vector<Bound*>& boundConstr);
 	virtual bool solve();
 	virtual const Eigen::VectorXd& result() const;
+	virtual std::ostream& errorMsg(const rbd::MultiBody& mb,
+		const std::vector<Task*>& tasks,
+		const std::vector<Equality*>& eqConstr,
+		const std::vector<Inequality*>& inEqConstr,
+		const std::vector<GenInequality*>& genInEqConstr,
+		const std::vector<Bound*>& boundConstr,
+		std::ostream& out) const;
 
 private:
 	Eigen::QLD qld_;
