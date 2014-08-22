@@ -708,7 +708,7 @@ SelfCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collId,
 		body2Id(body2Id),
 		body1(mb.bodyIndexById(body1Id)),
 		body2(mb.bodyIndexById(body2Id)),
-		dampingType(damping > 0. ? DampingType::Hard : DampingType::Soft),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
 		dampingOff(dampOff)
 {
 }
