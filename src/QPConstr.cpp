@@ -939,7 +939,7 @@ StaticEnvCollisionConstr::CollData::CollData(const rbd::MultiBody& mb, int collI
 		bodyId(bodyId),
 		envId(envId),
 		body(mb.bodyIndexById(bodyId)),
-		dampingType(damping > 0. ? DampingType::Hard : DampingType::Soft),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
 		dampingOff(dampOff)
 {
 }
@@ -1162,7 +1162,7 @@ CoMCollisionConstr::CollData::CollData(const rbd::MultiBody& mb,
 		ds(ds),
 		damping(damping),
 		collId(collId),
-		dampingType(damping > 0. ? DampingType::Hard : DampingType::Soft),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
 		dampingOff(dampOff)
 {
 }
