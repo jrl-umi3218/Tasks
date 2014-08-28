@@ -17,13 +17,11 @@
 
 // includes
 // std
+#include <memory>
 #include <vector>
 
 // Eigen
 #include <Eigen/Core>
-
-// Eigen
-#include <EigenQP/LSSOL.h>
 
 // Tasks
 #include "QPSolverData.h"
@@ -47,22 +45,24 @@ namespace qp
 class Constraint;
 class Equality;
 class Inequality;
+class GenInequality;
 class Bound;
 class Task;
+class GenQPSolver;
 
 
 
 class QPSolver
 {
 public:
-	QPSolver(bool silent=false);
+	QPSolver();
+	~QPSolver();
 
 	/*! \brief solve the problem
 	 *  \param mb current multibody
 	 *  \param mbc result of the solving problem
 	 */
 	bool solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
-	bool solveLSSOL(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 
 	void updateConstrSize();
 
@@ -78,9 +78,17 @@ public:
 	/// call updateNrVars on all tasks and constraints
 	void updateNrVars(const rbd::MultiBody& mb) const;
 
+	void addEqualityConstraint(Equality* co);
+	void removeEqualityConstraint(Equality* co);
+	int nrEqualityConstraints() const;
+
 	void addInequalityConstraint(Inequality* co);
 	void removeInequalityConstraint(Inequality* co);
 	int nrInequalityConstraints() const;
+
+	void addGenInequalityConstraint(GenInequality* co);
+	void removeGenInequalityConstraint(GenInequality* co);
+	int nrGenInequalityConstraints() const;
 
 	void addBoundConstraint(Bound* co);
 	void removeBoundConstraint(Bound* co);
@@ -95,6 +103,8 @@ public:
 	void resetTasks();
 	int nrTasks() const;
 
+	void solver(const std::string& name);
+
 	const SolverData& data() const;
 	SolverData& data();
 
@@ -105,37 +115,24 @@ public:
 	int contactLambdaPosition(int bodyId) const;
 
 protected:
-	void updateSolverSize(int nrVar, int nrConstr);
-	void updateLSSOLSize(int nrVar, int nrConstr);
-
 	void preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
 	void postUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc,
-		bool success, const Eigen::VectorXd& result);
+		bool success);
 
 private:
 	std::vector<Constraint*> constr_;
+	std::vector<Equality*> eqConstr_;
 	std::vector<Inequality*> inEqConstr_;
+	std::vector<GenInequality*> genInEqConstr_;
 	std::vector<Bound*> boundConstr_;
 
 	std::vector<Task*> tasks_;
 
 	SolverData data_;
 
-	int nrALine_;
-	Eigen::MatrixXd A_;
-	Eigen::VectorXd AL_, AU_;
+	int maxEqLines_, maxInEqLines_, maxGenInEqLines_;
 
-	Eigen::VectorXd XL_;
-	Eigen::VectorXd XU_;
-
-	Eigen::MatrixXd Q_;
-	Eigen::VectorXd C_;
-
-	Eigen::VectorXd res_;
-
-	Eigen::LSSOL lssol_;
-
-	bool silent_;
+	std::unique_ptr<GenQPSolver> solver_;
 };
 
 
@@ -195,6 +192,32 @@ private:
 
 
 
+class Equality
+{
+public:
+	virtual ~Equality() {}
+	virtual int maxEq() const = 0;
+	virtual int nrEq() const { return maxEq(); }
+
+	virtual const Eigen::MatrixXd& AEq() const = 0;
+	virtual const Eigen::VectorXd& bEq() const = 0;
+
+	virtual std::string nameEq() const = 0;
+	virtual std::string descEq(const rbd::MultiBody& mb, int i) = 0;
+
+	void addToSolver(QPSolver& sol)
+	{
+		sol.addEqualityConstraint(this);
+	}
+
+	void removeFromSolver(QPSolver& sol)
+	{
+		sol.removeEqualityConstraint(this);
+	}
+};
+
+
+
 class Inequality
 {
 public:
@@ -203,8 +226,7 @@ public:
 	virtual int nrInEq() const { return maxInEq(); }
 
 	virtual const Eigen::MatrixXd& AInEq() const = 0;
-	virtual const Eigen::VectorXd& LowerInEq() const = 0;
-	virtual const Eigen::VectorXd& UpperInEq() const = 0;
+	virtual const Eigen::VectorXd& bInEq() const = 0;
 
 	virtual std::string nameInEq() const = 0;
 	virtual std::string descInEq(const rbd::MultiBody& mb, int i) = 0;
@@ -217,6 +239,33 @@ public:
 	void removeFromSolver(QPSolver& sol)
 	{
 		sol.removeInequalityConstraint(this);
+	}
+};
+
+
+
+class GenInequality
+{
+public:
+	virtual ~GenInequality() {}
+	virtual int maxGenInEq() const = 0;
+	virtual int nrGenInEq() const { return maxGenInEq(); }
+
+	virtual const Eigen::MatrixXd& AGenInEq() const = 0;
+	virtual const Eigen::VectorXd& LowerGenInEq() const = 0;
+	virtual const Eigen::VectorXd& UpperGenInEq() const = 0;
+
+	virtual std::string nameGenInEq() const = 0;
+	virtual std::string descGenInEq(const rbd::MultiBody& mb, int i) = 0;
+
+	void addToSolver(QPSolver& sol)
+	{
+		sol.addGenInequalityConstraint(this);
+	}
+
+	void removeFromSolver(QPSolver& sol)
+	{
+		sol.removeGenInequalityConstraint(this);
 	}
 };
 
@@ -297,6 +346,88 @@ public:
 	virtual const Eigen::VectorXd& eval() = 0;
 	virtual const Eigen::VectorXd& speed() = 0;
 	virtual const Eigen::VectorXd& normalAcc() = 0;
+};
+
+
+
+template<typename T>
+struct constr_traits
+{
+};
+
+
+template<>
+struct constr_traits<Equality>
+{
+	static int maxLines(const Equality* constr)
+	{
+		return constr->maxEq();
+	}
+
+	static int nrLines(const Equality* constr)
+	{
+		return constr->nrEq();
+	}
+
+	static std::string name(const Equality* constr)
+	{
+		return constr->nameEq();
+	}
+
+	static std::string desc(Equality* constr, const rbd::MultiBody& mb, int i)
+	{
+		return constr->descEq(mb, i);
+	}
+};
+
+
+template<>
+struct constr_traits<Inequality>
+{
+	static int maxLines(const Inequality* constr)
+	{
+		return constr->maxInEq();
+	}
+
+	static int nrLines(const Inequality* constr)
+	{
+		return constr->nrInEq();
+	}
+
+	static std::string name(const Inequality* constr)
+	{
+		return constr->nameInEq();
+	}
+
+	static std::string desc(Inequality* constr, const rbd::MultiBody& mb, int i)
+	{
+		return constr->descInEq(mb, i);
+	}
+};
+
+
+template<>
+struct constr_traits<GenInequality>
+{
+	static int maxLines(const GenInequality* constr)
+	{
+		return constr->maxGenInEq();
+	}
+
+	static int nrLines(const GenInequality* constr)
+	{
+		return constr->nrGenInEq();
+	}
+
+	static std::string name(const GenInequality* constr)
+	{
+		return constr->nameGenInEq();
+	}
+
+	static std::string desc(GenInequality* constr, const rbd::MultiBody& mb, int i)
+	{
+		return constr->descGenInEq(mb, i);
+	}
 };
 
 

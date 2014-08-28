@@ -33,7 +33,7 @@ namespace tasks
 namespace qp
 {
 
-class MotionConstrCommon : public ConstraintFunction<Inequality, Bound>
+class MotionConstrCommon : public ConstraintFunction<GenInequality, Bound>
 {
 public:
 	MotionConstrCommon(const rbd::MultiBody& mb);
@@ -50,17 +50,17 @@ public:
 	void computeMatrix(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 
 	// Description
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameGenInEq() const;
+	virtual std::string descGenInEq(const rbd::MultiBody& mb, int line);
 	virtual std::string nameBound() const;
 	virtual std::string descBound(const rbd::MultiBody& mb, int line);
 
 	// Inequality Constraint
-	virtual int maxInEq() const;
+	virtual int maxGenInEq() const;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& LowerInEq() const;
-	virtual const Eigen::VectorXd& UpperInEq() const;
+	virtual const Eigen::MatrixXd& AGenInEq() const;
+	virtual const Eigen::VectorXd& LowerGenInEq() const;
+	virtual const Eigen::VectorXd& UpperGenInEq() const;
 
 	// Bound Constraint
 	virtual int beginVar() const;
