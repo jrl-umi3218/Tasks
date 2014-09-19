@@ -1145,6 +1145,10 @@ BOOST_AUTO_TEST_CASE(QPCoMCollTest)
 		forwardKinematics(mb, mbcSolv);
 		forwardVelocity(mb, mbcSolv);
 	}
+
+	comCollConstr.rmCollision(collId1);
+	// try the heuristic to compute the damping
+	comCollConstr.addCollision(mb, collId1, &b0, 0.01, 0.005, 0., 0.1);
 	mbcSolv = mbcInit;
 	for(int i = 0; i < 1000; ++i)
 	{

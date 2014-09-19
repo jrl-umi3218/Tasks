@@ -1257,31 +1257,28 @@ void CoMCollisionConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyCo
 
 		if(dist < d.di)
 		{
-			/*if(d.dampingType == CollData::DampingType::Free)
+			// Compute CoM jacobian, speed and normalAcc
+			const MatrixXd& jac1 = d.jacCoM.jacobian(mb, mbc);
+			Eigen::Vector3d comSpeed = d.jacCoM.velocity(mb, mbc);
+			Eigen::Vector3d comNormalAcc = d.jacCoM.normalAcceleration(
+				mb, mbc, data.normalAccB());
+
+			if(d.dampingType == CollData::DampingType::Free)
 			{
 				d.dampingType = CollData::DampingType::Soft;
-				Vector3d v1(mbc.bodyPosW[d.body].rotation().transpose()*
-						(sva::PTransformd(pb1)*mbc.bodyVelB[d.body]).linear());
-				double distDot = std::abs(v1.dot(normVecDist));
+				double distDot = std::abs(comSpeed.dot(normVecDist));
 
 				/// @todo find a bette solution.
 				// use a value slightly upper ds if dist <= ds
 				double fixedDist = dist <= d.ds ? d.ds + (d.di - d.ds)*0.2 : dist;
 				d.damping = ((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
-			}*/
+			}
 
 			double dampers = d.damping*((dist - d.ds)/(d.di - d.ds));
 
 			Vector3d nf = normVecDist;
 			Vector3d onf = d.normVecDist;
 			Vector3d dnf = (nf - onf)/step_;
-
-			// Compute body
-			//d.jacB1.point(pb1);
-			const MatrixXd& jac1 = d.jacCoM.jacobian(mb, mbc);
-			Eigen::Vector3d comSpeed = d.jacCoM.velocity(mb, mbc);
-			Eigen::Vector3d comNormalAcc = d.jacCoM.normalAcceleration(
-				mb, mbc, data.normalAccB());
 
 			double jqdn = (comSpeed.transpose()*nf)(0);
 			double jqdnd = (comSpeed.transpose()*dnf*step_)(0);
