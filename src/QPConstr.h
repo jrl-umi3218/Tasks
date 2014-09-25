@@ -479,6 +479,68 @@ private:
 
 
 
+class CoMIncPlaneConstr : public ConstraintFunction<Inequality>
+{
+public:
+	CoMIncPlaneConstr(const rbd::MultiBody& mb, double step);
+
+	void addPlane(
+		int planeId, const Eigen::Vector3d& normal, double offset,
+		double di, double ds, double damping, double dampingOff=0.);
+	bool rmPlane(int planeId);
+	std::size_t nrPlanes() const;
+	void reset();
+
+	// Constraint
+	virtual void updateNrVars(const rbd::MultiBody& mb,
+		const SolverData& data);
+
+	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const SolverData& data);
+
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+
+	// InInequality Constraint
+	virtual int nrInEq() const;
+	virtual int maxInEq() const;
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
+
+private:
+	struct PlaneData
+	{
+		enum class DampingType {Hard, Soft, Free};
+		PlaneData(int planeId,
+			const Eigen::Vector3d& normal, double offset,
+			double di, double ds, double damping, double dampingOff);
+		Eigen::Vector3d normal;
+		double offset;
+		double dist;
+		double di, ds;
+		double damping;
+		int planeId;
+		DampingType dampingType;
+		double dampingOff;
+	};
+
+private:
+	std::vector<PlaneData> dataVec_;
+	double step_;
+	int nrVars_;
+	int nrActivated_;
+	std::vector<std::size_t> activated_;
+
+	rbd::CoMJacobian jacCoM_;
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd bInEq_;
+
+	Eigen::VectorXd calcVec_;
+};
+
+
+
 class GripperTorqueConstr : public ConstraintFunction<Inequality>
 {
 public:

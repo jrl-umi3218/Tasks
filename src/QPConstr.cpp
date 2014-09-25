@@ -1361,6 +1361,214 @@ const Eigen::VectorXd& CoMCollisionConstr::bInEq() const
 
 
 /**
+	*													CoMIncPlaneConstr
+	*/
+
+
+CoMIncPlaneConstr::PlaneData::PlaneData(
+	int planeId, const Eigen::Vector3d& normal, double offset,
+	double di, double ds, double damping, double dampOff):
+		normal(normal),
+		offset(offset),
+		dist(0.),
+		di(di),
+		ds(ds),
+		damping(damping),
+		planeId(planeId),
+		dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
+		dampingOff(dampOff)
+{
+}
+
+
+CoMIncPlaneConstr::CoMIncPlaneConstr(const rbd::MultiBody& mb, double step):
+	dataVec_(),
+	step_(step),
+	nrVars_(0),
+	nrActivated_(0),
+	activated_(0),
+	jacCoM_(mb),
+	AInEq_(),
+	bInEq_(),
+	calcVec_(mb.nrDof())
+{
+}
+
+
+void CoMIncPlaneConstr::addPlane(int planeId,
+	const Eigen::Vector3d& normal, double offset,
+	double di, double ds, double damping, double dampingOff)
+{
+	dataVec_.emplace_back(planeId, normal, offset,
+		di, ds, damping, dampingOff);
+	activated_.reserve(dataVec_.size());
+}
+
+
+bool CoMIncPlaneConstr::rmPlane(int planeId)
+{
+	auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
+		[planeId](const PlaneData& data)
+		{
+			return data.planeId == planeId;
+		});
+
+	if(it != dataVec_.end())
+	{
+		dataVec_.erase(it);
+		return true;
+	}
+	// no need to resize activated, only the max size is important
+
+	return false;
+}
+
+
+std::size_t CoMIncPlaneConstr::nrPlanes() const
+{
+	return dataVec_.size();
+}
+
+
+void CoMIncPlaneConstr::reset()
+{
+	dataVec_.clear();
+}
+
+
+void CoMIncPlaneConstr::updateNrVars(const rbd::MultiBody& /* mb */,
+	const SolverData& data)
+{
+	nrVars_ = data.nrVars();
+}
+
+
+void CoMIncPlaneConstr::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const SolverData& data)
+{
+	using namespace Eigen;
+
+	if(static_cast<unsigned int>(AInEq_.rows()) != dataVec_.size()
+		 || AInEq_.cols() != nrVars_)
+	{
+		AInEq_.setZero(dataVec_.size(), nrVars_);
+		bInEq_.setZero(dataVec_.size());
+	}
+
+	Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+
+	for(std::size_t i = 0; i < dataVec_.size(); ++i)
+	{
+		PlaneData& d = dataVec_[i];
+		d.dist = d.normal.dot(com) + d.offset;
+		if(d.dist <= d.di)
+		{
+			// don't allocate since we set capacity to dataVec_ size
+			activated_.push_back(i);
+		}
+		else
+		{
+			if(d.dampingType == PlaneData::DampingType::Soft)
+			{
+				d.dampingType = PlaneData::DampingType::Free;
+			}
+		}
+	}
+
+	nrActivated_ = 0;
+	if(!activated_.empty())
+	{
+		const MatrixXd& jacComMat = jacCoM_.jacobian(mb, mbc);
+		Eigen::Vector3d comSpeed = jacCoM_.velocity(mb, mbc);
+		Eigen::Vector3d comNormalAcc = jacCoM_.normalAcceleration(
+			mb, mbc, data.normalAccB());
+
+		for(std::size_t i: activated_)
+		{
+			PlaneData& d = dataVec_[i];
+			double distDot = d.normal.dot(comSpeed);
+
+			if(d.dampingType == PlaneData::DampingType::Free)
+			{
+				d.dampingType = PlaneData::DampingType::Soft;
+
+				/// @todo find a bette solution.
+				// use a value slightly upper ds if dist <= ds
+				double fixedDist = d.dist <= d.ds ? d.ds + (d.di - d.ds)*0.2 : d.dist;
+				d.damping = ((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
+			}
+
+			double dampers = d.damping*((d.dist - d.ds)/(d.di - d.ds));
+
+			// -dt*normal^T*J_com
+			AInEq_.block(nrActivated_, 0, 1, mb.nrDof()).noalias() =
+				-(step_*d.normal.transpose())*jacComMat;
+
+			// dampers + ddot + dt*normal^T*J*qdot
+			bInEq_(nrActivated_) = dampers + distDot + step_*(d.normal.dot(comNormalAcc));
+			++nrActivated_;
+		}
+	}
+
+	activated_.clear(); // don't free the vector, just say there is 0 elements
+}
+
+
+std::string CoMIncPlaneConstr::nameInEq() const
+{
+	return "CoMIncPlaneConstr";
+}
+
+
+std::string CoMIncPlaneConstr::descInEq(const rbd::MultiBody& /*mb*/, int line)
+{
+	int curLine = 0;
+	for(PlaneData& d: dataVec_)
+	{
+		if(d.dist < d.di)
+		{
+			if(curLine == line)
+			{
+				std::stringstream ss;
+				ss << "planeId: " << d.planeId << std::endl;
+				ss << "dist: " << d.dist << std::endl;
+				ss << "di: " << d.di << std::endl;
+				ss << "ds: " << d.ds << std::endl;
+				ss << "damp: " << d.damping << std::endl;
+				return ss.str();
+			}
+			++curLine;
+		}
+	}
+	return "";
+}
+
+
+int CoMIncPlaneConstr::nrInEq() const
+{
+	return nrActivated_;
+}
+
+
+int CoMIncPlaneConstr::maxInEq() const
+{
+	return int(dataVec_.size());
+}
+
+
+const Eigen::MatrixXd& CoMIncPlaneConstr::AInEq() const
+{
+	return AInEq_;
+}
+
+
+const Eigen::VectorXd& CoMIncPlaneConstr::bInEq() const
+{
+	return bInEq_;
+}
+
+
+/**
 	*													GripperTorqueConstr
 	*/
 
