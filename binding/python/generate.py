@@ -210,6 +210,7 @@ def build_qp(tasks):
   selfCollisionConstr = qp.add_class('SelfCollisionConstr', parent=[ineqConstr, constr])
   seCollisionConstr = qp.add_class('StaticEnvCollisionConstr', parent=[ineqConstr, constr])
   comCollisionConstr = qp.add_class('CoMCollisionConstr', parent=[ineqConstr, constr])
+  comIncPlaneConstr = qp.add_class('CoMIncPlaneConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
@@ -221,10 +222,10 @@ def build_qp(tasks):
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'SelfCollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'StaticEnvCollisionConstr', 'CoMCollisionConstr', 'MotionSpringConstr',
-                'GripperTorqueConstr', 'ConstantSpeedConstr']
+                'GripperTorqueConstr', 'ConstantSpeedConstr', 'CoMIncPlaneConstr']
   eqConstrName = ['ContactAccConstr', 'ContactSpeedConstr', 'ContactSpeedConstr']
   ineqConstrName = ['SelfCollisionConstr', 'StaticEnvCollisionConstr', 'CoMCollisionConstr',
-                    'GripperTorqueConstr']
+                    'GripperTorqueConstr', 'CoMIncPlaneConstr']
   genineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr']
   boundConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr','JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['QuadraticTask', 'SetPointTask', 'PIDTask', 'TargetObjectiveTask', 'LinWeightTask',
@@ -235,7 +236,7 @@ def build_qp(tasks):
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 selfCollisionConstr, seCollisionConstr, comCollisionConstr,
                 jointLimitsConstr, damperJointLimitsConstr, motionSpringConstr,
-                gripperTorqueConstr, constantSpeedConstr]
+                gripperTorqueConstr, constantSpeedConstr, comIncPlaneConstr]
 
   # build list type
   tasks.add_container('std::vector<tasks::qp::FrictionCone>',
@@ -808,7 +809,7 @@ def build_qp(tasks):
                                [], is_const=True)
   seCollisionConstr.add_method('reset', None, []),
 
-  #CoMCollisionConstr
+  # CoMCollisionConstr
   comCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
                                       param('double', 'step')])
   comCollisionConstr.add_method('addCollision', None,
@@ -824,6 +825,23 @@ def build_qp(tasks):
   comCollisionConstr.add_method('nrCollisions', retval('int'),
                                [], is_const=True)
   comCollisionConstr.add_method('reset', None, []),
+
+  # CoMIncPlaneConstr
+  comIncPlaneConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
+                                     param('double', 'step')])
+  comIncPlaneConstr.add_method('addPlane', None,
+                               [param('int', 'planeId'),
+                                param('const Eigen::Vector3d&', 'normal'),
+                                param('double', 'offset'),
+                                param('double', 'di'),
+                                param('double', 'ds'),
+                                param('double', 'damping'),
+                                param('double', 'dampingOff', default_value='0.')])
+
+  comIncPlaneConstr.add_method('rmPlane', retval('bool'), [param('int', 'planeId')])
+  comIncPlaneConstr.add_method('nrPlanes', retval('int'),
+                               [], is_const=True)
+  comIncPlaneConstr.add_method('reset', None, []),
 
 
   # JointLimitsConstr
