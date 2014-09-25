@@ -1495,7 +1495,7 @@ void CoMIncPlaneConstr::update(const rbd::MultiBody& mb,
 				/// @todo find a bette solution.
 				// use a value slightly upper ds if dist <= ds
 				double fixedDist = d.dist <= d.ds ? d.ds + (d.di - d.ds)*0.2 : d.dist;
-				d.damping = ((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
+				d.damping = -((d.di - d.ds)/(fixedDist - d.ds))*distDot + d.dampingOff;
 			}
 
 			double dampers = d.damping*((d.dist - d.ds)/(d.di - d.ds));
