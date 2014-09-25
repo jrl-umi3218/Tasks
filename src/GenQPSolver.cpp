@@ -337,7 +337,7 @@ LSSOLQPSolver::LSSOLQPSolver():
 	Q_(),C_(),
 	nrALines_(0)
 {
-	lssol_.warm(false);
+	lssol_.warm(true);
 	lssol_.feasibilityTol(1e-6);
 }
 
