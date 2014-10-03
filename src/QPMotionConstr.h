@@ -16,6 +16,9 @@
 #pragma once
 
 // includes
+// std
+#include <map>
+
 // Eigen
 #include <Eigen/Core>
 
@@ -36,24 +39,28 @@ namespace qp
 class MotionConstrCommon : public ConstraintFunction<GenInequality, Bound>
 {
 public:
-	MotionConstrCommon(const rbd::MultiBody& mb);
+	MotionConstrCommon();
 
-	void computeTorque(const Eigen::VectorXd& alphaD,
+	void computeTorque(int robotIndex,
+										const Eigen::VectorXd& alphaD,
 										const Eigen::VectorXd& lambda);
-	const Eigen::VectorXd& torque() const;
-	void torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const;
+	const Eigen::VectorXd& torque(int robotIndex) const;
+	void torque(const std::vector<rbd::MultiBody>& mbs,
+		std::vector<rbd::MultiBodyConfig>& mbcs,
+		int robotIndex) const;
 
 	// Constraint
-	virtual void updateNrVars(const rbd::MultiBody& mb,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const SolverData& data);
 
-	void computeMatrix(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+	void computeMatrix(const std::vector<rbd::MultiBody>& mb,
+		const std::vector<rbd::MultiBodyConfig>& mbcs);
 
 	// Description
 	virtual std::string nameGenInEq() const;
-	virtual std::string descGenInEq(const rbd::MultiBody& mb, int line);
+	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mbs, int line);
 	virtual std::string nameBound() const;
-	virtual std::string descBound(const rbd::MultiBody& mb, int line);
+	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line);
 
 	// Inequality Constraint
 	virtual int maxGenInEq() const;
@@ -72,35 +79,46 @@ protected:
 	struct ContactData
 	{
 		ContactData() {}
-		ContactData(const rbd::MultiBody& mb, int body,
+		ContactData(const rbd::MultiBody& mb,
+			int bodyId, int lambdaBegin,
 			std::vector<Eigen::Vector3d> points,
 			const std::vector<FrictionCone>& cones);
 
 
+		int bodyIndex, lambdaBegin;
 		rbd::Jacobian jac;
-		int body;
 		std::vector<Eigen::Vector3d> points;
 		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generators;
 		// Hold the translated jacobian
 		Eigen::MatrixXd jacTrans;
 		// Hold the generator in world frame
-		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generatorsComp;
+		// std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generatorsComp;
+	};
+
+	struct RobotData
+	{
+		RobotData() {}
+		RobotData(const rbd::MultiBody& mb, int robotIndex, int alphaDBegin,
+			std::vector<ContactData> contacts);
+
+		int robotIndex, alphaDBegin, nrDof;
+		rbd::ForwardDynamics fd;
+		std::vector<ContactData> cont;
+		Eigen::MatrixXd fullJac;
+
+		Eigen::VectorXd curTorque;
 	};
 
 protected:
-	rbd::ForwardDynamics fd_;
-
-	std::vector<ContactData> cont_;
-	Eigen::MatrixXd fullJac_;
+	std::vector<RobotData> robots_;
+	int lambdaBegin_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd AL_, AU_;
 
 	Eigen::VectorXd XL_, XU_;
 
-	Eigen::VectorXd curTorque_;
-
-	int nrDof_, nrFor_, nrTor_;
+	std::map<int, int> rIndexToRobot_;
 };
 
 

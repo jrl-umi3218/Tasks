@@ -402,7 +402,7 @@ const Eigen::VectorXd& LSSOLQPSolver::result() const
 
 
 std::ostream& LSSOLQPSolver::errorMsg(
-	const rbd::MultiBody& mb,
+	const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<Task*>& /* tasks */,
 	const std::vector<Equality*>& eqConstr,
 	const std::vector<Inequality*>& inEqConstr,
@@ -539,7 +539,7 @@ const Eigen::VectorXd& QLDQPSolver::result() const
 
 
 std::ostream& QLDQPSolver::errorMsg(
-	const rbd::MultiBody& /* mb */,
+	const std::vector<rbd::MultiBody>& /* mbs */,
 	const std::vector<Task*>& /* tasks */,
 	const std::vector<Equality*>& /* eqConstr */,
 	const std::vector<Inequality*>& /* inEqConstr */,

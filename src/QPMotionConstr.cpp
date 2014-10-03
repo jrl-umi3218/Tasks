@@ -40,20 +40,23 @@ namespace qp
 	*/
 
 
-MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb, int b,
-	std::vector<Eigen::Vector3d> p,
+MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb,
+	int bId, int lB,
+	std::vector<Eigen::Vector3d> pts,
 	const std::vector<FrictionCone>& cones):
-	jac(mb, b),
-	body(jac.jointsPath().back()),
-	points(std::move(p)),
+	bodyIndex(),
+	lambdaBegin(lB),
+	jac(mb, bId),
+	points(std::move(pts)),
 	generators(cones.size()),
-	jacTrans(6, jac.dof()),
-	generatorsComp(cones.size())
+	jacTrans(6, jac.dof())//,
+//	generatorsComp(cones.size())
 {
+	bodyIndex = jac.jointsPath().back();
 	for(std::size_t i = 0; i < cones.size(); ++i)
 	{
 		generators[i].resize(3, cones[i].generators.size());
-		generatorsComp[i].resize(3, cones[i].generators.size());
+		//generatorsComp[i].resize(3, cones[i].generators.size());
 		for(std::size_t j = 0; j < cones[i].generators.size(); ++j)
 		{
 			generators[i].col(j) = cones[i].generators[j];
@@ -62,141 +65,193 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb, int b,
 }
 
 
+MotionConstrCommon::RobotData::RobotData(const rbd::MultiBody& mb, int rI, int aDB,
+	std::vector<ContactData> contacts):
+	robotIndex(rI),
+	alphaDBegin(aDB),
+	nrDof(mb.nrDof()),
+	fd(mb),
+	cont(std::move(contacts)),
+	fullJac(6, mb.nrDof()),
+	curTorque(mb.nrDof())
+{ }
 
-MotionConstrCommon::MotionConstrCommon(const rbd::MultiBody& mb):
-	fd_(mb),
-	cont_(),
-	fullJac_(6, mb.nrDof()),
+
+MotionConstrCommon::MotionConstrCommon():
+	robots_(),
 	A_(),
 	AL_(),
 	AU_(),
 	XL_(),
 	XU_(),
-	curTorque_(mb.nrDof()),
-	nrDof_(0),
-	nrFor_(0),
-	nrTor_(0)
+	rIndexToRobot_()
 {
 }
 
 
-void MotionConstrCommon::computeTorque(const Eigen::VectorXd& alphaD,
-															 const Eigen::VectorXd& lambda)
+void MotionConstrCommon::computeTorque(int robotIndex,
+	const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
 {
-	curTorque_ = fd_.H()*alphaD;
-	curTorque_ += fd_.C();
-	curTorque_ += A_.block(0, nrDof_, A_.rows(), A_.cols() - nrDof_)*lambda;
+	int r = rIndexToRobot_.at(robotIndex);
+	RobotData& rd = robots_[r];
+
+	rd.curTorque = rd.fd.H()*alphaD;
+	rd.curTorque += rd.fd.C();
+	// TODO FORCE !!!
+	// curTorque_ += A_.block(rd.alphaDBegin, rd.nrDof, A_.rows(), A_.cols() - nrDof_)*lambda;
 }
 
 
-const Eigen::VectorXd& MotionConstrCommon::torque() const
+const Eigen::VectorXd& MotionConstrCommon::torque(int robotIndex) const
 {
-	return curTorque_;
+	int r = rIndexToRobot_.at(robotIndex);
+	return robots_[r].curTorque;
 }
 
 
-void MotionConstrCommon::torque(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc) const
+void MotionConstrCommon::torque(const std::vector<rbd::MultiBody>& mbs,
+	std::vector<rbd::MultiBodyConfig>& mbcs, int robotIndex) const
 {
+	int r = rIndexToRobot_.at(robotIndex);
+	const RobotData& rd = robots_[r];
+	const rbd::MultiBody& mb = mbs[robotIndex];
+	rbd::MultiBodyConfig& mbc = mbcs[robotIndex];
+
 	int pos = mb.joint(0).dof();
 	for(std::size_t i = 1; i < mbc.jointTorque.size(); ++i)
 	{
 		for(double& d: mbc.jointTorque[i])
 		{
-			d = curTorque_(pos);
+			d = rd.curTorque(pos);
 			++pos;
 		}
 	}
 }
 
 
-void MotionConstrCommon::updateNrVars(const rbd::MultiBody& mb,
+void MotionConstrCommon::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 	const SolverData& data)
 {
-	const auto& uniCont = data.unilateralContacts();
-	const auto& biCont = data.bilateralContacts();
-	cont_.resize(data.nrContacts());
+	lambdaBegin_ = data.lambdaBegin();
 
-	nrDof_ = data.alphaD();
-	nrFor_ = data.lambda();
-	nrTor_ = data.torque();
+	const auto& cCont = data.allContacts();
 
-	std::size_t iCont = 0;
-	for(const UnilateralContact& c: uniCont)
+	std::vector<std::vector<int>> rToC(mbs.size());
+	for(std::size_t i = 0; i < cCont.size(); ++i)
 	{
-		cont_[iCont] = ContactData(mb, c.bodyId, c.points,
-			std::vector<FrictionCone>(c.points.size(), c.cone));
+		const BilateralContact& c = cCont[i];
 
-		++iCont;
+		// if it's a self contact we can add this constraint juste once
+		if(c.contactId.r1Index == c.contactId.r2Index)
+		{
+			rToC[c.contactId.r1Index].push_back(int(i));
+		}
+		else
+		{
+			rToC[c.contactId.r1Index].push_back(int(i));
+			rToC[c.contactId.r2Index].push_back(int(i));
+		}
 	}
 
-	for(const BilateralContact& c: biCont)
+	robots_.clear();
+	rIndexToRobot_.clear();
+	int totalDof = 0;
+	for(int r = 0; r < int(mbs.size()); ++r)
 	{
-		cont_[iCont] = ContactData(mb, c.bodyId, c.points, c.cones);
+		const rbd::MultiBody& mb = mbs[r];
 
-		++iCont;
+		if(mb.nrDof() > 0)
+		{
+			const std::vector<int>& cIndex = rToC[r];
+			std::vector<ContactData> cd;
+			cd.reserve(cIndex.size());
+
+			for(int ci: cIndex)
+			{
+				const BilateralContact& c = cCont[ci];
+				if(r == c.contactId.r1Index)
+				{
+					cd.emplace_back(mb, c.contactId.r1BodyId, data.lambdaBegin(ci),
+						c.r1Points, c.r1Cones);
+				}
+				// we don't use else to manage self contact on the robot
+				if(r == c.contactId.r2Index)
+				{
+					cd.emplace_back(mb, c.contactId.r2BodyId, data.lambdaBegin(ci),
+						c.r2Points, c.r2Cones);
+				}
+			}
+
+			rIndexToRobot_[r] = int(robots_.size());
+			robots_.emplace_back(mb, r, data.alphaD(r), std::move(cd));
+			totalDof += mb.nrDof();
+		}
 	}
 
-	A_.setZero(nrDof_, data.nrVars());
-	AL_.setZero(nrDof_);
-	AU_.setZero(nrDof_);
-	curTorque_.resize(nrDof_);
+	A_.setZero(totalDof, data.nrVars());
+	AL_.setZero(totalDof);
+	AU_.setZero(totalDof);
 
-	XL_.resize(data.lambda());
-	XU_.resize(data.lambda());
+	XL_.resize(data.totalLambda());
+	XU_.resize(data.totalLambda());
 
 	XL_.fill(0.);
 	XU_.fill(std::numeric_limits<double>::infinity());
 }
 
 
-void MotionConstrCommon::computeMatrix(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
+void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
 	using namespace Eigen;
 
-	fd_.computeH(mb, mbc);
-	fd_.computeC(mb, mbc);
-
-	// H*alphaD - tau - tau_c = -C
-
-	// AEq
-	//         nrDof      nrFor            nrTor
-	// nrDof [   H      -Sum J_i^t*ni     [0 ... -1]
-
-	A_.block(0, 0, nrDof_, nrDof_) = fd_.H();
-
-	int contPos = nrDof_;
-	for(std::size_t i = 0; i < cont_.size(); ++i)
+	int totalDof = 0;
+	for(RobotData& rd: robots_)
 	{
-		const MatrixXd& jac = cont_[i].jac.jacobian(mb, mbc);
+		const rbd::MultiBody& mb = mbs[rd.robotIndex];
+		const rbd::MultiBodyConfig& mbc = mbcs[rd.robotIndex];
 
-		// for each contact point we compute all the torques
-		// due to each generator of the friction cone
-		for(std::size_t j = 0; j < cont_[i].points.size(); ++j)
+		rd.fd.computeH(mb, mbc);
+		rd.fd.computeC(mb, mbc);
+
+		// tauMin -C <= H*alphaD - J^t G lambda <= tauMax - C
+
+		// fill inertia matrix part
+		A_.block(totalDof, rd.alphaDBegin, rd.nrDof, rd.nrDof) = rd.fd.H();
+
+		for(std::size_t i = 0; i < rd.cont.size(); ++i)
 		{
-			cont_[i].generatorsComp[j].noalias() =
-				mbc.bodyPosW[cont_[i].body].rotation().transpose()*cont_[i].generators[j];
+			const MatrixXd& jac = rd.cont[i].jac.bodyJacobian(mb, mbc);
 
-			cont_[i].jac.translateJacobian(jac, mbc,
-				cont_[i].points[j], cont_[i].jacTrans);
-			cont_[i].jac.fullJacobian(mb, cont_[i].jacTrans, fullJac_);
+			ContactData& cd = rd.cont[i];
+			for(std::size_t j = 0; j < cd.points.size(); ++j)
+			{
+				/*
+				cd.generatorsComp[j].noalias() =
+					mbc.bodyPosW[cd.bodyIndex].rotation().transpose()*cd.generators[j];
+					*/
 
-			A_.block(0, contPos, nrDof_, cont_[i].generatorsComp[j].cols()).noalias() =
-				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
-					cont_[i].generatorsComp[j];
+				cd.jac.translateBodyJacobian(jac, mbc, cd.points[j], cd.jacTrans);
+				cd.jac.fullJacobian(mb, cd.jacTrans, rd.fullJac);
 
-			contPos += int(cont_[i].generatorsComp[j].cols());
+				A_.block(totalDof, cd.lambdaBegin, rd.nrDof, cd.generators[j].cols()).noalias() =
+					-rd.fullJac.block(3, 0, 3, rd.fullJac.cols()).transpose()*
+						cd.generators[j];
+			}
 		}
-	}
 
-	// BEq = -C
-	AL_ = -fd_.C();
-	AU_ = -fd_.C();
+		// BEq = -C
+		AL_ = -rd.fd.C();
+		AU_ = -rd.fd.C();
+
+		totalDof += rd.nrDof;
+	}
 }
 
 
 int MotionConstrCommon::maxGenInEq() const
 {
-	return nrDof_;
+	return int(A_.rows());
 }
 
 
@@ -220,7 +275,7 @@ const Eigen::VectorXd& MotionConstrCommon::UpperGenInEq() const
 
 int MotionConstrCommon::beginVar() const
 {
-	return nrDof_;
+	return lambdaBegin_;
 }
 
 
@@ -242,10 +297,20 @@ std::string MotionConstrCommon::nameGenInEq() const
 }
 
 
-std::string MotionConstrCommon::descGenInEq(const rbd::MultiBody& mb, int line)
+std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody>& mbs,
+	int line)
 {
-	int jIndex = findJointFromVector(mb, line, true);
-	return std::string("Joint: ") + mb.joint(jIndex).name();
+	int totalDof = 0;
+	for(const rbd::MultiBody& mb: mbs)
+	{
+		totalDof += mb.nrDof();
+		if(line < totalDof)
+		{
+			int jIndex = findJointFromVector(mb, line, true);
+			return std::string("Joint: ") + mb.joint(jIndex).name();
+		}
+	}
+	return "";
 }
 
 
@@ -255,18 +320,25 @@ std::string MotionConstrCommon::nameBound() const
 }
 
 
-std::string MotionConstrCommon::descBound(const rbd::MultiBody& mb, int line)
+std::string MotionConstrCommon::descBound(const std::vector<rbd::MultiBody>& mbs,
+	int line)
 {
-	int start = 0;
-	int end = 0;
-	for(const ContactData& cd: cont_)
+	for(const RobotData& rd: robots_)
 	{
-		end += int(cd.points.size());
-		if(line >= start && line < end)
+		for(const ContactData& cd: rd.cont)
 		{
-			return std::string("Body: ") + mb.body(cd.body).name();
+			int begin = cd.lambdaBegin - lambdaBegin_;
+			int nrLambda = std::accumulate(cd.generators.begin(), cd.generators.end(),
+				0, [](int acc, const Eigen::Matrix<double, 3, Eigen::Dynamic>& g)
+				{return acc + g.cols();});
+
+			int end = begin + nrLambda;
+			if(line >= begin && line < end)
+			{
+				return std::string("Body: ") +
+					mbs[rd.robotIndex].body(cd.bodyIndex).name();
+			}
 		}
-		start = end;
 	}
 	return "";
 }

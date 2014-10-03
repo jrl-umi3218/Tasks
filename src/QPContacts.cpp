@@ -73,23 +73,82 @@ FrictionCone::FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu):
 
 
 /**
+	*													ContactId
+	*/
+
+
+
+ContactId::ContactId():
+	r1Index(-1),
+	r2Index(-1),
+	r1BodyId(-1),
+	r2BodyId(-1)
+{}
+
+
+ContactId::ContactId(int r1I, int r2I, int r1BId, int r2BId):
+	r1Index(r1I),
+	r2Index(r2I),
+	r1BodyId(r1BId),
+	r2BodyId(r2BId)
+{}
+
+
+bool ContactId::operator==(const ContactId& cId) const
+{
+	return r1Index == cId.r1Index && r2Index == cId.r2Index &&
+		r1BodyId == cId.r1BodyId && r2BodyId == cId.r2BodyId;
+}
+
+
+bool ContactId::operator!=(const ContactId& cId) const
+{
+	return !((*this) == cId);
+}
+
+
+
+/**
 	*													UnilateralContact
 	*/
 
 
 
-UnilateralContact::UnilateralContact(int bodyId,
-	const std::vector<Eigen::Vector3d>& points,
-	const Eigen::Matrix3d& frame, int nrGen, double mu):
-	bodyId(bodyId),
-	points(points),
-	cone(frame, nrGen, mu)
+UnilateralContact::UnilateralContact(int r1I, int r2I,
+	int r1BId, int r2BId,
+	std::vector<Eigen::Vector3d> r1P,
+	const Eigen::Matrix3d& r1Frame,
+	const sva::PTransformd& X,
+	int nrGen, double mu):
+	contactId(r1I, r2I, r1BId, r2BId),
+	r1Points(std::move(r1P)),
+	r2Points(),
+	r1Cone(r1Frame, nrGen, mu),
+	r2Cone(),
+	X_b1_b2(X)
 {
+	construct(r1Frame, nrGen, mu);
+}
+
+
+UnilateralContact::UnilateralContact(const ContactId& cId,
+	std::vector<Eigen::Vector3d> r1P,
+	const Eigen::Matrix3d& r1Frame,
+	const sva::PTransformd& X,
+	int nrGen, double mu):
+	contactId(cId),
+	r1Points(std::move(r1P)),
+	r2Points(),
+	r1Cone(r1Frame, nrGen, mu),
+	r2Cone(),
+	X_b1_b2(X)
+{
+	construct(r1Frame, nrGen, mu);
 }
 
 
 Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda,
-	int /* point */) const
+	int /* point */, const FrictionCone& cone) const
 {
 	Eigen::Vector3d F(Eigen::Vector3d::Zero());
 
@@ -102,14 +161,15 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda,
 }
 
 
-Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda,
+	const FrictionCone& cone) const
 {
 	Eigen::Vector3d F(Eigen::Vector3d::Zero());
 	int pos = 0;
 
-	for(int i = 0; i < int(points.size()); ++i)
+	for(int i = 0; i < int(r1Points.size()); ++i)
 	{
-		F += force(lambda.segment(pos, nrLambda(i)), i);
+		F += force(lambda.segment(pos, nrLambda(i)), i, cone);
 		pos += nrLambda(i);
 	}
 
@@ -119,14 +179,14 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda) const
 
 int UnilateralContact::nrLambda(int /* point */) const
 {
-	return static_cast<int>(cone.generators.size());
+	return static_cast<int>(r1Cone.generators.size());
 }
 
 
 int UnilateralContact::nrLambda() const
 {
 	int totalLambda = 0;
-	for(int i = 0; i < int(points.size()); ++i)
+	for(int i = 0; i < int(r1Points.size()); ++i)
 	{
 		totalLambda += nrLambda(i);
 	}
@@ -135,9 +195,10 @@ int UnilateralContact::nrLambda() const
 
 
 Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda,
-	int point) const
+	int point,
+	const FrictionCone& cone) const
 {
-	checkRange(point, points);
+	checkRange(point, r1Points);
 	if(static_cast<int>(lambda.rows()) != nrLambda(point))
 	{
 		std::ostringstream str;
@@ -146,11 +207,12 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda,
 		throw std::domain_error(str.str());
 	}
 
-	return force(lambda, point);
+	return force(lambda, point, cone);
 }
 
 
-Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda,
+	const FrictionCone& cone) const
 {
 	int totalLambda = nrLambda();
 
@@ -162,15 +224,34 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda) const
 		throw std::domain_error(str.str());
 	}
 
-	return force(lambda);
+	return force(lambda, cone);
 }
 
 
 int UnilateralContact::sNrLambda(int point) const
 {
-	checkRange(point, points);
+	checkRange(point, r1Points);
 	return nrLambda(point);
 }
+
+
+void UnilateralContact::construct(const Eigen::MatrixXd& r1Frame, int nrGen, double mu)
+{
+	// compute points in b2 coordinate
+	r2Points.reserve(r1Points.size());
+	for(const Eigen::Vector3d& p: r1Points)
+	{
+		r2Points.push_back((X_b1_b2*sva::PTransformd(p)).translation());
+	}
+
+	// compute points frame in b2 coordinate
+	Eigen::Matrix3d r2Frame = (X_b1_b2*sva::PTransformd(Eigen::Matrix3d(r1Frame))).rotation();
+
+	// create the b2 cone
+	// We take the oppostie frame because force are opposed
+	r2Cone = FrictionCone(-r2Frame, nrGen, mu);
+}
+
 
 
 /**
@@ -178,45 +259,52 @@ int UnilateralContact::sNrLambda(int point) const
 	*/
 
 
-BilateralContact::BilateralContact(int bId,
-	const Eigen::Vector3d& center, double radius, int nrPoints,
-	const Eigen::Matrix3d& frame, int nrGen, double mu):
-	bodyId(bId),
-	points(nrPoints),
-	cones(nrPoints)
-{
-	Eigen::Vector3d normal(frame.row(2));
-	Eigen::Vector3d tan(frame.row(0));
 
-	double step = (boost::math::constants::pi<double>()*2.)/nrPoints;
-	Eigen::Vector3d sPoint = normal*radius;
-
-	for(int i = 0; i < nrPoints; ++i)
-	{
-		Eigen::AngleAxisd rot(step*i, tan);
-		points[i] = center + rot*sPoint;
-		// we must inverse rot because we are in anti trig frame
-		cones[i] = FrictionCone(rot.inverse()*frame, nrGen, mu);
-	}
-}
-
-
-BilateralContact::BilateralContact(int bId, std::vector<Eigen::Vector3d>& p,
-	const std::vector<Eigen::Matrix3d>& frames,
+BilateralContact::BilateralContact(int r1I, int r2I,
+	int r1BId, int r2BId,
+	std::vector<Eigen::Vector3d> r1P,
+	const std::vector<Eigen::Matrix3d>& r1Frames,
+	const sva::PTransformd& X,
 	int nrGen, double mu):
-	bodyId(bId),
-	points(p),
-	cones(p.size())
+	contactId(r1I, r2I, r1BId, r2BId),
+	r1Points(std::move(r1P)),
+	r2Points(),
+	r1Cones(r1Points.size()),
+	r2Cones(r1Points.size()),
+	X_b1_b2(X)
 {
-	for(std::size_t i = 0; i < frames.size(); ++i)
-	{
-		cones[i] = FrictionCone(frames[i], nrGen, mu);
-	}
+	construct(r1Frames, nrGen, mu);
 }
+
+
+BilateralContact::BilateralContact(const ContactId& cId,
+	std::vector<Eigen::Vector3d> r1P,
+	const std::vector<Eigen::Matrix3d>& r1Frames,
+	const sva::PTransformd& X,
+	int nrGen, double mu):
+	contactId(cId),
+	r1Points(std::move(r1P)),
+	r2Points(),
+	r1Cones(r1Points.size()),
+	r2Cones(r1Points.size()),
+	X_b1_b2(X)
+{
+	construct(r1Frames, nrGen, mu);
+}
+
+
+BilateralContact::BilateralContact(const UnilateralContact& c):
+	contactId(c.contactId),
+	r1Points(c.r1Points),
+	r2Points(c.r2Points),
+	r1Cones(c.r1Points.size(), c.r1Cone),
+	r2Cones(c.r1Points.size(), c.r2Cone),
+	X_b1_b2(c.X_b1_b2)
+{ }
 
 
 Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
-	int point) const
+	int point, const std::vector<FrictionCone>& cones) const
 {
 	Eigen::Vector3d F(Eigen::Vector3d::Zero());
 
@@ -229,14 +317,15 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
 }
 
 
-Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
+	const std::vector<FrictionCone>& cones) const
 {
 	Eigen::Vector3d F(Eigen::Vector3d::Zero());
 	int pos = 0;
 
-	for(int i = 0; i < int(points.size()); ++i)
+	for(int i = 0; i < int(r1Points.size()); ++i)
 	{
-		F += force(lambda.segment(pos, nrLambda(i)), i);
+		F += force(lambda.segment(pos, nrLambda(i)), i, cones);
 		pos += nrLambda(i);
 	}
 
@@ -246,14 +335,14 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda) const
 
 int BilateralContact::nrLambda(int point) const
 {
-	return static_cast<int>(cones[point].generators.size());
+	return static_cast<int>(r1Cones[point].generators.size());
 }
 
 
 int BilateralContact::nrLambda() const
 {
 	int totalLambda = 0;
-	for(int i = 0; i < int(points.size()); ++i)
+	for(int i = 0; i < int(r1Points.size()); ++i)
 	{
 		totalLambda += nrLambda(i);
 	}
@@ -262,9 +351,9 @@ int BilateralContact::nrLambda() const
 
 
 Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda,
-	int point) const
+	int point, const std::vector<FrictionCone>& cones) const
 {
-	checkRange(point, points);
+	checkRange(point, r1Points);
 	if(static_cast<int>(lambda.rows()) != nrLambda(point))
 	{
 		std::ostringstream str;
@@ -273,11 +362,12 @@ Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda,
 		throw std::domain_error(str.str());
 	}
 
-	return force(lambda, point);
+	return force(lambda, point, cones);
 }
 
 
-Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda) const
+Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda,
+	const std::vector<FrictionCone>& cones) const
 {
 	int totalLambda = nrLambda();
 
@@ -289,14 +379,37 @@ Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda) const
 		throw std::domain_error(str.str());
 	}
 
-	return force(lambda);
+	return force(lambda, cones);
 }
 
 
 int BilateralContact::sNrLambda(int point) const
 {
-	checkRange(point, points);
+	checkRange(point, r1Points);
 	return nrLambda(point);
+}
+
+
+void BilateralContact::construct(const std::vector<Eigen::Matrix3d>& r1Frames,
+	int nrGen, double mu)
+{
+	assert(r1Points.size() == r1Frames.size());
+
+	r2Points.reserve(r1Points.size());
+	sva::PTransformd X_b2_b1(X_b1_b2.inv());
+	for(std::size_t i = 0; i < r1Points.size(); ++i)
+	{
+		// compute point i in b2 coordinate
+		sva::PTransformd X_b1_p(r1Frames[i], r1Points[i]);
+		sva::PTransformd X_b2_p = X_b1_p*X_b2_b1;
+		r2Points.push_back(X_b2_p.translation());
+
+		// construct r1 cone
+		r1Cones[i] = FrictionCone(r1Frames[i], nrGen, mu);
+		// create the b2 cone
+		// We take the oppostie frame because force are opposed
+		r2Cones[i] = FrictionCone(-X_b2_p.rotation(), nrGen, mu);
+	}
 }
 
 

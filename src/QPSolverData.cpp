@@ -29,31 +29,44 @@ namespace qp
 {
 
 SolverData::SolverData():
-	alphaD_(0),
-	lambda_(0),
-	torque_(0),
+	alphaD_(),
+	alphaDBegin_(),
+	lambda_(),
+	totalAlphaD_(0),
+	totalLambda_(0),
+	nrUniLambda_(0),
+	nrBiLambda_(0),
 	nrVars_(0),
 	uniCont_(),
-	biCont_()
+	biCont_(),
+	allCont_(),
+	normalAccB_()
 {}
 
 
-void SolverData::computeNormalAccB(const rbd::MultiBody& mb,
-	const rbd::MultiBodyConfig& mbc)
+void SolverData::computeNormalAccB(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
-	const std::vector<int>& pred = mb.predecessors();
-	const std::vector<int>& succ = mb.successors();
-
-	for(int i = 0; i < mb.nrJoints(); ++i)
+	for(std::size_t r = 0; r < mbs.size(); ++r)
 	{
-		const sva::PTransformd& X_p_i = mbc.parentToSon[i];
-		const sva::MotionVecd& vj_i = mbc.jointVelocity[i];
-		const sva::MotionVecd& vb_i = mbc.bodyVelB[i];
+		const rbd::MultiBody& mb = mbs[r];
+		const rbd::MultiBodyConfig& mbc = mbcs[r];
+		std::vector<sva::MotionVecd>& normalAccBr = normalAccB_[r];
 
-		if(pred[i] != -1)
-			normalAccB_[succ[i]] = X_p_i*normalAccB_[pred[i]] + vb_i.cross(vj_i);
-		else
-			normalAccB_[succ[i]] = vb_i.cross(vj_i);
+		const std::vector<int>& pred = mb.predecessors();
+		const std::vector<int>& succ = mb.successors();
+
+		for(int i = 0; i < mb.nrJoints(); ++i)
+		{
+			const sva::PTransformd& X_p_i = mbc.parentToSon[i];
+			const sva::MotionVecd& vj_i = mbc.jointVelocity[i];
+			const sva::MotionVecd& vb_i = mbc.bodyVelB[i];
+
+			if(pred[i] != -1)
+				normalAccBr[succ[i]] = X_p_i*normalAccBr[pred[i]] + vb_i.cross(vj_i);
+			else
+				normalAccBr[succ[i]] = vb_i.cross(vj_i);
+		}
 	}
 }
 

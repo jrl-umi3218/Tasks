@@ -41,11 +41,12 @@ namespace qp
 class SetPointTask : public Task
 {
 public:
-	SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double stiffness, double weight);
+	SetPointTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double stiffness, double weight);
 
-	SetPointTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double stiffness, const Eigen::VectorXd& dimWeight, double weight);
+	SetPointTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double stiffness, const Eigen::VectorXd& dimWeight,
+		double weight);
 
 	double stiffness() const
 	{
@@ -56,7 +57,7 @@ public:
 
 	virtual std::pair<int, int> begin() const
 	{
-		return std::make_pair(0, 0);
+		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
 
 	void dimWeight(const Eigen::VectorXd& dim);
@@ -66,9 +67,10 @@ public:
 		return dimWeight_;
 	}
 
-	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -79,6 +81,7 @@ private:
 
 	double stiffness_, stiffnessSqrt_;
 	Eigen::VectorXd dimWeight_;
+	int robotIndex_, alphaDBegin_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
@@ -91,11 +94,12 @@ private:
 class PIDTask : public Task
 {
 public:
-	PIDTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double P, double I, double D, double weight);
+	PIDTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double P, double I, double D, double weight);
 
-	PIDTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double P, double I, double D, const Eigen::VectorXd& dimWeight, double weight);
+	PIDTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double P, double I, double D,
+		const Eigen::VectorXd& dimWeight, double weight);
 
 	double P() const;
 	void P(double p);
@@ -106,7 +110,7 @@ public:
 
 	virtual std::pair<int, int> begin() const
 	{
-		return std::make_pair(0, 0);
+		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
 
 	void dimWeight(const Eigen::VectorXd& dim);
@@ -120,9 +124,10 @@ public:
 	void errorD(const Eigen::VectorXd& errD);
 	void errorI(const Eigen::VectorXd& errI);
 
-	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -133,6 +138,7 @@ private:
 
 	double P_, I_, D_;
 	Eigen::VectorXd dimWeight_;
+	int robotIndex_, alphaDBegin_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
@@ -146,11 +152,13 @@ private:
 class TargetObjectiveTask : public Task
 {
 public:
-	TargetObjectiveTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+	TargetObjectiveTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask,
 		double timeStep, double duration, const Eigen::VectorXd& objDot,
 		double weight);
 
-	TargetObjectiveTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
+	TargetObjectiveTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask,
 		double timeStep, double duration, const Eigen::VectorXd& objDot,
 		const Eigen::VectorXd& dimWeight, double weight);
 
@@ -205,12 +213,13 @@ public:
 
 	virtual std::pair<int, int> begin() const
 	{
-		return std::make_pair(0, 0);
+		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
 
-	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -223,6 +232,7 @@ private:
 	double dt_;
 	Eigen::VectorXd objDot_;
 	Eigen::VectorXd dimWeight_;
+	int robotIndex_, alphaDBegin_;
 
 	Eigen::VectorXd phi_, psi_;
 
@@ -231,59 +241,6 @@ private:
 	// cache
 	Eigen::MatrixXd preQ_;
 	Eigen::VectorXd CVecSum_, preC_;
-};
-
-
-
-class QuadraticTask : public Task
-{
-public:
-	QuadraticTask(const rbd::MultiBody& mb, HighLevelTask* hlTask,
-		double weight);
-
-	virtual std::pair<int, int> begin() const
-	{
-		return std::make_pair(0, 0);
-	}
-
-	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-		const SolverData& data);
-
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
-
-private:
-	HighLevelTask* hlTask_;
-
-	Eigen::MatrixXd Q_;
-	Eigen::VectorXd C_;
-};
-
-
-
-class LinWeightTask : public Task
-{
-public:
-	LinWeightTask(Task* t, double step, double objWeight);
-
-	virtual void weight(double w);
-
-	virtual std::pair<int, int> begin() const;
-	virtual void updateNrVars(const rbd::MultiBody& mb,
-		const SolverData& data);
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-		const SolverData& data);
-
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
-
-private:
-	Task* task_;
-
-	double step_;
-	double objWeight_;
 };
 
 
@@ -308,8 +265,8 @@ struct JointStiffness
 class PostureTask : public Task
 {
 public:
-	PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double> > q,
-		double stiffness, double weight);
+	PostureTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		std::vector<std::vector<double> > q, double stiffness, double weight);
 
 	tasks::PostureTask& task()
 	{
@@ -338,12 +295,13 @@ public:
 
 	virtual std::pair<int, int> begin() const
 	{
-		return std::make_pair(0, 0);
+		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
 
-	virtual void updateNrVars(const rbd::MultiBody& /* mb */,
-		const SolverData& /* data */) {}
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
@@ -363,6 +321,7 @@ private:
 
 	double stiffness_;
 	double stiffnessSqrt_;
+	int robotIndex_, alphaDBegin_;
 
 	std::vector<JointData> jointDatas_;
 
@@ -376,7 +335,8 @@ private:
 class PositionTask : public HighLevelTask
 {
 public:
-	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos,
+	PositionTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const Eigen::Vector3d& pos,
 		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	tasks::PositionTask& task()
@@ -405,7 +365,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mb,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
@@ -415,6 +376,7 @@ public:
 
 private:
 	tasks::PositionTask pt_;
+	int robotIndex_;
 };
 
 
@@ -422,8 +384,10 @@ private:
 class OrientationTask : public HighLevelTask
 {
 public:
-	OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Quaterniond& ori);
-	OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Matrix3d& ori);
+	OrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
+		int bodyId, const Eigen::Quaterniond& ori);
+	OrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
+		int bodyId, const Eigen::Matrix3d& ori);
 
 	tasks::OrientationTask& task()
 	{
@@ -446,7 +410,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
@@ -456,6 +421,7 @@ public:
 
 private:
 	tasks::OrientationTask ot_;
+	int robotIndex_;
 };
 
 
@@ -463,9 +429,10 @@ private:
 class CoMTask : public HighLevelTask
 {
 public:
-	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com);
-	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com,
-				 std::vector<double> weight);
+	CoMTask(const std::vector<rbd::MultiBody>& mb,
+		int robotIndex, const Eigen::Vector3d& com);
+	CoMTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		const Eigen::Vector3d& com, std::vector<double> weight);
 
 	tasks::CoMTask& task()
 	{
@@ -483,7 +450,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
@@ -493,13 +461,15 @@ public:
 
 private:
 	tasks::CoMTask ct_;
+	int robotIndex_;
 };
 
 
 class MomentumTask : public HighLevelTask
 {
 public:
-	MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd& mom);
+	MomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		const sva::ForceVecd& mom);
 
 	tasks::MomentumTask& task()
 	{
@@ -517,7 +487,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mb,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
@@ -527,15 +498,16 @@ public:
 
 private:
 	tasks::MomentumTask momt_;
+	int robotIndex_;
 };
 
 
 class ContactTask : public Task
 {
 public:
-	ContactTask(int bodyId, double stiffness, double weight):
+	ContactTask(ContactId contactId, double stiffness, double weight):
 		Task(weight),
-		bodyId_(bodyId),
+		contactId_(contactId),
 		begin_(0),
 		stiffness_(stiffness),
 		stiffnessSqrt_(2*std::sqrt(stiffness)),
@@ -554,16 +526,17 @@ public:
 	void error(const Eigen::Vector3d& error);
 	void errorD(const Eigen::Vector3d& errorD);
 
-	virtual void updateNrVars(const rbd::MultiBody& mb,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const SolverData& data);
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
 
 private:
-	int bodyId_;
+	ContactId contactId_;
 	int begin_;
 
 	double stiffness_, stiffnessSqrt_;
@@ -579,10 +552,10 @@ private:
 class GripperTorqueTask : public Task
 {
 public:
-	GripperTorqueTask(int bodyId, const Eigen::Vector3d& origin,
+	GripperTorqueTask(ContactId contactId, const Eigen::Vector3d& origin,
 		const Eigen::Vector3d& axis, double weight):
 		Task(weight),
-		bodyId_(bodyId),
+		contactId_(contactId),
 		origin_(origin),
 		axis_(axis),
 		begin_(0),
@@ -595,16 +568,17 @@ public:
 		return std::make_pair(begin_, begin_);
 	}
 
-	virtual void updateNrVars(const rbd::MultiBody& mb,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const SolverData& data);
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
 
 private:
-	int bodyId_;
+	ContactId contactId_;
 	Eigen::Vector3d origin_;
 	Eigen::Vector3d axis_;
 	int begin_;
@@ -618,7 +592,8 @@ private:
 class LinVelocityTask : public HighLevelTask
 {
 public:
-	LinVelocityTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& vel,
+	LinVelocityTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const Eigen::Vector3d& vel,
 		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	tasks::LinVelocityTask& task()
@@ -647,7 +622,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
@@ -657,6 +633,7 @@ public:
 
 private:
 	tasks::LinVelocityTask pt_;
+	int robotIndex_;
 };
 
 
@@ -664,7 +641,8 @@ private:
 class OrientationTrackingTask : public HighLevelTask
 {
 public:
-	OrientationTrackingTask(const rbd::MultiBody& mb, int bodyId,
+	OrientationTrackingTask(const std::vector<rbd::MultiBody>& mbs,
+		int robotIndex, int bodyId,
 		const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
 		const std::vector<int>& trackingJointsId,
 		const Eigen::Vector3d& trackedPoint);
@@ -705,7 +683,8 @@ public:
 	}
 
 	virtual int dim();
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
 	virtual const Eigen::MatrixXd& jac();
@@ -714,6 +693,7 @@ public:
 	virtual const Eigen::VectorXd& normalAcc();
 
 private:
+	int robotIndex_;
 	tasks::OrientationTrackingTask ott_;
 	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd speed_, normalAcc_;

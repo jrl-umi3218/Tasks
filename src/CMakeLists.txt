@@ -1,7 +1,7 @@
-set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp
+set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp #QPConstr.cpp
             QPContacts.cpp QPSolverData.cpp QPMotionConstr.cpp
             GenQPSolver.cpp)
-set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h
+set(HEADERS Tasks.h QPSolver.h QPTasks.h# QPConstr.h
             QPContacts.h QPSolverData.h QPMotionConstr.h
             GenQPSolver.h)
 set(PRIVATE_HEADERS utils.h)

@@ -62,21 +62,22 @@ public:
 	 *  \param mb current multibody
 	 *  \param mbc result of the solving problem
 	 */
-	bool solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
+	bool solve(const std::vector<rbd::MultiBody>& mbs,
+						 std::vector<rbd::MultiBodyConfig>& mbcs);
 
 	void updateConstrSize();
 
-	void nrVars(const rbd::MultiBody& mb,
+	void nrVars(const std::vector<rbd::MultiBody>& mbs,
 		std::vector<UnilateralContact> uni,
 		std::vector<BilateralContact> bi);
 	int nrVars() const;
 
 	/// call updateNrVars on all tasks
-	void updateTasksNrVars(const rbd::MultiBody& mb) const;
+	void updateTasksNrVars(const std::vector<rbd::MultiBody>& mbs) const;
 	/// call updateNrVars on all constraints
-	void updateConstrsNrVars(const rbd::MultiBody& mb) const;
+	void updateConstrsNrVars(const std::vector<rbd::MultiBody>& mbs) const;
 	/// call updateNrVars on all tasks and constraints
-	void updateNrVars(const rbd::MultiBody& mb) const;
+	void updateNrVars(const std::vector<rbd::MultiBody>& mbs) const;
 
 	void addEqualityConstraint(Equality* co);
 	void removeEqualityConstraint(Equality* co);
@@ -110,13 +111,18 @@ public:
 
 	const Eigen::VectorXd& result() const;
 	Eigen::VectorXd alphaDVec() const;
-	Eigen::VectorXd lambdaVec() const;
+	Eigen::VectorXd alphaDVec(int rIndex) const;
 
-	int contactLambdaPosition(int bodyId) const;
+	Eigen::VectorXd lambdaVec() const;
+	Eigen::VectorXd lambdaVec(int cIndex) const;
+
+	int contactLambdaPosition(const ContactId& cId) const;
 
 protected:
-	void preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc);
-	void postUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc,
+	void preUpdate(const std::vector<rbd::MultiBody>& mbs,
+								std::vector<rbd::MultiBodyConfig>& mbcs);
+	void postUpdate(const std::vector<rbd::MultiBody>& mbs,
+									std::vector<rbd::MultiBodyConfig>& mbcs,
 		bool success);
 
 private:
@@ -141,11 +147,11 @@ class Constraint
 {
 public:
 	virtual ~Constraint() {}
-	virtual void updateNrVars(const rbd::MultiBody& mb,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& msb,
 		const SolverData& data) = 0;
 
-	virtual void update(const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc, const SolverData& data) = 0;
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data) = 0;
 };
 
 
@@ -203,7 +209,8 @@ public:
 	virtual const Eigen::VectorXd& bEq() const = 0;
 
 	virtual std::string nameEq() const = 0;
-	virtual std::string descEq(const rbd::MultiBody& mb, int i) = 0;
+	virtual std::string descEq(const std::vector<rbd::MultiBody>& mbs,
+		int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{
@@ -229,7 +236,8 @@ public:
 	virtual const Eigen::VectorXd& bInEq() const = 0;
 
 	virtual std::string nameInEq() const = 0;
-	virtual std::string descInEq(const rbd::MultiBody& mb, int i) = 0;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs,
+		int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{
@@ -256,7 +264,8 @@ public:
 	virtual const Eigen::VectorXd& UpperGenInEq() const = 0;
 
 	virtual std::string nameGenInEq() const = 0;
-	virtual std::string descGenInEq(const rbd::MultiBody& mb, int i) = 0;
+	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mbs,
+		int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{
@@ -316,10 +325,10 @@ public:
 
 	virtual std::pair<int, int> begin() const = 0;
 
-	virtual void updateNrVars(const rbd::MultiBody& mb,
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const SolverData& data) = 0;
-	virtual void update(const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data) = 0;
 
 	virtual const Eigen::MatrixXd& Q() const = 0;
@@ -338,8 +347,8 @@ public:
 
 	virtual int dim() = 0;
 
-	virtual void update(const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data) = 0;
 
 	virtual const Eigen::MatrixXd& jac() = 0;
@@ -374,9 +383,10 @@ struct constr_traits<Equality>
 		return constr->nameEq();
 	}
 
-	static std::string desc(Equality* constr, const rbd::MultiBody& mb, int i)
+	static std::string desc(Equality* constr,
+		const std::vector<rbd::MultiBody>& mbs, int i)
 	{
-		return constr->descEq(mb, i);
+		return constr->descEq(mbs, i);
 	}
 };
 
@@ -399,9 +409,10 @@ struct constr_traits<Inequality>
 		return constr->nameInEq();
 	}
 
-	static std::string desc(Inequality* constr, const rbd::MultiBody& mb, int i)
+	static std::string desc(Inequality* constr,
+		const std::vector<rbd::MultiBody>& mbs, int i)
 	{
-		return constr->descInEq(mb, i);
+		return constr->descInEq(mbs, i);
 	}
 };
 
@@ -424,9 +435,10 @@ struct constr_traits<GenInequality>
 		return constr->nameGenInEq();
 	}
 
-	static std::string desc(GenInequality* constr, const rbd::MultiBody& mb, int i)
+	static std::string desc(GenInequality* constr,
+		const std::vector<rbd::MultiBody>& mbs, int i)
 	{
-		return constr->descGenInEq(mb, i);
+		return constr->descGenInEq(mbs, i);
 	}
 };
 

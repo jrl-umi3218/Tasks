@@ -49,63 +49,70 @@ public:
 		return nrVars_;
 	}
 
-	int alphaD() const
+	int totalAlphaD() const
 	{
-		return alphaD_;
+		return totalAlphaD_;
 	}
 
-	int lambda() const
+	int totalLambda() const
 	{
-		return lambda_;
+		return totalLambda_;
 	}
 
-	int torque() const
+	int alphaD(int robotIndex) const
 	{
-		return torque_;
+		return alphaD_[robotIndex];
 	}
 
+	int lambda(int contactIndex) const
+	{
+		return lambda_[contactIndex];
+	}
 
 	int alphaDBegin() const
 	{
 		return 0;
 	}
 
+	int alphaDBegin(int robotIndex) const
+	{
+		return alphaDBegin_[robotIndex];
+	}
+
 	int lambdaBegin() const
 	{
-		return alphaD_;
+		return totalAlphaD_;
 	}
 
-	int torqueBegin() const
+	int lambdaBegin(int contactIndex) const
 	{
-		return alphaD_ + lambda_;
+		return lambdaBegin_[contactIndex];
 	}
 
+	int nrUniLambda() const
+	{
+		return nrUniLambda_;
+	}
+
+	int nrBiLambda() const
+	{
+		return nrBiLambda_;
+	}
+
+	int unilateralBegin() const
+	{
+		return lambdaBegin();
+	}
+
+	int bilateralBegin() const
+	{
+		return unilateralBegin() + nrUniLambda_;
+	}
 
 	int nrContacts() const
 	{
 		return static_cast<int>(uniCont_.size() + biCont_.size());
 	}
-
-	int nrUnilateralLambda() const
-	{
-		return lambdaUni_;
-	}
-
-	int nrBilateralLambda() const
-	{
-		return lambdaBi_;
-	}
-
-	int unilateralBegin() const
-	{
-		return alphaD_;
-	}
-
-	int bilateralBegin() const
-	{
-		return alphaD_ + lambdaUni_;
-	}
-
 
 	const std::vector<UnilateralContact>& unilateralContacts() const
 	{
@@ -117,27 +124,34 @@ public:
 		return biCont_;
 	}
 
-
-	void computeNormalAccB(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
-
-	const std::vector<sva::MotionVecd>& normalAccB() const
+	const std::vector<BilateralContact>& allContacts() const
 	{
-		return normalAccB_;
+		return allCont_;
+	}
+
+	void computeNormalAccB(const std::vector<rbd::MultiBody>& mbs,
+												const std::vector<rbd::MultiBodyConfig>& mbcs);
+
+	const std::vector<sva::MotionVecd>& normalAccB(int robotIndex) const
+	{
+		return normalAccB_[robotIndex];
 	}
 
 private:
-	int alphaD_;
-	int lambda_;
-	int torque_;
-	int nrVars_;
-
-	int lambdaUni_;
-	int lambdaBi_;
+	std::vector<int> alphaD_; //< each robot alphaD vector size
+	std::vector<int> alphaDBegin_; //< each robot alphaD vector begin in x
+	std::vector<int> lambda_; //< each contact lambda
+	std::vector<int> lambdaBegin_; //< each contact lambda vector begin in x
+	int totalAlphaD_, totalLambda_;
+	int nrUniLambda_, nrBiLambda_;
+	int nrVars_; //< total number of var
 
 	std::vector<UnilateralContact> uniCont_;
 	std::vector<BilateralContact> biCont_;
+	std::vector<BilateralContact> allCont_;
 
-	std::vector<sva::MotionVecd> normalAccB_;
+	/// TODO don't even launch the computation on static robot
+	std::vector<std::vector<sva::MotionVecd>> normalAccB_;
 };
 
 

@@ -64,21 +64,22 @@ QPSolver::~QPSolver()
 {}
 
 
-bool QPSolver::solve(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
+bool QPSolver::solve(const std::vector<rbd::MultiBody>& mbs,
+										std::vector<rbd::MultiBodyConfig>& mbcs)
 {
-	preUpdate(mb, mbc);
+	preUpdate(mbs, mbcs);
 
 	bool success = solver_->solve();
 
 	if(!success)
 	{
-		solver_->errorMsg(mb,
+		solver_->errorMsg(mbs,
 										 tasks_, eqConstr_, inEqConstr_,
 										 genInEqConstr_, boundConstr_,
 										 std::cerr) << std::endl;
 	}
 
-	postUpdate(mb, mbc, success);
+	postUpdate(mbs, mbcs, success);
 
 	return success;
 }
@@ -104,47 +105,82 @@ void QPSolver::updateConstrSize()
 }
 
 
-void QPSolver::nrVars(const rbd::MultiBody& mb,
+void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 	std::vector<UnilateralContact> uni,
 	std::vector<BilateralContact> bi)
 {
-	data_.normalAccB_.resize(mb.nrBodies());
-	data_.alphaD_ = mb.nrDof();
-	data_.lambda_ = 0;
-	data_.torque_ = (mb.nrDof() - mb.joint(0).dof());
-	data_.uniCont_ = uni;
-	data_.biCont_ = bi;
+	data_.alphaD_.resize(mbs.size());
+	data_.alphaDBegin_.resize(mbs.size());
 
+	data_.uniCont_ = std::move(uni);
+	data_.biCont_ = std::move(bi);
+
+	int nrContacts = data_.nrContacts();
+
+	data_.lambda_.resize(nrContacts);
+	data_.lambdaBegin_.resize(nrContacts);
+
+	data_.normalAccB_.resize(mbs.size());
+
+	int cumAlphaD = 0;
+	for(std::size_t r = 0; r < mbs.size(); ++r)
+	{
+		const rbd::MultiBody& mb = mbs[r];
+		data_.alphaD_[r] = mb.nrDof();
+		data_.alphaDBegin_[r] = cumAlphaD;
+		data_.normalAccB_[r].resize(mb.nrBodies());
+		cumAlphaD += mb.nrDof();
+	}
+	data_.totalAlphaD_ = cumAlphaD;
+
+	int cumLambda = cumAlphaD;
+	int cIndex = 0;
+	data_.allCont_.clear();
 	// counting unilateral contact
 	for(const UnilateralContact& c: data_.uniCont_)
 	{
-		for(std::size_t i = 0; i < c.points.size(); ++i)
+		data_.lambdaBegin_[cIndex] = cumLambda;
+		int lambda = 0;
+		for(std::size_t p = 0; p < c.r1Points.size(); ++p)
 		{
-			data_.lambda_ += c.nrLambda(int(i));
+			lambda += c.nrLambda(int(p));
 		}
+		data_.lambda_[cIndex] = lambda;
+		cumLambda += lambda;
+		++cIndex;
+
+		data_.allCont_.emplace_back(c);
 	}
-	data_.lambdaUni_ = data_.lambda_;
+	data_.nrUniLambda_ = cumLambda - cumAlphaD;
 
 	// counting bilateral contact
 	for(const BilateralContact& c: data_.biCont_)
 	{
-		for(std::size_t i = 0; i < c.points.size(); ++i)
+		data_.lambdaBegin_[cIndex] = cumLambda;
+		int lambda = 0;
+		for(std::size_t p = 0; p < c.r1Points.size(); ++p)
 		{
-			data_.lambda_ += c.nrLambda(int(i));
+			lambda += c.nrLambda(int(p));
 		}
-	}
-	data_.lambdaBi_ = data_.lambda_ - data_.lambdaUni_;
+		data_.lambda_[cIndex] = lambda;
+		cumLambda += lambda;
+		++cIndex;
 
-	data_.nrVars_ = data_.alphaD_ + data_.lambda_;
+		data_.allCont_.emplace_back(c);
+	}
+	data_.nrBiLambda_ = cumLambda - data_.nrUniLambda_;
+
+	data_.totalLambda_ = data_.nrUniLambda_ + data_.nrBiLambda_;
+	data_.nrVars_ = data_.totalAlphaD_ + data_.totalLambda_;
 
 	for(Task* t: tasks_)
 	{
-		t->updateNrVars(mb, data_);
+		t->updateNrVars(mbs, data_);
 	}
 
 	for(Constraint* c: constr_)
 	{
-		c->updateNrVars(mb, data_);
+		c->updateNrVars(mbs, data_);
 	}
 
 	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
@@ -157,28 +193,28 @@ int QPSolver::nrVars() const
 }
 
 
-void QPSolver::updateTasksNrVars(const rbd::MultiBody& mb) const
+void QPSolver::updateTasksNrVars(const std::vector<rbd::MultiBody>& mbs) const
 {
 	for(Task* t: tasks_)
 	{
-		t->updateNrVars(mb, data_);
+		t->updateNrVars(mbs, data_);
 	}
 }
 
 
-void QPSolver::updateConstrsNrVars(const rbd::MultiBody& mb) const
+void QPSolver::updateConstrsNrVars(const std::vector<rbd::MultiBody>& mbs) const
 {
 	for(Constraint* c: constr_)
 	{
-		c->updateNrVars(mb, data_);
+		c->updateNrVars(mbs, data_);
 	}
 }
 
 
-void QPSolver::updateNrVars(const rbd::MultiBody& mb) const
+void QPSolver::updateNrVars(const std::vector<rbd::MultiBody>& mbs) const
 {
-	updateTasksNrVars(mb);
-	updateConstrsNrVars(mb);
+	updateTasksNrVars(mbs);
+	updateConstrsNrVars(mbs);
 }
 
 
@@ -336,40 +372,42 @@ const Eigen::VectorXd& QPSolver::result() const
 
 Eigen::VectorXd QPSolver::alphaDVec() const
 {
-	return solver_->result().head(data_.alphaD_);
+	return solver_->result().head(data_.totalAlphaD_);
+}
+
+
+Eigen::VectorXd QPSolver::alphaDVec(int rIndex) const
+{
+	return solver_->result().segment(data_.alphaDBegin_[rIndex],
+		data_.alphaD_[rIndex]);
 }
 
 
 Eigen::VectorXd QPSolver::lambdaVec() const
 {
-	return solver_->result().segment(data_.alphaD_, data_.lambda_);
+	return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_);
 }
 
 
-int QPSolver::contactLambdaPosition(int bodyId) const
+Eigen::VectorXd QPSolver::lambdaVec(int cIndex) const
+{
+	return solver_->result().segment(data_.lambdaBegin_[cIndex],
+		data_.lambda_[cIndex]);
+}
+
+
+int QPSolver::contactLambdaPosition(const ContactId& cId) const
 {
 	int pos = 0;
-	for(const UnilateralContact& uc: data_.unilateralContacts())
+
+	for(const BilateralContact& bc: data_.allContacts())
 	{
-		if(uc.bodyId == bodyId)
+		if(bc.contactId == cId)
 		{
 			return pos;
 		}
 
-		for(std::size_t i = 0; i < uc.points.size(); ++i)
-		{
-			pos += uc.nrLambda(int(i));
-		}
-	}
-
-	for(const BilateralContact& bc: data_.bilateralContacts())
-	{
-		if(bc.bodyId == bodyId)
-		{
-			return pos;
-		}
-
-		for(std::size_t i = 0; i < bc.points.size(); ++i)
+		for(std::size_t i = 0; i < bc.r1Points.size(); ++i)
 		{
 			pos += bc.nrLambda(int(i));
 		}
@@ -379,17 +417,18 @@ int QPSolver::contactLambdaPosition(int bodyId) const
 }
 
 
-void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
+void QPSolver::preUpdate(const std::vector<rbd::MultiBody>& mbs,
+												std::vector<rbd::MultiBodyConfig>& mbcs)
 {
-	data_.computeNormalAccB(mb, mbc);
+	data_.computeNormalAccB(mbs, mbcs);
 	for(std::size_t i = 0; i < constr_.size(); ++i)
 	{
-		constr_[i]->update(mb, mbc, data_);
+		constr_[i]->update(mbs, mbcs, data_);
 	}
 
 	for(std::size_t i = 0; i < tasks_.size(); ++i)
 	{
-		tasks_[i]->update(mb, mbc, data_);
+		tasks_[i]->update(mbs, mbcs, data_);
 	}
 
 	solver_->updateMatrix(tasks_, eqConstr_, inEqConstr_, genInEqConstr_,
@@ -397,12 +436,17 @@ void QPSolver::preUpdate(const rbd::MultiBody& mb, rbd::MultiBodyConfig& mbc)
 }
 
 
-void QPSolver::postUpdate(const rbd::MultiBody& /* mb */,
-	rbd::MultiBodyConfig& mbc, bool success)
+void QPSolver::postUpdate(const std::vector<rbd::MultiBody>& /* mbs */,
+	std::vector<rbd::MultiBodyConfig>& mbcs, bool success)
 {
 	if(success)
 	{
-		rbd::vectorToParam(solver_->result().head(data_.alphaD_), mbc.alphaD);
+		for(std::size_t r = 0; r < mbcs.size(); ++r)
+		{
+			rbd::vectorToParam(
+				solver_->result().segment(data_.alphaDBegin_[r], data_.alphaD_[r]),
+				mbcs[r].alphaD);
+		}
 
 		// don't write contact force to the structure since contact force are used
 		// to compute C vector.

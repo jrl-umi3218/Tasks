@@ -67,7 +67,7 @@ public:
 	virtual bool solve() = 0;
 
 	virtual const Eigen::VectorXd& result() const = 0;
-	virtual std::ostream& errorMsg(const rbd::MultiBody& mb,
+	virtual std::ostream& errorMsg(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
 		const std::vector<Inequality*>& inEqConstr,
@@ -91,7 +91,7 @@ public:
 		const std::vector<Bound*>& boundConstr);
 	virtual bool solve();
 	virtual const Eigen::VectorXd& result() const;
-	virtual std::ostream& errorMsg(const rbd::MultiBody& mb,
+	virtual std::ostream& errorMsg(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
 		const std::vector<Inequality*>& inEqConstr,
@@ -129,7 +129,7 @@ public:
 		const std::vector<Bound*>& boundConstr);
 	virtual bool solve();
 	virtual const Eigen::VectorXd& result() const;
-	virtual std::ostream& errorMsg(const rbd::MultiBody& mb,
+	virtual std::ostream& errorMsg(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
 		const std::vector<Inequality*>& inEqConstr,

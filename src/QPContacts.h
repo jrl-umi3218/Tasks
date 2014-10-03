@@ -22,6 +22,9 @@
 // Eigen
 #include <Eigen/Core>
 
+// SpaceVecAlg
+#include <SpaceVecAlg/SpaceVecAlg>
+
 
 namespace tasks
 {
@@ -39,16 +42,42 @@ struct FrictionCone
 };
 
 
+struct ContactId
+{
+	ContactId();
+	ContactId(int r1Index, int r2Index, int r1BodyId, int r2BodyId);
+
+	bool operator==(const ContactId& cId) const;
+	bool operator!=(const ContactId& cId) const;
+
+	int r1Index, r2Index;
+	int r1BodyId, r2BodyId;
+};
+
+
+
 struct UnilateralContact
 {
 	UnilateralContact(){}
-	UnilateralContact(int bodyId, const std::vector<Eigen::Vector3d>& points,
-		const Eigen::Matrix3d& frame, int nrGen, double mu);
 
-	/// @return Force vector of the contact point.
-	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int point) const;
-	/// @return Force vector.
-	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
+	UnilateralContact(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+		std::vector<Eigen::Vector3d> r1Points,
+		const Eigen::Matrix3d& r1Frame,
+		const sva::PTransformd& X_b1_b2,
+		int nrGen, double mu);
+
+	UnilateralContact(const ContactId& cId,
+		std::vector<Eigen::Vector3d> r1Points,
+		const Eigen::Matrix3d& r1Frame,
+		const sva::PTransformd& X_b1_b2,
+		int nrGen, double mu);
+
+	/// @return Cone c, point p force vector in body coordinate.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int p,
+		const FrictionCone& c) const;
+	/// @return Cone c, force vector in body coordinate.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda,
+		const FrictionCone& c) const;
 
 	/// @return Number of lambda needed to compute the force vector of the contact point.
 	int nrLambda(int point) const;
@@ -60,12 +89,14 @@ struct UnilateralContact
 		* @throw std::domain_error If lambda don't match the number of generator
 		* or if point is not a valid index.
 		*/
-	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda, int point) const;
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda, int point,
+		const FrictionCone& c) const;
 	/**
 		* Safe version of @see force.
 		* @throw std::domain_error If lambda don't match the number of generator.
 		*/
-	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda) const;
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda,
+		const FrictionCone& c) const;
 
 	/**
 		* Safe version of @see nrLambda.
@@ -74,26 +105,41 @@ struct UnilateralContact
 	int sNrLambda(int point) const;
 
 
-	int bodyId;
-	std::vector<Eigen::Vector3d> points;
-	FrictionCone cone;
+	ContactId contactId;
+	std::vector<Eigen::Vector3d> r1Points, r2Points;
+	FrictionCone r1Cone, r2Cone;
+	sva::PTransformd X_b1_b2;
+
+private:
+	void construct(const Eigen::MatrixXd& r1Frame, int nrGen, double mu);
 };
 
 
 struct BilateralContact
 {
 	BilateralContact(){}
-	BilateralContact(int bodyId, const Eigen::Vector3d& center,
-		double radius, int nrPoints,
-		const Eigen::Matrix3d& frame, int nrGen, double mu);
-	BilateralContact(int bodyId, std::vector<Eigen::Vector3d>& points,
-		const std::vector<Eigen::Matrix3d>& frames,
+
+	BilateralContact(int r1Index, int r2Index,
+		int r1BodyId, int r2BodyId,
+		std::vector<Eigen::Vector3d> r1Points,
+		const std::vector<Eigen::Matrix3d>& r1Frames,
+		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu);
 
-	/// @return Force vector of the contact point.
-	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int point) const;
-	/// @return Force vector.
-	Eigen::Vector3d force(const Eigen::VectorXd& lambda) const;
+	BilateralContact(const ContactId& cId,
+		std::vector<Eigen::Vector3d> r1Points,
+		const std::vector<Eigen::Matrix3d>& r1Frames,
+		const sva::PTransformd& X_b1_b2,
+		int nrGen, double mu);
+
+	BilateralContact(const UnilateralContact& c);
+
+	/// @return Cone c[point] force vector in body coordinate.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int point,
+		const std::vector<FrictionCone>& c) const;
+	/// @return Cones c force vector in body coordinate.
+	Eigen::Vector3d force(const Eigen::VectorXd& lambda,
+		const std::vector<FrictionCone>& c) const;
 
 	/// @return Number of lambda needed to compute the force vector of the contact point.
 	int nrLambda(int point) const;
@@ -105,12 +151,14 @@ struct BilateralContact
 		* @throw std::domain_error If lambda don't match the number of generator
 		* or if point it not a valid index.
 		*/
-	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda, int point) const;
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda, int point,
+		const std::vector<FrictionCone>& c) const;
 	/**
 		* Safe version of @see force. Also the generic one for python binding.
 		* @throw std::domain_error If lambda don't match the number of generator.
 		*/
-	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda) const;
+	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda,
+		const std::vector<FrictionCone>& c) const;
 
 	/**
 		* Safe version of @see nrLambda.
@@ -119,9 +167,13 @@ struct BilateralContact
 	int sNrLambda(int point) const;
 
 
-	int bodyId;
-	std::vector<Eigen::Vector3d> points;
-	std::vector<FrictionCone> cones;
+	ContactId contactId;
+	std::vector<Eigen::Vector3d> r1Points, r2Points;
+	std::vector<FrictionCone> r1Cones, r2Cones;
+	sva::PTransformd X_b1_b2;
+
+private:
+	void construct(const std::vector<Eigen::Matrix3d>& r1Frames, int nrGen, double mu);
 };
 
 
