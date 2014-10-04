@@ -98,10 +98,11 @@ protected:
 	struct RobotData
 	{
 		RobotData() {}
-		RobotData(const rbd::MultiBody& mb, int robotIndex, int alphaDBegin,
+		RobotData(const rbd::MultiBody& mb, int robotIndex,
+			int alphaDBegin, int aRow,
 			std::vector<ContactData> contacts);
 
-		int robotIndex, alphaDBegin, nrDof;
+		int robotIndex, alphaDBegin, nrDof, ARow;
 		rbd::ForwardDynamics fd;
 		std::vector<ContactData> cont;
 		Eigen::MatrixXd fullJac;
@@ -122,47 +123,65 @@ protected:
 };
 
 
+struct TorqueBounds
+{
+	TorqueBounds() {}
+	TorqueBounds(std::vector<std::vector<double>> lTorqueBounds,
+		std::vector<std::vector<double>> uTorqueBounds);
+
+
+	std::vector<std::vector<double>> lTorqueBounds, uTorqueBounds;
+};
+
 
 class MotionConstr : public MotionConstrCommon
 {
 public:
-	MotionConstr(const rbd::MultiBody& mb,
-							 std::vector<std::vector<double>> lTorqueBounds,
-							 std::vector<std::vector<double>> uTorqueBounds);
+	MotionConstr(const std::vector<rbd::MultiBody>& mbs,
+							 std::vector<TorqueBounds> tbs);
 
 	// Constraint
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
-private:
-	Eigen::VectorXd torqueL_, torqueU_;
+protected:
+	struct TorqueBoundsData
+	{
+		int alphaDOffset;
+		Eigen::VectorXd torqueL, torqueU;
+	};
+
+protected:
+	std::vector<TorqueBoundsData> torqueBounds_;
 };
 
 
 struct SpringJoint
 {
 	SpringJoint(){}
-	SpringJoint(int jId, double K, double C, double O):
-		jointId(jId),K(K),C(C),O(O)
+	SpringJoint(int rIndex, int jId, double K, double C, double O):
+		robotIndex(rIndex),jointId(jId),K(K),C(C),O(O)
 	{}
 
-	int jointId;
+	int robotIndex, jointId;
 	double K, C, O;
 };
 
 
-class MotionSpringConstr : public MotionConstrCommon
+class MotionSpringConstr : public MotionConstr
 {
 public:
-	MotionSpringConstr(const rbd::MultiBody& mb,
-										std::vector<std::vector<double>> lTorqueBounds,
-										std::vector<std::vector<double>> uTorqueBounds,
+	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
+										std::vector<TorqueBounds> tbs,
 										const std::vector<SpringJoint>& springs);
 
 	// Constraint
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
 		const SolverData& data);
-private:
+
+protected:
 	struct SpringJointData
 	{
 		int index;
@@ -172,11 +191,20 @@ private:
 		double O;
 	};
 
-private:
-	Eigen::VectorXd torqueL_, torqueU_;
-	std::vector<SpringJointData> springs_;
+protected:
+	std::vector<std::vector<SpringJointData>> springs_;
 };
 
+
+struct PolyTorqueBounds
+{
+	PolyTorqueBounds() {}
+	PolyTorqueBounds(std::vector<std::vector<Eigen::VectorXd>> lPolyTorqueBounds,
+		std::vector<std::vector<Eigen::VectorXd>> uPolyTorqueBounds);
+
+
+	std::vector<std::vector<Eigen::VectorXd>> lPolyTorqueBounds, uPolyTorqueBounds;
+};
 
 
 /**
@@ -186,17 +214,23 @@ private:
 class MotionPolyConstr : public MotionConstrCommon
 {
 public:
-	MotionPolyConstr(const rbd::MultiBody& mb,
-									const std::vector<std::vector<Eigen::VectorXd>>& lTorqueBounds,
-									const std::vector<std::vector<Eigen::VectorXd>>& uTorqueBounds);
+	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<PolyTorqueBounds>& ptbs);
 
 	// Constraint
-	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
-private:
-	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
-	std::vector<int> jointIndex_;
+protected:
+	struct PolyTorqueBoundsData
+	{
+		std::vector<Eigen::VectorXd> torqueL, torqueU;
+		std::vector<int> jointIndex;
+	};
+
+protected:
+	std::vector<PolyTorqueBoundsData> polyTorqueBounds_;
 };
 
 
