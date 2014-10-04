@@ -107,6 +107,16 @@ bool ContactId::operator!=(const ContactId& cId) const
 }
 
 
+bool ContactId::operator<(const ContactId& cId) const
+{
+	return r1Index < cId.r1Index ||
+		(r1Index == cId.r1Index && r1BodyId < cId.r1BodyId) ||
+		(r1Index == cId.r1Index && r1BodyId == cId.r1BodyId && r2Index < cId.r2Index) ||
+		(r1Index == cId.r1Index && r1BodyId == cId.r1BodyId && r2Index == cId.r2Index &&
+		 r2BodyId < cId.r2BodyId);
+}
+
+
 
 /**
 	*													UnilateralContact

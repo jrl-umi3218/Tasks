@@ -290,7 +290,7 @@ public:
 	virtual const Eigen::VectorXd& Upper() const = 0;
 
 	virtual std::string nameBound() const = 0;
-	virtual std::string descBound(const rbd::MultiBody& mb, int i) = 0;
+	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int i) = 0;
 
 	void addToSolver(QPSolver& sol)
 	{

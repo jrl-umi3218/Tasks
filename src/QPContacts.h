@@ -50,6 +50,8 @@ struct ContactId
 	bool operator==(const ContactId& cId) const;
 	bool operator!=(const ContactId& cId) const;
 
+	bool operator<(const ContactId& cId) const;
+
 	int r1Index, r2Index;
 	int r1BodyId, r2BodyId;
 };

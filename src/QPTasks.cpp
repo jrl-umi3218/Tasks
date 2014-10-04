@@ -461,15 +461,18 @@ void PostureTask::stiffness(double stiffness)
 }
 
 
-void PostureTask::jointsStiffness(const rbd::MultiBody& mb,
-																const std::vector<JointStiffness>& jsv)
+void PostureTask::jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<JointStiffness>& jsv)
 {
 	jointDatas_.clear();
 	jointDatas_.reserve(jsv.size());
+
 	for(const JointStiffness& js: jsv)
 	{
+		const rbd::MultiBody& mb = mbs[js.robotIndex];
 		int jointIndex = mb.jointIndexById(js.jointId);
 		jointDatas_.push_back({js.stiffness, 2.*std::sqrt(js.stiffness),
+													js.robotIndex,
 													mb.jointPosInDof(jointIndex),
 													mb.joint(jointIndex).dof()});
 	}
@@ -533,7 +536,8 @@ const Eigen::VectorXd& PostureTask::eval() const
 
 PositionTask::PositionTask(const std::vector<rbd::MultiBody>& mbs, int rI,
 	int bodyId, const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
-	pt_(mbs[rI], bodyId, pos, bodyPoint)
+	pt_(mbs[rI], bodyId, pos, bodyPoint),
+	robotIndex_(rI)
 {
 }
 
@@ -578,18 +582,18 @@ const Eigen::VectorXd& PositionTask::normalAcc()
 
 
 OrientationTask::OrientationTask(const std::vector<rbd::MultiBody>& mbs,
-	int rId, int bodyId,
+	int rI, int bodyId,
 	const Eigen::Quaterniond& ori):
-	ot_(mbs[rId], bodyId, ori),
-	robotIndex_(rId)
+	ot_(mbs[rI], bodyId, ori),
+	robotIndex_(rI)
 {}
 
 
 OrientationTask::OrientationTask(const std::vector<rbd::MultiBody>& mbs,
-	int rId, int bodyId,
+	int rI, int bodyId,
 	const Eigen::Matrix3d& ori):
-	ot_(mbs[rId], bodyId, ori),
-	robotIndex_(rId)
+	ot_(mbs[rI], bodyId, ori),
+	robotIndex_(rI)
 {}
 
 
@@ -637,16 +641,16 @@ const Eigen::VectorXd& OrientationTask::normalAcc()
 
 
 CoMTask::CoMTask(const std::vector<rbd::MultiBody>& mbs,
-	int rId, const Eigen::Vector3d& com):
-	ct_(mbs[rId], com),
-	robotIndex_(rId)
+	int rI, const Eigen::Vector3d& com):
+	ct_(mbs[rI], com),
+	robotIndex_(rI)
 {}
 
 
-CoMTask::CoMTask(const std::vector<rbd::MultiBody>& mbs, int rId,
+CoMTask::CoMTask(const std::vector<rbd::MultiBody>& mbs, int rI,
 	const Eigen::Vector3d& com, std::vector<double> weight):
-	ct_(mbs[rId], com, std::move(weight)),
-	robotIndex_(rId)
+	ct_(mbs[rI], com, std::move(weight)),
+	robotIndex_(rI)
 {}
 
 
@@ -906,10 +910,10 @@ const Eigen::VectorXd& GripperTorqueTask::C() const
 
 
 LinVelocityTask::LinVelocityTask(const std::vector<rbd::MultiBody>& mbs,
-	int rId, int bodyId,
+	int rI, int bodyId,
 	const Eigen::Vector3d& speed, const Eigen::Vector3d& bodyPoint):
-	pt_(mbs[rId], bodyId, speed, bodyPoint),
-	robotIndex_(rId)
+	pt_(mbs[rI], bodyId, speed, bodyPoint),
+	robotIndex_(rI)
 {
 }
 
@@ -958,13 +962,13 @@ const Eigen::VectorXd& LinVelocityTask::normalAcc()
 
 
 OrientationTrackingTask::OrientationTrackingTask(
-	const std::vector<rbd::MultiBody>& mbs, int rId, int bodyId,
+	const std::vector<rbd::MultiBody>& mbs, int rI, int bodyId,
 	const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
 	const std::vector<int>& trackingJointsId,
 	const Eigen::Vector3d& trackedPoint):
-	robotIndex_(rId),
-	ott_(mbs[rId], bodyId, bodyPoint, bodyAxis, trackingJointsId, trackedPoint),
-	alphaVec_(mbs[rId].nrDof()),
+	robotIndex_(rI),
+	ott_(mbs[rI], bodyId, bodyPoint, bodyAxis, trackingJointsId, trackedPoint),
+	alphaVec_(mbs[rI].nrDof()),
 	speed_(3),
 	normalAcc_(3)
 {}

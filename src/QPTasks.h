@@ -248,14 +248,17 @@ private:
 struct JointStiffness
 {
 	JointStiffness():
+		robotIndex(),
 		jointId(),
 		stiffness()
 	{}
-	JointStiffness(int jId, double stif):
+	JointStiffness(int rI, int jId, double stif):
+		robotIndex(rI),
 		jointId(jId),
 		stiffness(stif)
 	{}
 
+	int robotIndex;
 	int jointId;
 	double stiffness;
 };
@@ -290,8 +293,8 @@ public:
 
 	void stiffness(double stiffness);
 
-	void jointsStiffness(const rbd::MultiBody& mb,
-										 const std::vector<JointStiffness>& jsv);
+	void jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<JointStiffness>& jsv);
 
 	virtual std::pair<int, int> begin() const
 	{
@@ -313,6 +316,7 @@ private:
 	struct JointData
 	{
 		double stiffness, stiffnessSqrt;
+		int robotIndex;
 		int start, size;
 	};
 

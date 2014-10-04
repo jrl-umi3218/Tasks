@@ -184,7 +184,7 @@ void MotionConstrCommon::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 			}
 
 			rIndexToRobot_[r] = int(robots_.size());
-			robots_.emplace_back(mb, r, data.alphaD(r), totalDof, std::move(cd));
+			robots_.emplace_back(mb, r, data.alphaDBegin(r), totalDof, std::move(cd));
 			totalDof += mb.nrDof();
 		}
 	}
@@ -301,12 +301,12 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody>& m
 	int totalDof = 0;
 	for(const rbd::MultiBody& mb: mbs)
 	{
-		totalDof += mb.nrDof();
-		if(line < totalDof)
+		if(line < (totalDof + mb.nrDof()))
 		{
-			int jIndex = findJointFromVector(mb, line, true);
+			int jIndex = findJointFromVector(mb, line - totalDof, true);
 			return std::string("Joint: ") + mb.joint(jIndex).name();
 		}
+		totalDof += mb.nrDof();
 	}
 	return "";
 }

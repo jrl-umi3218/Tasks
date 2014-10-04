@@ -301,7 +301,8 @@ std::ostream& printConstr(const Eigen::VectorXd& result, GenInequality* constr,
 
 
 template <typename T>
-std::ostream& constrErrorMsg(const rbd::MultiBody& mb, const Eigen::VectorXd& result,
+std::ostream& constrErrorMsg(const std::vector<rbd::MultiBody>& mbs,
+	const Eigen::VectorXd& result,
 	int ALine, const std::vector<T*>& constr, int& start, int& end,
 	std::ostream& out)
 {
@@ -312,7 +313,7 @@ std::ostream& constrErrorMsg(const rbd::MultiBody& mb, const Eigen::VectorXd& re
 		{
 			int line = ALine - start;
 			out << constr_traits<T>::name(e) << " violated at line: " << line << std::endl;
-			out << constr_traits<T>::desc(e, mb, line) << std::endl;
+			out << constr_traits<T>::desc(e, mbs, line) << std::endl;
 			printConstr(result, e, line, out) << std::endl;
 			start = end;
 			break;
@@ -427,7 +428,7 @@ std::ostream& LSSOLQPSolver::errorMsg(
 				{
 					int line = i - start;
 					out << b->nameBound() << " violated at line: " << line << std::endl;
-					out << b->descBound(mb, line) << std::endl;
+					out << b->descBound(mbs, line) << std::endl;
 					out << XL_(i) << " <= " << lssol_.result()(i) << " <= " << XU_(i) << std::endl;
 					break;
 				}
@@ -444,9 +445,9 @@ std::ostream& LSSOLQPSolver::errorMsg(
 			int start = 0;
 			int end = 0;
 
-			constrErrorMsg(mb, lssol_.result(), i, eqConstr, start, end, out);
-			constrErrorMsg(mb, lssol_.result(), i, inEqConstr, start, end, out);
-			constrErrorMsg(mb, lssol_.result(), i, genInEqConstr, start, end, out);
+			constrErrorMsg(mbs, lssol_.result(), i, eqConstr, start, end, out);
+			constrErrorMsg(mbs, lssol_.result(), i, inEqConstr, start, end, out);
+			constrErrorMsg(mbs, lssol_.result(), i, genInEqConstr, start, end, out);
 			out << std::endl;
 		}
 	}

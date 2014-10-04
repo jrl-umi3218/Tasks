@@ -168,7 +168,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 
 		data_.allCont_.emplace_back(c);
 	}
-	data_.nrBiLambda_ = cumLambda - data_.nrUniLambda_;
+	data_.nrBiLambda_ = cumLambda - data_.nrUniLambda_ - cumAlphaD;
 
 	data_.totalLambda_ = data_.nrUniLambda_ + data_.nrBiLambda_;
 	data_.nrVars_ = data_.totalAlphaD_ + data_.totalLambda_;
