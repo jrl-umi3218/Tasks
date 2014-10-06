@@ -318,137 +318,89 @@ private:
 
 
 
-//class SelfCollisionConstr : public ConstraintFunction<Inequality>
-//{
-//public:
-//	SelfCollisionConstr(const rbd::MultiBody& mb, double step);
+class CollisionConstr : public ConstraintFunction<Inequality>
+{
+public:
+	CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double step);
 
-//	void addCollision(const rbd::MultiBody& mb, int collId,
-//		int body1Id, sch::S_Object* body1, const sva::PTransformd& body1T,
-//		int body2Id, sch::S_Object* body2, const sva::PTransformd& body2T,
-//		double di, double ds, double damping, double dampingOff=0.);
-//	bool rmCollision(int collId);
-//	std::size_t nrCollisions() const;
-//	void reset();
+	void addCollision(const std::vector<rbd::MultiBody>& mbs, int collId,
+		int r1Index, int r1BodyId,
+		sch::S_Object* body1, const sva::PTransformd& X_op1_o1,
+		int r2Index, int r2BodyId,
+		sch::S_Object* body2, const sva::PTransformd& X_op2_o2,
+		double di, double ds, double damping, double dampingOff=0.);
+	bool rmCollision(int collId);
+	std::size_t nrCollisions() const;
+	void reset();
 
-//	// Constraint
-//	virtual void updateNrVars(const rbd::MultiBody& mb,
-//		const SolverData& data);
+	void updateNrCollision();
 
-//	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-//		const SolverData& data);
+	// Constraint
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
 
-//	virtual std::string nameInEq() const;
-//	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
 
-//	// InInequality Constraint
-//	virtual int nrInEq() const;
-//	virtual int maxInEq() const;
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
 
-//	virtual const Eigen::MatrixXd& AInEq() const;
-//	virtual const Eigen::VectorXd& bInEq() const;
+	// InInequality Constraint
+	virtual int nrInEq() const;
+	virtual int maxInEq() const;
 
-//private:
-//	struct CollData
-//	{
-//		enum class DampingType {Hard, Soft, Free};
-//		CollData(const rbd::MultiBody& mb, int collId,
-//			int body1Id, sch::S_Object* body1, const sva::PTransformd& body1T,
-//			int body2Id, sch::S_Object* body2, const sva::PTransformd& body2T,
-//			double di, double ds, double damping, double dampingOff);
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
 
-//		sch::CD_Pair* pair;
-//		sva::PTransformd body1T, body2T;
-//		Eigen::Vector3d normVecDist;
-//		rbd::Jacobian jacB1, jacB2;
-//		double di, ds;
-//		double damping;
-//		int collId;
-//		int body1Id, body2Id;
-//		int body1, body2;
-//		DampingType dampingType;
-//		double dampingOff;
-//	};
+private:
+	struct BodyCollData
+	{
+		BodyCollData(const rbd::MultiBody& mb,
+			int rIndex, int bodyId, sch::S_Object* hull,
+			const sva::PTransformd& X_op_o);
 
-//private:
-//	std::vector<CollData> dataVec_;
-//	double step_;
-//	int nrVars_;
-//	int nrActivated_;
+		sch::S_Object* hull;
+		rbd::Jacobian jac;
+		sva::PTransformd X_op_o;
+		int rIndex, bIndex, bodyId;
+	};
 
-//	Eigen::MatrixXd AInEq_;
-//	Eigen::VectorXd bInEq_;
+	struct CollData
+	{
+		enum class DampingType {Hard, Soft, Free};
+		CollData(std::vector<BodyCollData> bcds, int collId,
+			sch::S_Object* body1, sch::S_Object* body2,
+			double di, double ds, double damping, double dampingOff);
 
-//	Eigen::MatrixXd fullJac_;
-//	Eigen::VectorXd calcVec_;
-//};
+		sch::CD_Pair* pair;
+		Eigen::Vector3d normVecDist;
+		double di, ds;
+		double damping;
+		std::vector<BodyCollData> bodies;
 
+		DampingType dampingType;
+		double dampingOff;
+		int collId;
+	};
 
+private:
+	double computeDamping(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs, const CollData& cd,
+		const Eigen::Vector3d& normalVecDist, double dist) const;
 
-//class StaticEnvCollisionConstr : public ConstraintFunction<Inequality>
-//{
-//public:
-//	StaticEnvCollisionConstr(const rbd::MultiBody& mb, double step);
+private:
+	std::vector<CollData> dataVec_;
+	double step_;
+	int nrActivated_;
 
-//	void addCollision(const rbd::MultiBody& mb, int collId,
-//		int bodyId, sch::S_Object* body, const sva::PTransformd& bodyT,
-//		int envId, sch::S_Object* env,
-//		double di, double ds, double damping, double dampingOff=0.);
-//	bool rmCollision(int collId);
-//	std::size_t nrCollisions() const;
-//	void reset();
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd bInEq_;
 
-//	// Constraint
-//	virtual void updateNrVars(const rbd::MultiBody& mb,
-//		const SolverData& data);
+	std::vector<Eigen::MatrixXd> fullJac_;
 
-//	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-//		const SolverData& data);
-
-//	virtual std::string nameInEq() const;
-//	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
-
-//	// InInequality Constraint
-//	virtual int nrInEq() const;
-//	virtual int maxInEq() const;
-
-//	virtual const Eigen::MatrixXd& AInEq() const;
-//	virtual const Eigen::VectorXd& bInEq() const;
-
-//private:
-//	struct CollData
-//	{
-//		enum class DampingType {Hard, Soft, Free};
-//		CollData(const rbd::MultiBody& mb, int collId,
-//			int bodyId, sch::S_Object* body, const sva::PTransformd& bodyT,
-//			int envId, sch::S_Object* env,
-//			double di, double ds, double damping, double dampingOff);
-
-//		sch::CD_Pair* pair;
-//		sva::PTransformd bodyT;
-//		Eigen::Vector3d normVecDist;
-//		rbd::Jacobian jacB1;
-//		double di, ds;
-//		double damping;
-//		int collId;
-//		int bodyId, envId;
-//		int body;
-//		DampingType dampingType;
-//		double dampingOff;
-//	};
-
-//private:
-//	std::vector<CollData> dataVec_;
-//	double step_;
-//	int nrVars_;
-//	int nrActivated_;
-
-//	Eigen::MatrixXd AInEq_;
-//	Eigen::VectorXd bInEq_;
-
-//	Eigen::MatrixXd fullJac_;
-//	Eigen::VectorXd calcVec_;
-//};
+	int nrVars_;
+};
 
 
 

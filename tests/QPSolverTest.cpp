@@ -874,224 +874,243 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 
 
-//BOOST_AUTO_TEST_CASE(QPAutoCollTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+BOOST_AUTO_TEST_CASE(QPAutoCollTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
 
-//	std::tie(mb, mbcInit) = makeZXZArm();
+	std::tie(mb, mbcInit) = makeZXZArm();
 
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
 
+	std::vector<MultiBody> mbs = {mb};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit};
 
-//	qp::QPSolver solver;
+	qp::QPSolver solver;
 
-//	int bodyI = mb.bodyIndexById(3);
-//	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
-//	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mbs, 0, 3, mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
 
-//	sch::S_Sphere b0(0.25), b3(0.25);
-//	sch::CD_Pair pair(&b0, &b3);
+	sch::S_Sphere b0(0.25), b3(0.25);
+	sch::CD_Pair pair(&b0, &b3);
 
-//	PTransformd I = PTransformd::Identity();
-//	qp::SelfCollisionConstr autoCollConstr(mb, 0.001);
-//	int collId1 = 10;
-//	autoCollConstr.addCollision(mb, collId1, 0, &b0, I, 3, &b3, I, 0.01, 0.005, 1.);
-//	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
+	PTransformd I = PTransformd::Identity();
+	qp::CollisionConstr autoCollConstr(mbs, 0.001);
+	int collId1 = 10;
+	autoCollConstr.addCollision(mbs, collId1,
+		0, 0, &b0, I,
+		0, 3, &b3, I,
+		0.01, 0.005, 1.);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
 
-//	// Test addInequalityConstraint
-//	solver.addInequalityConstraint(&autoCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
-//	solver.addConstraint(&autoCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+	// Test addInequalityConstraint
+	solver.addInequalityConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
+	solver.addConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
-//	solver.updateConstrSize();
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
 
-//	solver.addTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
-//	mbcSolv = mbcInit;
-//	std::ofstream distHard("selfDistHard.py");
-//	distHard << "dist = [";
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		posTask.position(RotX(0.01)*posTask.position());
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
+	mbcs[0] = mbcInit;
+	std::ofstream distHard("selfDistHard.py");
+	distHard << "dist = [";
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
 
-//		sch::Point3 pb1Tmp, pb2Tmp;
-//		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
-//		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
-//		distHard << dist << ", ";
-//		BOOST_REQUIRE_GT(dist, 0.001);
+		sch::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
+		distHard << dist << ", ";
+		BOOST_REQUIRE_GT(dist, 0.001);
 
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
-//	distHard << "]" << std::endl;
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+	distHard << "]" << std::endl;
 
-//	autoCollConstr.rmCollision(collId1);
-//	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
-
-
-//	// test automatic damping computation
-//	autoCollConstr.addCollision(mb, collId1, 0, &b0, I, 3, &b3, I, 0.1, 0.01, 0., 0.1);
-//	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
-//	posTask.position(mbcInit.bodyPosW[bodyI].translation());
-
-//	mbcSolv = mbcInit;
-//	std::ofstream distSoft("selfDistSoft.py");
-//	distSoft << "dist = [";
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		posTask.position(RotX(0.01)*posTask.position());
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		sch::Point3 pb1Tmp, pb2Tmp;
-//		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
-//		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
-//		distSoft << dist << ", ";
-//		BOOST_REQUIRE_GT(dist, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
-//	distSoft << "]" << std::endl;
-
-//	autoCollConstr.rmCollision(collId1);
-//	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
+	autoCollConstr.rmCollision(collId1);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
 
 
-//	solver.removeTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+	// test automatic damping computation
+	autoCollConstr.addCollision(mbs, collId1,
+		0, 0, &b0, I,
+		0, 3, &b3, I,
+		0.1, 0.01, 0., 0.1);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
 
-//	// Test remove*Constraint
-//	solver.removeInequalityConstraint(&autoCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
-//	solver.removeConstraint(&autoCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-//}
+	mbcs[0] = mbcInit;
+	std::ofstream distSoft("selfDistSoft.py");
+	distSoft << "dist = [";
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
 
+		sch::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0. ? std::sqrt(dist) : -std::sqrt(-dist);
+		distSoft << dist << ", ";
+		BOOST_REQUIRE_GT(dist, 0.001);
 
-//BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+	distSoft << "]" << std::endl;
 
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
-
-//	std::tie(mb, mbcInit) = makeZXZArm();
-
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
-
-
-//	qp::QPSolver solver;
-
-//	int bodyI = mb.bodyIndexById(3);
-//	qp::PositionTask posTask(mb, 3, mbcInit.bodyPosW[bodyI].translation());
-//	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
-
-//	sch::S_Sphere b0(0.25), b3(0.25);
-//	sch::CD_Pair pair(&b0, &b3);
-
-//	b0.setTransformation(qp::tosch(mbcInit.bodyPosW[0]));
-
-//	PTransformd I = PTransformd::Identity();
-//	qp::StaticEnvCollisionConstr seCollConstr(mb, 0.001);
-//	int collId1 = 10;
-//	seCollConstr.addCollision(mb, collId1, 3, &b3, I, 0, &b0, 0.01, 0.005, 1.);
-//	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
-
-//	// Test addInequalityConstraint
-//	solver.addInequalityConstraint(&seCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
-//	solver.addConstraint(&seCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
-
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
-//	solver.updateConstrSize();
-
-//	solver.addTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	autoCollConstr.rmCollision(collId1);
+	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
 
 
-//	mbcSolv = mbcInit;
-//	std::ofstream distHard("staticDistHard.py");
-//	distHard << "dist = [";
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		posTask.position(RotX(0.01)*posTask.position());
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
-//		sch::Point3 pb1Tmp, pb2Tmp;
-//		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
-//		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
-//		distHard << dist << ", ";
-//		BOOST_REQUIRE_GT(dist, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
-//	distHard << "]" << std::endl;
-
-//	seCollConstr.rmCollision(collId1);
-//	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 0);
-
-//	// test damping computation
-//	seCollConstr.addCollision(mb, collId1, 3, &b3, I, 0, &b0, 0.1, 0.01, 0., 0.1);
-//	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
-//	posTask.position(mbcInit.bodyPosW[bodyI].translation());
-
-//	mbcSolv = mbcInit;
-//	std::ofstream distSoft("staticDistSoft.py");
-//	distSoft << "dist = [";
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		posTask.position(RotX(0.01)*posTask.position());
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		sch::Point3 pb1Tmp, pb2Tmp;
-//		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
-//		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
-//		distSoft << dist << ", ";
-//		BOOST_REQUIRE_GT(dist, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
-//	distSoft << "]" << std::endl;
+	// Test remove*Constraint
+	solver.removeInequalityConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	solver.removeConstraint(&autoCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
 
 
-//	seCollConstr.rmCollision(collId1);
-//	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 0);
+BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//	solver.removeTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+	MultiBody mb, mbEnv;
+	MultiBodyConfig mbcInit, mbcEnv;
 
-//	// Test remove*Constraint
-//	solver.removeInequalityConstraint(&seCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
-//	solver.removeConstraint(&seCollConstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-//}
+	std::tie(mb, mbcInit) = makeZXZArm();
+	std::tie(mbEnv, mbcEnv) = makeEnv();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+	forwardKinematics(mbEnv, mbcEnv);
+	forwardVelocity(mbEnv, mbcEnv);
+
+	std::vector<MultiBody> mbs = {mb, mbEnv};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit, mbcEnv};
+
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mbs, 0, 3, mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
+
+	sch::S_Sphere b0(0.25), b3(0.25);
+	sch::CD_Pair pair(&b0, &b3);
+
+	b0.setTransformation(qp::tosch(mbcInit.bodyPosW[0]));
+
+	PTransformd I = PTransformd::Identity();
+	qp::CollisionConstr seCollConstr(mbs, 0.001);
+	int collId1 = 10;
+	seCollConstr.addCollision(mbs, collId1,
+		0, 3, &b3, I,
+		1, 0, &b0, I,
+		0.01, 0.005, 1.);
+	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
+
+	// Test addInequalityConstraint
+	solver.addInequalityConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
+	solver.addConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	mbcs[0] = mbcInit;
+	std::ofstream distHard("staticDistHard.py");
+	distHard << "dist = [";
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		sch::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		distHard << dist << ", ";
+		BOOST_REQUIRE_GT(dist, 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+	distHard << "]" << std::endl;
+
+	seCollConstr.rmCollision(collId1);
+	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 0);
+
+	// test damping computation
+	seCollConstr.addCollision(mbs, collId1,
+		0, 3, &b3, I,
+		1, 0, &b0, I,
+		0.1, 0.01, 0., 0.1);
+	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
+
+	mbcs[0] = mbcInit;
+	std::ofstream distSoft("staticDistSoft.py");
+	distSoft << "dist = [";
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		sch::Point3 pb1Tmp, pb2Tmp;
+		double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
+		dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+		distSoft << dist << ", ";
+		BOOST_REQUIRE_GT(dist, 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+	distSoft << "]" << std::endl;
+
+
+	seCollConstr.rmCollision(collId1);
+	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 0);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	solver.removeInequalityConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	solver.removeConstraint(&seCollConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
 
 //BOOST_AUTO_TEST_CASE(QPCoMCollTest)
 //{
