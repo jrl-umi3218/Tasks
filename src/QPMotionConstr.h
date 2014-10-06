@@ -32,6 +32,8 @@
 
 namespace tasks
 {
+class TorqueBound;
+class PolyTorqueBound;
 
 namespace qp
 {
@@ -123,22 +125,11 @@ protected:
 };
 
 
-struct TorqueBounds
-{
-	TorqueBounds() {}
-	TorqueBounds(std::vector<std::vector<double>> lTorqueBounds,
-		std::vector<std::vector<double>> uTorqueBounds);
-
-
-	std::vector<std::vector<double>> lTorqueBounds, uTorqueBounds;
-};
-
-
 class MotionConstr : public MotionConstrCommon
 {
 public:
 	MotionConstr(const std::vector<rbd::MultiBody>& mbs,
-							 std::vector<TorqueBounds> tbs);
+							 std::vector<TorqueBound> tbs);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -146,14 +137,14 @@ public:
 		const SolverData& data);
 
 protected:
-	struct TorqueBoundsData
+	struct TorqueBoundData
 	{
 		int alphaDOffset;
 		Eigen::VectorXd torqueL, torqueU;
 	};
 
 protected:
-	std::vector<TorqueBoundsData> torqueBounds_;
+	std::vector<TorqueBoundData> torqueBounds_;
 };
 
 
@@ -173,7 +164,7 @@ class MotionSpringConstr : public MotionConstr
 {
 public:
 	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
-										std::vector<TorqueBounds> tbs,
+										std::vector<TorqueBound> tbs,
 										const std::vector<SpringJoint>& springs);
 
 	// Constraint
@@ -196,17 +187,6 @@ protected:
 };
 
 
-struct PolyTorqueBounds
-{
-	PolyTorqueBounds() {}
-	PolyTorqueBounds(std::vector<std::vector<Eigen::VectorXd>> lPolyTorqueBounds,
-		std::vector<std::vector<Eigen::VectorXd>> uPolyTorqueBounds);
-
-
-	std::vector<std::vector<Eigen::VectorXd>> lPolyTorqueBounds, uPolyTorqueBounds;
-};
-
-
 /**
  * @brief Use polynome in function of q to compute torque limits.
  * BEWARE: Only work with 1 dof/param joint
@@ -215,7 +195,7 @@ class MotionPolyConstr : public MotionConstrCommon
 {
 public:
 	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<PolyTorqueBounds>& ptbs);
+		const std::vector<PolyTorqueBound>& ptbs);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -223,14 +203,14 @@ public:
 		const SolverData& data);
 
 protected:
-	struct PolyTorqueBoundsData
+	struct PolyTorqueBoundData
 	{
 		std::vector<Eigen::VectorXd> torqueL, torqueU;
 		std::vector<int> jointIndex;
 	};
 
 protected:
-	std::vector<PolyTorqueBoundsData> polyTorqueBounds_;
+	std::vector<PolyTorqueBoundData> polyTorqueBound_;
 };
 
 

@@ -25,6 +25,7 @@
 #include <RBDyn/MultiBodyConfig.h>
 
 // Tasks
+#include "Bounds.h"
 #include "utils.h"
 
 
@@ -97,7 +98,7 @@ void MotionConstrCommon::computeTorque(int robotIndex,
 	int r = rIndexToRobot_.at(robotIndex);
 	RobotData& rd = robots_[r];
 
-	rd.curTorque = rd.fd.H()*alphaD;
+	rd.curTorque = rd.fd.H()*alphaD.segment(rd.alphaDBegin, rd.nrDof);
 	rd.curTorque += rd.fd.C();
 	rd.curTorque += A_.block(rd.ARow, lambdaBegin_, rd.nrDof, A_.cols() - lambdaBegin_)*lambda;
 }
@@ -343,24 +344,12 @@ std::string MotionConstrCommon::descBound(const std::vector<rbd::MultiBody>& mbs
 
 
 /**
-	*															TorqueBounds
-	*/
-
-
-TorqueBounds::TorqueBounds(std::vector<std::vector<double>> lTB,
-	std::vector<std::vector<double>> uTB):
-	lTorqueBounds(std::move(lTB)),
-	uTorqueBounds(std::move(uTB))
-{ }
-
-
-/**
 	*															MotionConstr
 	*/
 
 
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody>& mbs,
-	std::vector<TorqueBounds> tbs):
+	std::vector<TorqueBound> tbs):
 	MotionConstrCommon(),
 	torqueBounds_()
 {
@@ -369,8 +358,8 @@ MotionConstr::MotionConstr(const std::vector<rbd::MultiBody>& mbs,
 	for(std::size_t i = 0; i < mbs.size(); ++i)
 	{
 		const rbd::MultiBody& mb = mbs[i];
-		TorqueBounds& tb = tbs[i];
-		TorqueBoundsData tbd;
+		TorqueBound& tb = tbs[i];
+		TorqueBoundData tbd;
 
 		int vars = mb.nrDof() - mb.joint(0).dof();
 		tbd.alphaDOffset = mb.joint(0).dof();
@@ -378,11 +367,11 @@ MotionConstr::MotionConstr(const std::vector<rbd::MultiBody>& mbs,
 		tbd.torqueU.resize(vars);
 
 		// remove the joint 0
-		tb.lTorqueBounds[0] = {};
-		tb.uTorqueBounds[0] = {};
+		tb.lTorqueBound[0] = {};
+		tb.uTorqueBound[0] = {};
 
-		rbd::paramToVector(tb.lTorqueBounds, tbd.torqueL);
-		rbd::paramToVector(tb.uTorqueBounds, tbd.torqueU);
+		rbd::paramToVector(tb.lTorqueBound, tbd.torqueL);
+		rbd::paramToVector(tb.uTorqueBound, tbd.torqueU);
 
 		torqueBounds_.emplace_back(tbd);
 	}
@@ -397,7 +386,7 @@ void MotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 	for(const RobotData& rd: robots_)
 	{
-		const TorqueBoundsData& tb = torqueBounds_[rd.robotIndex];
+		const TorqueBoundData& tb = torqueBounds_[rd.robotIndex];
 
 		int begin = tb.alphaDOffset + rd.alphaDBegin;
 		AL_.segment(begin, tb.torqueL.rows()) += tb.torqueL;
@@ -413,7 +402,7 @@ void MotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 MotionSpringConstr::MotionSpringConstr(
 	const std::vector<rbd::MultiBody>& mbs,
-	std::vector<TorqueBounds> tbs,
+	std::vector<TorqueBound> tbs,
 	const std::vector<SpringJoint>& springs):
 	MotionConstr(mbs, tbs),
 	springs_(mbs.size())
@@ -437,7 +426,7 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	for(const RobotData& rd: robots_)
 	{
 		const rbd::MultiBodyConfig& mbc = mbcs[rd.robotIndex];
-		TorqueBoundsData& tb = torqueBounds_[rd.robotIndex];
+		TorqueBoundData& tb = torqueBounds_[rd.robotIndex];
 
 		for(const SpringJointData& sj: springs_[rd.robotIndex])
 		{
@@ -459,9 +448,9 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 
 MotionPolyConstr::MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
-	const std::vector<PolyTorqueBounds>& ptbs):
+	const std::vector<PolyTorqueBound>& ptbs):
 	MotionConstrCommon(),
-	polyTorqueBounds_(mbs.size())
+	polyTorqueBound_(mbs.size())
 {
 	assert(mbs.size() == ptbs.size());
 
@@ -474,9 +463,9 @@ MotionPolyConstr::MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
 		{
 			if(mb.joint(i).dof() == 1)
 			{
-				PolyTorqueBoundsData& ptbd = polyTorqueBounds_[r];
-				ptbd.torqueL.push_back(ptbs[r].lPolyTorqueBounds[i][0]);
-				ptbd.torqueU.push_back(ptbs[r].uPolyTorqueBounds[i][0]);
+				PolyTorqueBoundData& ptbd = polyTorqueBound_[r];
+				ptbd.torqueL.push_back(ptbs[r].lPolyTorqueBound[i][0]);
+				ptbd.torqueU.push_back(ptbs[r].uPolyTorqueBound[i][0]);
 				ptbd.jointIndex.push_back(i);
 			}
 		}
@@ -494,7 +483,7 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	{
 		const rbd::MultiBody& mb = mbs[rd.robotIndex];
 		const rbd::MultiBodyConfig& mbc = mbcs[rd.robotIndex];
-		const PolyTorqueBoundsData& ptbd = polyTorqueBounds_[rd.robotIndex];
+		const PolyTorqueBoundData& ptbd = polyTorqueBound_[rd.robotIndex];
 
 		for(std::size_t i = 0; i < ptbd.jointIndex.size(); ++i)
 		{

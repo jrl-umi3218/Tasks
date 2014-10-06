@@ -46,6 +46,8 @@ class CD_Pair;
 
 namespace tasks
 {
+class QBound;
+class AlphaBound;
 
 namespace qp
 {
@@ -222,33 +224,12 @@ private:
 };
 
 
-struct QBounds
-{
-	QBounds() {}
-	QBounds(std::vector<std::vector<double> > lQBound,
-		std::vector<std::vector<double> > uQBound);
-
-	std::vector<std::vector<double> > lQBound;
-	std::vector<std::vector<double> > uQBound;
-};
-
-
-struct AlphaBounds
-{
-	AlphaBounds() {}
-	AlphaBounds(std::vector<std::vector<double> > lAlphaBound,
-		std::vector<std::vector<double> > uAlphaBound);
-
-	std::vector<std::vector<double> > lAlphaBound;
-	std::vector<std::vector<double> > uAlphaBound;
-};
-
 
 class JointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
-		std::vector<QBounds> bounds, double step);
+		std::vector<QBound> bounds, double step);
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -287,7 +268,7 @@ class DamperJointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	DamperJointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<QBounds>& qBounds, const std::vector<AlphaBounds>& aBounds,
+		const std::vector<QBound>& qBounds, const std::vector<AlphaBound>& aBounds,
 		double interPercent, double securityPercent, double damperOffset, double step);
 
 	// Constraint
@@ -336,7 +317,6 @@ private:
 	std::vector<DampData> data_;
 
 	Eigen::VectorXd lower_, upper_;
-	int begin_;
 	double step_;
 	double damperOff_;
 };

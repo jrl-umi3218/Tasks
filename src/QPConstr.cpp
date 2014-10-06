@@ -30,6 +30,7 @@
 #include <sch/S_Object/S_Object.h>
 
 // Tasks
+#include "Bounds.h"
 #include "utils.h"
 
 namespace tasks
@@ -460,7 +461,7 @@ void ContactSpeedConstr::updateNrEq()
 
 
 JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
-	std::vector<QBounds> bounds, double step):
+	std::vector<QBound> bounds, double step):
 	lower_(),
 	upper_(),
 	limits_(mbs.size()),
@@ -472,7 +473,7 @@ JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
 	for(std::size_t i = 0; i < bounds.size(); ++i)
 	{
 		const rbd::MultiBody& mb = mbs[i];
-		QBounds& qb =bounds[i];
+		QBound& qb =bounds[i];
 		JointLimitsData& jld = limits_[i];
 
 		int vars = mb.nrDof() - mb.joint(0).dof();
@@ -576,7 +577,7 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 
 DamperJointLimitsConstr::DamperJointLimitsConstr(
 	const std::vector<rbd::MultiBody>& mbs,
-	const std::vector<QBounds>& qBounds, const std::vector<AlphaBounds>& aBounds,
+	const std::vector<QBound>& qBounds, const std::vector<AlphaBound>& aBounds,
 	double interPercent, double securityPercent,
 	double damperOffset, double step):
 	data_(),
@@ -592,8 +593,8 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(
 	for(std::size_t r = 0; r < mbs.size(); ++r)
 	{
 		const rbd::MultiBody& mb = mbs[r];
-		const QBounds& qb = qBounds[r];
-		const AlphaBounds& ab = aBounds[r];
+		const QBound& qb = qBounds[r];
+		const AlphaBound& ab = aBounds[r];
 
 		for(int i = 0; i < mb.nrJoints(); ++i)
 		{
@@ -616,7 +617,7 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(
 	for(std::size_t i = 0; i < aBounds.size(); ++i)
 	{
 		const rbd::MultiBody& mb = mbs[i];
-		const AlphaBounds& ab = aBounds[i];
+		const AlphaBound& ab = aBounds[i];
 
 		lower_.segment(deb, mb.nrDof()) = rbd::dofToVector(mb, ab.lAlphaBound);
 		upper_.segment(deb, mb.nrDof()) = rbd::dofToVector(mb, ab.uAlphaBound);
@@ -711,7 +712,7 @@ std::string DamperJointLimitsConstr::descBound(
 
 int DamperJointLimitsConstr::beginVar() const
 {
-	return begin_;
+	return 0;
 }
 
 

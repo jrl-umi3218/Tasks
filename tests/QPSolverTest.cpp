@@ -45,6 +45,7 @@
 #include <sch/CD/CD_Pair.h>
 
 // Tasks
+#include "Bounds.h"
 #include "QPConstr.h"
 #include "QPMotionConstr.h"
 #include "QPSolver.h"
@@ -553,312 +554,320 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 
 
-//BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
-
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
-
-//	std::tie(mb, mbcInit) = makeZXZArm();
+BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
-
-//	qp::QPSolver solver;
-
-//	int bodyI = mb.bodyIndexById(3);
-//	qp::PositionTask posTask(mb, 3,
-//		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
-//	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
-
-//	double inf = std::numeric_limits<double>::infinity();
-//	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
-//	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
 
-//	qp::JointLimitsConstr jointConstr(mb, lBound, uBound, 0.001);
+	std::tie(mb, mbcInit) = makeZXZArm();
 
-//	// Test add*Constraint
-//	solver.addBoundConstraint(&jointConstr);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-//	solver.addConstraint(&jointConstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
-
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
-//	solver.updateConstrSize();
-
-//	solver.addTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
-
-
-//	// Test JointLimitsConstr
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		BOOST_REQUIRE_GT(mbcSolv.q[1][0], -cst::pi<double>()/4. - 0.01);
-//	}
-
-//	posTask.position(RotZ(-cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		BOOST_REQUIRE_LT(mbcSolv.q[1][0], cst::pi<double>()/4. + 0.01);
-//	}
-
-//	solver.removeTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
-
-//	// Test remove*Constraint
-//	solver.removeBoundConstraint(&jointConstr);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-//	solver.removeConstraint(&jointConstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-//}
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
 
+	std::vector<rbd::MultiBody> mbs = {mb};
+	std::vector<rbd::MultiBodyConfig> mbcs = {mbcInit};
 
+	qp::QPSolver solver;
 
-//BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mbs, 0, 3,
+		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
+	double inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
+	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
 
-//	std::tie(mb, mbcInit) = makeZXZArm();
+	qp::JointLimitsConstr jointConstr(mbs, {{lBound, uBound}}, 0.001);
 
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
+	// Test add*Constraint
+	solver.addBoundConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	solver.addConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-//	qp::QPSolver solver;
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
 
-//	int bodyI = mb.bodyIndexById(3);
-//	qp::PositionTask posTask(mb, 3,
-//		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
-//	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
-//	double inf = std::numeric_limits<double>::infinity();
-//	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
-//	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
-//	std::vector<std::vector<double> > lVel = {{}, {-inf}, {-inf}, {-inf}};
-//	std::vector<std::vector<double> > uVel = {{}, {inf}, {inf}, {inf}};
 
-//	qp::DamperJointLimitsConstr dampJointConstr(mb, lBound, uBound, lVel, uVel,
-//																						0.125, 0.025, 1., 0.001);
+	// Test JointLimitsConstr
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		BOOST_REQUIRE_GT(mbcs[0].q[1][0], -cst::pi<double>()/4. - 0.01);
+	}
 
-//	// Test add*Constraint
-//	dampJointConstr.addToSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+	posTask.position(RotZ(-cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
 
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
-//	solver.updateConstrSize();
-
-//	solver.addTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
-
-
-//	// Test JointLimitsConstr
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 2000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		BOOST_REQUIRE_GT(mbcSolv.q[1][0], -(cst::pi<double>()/4.)*(1. - 0.025) - 0.01);
-//	}
-
-//	posTask.position(RotZ(-cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 2000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		BOOST_REQUIRE_LT(mbcSolv.q[1][0], (cst::pi<double>()/4.)*(1. - 0.025) + 0.01);
-//	}
-
-//	solver.removeTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
-
-//	// Test remove*Constraint
-//	dampJointConstr.removeFromSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-//}
-
-
-
-//BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
-
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
-
-//	std::tie(mb, mbcInit) = makeZXZArm();
-
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
-
-//	qp::QPSolver solver;
-
-//	int bodyI = mb.bodyIndexById(3);
-//	qp::PositionTask posTask(mb, 3,
-//		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
-//	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
-
-//	std::vector<std::vector<double> > lBound = {{}, {-30.}, {-30.}, {-30.}};
-//	std::vector<std::vector<double> > uBound = {{}, {30.}, {30.}, {30.}};
-
-//	qp::MotionConstr motionCstr(mb, lBound, uBound);
-
-//	// Test add*Constraint
-
-//	solver.addGenInequalityConstraint(&motionCstr);
-//	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
-//	solver.addBoundConstraint(&motionCstr);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-//	solver.addConstraint(&motionCstr);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
-
-//	solver.addTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
-
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
-
-
-//	// Test MotionConstr torque limits
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 10000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
-//		motionCstr.torque(mb, mbcSolv);
-//		for(int i = 0; i < 3; ++i)
-//		{
-//			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], lBound[i+1][0] - 0.001);
-//			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], uBound[i+1][0] + 0.001);
-//		}
-//	}
-
-//	posTask.position(mbcInit.bodyPosW[bodyI].translation());
-//	for(int i = 0; i < 10000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
-//		motionCstr.torque(mb, mbcSolv);
-//		for(int i = 0; i < 3; ++i)
-//		{
-//			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], lBound[i+1][0] - 0.001);
-//			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], uBound[i+1][0] + 0.001);
-//		}
-//	}
-
-//	motionCstr.removeFromSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-
-
-
-//	Eigen::VectorXd lpoly(2), upoly(2);
-//	Eigen::VectorXd null;
-//	lpoly << -30, 1.;
-//	upoly << 30, 1.;
-//	std::vector<std::vector<Eigen::VectorXd> > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
-//	std::vector<std::vector<Eigen::VectorXd> > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
-//	qp::MotionPolyConstr motionPolyCstr(mb, lBoundPoly, uBoundPoly);
-
-//	motionPolyCstr.addToSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
-
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
-
-//	// Test MotionPolyConstr torque limits
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 10000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		std::vector<std::vector<double>> oldQ = mbcSolv.q;
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
-//		motionPolyCstr.torque(mb, mbcSolv);
-//		for(int i = 0; i < 3; ++i)
-//		{
-//			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
-//			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(uBoundPoly[i+1][0], oldQ[i+1][0]));
-//		}
-//	}
-
-//	posTask.position(mbcInit.bodyPosW[bodyI].translation());
-//	for(int i = 0; i < 10000; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		std::vector<std::vector<double>> oldQ = mbcSolv.q;
-//		eulerIntegration(mb, mbcSolv, 0.001);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//		motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
-//		motionPolyCstr.torque(mb, mbcSolv);
-//		for(int i = 0; i < 3; ++i)
-//		{
-//			BOOST_REQUIRE_GT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
-//			BOOST_REQUIRE_LT(mbcSolv.jointTorque[i+1][0], Eigen::poly_eval(uBoundPoly[i+1][0], oldQ[i+1][0]));
-//		}
-//	}
-
-//	motionPolyCstr.removeFromSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
-//	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-
-//	solver.removeTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
-//}
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		BOOST_REQUIRE_LT(mbcs[0].q[1][0], cst::pi<double>()/4. + 0.01);
+	}
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	solver.removeBoundConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	solver.removeConstraint(&jointConstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
+
+
+BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	std::vector<rbd::MultiBody> mbs = {mb};
+	std::vector<rbd::MultiBodyConfig> mbcs = {mbcInit};
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mbs, 0, 3,
+		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
+
+	double inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
+	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
+	std::vector<std::vector<double> > lVel = {{}, {-inf}, {-inf}, {-inf}};
+	std::vector<std::vector<double> > uVel = {{}, {inf}, {inf}, {inf}};
+
+	qp::DamperJointLimitsConstr dampJointConstr(mbs, {{lBound, uBound}},
+		{{lVel, uVel}}, 0.125, 0.025, 1., 0.001);
+
+	// Test add*Constraint
+	dampJointConstr.addToSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test JointLimitsConstr
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 2000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		BOOST_REQUIRE_GT(mbcs[0].q[1][0], -(cst::pi<double>()/4.)*(1. - 0.025) - 0.01);
+	}
+
+	posTask.position(RotZ(-cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 2000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		BOOST_REQUIRE_LT(mbcs[0].q[1][0], (cst::pi<double>()/4.)*(1. - 0.025) + 0.01);
+	}
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+
+	// Test remove*Constraint
+	dampJointConstr.removeFromSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+}
+
+
+
+BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	std::vector<rbd::MultiBody> mbs = {mb};
+	std::vector<rbd::MultiBodyConfig> mbcs = {mbcInit};
+
+	qp::QPSolver solver;
+
+	int bodyI = mb.bodyIndexById(3);
+	qp::PositionTask posTask(mbs, 0, 3,
+		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
+
+	std::vector<std::vector<double> > lBound = {{}, {-30.}, {-30.}, {-30.}};
+	std::vector<std::vector<double> > uBound = {{}, {30.}, {30.}, {30.}};
+
+	qp::MotionConstr motionCstr(mbs, {{lBound, uBound}});
+
+	// Test add*Constraint
+
+	solver.addGenInequalityConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
+	solver.addBoundConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	solver.addConstraint(&motionCstr);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+
+	// Test MotionConstr torque limits
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		motionCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
+		motionCstr.torque(mbs, mbcs, 0);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], lBound[i+1][0] - 0.001);
+			BOOST_REQUIRE_LT(mbcs[0].jointTorque[i+1][0], uBound[i+1][0] + 0.001);
+		}
+	}
+
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		motionCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
+		motionCstr.torque(mbs, mbcs, 0);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], lBound[i+1][0] - 0.001);
+			BOOST_REQUIRE_LT(mbcs[0].jointTorque[i+1][0], uBound[i+1][0] + 0.001);
+		}
+	}
+
+	motionCstr.removeFromSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
+
+	Eigen::VectorXd lpoly(2), upoly(2);
+	Eigen::VectorXd null;
+	lpoly << -30, 1.;
+	upoly << 30, 1.;
+	std::vector<std::vector<Eigen::VectorXd> > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
+	std::vector<std::vector<Eigen::VectorXd> > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
+	qp::MotionPolyConstr motionPolyCstr(mbs, {{lBoundPoly, uBoundPoly}});
+
+	motionPolyCstr.addToSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+	// Test MotionPolyConstr torque limits
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		std::vector<std::vector<double>> oldQ = mbcs[0].q;
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		motionPolyCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
+		motionPolyCstr.torque(mbs, mbcs, 0);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
+			BOOST_REQUIRE_LT(mbcs[0].jointTorque[i+1][0], Eigen::poly_eval(uBoundPoly[i+1][0], oldQ[i+1][0]));
+		}
+	}
+
+	posTask.position(mbcInit.bodyPosW[bodyI].translation());
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		std::vector<std::vector<double>> oldQ = mbcs[0].q;
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		motionPolyCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
+		motionPolyCstr.torque(mbs, mbcs, 0);
+		for(int i = 0; i < 3; ++i)
+		{
+			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
+			BOOST_REQUIRE_LT(mbcs[0].jointTorque[i+1][0], Eigen::poly_eval(uBoundPoly[i+1][0], oldQ[i+1][0]));
+		}
+	}
+
+	motionPolyCstr.removeFromSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+}
+
+
 
 //BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 //{

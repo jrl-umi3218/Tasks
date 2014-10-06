@@ -3,7 +3,7 @@ set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp
             GenQPSolver.cpp)
 set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h
             QPContacts.h QPSolverData.h QPMotionConstr.h
-            GenQPSolver.h)
+            GenQPSolver.h Bounds.h)
 set(PRIVATE_HEADERS utils.h)
 
 if(${POSTURE_GENERATOR})
