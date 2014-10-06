@@ -35,6 +35,89 @@ namespace tasks
 namespace qp
 {
 
+/**
+	*															PositiveLambda
+	*/
+
+PositiveLambda::PositiveLambda():
+	lambdaBegin_(-1),
+	XL_(),
+	XU_(),
+	cont_()
+{ }
+
+
+void PositiveLambda::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+	const SolverData& data)
+{
+	lambdaBegin_ = data.lambdaBegin();
+
+	XL_.setConstant(data.totalLambda(), 0.);
+	XU_.setConstant(data.totalLambda(), std::numeric_limits<double>::infinity());
+
+	cont_.clear();
+	const std::vector<BilateralContact>& allC = data.allContacts();
+	for(std::size_t i = 0; i < allC.size(); ++i)
+	{
+		cont_.push_back({allC[i].contactId,
+										data.lambdaBegin(int(i)),
+										allC[i].nrLambda()});
+	}
+}
+
+
+void PositiveLambda::update(const std::vector<rbd::MultiBody>& /* mbs */,
+	const std::vector<rbd::MultiBodyConfig>& /* mbc */,
+	const SolverData& /* data */)
+{ }
+
+
+std::string PositiveLambda::nameBound() const
+{
+	return "PositiveLambda";
+}
+
+
+std::string PositiveLambda::descBound(const std::vector<rbd::MultiBody>& mbs,
+	int line)
+{
+	std::ostringstream oss;
+
+	for(const ContactData& cd: cont_)
+	{
+		int begin = cd.lambdaBegin - lambdaBegin_;
+		int end = begin + cd.nrLambda;
+		if(line >= begin && line < end)
+		{
+			const rbd::MultiBody& mb1 = mbs[cd.cId.r1Index];
+			const rbd::MultiBody& mb2 = mbs[cd.cId.r2Index];
+			oss << "Body 1: " << mb1.body(mb1.bodyIndexById(cd.cId.r1BodyId)).name() << std::endl;
+			oss << "Body 2: " << mb2.body(mb2.bodyIndexById(cd.cId.r2BodyId)).name() << std::endl;
+			break;
+		}
+	}
+
+	return oss.str();
+}
+
+
+int PositiveLambda::beginVar() const
+{
+	return lambdaBegin_;
+}
+
+
+const Eigen::VectorXd& PositiveLambda::Lower() const
+{
+	return XL_;
+}
+
+
+const Eigen::VectorXd& PositiveLambda::Upper() const
+{
+	return XU_;
+}
+
 
 /**
 	*															MotionConstrCommon
@@ -50,14 +133,12 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb,
 	jac(mb, bId),
 	points(std::move(pts)),
 	generators(cones.size()),
-	jacTrans(6, jac.dof())//,
-//	generatorsComp(cones.size())
+	jacTrans(6, jac.dof())
 {
 	bodyIndex = jac.jointsPath().back();
 	for(std::size_t i = 0; i < cones.size(); ++i)
 	{
 		generators[i].resize(3, cones[i].generators.size());
-		//generatorsComp[i].resize(3, cones[i].generators.size());
 		for(std::size_t j = 0; j < cones[i].generators.size(); ++j)
 		{
 			generators[i].col(j) = cones[i].generators[j];
@@ -78,9 +159,7 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs,
 	curTorque_(nrDof_),
 	A_(),
 	AL_(nrDof_),
-	AU_(nrDof_),
-	XL_(),
-	XU_()
+	AU_(nrDof_)
 {
 	assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
 }
@@ -145,9 +224,6 @@ void MotionConstrCommon::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 	}
 
 	A_.setZero(nrDof_, data.nrVars());
-
-	XL_.setConstant(data.totalLambda(), 0.);
-	XU_.setConstant(data.totalLambda(), std::numeric_limits<double>::infinity());
 }
 
 
@@ -216,24 +292,6 @@ const Eigen::VectorXd& MotionConstrCommon::UpperGenInEq() const
 }
 
 
-int MotionConstrCommon::beginVar() const
-{
-	return lambdaBegin_;
-}
-
-
-const Eigen::VectorXd& MotionConstrCommon::Lower() const
-{
-	return XL_;
-}
-
-
-const Eigen::VectorXd& MotionConstrCommon::Upper() const
-{
-	return XU_;
-}
-
-
 std::string MotionConstrCommon::nameGenInEq() const
 {
 	return "MotionConstr";
@@ -245,33 +303,6 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody>& m
 {
 	int jIndex = findJointFromVector(mbs[robotIndex_], line, true);
 	return std::string("Joint: ") + mbs[robotIndex_].joint(jIndex).name();
-}
-
-
-std::string MotionConstrCommon::nameBound() const
-{
-	return "MotionConstr";
-}
-
-
-std::string MotionConstrCommon::descBound(const std::vector<rbd::MultiBody>& mbs,
-	int line)
-{
-	for(const ContactData& cd: cont_)
-	{
-		int begin = cd.lambdaBegin - lambdaBegin_;
-		int nrLambda = std::accumulate(cd.generators.begin(), cd.generators.end(),
-			0, [](int acc, const Eigen::Matrix<double, 3, Eigen::Dynamic>& g)
-			{return acc + g.cols();});
-
-		int end = begin + nrLambda;
-		if(line >= begin && line < end)
-		{
-			return std::string("Body: ") +
-				mbs[robotIndex_].body(cd.bodyIndex).name();
-		}
-	}
-	return "";
 }
 
 

@@ -459,11 +459,15 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	std::vector<std::vector<double>> torqueMin = {{},{-Inf},{-Inf},{-Inf}};
 	std::vector<std::vector<double>> torqueMax = {{},{Inf},{Inf},{Inf}};
 	qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax});
+	qp::PositiveLambda plCstr;
 
 	motionCstr.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	plCstr.addToSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
 	solver.nrVars(mbs, contVec, {});
 	solver.updateConstrSize();
@@ -500,9 +504,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	// Test removeEqualityConstraint
 	motionCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
-
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 
 	// MotionConstr test with contact
@@ -513,10 +515,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	solver.addGenInequalityConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
-	solver.addBoundConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	solver.addConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
 	solver.nrVars(mbs, contVec, {});
 	solver.updateConstrSize();
@@ -545,6 +545,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	// Test removeEqualityConstraint
 	motionCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	plCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
@@ -744,15 +747,18 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	std::vector<std::vector<double> > uBound = {{}, {30.}, {30.}, {30.}};
 
 	qp::MotionConstr motionCstr(mbs, 0, {lBound, uBound});
+	qp::PositiveLambda plCstr;
 
 	// Test add*Constraint
 
 	solver.addGenInequalityConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
-	solver.addBoundConstraint(&motionCstr);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
 	solver.addConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	plCstr.addToSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
 	solver.addTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
@@ -798,8 +804,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 	motionCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
-	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
 
 	Eigen::VectorXd lpoly(2), upoly(2);
@@ -813,7 +818,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	motionPolyCstr.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 1);
-	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 2);
 
 	solver.nrVars(mbs, {}, {});
 	solver.updateConstrSize();
@@ -857,6 +862,9 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 	motionPolyCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+
+	plCstr.removeFromSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrBoundConstraints(), 0);
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 

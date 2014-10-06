@@ -38,7 +38,44 @@ class PolyTorqueBound;
 namespace qp
 {
 
-class MotionConstrCommon : public ConstraintFunction<GenInequality, Bound>
+class PositiveLambda : public ConstraintFunction<Bound>
+{
+public:
+	PositiveLambda();
+
+	// Constraint
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
+		const SolverData& data);
+
+	// Description
+	virtual std::string nameBound() const;
+	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line);
+
+	// Bound Constraint
+	virtual int beginVar() const;
+
+	virtual const Eigen::VectorXd& Lower() const;
+	virtual const Eigen::VectorXd& Upper() const;
+
+private:
+	struct ContactData
+	{
+		ContactId cId;
+		int lambdaBegin, nrLambda; // lambda index in x
+	};
+
+private:
+	int lambdaBegin_;
+	Eigen::VectorXd XL_, XU_;
+
+	std::vector<ContactData> cont_; // only usefull for descBound
+};
+
+
+class MotionConstrCommon : public ConstraintFunction<GenInequality>
 {
 public:
 	MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
@@ -59,8 +96,6 @@ public:
 	// Description
 	virtual std::string nameGenInEq() const;
 	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mbs, int line);
-	virtual std::string nameBound() const;
-	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line);
 
 	// Inequality Constraint
 	virtual int maxGenInEq() const;
@@ -68,12 +103,6 @@ public:
 	virtual const Eigen::MatrixXd& AGenInEq() const;
 	virtual const Eigen::VectorXd& LowerGenInEq() const;
 	virtual const Eigen::VectorXd& UpperGenInEq() const;
-
-	// Bound Constraint
-	virtual int beginVar() const;
-
-	virtual const Eigen::VectorXd& Lower() const;
-	virtual const Eigen::VectorXd& Upper() const;
 
 protected:
 	struct ContactData
@@ -103,8 +132,6 @@ protected:
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd AL_, AU_;
-
-	Eigen::VectorXd XL_, XU_;
 };
 
 
