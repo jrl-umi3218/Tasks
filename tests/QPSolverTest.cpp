@@ -458,10 +458,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	double Inf = std::numeric_limits<double>::infinity();
 	std::vector<std::vector<double>> torqueMin = {{},{-Inf},{-Inf},{-Inf}};
 	std::vector<std::vector<double>> torqueMax = {{},{Inf},{Inf},{Inf}};
-	std::vector<std::vector<double>> torqueMinEnv = {{}};
-	std::vector<std::vector<double>> torqueMaxEnv = {{}};
-	qp::MotionConstr motionCstr(mbs, {{torqueMin, torqueMax},
-																		{torqueMinEnv,torqueMaxEnv}});
+	qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax});
 
 	motionCstr.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
@@ -483,8 +480,8 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
 	}
-	motionCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
-	motionCstr.torque(mbs, mbcs, 0);
+	motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+	motionCstr.torque(mbs, mbcs);
 
 	BOOST_CHECK_SMALL(posTask.eval().norm(), 5e-05);
 
@@ -746,7 +743,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	std::vector<std::vector<double> > lBound = {{}, {-30.}, {-30.}, {-30.}};
 	std::vector<std::vector<double> > uBound = {{}, {30.}, {30.}, {30.}};
 
-	qp::MotionConstr motionCstr(mbs, {{lBound, uBound}});
+	qp::MotionConstr motionCstr(mbs, 0, {lBound, uBound});
 
 	// Test add*Constraint
 
@@ -773,8 +770,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
-		motionCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
-		motionCstr.torque(mbs, mbcs, 0);
+		motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionCstr.torque(mbs, mbcs);
 		for(int i = 0; i < 3; ++i)
 		{
 			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], lBound[i+1][0] - 0.001);
@@ -790,8 +787,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
-		motionCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
-		motionCstr.torque(mbs, mbcs, 0);
+		motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionCstr.torque(mbs, mbcs);
 		for(int i = 0; i < 3; ++i)
 		{
 			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], lBound[i+1][0] - 0.001);
@@ -811,7 +808,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	upoly << 30, 1.;
 	std::vector<std::vector<Eigen::VectorXd> > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
 	std::vector<std::vector<Eigen::VectorXd> > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
-	qp::MotionPolyConstr motionPolyCstr(mbs, {{lBoundPoly, uBoundPoly}});
+	qp::MotionPolyConstr motionPolyCstr(mbs, 0, {lBoundPoly, uBoundPoly});
 
 	motionPolyCstr.addToSolver(solver);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
@@ -831,8 +828,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
-		motionPolyCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
-		motionPolyCstr.torque(mbs, mbcs, 0);
+		motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionPolyCstr.torque(mbs, mbcs);
 		for(int i = 0; i < 3; ++i)
 		{
 			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));
@@ -849,8 +846,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
-		motionPolyCstr.computeTorque(0, solver.alphaDVec(), solver.lambdaVec());
-		motionPolyCstr.torque(mbs, mbcs, 0);
+		motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
+		motionPolyCstr.torque(mbs, mbcs);
 		for(int i = 0; i < 3; ++i)
 		{
 			BOOST_REQUIRE_GT(mbcs[0].jointTorque[i+1][0], Eigen::poly_eval(lBoundPoly[i+1][0], oldQ[i+1][0]));

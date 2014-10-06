@@ -41,15 +41,13 @@ namespace qp
 class MotionConstrCommon : public ConstraintFunction<GenInequality, Bound>
 {
 public:
-	MotionConstrCommon();
+	MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
 
-	void computeTorque(int robotIndex,
-										const Eigen::VectorXd& alphaD,
-										const Eigen::VectorXd& lambda);
-	const Eigen::VectorXd& torque(int robotIndex) const;
+	void computeTorque(const Eigen::VectorXd& alphaD,
+		const Eigen::VectorXd& lambda);
+	const Eigen::VectorXd& torque() const;
 	void torque(const std::vector<rbd::MultiBody>& mbs,
-		std::vector<rbd::MultiBodyConfig>& mbcs,
-		int robotIndex) const;
+		std::vector<rbd::MultiBodyConfig>& mbcs) const;
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -93,43 +91,28 @@ protected:
 		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generators;
 		// Hold the translated jacobian
 		Eigen::MatrixXd jacTrans;
-		// Hold the generator in world frame
-		// std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generatorsComp;
-	};
-
-	struct RobotData
-	{
-		RobotData() {}
-		RobotData(const rbd::MultiBody& mb, int robotIndex,
-			int alphaDBegin, int aRow,
-			std::vector<ContactData> contacts);
-
-		int robotIndex, alphaDBegin, nrDof, ARow;
-		rbd::ForwardDynamics fd;
-		std::vector<ContactData> cont;
-		Eigen::MatrixXd fullJac;
-
-		Eigen::VectorXd curTorque;
 	};
 
 protected:
-	std::vector<RobotData> robots_;
-	int lambdaBegin_;
+	int robotIndex_, alphaDBegin_, nrDof_, lambdaBegin_;
+	rbd::ForwardDynamics fd_;
+	Eigen::MatrixXd fullJac_;
+	std::vector<ContactData> cont_;
+
+	Eigen::VectorXd curTorque_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd AL_, AU_;
 
 	Eigen::VectorXd XL_, XU_;
-
-	std::map<int, int> rIndexToRobot_;
 };
 
 
 class MotionConstr : public MotionConstrCommon
 {
 public:
-	MotionConstr(const std::vector<rbd::MultiBody>& mbs,
-							 std::vector<TorqueBound> tbs);
+	MotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		const TorqueBound& tb);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -137,14 +120,7 @@ public:
 		const SolverData& data);
 
 protected:
-	struct TorqueBoundData
-	{
-		int alphaDOffset;
-		Eigen::VectorXd torqueL, torqueU;
-	};
-
-protected:
-	std::vector<TorqueBoundData> torqueBounds_;
+	Eigen::VectorXd torqueL_, torqueU_;
 };
 
 
@@ -164,8 +140,8 @@ class MotionSpringConstr : public MotionConstr
 {
 public:
 	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
-										std::vector<TorqueBound> tbs,
-										const std::vector<SpringJoint>& springs);
+		int robotIndex, const TorqueBound& tb,
+		const std::vector<SpringJoint>& springs);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -183,7 +159,7 @@ protected:
 	};
 
 protected:
-	std::vector<std::vector<SpringJointData>> springs_;
+	std::vector<SpringJointData> springs_;
 };
 
 
@@ -195,7 +171,7 @@ class MotionPolyConstr : public MotionConstrCommon
 {
 public:
 	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<PolyTorqueBound>& ptbs);
+		int robotIndex, const PolyTorqueBound& ptb);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -203,14 +179,8 @@ public:
 		const SolverData& data);
 
 protected:
-	struct PolyTorqueBoundData
-	{
-		std::vector<Eigen::VectorXd> torqueL, torqueU;
-		std::vector<int> jointIndex;
-	};
-
-protected:
-	std::vector<PolyTorqueBoundData> polyTorqueBound_;
+	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
+	std::vector<int> jointIndex_;
 };
 
 
