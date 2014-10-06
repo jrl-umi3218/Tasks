@@ -1401,153 +1401,186 @@ const Eigen::VectorXd& GripperTorqueConstr::bInEq() const
 }
 
 
-///**
-//	*															ConstantSpeedConstr
-//	*/
+/**
+	*															ConstantSpeedConstr
+	*/
 
 
-//ConstantSpeedConstr::ConstantSpeedConstr(const rbd::MultiBody& mb, double timeStep):
-//	cont_(),
-//	fullJac_(6, mb.nrDof()),
-//	A_(),
-//	b_(),
-//	nrVars_(0),
-//	timeStep_(timeStep)
-//{}
+ConstantSpeedConstr::ConstantSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, double timeStep):
+	robotIndex_(robotIndex),
+	cont_(),
+	fullJac_(6, mbs[robotIndex_].nrDof()),
+	A_(),
+	lower_(),
+	upper_(),
+	nrVars_(0),
+	timeStep_(timeStep)
+{}
 
 
-//void ConstantSpeedConstr::addConstantSpeed(const rbd::MultiBody& mb, int bodyId,
-//																				const Eigen::Vector3d& bodyPoint,
-//																				const Eigen::MatrixXd& dof,
-//																				const Eigen::VectorXd& speed)
-//{
-//	rbd::Jacobian jac(mb, bodyId, bodyPoint);
-//	cont_.push_back({jac, dof, speed, bodyId});
-//	updateNrEq();
-//}
+void ConstantSpeedConstr::addConstantSpeed(
+	const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
+	const Eigen::VectorXd& speed)
+{
+	addConstantSpeed(mbs, bodyId, bodyPoint, dof, speed, speed);
+}
 
 
-//bool ConstantSpeedConstr::removeConstantSpeed(int bodyId)
-//{
-//	auto it = std::find_if(cont_.begin(), cont_.end(),
-//		[bodyId](const ConstantSpeedData& data)
-//		{
-//			return data.bodyId == bodyId;
-//		});
-
-//	if(it != cont_.end())
-//	{
-//		cont_.erase(it);
-//		updateNrEq();
-//		return true;
-//	}
-
-//	return false;
-//}
+void ConstantSpeedConstr::addConstantSpeed(
+	const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
+	const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed)
+{
+	rbd::Jacobian jac(mbs[robotIndex_], bodyId, bodyPoint);
+	cont_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyId});
+}
 
 
-//void ConstantSpeedConstr::resetConstantSpeed()
-//{
-//	cont_.clear();
-//	updateNrEq();
-//}
+bool ConstantSpeedConstr::removeConstantSpeed(int bodyId)
+{
+	auto it = std::find_if(cont_.begin(), cont_.end(),
+		[bodyId](const ConstantSpeedData& data)
+		{
+			return data.bodyId == bodyId;
+		});
+
+	if(it != cont_.end())
+	{
+		cont_.erase(it);
+		return true;
+	}
+
+	return false;
+}
 
 
-//std::size_t ConstantSpeedConstr::nrConstantSpeed() const
-//{
-//	return cont_.size();
-//}
+void ConstantSpeedConstr::resetConstantSpeeds()
+{
+	cont_.clear();
+}
 
 
-//void ConstantSpeedConstr::updateNrVars(const rbd::MultiBody& /* mb */,
-//	const SolverData& data)
-//{
-//	nrVars_ = data.nrVars();
-//	updateNrEq();
-//}
+std::size_t ConstantSpeedConstr::nrConstantSpeeds() const
+{
+	return cont_.size();
+}
 
 
-//void ConstantSpeedConstr::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-//	const SolverData& data)
-//{
-//	using namespace Eigen;
-
-//	// TargetSpeed = V_k + A_{k+1}*dt
-//	// TargetSpeed - V_k = J_k*alphaD_{k+1} + JD_k*alpha_k
-//	// (TargetSpeed - V_k)/dt - JD_k*alpha_k = J_k*alphaD_{k+1}
-
-//	int index = 0;
-//	for(std::size_t i = 0; i < cont_.size(); ++i)
-//	{
-//		int rows = int(cont_[i].dof.rows());
-
-//		// AEq
-//		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
-//		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
-//		A_.block(index, 0, rows, mb.nrDof()).noalias() = cont_[i].dof*fullJac_;
-
-//		// BEq
-//		Vector6d speed = cont_[i].jac.bodyVelocity(mb, mbc).vector();
-//		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
-//			mb, mbc, data.normalAccB()).vector();
-//		b_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
-//			(speed/timeStep_));
-//		b_.segment(index, rows).noalias() += (cont_[i].speed/timeStep_);
-//		index += rows;
-//	}
-//}
+void ConstantSpeedConstr::updateConstantSpeeds()
+{
+	updateNrEq();
+}
 
 
-//std::string ConstantSpeedConstr::nameEq() const
-//{
-//	return "ConstantSpeedConstr";
-//}
+void ConstantSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+	const SolverData& data)
+{
+	alphaDBegin_ = data.alphaDBegin(robotIndex_);
+	nrVars_ = data.nrVars();
+	updateNrEq();
+}
 
 
-//std::string ConstantSpeedConstr::descEq(const rbd::MultiBody& mb, int line)
-//{
-//	int curRow = 0;
-//	for(const ConstantSpeedData& c: cont_)
-//	{
-//		curRow += int(c.dof.rows());
-//		if(line < curRow)
-//		{
-//			return std::string("Body: ") + mb.body(c.body).name();
-//		}
-//	}
-//	return std::string("");
-//}
+void ConstantSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	using namespace Eigen;
+
+	const rbd::MultiBody& mb = mbs[robotIndex_];
+	const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
+
+	// TargetSpeed = V_k + A_{k+1}*dt
+	// TargetSpeed - V_k = J_k*alphaD_{k+1} + JD_k*alpha_k
+	// (TargetSpeed - V_k)/dt - JD_k*alpha_k = J_k*alphaD_{k+1}
+
+	int index = 0;
+	for(std::size_t i = 0; i < cont_.size(); ++i)
+	{
+		int rows = int(cont_[i].dof.rows());
+
+		// AEq
+		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
+		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
+		A_.block(index, alphaDBegin_, rows, mb.nrDof()).noalias() =
+			cont_[i].dof*fullJac_;
+
+		// BEq
+		Vector6d speed = cont_[i].jac.bodyVelocity(mb, mbc).vector();
+		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
+			mb, mbc, data.normalAccB(robotIndex_)).vector();
+
+		lower_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
+			(speed/timeStep_));
+		upper_.segment(index, rows).noalias() = lower_.segment(index, rows);
+
+		lower_.segment(index, rows).noalias() += (cont_[i].lSpeed/timeStep_);
+		upper_.segment(index, rows).noalias() += (cont_[i].uSpeed/timeStep_);
+		index += rows;
+	}
+}
 
 
-//int ConstantSpeedConstr::maxEq() const
-//{
-//	return int(A_.rows());
-//}
+std::string ConstantSpeedConstr::nameGenInEq() const
+{
+	return "ConstantSpeedConstr";
+}
 
 
-//const Eigen::MatrixXd& ConstantSpeedConstr::AEq() const
-//{
-//	return A_;
-//}
+std::string ConstantSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& mbs,
+	int line)
+{
+	int curRow = 0;
+	for(const ConstantSpeedData& c: cont_)
+	{
+		curRow += int(c.dof.rows());
+		if(line < curRow)
+		{
+			return std::string("Body: ") + mbs[robotIndex_].body(c.body).name();
+		}
+	}
+	return std::string("");
+}
 
 
-//const Eigen::VectorXd& ConstantSpeedConstr::bEq() const
-//{
-//	return b_;
-//}
+int ConstantSpeedConstr::maxGenInEq() const
+{
+	return int(A_.rows());
+}
 
 
-//void ConstantSpeedConstr::updateNrEq()
-//{
-//	int nrEq = 0;
-//	for(const ConstantSpeedData& c: cont_)
-//	{
-//		nrEq += int(c.dof.rows());
-//	}
+const Eigen::MatrixXd& ConstantSpeedConstr::AGenInEq() const
+{
+	return A_;
+}
 
-//	A_.setZero(nrEq, nrVars_);
-//	b_.setZero(nrEq);
-//}
+
+const Eigen::VectorXd& ConstantSpeedConstr::LowerGenInEq() const
+{
+	return lower_;
+}
+
+
+const Eigen::VectorXd& ConstantSpeedConstr::UpperGenInEq() const
+{
+	return upper_;
+}
+
+
+void ConstantSpeedConstr::updateNrEq()
+{
+	int nrEq = 0;
+	for(const ConstantSpeedData& c: cont_)
+	{
+		nrEq += int(c.dof.rows());
+	}
+
+	A_.setZero(nrEq, nrVars_);
+	lower_.setZero(nrEq);
+	upper_.setZero(nrEq);
+}
 
 
 

@@ -517,70 +517,79 @@ private:
 
 
 
-//class ConstantSpeedConstr : public ConstraintFunction<Equality>
-//{
-//public:
-//	ConstantSpeedConstr(const rbd::MultiBody& mb, double timeStep);
+class ConstantSpeedConstr : public ConstraintFunction<GenInequality>
+{
+public:
+	ConstantSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
+		int robotIndex, double timeStep);
 
-//	void addConstantSpeed(const rbd::MultiBody& mb, int bodyId,
-//											const Eigen::Vector3d& bodyPoint,
-//											const Eigen::MatrixXd& dof,
-//											const Eigen::VectorXd& speed);
-//	bool removeConstantSpeed(int bodyId);
-//	void resetConstantSpeed();
-//	std::size_t nrConstantSpeed() const;
+	void addConstantSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
+		const Eigen::VectorXd& speed);
+	void addConstantSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
+		const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed);
+	bool removeConstantSpeed(int bodyId);
+	void resetConstantSpeeds();
+	std::size_t nrConstantSpeeds() const;
 
-//	// Constraint
-//	virtual void updateNrVars(const rbd::MultiBody& mb,
-//		const SolverData& data);
+	void updateConstantSpeeds();
 
-//	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-//		const SolverData& data);
+	// Constraint
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
 
-//	virtual std::string nameEq() const;
-//	virtual std::string descEq(const rbd::MultiBody& mb, int line);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
+		const SolverData& data);
 
-//	// Inequality Constraint
-//	virtual int maxEq() const;
+	virtual std::string nameGenInEq() const;
+	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mb, int line);
 
-//	virtual const Eigen::MatrixXd& AEq() const;
-//	virtual const Eigen::VectorXd& bEq() const;
+	// Inequality Constraint
+	virtual int maxGenInEq() const;
 
-//private:
-//	struct ConstantSpeedData
-//	{
-//		ConstantSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
-//										 const Eigen::VectorXd& s, int bId):
-//			jac(j),
-//			bodyPoint(j.point()),
-//			dof(d),
-//			speed(s),
-//			body(j.jointsPath().back()),
-//			bodyId(bId)
-//		{}
+	virtual const Eigen::MatrixXd& AGenInEq() const;
+	virtual const Eigen::VectorXd& LowerGenInEq() const;
+	virtual const Eigen::VectorXd& UpperGenInEq() const;
 
-//		rbd::Jacobian jac;
-//		sva::PTransformd bodyPoint;
-//		Eigen::MatrixXd dof;
-//		Eigen::VectorXd speed;
-//		int body;
-//		int bodyId;
-//	};
+private:
+	struct ConstantSpeedData
+	{
+		ConstantSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
+			const Eigen::VectorXd& ls, const Eigen::VectorXd& us, int bId):
+			jac(j),
+			bodyPoint(j.point()),
+			dof(d),
+			lSpeed(ls),
+			uSpeed(us),
+			body(j.jointsPath().back()),
+			bodyId(bId)
+		{}
 
-//private:
-//	void updateNrEq();
+		rbd::Jacobian jac;
+		sva::PTransformd bodyPoint;
+		Eigen::MatrixXd dof;
+		Eigen::VectorXd lSpeed, uSpeed;
+		int body;
+		int bodyId;
+	};
 
-//private:
-//	std::vector<ConstantSpeedData> cont_;
+private:
+	void updateNrEq();
 
-//	Eigen::MatrixXd fullJac_;
+private:
+	int robotIndex_, alphaDBegin_;
+	std::vector<ConstantSpeedData> cont_;
 
-//	Eigen::MatrixXd A_;
-//	Eigen::VectorXd b_;
+	Eigen::MatrixXd fullJac_;
 
-//	int nrVars_;
-//	double timeStep_;
-//};
+	Eigen::MatrixXd A_;
+	Eigen::VectorXd lower_, upper_;
+
+	int nrVars_;
+	double timeStep_;
+};
 
 } // namespace qp
 
