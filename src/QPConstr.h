@@ -469,50 +469,51 @@ private:
 
 
 
-//class GripperTorqueConstr : public ConstraintFunction<Inequality>
-//{
-//public:
-//	GripperTorqueConstr();
+class GripperTorqueConstr : public ConstraintFunction<Inequality>
+{
+public:
+	GripperTorqueConstr();
 
-//	void addGripper(int bodyId, double torqueLimit,
-//		const Eigen::Vector3d& origin, const Eigen::Vector3d& axis);
-//	bool rmGripper(int bodyId);
-//	void reset();
+	void addGripper(const ContactId& cId, double torqueLimit,
+		const Eigen::Vector3d& origin, const Eigen::Vector3d& axis);
+	bool rmGripper(const ContactId& cId);
+	void reset();
 
-//	// Constraint
-//	virtual void updateNrVars(const rbd::MultiBody& mb,
-//		const SolverData& data);
+	// Constraint
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mb,
+		const SolverData& data);
 
-//	virtual void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-//		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mb,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
+		const SolverData& data);
 
-//	virtual std::string nameInEq() const;
-//	virtual std::string descInEq(const rbd::MultiBody& mb, int line);
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mb, int line);
 
-//	// InInequality Constraint
-//	virtual int maxInEq() const;
+	// InInequality Constraint
+	virtual int maxInEq() const;
 
-//	virtual const Eigen::MatrixXd& AInEq() const;
-//	virtual const Eigen::VectorXd& bInEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
 
-//private:
-//	struct GripperData
-//	{
-//		GripperData(int bId, double tl,
-//			const Eigen::Vector3d& o, const Eigen::Vector3d& a);
+private:
+	struct GripperData
+	{
+		GripperData(const ContactId& cId, double tl,
+			const Eigen::Vector3d& o, const Eigen::Vector3d& a);
 
-//		int bodyId;
-//		double torqueLimit;
-//		Eigen::Vector3d origin;
-//		Eigen::Vector3d axis;
-//	};
+		ContactId contactId;
+		double torqueLimit;
+		Eigen::Vector3d origin;
+		Eigen::Vector3d axis;
+	};
 
-//private:
-//	std::vector<GripperData> dataVec_;
+private:
+	std::vector<GripperData> dataVec_;
 
-//	Eigen::MatrixXd AInEq_;
-//	Eigen::VectorXd bInEq_;
-//};
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd bInEq_;
+};
 
 
 
