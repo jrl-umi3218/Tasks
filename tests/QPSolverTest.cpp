@@ -1426,98 +1426,101 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 //}
 
 
-//BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
 
-//	std::tie(mb, mbcInit) = makeZXZArm();
+	std::tie(mb, mbcInit) = makeZXZArm();
 
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
 
-//	qp::QPSolver solver;
+	std::vector<MultiBody> mbs = {mb};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit};
 
-//	int bodyI = mb.bodyIndexById(3);
-//	Eigen::Vector3d initPos(mbcInit.bodyPosW[bodyI].translation());
-//	qp::PositionTask posTask(mb, 3, initPos);
-//	qp::SetPointTask posTaskSp(mb, &posTask, 50., 1.);
-//	Eigen::Vector3d n1(0., 0., -1.);
-//	Eigen::Vector3d n2(0., 0., 1.);
-//	Eigen::Vector3d p1(0., 0., 0.1);
-//	Eigen::Vector3d p2(0., 0., -0.1);
-//	double offset1 = -n1.dot(p1);
-//	double offset2 = -n2.dot(p2);
+	qp::QPSolver solver;
 
-//	qp::CoMIncPlaneConstr comPlaneConstr(mb, 0.001);
-//	int planeId1 = 10;
-//	int planeId2 = 20;
-//	comPlaneConstr.addPlane(planeId1, n1, offset1, 0.01, 0.005, 0., 0.1);
-//	comPlaneConstr.addPlane(planeId2, n2, offset2, 0.01, 0.005, 0.1, 0.);
-//	BOOST_CHECK_EQUAL(comPlaneConstr.nrPlanes(), 2);
+	int bodyI = mb.bodyIndexById(3);
+	Eigen::Vector3d initPos(mbcInit.bodyPosW[bodyI].translation());
+	qp::PositionTask posTask(mbs, 0, 3, initPos);
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
+	Eigen::Vector3d n1(0., 0., -1.);
+	Eigen::Vector3d n2(0., 0., 1.);
+	Eigen::Vector3d p1(0., 0., 0.1);
+	Eigen::Vector3d p2(0., 0., -0.1);
+	double offset1 = -n1.dot(p1);
+	double offset2 = -n2.dot(p2);
 
-//	comPlaneConstr.addToSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
+	qp::CoMIncPlaneConstr comPlaneConstr(mbs, 0, 0.001);
+	int planeId1 = 10;
+	int planeId2 = 20;
+	comPlaneConstr.addPlane(planeId1, n1, offset1, 0.01, 0.005, 0., 0.1);
+	comPlaneConstr.addPlane(planeId2, n2, offset2, 0.01, 0.005, 0.1, 0.);
+	BOOST_CHECK_EQUAL(comPlaneConstr.nrPlanes(), 2);
 
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
+	comPlaneConstr.addToSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
-//	solver.addTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
 
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		posTask.position(RotX(0.01)*posTask.position());
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
+	solver.addTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(0.01)*posTask.position());
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
 
-//		// check if the CoM is on the good side of each plane
-//		Eigen::Vector3d com = rbd::computeCoM(mb, mbcSolv);
-//		double dist1 = n1.dot(com) + offset1;
-//		double dist2 = n2.dot(com) + offset2;
-//		BOOST_REQUIRE_GT(dist1, 0.005);
-//		BOOST_REQUIRE_GT(dist2, 0.005);
-//	}
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
 
-//	// inverse rotation side
-//	mbcSolv = mbcInit;
-//	posTask.position(initPos);
-//	for(int i = 0; i < 1000; ++i)
-//	{
-//		posTask.position(RotX(-0.01)*posTask.position());
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
+		// check if the CoM is on the good side of each plane
+		Eigen::Vector3d com = rbd::computeCoM(mbs[0], mbcs[0]);
+		double dist1 = n1.dot(com) + offset1;
+		double dist2 = n2.dot(com) + offset2;
+		BOOST_REQUIRE_GT(dist1, 0.005);
+		BOOST_REQUIRE_GT(dist2, 0.005);
+	}
 
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
+	// inverse rotation side
+	mbcs[0] = mbcInit;
+	posTask.position(initPos);
+	for(int i = 0; i < 1000; ++i)
+	{
+		posTask.position(RotX(-0.01)*posTask.position());
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
 
-//		// check if the CoM is on the good side of each plane
-//		Eigen::Vector3d com = rbd::computeCoM(mb, mbcSolv);
-//		double dist1 = n1.dot(com) + offset1;
-//		double dist2 = n2.dot(com) + offset2;
-//		BOOST_REQUIRE_GT(dist1, 0.005);
-//		BOOST_REQUIRE_GT(dist2, 0.005);
-//	}
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
 
-//	comPlaneConstr.rmPlane(planeId1);
-//	comPlaneConstr.rmPlane(planeId2);
-//	BOOST_CHECK_EQUAL(comPlaneConstr.nrPlanes(), 0);
+		// check if the CoM is on the good side of each plane
+		Eigen::Vector3d com = rbd::computeCoM(mbs[0], mbcs[0]);
+		double dist1 = n1.dot(com) + offset1;
+		double dist2 = n2.dot(com) + offset2;
+		BOOST_REQUIRE_GT(dist1, 0.005);
+		BOOST_REQUIRE_GT(dist2, 0.005);
+	}
 
-//	comPlaneConstr.removeFromSolver(solver);
-//	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
-//	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+	comPlaneConstr.rmPlane(planeId1);
+	comPlaneConstr.rmPlane(planeId2);
+	BOOST_CHECK_EQUAL(comPlaneConstr.nrPlanes(), 0);
 
-//	solver.removeTask(&posTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
-//}
+	comPlaneConstr.removeFromSolver(solver);
+	BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
+	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
+
+	solver.removeTask(&posTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+}
