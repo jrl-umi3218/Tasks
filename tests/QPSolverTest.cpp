@@ -1231,96 +1231,105 @@ double computeDofError(const sva::PTransformd& b1, const sva::PTransformd& b2,
 }
 
 
-//BOOST_AUTO_TEST_CASE(QPDofContactsTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+BOOST_AUTO_TEST_CASE(QPDofContactsTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
+	MultiBody mb, mbEnv;
+	MultiBodyConfig mbcInit, mbcEnv;
 
-//	std::tie(mb, mbcInit) = makeZXZArm(false);
+	std::tie(mb, mbcInit) = makeZXZArm(false);
+	std::tie(mbEnv, mbcEnv) = makeEnv();
 
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+	forwardKinematics(mbEnv, mbcEnv);
+	forwardVelocity(mbEnv, mbcEnv);
 
-//	qp::QPSolver solver;
-
-//	qp::ContactSpeedConstr contCstrSpeed(mb, 0.005);
-//	qp::PositionTask posTask(mb, 0, Vector3d(1., 1., -1.));
-//	qp::SetPointTask posTaskSp(mb, &posTask, 10., 1.);
-
-//	contCstrSpeed.addToSolver(solver);
-//	solver.addTask(&posTaskSp);
-
-//	std::vector<Eigen::Vector3d> points =
-//		{
-//			Vector3d(0.1, 0.1, 0.),
-//			 Vector3d(-0.1, 0.1, 0.),
-//			Vector3d(-0.1, -0.1, 0.),
-//			Vector3d(0.1, -0.1, 0.)
-//		};
-
-//	std::vector<qp::UnilateralContact> uni =
-//		{qp::UnilateralContact(0, points, Matrix3d::Identity(), 3, 0.7)};
-
-//	MatrixXd contactDof(5, 6);
-//	contactDof.setZero();
-//	contactDof(0, 0) = 1.;
-//	contactDof(1, 1) = 1.;
-//	contactDof(2, 2) = 1.;
-//	contactDof(3, 3) = 1.;
-//	contactDof(4, 4) = 1.;
-
-//	// test Z free
-//	contCstrSpeed.addDofContact(0, contactDof);
-//	solver.nrVars(mb, uni, {});
-//	solver.updateConstrSize();
-
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 100; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.005);
-
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
-
-//	BOOST_CHECK_SMALL(computeDofError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0],
-//		contactDof), 1e-6);
-//	BOOST_CHECK_GT(std::pow(
-//		compute6dError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0])(5), 2), 0.1);
+	std::vector<MultiBody> mbs = {mb, mbEnv};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit, mbcEnv};
 
 
-//	// test Y Free and updateDofContacts
-//	contactDof.setZero();
-//	contactDof(0, 0) = 1.;
-//	contactDof(1, 1) = 1.;
-//	contactDof(2, 2) = 1.;
-//	contactDof(3, 3) = 1.;
-//	contactDof(4, 5) = 1.;
-//	contCstrSpeed.resetDofContacts();
-//	contCstrSpeed.addDofContact(0, contactDof);
-//	contCstrSpeed.updateDofContacts();
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 100; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.005);
+	qp::QPSolver solver;
 
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
+	qp::ContactSpeedConstr contCstrSpeed(0.005);
+	qp::PositionTask posTask(mbs, 0, 0, Vector3d(1., 1., -1.));
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
-//	BOOST_CHECK_SMALL(computeDofError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0],
-//		contactDof), 1e-6);
-//	BOOST_CHECK_GT(std::pow(
-//		compute6dError(mbcSolv.bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
-//}
+	contCstrSpeed.addToSolver(solver);
+	solver.addTask(&posTaskSp);
+
+	std::vector<Eigen::Vector3d> points =
+		{
+			Vector3d(0.1, 0.1, 0.),
+			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, -0.1, 0.),
+			Vector3d(0.1, -0.1, 0.)
+		};
+
+	std::vector<qp::UnilateralContact> uni =
+		{qp::UnilateralContact(0, 1, 0, 0,
+			points, Matrix3d::Identity(), sva::PTransformd::Identity(),
+			3, 0.7)};
+
+	MatrixXd contactDof(5, 6);
+	contactDof.setZero();
+	contactDof(0, 0) = 1.;
+	contactDof(1, 1) = 1.;
+	contactDof(2, 2) = 1.;
+	contactDof(3, 3) = 1.;
+	contactDof(4, 4) = 1.;
+
+	// test Z free
+	contCstrSpeed.addDofContact({0, 1, 0, 0}, contactDof);
+	solver.nrVars(mbs, uni, {});
+	solver.updateConstrSize();
+
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.005);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+
+	BOOST_CHECK_SMALL(computeDofError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
+		contactDof), 1e-6);
+	BOOST_CHECK_GT(std::pow(
+		compute6dError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(5), 2), 0.1);
+
+
+	// test Y Free and updateDofContacts
+	contactDof.setZero();
+	contactDof(0, 0) = 1.;
+	contactDof(1, 1) = 1.;
+	contactDof(2, 2) = 1.;
+	contactDof(3, 3) = 1.;
+	contactDof(4, 5) = 1.;
+	contCstrSpeed.resetDofContacts();
+	contCstrSpeed.addDofContact({0, 1, 0, 0}, contactDof);
+	contCstrSpeed.updateDofContacts();
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.005);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+
+	BOOST_CHECK_SMALL(computeDofError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
+		contactDof), 1e-6);
+	BOOST_CHECK_GT(std::pow(
+		compute6dError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
+}
 
 
 BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
