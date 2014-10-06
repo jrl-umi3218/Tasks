@@ -1112,83 +1112,107 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 }
 
 
+BOOST_AUTO_TEST_CASE(QPBilatContactTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//BOOST_AUTO_TEST_CASE(QPBilatContactTest)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+	MultiBody mb, mbEnv;
+	MultiBodyConfig mbcInit, mbcEnv;
 
-//	MultiBody mb;
-//	MultiBodyConfig mbcInit, mbcSolv;
+	std::tie(mb, mbcInit) = makeZXZArm(false);
+	std::tie(mbEnv, mbcEnv) = makeEnv();
 
-//	std::tie(mb, mbcInit) = makeZXZArm(false);
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+	forwardKinematics(mbEnv, mbcEnv);
+	forwardVelocity(mbEnv, mbcEnv);
 
-//	forwardKinematics(mb, mbcInit);
-//	forwardVelocity(mb, mbcInit);
-
-
-//	qp::QPSolver solver;
-
-//	double Inf = std::numeric_limits<double>::infinity();
-//	std::vector<std::vector<double>> torqueMin = {{},{-Inf},{-Inf},{-Inf}};
-//	std::vector<std::vector<double>> torqueMax = {{},{Inf},{Inf},{Inf}};
-//	qp::MotionConstr motionCstr(mb, torqueMin, torqueMax);
-//	qp::ContactAccConstr contCstrAcc(mb);
-
-//	solver.addGenInequalityConstraint(&motionCstr);
-//	solver.addBoundConstraint(&motionCstr);
-//	solver.addConstraint(&motionCstr);
-
-//	solver.addEqualityConstraint(&contCstrAcc);
-//	solver.addConstraint(&contCstrAcc);
-
-//	std::vector<Eigen::Vector3d> points =
-//		{
-//			Vector3d(0.1, 0.1, 0.),
-//			 Vector3d(-0.1, 0.1, 0.),
-//			Vector3d(-0.1, -0.1, 0.),
-//			Vector3d(0.1, -0.1, 0.)
-//		};
-
-//	std::vector<qp::UnilateralContact> uni =
-//		{qp::UnilateralContact(0, points, Matrix3d::Identity(), 3, 0.7)};
-//	std::vector<qp::BilateralContact> bi =
-//		{qp::BilateralContact(0, Vector3d::Zero(), 0.1, 4, Matrix3d::Identity(), 3., 0.7)};
-
-//	solver.nrVars(mb, uni, {});
-//	solver.updateConstrSize();
-
-//	// This stance with unilateral contac is impossible so the solver must fail
-//	mbcSolv = mbcInit;
-//	BOOST_REQUIRE(!solver.solve(mb, mbcSolv));
+	std::vector<MultiBody> mbs = {mb, mbEnv};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit, mbcEnv};
 
 
-//	// We test it again with bilateral contact to check that the stance is now
-//	// valid
-//	solver.nrVars(mb, {}, bi);
-//	solver.updateConstrSize();
+	qp::QPSolver solver;
 
-//	mbcSolv = mbcInit;
-//	for(int i = 0; i < 10; ++i)
-//	{
-//		BOOST_REQUIRE(solver.solve(mb, mbcSolv));
-//		eulerIntegration(mb, mbcSolv, 0.001);
+	double Inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double>> torqueMin = {{0., 0., 0., 0., 0., 0.},{-Inf},{-Inf},{-Inf}};
+	std::vector<std::vector<double>> torqueMax = {{0., 0., 0., 0., 0., 0.},{Inf},{Inf},{Inf}};
+	qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax});
+	qp::PositiveLambda plCstr;
+	qp::ContactAccConstr contCstrAcc;
 
-//		forwardKinematics(mb, mbcSolv);
-//		forwardVelocity(mb, mbcSolv);
-//	}
+	solver.addGenInequalityConstraint(&motionCstr);
+	solver.addConstraint(&motionCstr);
+
+	solver.addEqualityConstraint(&contCstrAcc);
+	solver.addConstraint(&contCstrAcc);
+
+	plCstr.addToSolver(solver);
+
+	std::vector<Eigen::Vector3d> points =
+		{
+			Vector3d(0.1, 0.1, 0.),
+			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, -0.1, 0.),
+			Vector3d(0.1, -0.1, 0.)
+		};
+
+	std::vector<Eigen::Matrix3d> biFrames =
+		{
+			sva::RotY((0.*cst::pi<double>())/2.),
+			sva::RotY((1.*cst::pi<double>())/2.),
+			sva::RotY((2.*cst::pi<double>())/2.),
+			sva::RotY((3.*cst::pi<double>())/2.),
+		};
+
+	std::vector<qp::UnilateralContact> uni =
+		{qp::UnilateralContact(0, 1, 0, 0,
+			points, Matrix3d::Identity(), sva::PTransformd::Identity(),
+			3, 0.7)};
+	std::vector<qp::BilateralContact> bi =
+		{qp::BilateralContact(0, 1, 0, 0,
+			points, biFrames, sva::PTransformd::Identity(),
+			3., 0.7)};
+
+	solver.nrVars(mbs, uni, {});
+	solver.updateConstrSize();
+	BOOST_CHECK_EQUAL(solver.nrVars(), 9 + 4*3);
+
+	// This stance with unilateral contac is impossible so the solver must fail
+	// The forces are apply on the Z axis and the gravity come frome the Y axis
+	mbcs[0] = mbcInit;
+	BOOST_REQUIRE(!solver.solve(mbs, mbcs));
 
 
-//	solver.removeEqualityConstraint(&contCstrAcc);
-//	solver.removeConstraint(&contCstrAcc);
+	// We test it again with bilateral contact to check that the stance is now
+	// valid
+	// the forces are apply on the Z, Y, -Z and -Y axis
+	solver.nrVars(mbs, {}, bi);
+	solver.updateConstrSize();
+	BOOST_CHECK_EQUAL(solver.nrVars(), 9 + 4*3);
 
-//	solver.removeConstraint(&motionCstr);
-//	solver.removeBoundConstraint(&motionCstr);
-//	solver.removeGenInequalityConstraint(&motionCstr);
-//}
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 10; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+
+
+	plCstr.removeFromSolver(solver);
+
+	solver.removeEqualityConstraint(&contCstrAcc);
+	solver.removeConstraint(&contCstrAcc);
+
+	solver.removeConstraint(&motionCstr);
+	solver.removeGenInequalityConstraint(&motionCstr);
+}
 
 
 //Eigen::Vector6d compute6dError(const sva::PTransformd& b1, const sva::PTransformd& b2)
@@ -1391,39 +1415,42 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 //}
 
 
-//BOOST_AUTO_TEST_CASE(MomentumTask)
-//{
-//	using namespace Eigen;
-//	using namespace sva;
-//	using namespace rbd;
-//	using namespace tasks;
-//	namespace cst = boost::math::constants;
+BOOST_AUTO_TEST_CASE(MomentumTask)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
 
-//	MultiBody mb;
-//	MultiBodyConfig mbc;
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
 
-//	std::tie(mb, mbc) = makeZXZArm();
+	std::tie(mb, mbcInit) = makeZXZArm();
 
-//	forwardKinematics(mb, mbc);
-//	forwardVelocity(mb, mbc);
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
 
-//	qp::QPSolver solver;
+	std::vector<MultiBody> mbs = {mb};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit};
 
-//	solver.nrVars(mb, {}, {});
-//	solver.updateConstrSize();
+	qp::QPSolver solver;
 
-//	sva::ForceVecd momTarget(Vector3d(1., 1., 1.), Vector3d(0., 0., 0.));
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
 
-//	qp::MomentumTask momTask(mb, momTarget);
-//	qp::SetPointTask momTaskSp(mb, &momTask, 10., 1.);
+	sva::ForceVecd momTarget(Vector3d(1., 1., 1.), Vector3d(0., 0., 0.));
 
-//	// Test addTask
-//	solver.addTask(&momTaskSp);
-//	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+	qp::MomentumTask momTask(mbs, 0, momTarget);
+	qp::SetPointTask momTaskSp(mbs, 0, &momTask, 10., 1.);
 
-//	// Test MomentumTask
-//	BOOST_REQUIRE(solver.solve(mb, mbc));
-//}
+	// Test addTask
+	solver.addTask(&momTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+	// Test MomentumTask
+	BOOST_REQUIRE(solver.solve(mbs, mbcs));
+}
 
 
 BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
