@@ -228,8 +228,8 @@ private:
 class JointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
-	JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
-		std::vector<QBound> bounds, double step);
+	JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		QBound bound, double step);
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -249,17 +249,11 @@ public:
 	virtual const Eigen::VectorXd& Upper() const;
 
 private:
-	struct JointLimitsData
-	{
-		int alphaDBegin;
-		Eigen::VectorXd qMin, qMax;
-		Eigen::VectorXd qVec, alphaVec;
-	};
-
-private:
-	Eigen::VectorXd lower_, upper_;
-	std::vector<JointLimitsData> limits_;
+	int robotIndex_, alphaDBegin_, alphaDOffset_;
 	double step_;
+	Eigen::VectorXd qMin_, qMax_;
+	Eigen::VectorXd qVec_, alphaVec_;
+	Eigen::VectorXd lower_, upper_;
 };
 
 
@@ -268,7 +262,7 @@ class DamperJointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	DamperJointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<QBound>& qBounds, const std::vector<AlphaBound>& aBounds,
+		int robotIndex, const QBound& qBound, const AlphaBound& aBound,
 		double interPercent, double securityPercent, double damperOffset, double step);
 
 	// Constraint
@@ -299,21 +293,22 @@ private:
 		enum State {Low, Upp, Free};
 
 		DampData(double mi, double ma, double miV, double maV,
-						 double idi, double sdi, int aDB, int ri, int i):
+						 double idi, double sdi, int aDB, int i):
 			min(mi), max(ma), minVel(miV), maxVel(maV), iDist(idi), sDist(sdi),
-			robotIndex(ri), jointIndex(i), alphaDBegin(aDB), damping(0.), state(Free)
+			jointIndex(i), alphaDBegin(aDB), damping(0.), state(Free)
 		{}
 
 		double min, max;
 		double minVel, maxVel;
 		double iDist, sDist;
-		int robotIndex, jointIndex;
+		int jointIndex;
 		int alphaDBegin;
 		double damping;
 		State state;
 	};
 
 private:
+	int robotIndex_, alphaDBegin_;
 	std::vector<DampData> data_;
 
 	Eigen::VectorXd lower_, upper_;

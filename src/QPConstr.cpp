@@ -461,71 +461,70 @@ void ContactSpeedConstr::updateNrEq()
 
 
 JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
-	std::vector<QBound> bounds, double step):
+	int robotIndex, QBound bound, double step):
+	robotIndex_(robotIndex),
+	alphaDBegin_(-1),
+	alphaDOffset_(mbs[robotIndex].joint(0).dof() > 1 ? mbs[robotIndex].nrDof() : 0),
+	step_(step),
+	qMin_(),
+	qMax_(),
+	qVec_(),
+	alphaVec_(),
 	lower_(),
-	upper_(),
-	limits_(mbs.size()),
-	step_(step)
+	upper_()
 {
-	assert(bounds.size() == mbs.size());
+	assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
 
-	int totalDof = 0;
-	for(std::size_t i = 0; i < bounds.size(); ++i)
+	const rbd::MultiBody& mb = mbs[robotIndex_];
+
+	// we don't manage joint with more than 1
+	/// @todo remove this dirty hack
+	int nrVars = mb.nrDof() - alphaDOffset_;
+	qMin_.resize(nrVars);
+	qMax_.resize(nrVars);
+	qVec_.resize(mb.nrParams());
+	alphaVec_.resize(mb.nrDof());
+
+	// if first joint is not managed remove it
+	if(alphaDOffset_ != 0)
 	{
-		const rbd::MultiBody& mb = mbs[i];
-		QBound& qb =bounds[i];
-		JointLimitsData& jld = limits_[i];
-
-		int vars = mb.nrDof() - mb.joint(0).dof();
-		jld.alphaDBegin = totalDof + mb.joint(0).dof();
-		jld.qMin.resize(vars);
-		jld.qMax.resize(vars);
-		jld.qVec.resize(mb.nrParams());
-		jld.alphaVec.resize(mb.nrDof());
-
-		// remove the joint 0
-		qb.lQBound[0] = {};
-		qb.uQBound[0] = {};
-
-		rbd::paramToVector(qb.lQBound, jld.qMin);
-		rbd::paramToVector(qb.uQBound, jld.qMax);
-		totalDof += mb.nrDof();
+		bound.lQBound[0] = {};
+		bound.uQBound[0] = {};
 	}
 
-	lower_.setConstant(totalDof, -std::numeric_limits<double>::infinity());
-	upper_.setConstant(totalDof, std::numeric_limits<double>::infinity());
+	rbd::paramToVector(bound.lQBound, qMin_);
+	rbd::paramToVector(bound.uQBound, qMax_);
+
+	lower_.setConstant(nrVars, -std::numeric_limits<double>::infinity());
+	upper_.setConstant(nrVars, std::numeric_limits<double>::infinity());
 }
 
 
 void JointLimitsConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
-	const SolverData& /* data */)
+	const SolverData& data)
 {
+	alphaDBegin_ = data.alphaDBegin(robotIndex_) + alphaDOffset_;
 }
 
 
-void JointLimitsConstr::update(const std::vector<rbd::MultiBody>& mbs,
+void JointLimitsConstr::update(const std::vector<rbd::MultiBody>& /* mbs */,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& /* data */)
 {
+	const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
+
 	double dts = step_*step_*0.5;
 
-	for(std::size_t i = 0; i < mbs.size(); ++i)
-	{
-		const rbd::MultiBodyConfig& mbc = mbcs[i];
-		JointLimitsData& jld = limits_[i];
-		int vars = int(jld.qMin.rows());
+	int vars = int(qMin_.rows());
 
-		rbd::paramToVector(mbc.q, jld.qVec);
-		rbd::paramToVector(mbc.alpha, jld.alphaVec);
+	rbd::paramToVector(mbc.q, qVec_);
+	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-		lower_.segment(jld.alphaDBegin, vars) =
-			jld.qMin - jld.qVec.tail(vars) - jld.alphaVec.tail(vars)*step_;
-		lower_.segment(jld.alphaDBegin, vars) /= dts;
+	lower_.noalias() = qMin_ - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
+	lower_ /= dts;
 
-		upper_.segment(jld.alphaDBegin, vars) =
-			jld.qMax - jld.qVec.tail(vars) - jld.alphaVec.tail(vars)*step_;
-		upper_.segment(jld.alphaDBegin, vars) /= dts;
-	}
+	upper_.noalias() = qMax_ - qVec_.tail(vars) - alphaVec_.tail(vars)*step_;
+	upper_ /= dts;
 }
 
 
@@ -538,23 +537,14 @@ std::string JointLimitsConstr::nameBound() const
 std::string JointLimitsConstr::descBound(const std::vector<rbd::MultiBody>& mbs,
 	int line)
 {
-	int totalDof = 0;
-	for(const rbd::MultiBody& mb: mbs)
-	{
-		if(line >= totalDof && line < (totalDof + mb.nrDof()))
-		{
-			int jIndex = findJointFromVector(mb, line - totalDof, false);
-			return std::string("Joint: ") + mb.joint(jIndex).name();
-		}
-		totalDof += mb.nrDof();
-	}
-	return "";
+	int jIndex = findJointFromVector(mbs[robotIndex_], line, false);
+	return std::string("Joint: ") + mbs[robotIndex_].joint(jIndex).name();
 }
 
 
 int JointLimitsConstr::beginVar() const
 {
-	return 0;
+	return alphaDBegin_;
 }
 
 
@@ -576,70 +566,54 @@ const Eigen::VectorXd& JointLimitsConstr::Upper() const
 
 
 DamperJointLimitsConstr::DamperJointLimitsConstr(
-	const std::vector<rbd::MultiBody>& mbs,
-	const std::vector<QBound>& qBounds, const std::vector<AlphaBound>& aBounds,
+	const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+	const QBound& qBound, const AlphaBound& aBound,
 	double interPercent, double securityPercent,
 	double damperOffset, double step):
+	robotIndex_(robotIndex),
+	alphaDBegin_(-1),
 	data_(),
-	lower_(),
-	upper_(),
+	lower_(mbs[robotIndex].nrDof()),
+	upper_(mbs[robotIndex].nrDof()),
 	step_(step),
 	damperOff_(damperOffset)
 {
-	assert(mbs.size() == qBounds.size());
-	assert(mbs.size() == aBounds.size());
+	assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
 
-	int totalDof = 0;
-	for(std::size_t r = 0; r < mbs.size(); ++r)
+	const rbd::MultiBody& mb = mbs[robotIndex_];
+
+	for(int i = 0; i < mb.nrJoints(); ++i)
 	{
-		const rbd::MultiBody& mb = mbs[r];
-		const QBound& qb = qBounds[r];
-		const AlphaBound& ab = aBounds[r];
-
-		for(int i = 0; i < mb.nrJoints(); ++i)
+		if(mb.joint(i).dof() == 1)
 		{
-			if(mb.joint(i).dof() == 1)
-			{
-				double dist = (qb.uQBound[i][0] - qb.lQBound[i][0]);
-				data_.emplace_back(qb.lQBound[i][0], qb.uQBound[i][0],
-					ab.lAlphaBound[i][0], ab.uAlphaBound[i][0],
-					dist*interPercent, dist*securityPercent,
-					mb.jointPosInDof(i) + totalDof, r, i);
-			}
+			double dist = (qBound.uQBound[i][0] - qBound.lQBound[i][0]);
+			data_.emplace_back(qBound.lQBound[i][0], qBound.uQBound[i][0],
+				aBound.lAlphaBound[i][0], aBound.uAlphaBound[i][0],
+				dist*interPercent, dist*securityPercent,
+				mb.jointPosInDof(i), i);
 		}
-		totalDof += mb.nrDof();
 	}
 
-	lower_.setConstant(totalDof, -std::numeric_limits<double>::infinity());
-	upper_.setConstant(totalDof, std::numeric_limits<double>::infinity());
-
-	int deb = 0;
-	for(std::size_t i = 0; i < aBounds.size(); ++i)
-	{
-		const rbd::MultiBody& mb = mbs[i];
-		const AlphaBound& ab = aBounds[i];
-
-		lower_.segment(deb, mb.nrDof()) = rbd::dofToVector(mb, ab.lAlphaBound);
-		upper_.segment(deb, mb.nrDof()) = rbd::dofToVector(mb, ab.uAlphaBound);
-		deb += mb.nrDof();
-	}
+	rbd::paramToVector(aBound.lAlphaBound, lower_);
+	rbd::paramToVector(aBound.uAlphaBound, upper_);
 }
 
 
 void DamperJointLimitsConstr::updateNrVars(
 	const std::vector<rbd::MultiBody>& /* mbs */,
-	const SolverData& /* data */)
+	const SolverData& data)
 {
+	alphaDBegin_ = data.alphaDBegin(robotIndex_);
 }
 
 
 void DamperJointLimitsConstr::update(const std::vector<rbd::MultiBody>& /* mbs */,
 	const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& /* data */)
 {
+	const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
+
 	for(DampData& d: data_)
 	{
-		const rbd::MultiBodyConfig& mbc = mbcs[d.robotIndex];
-
 		double ld = mbc.q[d.jointIndex][0] - d.min;
 		double ud = d.max - mbc.q[d.jointIndex][0];
 		double alpha = mbc.alpha[d.jointIndex][0];
@@ -696,23 +670,14 @@ std::string DamperJointLimitsConstr::nameBound() const
 std::string DamperJointLimitsConstr::descBound(
 	const std::vector<rbd::MultiBody>& mbs, int line)
 {
-	int totalDof = 0;
-	for(const rbd::MultiBody& mb: mbs)
-	{
-		if(line >= totalDof && line < (totalDof + mb.nrDof()))
-		{
-			int jIndex = findJointFromVector(mb, line - totalDof, false);
-			return std::string("Joint: ") + mb.joint(jIndex).name();
-		}
-		totalDof += mb.nrDof();
-	}
-	return "";
+	int jIndex = findJointFromVector(mbs[robotIndex_], line, false);
+	return std::string("Joint: ") + mbs[robotIndex_].joint(jIndex).name();
 }
 
 
 int DamperJointLimitsConstr::beginVar() const
 {
-	return 0;
+	return alphaDBegin_;
 }
 
 

@@ -581,7 +581,7 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 	std::vector<std::vector<double> > lBound = {{}, {-cst::pi<double>()/4.}, {-inf}, {-inf}};
 	std::vector<std::vector<double> > uBound = {{}, {cst::pi<double>()/4.}, {inf}, {inf}};
 
-	qp::JointLimitsConstr jointConstr(mbs, {{lBound, uBound}}, 0.001);
+	qp::JointLimitsConstr jointConstr(mbs, 0, {lBound, uBound}, 0.001);
 
 	// Test add*Constraint
 	solver.addBoundConstraint(&jointConstr);
@@ -664,8 +664,8 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	std::vector<std::vector<double> > lVel = {{}, {-inf}, {-inf}, {-inf}};
 	std::vector<std::vector<double> > uVel = {{}, {inf}, {inf}, {inf}};
 
-	qp::DamperJointLimitsConstr dampJointConstr(mbs, {{lBound, uBound}},
-		{{lVel, uVel}}, 0.125, 0.025, 1., 0.001);
+	qp::DamperJointLimitsConstr dampJointConstr(mbs, 0, {lBound, uBound},
+		{lVel, uVel}, 0.125, 0.025, 1., 0.001);
 
 	// Test add*Constraint
 	dampJointConstr.addToSolver(solver);
