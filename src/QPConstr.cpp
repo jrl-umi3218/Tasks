@@ -1402,11 +1402,11 @@ const Eigen::VectorXd& GripperTorqueConstr::bInEq() const
 
 
 /**
-	*															ConstantSpeedConstr
+	*															BoundedSpeedConstr
 	*/
 
 
-ConstantSpeedConstr::ConstantSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
+BoundedSpeedConstr::BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 	int robotIndex, double timeStep):
 	robotIndex_(robotIndex),
 	cont_(),
@@ -1419,7 +1419,7 @@ ConstantSpeedConstr::ConstantSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 {}
 
 
-void ConstantSpeedConstr::addConstantSpeed(
+void BoundedSpeedConstr::addConstantSpeed(
 	const std::vector<rbd::MultiBody>& mbs, int bodyId,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& speed)
@@ -1428,7 +1428,7 @@ void ConstantSpeedConstr::addConstantSpeed(
 }
 
 
-void ConstantSpeedConstr::addConstantSpeed(
+void BoundedSpeedConstr::addConstantSpeed(
 	const std::vector<rbd::MultiBody>& mbs, int bodyId,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed)
@@ -1438,7 +1438,7 @@ void ConstantSpeedConstr::addConstantSpeed(
 }
 
 
-bool ConstantSpeedConstr::removeConstantSpeed(int bodyId)
+bool BoundedSpeedConstr::removeConstantSpeed(int bodyId)
 {
 	auto it = std::find_if(cont_.begin(), cont_.end(),
 		[bodyId](const ConstantSpeedData& data)
@@ -1456,25 +1456,25 @@ bool ConstantSpeedConstr::removeConstantSpeed(int bodyId)
 }
 
 
-void ConstantSpeedConstr::resetConstantSpeeds()
+void BoundedSpeedConstr::resetConstantSpeeds()
 {
 	cont_.clear();
 }
 
 
-std::size_t ConstantSpeedConstr::nrConstantSpeeds() const
+std::size_t BoundedSpeedConstr::nrConstantSpeeds() const
 {
 	return cont_.size();
 }
 
 
-void ConstantSpeedConstr::updateConstantSpeeds()
+void BoundedSpeedConstr::updateConstantSpeeds()
 {
 	updateNrEq();
 }
 
 
-void ConstantSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+void BoundedSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	const SolverData& data)
 {
 	alphaDBegin_ = data.alphaDBegin(robotIndex_);
@@ -1483,7 +1483,7 @@ void ConstantSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs
 }
 
 
-void ConstantSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
+void BoundedSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
@@ -1523,13 +1523,13 @@ void ConstantSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 }
 
 
-std::string ConstantSpeedConstr::nameGenInEq() const
+std::string BoundedSpeedConstr::nameGenInEq() const
 {
-	return "ConstantSpeedConstr";
+	return "BoundedSpeedConstr";
 }
 
 
-std::string ConstantSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& mbs,
+std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& mbs,
 	int line)
 {
 	int curRow = 0;
@@ -1545,31 +1545,31 @@ std::string ConstantSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& 
 }
 
 
-int ConstantSpeedConstr::maxGenInEq() const
+int BoundedSpeedConstr::maxGenInEq() const
 {
 	return int(A_.rows());
 }
 
 
-const Eigen::MatrixXd& ConstantSpeedConstr::AGenInEq() const
+const Eigen::MatrixXd& BoundedSpeedConstr::AGenInEq() const
 {
 	return A_;
 }
 
 
-const Eigen::VectorXd& ConstantSpeedConstr::LowerGenInEq() const
+const Eigen::VectorXd& BoundedSpeedConstr::LowerGenInEq() const
 {
 	return lower_;
 }
 
 
-const Eigen::VectorXd& ConstantSpeedConstr::UpperGenInEq() const
+const Eigen::VectorXd& BoundedSpeedConstr::UpperGenInEq() const
 {
 	return upper_;
 }
 
 
-void ConstantSpeedConstr::updateNrEq()
+void BoundedSpeedConstr::updateNrEq()
 {
 	int nrEq = 0;
 	for(const ConstantSpeedData& c: cont_)

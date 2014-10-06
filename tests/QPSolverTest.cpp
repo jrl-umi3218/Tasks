@@ -1323,7 +1323,7 @@ double computeDofError(const sva::PTransformd& b1, const sva::PTransformd& b2,
 //}
 
 
-BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
+BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 {
 	using namespace Eigen;
 	using namespace sva;
@@ -1349,7 +1349,7 @@ BOOST_AUTO_TEST_CASE(QPConstantSpeedTest)
 	int bodyIndex = mb.bodyIndexById(bodyId);
 	sva::PTransformd bodyPoint(Vector3d(0., 0.1, 0.));
 
-	qp::ConstantSpeedConstr constSpeed(mbs, 0, 0.005);
+	qp::BoundedSpeedConstr constSpeed(mbs, 0, 0.005);
 	qp::PostureTask postureTask(mbs, 0, {{}, {0.}, {0.}, {0.}}, 1., 0.01);
 	qp::PositionTask posTask(mbs, 0, bodyId, Vector3d(1., -1., 1.), bodyPoint.translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 20., 1.);

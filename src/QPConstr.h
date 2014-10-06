@@ -517,10 +517,10 @@ private:
 
 
 
-class ConstantSpeedConstr : public ConstraintFunction<GenInequality>
+class BoundedSpeedConstr : public ConstraintFunction<GenInequality>
 {
 public:
-	ConstantSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
+	BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 		int robotIndex, double timeStep);
 
 	void addConstantSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
