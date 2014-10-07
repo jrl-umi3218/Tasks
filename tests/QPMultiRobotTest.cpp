@@ -157,3 +157,197 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
 	// check that the task is well minimized
 	BOOST_CHECK_SMALL(oriTask.eval().norm(), 1e-5);
 }
+
+
+// Test Motion constraint
+// We setup two arm, one with a fixed base and the second
+// with a freebase put on the body b3 of the first robot.
+// First we launch an impossible motion to check the dynamics
+// After we try with an unilateral contact
+// Then we try with a bilateral contact.
+BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb1, mb2;
+	MultiBodyConfig mbc1Init, mbc2Init;
+
+	std::tie(mb1, mbc1Init) = makeZXZArm();
+
+	forwardKinematics(mb1, mbc1Init);
+	forwardVelocity(mb1, mbc1Init);
+
+	std::tie(mb2, mbc2Init) = makeZXZArm(false);
+	Vector3d mb2InitPos = mbc1Init.bodyPosW.back().translation();
+	Quaterniond mb2InitOri(RotY(cst::pi<double>()/2.));
+	mbc2Init.q[0] = {mb2InitOri.w(), mb2InitOri.x(), mb2InitOri.y(), mb2InitOri.z(),
+		mb2InitPos.x(), mb2InitPos.y()+ 1, mb2InitPos.z()};
+	forwardKinematics(mb2, mbc2Init);
+	forwardVelocity(mb2, mbc2Init);
+
+	sva::PTransformd X_0_b1(mbc1Init.bodyPosW.back());
+	sva::PTransformd X_0_b2(mbc2Init.bodyPosW.front());
+	sva::PTransformd X_b1_b2(X_0_b2*X_0_b1.inv());
+
+	std::vector<MultiBody> mbs = {mb1, mb2};
+	std::vector<MultiBodyConfig> mbcs = {mbc1Init, mbc2Init};
+
+	// Test ContactAccConstr constraint
+	// Also test PositionTask on the second robot
+
+	qp::QPSolver solver;
+
+	std::vector<Eigen::Vector3d> points =
+	{
+		Vector3d(0.1, 0., 0.1),
+		Vector3d(0.1, 0., -0.1),
+		Vector3d(-0.1, 0., -0.1),
+		Vector3d(-0.1, 0., 0.1),
+	};
+
+	std::vector<Eigen::Vector3d> biPoints =
+	{
+		Vector3d(0., 0., 0.),
+		Vector3d(0., 0., 0.),
+		Vector3d(0., 0., 0.),
+		Vector3d(0., 0., 0.),
+	};
+
+	const int nrGen = 4;
+	std::vector<Eigen::Matrix3d> biFrames =
+	{
+		RotX((1.*cst::pi<double>())/4.),
+		RotX((3.*cst::pi<double>())/4.),
+		Matrix3d(RotX((1.*cst::pi<double>())/4.)*RotY(cst::pi<double>()/2.)),
+		Matrix3d(RotX((3.*cst::pi<double>())/4.)*RotY(cst::pi<double>()/2.)),
+	};
+
+	// The fixed robot can pull the other
+	std::vector<qp::UnilateralContact> contVecFail =
+		{qp::UnilateralContact(0, 1, 3, 0,
+			points, RotX(-cst::pi<double>()/2.), X_b1_b2,
+			nrGen, 0.7)};
+
+	// The fixed robot can push the other
+	std::vector<qp::UnilateralContact> contVec =
+		{qp::UnilateralContact({0, 1, 3, 0},
+			points, RotX(cst::pi<double>()/2.), X_b1_b2,
+			nrGen, 0.7)};
+
+	// The fixed robot has non coplanar force apply on the other
+	std::vector<qp::BilateralContact> contVecBi =
+		{qp::BilateralContact({0, 1, 3, 0},
+			biPoints, biFrames, X_b1_b2,
+			nrGen, 1.)};
+
+	qp::PositionTask posTask(mbs, 0, 3, mbc1Init.bodyPosW.back().translation());
+	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 10000.);
+	qp::OrientationTask oriTask(mbs, 0, 3, mbc1Init.bodyPosW.back().rotation());
+	qp::SetPointTask oriTaskSp(mbs, 0, &oriTask, 10., 10000.);
+	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 2., 1.);
+	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 2., 1.);
+
+	qp::ContactSpeedConstr contCstrSpeed(0.001);
+
+	const double Inf = std::numeric_limits<double>::infinity();
+	std::vector<std::vector<double>> torqueMin1 = {{},{-Inf},{-Inf},{-Inf}};
+	std::vector<std::vector<double>> torqueMax1 = {{},{Inf},{Inf},{Inf}};
+	std::vector<std::vector<double>> torqueMin2 = {{0., 0., 0., 0., 0., 0.},
+																							{-Inf},{-Inf},{-Inf}};
+	std::vector<std::vector<double>> torqueMax2 = {{0., 0., 0., 0., 0., 0.},
+																							{Inf},{Inf},{Inf}};
+	qp::MotionConstr motion1(mbs, 0, {torqueMin1, torqueMax1});
+	qp::MotionConstr motion2(mbs, 1, {torqueMin2, torqueMax2});
+	qp::PositiveLambda plCstr;
+
+	motion1.addToSolver(solver);
+	motion2.addToSolver(solver);
+	plCstr.addToSolver(solver);
+
+	contCstrSpeed.addToSolver(solver);
+	solver.addTask(&posTaskSp);
+	solver.addTask(&oriTaskSp);
+	solver.addTask(&posture1Task);
+	solver.addTask(&posture2Task);
+
+	// check the impossible motion
+	solver.nrVars(mbs, contVecFail, {});
+	solver.updateConstrSize();
+
+	// 3 dof + 9 dof + 4*nrGen lambda
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 9 + 4*nrGen);
+	BOOST_REQUIRE(!solver.solve(mbs, mbcs));
+
+
+	// check the unilateral motion
+	mbcs = {mbc1Init, mbc2Init};
+	solver.nrVars(mbs, contVec, {});
+	solver.updateConstrSize();
+
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		for(std::size_t r = 0; r < mbs.size(); ++r)
+		{
+			eulerIntegration(mbs[r], mbcs[r], 0.001);
+
+			forwardKinematics(mbs[r], mbcs[r]);
+			forwardVelocity(mbs[r], mbcs[r]);
+		}
+		// check that the link hold
+		sva::PTransformd X_0_b1_post(mbcs[0].bodyPosW.back());
+		sva::PTransformd X_0_b2_post(mbcs[1].bodyPosW.front());
+		sva::PTransformd X_b1_b2_post(X_0_b2*X_0_b1.inv());
+		BOOST_CHECK_SMALL((X_b1_b2.matrix() - X_b1_b2_post.matrix()).norm(), 1e-5);
+
+		// force in world frame must be the same
+		auto f1 = X_0_b1.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r1Cone);
+		auto f2 = X_0_b2.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r2Cone);
+		BOOST_CHECK_SMALL((f1 + f2).norm(), 1e-5);
+	}
+
+
+	// check the bilateral motion
+	mbcs = {mbc1Init, mbc2Init};
+	solver.nrVars(mbs, {}, contVecBi);
+	solver.updateConstrSize();
+	// 3 dof + 9 dof + 4*nrGen lambda
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 9 + 4*nrGen);
+
+	for(int i = 0; i < 1000; ++i)
+	{
+		//std::cout << i << std::endl;
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		for(std::size_t r = 0; r < mbs.size(); ++r)
+		{
+			eulerIntegration(mbs[r], mbcs[r], 0.001);
+
+			forwardKinematics(mbs[r], mbcs[r]);
+			forwardVelocity(mbs[r], mbcs[r]);
+		}
+		// check that the link hold
+		sva::PTransformd X_0_b1_post(mbcs[0].bodyPosW.back());
+		sva::PTransformd X_0_b2_post(mbcs[1].bodyPosW.front());
+		sva::PTransformd X_b1_b2_post(X_0_b2*X_0_b1.inv());
+		BOOST_CHECK_SMALL((X_b1_b2.matrix() - X_b1_b2_post.matrix()).norm(), 1e-5);
+
+		// force in world frame must be the same
+		auto f1 = X_0_b1.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r1Cone);
+		auto f2 = X_0_b2.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r2Cone);
+		BOOST_CHECK_SMALL((f1 + f2).norm(), 1e-5);
+	}
+
+	plCstr.removeFromSolver(solver);
+	motion2.removeFromSolver(solver);
+	motion1.removeFromSolver(solver);
+	contCstrSpeed.removeFromSolver(solver);
+
+	solver.removeTask(&posture1Task);
+	solver.removeTask(&posture2Task);
+	solver.removeTask(&posTaskSp);
+	solver.removeTask(&oriTaskSp);
+}
