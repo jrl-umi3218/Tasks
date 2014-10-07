@@ -35,9 +35,6 @@
 #include <RBDyn/FK.h>
 #include <RBDyn/FV.h>
 #include <RBDyn/ID.h>
-#include <RBDyn/MultiBody.h>
-#include <RBDyn/MultiBodyConfig.h>
-#include <RBDyn/MultiBodyGraph.h>
 
 // sch
 #include <sch/S_Object/S_Sphere.h>
@@ -51,88 +48,8 @@
 #include "QPSolver.h"
 #include "QPTasks.h"
 
-/// @return An simple ZXZ arm with Y as up axis.
-std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed=true)
-{
-	using namespace Eigen;
-	using namespace sva;
-	using namespace rbd;
-
-	MultiBodyGraph mbg;
-
-	double mass = 1.;
-	Matrix3d I = Matrix3d::Identity();
-	Vector3d h = Vector3d::Zero();
-
-	RBInertiad rbi(mass, h, I);
-
-	Body b0(rbi, 0, "b0");
-	Body b1(rbi, 1, "b1");
-	Body b2(rbi, 2, "b2");
-	Body b3(rbi, 3, "b3");
-
-	mbg.addBody(b0);
-	mbg.addBody(b1);
-	mbg.addBody(b2);
-	mbg.addBody(b3);
-
-	Joint j0(Joint::RevZ, true, 0, "j0");
-	Joint j1(Joint::RevX, true, 1, "j1");
-	Joint j2(Joint::RevZ, true, 2, "j2");
-
-	mbg.addJoint(j0);
-	mbg.addJoint(j1);
-	mbg.addJoint(j2);
-
-	//  Root     j0       j1     j2
-	//  ---- b0 ---- b1 ---- b2 ----b3
-	//  Fixed    Z       X       Z
-
-
-	PTransformd to(Vector3d(0., 0.5, 0.));
-	PTransformd from(Vector3d(0., 0., 0.));
-
-
-	mbg.linkBodies(0, PTransformd::Identity(), 1, from, 0);
-	mbg.linkBodies(1, to, 2, from, 1);
-	mbg.linkBodies(2, to, 3, from, 2);
-
-	MultiBody mb = mbg.makeMultiBody(0, isFixed);
-
-	MultiBodyConfig mbc(mb);
-	mbc.zero(mb);
-
-	return std::make_tuple(mb, mbc);
-}
-
-
-/// @return A one body robot for the environnment.
-std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeEnv()
-{
-	using namespace Eigen;
-	using namespace sva;
-	using namespace rbd;
-
-	MultiBodyGraph mbg;
-
-	double mass = 1.;
-	Matrix3d I = Matrix3d::Identity();
-	Vector3d h = Vector3d::Zero();
-
-	RBInertiad rbi(mass, h, I);
-
-	Body b0(rbi, 0, "b0");
-
-	mbg.addBody(b0);
-
-	MultiBody mb = mbg.makeMultiBody(0, true);
-
-	MultiBodyConfig mbc(mb);
-	mbc.zero(mb);
-
-	return std::make_tuple(mb, mbc);
-}
-
+// Arms
+#include "arms.h"
 
 
 BOOST_AUTO_TEST_CASE(FrictionConeTest)
