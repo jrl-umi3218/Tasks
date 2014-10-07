@@ -527,17 +527,17 @@ public:
 	BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 		int robotIndex, double timeStep);
 
-	void addConstantSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& speed);
-	void addConstantSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed);
-	bool removeConstantSpeed(int bodyId);
-	void resetConstantSpeeds();
-	std::size_t nrConstantSpeeds() const;
+	bool removeBoundedSpeed(int bodyId);
+	void resetBoundedSpeeds();
+	std::size_t nrBoundedSpeeds() const;
 
-	void updateConstantSpeeds();
+	void updateBoundedSpeeds();
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -558,9 +558,9 @@ public:
 	virtual const Eigen::VectorXd& UpperGenInEq() const;
 
 private:
-	struct ConstantSpeedData
+	struct BoundedSpeedData
 	{
-		ConstantSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
+		BoundedSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
 			const Eigen::VectorXd& ls, const Eigen::VectorXd& us, int bId):
 			jac(j),
 			bodyPoint(j.point()),
@@ -584,7 +584,7 @@ private:
 
 private:
 	int robotIndex_, alphaDBegin_;
-	std::vector<ConstantSpeedData> cont_;
+	std::vector<BoundedSpeedData> cont_;
 
 	Eigen::MatrixXd fullJac_;
 

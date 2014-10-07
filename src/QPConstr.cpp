@@ -1424,16 +1424,16 @@ BoundedSpeedConstr::BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 {}
 
 
-void BoundedSpeedConstr::addConstantSpeed(
+void BoundedSpeedConstr::addBoundedSpeed(
 	const std::vector<rbd::MultiBody>& mbs, int bodyId,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& speed)
 {
-	addConstantSpeed(mbs, bodyId, bodyPoint, dof, speed, speed);
+	addBoundedSpeed(mbs, bodyId, bodyPoint, dof, speed, speed);
 }
 
 
-void BoundedSpeedConstr::addConstantSpeed(
+void BoundedSpeedConstr::addBoundedSpeed(
 	const std::vector<rbd::MultiBody>& mbs, int bodyId,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed)
@@ -1443,10 +1443,10 @@ void BoundedSpeedConstr::addConstantSpeed(
 }
 
 
-bool BoundedSpeedConstr::removeConstantSpeed(int bodyId)
+bool BoundedSpeedConstr::removeBoundedSpeed(int bodyId)
 {
 	auto it = std::find_if(cont_.begin(), cont_.end(),
-		[bodyId](const ConstantSpeedData& data)
+		[bodyId](const BoundedSpeedData& data)
 		{
 			return data.bodyId == bodyId;
 		});
@@ -1461,19 +1461,19 @@ bool BoundedSpeedConstr::removeConstantSpeed(int bodyId)
 }
 
 
-void BoundedSpeedConstr::resetConstantSpeeds()
+void BoundedSpeedConstr::resetBoundedSpeeds()
 {
 	cont_.clear();
 }
 
 
-std::size_t BoundedSpeedConstr::nrConstantSpeeds() const
+std::size_t BoundedSpeedConstr::nrBoundedSpeeds() const
 {
 	return cont_.size();
 }
 
 
-void BoundedSpeedConstr::updateConstantSpeeds()
+void BoundedSpeedConstr::updateBoundedSpeeds()
 {
 	updateNrEq();
 }
@@ -1538,7 +1538,7 @@ std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& m
 	int line)
 {
 	int curRow = 0;
-	for(const ConstantSpeedData& c: cont_)
+	for(const BoundedSpeedData& c: cont_)
 	{
 		curRow += int(c.dof.rows());
 		if(line < curRow)
@@ -1577,7 +1577,7 @@ const Eigen::VectorXd& BoundedSpeedConstr::UpperGenInEq() const
 void BoundedSpeedConstr::updateNrEq()
 {
 	int nrEq = 0;
-	for(const ConstantSpeedData& c: cont_)
+	for(const BoundedSpeedData& c: cont_)
 	{
 		nrEq += int(c.dof.rows());
 	}

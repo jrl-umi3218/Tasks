@@ -1307,8 +1307,8 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 	// X body axis must have 0 velocity
 	dof << 0.,0.,0.,1.,0.,0.;
 	speed << 0.;
-	constSpeed.addConstantSpeed(mbs, bodyId, bodyPoint.translation(), dof, speed);
-	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeeds(), 1);
+	constSpeed.addBoundedSpeed(mbs, bodyId, bodyPoint.translation(), dof, speed);
+	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 1);
 
 	constSpeed.addToSolver(solver);
 	solver.addTask(&postureTask);
@@ -1336,17 +1336,17 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 
 
 	// same test but with Z axis
-	BOOST_CHECK(constSpeed.removeConstantSpeed(bodyId));
-	constSpeed.updateConstantSpeeds();
-	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeeds(), 0);
+	BOOST_CHECK(constSpeed.removeBoundedSpeed(bodyId));
+	constSpeed.updateBoundedSpeeds();
+	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 0);
 	BOOST_CHECK_EQUAL(constSpeed.maxGenInEq(), 0);
 
 	// must resize constraint matrix since nrMaxIneq has changed
 	solver.updateConstrSize();
 	dof << 0.,0.,0.,0.,0.,1.;
-	constSpeed.addConstantSpeed(mbs, bodyId, bodyPoint.translation(), dof, speed);
-	constSpeed.updateConstantSpeeds();
-	BOOST_CHECK_EQUAL(constSpeed.nrConstantSpeeds(), 1);
+	constSpeed.addBoundedSpeed(mbs, bodyId, bodyPoint.translation(), dof, speed);
+	constSpeed.updateBoundedSpeeds();
+	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 1);
 	BOOST_CHECK_EQUAL(constSpeed.maxGenInEq(), 1);
 	solver.updateConstrSize();
 
