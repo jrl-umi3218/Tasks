@@ -36,7 +36,8 @@ namespace qp
 struct FrictionCone
 {
 	FrictionCone(){}
-	FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu);
+	FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu,
+		double direction=1.);
 
 	std::vector<Eigen::Vector3d> generators;
 };

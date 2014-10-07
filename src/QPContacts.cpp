@@ -54,11 +54,12 @@ void checkRange(int point, const std::vector<Eigen::Vector3d>& points)
 
 
 
-FrictionCone::FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu):
+FrictionCone::FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu,
+	double dir):
 	generators(nrGen)
 {
 	Eigen::Vector3d normal(frame.row(2));
-	Eigen::Vector3d tan(frame.row(0));
+	Eigen::Vector3d tan(dir*frame.row(0));
 	double angle = std::atan(mu);
 
 	Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan)*normal;
@@ -66,7 +67,7 @@ FrictionCone::FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu):
 
 	for(int i = 0; i < nrGen; ++i)
 	{
-		generators[i] = Eigen::AngleAxisd(step*i, normal)*gen;
+		generators[i] = Eigen::AngleAxisd(dir*step*i, normal)*gen;
 	}
 }
 
@@ -251,15 +252,16 @@ void UnilateralContact::construct(const Eigen::MatrixXd& r1Frame, int nrGen, dou
 	r2Points.reserve(r1Points.size());
 	for(const Eigen::Vector3d& p: r1Points)
 	{
-		r2Points.push_back((X_b1_b2*sva::PTransformd(p)).translation());
+		r2Points.push_back((sva::PTransformd(p)*X_b1_b2.inv()).translation());
 	}
 
 	// compute points frame in b2 coordinate
-	Eigen::Matrix3d r2Frame = (X_b1_b2*sva::PTransformd(Eigen::Matrix3d(r1Frame))).rotation();
+	//Eigen::Matrix3d r2Frame = (X_b1_b2*sva::PTransformd(Eigen::Matrix3d(r1Frame))).rotation();
+	Eigen::Matrix3d r2Frame = (sva::PTransformd(Eigen::Matrix3d(r1Frame))*X_b1_b2.inv()).rotation();
 
 	// create the b2 cone
 	// We take the oppostie frame because force are opposed
-	r2Cone = FrictionCone(-r2Frame, nrGen, mu);
+	r2Cone = FrictionCone(-r2Frame, nrGen, mu, -1.);
 }
 
 
@@ -418,7 +420,7 @@ void BilateralContact::construct(const std::vector<Eigen::Matrix3d>& r1Frames,
 		r1Cones[i] = FrictionCone(r1Frames[i], nrGen, mu);
 		// create the b2 cone
 		// We take the oppostie frame because force are opposed
-		r2Cones[i] = FrictionCone(-X_b2_p.rotation(), nrGen, mu);
+		r2Cones[i] = FrictionCone(-X_b2_p.rotation(), nrGen, mu, -1.);
 	}
 }
 
