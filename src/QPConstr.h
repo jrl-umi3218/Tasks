@@ -116,13 +116,15 @@ public:
 private:
 	struct ContactSideData
 	{
-		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j):
-			robotIndex(rI), alphaDBegin(aDB), sign(s), jac(j)
+		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j,
+			const sva::PTransformd& Xbp):
+			robotIndex(rI), alphaDBegin(aDB), sign(s), jac(j), X_b_p(Xbp)
 		{}
 
 		int robotIndex, alphaDBegin;
 		double sign;
 		rbd::Jacobian jac;
+		sva::PTransformd X_b_p;
 	};
 
 	struct ContactData
@@ -184,14 +186,16 @@ public:
 private:
 	struct ContactSideData
 	{
-		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j):
+		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j,
+			const sva::PTransformd& Xbp):
 			robotIndex(rI), alphaDBegin(aDB), bodyIndex(j.jointsPath().back()),
-			sign(s), jac(j)
+			sign(s), jac(j), X_b_p(Xbp)
 		{}
 
 		int robotIndex, alphaDBegin, bodyIndex;
 		double sign;
 		rbd::Jacobian jac;
+		sva::PTransformd X_b_p;
 	};
 
 	struct ContactData

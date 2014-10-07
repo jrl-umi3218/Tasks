@@ -171,16 +171,16 @@ void ContactAccConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		}
 		std::vector<ContactSideData> contacts;
 		auto addContact = [&mbs, &data, &contacts](int rIndex, int bId,
-			double sign, const Eigen::Vector3d& point)
+			double sign, const sva::PTransformd& point)
 		{
 			if(mbs[rIndex].nrDof() > 0)
 			{
 				contacts.emplace_back(rIndex, data.alphaDBegin(rIndex), sign,
-															rbd::Jacobian(mbs[rIndex], bId, point));
+															rbd::Jacobian(mbs[rIndex], bId), point);
 			}
 		};
-		addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., cC.X_b1_b2.translation());
-		addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., Eigen::Vector3d::Zero());
+		addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., sva::PTransformd::Identity());
+		addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., cC.X_b1_b2.inv());
 
 		cont_.emplace_back(std::move(contacts), dof, cC.cId);
 	}
@@ -215,7 +215,8 @@ void ContactAccConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			Eigen::MatrixXd& fullJac = fullJac_[csd.robotIndex];
 
 			// AEq = J_i
-			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc);
+			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.robotIndex];
+			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
 			csd.jac.fullJacobian(mb, jacMat, fullJac);
 			/// TODO don't apply dof on full jac
 			A_.block(index, csd.alphaDBegin, rows, mb.nrDof()).noalias() +=
@@ -223,7 +224,8 @@ void ContactAccConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 			// BEq = -JD_i*alpha
 			Vector6d normalAcc = csd.jac.normalAcceleration(
-				mb, mbc, data.normalAccB(csd.robotIndex)).vector();
+				mb, mbc, data.normalAccB(csd.robotIndex), csd.X_b_p,
+				sva::MotionVecd(Vector6d::Zero())).vector();
 			b_.segment(index, rows).noalias() -= csd.sign*cd.dof*normalAcc;
 		}
 		index += rows;
@@ -340,16 +342,16 @@ void ContactSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		}
 		std::vector<ContactSideData> contacts;
 		auto addContact = [&mbs, &data, &contacts](int rIndex, int bId,
-			double sign, const Eigen::Vector3d& point)
+			double sign, const sva::PTransformd& point)
 		{
 			if(mbs[rIndex].nrDof() > 0)
 			{
 				contacts.emplace_back(rIndex, data.alphaDBegin(rIndex), sign,
-															rbd::Jacobian(mbs[rIndex], bId, point));
+															rbd::Jacobian(mbs[rIndex], bId), point);
 			}
 		};
-		addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., cC.X_b1_b2.translation());
-		addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., Eigen::Vector3d::Zero());
+		addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., sva::PTransformd::Identity());
+		addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., cC.X_b1_b2.inv());
 
 		cont_.emplace_back(std::move(contacts), dof, cC.cId);
 	}
@@ -384,7 +386,8 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			Eigen::MatrixXd& fullJac = fullJac_[csd.robotIndex];
 
 			// AEq = J_i
-			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc);
+			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.robotIndex];
+			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
 			csd.jac.fullJacobian(mb, jacMat, fullJac);
 			/// TODO don't apply dof on full jac
 			A_.block(index, csd.alphaDBegin, rows, mb.nrDof()).noalias() +=
@@ -392,9 +395,11 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 			// BEq = -JD_i*alpha
 			Vector6d normalAcc = csd.jac.normalAcceleration(
-				mb, mbc, data.normalAccB(csd.robotIndex)).vector();
+				mb, mbc, data.normalAccB(csd.robotIndex), csd.X_b_p,
+				sva::MotionVecd(Vector6d::Zero())).vector();
+			Vector6d velocity = csd.jac.velocity(mb, mbc, csd.X_b_p).vector();
 			b_.segment(index, rows).noalias() -= csd.sign*cd.dof*(normalAcc +
-				mbc.bodyVelW[csd.bodyIndex].vector()/timeStep_);
+				velocity/timeStep_);
 		}
 		index += rows;
 	}

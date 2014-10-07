@@ -1224,10 +1224,26 @@ Eigen::Vector6d compute6dError(const sva::PTransformd& b1, const sva::PTransform
 }
 
 
+Eigen::Vector6d compute6dErrorInB1(const sva::PTransformd& b1, const sva::PTransformd& b2)
+{
+	sva::MotionVecd error;
+	error.angular() = sva::rotationError(b1.rotation(), b2.rotation(), 1e-7);
+	error.linear() = b1.translation() - b2.translation();
+	return (sva::PTransformd(b1.rotation())*error).vector();
+}
+
+
 double computeDofError(const sva::PTransformd& b1, const sva::PTransformd& b2,
 										const Eigen::MatrixXd& dof)
 {
 	return (dof*compute6dError(b1, b2)).norm();
+}
+
+
+double computeDofErrorInB1(const sva::PTransformd& b1, const sva::PTransformd& b2,
+										const Eigen::MatrixXd& dof)
+{
+	return (dof*compute6dErrorInB1(b1, b2)).norm();
 }
 
 
@@ -1245,6 +1261,9 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	std::tie(mb, mbcInit) = makeZXZArm(false);
 	std::tie(mbEnv, mbcEnv) = makeEnv();
 
+	Vector4d quat(Vector4d::Random().normalized());
+	mbcInit.q[0] = {quat.w(), quat.x(), quat.y(), quat.z(), 0., 0., 0.};
+
 	forwardKinematics(mb, mbcInit);
 	forwardVelocity(mb, mbcInit);
 	forwardKinematics(mbEnv, mbcEnv);
@@ -1257,7 +1276,9 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	qp::QPSolver solver;
 
 	qp::ContactSpeedConstr contCstrSpeed(0.005);
-	qp::PositionTask posTask(mbs, 0, 0, Vector3d(1., 1., -1.));
+	// target in body coordinate is transform into world frame
+	qp::PositionTask posTask(mbs, 0, 0,
+		mbcInit.bodyPosW[0].rotation().transpose()*Vector3d(1., 1., -1.));
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
 	contCstrSpeed.addToSolver(solver);
@@ -1276,6 +1297,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 			points, Matrix3d::Identity(), sva::PTransformd::Identity(),
 			3, 0.7)};
 
+	// contactDof must be provide in r1BodyId frame
 	MatrixXd contactDof(5, 6);
 	contactDof.setZero();
 	contactDof(0, 0) = 1.;
@@ -1299,10 +1321,10 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 		forwardVelocity(mbs[0], mbcs[0]);
 	}
 
-	BOOST_CHECK_SMALL(computeDofError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
+	BOOST_CHECK_SMALL(computeDofErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
 		contactDof), 1e-6);
 	BOOST_CHECK_GT(std::pow(
-		compute6dError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(5), 2), 0.1);
+		compute6dErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(5), 2), 0.1);
 
 
 	// test Y Free and updateDofContacts
@@ -1325,10 +1347,10 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 		forwardVelocity(mbs[0], mbcs[0]);
 	}
 
-	BOOST_CHECK_SMALL(computeDofError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
+	BOOST_CHECK_SMALL(computeDofErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
 		contactDof), 1e-6);
 	BOOST_CHECK_GT(std::pow(
-		compute6dError(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
+		compute6dErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
 }
 
 
