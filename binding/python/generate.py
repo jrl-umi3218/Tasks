@@ -167,15 +167,15 @@ def build_qp(tasks):
   solData = qp.add_class('SolverData')
 
   frictionCone = qp.add_struct('FrictionCone')
-  contactId = qp.add_struct('ContactId') #TODO
+  contactId = qp.add_struct('ContactId')
   unilateralContact = qp.add_struct('UnilateralContact')
   bilateralContact = qp.add_struct('BilateralContact')
   jointStiffness = qp.add_struct('JointStiffness')
   springJoint = qp.add_struct('SpringJoint')
-  qBound = qp.add_struct('QBound') #TODO
-  alphaBound = qp.add_struct('AlphaBound') #TODO
-  torqueBound = qp.add_struct('TorqueBound') #TODO
-  polyTorqueBound = qp.add_struct('PolyTorqueBound') #TODO
+  qBound = tasks.add_struct('QBound')
+  alphaBound = tasks.add_struct('AlphaBound')
+  torqueBound = tasks.add_struct('TorqueBound')
+  polyTorqueBound = tasks.add_struct('PolyTorqueBound')
 
   constr = qp.add_class('Constraint')
   eqConstr = qp.add_class('Equality')
@@ -206,19 +206,19 @@ def build_qp(tasks):
   motionSpringConstr = qp.add_class('MotionSpringConstr', parent=[genineqConstr,
                                                                   constr])
   positiveLambdaConstr = qp.add_class('PositiveLambda', parent=[boundConstr,
-                                                                constr]) #TODO
+                                                                constr])
   contactConstrCommon = qp.add_class('ContactConstrCommon')
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr, contactConstrCommon])
   contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, contactConstrCommon])
 
-  collisionConstr = qp.add_class('CollisionConstr', parent=[ineqConstr, constr]) #TODO
+  collisionConstr = qp.add_class('CollisionConstr', parent=[ineqConstr, constr])
   comIncPlaneConstr = qp.add_class('CoMIncPlaneConstr', parent=[ineqConstr, constr])
 
   jointLimitsConstr = qp.add_class('JointLimitsConstr', parent=[boundConstr, constr])
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
 
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
-  boundedSpeedConstr = qp.add_class('BoundedSpeedConstr', parent=[genineqConstr, constr]) #TODO
+  boundedSpeedConstr = qp.add_class('BoundedSpeedConstr', parent=[genineqConstr, constr])
 
 
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
@@ -311,7 +311,7 @@ def build_qp(tasks):
   sol.add_method('lambdaVec', retval('Eigen::VectorXd'), [], is_const=True)
 
   sol.add_method('contactLambdaPosition', retval('int'),
-                 [param('const ContactId&', 'contactId')], is_const=True)
+                 [param('const tasks::qp::ContactId&', 'contactId')], is_const=True)
   sol.add_method('data', retval('tasks::qp::SolverData'), [], is_const=True)
 
 
@@ -323,23 +323,48 @@ def build_qp(tasks):
 
   frictionCone.add_instance_attribute('generators', 'std::vector<Eigen::Vector3d>')
 
+  # ContactId
+  contactId.add_constructor([])
+  contactId.add_constructor([param('int', 'r1Index'), param('int', 'r2Index'),
+                             param('int', 'r1BodyId'), param('int', 'r2BodyId')])
+  contactId.add_instance_attribute('r1Index', 'int')
+  contactId.add_instance_attribute('r2Index', 'int')
+  contactId.add_instance_attribute('r1BodyId', 'int')
+  contactId.add_instance_attribute('r2BodyId', 'int')
+  contactId.add_binary_comparison_operator('==')
+  contactId.add_binary_comparison_operator('!=')
+  contactId.add_binary_comparison_operator('<')
+
   # UnilateralContact
   unilateralContact.add_constructor([])
-  unilateralContact.add_constructor([param('int', 'bodyId'),
-                           param('const std::vector<Eigen::Vector3d>&', 'points'),
-                           param('const Eigen::Matrix3d&', 'frame'),
-                           param('int', 'nrGen'), param('double', 'mu')])
+  unilateralContact.add_constructor([
+    param('int', 'r1Index'), param('int', 'r2Index'),
+    param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const Eigen::Matrix3d&', 'r1Frame'),
+    param('const sva::PTransformd&', 'X_b1_b2'),
+    param('int', 'nrGen'), param('double', 'mu')])
+  unilateralContact.add_constructor([param('const tasks::qp::ContactId&', 'contactId'),
+    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const Eigen::Matrix3d&', 'r1Frame'),
+    param('const sva::PTransformd&', 'X_b1_b2'),
+    param('int', 'nrGen'), param('double', 'mu')])
 
-  unilateralContact.add_instance_attribute('bodyId', 'int')
-  unilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
-  unilateralContact.add_instance_attribute('cone', 'tasks::qp::FrictionCone')
+  unilateralContact.add_instance_attribute('contactId', 'tasks::qp::ContactId')
+  unilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d>')
+  unilateralContact.add_instance_attribute('r2Points', 'std::vector<Eigen::Vector3d>')
+  unilateralContact.add_instance_attribute('r1Cone', 'tasks::qp::FrictionCone')
+  unilateralContact.add_instance_attribute('r2Cone', 'tasks::qp::FrictionCone')
+  unilateralContact.add_instance_attribute('X_b1_b2', 'sva::PTransformd')
   unilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
                                [param('const Eigen::VectorXd&', 'lambda'),
-                                param('int', 'point')],
-                               throw=[dom_ex], custom_name='force')
+                                param('int', 'point'),
+                                param('const tasks::qp::FrictionCone&', 'c')],
+                               throw=[dom_ex], custom_name='force', is_const=True)
   unilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
-                               [param('const Eigen::VectorXd&', 'lambda')],
-                               throw=[dom_ex], custom_name='force')
+                               [param('const Eigen::VectorXd&', 'lambda'),
+                                param('const tasks::qp::FrictionCone&', 'c')],
+                               throw=[dom_ex], custom_name='force', is_const=True)
   unilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
                                is_const=True, throw=[dom_ex], custom_name='nrLambda')
   unilateralContact.add_method('nrLambda', retval('int'), [],
@@ -347,29 +372,37 @@ def build_qp(tasks):
 
   # BilateralContact
   bilateralContact.add_constructor([])
-  bilateralContact.add_constructor([param('int', 'bodyId'),
-                                    param('const Eigen::Vector3d&', 'center'),
-                                    param('double', 'radius'),
-                                    param('int', 'nrPoints'),
-                                    param('const Eigen::Matrix3d&', 'frame'),
-                                    param('int', 'nrGen'), param('double', 'mu')
-                                   ])
-  bilateralContact.add_constructor([param('int', 'bodyId'),
-                                    param('const std::vector<Eigen::Vector3d>&', 'center'),
-                                    param('const std::vector<Eigen::Matrix3d>&', 'frames'),
-                                    param('int', 'nrGen'), param('double', 'mu')
-                                   ])
+  bilateralContact.add_constructor([
+    param('const tasks::qp::ContactId&', 'contactId'),
+    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
+    param('const sva::PTransformd&', 'X_b1_b2'),
+    param('int', 'nrGen'), param('double', 'mu')])
+  bilateralContact.add_constructor([
+    param('int', 'r1Index'), param('int', 'r2Index'),
+    param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
+    param('const sva::PTransformd&', 'X_b1_b2'),
+    param('int', 'nrGen'), param('double', 'mu')])
+  bilateralContact.add_constructor([
+    param('const tasks::qp::UnilateralContact&', 'uc')])
 
-  bilateralContact.add_instance_attribute('bodyId', 'int')
-  bilateralContact.add_instance_attribute('points', 'std::vector<Eigen::Vector3d>')
-  bilateralContact.add_instance_attribute('cones', 'std::vector<tasks::qp::FrictionCone>')
+  bilateralContact.add_instance_attribute('contactId', 'tasks::qp::ContactId')
+  bilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d>')
+  bilateralContact.add_instance_attribute('r2Points', 'std::vector<Eigen::Vector3d>')
+  bilateralContact.add_instance_attribute('r1Cones', 'std::vector<tasks::qp::FrictionCone>')
+  bilateralContact.add_instance_attribute('r2Cones', 'std::vector<tasks::qp::FrictionCone>')
+  bilateralContact.add_instance_attribute('X_b1_b2', 'sva::PTransformd')
   bilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
                               [param('const Eigen::VectorXd&', 'lambda'),
-                               param('int', 'point')],
-                              throw=[dom_ex], custom_name='force')
+                               param('int', 'point'),
+                               param('const std::vector<tasks::qp::FrictionCone>&', 'c')],
+                              throw=[dom_ex], custom_name='force', is_const=True)
   bilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
-                              [param('const Eigen::VectorXd&', 'lambda')],
-                              throw=[dom_ex], custom_name='force')
+                              [param('const Eigen::VectorXd&', 'lambda'),
+                               param('const std::vector<tasks::qp::FrictionCone>&', 'c')],
+                              throw=[dom_ex], custom_name='force', is_const=True)
   bilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
                               is_const=True, throw=[dom_ex], custom_name='nrLambda')
   bilateralContact.add_method('nrLambda', retval('int'), [],
@@ -391,6 +424,36 @@ def build_qp(tasks):
   springJoint.add_instance_attribute('K', 'double')
   springJoint.add_instance_attribute('C', 'double')
   springJoint.add_instance_attribute('O', 'double')
+
+  # QBound
+  qBound.add_constructor([])
+  qBound.add_constructor([param('std::vector<std::vector<double> >', 'lQB'),
+                          param('std::vector<std::vector<double> >', 'uQB')])
+  qBound.add_instance_attribute('lQBound', 'std::vector<std::vector<double> >')
+  qBound.add_instance_attribute('uQBound', 'std::vector<std::vector<double> >')
+
+  # AlphaBound
+  alphaBound.add_constructor([])
+  alphaBound.add_constructor([param('std::vector<std::vector<double> >', 'lAB'),
+                              param('std::vector<std::vector<double> >', 'uAB')])
+  alphaBound.add_instance_attribute('lAlphaBound', 'std::vector<std::vector<double> >')
+  alphaBound.add_instance_attribute('uAlphaBound', 'std::vector<std::vector<double> >')
+
+  # TorqueBound
+  torqueBound.add_constructor([])
+  torqueBound.add_constructor([param('std::vector<std::vector<double> >', 'lTB'),
+                               param('std::vector<std::vector<double> >', 'uTB')])
+  torqueBound.add_instance_attribute('lTorqueBound', 'std::vector<std::vector<double> >')
+  torqueBound.add_instance_attribute('uTorqueBound', 'std::vector<std::vector<double> >')
+
+  # PolyTorqueBound
+  polyTorqueBound.add_constructor([])
+  polyTorqueBound.add_constructor([param('std::vector<std::vector<Eigen::VectorXd> >', 'lPTB'),
+                                   param('std::vector<std::vector<Eigen::VectorXd> >', 'uPTB')])
+  polyTorqueBound.add_instance_attribute('lPolyTorqueBound',
+                                         'std::vector<std::vector<Eigen::VectorXd> >')
+  polyTorqueBound.add_instance_attribute('uPolyTorqueBound',
+                                         'std::vector<std::vector<Eigen::VectorXd> >')
 
   # Constraint
   constr.add_method('updateNrVars', None,
@@ -459,13 +522,15 @@ def build_qp(tasks):
   def spConstructor(hlTaskName):
     for t in hlTaskName:
       name = 'tasks::qp::%s *' % t
-      spTask.add_constructor([param('const MultiBody&', 'mb'),
+      spTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'stiffness'),
                               param('double', 'weight')])
 
-      spTask.add_constructor([param('const MultiBody&', 'mb'),
+      spTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'stiffness'),
@@ -492,7 +557,8 @@ def build_qp(tasks):
   def toConstructor(hlTaskName):
     for t in hlTaskName:
       name = 'tasks::qp::%s *' % t
-      toTask.add_constructor([param('const MultiBody&', 'mb'),
+      toTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'timeStep'),
@@ -500,7 +566,8 @@ def build_qp(tasks):
                               param('const Eigen::VectorXd&', 'objDot'),
                               param('double', 'weight')])
 
-      toTask.add_constructor([param('const MultiBody&', 'mb'),
+      toTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'timeStep'),
@@ -541,7 +608,8 @@ def build_qp(tasks):
   def pidConstructor(hlTaskName):
     for t in hlTaskName:
       name = 'tasks::qp::%s *' % t
-      pidTask.add_constructor([param('const MultiBody&', 'mb'),
+      pidTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'P'),
@@ -549,7 +617,8 @@ def build_qp(tasks):
                               param('double', 'D'),
                               param('double', 'weight')])
 
-      pidTask.add_constructor([param('const MultiBody&', 'mb'),
+      pidTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param(name, 'hlTask',
                                     transfer_ownership=False),
                               param('double', 'P'),
@@ -582,46 +651,9 @@ def build_qp(tasks):
   pidTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
   pidTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
-  # QuadraticTask
-  def qConstructor(hlTaskName):
-    for t in hlTaskName:
-      name = 'tasks::qp::%s *' % t
-      qTask.add_constructor([param('const MultiBody&', 'mb'),
-                             param(name, 'hlTask',
-                                   transfer_ownership=False),
-                             param('double', 'weight')])
-
-  qConstructor(hlTaskName)
-
-  qTask.add_method('update', None,
-                   [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                    param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
-                     param('const tasks::qp::SolverData&', 'data')])
-
-  qTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
-  qTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
-
-  # LinWeightTask
-  def linWConstructor(taskName):
-    for t in taskName:
-      name = '%s *' % t
-      linWTask.add_constructor([param(name, 'task',
-                                   transfer_ownership=False),
-                                param('double', 'step'),
-                                param('double', 'objWeight')])
-
-  linWConstructor(taskName)
-
-  linWTask.add_method('update', None,
-                      [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                       param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
-                     param('const tasks::qp::SolverData&', 'data')])
-
-  linWTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
-  linWTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
-
   # PositionTask
-  posTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  posTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('int', 'robotIndex'),
                            param('int', 'bodyId'),
                            param('const Eigen::Vector3d&', 'pos'),
                            param('const Eigen::Vector3d&', 'bodyPoint',
@@ -634,10 +666,12 @@ def build_qp(tasks):
   posTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
 
   # OrientationTask
-  oriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  oriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('int', 'robotIndex'),
                            param('int', 'bodyId'),
                            param('const Eigen::Quaterniond&', 'ori')])
-  oriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  oriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('int', 'robotIndex'),
                            param('int', 'bodyId'),
                            param('const Eigen::Matrix3d&', 'ori')])
 
@@ -646,7 +680,8 @@ def build_qp(tasks):
   oriTask.add_method('orientation', retval('Eigen::Matrix3d'), [], is_const=True)
 
   # PostureTask
-  postureTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  postureTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
                                param('std::vector<std::vector<double> >', 'q'),
                                param('double', 'stiffness'),
                                param('double', 'weight')])
@@ -662,19 +697,21 @@ def build_qp(tasks):
                          is_const=True)
 
   postureTask.add_method('jointsStiffness', None,
-                         [param('const std::vector<rbd::MultiBody>&', 'mb'),
+                         [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                           param('std::vector<tasks::qp::JointStiffness>', 'js')])
 
   postureTask.add_method('update', None,
-                    [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                     param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
+                    [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                     param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
                      param('const tasks::qp::SolverData&', 'data')])
   postureTask.add_method('eval', retval('Eigen::VectorXd'), [])
 
   # CoMTask
-  comTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  comTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('int', 'robotIndex'),
                            param('const Eigen::Vector3d&', 'com')])
-  comTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  comTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('int', 'robotIndex'),
                            param('const Eigen::Vector3d&', 'com'),
                            param('std::vector<double>', 'weight')],
                            throw=[dom_ex])
@@ -683,7 +720,8 @@ def build_qp(tasks):
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
                      is_const=True)
   # MomentumTask
-  momTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  momTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('int', 'robotIndex'),
                            param('const sva::ForceVecd&', 'mom')])
 
   momTask.add_method('momentum', None, [param('const sva::ForceVecd&', 'mom')])
@@ -691,7 +729,7 @@ def build_qp(tasks):
                      is_const=True)
 
   # ContactTask
-  contactTask.add_constructor([param('int', 'bodyId'),
+  contactTask.add_constructor([param('const tasks::qp::ContactId&', 'contactId'),
                                param('double', 'stiffness'),
                                param('double', 'weight')])
 
@@ -699,13 +737,14 @@ def build_qp(tasks):
   contactTask.add_method('errorD', None, [param('const Eigen::Vector3d&', 'errorD')])
 
   # GripperTorqueTask
-  gripperTorqueTask.add_constructor([param('int', 'bodyId'),
+  gripperTorqueTask.add_constructor([param('const tasks::qp::ContactId&', 'contactId'),
                                      param('const Eigen::Vector3d&', 'origin'),
                                      param('const Eigen::Vector3d&', 'axis'),
                                      param('double', 'weight')])
 
   # LinVelocityTask
-  linVelTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  linVelTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                              param('int', 'robotIndex'),
                               param('int', 'bodyId'),
                               param('const Eigen::Vector3d&', 'pos'),
                               param('const Eigen::Vector3d&', 'bodyPoint',
@@ -718,7 +757,8 @@ def build_qp(tasks):
   linVelTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
 
   # OrientationTrackingTask
-  oriTrackTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
+  oriTrackTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('int', 'robotIndex'),
                                 param('int', 'bodyId'),
                                 param('const Eigen::Vector3d&', 'bodyPoint'),
                                 param('const Eigen::Vector3d&', 'bodyAxis'),
@@ -737,109 +777,81 @@ def build_qp(tasks):
     motion.add_method('computeTorque', None, [param('const Eigen::VectorXd&', 'alphaD'),
                                               param('const Eigen::VectorXd&', 'lambda')])
     motion.add_method('torque', retval('Eigen::VectorXd'), [], is_const=True)
-    motion.add_method('torque', None, [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                                             param('std::vector<rbd::MultiBodyConfig>&', 'mbc')], is_const=True)
+    motion.add_method('torque', None, [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                       param('std::vector<rbd::MultiBodyConfig>&', 'mbcs')], is_const=True)
 
-  motionConstr.add_constructor([param('const std::vector<rbd::MultiBody>', 'mb'),
-                                param('std::vector<std::vector<double> >', 'lTorqueBounds'),
-                                param('std::vector<std::vector<double> >', 'uTorqueBounds')])
+  motionConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('int', 'robotIndex'),
+                                param('const tasks::TorqueBound&', 'tb')])
   addMotionDefault(motionConstr)
 
   # MotionPolyConstr
-  motionPolyConstr.add_constructor([param('const std::vector<rbd::MultiBody>', 'mb'),
-                                    param('std::vector<std::vector<Eigen::VectorXd> >', 'lTorqueBounds'),
-                                    param('std::vector<std::vector<Eigen::VectorXd> >', 'uTorqueBounds')])
+  motionPolyConstr.add_constructor([param('const std::vector<rbd::MultiBody>', 'mbs'),
+                                    param('int', 'robotIndex'),
+                                    param('const tasks::PolyTorqueBound&', 'ptb')])
   addMotionDefault(motionPolyConstr)
 
   # MotionSpringConstr
-  motionSpringConstr.add_constructor([param('const std::vector<rbd::MultiBody>', 'mb'),
-                                      param('std::vector<std::vector<double> >', 'lTorqueBounds'),
-                                      param('std::vector<std::vector<double> >', 'uTorqueBounds'),
+  motionSpringConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                      param('int', 'robotIndex'),
+                                      param('const tasks::TorqueBound&', 'tb'),
                                       param('const std::vector<tasks::qp::SpringJoint>&', 'springs')])
   addMotionDefault(motionSpringConstr)
 
+  # PositiveLambda
+  positiveLambdaConstr.add_constructor([])
+
   # ContactConstrCommon
-  contactConstrCommon.add_method('addVirtualContact', retval('bool'), [param('int', 'bodyId')])
-  contactConstrCommon.add_method('removeVirtualContact', retval('bool'), [param('int', 'bodyId')])
+  contactConstrCommon.add_method('addVirtualContact', retval('bool'),
+                                 [param('const tasks::qp::ContactId&', 'contactId')])
+  contactConstrCommon.add_method('removeVirtualContact', retval('bool'),
+                                 [param('const tasks::qp::ContactId&', 'contactId')])
   contactConstrCommon.add_method('resetVirtualContacts', None, [])
 
-  contactConstrCommon.add_method('addDofContact', retval('bool'), [param('int', 'bodyId', ),
-                                                                   param('const Eigen::MatrixXd&', 'dof')])
-  contactConstrCommon.add_method('removeDofContact', retval('bool'), [param('int', 'bodyId')])
+  contactConstrCommon.add_method('addDofContact', retval('bool'),
+                                 [param('const tasks::qp::ContactId&', 'contactId'),
+                                  param('const Eigen::MatrixXd&', 'dof')])
+  contactConstrCommon.add_method('removeDofContact', retval('bool'),
+                                 [param('const tasks::qp::ContactId&', 'contactId')])
   contactConstrCommon.add_method('resetDofContacts', None, [])
 
   # ContactAccConstr
-  contactAccConstr.add_constructor([param('const rbd::MultiBody', 'mb')])
+  contactAccConstr.add_constructor([])
   contactAccConstr.add_method('updateDofContacts', None, [])
 
   # ContactSpeedConstr
-  contactSpeedConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
-                                      param('double', 'timeStep')])
+  contactSpeedConstr.add_constructor([param('double', 'timeStep')])
   contactSpeedConstr.add_method('updateDofContacts', None, [])
 
-  # SelfCollisionConstr
-  selfCollisionConstr.add_constructor([param('const std::vector<rbd::MultiBody>', 'mb'),
-                                       param('double', 'step')])
-  selfCollisionConstr.add_method('addCollision', None,
-                                 [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                                  param('int', 'collId'),
-                                  param('int', 'body1Id'),
-                                  param('sch::S_Object*', 'body1', transfer_ownership=False),
-                                  param('const sva::PTransformd&', 'body1T'),
-                                  param('int', 'body2Id'),
-                                  param('sch::S_Object*', 'body2', transfer_ownership=False),
-                                  param('const sva::PTransformd&', 'body2T'),
-                                  param('double', 'di'),
-                                  param('double', 'ds'),
-                                  param('double', 'damping'),
-                                  param('double', 'dampingOff', default_value='0.')])
+  # CollisionConstr
+  collisionConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                   param('double', 'step')])
+  collisionConstr.add_method('addCollision', None,
+                             [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                             param('int', 'collId'),
+                             param('int', 'r1Index'), param('int', 'r1BodyId'),
+                             param('sch::S_Object*', 'body1', transfer_ownership=False),
+                             param('const sva::PTransformd&', 'X_op1_o1'),
+                             param('int', 'r2Index'), param('int', 'r2BodyId'),
+                             param('sch::S_Object*', 'body2', transfer_ownership=False),
+                             param('const sva::PTransformd&', 'X_op2_o2'),
+                             param('double', 'di'),
+                             param('double', 'ds'),
+                             param('double', 'damping'),
+                             param('double', 'dampingOff', default_value='0.')])
 
-  selfCollisionConstr.add_method('rmCollision', retval('bool'),
-                                 [param('int', 'collId')])
-  selfCollisionConstr.add_method('nrCollisions', retval('int'),
-                                 [], is_const=True)
-  selfCollisionConstr.add_method('reset', None, []),
+  collisionConstr.add_method('rmCollision', retval('bool'),
+                             [param('int', 'collId')])
+  collisionConstr.add_method('nrCollisions', retval('int'),
+                             [], is_const=True)
+  collisionConstr.add_method('reset', None, []),
 
-  # StaticEnvCollisionConstr
-  seCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
-                                     param('double', 'step')])
-  seCollisionConstr.add_method('addCollision', None,
-                               [param('const rbd::MultiBody&', 'mb'),
-                                param('int', 'collId'),
-                                param('int', 'bodyId'),
-                                param('sch::S_Object*', 'body', transfer_ownership=False),
-                                param('const sva::PTransformd&', 'bodyT'),
-                                param('int', 'envId'),
-                                param('sch::S_Object*', 'env', transfer_ownership=False),
-                                param('double', 'di'),
-                                param('double', 'ds'),
-                                param('double', 'damping'),
-                                param('double', 'dampingOff', default_value='0.')])
+  collisionConstr.add_method('updateNrCollisions', None, []),
 
-  seCollisionConstr.add_method('rmCollision', retval('bool'), [param('int', 'collId')])
-  seCollisionConstr.add_method('nrCollisions', retval('int'),
-                               [], is_const=True)
-  seCollisionConstr.add_method('reset', None, []),
-
-  # CoMCollisionConstr
-  comCollisionConstr.add_constructor([param('const rbd::MultiBody', 'mb'),
-                                      param('double', 'step')])
-  comCollisionConstr.add_method('addCollision', None,
-                               [param('const rbd::MultiBody&', 'mb'),
-                                param('int', 'collId'),
-                                param('sch::S_Object*', 'env', transfer_ownership=False),
-                                param('double', 'di'),
-                                param('double', 'ds'),
-                                param('double', 'damping'),
-                                param('double', 'dampingOff', default_value='0.')])
-
-  comCollisionConstr.add_method('rmCollision', retval('bool'), [param('int', 'collId')])
-  comCollisionConstr.add_method('nrCollisions', retval('int'),
-                               [], is_const=True)
-  comCollisionConstr.add_method('reset', None, []),
 
   # CoMIncPlaneConstr
-  comIncPlaneConstr.add_constructor([param('const std::vector<rbd::MultiBody>', 'mb'),
+  comIncPlaneConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                     param('int', 'robotIndex'),
                                      param('double', 'step')])
   comIncPlaneConstr.add_method('addPlane', None,
                                [param('int', 'planeId'),
@@ -855,44 +867,59 @@ def build_qp(tasks):
                                [], is_const=True)
   comIncPlaneConstr.add_method('reset', None, []),
 
+  comIncPlaneConstr.add_method('updateNrPlanes', None, []),
+
 
   # JointLimitsConstr
-  jointLimitsConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
-                                    param('std::vector<std::vector<double> >', 'lbound'),
-                                    param('std::vector<std::vector<double> >', 'ubound'),
-                                    param('double', 'step')])
+  jointLimitsConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                     param('int', 'robotIndex'),
+                                     param('const tasks::QBound&', 'qb'),
+                                     param('double', 'step')])
 
   # DamperJointLimitsConstr
-  damperJointLimitsConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
-                                    param('const std::vector<std::vector<double> >&', 'lBound'),
-                                    param('const std::vector<std::vector<double> >&', 'uBound'),
-                                    param('std::vector<std::vector<double> >', 'lVel'),
-                                    param('std::vector<std::vector<double> >', 'uVel'),
-                                    param('double', 'interPercent'), param('double', 'securityPercent'),
-                                    param('double', 'damperOffset'), param('double', 'step')])
+  damperJointLimitsConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                           param('int', 'robotIndex'),
+                                           param('const tasks::QBound&', 'qb'),
+                                           param('const tasks::AlphaBound&', 'ab'),
+                                           param('double', 'interPercent'),
+                                           param('double', 'securityPercent'),
+                                           param('double', 'damperOffset'),
+                                           param('double', 'step')])
 
   # GripperTorqueConstr
   gripperTorqueConstr.add_constructor([])
   gripperTorqueConstr.add_method('addGripper', None,
-                                 [param('int', 'bodyId'), param('double', 'torqueLimit'),
+                                 [param('const tasks::qp::ContactId&', 'contactId'),
+                                  param('double', 'torqueLimit'),
                                   param('const Eigen::Vector3d&', 'origin'),
                                   param('const Eigen::Vector3d&', 'axis')]);
   gripperTorqueConstr.add_method('rmGripper', retval('bool'),
-                                 [param('int', 'bodyId')])
+                                 [param('const tasks::qp::ContactId&', 'contactId')])
   gripperTorqueConstr.add_method('reset', None, [])
 
-  # ConstantSpeedConstr
-  constantSpeedConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mb'),
-                                       param('double', 'timeStep')])
-  constantSpeedConstr.add_method('addConstantSpeed', None,
-                                 [param('const std::vector<rbd::MultiBody>&', 'mb'), param('int', 'bodyId'),
-                                  param('const Eigen::Vector3d&', 'bodyPoint'),
-                                  param('const Eigen::MatrixXd&', 'dof'),
-                                  param('const Eigen::VectorXd&', 'speed')])
-  constantSpeedConstr.add_method('removeConstantSpeed', retval('bool'),
-                                 [param('int', 'bodyId')])
-  constantSpeedConstr.add_method('resetConstantSpeed', None, [])
-  constantSpeedConstr.add_method('nrConstantSpeed', retval('int'), [])
+  # BoundedSpeedConstr
+  boundedSpeedConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                      param('int', 'robotIndex'),
+                                      param('double', 'timeStep')])
+  boundedSpeedConstr.add_method('addBoundedSpeed', None,
+                                [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                 param('int', 'bodyId'),
+                                 param('const Eigen::Vector3d&', 'bodyPoint'),
+                                 param('const Eigen::MatrixXd&', 'dof'),
+                                 param('const Eigen::VectorXd&', 'speed')])
+  boundedSpeedConstr.add_method('addBoundedSpeed', None,
+                                [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                 param('int', 'bodyId'),
+                                 param('const Eigen::Vector3d&', 'bodyPoint'),
+                                 param('const Eigen::MatrixXd&', 'dof'),
+                                 param('const Eigen::VectorXd&', 'lowerSpeed'),
+                                 param('const Eigen::VectorXd&', 'upperSpeed')])
+  boundedSpeedConstr.add_method('removeBoundedSpeed', retval('bool'),
+                                [param('int', 'bodyId')])
+  boundedSpeedConstr.add_method('resetBoundedSpeeds', None, [])
+  boundedSpeedConstr.add_method('nrBoundedSpeeds', retval('int'), [])
+
+  boundedSpeedConstr.add_method('updateBoundedSpeeds', None, [])
 
 
   def add_add_remove_solver(constr):
@@ -914,6 +941,7 @@ if __name__ == '__main__':
   tasks.add_include('<QPTasks.h>')
   tasks.add_include('<QPConstr.h>')
   tasks.add_include('<QPMotionConstr.h>')
+  tasks.add_include('<Bounds.h>')
 
   tasks.add_include('<RBDyn/MultiBodyConfig.h>')
 
