@@ -467,12 +467,11 @@ void PostureTask::jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
 	jointDatas_.clear();
 	jointDatas_.reserve(jsv.size());
 
+	const rbd::MultiBody& mb = mbs[robotIndex_];
 	for(const JointStiffness& js: jsv)
 	{
-		const rbd::MultiBody& mb = mbs[js.robotIndex];
 		int jointIndex = mb.jointIndexById(js.jointId);
 		jointDatas_.push_back({js.stiffness, 2.*std::sqrt(js.stiffness),
-													js.robotIndex,
 													mb.jointPosInDof(jointIndex),
 													mb.joint(jointIndex).dof()});
 	}

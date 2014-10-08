@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 
 
 	qp::PostureTask postureTask(mbs, 0, {{}, {0.2}, {0.4}, {-0.8}}, 10., 1.);
-	postureTask.jointsStiffness(mbs, {{0, 2, 10.}});
+	postureTask.jointsStiffness(mbs, {{2, 10.}});
 	solver.addTask(&postureTask);
 
 	// Test PostureTask

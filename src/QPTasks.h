@@ -248,17 +248,14 @@ private:
 struct JointStiffness
 {
 	JointStiffness():
-		robotIndex(),
 		jointId(),
 		stiffness()
 	{}
-	JointStiffness(int rI, int jId, double stif):
-		robotIndex(rI),
+	JointStiffness(int jId, double stif):
 		jointId(jId),
 		stiffness(stif)
 	{}
 
-	int robotIndex;
 	int jointId;
 	double stiffness;
 };
@@ -316,7 +313,6 @@ private:
 	struct JointData
 	{
 		double stiffness, stiffnessSqrt;
-		int robotIndex;
 		int start, size;
 	};
 

@@ -154,11 +154,11 @@ protected:
 struct SpringJoint
 {
 	SpringJoint(){}
-	SpringJoint(int rIndex, int jId, double K, double C, double O):
-		robotIndex(rIndex),jointId(jId),K(K),C(C),O(O)
+	SpringJoint(int jId, double K, double C, double O):
+		jointId(jId),K(K),C(C),O(O)
 	{}
 
-	int robotIndex, jointId;
+	int jointId;
 	double K, C, O;
 };
 
