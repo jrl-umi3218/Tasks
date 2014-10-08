@@ -58,12 +58,26 @@ public:
 	QPSolver();
 	~QPSolver();
 
-	/*! \brief solve the problem
-	 *  \param mb current multibody
-	 *  \param mbc result of the solving problem
-	 */
+	/** solve the problem
+		*  \param mbs current multibody
+		*  \param mbcs current state of the multibody and result of the solved problem
+		*/
 	bool solve(const std::vector<rbd::MultiBody>& mbs,
-						 std::vector<rbd::MultiBodyConfig>& mbcs);
+		std::vector<rbd::MultiBodyConfig>& mbcs);
+
+	/** solve the problem but don't fill mbc.
+		* This is usefull for the python binding.
+		*  \param mbs current multibody
+		*  \param mbc current state of the multibody
+		*/
+	bool solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs);
+
+	/** \brief fill mbc with the solution of the problem
+		* \param mbc reslut of the solved problem
+		* \param robotIndex robot index associated with mbc
+		*/
+	void updateMbc(rbd::MultiBodyConfig& mbc, int robotIndex) const;
 
 	void updateConstrSize();
 
@@ -120,7 +134,7 @@ public:
 
 protected:
 	void preUpdate(const std::vector<rbd::MultiBody>& mbs,
-								std::vector<rbd::MultiBodyConfig>& mbcs);
+								const std::vector<rbd::MultiBodyConfig>& mbcs);
 	void postUpdate(const std::vector<rbd::MultiBody>& mbs,
 									std::vector<rbd::MultiBodyConfig>& mbcs,
 		bool success);

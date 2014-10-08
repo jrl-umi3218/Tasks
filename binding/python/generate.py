@@ -274,7 +274,13 @@ def build_qp(tasks):
   sol.add_constructor([])
   sol.add_method('solve', retval('bool'),
                  [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                  param('std::vector<rbd::MultiBodyConfig>&', 'mbcs')])
+  sol.add_method('solveNoMbcUpdate', retval('bool'),
+                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                   param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs')])
+  sol.add_method('updateMbc', None,
+                 [param('rbd::MultiBodyConfig&', 'mbc'),
+                  param('int', 'robotIndex')], is_const=True)
 
   sol.add_method('updateConstrSize', None, [])
 

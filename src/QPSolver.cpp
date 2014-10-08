@@ -65,7 +65,18 @@ QPSolver::~QPSolver()
 
 
 bool QPSolver::solve(const std::vector<rbd::MultiBody>& mbs,
-										std::vector<rbd::MultiBodyConfig>& mbcs)
+	std::vector<rbd::MultiBodyConfig>& mbcs)
+{
+	bool success = solveNoMbcUpdate(mbs, mbcs);
+
+	postUpdate(mbs, mbcs, success);
+
+	return success;
+}
+
+
+bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
 	preUpdate(mbs, mbcs);
 
@@ -79,9 +90,15 @@ bool QPSolver::solve(const std::vector<rbd::MultiBody>& mbs,
 										 std::cerr) << std::endl;
 	}
 
-	postUpdate(mbs, mbcs, success);
-
 	return success;
+}
+
+
+void QPSolver::updateMbc(rbd::MultiBodyConfig& mbc, int rI) const
+{
+	rbd::vectorToParam(
+		solver_->result().segment(data_.alphaDBegin_[rI], data_.alphaD_[rI]),
+		mbc.alphaD);
 }
 
 
@@ -418,7 +435,7 @@ int QPSolver::contactLambdaPosition(const ContactId& cId) const
 
 
 void QPSolver::preUpdate(const std::vector<rbd::MultiBody>& mbs,
-												std::vector<rbd::MultiBodyConfig>& mbcs)
+												const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
 	data_.computeNormalAccB(mbs, mbcs);
 	for(std::size_t i = 0; i < constr_.size(); ++i)
@@ -443,9 +460,7 @@ void QPSolver::postUpdate(const std::vector<rbd::MultiBody>& /* mbs */,
 	{
 		for(std::size_t r = 0; r < mbcs.size(); ++r)
 		{
-			rbd::vectorToParam(
-				solver_->result().segment(data_.alphaDBegin_[r], data_.alphaD_[r]),
-				mbcs[r].alphaD);
+			updateMbc(mbcs[r], int(r));
 		}
 
 		// don't write contact force to the structure since contact force are used
