@@ -248,6 +248,7 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
 
 		ContactData& cd = cont_[i];
+		int lambdaOffset = 0;
 		for(std::size_t j = 0; j < cd.points.size(); ++j)
 		{
 			/// @todo don't translate the 6 rows
@@ -256,9 +257,11 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 			cd.jac.translateBodyJacobian(jac, mbc, cd.points[j], cd.jacTrans);
 			cd.jac.fullJacobian(mb, cd.jacTrans, fullJac_);
 
-			A_.block(0, cd.lambdaBegin, nrDof_, cd.generators[j].cols()).noalias() =
-				-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
-					cd.generators[j];
+			A_.block(0, cd.lambdaBegin + lambdaOffset,
+				nrDof_, cd.generators[j].cols()).noalias() =
+					-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
+						cd.generators[j];
+			lambdaOffset += int(cd.generators[j].cols());
 		}
 	}
 

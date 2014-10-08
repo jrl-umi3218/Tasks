@@ -244,10 +244,6 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 			biPoints, biFrames, X_b1_b2,
 			nrGen, 1.)};
 
-	qp::PositionTask posTask(mbs, 0, 3, mbc1Init.bodyPosW.back().translation());
-	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 10000.);
-	qp::OrientationTask oriTask(mbs, 0, 3, mbc1Init.bodyPosW.back().rotation());
-	qp::SetPointTask oriTaskSp(mbs, 0, &oriTask, 10., 10000.);
 	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 2., 1.);
 	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 2., 1.);
 
@@ -269,8 +265,6 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 	plCstr.addToSolver(solver);
 
 	contCstrSpeed.addToSolver(solver);
-	solver.addTask(&posTaskSp);
-	solver.addTask(&oriTaskSp);
 	solver.addTask(&posture1Task);
 	solver.addTask(&posture2Task);
 
@@ -348,6 +342,4 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 
 	solver.removeTask(&posture1Task);
 	solver.removeTask(&posture2Task);
-	solver.removeTask(&posTaskSp);
-	solver.removeTask(&oriTaskSp);
 }
