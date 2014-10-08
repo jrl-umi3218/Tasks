@@ -215,7 +215,7 @@ void ContactAccConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			Eigen::MatrixXd& fullJac = fullJac_[csd.robotIndex];
 
 			// AEq = J_i
-			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.robotIndex];
+			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.bodyIndex];
 			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
 			csd.jac.fullJacobian(mb, jacMat, fullJac);
 			/// TODO don't apply dof on full jac
@@ -386,7 +386,7 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			Eigen::MatrixXd& fullJac = fullJac_[csd.robotIndex];
 
 			// AEq = J_i
-			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.robotIndex];
+			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.bodyIndex];
 			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
 			csd.jac.fullJacobian(mb, jacMat, fullJac);
 			/// TODO don't apply dof on full jac

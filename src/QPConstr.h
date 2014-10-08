@@ -118,10 +118,11 @@ private:
 	{
 		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j,
 			const sva::PTransformd& Xbp):
-			robotIndex(rI), alphaDBegin(aDB), sign(s), jac(j), X_b_p(Xbp)
+			robotIndex(rI), alphaDBegin(aDB), bodyIndex(j.jointsPath().back()),
+			sign(s), jac(j), X_b_p(Xbp)
 		{}
 
-		int robotIndex, alphaDBegin;
+		int robotIndex, alphaDBegin, bodyIndex;
 		double sign;
 		rbd::Jacobian jac;
 		sva::PTransformd X_b_p;
