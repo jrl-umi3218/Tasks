@@ -150,7 +150,8 @@ private:
 	std::vector<BilateralContact> biCont_;
 	std::vector<BilateralContact> allCont_;
 
-	/// TODO don't even launch the computation on static robot
+	std::vector<int> mobileRobotIndex_; //< robot index with dof > 0
+	/// normal acceleration of each body of each robot
 	std::vector<std::vector<sva::MotionVecd>> normalAccB_;
 };
 

@@ -137,6 +137,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 	data_.lambda_.resize(nrContacts);
 	data_.lambdaBegin_.resize(nrContacts);
 
+	data_.mobileRobotIndex_.clear();
 	data_.normalAccB_.resize(mbs.size());
 
 	int cumAlphaD = 0;
@@ -145,8 +146,13 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 		const rbd::MultiBody& mb = mbs[r];
 		data_.alphaD_[r] = mb.nrDof();
 		data_.alphaDBegin_[r] = cumAlphaD;
-		data_.normalAccB_[r].resize(mb.nrBodies());
+		data_.normalAccB_[r].resize(mb.nrBodies(),
+			sva::MotionVecd(Eigen::Vector6d::Zero()));
 		cumAlphaD += mb.nrDof();
+		if(mb.nrDof() > 0)
+		{
+			data_.mobileRobotIndex_.push_back(int(r));
+		}
 	}
 	data_.totalAlphaD_ = cumAlphaD;
 

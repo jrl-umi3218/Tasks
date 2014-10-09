@@ -40,6 +40,7 @@ SolverData::SolverData():
 	uniCont_(),
 	biCont_(),
 	allCont_(),
+	mobileRobotIndex_(),
 	normalAccB_()
 {}
 
@@ -47,7 +48,8 @@ SolverData::SolverData():
 void SolverData::computeNormalAccB(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
-	for(std::size_t r = 0; r < mbs.size(); ++r)
+	// we just need to update mobile robot normal acceleration
+	for(int r: mobileRobotIndex_)
 	{
 		const rbd::MultiBody& mb = mbs[r];
 		const rbd::MultiBodyConfig& mbc = mbcs[r];
