@@ -402,7 +402,7 @@ private:
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd bInEq_;
 
-	std::vector<Eigen::MatrixXd> fullJac_;
+	Eigen::MatrixXd fullJac_, distJac_;
 
 	int nrVars_;
 };

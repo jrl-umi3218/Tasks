@@ -40,6 +40,12 @@ namespace qp
 {
 
 
+static inline bool compareDof(const rbd::MultiBody& mb1, const rbd::MultiBody& mb2)
+{
+	return mb1.nrDof() < mb2.nrDof();
+}
+
+
 /**
 	*															ContactCommon
 	*/
@@ -776,12 +782,12 @@ CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double 
 	nrActivated_(0),
 	AInEq_(),
 	bInEq_(),
-	fullJac_(mbs.size())
+	fullJac_(),
+	distJac_()
 {
-	for(std::size_t i = 0; i < mbs.size(); ++i)
-	{
-		fullJac_[i].resize(3, mbs[i].nrDof());
-	}
+	int maxDof = std::max_element(mbs.begin(), mbs.end(), compareDof)->nrDof();
+	fullJac_.resize(1, maxDof);
+	distJac_.resize(1, maxDof);
 }
 
 
@@ -924,16 +930,17 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 				Eigen::Vector3d pNormalAcc = bcd.jac.normalAcceleration(
 					mb, mbc, data.normalAccB(bcd.rIndex)).linear();
 
-				bcd.jac.fullJacobian(mb, jac.block(3, 0, 3, jac.cols()),
-					fullJac_[bcd.rIndex]);
+				distJac_.block(0, 0, 1, bcd.jac.dof()).noalias() =
+					(nf*step_*sign).transpose()*jac.block(3, 0, 3, bcd.jac.dof());
+
+				bcd.jac.fullJacobian(mb, distJac_.block(0, 0, 1, bcd.jac.dof()), fullJac_);
 
 				double jqdn = pSpeed.dot(nf);
 				double jqdnd = pSpeed.dot(dnf*step_);
 				double jdqdn = pNormalAcc.dot(nf*step_);
 
 				AInEq_.block(nrActivated_, data.alphaDBegin(bcd.rIndex),
-					1, mb.nrDof()).noalias() -=
-						(nf*step_*sign).transpose()*fullJac_[bcd.rIndex];
+					1, mb.nrDof()).noalias() -= fullJac_.block(0, 0, 1, mb.nrDof());
 				bInEq_(nrActivated_) += sign*(jqdn + jqdnd + jdqdn);
 				// little hack
 				// the max iteration number is two, so at the second iteration
