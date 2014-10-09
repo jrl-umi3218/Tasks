@@ -117,15 +117,15 @@ protected:
 		int bodyIndex, lambdaBegin;
 		rbd::Jacobian jac;
 		std::vector<Eigen::Vector3d> points;
-		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > generators;
-		// Hold the translated jacobian
-		Eigen::MatrixXd jacTrans;
+		// BEWARE generator are minus to avoid one multiplication by -1 in the
+		// update method
+		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > minusGenerators;
 	};
 
 protected:
 	int robotIndex_, alphaDBegin_, nrDof_, lambdaBegin_;
 	rbd::ForwardDynamics fd_;
-	Eigen::MatrixXd fullJac_;
+	Eigen::MatrixXd fullJacLambda_, jacTrans_, jacLambda_;
 	std::vector<ContactData> cont_;
 
 	Eigen::VectorXd curTorque_;

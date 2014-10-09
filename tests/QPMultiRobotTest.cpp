@@ -299,8 +299,8 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 		BOOST_CHECK_SMALL((X_b1_b2.matrix() - X_b1_b2_post.matrix()).norm(), 1e-5);
 
 		// force in world frame must be the same
-		auto f1 = X_0_b1.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r1Cone);
-		auto f2 = X_0_b2.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r2Cone);
+		auto f1 = contVec[0].force(solver.lambdaVec(0), contVec[0].r1Cone);
+		auto f2 = contVec[0].force(solver.lambdaVec(0), contVec[0].r2Cone);
 		BOOST_CHECK_SMALL((f1 + f2).norm(), 1e-5);
 	}
 
@@ -330,8 +330,8 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 		BOOST_CHECK_SMALL((X_b1_b2.matrix() - X_b1_b2_post.matrix()).norm(), 1e-5);
 
 		// force in world frame must be the same
-		auto f1 = X_0_b1.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r1Cone);
-		auto f2 = X_0_b2.rotation().transpose()*contVec[0].force(solver.lambdaVec(0), contVec[0].r2Cone);
+		auto f1 = contVec[0].force(solver.lambdaVec(0), contVec[0].r1Cone);
+		auto f2 = contVec[0].force(solver.lambdaVec(0), contVec[0].r2Cone);
 		BOOST_CHECK_SMALL((f1 + f2).norm(), 1e-5);
 	}
 

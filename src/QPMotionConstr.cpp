@@ -132,16 +132,15 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb,
 	lambdaBegin(lB),
 	jac(mb, bId),
 	points(std::move(pts)),
-	generators(cones.size()),
-	jacTrans(6, jac.dof())
+	minusGenerators(cones.size())
 {
 	bodyIndex = jac.jointsPath().back();
 	for(std::size_t i = 0; i < cones.size(); ++i)
 	{
-		generators[i].resize(3, cones[i].generators.size());
+		minusGenerators[i].resize(3, cones[i].generators.size());
 		for(std::size_t j = 0; j < cones[i].generators.size(); ++j)
 		{
-			generators[i].col(j) = cones[i].generators[j];
+			minusGenerators[i].col(j) = -cones[i].generators[j];
 		}
 	}
 }
@@ -154,7 +153,9 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs,
 	nrDof_(mbs[robotIndex_].nrDof()),
 	lambdaBegin_(-1),
 	fd_(mbs[robotIndex_]),
-	fullJac_(6, nrDof_),
+	fullJacLambda_(),
+	jacTrans_(6, nrDof_),
+	jacLambda_(),
 	cont_(),
 	curTorque_(nrDof_),
 	A_(),
@@ -223,7 +224,11 @@ void MotionConstrCommon::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		}
 	}
 
+	/// @todo don't use nrDof and totalLamdba but max dof of a jacobian
+	/// and max lambda of a contact.
 	A_.setZero(nrDof_, data.nrVars());
+	jacLambda_.resize(data.totalLambda(), nrDof_);
+	fullJacLambda_.resize(data.totalLambda(), nrDof_);
 }
 
 
@@ -251,17 +256,23 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 		int lambdaOffset = 0;
 		for(std::size_t j = 0; j < cd.points.size(); ++j)
 		{
-			/// @todo don't translate the 6 rows
-			/// @todo don't full the 6 rows
-			/// @todo apply generator on the not full jac
-			cd.jac.translateBodyJacobian(jac, mbc, cd.points[j], cd.jacTrans);
-			cd.jac.fullJacobian(mb, cd.jacTrans, fullJac_);
+			int nrLambda = int(cd.minusGenerators[j].cols());
+			// we translate the jacobian to the contact point
+			// then we compute the jacobian against lambda J_l = J^T C
+			// to apply fullJacobian on it we must have robot dof on the column so
+			// J_l^T = (J^T C)^T = C^T J
+			cd.jac.translateBodyJacobian(jac, mbc, cd.points[j], jacTrans_);
+			jacLambda_.block(0, 0, nrLambda, cd.jac.dof()).noalias() =
+				(cd.minusGenerators[j].transpose()*jacTrans_.block(3, 0, 3, cd.jac.dof()));
+
+			cd.jac.fullJacobian(mb,
+				jacLambda_.block(0, 0, nrLambda, cd.jac.dof()),
+				fullJacLambda_);
 
 			A_.block(0, cd.lambdaBegin + lambdaOffset,
-				nrDof_, cd.generators[j].cols()).noalias() =
-					-fullJac_.block(3, 0, 3, fullJac_.cols()).transpose()*
-						cd.generators[j];
-			lambdaOffset += int(cd.generators[j].cols());
+				nrDof_, nrLambda).noalias() =
+					fullJacLambda_.block(0, 0, nrLambda, nrDof_).transpose();
+			lambdaOffset += nrLambda;
 		}
 	}
 
