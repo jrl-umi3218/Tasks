@@ -219,12 +219,12 @@ private:
 private:
 	std::vector<ContactData> cont_;
 
-	std::vector<Eigen::MatrixXd> fullJac_;
+	Eigen::MatrixXd fullJac_, dofJac_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd b_;
 
-	int nrEq_;
+	int nrEq_, totalAlphaD_;
 	double timeStep_;
 };
 
@@ -397,7 +397,7 @@ private:
 private:
 	std::vector<CollData> dataVec_;
 	double step_;
-	int nrActivated_;
+	int nrActivated_, totalAlphaD_;
 
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd bInEq_;

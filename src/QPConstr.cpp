@@ -301,9 +301,11 @@ void ContactAccConstr::updateNrEq()
 ContactSpeedConstr::ContactSpeedConstr(double timeStep):
 	cont_(),
 	fullJac_(),
+	dofJac_(),
 	A_(),
 	b_(),
 	nrEq_(0),
+	totalAlphaD_(0),
 	timeStep_(timeStep)
 {}
 
@@ -330,12 +332,11 @@ void ContactSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 	const SolverData& data)
 {
 	cont_.clear();
-	fullJac_.resize(mbs.size());
+	totalAlphaD_ = data.totalAlphaD();
 
-	for(std::size_t i = 0; i < mbs.size(); ++i)
-	{
-		fullJac_[i].resize(6, mbs[i].nrDof());
-	}
+	int maxDof = std::max_element(mbs.begin(), mbs.end(), compareDof)->nrDof();
+	fullJac_.resize(6, maxDof);
+	dofJac_.resize(6, maxDof);
 
 	std::set<ContactCommon> contactCSet = contactCommonInContact(mbs, data);
 	for(const ContactCommon& cC: contactCSet)
@@ -374,8 +375,8 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 {
 	using namespace Eigen;
 
-	A_.setZero();
-	b_.setZero();
+	A_.block(0, 0, nrEq_, totalAlphaD_).setZero();
+	b_.head(nrEq_).setZero();
 	// J_i*alphaD + JD_i*alpha = 0
 
 	int index = 0;
@@ -389,15 +390,16 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			ContactSideData& csd = cd.contacts[j];
 			const rbd::MultiBody& mb = mbs[csd.robotIndex];
 			const rbd::MultiBodyConfig& mbc = mbcs[csd.robotIndex];
-			Eigen::MatrixXd& fullJac = fullJac_[csd.robotIndex];
 
 			// AEq = J_i
 			sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.bodyIndex];
 			const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
-			csd.jac.fullJacobian(mb, jacMat, fullJac);
-			/// TODO don't apply dof on full jac
+			dofJac_.block(0, 0, rows, csd.jac.dof()).noalias() =
+				csd.sign*cd.dof*jacMat;
+			csd.jac.fullJacobian(mb, dofJac_.block(0, 0, rows, csd.jac.dof()),
+				fullJac_);
 			A_.block(index, csd.alphaDBegin, rows, mb.nrDof()).noalias() +=
-				csd.sign*cd.dof*fullJac;
+					fullJac_.block(0, 0, rows, mb.nrDof());
 
 			// BEq = -JD_i*alpha
 			Vector6d normalAcc = csd.jac.normalAcceleration(
@@ -780,6 +782,7 @@ CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double 
 	dataVec_(),
 	step_(step),
 	nrActivated_(0),
+	totalAlphaD_(-1),
 	AInEq_(),
 	bInEq_(),
 	fullJac_(),
@@ -856,6 +859,7 @@ void CollisionConstr::updateNrCollisions()
 void CollisionConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mb */,
 	const SolverData& data)
 {
+	totalAlphaD_ = data.totalAlphaD();
 	nrVars_ = data.nrVars();
 	updateNrCollisions();
 }
@@ -917,7 +921,7 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 			double sign = 1.;
 			bInEq_(nrActivated_) = dampers;
-			AInEq_.row(nrActivated_).setZero();
+			AInEq_.block(nrActivated_, 0, 1, totalAlphaD_).setZero();
 			for(std::size_t i = 0; i < d.bodies.size(); ++i)
 			{
 				BodyCollData& bcd = d.bodies[i];
