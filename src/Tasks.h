@@ -171,6 +171,48 @@ private:
 
 
 
+class MultiCoMTask
+{
+public:
+	MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
+		std::vector<int> robotIndexes, const Eigen::Vector3d& com);
+
+	Eigen::Vector3d computeMultiCoM(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs) const;
+	Eigen::Vector3d computeMultiCoM(const std::vector<Eigen::Vector3d>& coms) const;
+
+	const std::vector<int>& robotIndexes() const;
+
+	void com(const Eigen::Vector3d& com);
+	const Eigen::Vector3d com() const;
+
+	void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs);
+	void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const std::vector<Eigen::Vector3d>& coms,
+		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac(int index) const;
+
+private:
+	Eigen::Vector3d com_;
+	std::vector<int> robotIndexes_;
+	std::vector<double> robotsWeight_;
+	std::vector<rbd::CoMJacobian> jac_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	std::vector<Eigen::MatrixXd> jacMat_;
+};
+
+
+
 class MomentumTask
 {
 public:
