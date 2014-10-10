@@ -254,6 +254,7 @@ def build_qp(tasks):
                       'tasks::qp::JointStiffness', 'vector')
   tasks.add_container('std::vector<tasks::qp::SpringJoint>',
                       'tasks::qp::SpringJoint', 'vector')
+  tasks.add_container('std::vector<sva::MotionVecd>', 'sva::MotionVecd', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
   tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
   tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
@@ -320,6 +321,40 @@ def build_qp(tasks):
                  [param('const tasks::qp::ContactId&', 'contactId')], is_const=True)
   sol.add_method('data', retval('tasks::qp::SolverData'), [], is_const=True)
 
+  # SolverData
+  solData.add_method('nrVars', retval('int'), [], is_const=True)
+  solData.add_method('totalAlphaD', retval('int'), [], is_const=True)
+  solData.add_method('totalLambda', retval('int'), [], is_const=True)
+  solData.add_method('alphaD', retval('int'), [param('int','robotIndex')],
+                     is_const=True)
+  solData.add_method('lambda', retval('int'), [param('int','contactIndex')],
+                     is_const=True)
+  solData.add_method('alphaDBegin', retval('int'), [], is_const=True)
+  solData.add_method('alphaDBegin', retval('int'), [param('int','robotIndex')],
+                     is_const=True)
+  solData.add_method('lambdaBegin', retval('int'), [], is_const=True)
+  solData.add_method('lambdaBegin', retval('int'), [param('int','contactIndex')],
+                     is_const=True)
+  solData.add_method('nrUniLambda', retval('int'), [], is_const=True)
+  solData.add_method('nrBiLambda', retval('int'), [], is_const=True)
+  solData.add_method('unilateralBegin', retval('int'), [], is_const=True)
+  solData.add_method('bilateralBegin', retval('int'), [], is_const=True)
+  solData.add_method('nrContacts', retval('int'), [], is_const=True)
+  solData.add_method('unilateralContacts',
+                     retval('std::vector<tasks::qp::UnilateralContact>'),
+                     [], is_const=True)
+  solData.add_method('bilateralContacts',
+                     retval('std::vector<tasks::qp::BilateralContact>'),
+                     [], is_const=True)
+  solData.add_method('allContacts',
+                     retval('std::vector<tasks::qp::BilateralContact>'),
+                     [], is_const=True)
+  solData.add_method('computeNormalAccB', None,
+                     [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                      param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs')])
+  solData.add_method('normalAccB',
+                     retval('std::vector<sva::MotionVecd>'),
+                     [param('int', 'robotIndex')], is_const=True)
 
   # FrictionCone
   frictionCone.add_constructor([])
