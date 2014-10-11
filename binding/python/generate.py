@@ -55,7 +55,8 @@ def import_eigen3_types(mod):
 
 
 
-def build_tasks(posTask, oriTask, positionTask, comTask, momTask, linVelTask, oriTrackTask):
+def build_tasks(posTask, oriTask, positionTask, comTask,
+                multiCoMTask, momTask, linVelTask, oriTrackTask):
   def add_std_func(cls):
     cls.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -119,6 +120,29 @@ def build_tasks(posTask, oriTask, positionTask, comTask, momTask, linVelTask, or
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
                      is_const=True)
   add_std_func(comTask)
+
+  # MultiCoMTask
+  multiCoMTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('std::vector<int>', 'robotIndexes'),
+                                param('const Eigen::Vector3d&', 'com')])
+
+  multiCoMTask.add_method('robotIndexes', retval('std::vector<int>'), [],
+                          is_const=True)
+  multiCoMTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
+  multiCoMTask.add_method('com', retval('const Eigen::Vector3d&'), [],
+                          is_const=True)
+  multiCoMTask.add_method('update', None,
+                          [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs')])
+
+  multiCoMTask.add_method('eval', retval('const Eigen::VectorXd&'), [],
+                          is_const=True)
+  multiCoMTask.add_method('speed', retval('const Eigen::VectorXd&'), [],
+                          is_const=True)
+  multiCoMTask.add_method('normalAcc', retval('const Eigen::VectorXd&'), [],
+                          is_const=True)
+  multiCoMTask.add_method('jac', retval('const Eigen::MatrixXd&'),
+                          [param('int', 'index')], is_const=True)
 
   # MomentumTask
   momTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
@@ -194,6 +218,7 @@ def build_qp(tasks):
   oriTask = qp.add_class('OrientationTask', parent=hlTask)
   postureTask = qp.add_class('PostureTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
+  multiCoMTask = qp.add_class('MultiCoMTask', parent=task)
   momTask = qp.add_class('MomentumTask', parent=hlTask)
   contactTask = qp.add_class('ContactTask', parent=task)
   gripperTorqueTask = qp.add_class('GripperTorqueTask', parent=task)
@@ -231,7 +256,7 @@ def build_qp(tasks):
   boundConstrName = ['PositiveLambda', 'JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['SetPointTask', 'PIDTask', 'TargetObjectiveTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
-              'tasks::qp::GripperTorqueTask']
+              'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
                 'OrientationTrackingTask', 'MomentumTask']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
@@ -240,10 +265,6 @@ def build_qp(tasks):
                 comIncPlaneConstr, positiveLambdaConstr]
 
   # build list type
-  tasks.add_container('std::vector<rbd::MultiBody>',
-                      'rbd::MultiBody', 'vector')
-  tasks.add_container('std::vector<rbd::MultiBodyConfig>',
-                      'rbd::MultiBodyConfig', 'vector')
   tasks.add_container('std::vector<tasks::qp::FrictionCone>',
                       'tasks::qp::FrictionCone', 'vector')
   tasks.add_container('std::vector<tasks::qp::UnilateralContact>',
@@ -760,6 +781,29 @@ def build_qp(tasks):
   comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
                      is_const=True)
+
+  # MultiCoMTask
+  multiCoMTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('std::vector<int>', 'robotIndexex'),
+                                param('const Eigen::Vector3d&', 'com'),
+                                param('double', 'stiffness'),
+                                param('double', 'weight')])
+
+  multiCoMTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
+  multiCoMTask.add_method('com', retval('const Eigen::Vector3d&'), [],
+                          is_const=True)
+  multiCoMTask.add_method('stiffness', None, [param('double', 'stiffness')])
+  multiCoMTask.add_method('stiffness', retval('double'), [],
+                          is_const=True)
+  multiCoMTask.add_method('eval', retval('Eigen::VectorXd'), [],
+                          is_const=True)
+  multiCoMTask.add_method('speed', retval('Eigen::VectorXd'), [],
+                          is_const=True)
+  multiCoMTask.add_method('update', None,
+                          [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                           param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
+                           param('const tasks::qp::SolverData&', 'data')])
+
   # MomentumTask
   momTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('int', 'robotIndex'),
@@ -1005,6 +1049,7 @@ if __name__ == '__main__':
   oriTask = tasks.add_class('OrientationTask')
   postureTask = tasks.add_class('PostureTask')
   comTask = tasks.add_class('CoMTask')
+  multiCoMTask = tasks.add_class('MultiCoMTask')
   momTask = tasks.add_class('MomentumTask')
   linVelTask = tasks.add_class('LinVelocityTask')
   oriTrackTask = tasks.add_class('OrientationTrackingTask')
@@ -1013,8 +1058,13 @@ if __name__ == '__main__':
   tasks.add_container('std::vector<int>', 'int', 'vector')
   tasks.add_container('std::vector<double>', 'double', 'vector')
   tasks.add_container('std::vector<std::vector<double> >', 'std::vector<double>', 'vector')
+  tasks.add_container('std::vector<rbd::MultiBody>',
+                      'rbd::MultiBody', 'vector')
+  tasks.add_container('std::vector<rbd::MultiBodyConfig>',
+                      'rbd::MultiBodyConfig', 'vector')
 
-  build_tasks(posTask, oriTask, postureTask, comTask, momTask, linVelTask, oriTrackTask)
+  build_tasks(posTask, oriTask, postureTask, comTask, multiCoMTask,
+              momTask, linVelTask, oriTrackTask)
 
   # qp
   build_qp(tasks)

@@ -477,9 +477,6 @@ public:
 		return mct_;
 	}
 
-	void computeMultCoM(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<rbd::MultiBodyConfig>& mbcs) const;
-
 	void com(const Eigen::Vector3d& com)
 	{
 		mct_.com(com);
