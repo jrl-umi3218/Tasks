@@ -132,6 +132,11 @@ public:
 	void computeNormalAccB(const std::vector<rbd::MultiBody>& mbs,
 												const std::vector<rbd::MultiBodyConfig>& mbcs);
 
+	const std::vector<std::vector<sva::MotionVecd>>& normalAccB() const
+	{
+		return normalAccB_;
+	}
+
 	const std::vector<sva::MotionVecd>& normalAccB(int robotIndex) const
 	{
 		return normalAccB_[robotIndex];

@@ -465,6 +465,60 @@ private:
 };
 
 
+class MultiCoMTask : public Task
+{
+public:
+	MultiCoMTask(const std::vector<rbd::MultiBody>& mb,
+		std::vector<int> robotIndexes, const Eigen::Vector3d& com,
+		double stiffness, double weight);
+
+	tasks::MultiCoMTask& task()
+	{
+		return mct_;
+	}
+
+	virtual std::pair<int, int> begin() const
+	{
+		return {alphaDBegin_, alphaDBegin_};
+	}
+
+	void com(const Eigen::Vector3d& com)
+	{
+		mct_.com(com);
+	}
+
+	const Eigen::Vector3d com() const
+	{
+		return mct_.com();
+	}
+
+	double stiffness() const
+	{
+		return stiffness_;
+	}
+
+	void stiffness(double stiffness);
+
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	int alphaDBegin_;
+	double stiffness_, stiffnessSqrt_;
+	std::vector<int> posInQ_;
+	tasks::MultiCoMTask mct_;
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	Eigen::VectorXd CSum_;
+};
+
+
 class MomentumTask : public HighLevelTask
 {
 public:

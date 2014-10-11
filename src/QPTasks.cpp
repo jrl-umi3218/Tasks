@@ -694,6 +694,95 @@ const Eigen::VectorXd& CoMTask::normalAcc()
 
 
 /**
+	*													MultiCoMTask
+	*/
+
+
+MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
+	std::vector<int> rI, const Eigen::Vector3d& com, double stiffness,
+	double weight):
+	Task(weight),
+	alphaDBegin_(-1),
+	stiffness_(stiffness),
+	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	posInQ_(rI.size()),
+	mct_(mbs, std::move(rI), com),
+	Q_(),
+	C_(),
+	CSum_()
+{
+	auto maxDofRobot =
+		std::max_element(mct_.robotIndexes().begin(), mct_.robotIndexes().end(),
+			[&mbs](int i1, int i2)
+		{return mbs[i1].nrDof() < mbs[i2].nrDof();}
+	);
+	CSum_.resize(mbs[*maxDofRobot].nrDof());
+}
+
+
+void MultiCoMTask::stiffness(double stiffness)
+{
+	stiffness_ = stiffness;
+	stiffnessSqrt_ = 2.*std::sqrt(stiffness);
+}
+
+
+void MultiCoMTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+	const SolverData& data)
+{
+	auto minMaxIndex =
+		std::minmax_element(mct_.robotIndexes().begin(), mct_.robotIndexes().end());
+	alphaDBegin_ = data.alphaDBegin(*(minMaxIndex.first));
+	int lastBegin = data.alphaDBegin(*(minMaxIndex.second));
+	int lastAlphaD = data.alphaD(*(minMaxIndex.second));
+	int size = lastBegin + lastAlphaD - alphaDBegin_;
+
+	Q_.resize(size, size);
+	C_.resize(size);
+
+	posInQ_.clear();
+	for(int r: mct_.robotIndexes())
+	{
+		posInQ_.push_back(data.alphaDBegin(r) - alphaDBegin_);
+	}
+}
+
+
+void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	mct_.update(mbs, mbcs, data.normalAccB());
+	for(int i = 0; i < int(posInQ_.size()); ++i)
+	{
+		int r = mct_.robotIndexes()[i];
+		int begin = posInQ_[i];
+		int dof = data.alphaD(r);
+
+		const Eigen::MatrixXd& J = mct_.jac(i);
+		Q_.block(begin, begin, dof, dof).noalias() = J.transpose()*J;
+		CSum_.head(dof) = stiffness_*mct_.eval(i);
+		CSum_.head(dof) -= stiffnessSqrt_*mct_.speed(i);
+		CSum_.head(dof) -= mct_.normalAcc(i);
+		C_.segment(begin, dof) = -J.transpose()*CSum_.head(dof);
+	}
+}
+
+
+const Eigen::MatrixXd& MultiCoMTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& MultiCoMTask::C() const
+{
+	return C_;
+}
+
+
+
+/**
 	*													MomentumTask
 	*/
 

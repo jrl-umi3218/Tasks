@@ -444,9 +444,9 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
 	robotIndexes_(std::move(robotIndexes)),
 	robotsWeight_(),
 	jac_(robotIndexes_.size()),
-	eval_(3),
-	speed_(3),
-	normalAcc_(3),
+	eval_(robotIndexes_.size()),
+	speed_(robotIndexes_.size()),
+	normalAcc_(robotIndexes_.size()),
 	jacMat_(robotIndexes_.size())
 {
 	double totalMass = 0.;
@@ -469,6 +469,9 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
 		double weight = robotsWeight_[i]/totalMass;
 		jac_[i] = rbd::CoMJacobian(mb, std::vector<double>(mb.nrBodies(), weight));
 		robotsWeight_[i] = weight;
+		eval_[i].resize(3);
+		speed_[i].resize(3);
+		normalAcc_[i].resize(3);
 		jacMat_[i].resize(3, mb.nrDof());
 	}
 }
@@ -486,33 +489,6 @@ const Eigen::Vector3d MultiCoMTask::com() const
 }
 
 
-Eigen::Vector3d
-MultiCoMTask::computeMultiCoM(const std::vector<rbd::MultiBody>& mbs,
-	const std::vector<rbd::MultiBodyConfig>& mbcs) const
-{
-	Eigen::Vector3d com(Eigen::Vector3d::Zero());
-	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
-	{
-		int r = robotIndexes_[i];
-		com += rbd::computeCoM(mbs[r], mbcs[r])*robotsWeight_[i];
-	}
-	return com;
-}
-
-
-Eigen::Vector3d
-MultiCoMTask::computeMultiCoM(const std::vector<Eigen::Vector3d>& coms) const
-{
-	Eigen::Vector3d com(Eigen::Vector3d::Zero());
-	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
-	{
-		int r = robotIndexes_[i];
-		com += coms[r]*robotsWeight_[i];
-	}
-	return com;
-}
-
-
 const std::vector<int>& MultiCoMTask::robotIndexes() const
 {
 	return robotIndexes_;
@@ -522,18 +498,33 @@ const std::vector<int>& MultiCoMTask::robotIndexes() const
 void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
-	eval_ = com_ - computeMultiCoM(mbs, mbcs);
-
-	speed_.setZero();
-	normalAcc_.setZero();
 	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
 	{
 		int r = robotIndexes_[i];
 		const rbd::MultiBody& mb = mbs[r];
 		const rbd::MultiBodyConfig& mbc = mbcs[r];
 
-		speed_ += jac_[i].velocity(mb, mbc);
-		normalAcc_ += jac_[i].normalAcceleration(mb, mbc);
+		eval_[i] = com_ - rbd::computeCoM(mbs[r], mbcs[r])*robotsWeight_[i];
+		speed_[i] = jac_[i].velocity(mb, mbc);
+		normalAcc_[i] = jac_[i].normalAcceleration(mb, mbc);
+		jacMat_[i] = jac_[i].jacobian(mb, mbc);
+	}
+}
+
+
+void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const std::vector<std::vector<sva::MotionVecd>>& normalAccB)
+{
+	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
+	{
+		int r = robotIndexes_[i];
+		const rbd::MultiBody& mb = mbs[r];
+		const rbd::MultiBodyConfig& mbc = mbcs[r];
+
+		eval_[i] = com_ - rbd::computeCoM(mb, mbc)*robotsWeight_[i];
+		speed_[i] = jac_[i].velocity(mb, mbc);
+		normalAcc_[i] = jac_[i].normalAcceleration(mb, mbc, normalAccB[r]);
 		jacMat_[i] = jac_[i].jacobian(mb, mbc);
 	}
 }
@@ -544,38 +535,35 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<Eigen::Vector3d>& coms,
 	const std::vector<std::vector<sva::MotionVecd>>& normalAccB)
 {
-	eval_ = com_ - computeMultiCoM(coms);
-
-	speed_.setZero();
-	normalAcc_.setZero();
 	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
 	{
 		int r = robotIndexes_[i];
 		const rbd::MultiBody& mb = mbs[r];
 		const rbd::MultiBodyConfig& mbc = mbcs[r];
 
-		speed_ += jac_[i].velocity(mb, mbc);
-		normalAcc_ += jac_[i].normalAcceleration(mb, mbc, normalAccB[r]);
+		eval_[i] = com_ - coms[r];
+		speed_[i] = jac_[i].velocity(mb, mbc);
+		normalAcc_[i] = jac_[i].normalAcceleration(mb, mbc, normalAccB[r]);
 		jacMat_[i] = jac_[i].jacobian(mb, mbc);
 	}
 }
 
 
-const Eigen::VectorXd& MultiCoMTask::eval() const
+const Eigen::VectorXd& MultiCoMTask::eval(int index) const
 {
-	return eval_;
+	return eval_[index];
 }
 
 
-const Eigen::VectorXd& MultiCoMTask::speed() const
+const Eigen::VectorXd& MultiCoMTask::speed(int index) const
 {
-	return speed_;
+	return speed_[index];
 }
 
 
-const Eigen::VectorXd& MultiCoMTask::normalAcc() const
+const Eigen::VectorXd& MultiCoMTask::normalAcc(int index) const
 {
-	return normalAcc_;
+	return normalAcc_[index];
 }
 
 
