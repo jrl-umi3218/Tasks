@@ -343,3 +343,90 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 	solver.removeTask(&posture1Task);
 	solver.removeTask(&posture2Task);
 }
+
+
+// Test the MultiCoMTask.
+// We try to move the CoM of two arm at a specific position.
+BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb1, mb2;
+	MultiBodyConfig mbc1Init, mbc2Init;
+
+	std::tie(mb1, mbc1Init) = makeZXZArm(true,
+		sva::PTransformd(Vector3d(-0.5, 0., 0.)));
+	forwardKinematics(mb1, mbc1Init);
+	forwardVelocity(mb1, mbc1Init);
+
+	std::tie(mb2, mbc2Init) = makeZXZArm(true,
+		sva::PTransformd(Vector3d(0.5, 0., 0.)));
+	forwardKinematics(mb2, mbc2Init);
+	forwardVelocity(mb2, mbc2Init);
+
+	sva::PTransformd X_0_b1(mbc1Init.bodyPosW.back());
+	sva::PTransformd X_0_b2(mbc2Init.bodyPosW.back());
+	sva::PTransformd X_b1_b2(X_0_b2*X_0_b1.inv());
+
+	std::vector<MultiBody> mbs = {mb1, mb2};
+	std::vector<MultiBodyConfig> mbcs = {mbc1Init, mbc2Init};
+
+	// Test ContactAccConstr constraint
+	// Also test PositionTask on the second robot
+
+	qp::QPSolver solver;
+
+	const int nrGen = 3;
+	// The fixed robot can push the other
+	std::vector<qp::UnilateralContact> contVec =
+		{qp::UnilateralContact({0, 1, 3, 3},
+		 {Vector3d(0.,0.,0.)}, RotX(cst::pi<double>()/2.), X_b1_b2,
+			nrGen, 0.7)};
+
+	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 2., 1.);
+	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 2., 1.);
+	Vector3d comD(
+		(rbd::computeCoM(mb1, mbc1Init) + rbd::computeCoM(mb2, mbc2Init))/2.
+		 + Vector3d(0., 0., 0.5));
+	qp::MultiCoMTask multiCoM(mbs, {0,1}, comD, 10., 500.);
+
+	qp::ContactSpeedConstr contCstrSpeed(0.001);
+
+	contCstrSpeed.addToSolver(solver);
+	solver.addTask(&posture1Task);
+	solver.addTask(&posture2Task);
+	solver.addTask(&multiCoM);
+
+	solver.nrVars(mbs, contVec, {});
+	solver.updateConstrSize();
+	// 3 dof + 3 dof + 1*nrGen lambda
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 3 + 1*nrGen);
+
+	for(int i = 0; i < 2000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		for(std::size_t r = 0; r < mbs.size(); ++r)
+		{
+			eulerIntegration(mbs[r], mbcs[r], 0.001);
+
+			forwardKinematics(mbs[r], mbcs[r]);
+			forwardVelocity(mbs[r], mbcs[r]);
+		}
+		// check that the link hold
+		sva::PTransformd X_0_b1_post(mbcs[0].bodyPosW.back());
+		sva::PTransformd X_0_b2_post(mbcs[1].bodyPosW.back());
+		sva::PTransformd X_b1_b2_post(X_0_b2*X_0_b1.inv());
+		BOOST_CHECK_SMALL((X_b1_b2.matrix() - X_b1_b2_post.matrix()).norm(), 1e-5);
+	}
+	BOOST_CHECK_SMALL(multiCoM.speed().norm(), 1e-3);
+
+	contCstrSpeed.removeFromSolver(solver);
+
+	solver.removeTask(&posture1Task);
+	solver.removeTask(&posture2Task);
+	solver.removeTask(&multiCoM);
+}

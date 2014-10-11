@@ -192,9 +192,9 @@ public:
 		const std::vector<Eigen::Vector3d>& coms,
 		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
 
-	const Eigen::VectorXd& eval(int index) const;
-	const Eigen::VectorXd& speed(int index) const;
-	const Eigen::VectorXd& normalAcc(int index) const;
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
 
 	const Eigen::MatrixXd& jac(int index) const;
 
@@ -210,9 +210,9 @@ private:
 	std::vector<double> robotsWeight_;
 	std::vector<rbd::CoMJacobian> jac_;
 
-	std::vector<Eigen::VectorXd> eval_;
-	std::vector<Eigen::VectorXd> speed_;
-	std::vector<Eigen::VectorXd> normalAcc_;
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
 	std::vector<Eigen::MatrixXd> jacMat_;
 };
 

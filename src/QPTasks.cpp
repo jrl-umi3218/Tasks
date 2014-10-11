@@ -710,14 +710,7 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
 	Q_(),
 	C_(),
 	CSum_()
-{
-	auto maxDofRobot =
-		std::max_element(mct_.robotIndexes().begin(), mct_.robotIndexes().end(),
-			[&mbs](int i1, int i2)
-		{return mbs[i1].nrDof() < mbs[i2].nrDof();}
-	);
-	CSum_.resize(mbs[*maxDofRobot].nrDof());
-}
+{ }
 
 
 void MultiCoMTask::stiffness(double stiffness)
@@ -737,8 +730,8 @@ void MultiCoMTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	int lastAlphaD = data.alphaD(*(minMaxIndex.second));
 	int size = lastBegin + lastAlphaD - alphaDBegin_;
 
-	Q_.resize(size, size);
-	C_.resize(size);
+	Q_.setZero(size, size);
+	C_.setZero(size);
 
 	posInQ_.clear();
 	for(int r: mct_.robotIndexes())
@@ -753,6 +746,9 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const SolverData& data)
 {
 	mct_.update(mbs, mbcs, data.normalAccB());
+	CSum_ = stiffness_*mct_.eval();
+	CSum_ -= stiffnessSqrt_*mct_.speed();
+	CSum_ -= mct_.normalAcc();
 	for(int i = 0; i < int(posInQ_.size()); ++i)
 	{
 		int r = mct_.robotIndexes()[i];
@@ -761,10 +757,7 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 
 		const Eigen::MatrixXd& J = mct_.jac(i);
 		Q_.block(begin, begin, dof, dof).noalias() = J.transpose()*J;
-		CSum_.head(dof) = stiffness_*mct_.eval(i);
-		CSum_.head(dof) -= stiffnessSqrt_*mct_.speed(i);
-		CSum_.head(dof) -= mct_.normalAcc(i);
-		C_.segment(begin, dof) = -J.transpose()*CSum_.head(dof);
+		C_.segment(begin, dof) = -J.transpose()*CSum_;
 	}
 }
 
@@ -780,6 +773,17 @@ const Eigen::VectorXd& MultiCoMTask::C() const
 	return C_;
 }
 
+
+const Eigen::VectorXd& MultiCoMTask::eval() const
+{
+	return mct_.eval();
+}
+
+
+const Eigen::VectorXd& MultiCoMTask::speed() const
+{
+	return mct_.speed();
+}
 
 
 /**

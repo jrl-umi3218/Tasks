@@ -477,10 +477,8 @@ public:
 		return mct_;
 	}
 
-	virtual std::pair<int, int> begin() const
-	{
-		return {alphaDBegin_, alphaDBegin_};
-	}
+	void computeMultCoM(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs) const;
 
 	void com(const Eigen::Vector3d& com)
 	{
@@ -499,6 +497,11 @@ public:
 
 	void stiffness(double stiffness);
 
+	virtual std::pair<int, int> begin() const
+	{
+		return {alphaDBegin_, alphaDBegin_};
+	}
+
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const SolverData& data);
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -508,6 +511,9 @@ public:
 	virtual const Eigen::MatrixXd& Q() const;
 	virtual const Eigen::VectorXd& C() const;
 
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+
 private:
 	int alphaDBegin_;
 	double stiffness_, stiffnessSqrt_;
@@ -515,7 +521,7 @@ private:
 	tasks::MultiCoMTask mct_;
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-	Eigen::VectorXd CSum_;
+	Eigen::Vector3d CSum_;
 };
 
 
