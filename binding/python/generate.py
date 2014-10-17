@@ -235,6 +235,7 @@ def build_qp(tasks):
   contactConstrCommon = qp.add_class('ContactConstrCommon')
   contactAccConstr = qp.add_class('ContactAccConstr', parent=[eqConstr, constr, contactConstrCommon])
   contactSpeedConstr = qp.add_class('ContactSpeedConstr', parent=[eqConstr, contactConstrCommon])
+  contactPosConstr = qp.add_class('ContactPosConstr', parent=[eqConstr, contactConstrCommon])
 
   collisionConstr = qp.add_class('CollisionConstr', parent=[ineqConstr, constr])
   comIncPlaneConstr = qp.add_class('CoMIncPlaneConstr', parent=[ineqConstr, constr])
@@ -249,8 +250,8 @@ def build_qp(tasks):
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'CollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'MotionSpringConstr', 'GripperTorqueConstr', 'BoundedSpeedConstr',
-                'CoMIncPlaneConstr', 'PositiveLambda']
-  eqConstrName = ['ContactAccConstr', 'ContactSpeedConstr', 'ContactSpeedConstr']
+                'CoMIncPlaneConstr', 'PositiveLambda', 'ContactPosConstr']
+  eqConstrName = ['ContactAccConstr', 'ContactSpeedConstr', 'ContactPosConstr']
   ineqConstrName = ['CollisionConstr', 'GripperTorqueConstr', 'CoMIncPlaneConstr']
   genineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr']
   boundConstrName = ['PositiveLambda', 'JointLimitsConstr', 'DamperJointLimitsConstr']
@@ -262,7 +263,7 @@ def build_qp(tasks):
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 collisionConstr, jointLimitsConstr, damperJointLimitsConstr,
                 motionSpringConstr, gripperTorqueConstr, boundedSpeedConstr,
-                comIncPlaneConstr, positiveLambdaConstr]
+                comIncPlaneConstr, positiveLambdaConstr, contactPosConstr]
 
   # build list type
   tasks.add_container('std::vector<tasks::qp::FrictionCone>',
@@ -907,6 +908,10 @@ def build_qp(tasks):
   # ContactSpeedConstr
   contactSpeedConstr.add_constructor([param('double', 'timeStep')])
   contactSpeedConstr.add_method('updateDofContacts', None, [])
+
+  # ContactPosConstr
+  contactPosConstr.add_constructor([param('double', 'timeStep')])
+  contactPosConstr.add_method('updateDofContacts', None, [])
 
   # CollisionConstr
   collisionConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
