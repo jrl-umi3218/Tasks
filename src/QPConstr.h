@@ -16,21 +16,15 @@
 #pragma once
 
 // includes
-// std
-#include <map>
-#include <set>
-
 // Eigen
 #include <Eigen/Core>
 
 // RBDyn
-#include <RBDyn/FD.h>
 #include <RBDyn/Jacobian.h>
 #include <RBDyn/CoM.h>
 
 // sch
 #include <sch/Matrix/SCH_Types.h>
-#include <sch/S_Object/S_Sphere.h>
 
 // Tasks
 #include "QPSolver.h"
@@ -53,180 +47,6 @@ namespace qp
 {
 
 sch::Matrix4x4 tosch(const sva::PTransformd& t);
-
-
-class ContactConstrCommon
-{
-public:
-	bool addVirtualContact(const ContactId& contactId);
-	bool removeVirtualContact(const ContactId& contactId);
-	void resetVirtualContacts();
-
-	bool addDofContact(const ContactId& contactId, const Eigen::MatrixXd& dof);
-	bool removeDofContact(const ContactId& contactId);
-	void resetDofContacts();
-
-protected:
-	struct ContactCommon
-	{
-		ContactId cId;
-		sva::PTransformd X_b1_b2;
-
-		bool operator==(const ContactCommon& cc) const;
-		bool operator<(const ContactCommon& cc) const;
-	};
-
-protected:
-	std::set<ContactCommon> contactCommonInContact(
-		const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
-
-protected:
-	std::set<ContactId> virtualContacts_;
-	std::map<ContactId, Eigen::MatrixXd> dofContacts_;
-};
-
-
-class ContactAccConstr : public ConstraintFunction<Equality>,
-	public ContactConstrCommon
-{
-public:
-	ContactAccConstr();
-
-	void updateDofContacts();
-
-	// Constraint
-	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
-
-	virtual void update(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
-
-	virtual std::string nameEq() const;
-	virtual std::string descEq(const std::vector<rbd::MultiBody>& mb, int line);
-
-	// Inequality Constraint
-	virtual int nrEq() const;
-	virtual int maxEq() const;
-
-	virtual const Eigen::MatrixXd& AEq() const;
-	virtual const Eigen::VectorXd& bEq() const;
-
-private:
-	struct ContactSideData
-	{
-		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j,
-			const sva::PTransformd& Xbp):
-			robotIndex(rI), alphaDBegin(aDB), bodyIndex(j.jointsPath().back()),
-			sign(s), jac(j), X_b_p(Xbp)
-		{}
-
-		int robotIndex, alphaDBegin, bodyIndex;
-		double sign;
-		rbd::Jacobian jac;
-		sva::PTransformd X_b_p;
-	};
-
-	struct ContactData
-	{
-		ContactData(std::vector<ContactSideData> csds,
-			const Eigen::MatrixXd& d, const ContactId& cId):
-			contacts(std::move(csds)),
-			dof(d),
-			contactId(cId)
-		{}
-
-		std::vector<ContactSideData> contacts;
-		Eigen::MatrixXd dof;
-		ContactId contactId;
-	};
-
-private:
-	void updateNrEq();
-
-private:
-	std::vector<ContactData> cont_;
-
-	std::vector<Eigen::MatrixXd> fullJac_;
-
-	Eigen::MatrixXd A_;
-	Eigen::VectorXd b_;
-
-	int nrEq_;
-};
-
-
-
-class ContactSpeedConstr : public ConstraintFunction<Equality>,
-	public ContactConstrCommon
-{
-public:
-	ContactSpeedConstr(double timeStep);
-
-	void updateDofContacts();
-
-	// Constraint
-	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
-
-	virtual void update(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
-
-	virtual std::string nameEq() const;
-	virtual std::string descEq(const std::vector<rbd::MultiBody>& mbs, int line);
-
-	// Inequality Constraint
-	virtual int nrEq() const;
-	virtual int maxEq() const;
-
-	virtual const Eigen::MatrixXd& AEq() const;
-	virtual const Eigen::VectorXd& bEq() const;
-
-private:
-	struct ContactSideData
-	{
-		ContactSideData(int rI, int aDB, double s, const rbd::Jacobian& j,
-			const sva::PTransformd& Xbp):
-			robotIndex(rI), alphaDBegin(aDB), bodyIndex(j.jointsPath().back()),
-			sign(s), jac(j), X_b_p(Xbp)
-		{}
-
-		int robotIndex, alphaDBegin, bodyIndex;
-		double sign;
-		rbd::Jacobian jac;
-		sva::PTransformd X_b_p;
-	};
-
-	struct ContactData
-	{
-		ContactData(std::vector<ContactSideData> csds,
-			const Eigen::MatrixXd& d, const ContactId& cId):
-			contacts(std::move(csds)),
-			dof(d),
-			contactId(cId)
-		{}
-
-		std::vector<ContactSideData> contacts;
-		Eigen::MatrixXd dof;
-		ContactId contactId;
-	};
-
-private:
-	void updateNrEq();
-
-private:
-	std::vector<ContactData> cont_;
-
-	Eigen::MatrixXd fullJac_, dofJac_;
-
-	Eigen::MatrixXd A_;
-	Eigen::VectorXd b_;
-
-	int nrEq_, totalAlphaD_;
-	double timeStep_;
-};
 
 
 

@@ -44,6 +44,7 @@
 // Tasks
 #include "Bounds.h"
 #include "QPConstr.h"
+#include "QPContactConstr.h"
 #include "QPMotionConstr.h"
 #include "QPSolver.h"
 #include "QPTasks.h"
