@@ -224,6 +224,7 @@ def build_qp(tasks):
   gripperTorqueTask = qp.add_class('GripperTorqueTask', parent=task)
   linVelTask = qp.add_class('LinVelocityTask', parent=hlTask)
   oriTrackTask = qp.add_class('OrientationTrackingTask', parent=hlTask)
+  jointsSelector = qp.add_class('JointsSelector', parent=hlTask)
 
   motionConstr = qp.add_class('MotionConstr', parent=[genineqConstr, constr])
   motionPolyConstr = qp.add_class('MotionPolyConstr', parent=[genineqConstr,
@@ -259,7 +260,7 @@ def build_qp(tasks):
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
-                'OrientationTrackingTask', 'MomentumTask']
+                'OrientationTrackingTask', 'MomentumTask', 'JointsSelector']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 collisionConstr, jointLimitsConstr, damperJointLimitsConstr,
                 motionSpringConstr, gripperTorqueConstr, boundedSpeedConstr,
@@ -857,6 +858,28 @@ def build_qp(tasks):
   oriTrackTask.add_method('bodyPoint', retval('Eigen::Vector3d'), [], is_const=True)
   oriTrackTask.add_method('bodyAxis', None, [param('const Eigen::Vector3d&', 'axis')])
   oriTrackTask.add_method('bodyAxis', retval('Eigen::Vector3d'), [], is_const=True)
+
+  # JointsSelector
+  jointsSelector.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                  param('int', 'robotIndex'),
+                                  param('tasks::qp::HighLevelTask*', 'hl',
+                                        transfer_ownership=False),
+                                  param('const std::vector<int>&', 'selectedJointsId')])
+  jointsSelector.add_method('ActiveJoints', retval('tasks::qp::JointsSelector'),
+                            [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                             param('int', 'robotIndex'),
+                             param('tasks::qp::HighLevelTask*', 'hl',
+                                   transfer_ownership=False),
+                             param('const std::vector<int>&', 'activeJointsId')],
+                            is_static=True)
+  jointsSelector.add_method('UnactiveJoints', retval('tasks::qp::JointsSelector'),
+                            [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                             param('int', 'robotIndex'),
+                             param('tasks::qp::HighLevelTask*', 'hl',
+                                   transfer_ownership=False),
+                             param('const std::vector<int>&', 'unactiveJointsId')],
+                            is_static=True)
+
 
   # MotionConstr
   def addMotionDefault(motion):

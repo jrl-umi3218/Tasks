@@ -248,10 +248,10 @@ private:
 class JointsSelector : public HighLevelTask
 {
 public:
-	static JointsSelector ActiveJoints(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		HighLevelTask* hl, const std::vector<int>& activeJointsId);
-	static JointsSelector UnactiveJoints(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		HighLevelTask* hl, const std::vector<int>& unactiveJointsId);
+	static JointsSelector ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
+		int robotIndex, HighLevelTask* hl, const std::vector<int>& activeJointsId);
+	static JointsSelector UnactiveJoints(const std::vector<rbd::MultiBody>& mbs,
+		int robotIndex, HighLevelTask* hl, const std::vector<int>& unactiveJointsId);
 
 public:
 	struct SelectedData
