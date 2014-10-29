@@ -245,6 +245,47 @@ private:
 
 
 
+class JointsSelector : public HighLevelTask
+{
+public:
+	static JointsSelector ActiveJoints(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hl, const std::vector<int>& activeJointsId);
+	static JointsSelector UnactiveJoints(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hl, const std::vector<int>& unactiveJointsId);
+
+public:
+	struct SelectedData
+	{
+		int posInDof, dof;
+	};
+
+public:
+	JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hl, const std::vector<int>& selectedJointsId);
+
+	const std::vector<SelectedData> selectedJoints() const
+	{
+		return selectedJoints_;
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+private:
+	Eigen::MatrixXd jac_;
+	std::vector<SelectedData> selectedJoints_;
+	HighLevelTask* hl_;
+};
+
+
+
 struct JointStiffness
 {
 	JointStiffness():

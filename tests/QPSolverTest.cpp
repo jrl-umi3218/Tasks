@@ -1506,3 +1506,67 @@ BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
 	solver.removeTask(&posTaskSp);
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 }
+
+
+BOOST_AUTO_TEST_CASE(JointsSelector)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
+
+	std::tie(mb, mbcInit) = makeZXZArm(false);
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	std::vector<MultiBody> mbs = {mb};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit};
+
+	qp::QPSolver solver;
+
+	qp::PositionTask pt(mbs, 0, 3, Vector3d::Zero());
+	// construct two JointSelector that should have the same joints
+	qp::JointsSelector js1(qp::JointsSelector::ActiveJoints(mbs, 0, &pt, {2, 1}));
+	qp::JointsSelector js2(qp::JointsSelector::UnactiveJoints(mbs, 0, &pt, {0, -1}));
+	qp::SetPointTask js1Sp(mbs, 0, &js1, 1., 1.);
+	qp::SetPointTask js2Sp(mbs, 0, &js2, 1., 1.);
+
+	BOOST_REQUIRE_EQUAL(js1.selectedJoints().size(), 2);
+	BOOST_REQUIRE_EQUAL(js2.selectedJoints().size(), 2);
+	// check they have the same joints selected
+	for(std::size_t i = 0; i < 2; ++i)
+	{
+		BOOST_REQUIRE_EQUAL(js1.selectedJoints()[i].posInDof,
+			js2.selectedJoints()[i].posInDof);
+		BOOST_REQUIRE_EQUAL(js1.selectedJoints()[i].dof,
+			js2.selectedJoints()[i].dof);
+	}
+	// check joints are sorted
+	BOOST_REQUIRE_LT(js1.selectedJoints()[0].posInDof,
+		js1.selectedJoints()[1].posInDof);
+
+	solver.addTask(&js1Sp);
+	solver.addTask(&js2Sp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+	// Test JointsSelector
+	BOOST_REQUIRE(solver.solve(mbs, mbcs));
+
+	// jacobian first column should be zero
+	BOOST_REQUIRE_EQUAL(js1.jac().block(0, 0, 3, 7), MatrixXd::Zero(3,7));
+
+	// matrix should be equals
+	BOOST_REQUIRE_EQUAL(js1.jac(), js2.jac());
+	BOOST_REQUIRE_EQUAL(js1.eval(), js2.eval());
+	BOOST_REQUIRE_EQUAL(js1.speed(), js2.speed());
+	BOOST_REQUIRE_EQUAL(js1.normalAcc(), js2.normalAcc());
+}
+

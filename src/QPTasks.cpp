@@ -20,6 +20,7 @@
 // std
 #include <cmath>
 #include <iostream>
+#include <set>
 
 // Eigen
 #include <Eigen/Geometry>
@@ -429,6 +430,107 @@ const Eigen::MatrixXd& TargetObjectiveTask::Q() const
 const Eigen::VectorXd& TargetObjectiveTask::C() const
 {
 	return C_;
+}
+
+
+/**
+	*												JointsSelector
+	*/
+
+
+JointsSelector JointsSelector::ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, HighLevelTask* hl, const std::vector<int>& activeJointsId)
+{
+	return JointsSelector(mbs, robotIndex, hl, activeJointsId);
+}
+
+
+JointsSelector JointsSelector::UnactiveJoints(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, HighLevelTask* hl, const std::vector<int>& unactiveJointsId)
+{
+	using namespace std::placeholders;
+	const rbd::MultiBody& mb = mbs[robotIndex];
+
+	std::vector<int> activeJointsId;
+	// sort unactiveJointsId by puting them into a set
+	std::set<int> unactiveJointsIdSet(unactiveJointsId.begin(),
+		unactiveJointsId.end());
+	// create a set with all joints id
+	std::set<int> jointsIdSet;
+	std::transform(mb.joints().begin(), mb.joints().end(),
+		std::inserter(jointsIdSet, jointsIdSet.begin()),
+		std::bind(&rbd::Joint::id, _1));
+
+	// remove unactive joints from the set
+	std::set_difference(jointsIdSet.begin(), jointsIdSet.end(),
+		unactiveJointsIdSet.begin(), unactiveJointsIdSet.end(),
+		std::inserter(activeJointsId, activeJointsId.begin()));
+
+	return JointsSelector(mbs, robotIndex, hl, activeJointsId);
+}
+
+
+JointsSelector::JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+	HighLevelTask* hl, const std::vector<int>& selectedJointsId):
+	jac_(Eigen::MatrixXd::Zero(hl->dim(), mbs[robotIndex].nrDof())),
+	selectedJoints_(),
+	hl_(hl)
+{
+	const rbd::MultiBody& mb = mbs[robotIndex];
+	selectedJoints_.reserve(selectedJointsId.size());
+	for(int jId: selectedJointsId)
+	{
+		int index = mb.jointIndexById(jId);
+		selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()});
+	}
+	// sort data in posInDof order
+	std::sort(selectedJoints_.begin(), selectedJoints_.end(),
+		[](const SelectedData& s1, const SelectedData& s2)
+			{return s1.posInDof < s2.posInDof;});
+}
+
+
+int JointsSelector::dim()
+{
+	return hl_->dim();
+}
+
+
+void JointsSelector::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	hl_->update(mbs, mbcs, data);
+	const Eigen::MatrixXd& jac = hl_->jac();
+	for(SelectedData sd: selectedJoints_)
+	{
+		jac_.block(0, sd.posInDof, jac_.rows(), sd.dof) =
+			jac.block(0, sd.posInDof, jac_.rows(), sd.dof);
+	}
+}
+
+
+const Eigen::MatrixXd& JointsSelector::jac()
+{
+	return jac_;
+}
+
+
+const Eigen::VectorXd& JointsSelector::eval()
+{
+	return hl_->eval();
+}
+
+
+const Eigen::VectorXd& JointsSelector::speed()
+{
+	return hl_->speed();
+}
+
+
+const Eigen::VectorXd& JointsSelector::normalAcc()
+{
+	return hl_->normalAcc();
 }
 
 
