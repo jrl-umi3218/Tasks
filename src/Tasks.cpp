@@ -375,6 +375,12 @@ const Eigen::Vector3d CoMTask::com() const
 }
 
 
+void CoMTask::updateInertialParameters(const rbd::MultiBody& mb)
+{
+	jac_.updateInertialParameters(mb);
+}
+
+
 void CoMTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
 	eval_ = com_ - rbd::computeCoM(mb, mbc);
@@ -489,6 +495,15 @@ const Eigen::Vector3d MultiCoMTask::com() const
 const std::vector<int>& MultiCoMTask::robotIndexes() const
 {
 	return robotIndexes_;
+}
+
+
+void MultiCoMTask::updateInertialParameters(const std::vector<rbd::MultiBody>& mbs)
+{
+	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
+	{
+		jac_[i].updateInertialParameters(mbs[robotIndexes_[i]]);
+	}
 }
 
 

@@ -755,6 +755,12 @@ CoMTask::CoMTask(const std::vector<rbd::MultiBody>& mbs, int rI,
 {}
 
 
+void CoMTask::updateInertialParameters(const std::vector<rbd::MultiBody>& mbs)
+{
+	ct_.updateInertialParameters(mbs[robotIndex_]);
+}
+
+
 int CoMTask::dim()
 {
 	return 3;
@@ -813,6 +819,12 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
 	C_(),
 	CSum_()
 { }
+
+
+void MultiCoMTask::updateInertialParameters(const std::vector<rbd::MultiBody>& mbs)
+{
+	mct_.updateInertialParameters(mbs);
+}
 
 
 void MultiCoMTask::stiffness(double stiffness)

@@ -119,6 +119,8 @@ def build_tasks(posTask, oriTask, positionTask, comTask,
   comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
                      is_const=True)
+  comTask.add_method('updateInertialParameters', None,
+                     [param('const rbd::MultiBody&', 'mb')])
   add_std_func(comTask)
 
   # MultiCoMTask
@@ -131,6 +133,8 @@ def build_tasks(posTask, oriTask, positionTask, comTask,
   multiCoMTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   multiCoMTask.add_method('com', retval('const Eigen::Vector3d&'), [],
                           is_const=True)
+  multiCoMTask.add_method('updateInertialParameters', None,
+                     [param('const std::vector<rbd::MultiBody>&', 'mbs')])
   multiCoMTask.add_method('update', None,
                           [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs')])
@@ -783,6 +787,8 @@ def build_qp(tasks):
   comTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   comTask.add_method('com', retval('const Eigen::Vector3d&', 'com'), [],
                      is_const=True)
+  comTask.add_method('updateInertialParameters', None,
+                     [param('const std::vector<rbd::MultiBody>&', 'mbs')])
 
   # MultiCoMTask
   multiCoMTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
@@ -794,6 +800,8 @@ def build_qp(tasks):
   multiCoMTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   multiCoMTask.add_method('com', retval('const Eigen::Vector3d&'), [],
                           is_const=True)
+  multiCoMTask.add_method('updateInertialParameters', None,
+                          [param('const std::vector<rbd::MultiBody>&', 'mbs')])
   multiCoMTask.add_method('stiffness', None, [param('double', 'stiffness')])
   multiCoMTask.add_method('stiffness', retval('double'), [],
                           is_const=True)

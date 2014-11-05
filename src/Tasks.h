@@ -146,6 +146,8 @@ public:
 	void com(const Eigen::Vector3d& com);
 	const Eigen::Vector3d com() const;
 
+	void updateInertialParameters(const rbd::MultiBody& mb);
+
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 		const Eigen::Vector3d& com, const std::vector<sva::MotionVecd>& normalAccB);
@@ -181,6 +183,8 @@ public:
 
 	void com(const Eigen::Vector3d& com);
 	const Eigen::Vector3d com() const;
+
+	void updateInertialParameters(const std::vector<rbd::MultiBody>& mbs);
 
 	void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs);

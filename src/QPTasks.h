@@ -470,7 +470,7 @@ private:
 class CoMTask : public HighLevelTask
 {
 public:
-	CoMTask(const std::vector<rbd::MultiBody>& mb,
+	CoMTask(const std::vector<rbd::MultiBody>& mbs,
 		int robotIndex, const Eigen::Vector3d& com);
 	CoMTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 		const Eigen::Vector3d& com, std::vector<double> weight);
@@ -489,6 +489,8 @@ public:
 	{
 		return ct_.com();
 	}
+
+	void updateInertialParameters(const std::vector<rbd::MultiBody>& mbs);
 
 	virtual int dim();
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -527,6 +529,8 @@ public:
 	{
 		return mct_.com();
 	}
+
+	void updateInertialParameters(const std::vector<rbd::MultiBody>& mbs);
 
 	double stiffness() const
 	{
