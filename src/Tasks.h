@@ -208,6 +208,8 @@ private:
 		const std::vector<std::vector<sva::MotionVecd>>& normalAccB,
 		const Eigen::Vector3d& multiCoM);
 
+	void computeRobotsWeight(const std::vector<rbd::MultiBody>& mbs);
+
 private:
 	Eigen::Vector3d com_;
 	std::vector<int> robotIndexes_;

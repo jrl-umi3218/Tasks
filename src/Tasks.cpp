@@ -455,26 +455,16 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
 	normalAcc_(3),
 	jacMat_(robotIndexes_.size())
 {
-	double totalMass = 0.;
-	robotsWeight_.reserve(robotIndexes_.size());
-	for(int r: robotIndexes_)
-	{
-		double rm = std::accumulate(mbs[r].bodies().begin(),
-			mbs[r].bodies().end(), 0., [](double ac, const rbd::Body& b)
-				{return ac + b.inertia().mass();}
-		);
-		robotsWeight_.push_back(rm);
-		totalMass += rm;
-	}
+	computeRobotsWeight(mbs);
 
+	// create CoMJacobian and jacobian matrix
 	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
 	{
 		int r = robotIndexes_[i];
 		const rbd::MultiBody& mb = mbs[r];
 
-		double weight = robotsWeight_[i]/totalMass;
-		jac_[i] = rbd::CoMJacobian(mb, std::vector<double>(mb.nrBodies(), weight));
-		robotsWeight_[i] = weight;
+		jac_[i] = rbd::CoMJacobian(mb,
+			std::vector<double>(mb.nrBodies(), robotsWeight_[i]));
 		jacMat_[i].resize(3, mb.nrDof());
 	}
 }
@@ -500,9 +490,15 @@ const std::vector<int>& MultiCoMTask::robotIndexes() const
 
 void MultiCoMTask::updateInertialParameters(const std::vector<rbd::MultiBody>& mbs)
 {
+	computeRobotsWeight(mbs);
+
+	// upadte CoMJacobian per body weight
 	for(std::size_t i = 0; i < robotIndexes_.size(); ++i)
 	{
-		jac_[i].updateInertialParameters(mbs[robotIndexes_[i]]);
+		int r = robotIndexes_[i];
+		const rbd::MultiBody& mb = mbs[r];
+
+		jac_[i].weight(mb, std::vector<double>(mb.nrBodies(), robotsWeight_[i]));
 	}
 }
 
@@ -567,6 +563,30 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 		normalAcc_ += jac_[i].normalAcceleration(mb, mbc, normalAccB[r]);
 		jacMat_[i] = jac_[i].jacobian(mb, mbc);
 	}
+}
+
+
+void MultiCoMTask::computeRobotsWeight(const std::vector<rbd::MultiBody>& mbs)
+{
+	double totalMass = 0.;
+
+	robotsWeight_.clear();
+	robotsWeight_.reserve(robotIndexes_.size());
+	// compute the total mass and the weight of each robot
+	for(int r: robotIndexes_)
+	{
+		double rm = std::accumulate(mbs[r].bodies().begin(),
+			mbs[r].bodies().end(), 0., [](double ac, const rbd::Body& b)
+				{return ac + b.inertia().mass();}
+		);
+		robotsWeight_.push_back(rm);
+		totalMass += rm;
+	}
+
+	// divide all robotsWeight values by the total mass
+	std::transform(robotsWeight_.begin(), robotsWeight_.end(),
+		robotsWeight_.begin(),
+		[totalMass](double w){return w/totalMass;});
 }
 
 

@@ -394,6 +394,8 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
 		(rbd::computeCoM(mb1, mbc1Init) + rbd::computeCoM(mb2, mbc2Init))/2.
 		 + Vector3d(0., 0., 0.5));
 	qp::MultiCoMTask multiCoM(mbs, {0,1}, comD, 10., 500.);
+	// call this method just for test coverage
+	multiCoM.updateInertialParameters(mbs);
 
 	qp::ContactSpeedConstr contCstrSpeed(0.001);
 
