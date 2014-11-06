@@ -796,6 +796,12 @@ def build_qp(tasks):
                                 param('const Eigen::Vector3d&', 'com'),
                                 param('double', 'stiffness'),
                                 param('double', 'weight')])
+  multiCoMTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('std::vector<int>', 'robotIndexex'),
+                                param('const Eigen::Vector3d&', 'com'),
+                                param('double', 'stiffness'),
+                                param('const Eigen::Vector3d&', 'dimWeight'),
+                                param('double', 'weight')])
 
   multiCoMTask.add_method('com', None, [param('const Eigen::Vector3d&', 'com')])
   multiCoMTask.add_method('com', retval('const Eigen::Vector3d&'), [],
@@ -804,6 +810,10 @@ def build_qp(tasks):
                           [param('const std::vector<rbd::MultiBody>&', 'mbs')])
   multiCoMTask.add_method('stiffness', None, [param('double', 'stiffness')])
   multiCoMTask.add_method('stiffness', retval('double'), [],
+                          is_const=True)
+  multiCoMTask.add_method('dimWeight', None,
+                          [param('const Eigen::Vector3d&', 'dimWeight')])
+  multiCoMTask.add_method('dimWeight', retval('Eigen::Vector3d'), [],
                           is_const=True)
   multiCoMTask.add_method('eval', retval('Eigen::VectorXd'), [],
                           is_const=True)

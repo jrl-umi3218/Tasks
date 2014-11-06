@@ -514,6 +514,9 @@ public:
 	MultiCoMTask(const std::vector<rbd::MultiBody>& mb,
 		std::vector<int> robotIndexes, const Eigen::Vector3d& com,
 		double stiffness, double weight);
+	MultiCoMTask(const std::vector<rbd::MultiBody>& mb,
+		std::vector<int> robotIndexes, const Eigen::Vector3d& com,
+		double stiffness, const Eigen::Vector3d& dimWeight, double weight);
 
 	tasks::MultiCoMTask& task()
 	{
@@ -539,6 +542,13 @@ public:
 
 	void stiffness(double stiffness);
 
+	void dimWeight(const Eigen::Vector3d& dim);
+
+	const Eigen::Vector3d& dimWeight() const
+	{
+		return dimWeight_;
+	}
+
 	virtual std::pair<int, int> begin() const
 	{
 		return {alphaDBegin_, alphaDBegin_};
@@ -557,13 +567,19 @@ public:
 	const Eigen::VectorXd& speed() const;
 
 private:
+	void init(const std::vector<rbd::MultiBody>& mbs);
+
+private:
 	int alphaDBegin_;
 	double stiffness_, stiffnessSqrt_;
+	Eigen::Vector3d dimWeight_;
 	std::vector<int> posInQ_;
 	tasks::MultiCoMTask mct_;
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
 	Eigen::Vector3d CSum_;
+	// cache
+	Eigen::MatrixXd preQ_;
 };
 
 

@@ -813,12 +813,35 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
 	alphaDBegin_(-1),
 	stiffness_(stiffness),
 	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	dimWeight_(Eigen::Vector3d::Ones()),
 	posInQ_(rI.size()),
 	mct_(mbs, std::move(rI), com),
 	Q_(),
 	C_(),
-	CSum_()
-{ }
+	CSum_(),
+	preQ_()
+{
+	init(mbs);
+}
+
+
+MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
+	std::vector<int> rI, const Eigen::Vector3d& com, double stiffness,
+	const Eigen::Vector3d& dimWeight, double weight):
+	Task(weight),
+	alphaDBegin_(-1),
+	stiffness_(stiffness),
+	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	dimWeight_(dimWeight),
+	posInQ_(rI.size()),
+	mct_(mbs, std::move(rI), com),
+	Q_(),
+	C_(),
+	CSum_(),
+	preQ_()
+{
+	init(mbs);
+}
 
 
 void MultiCoMTask::updateInertialParameters(const std::vector<rbd::MultiBody>& mbs)
@@ -831,6 +854,12 @@ void MultiCoMTask::stiffness(double stiffness)
 {
 	stiffness_ = stiffness;
 	stiffnessSqrt_ = 2.*std::sqrt(stiffness);
+}
+
+
+void MultiCoMTask::dimWeight(const Eigen::Vector3d& dim)
+{
+	dimWeight_ = dim;
 }
 
 
@@ -870,8 +899,11 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 		int dof = data.alphaD(r);
 
 		const Eigen::MatrixXd& J = mct_.jac(i);
-		Q_.block(begin, begin, dof, dof).noalias() = J.transpose()*J;
-		C_.segment(begin, dof) = -J.transpose()*CSum_;
+		preQ_.block(0, 0, 3, dof).noalias() = dimWeight_.asDiagonal()*J;
+
+		Q_.block(begin, begin, dof, dof).noalias() =
+			J.transpose()*preQ_.block(0, 0, 3, dof);
+		C_.segment(begin, dof).noalias() = -J.transpose()*dimWeight_.asDiagonal()*CSum_;
 	}
 }
 
@@ -897,6 +929,17 @@ const Eigen::VectorXd& MultiCoMTask::eval() const
 const Eigen::VectorXd& MultiCoMTask::speed() const
 {
 	return mct_.speed();
+}
+
+
+void MultiCoMTask::init(const std::vector<rbd::MultiBody>& mbs)
+{
+	int maxDof = 0;
+	for(int r: mct_.robotIndexes())
+	{
+		maxDof = std::max(maxDof, mbs[r].nrDof());
+	}
+	preQ_.resize(3, maxDof);
 }
 
 
