@@ -55,7 +55,7 @@ def import_eigen3_types(mod):
 
 
 
-def build_tasks(posTask, oriTask, positionTask, comTask,
+def build_tasks(posTask, oriTask, surfOriTask, positionTask, comTask,
                 multiCoMTask, momTask, linVelTask, oriTrackTask):
   def add_std_func(cls):
     cls.add_method('update', None,
@@ -96,6 +96,21 @@ def build_tasks(posTask, oriTask, positionTask, comTask,
   oriTask.add_method('orientation', None, [param('const Eigen::Quaterniond&', 'ori')])
   oriTask.add_method('orientation', retval('Eigen::Matrix3d'), [], is_const=True)
   add_std_func(oriTask)
+
+  # SurfaceOrientationTask
+  surfOriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                               param('int', 'bodyId'),
+                               param('const Eigen::Quaterniond&', 'ori'),
+                               param('const sva::PTransformd&', 'X_b_s')])
+  surfOriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
+                               param('int', 'bodyId'),
+                               param('const Eigen::Matrix3d&', 'ori'),
+                               param('const sva::PTransformd&', 'X_b_s')])
+
+  surfOriTask.add_method('orientation', None, [param('const Eigen::Matrix3d&', 'ori')])
+  surfOriTask.add_method('orientation', None, [param('const Eigen::Quaterniond&', 'ori')])
+  surfOriTask.add_method('orientation', retval('Eigen::Matrix3d'), [], is_const=True)
+  add_std_func(surfOriTask)
 
   # PostureTask
   postureTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
@@ -220,6 +235,7 @@ def build_qp(tasks):
 
   posTask = qp.add_class('PositionTask', parent=hlTask)
   oriTask = qp.add_class('OrientationTask', parent=hlTask)
+  surfOriTask = qp.add_class('SurfaceOrientationTask', parent=hlTask)
   postureTask = qp.add_class('PostureTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
   multiCoMTask = qp.add_class('MultiCoMTask', parent=task)
@@ -263,7 +279,7 @@ def build_qp(tasks):
   taskName = ['SetPointTask', 'PIDTask', 'TargetObjectiveTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask']
-  hlTaskName = ['PositionTask', 'OrientationTask', 'CoMTask', 'LinVelocityTask',
+  hlTaskName = ['PositionTask', 'OrientationTask', 'SurfaceOrientationTask', 'CoMTask', 'LinVelocityTask',
                 'OrientationTrackingTask', 'MomentumTask', 'JointsSelector']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 collisionConstr, jointLimitsConstr, damperJointLimitsConstr,
@@ -747,6 +763,22 @@ def build_qp(tasks):
   oriTask.add_method('orientation', None, [param('const Eigen::Quaterniond&', 'ori')])
   oriTask.add_method('orientation', retval('Eigen::Matrix3d'), [], is_const=True)
 
+  # SurfaceOrientationTask
+  surfOriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
+                               param('int', 'bodyId'),
+                               param('const Eigen::Quaterniond&', 'ori'),
+                               param('const sva::PTransformd&', 'X_b_s')])
+  surfOriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
+                               param('int', 'bodyId'),
+                               param('const Eigen::Matrix3d&', 'ori'),
+                               param('const sva::PTransformd&', 'X_b_s')])
+
+  surfOriTask.add_method('orientation', None, [param('const Eigen::Matrix3d&', 'ori')])
+  surfOriTask.add_method('orientation', None, [param('const Eigen::Quaterniond&', 'ori')])
+  surfOriTask.add_method('orientation', retval('Eigen::Matrix3d'), [], is_const=True)
+
   # PostureTask
   postureTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                param('int', 'robotIndex'),
@@ -1094,6 +1126,7 @@ if __name__ == '__main__':
 
   posTask = tasks.add_class('PositionTask')
   oriTask = tasks.add_class('OrientationTask')
+  surfOriTask = tasks.add_class('SurfaceOrientationTask')
   postureTask = tasks.add_class('PostureTask')
   comTask = tasks.add_class('CoMTask')
   multiCoMTask = tasks.add_class('MultiCoMTask')
@@ -1110,7 +1143,7 @@ if __name__ == '__main__':
   tasks.add_container('std::vector<rbd::MultiBodyConfig>',
                       'rbd::MultiBodyConfig', 'vector')
 
-  build_tasks(posTask, oriTask, postureTask, comTask, multiCoMTask,
+  build_tasks(posTask, oriTask, surfOriTask, postureTask, comTask, multiCoMTask,
               momTask, linVelTask, oriTrackTask)
 
   # qp

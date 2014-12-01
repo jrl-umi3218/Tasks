@@ -246,6 +246,124 @@ const Eigen::MatrixXd& OrientationTask::jacDot() const
 
 
 /**
+  *													SurfaceOrientationTask
+  */
+
+
+SurfaceOrientationTask::SurfaceOrientationTask(const rbd::MultiBody& mb,
+  int bodyId, const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s):
+    ori_(ori.matrix()),
+    bodyIndex_(mb.bodyIndexById(bodyId)),
+    jac_(mb, bodyId),
+    X_b_s_(X_b_s),
+    eval_(3),
+    speed_(3),
+    normalAcc_(3),
+    jacMat_(3, mb.nrDof()),
+    jacDotMat_(3, mb.nrDof())
+{
+}
+
+
+SurfaceOrientationTask::SurfaceOrientationTask(const rbd::MultiBody& mb,
+  int bodyId, const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s):
+    ori_(ori),
+    bodyIndex_(mb.bodyIndexById(bodyId)),
+    jac_(mb, bodyId),
+    X_b_s_(X_b_s),
+    eval_(3),
+    speed_(3),
+    normalAcc_(3),
+    jacMat_(3, mb.nrDof()),
+    jacDotMat_(3, mb.nrDof())
+{
+}
+
+
+void SurfaceOrientationTask::orientation(const Eigen::Quaterniond& ori)
+{
+    ori_ = ori.matrix();
+}
+
+
+void SurfaceOrientationTask::orientation(const Eigen::Matrix3d& ori)
+{
+    ori_ = ori;
+}
+
+
+const Eigen::Matrix3d& SurfaceOrientationTask::orientation() const
+{
+    return ori_;
+}
+
+
+void SurfaceOrientationTask::update(const rbd::MultiBody& mb,
+                                    const rbd::MultiBodyConfig& mbc)
+{
+    eval_ = sva::rotationVelocity<double>
+      (ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose(), 1e-7);
+    speed_ = jac_.velocity(mb, mbc, X_b_s_).angular();
+    normalAcc_ = jac_.normalAcceleration(mb, mbc).angular();
+
+    const auto& shortJacMat = jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 3, jac_.dof());
+    jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+void SurfaceOrientationTask::update(const rbd::MultiBody& mb,
+                                    const rbd::MultiBodyConfig& mbc,
+                                    const std::vector<sva::MotionVecd>& normalAccB)
+{
+    eval_ = sva::rotationVelocity<double>
+      (ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose(), 1e-7);
+    speed_ = jac_.velocity(mb, mbc, X_b_s_).angular();
+    normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).angular();
+
+    const auto& shortJacMat = jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 3, jac_.dof());
+    jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+void SurfaceOrientationTask::updateDot(const rbd::MultiBody& mb,
+                                       const rbd::MultiBodyConfig& mbc)
+{
+    const auto& shortJacMat = jac_.bodyJacobianDot(mb, mbc).block(0, 0, 3, jac_.dof());
+    jac_.fullJacobian(mb, shortJacMat, jacDotMat_);
+}
+
+
+const Eigen::VectorXd& SurfaceOrientationTask::eval() const
+{
+    return eval_;
+}
+
+
+const Eigen::VectorXd& SurfaceOrientationTask::speed() const
+{
+    return speed_;
+}
+
+
+const Eigen::VectorXd& SurfaceOrientationTask::normalAcc() const
+{
+    return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& SurfaceOrientationTask::jac() const
+{
+    return jacMat_;
+}
+
+
+const Eigen::MatrixXd& SurfaceOrientationTask::jacDot() const
+{
+    return jacDotMat_;
+}
+
+
+/**
 	*													PostureTask
 	*/
 

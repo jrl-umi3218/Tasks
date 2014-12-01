@@ -111,6 +111,45 @@ private:
 
 
 
+class SurfaceOrientationTask
+{
+public:
+    SurfaceOrientationTask(const rbd::MultiBody& mb, int bodyId,
+      const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s);
+    SurfaceOrientationTask(const rbd::MultiBody& mb, int bodyId,
+      const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s);
+
+    void orientation(const Eigen::Quaterniond& ori);
+    void orientation(const Eigen::Matrix3d& ori);
+    const Eigen::Matrix3d& orientation() const;
+
+    void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+    void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+        const std::vector<sva::MotionVecd>& normalAccB);
+    void updateDot(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc);
+
+    const Eigen::VectorXd& eval() const;
+    const Eigen::VectorXd& speed() const;
+    const Eigen::VectorXd& normalAcc() const;
+
+    const Eigen::MatrixXd& jac() const;
+    const Eigen::MatrixXd& jacDot() const;
+
+private:
+    Eigen::Matrix3d ori_;
+    int bodyIndex_;
+    rbd::Jacobian jac_;
+    sva::PTransformd X_b_s_;
+
+    Eigen::VectorXd eval_;
+    Eigen::VectorXd speed_;
+    Eigen::VectorXd normalAcc_;
+    Eigen::MatrixXd jacMat_;
+    Eigen::MatrixXd jacDotMat_;
+};
+
+
+
 class PostureTask
 {
 public:

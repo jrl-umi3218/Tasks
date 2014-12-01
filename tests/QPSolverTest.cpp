@@ -1408,6 +1408,42 @@ BOOST_AUTO_TEST_CASE(MomentumTask)
 }
 
 
+BOOST_AUTO_TEST_CASE(SurfaceOrientationTask)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
+
+	std::tie(mb, mbcInit) = makeZXZArm();
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	std::vector<MultiBody> mbs = {mb};
+	std::vector<MultiBodyConfig> mbcs = {mbcInit};
+
+	qp::QPSolver solver;
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+	qp::SurfaceOrientationTask surfOriTask(mbs, 0, 3, RotZ(cst::pi<double>()/2.), sva::PTransformd(Vector3d(0., 0., 0.)));
+	qp::SetPointTask surfOriTaskSp(mbs, 0, &surfOriTask, 10., 1.);
+
+	// Test addTask
+	solver.addTask(&surfOriTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+	// Test MomentumTask
+	BOOST_REQUIRE(solver.solve(mbs, mbcs));
+}
+
+
 BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
 {
 	using namespace Eigen;
