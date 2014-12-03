@@ -22,6 +22,7 @@ endmacro(addUnitTest)
 
 addUnitTest(QPSolverTest)
 addUnitTest(QPMultiRobotTest)
+addUnitTest(TasksTest)
 
 
 if(${POSTURE_GENERATOR})
