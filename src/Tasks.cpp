@@ -304,7 +304,10 @@ void SurfaceOrientationTask::update(const rbd::MultiBody& mb,
 	eval_ = sva::rotationVelocity<double>
 		(ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose(), 1e-7);
 	speed_ = jac_.velocity(mb, mbc, X_b_s_).angular();
-	normalAcc_ = jac_.normalAcceleration(mb, mbc).angular();
+	// since X_b_s is constant, the X_b_s velocity
+	// (last argument of normalAccelation) is a 0 velocity vector
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, X_b_s_,
+		sva::MotionVecd(Eigen::Vector6d::Zero())).angular();
 
 	const auto& shortJacMat =
 		jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 3, jac_.dof());
@@ -319,7 +322,10 @@ void SurfaceOrientationTask::update(const rbd::MultiBody& mb,
 	eval_ = sva::rotationVelocity<double>
 		(ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose(), 1e-7);
 	speed_ = jac_.velocity(mb, mbc, X_b_s_).angular();
-	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).angular();
+	// since X_b_s is constant, the X_b_s velocity
+	// (third argument of normalAccelation) is a 0 velocity vector
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_s_,
+		sva::MotionVecd(Eigen::Vector6d::Zero())).angular();
 
 	const auto& shortJacMat =
 		jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 3, jac_.dof());
