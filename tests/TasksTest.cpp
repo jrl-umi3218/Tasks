@@ -42,14 +42,61 @@
 #include "arms.h"
 
 
+template<typename Task>
+struct TanAccel
+{
+	Eigen::VectorXd tanAcc(Task& task, const std::vector<Eigen::VectorXd>& alphaD)
+	{
+		return Eigen::VectorXd(task.jac()*alphaD[0]);
+	}
+};
+
+
+template<typename Task>
+struct MRTanAccel
+{
+	MRTanAccel(int taskDim):
+		tanAccV(taskDim)
+	{}
+
+	Eigen::VectorXd tanAcc(Task& task, const std::vector<Eigen::VectorXd>& alphaD)
+	{
+		tanAccV.setZero();
+		for(std::size_t i = 0; i < alphaD.size(); ++i)
+		{
+			tanAccV += task.jac(int(i))*alphaD[i];
+		}
+		return tanAccV;
+	}
+
+	Eigen::VectorXd tanAccV;
+};
+
+
 /// run the task update(mb, mbc) method
 template<typename Task>
-struct ClassicUpdater
+struct ClassicUpdater : public TanAccel<Task>
 {
-	void operator()(Task& task, const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc)
+	void operator()(Task& task, const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs)
 	{
-		task.update(mb, mbc);
+		task.update(mbs[0], mbcs[0]);
+	}
+};
+
+
+/// run the task update(mbs, mbcs) method
+template<typename Task>
+struct MRClassicUpdater : public MRTanAccel<Task>
+{
+	MRClassicUpdater(int taskDim):
+		MRTanAccel<Task>(taskDim)
+	{}
+
+	void operator()(Task& task, const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs)
+	{
+		task.update(mbs, mbcs);
 	}
 };
 
@@ -75,42 +122,110 @@ void computeNormalAccB(const rbd::MultiBody& mb,
 }
 
 
+/// Multi-robot version of computeNormalAccB
+void computeNormalAccB(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	std::vector<std::vector<sva::MotionVecd>>& normalAccB)
+{
+	for(std::size_t i = 0; i < mbs.size(); ++i)
+	{
+		computeNormalAccB(mbs[i], mbcs[i], normalAccB[i]);
+	}
+}
+
+
 /// run the task update(mb, mbc, bodyNormalAcc) method
 template<typename Task>
-struct NormalAccUpdater
+struct NormalAccUpdater : public TanAccel<Task>
 {
 	NormalAccUpdater(const rbd::MultiBody& mb):
 		normalAccB(mb.nrBodies())
 	{}
 
-	void operator()(Task& task, const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc)
+	void operator()(Task& task, const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs)
 	{
-		computeNormalAccB(mb, mbc, normalAccB);
-		task.update(mb, mbc, normalAccB);
+		computeNormalAccB(mbs[0], mbcs[0], normalAccB);
+		task.update(mbs[0], mbcs[0], normalAccB);
 	}
 
 	std::vector<sva::MotionVecd> normalAccB;
 };
 
 
+/// run the task update(mbs, mbcs, bodyNormalAccs) method
+template<typename Task>
+struct MRNormalAccUpdater : public MRTanAccel<Task>
+{
+	MRNormalAccUpdater(const std::vector<rbd::MultiBody>& mbs, int taskDim):
+		MRTanAccel<Task>(taskDim),
+		normalAccBs(mbs.size())
+	{
+		for(std::size_t i = 0; i < mbs.size(); ++i)
+		{
+			normalAccBs[i].resize(mbs[i].nrBodies());
+		}
+	}
+
+	void operator()(Task& task, const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs)
+	{
+		computeNormalAccB(mbs, mbcs, normalAccBs);
+		task.update(mbs, mbcs, normalAccBs);
+	}
+
+	std::vector<std::vector<sva::MotionVecd>> normalAccBs;
+};
+
+
 /// run the task update(mb, mbc, com, bodyNormalAcc) method
 template<typename Task>
-struct NormalAccCoMUpdater
+struct NormalAccCoMUpdater : public TanAccel<Task>
 {
 	NormalAccCoMUpdater(const rbd::MultiBody& mb):
 		normalAccB(mb.nrBodies())
 	{}
 
-	void operator()(Task& task, const rbd::MultiBody& mb,
-		const rbd::MultiBodyConfig& mbc)
+	void operator()(Task& task, const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs)
 	{
-		computeNormalAccB(mb, mbc, normalAccB);
-		Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
-		task.update(mb, mbc, com, normalAccB);
+		computeNormalAccB(mbs[0], mbcs[0], normalAccB);
+		Eigen::Vector3d com = rbd::computeCoM(mbs[0], mbcs[0]);
+		task.update(mbs[0], mbcs[0], com, normalAccB);
 	}
 
 	std::vector<sva::MotionVecd> normalAccB;
+};
+
+
+/// run the task update(mbs, mbcs, coms, bodyNormalAccs) method
+template<typename Task>
+struct MRNormalAccCoMUpdater : public MRTanAccel<Task>
+{
+	MRNormalAccCoMUpdater(const std::vector<rbd::MultiBody>& mbs, int taskDim):
+		MRTanAccel<Task>(taskDim),
+		normalAccBs(mbs.size()),
+		coms(mbs.size())
+	{
+		for(std::size_t i = 0; i < mbs.size(); ++i)
+		{
+			normalAccBs[i].resize(mbs[i].nrBodies());
+		}
+	}
+
+	void operator()(Task& task, const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs)
+	{
+		computeNormalAccB(mbs, mbcs, normalAccBs);
+		for(std::size_t i = 0; i < mbs.size(); ++i)
+		{
+			coms[i] = rbd::computeCoM(mbs[i], mbcs[i]);
+		}
+		task.update(mbs, mbcs, coms, normalAccBs);
+	}
+
+	std::vector<std::vector<sva::MotionVecd>> normalAccBs;
+	std::vector<Eigen::Vector3d> coms;
 };
 
 
@@ -158,7 +273,8 @@ struct VelTester
 	* difference speed and accelartion.
 	*/
 template<typename Task, typename Updater, typename Tester>
-void testTaskNumDiff(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+void testTaskNumDiff(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	Task& task, Updater updater, Tester tester,
 	int nrIter=100, double diffStep=1e-6, double tol=1e-4)
 {
@@ -166,38 +282,47 @@ void testTaskNumDiff(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	using namespace sva;
 	using namespace rbd;
 
-	MultiBodyConfig mbcPost, mbcCur;
+	std::vector<MultiBodyConfig> mbcsPost(mbcs), mbcsCur(mbcs);
 
-	Eigen::VectorXd q(mb.nrParams());
-	Eigen::VectorXd alpha(mb.nrDof());
-	Eigen::VectorXd alphaD(mb.nrDof());
+	std::vector<Eigen::VectorXd> q(mbs.size());
+	std::vector<Eigen::VectorXd> alpha(mbs.size());
+	std::vector<Eigen::VectorXd> alphaD(mbs.size());
 
 	for(int i = 0; i < nrIter; ++i)
 	{
-		q.setRandom();
-		alpha.setRandom();
-		alphaD.setRandom();
+		for(std::size_t r = 0; r < mbs.size(); ++r)
+		{
+			const rbd::MultiBody& mb = mbs[r];
+			const rbd::MultiBodyConfig& mbc = mbcs[r];
+			rbd::MultiBodyConfig& mbcPost = mbcsPost[r];
+			rbd::MultiBodyConfig& mbcCur = mbcsCur[r];
 
-		mbcCur = mbc;
-		vectorToParam(q, mbcCur.q);
-		vectorToParam(alpha, mbcCur.alpha);
-		vectorToParam(alphaD, mbcCur.alphaD);
+			q[r].setRandom(mb.nrParams());
+			alpha[r].setRandom(mb.nrDof());
+			alphaD[r].setRandom(mb.nrDof());
 
-		mbcPost = mbcCur;
+			mbcCur = mbc;
+			vectorToParam(q[r], mbcCur.q);
+			vectorToParam(alpha[r], mbcCur.alpha);
+			vectorToParam(alphaD[r], mbcCur.alphaD);
 
-		eulerIntegration(mb, mbcPost, diffStep);
+			mbcPost = mbcCur;
 
-		forwardKinematics(mb, mbcCur);
-		forwardKinematics(mb, mbcPost);
-		forwardVelocity(mb, mbcCur);
-		forwardVelocity(mb, mbcPost);
+			eulerIntegration(mb, mbcPost, diffStep);
 
-		updater(task, mb, mbcCur);
+			forwardKinematics(mb, mbcCur);
+			forwardKinematics(mb, mbcPost);
+			forwardVelocity(mb, mbcCur);
+			forwardVelocity(mb, mbcPost);
+		}
+
+		updater(task, mbs, mbcsCur);
 		VectorXd evalCur = task.eval();
 		VectorXd speedCur = -task.speed();
-		VectorXd accCur = -task.normalAcc() - task.jac()*alphaD;
+		VectorXd accCur = -task.normalAcc();
+		accCur -= updater.tanAcc(task, alphaD);
 
-		updater(task, mb, mbcPost);
+		updater(task, mbs, mbcsPost);
 		VectorXd evalPost = task.eval();
 		VectorXd speedPost = -task.speed();
 
@@ -206,6 +331,17 @@ void testTaskNumDiff(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 
 		tester(speedCur, accCur, speedDiff, accDiff, tol);
 	}
+}
+
+
+template<typename Task, typename Updater, typename Tester>
+void testTaskNumDiff(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	Task& task, Updater updater, Tester tester,
+	int nrIter=100, double diffStep=1e-6, double tol=1e-4)
+{
+	testTaskNumDiff(std::vector<rbd::MultiBody>{mb},
+		std::vector<rbd::MultiBodyConfig>{mbc},
+		task, updater, tester, nrIter, diffStep, tol);
 }
 
 
@@ -283,6 +419,31 @@ BOOST_AUTO_TEST_CASE(CoMTaskTest)
 	testTaskNumDiff(mb, mbc, ct, ClassicUpdater<tasks::CoMTask>(),
 		PosTester());
 	testTaskNumDiff(mb, mbc, ct, NormalAccCoMUpdater<tasks::CoMTask>(mb),
+		PosTester());
+}
+
+
+BOOST_AUTO_TEST_CASE(MultiCoMTaskTest)
+{
+	using namespace Eigen;
+	using namespace rbd;
+
+	MultiBody mb1, mb2;
+	MultiBodyConfig mbc1, mbc2;
+
+	std::tie(mb1, mbc1) = makeZXZArm();
+	std::tie(mb2, mbc2) = makeZXZArm();
+
+	std::vector<MultiBody> mbs{mb1, mb2};
+	std::vector<MultiBodyConfig> mbcs{mbc1, mbc2};
+
+	tasks::MultiCoMTask mct(mbs, {0, 1}, Vector3d::Random());
+
+	testTaskNumDiff(mbs, mbcs, mct, MRClassicUpdater<tasks::MultiCoMTask>(3),
+		PosTester());
+	testTaskNumDiff(mbs, mbcs, mct, MRNormalAccUpdater<tasks::MultiCoMTask>(mbs, 3),
+		PosTester());
+	testTaskNumDiff(mbs, mbcs, mct, MRNormalAccCoMUpdater<tasks::MultiCoMTask>(mbs, 3),
 		PosTester());
 }
 
