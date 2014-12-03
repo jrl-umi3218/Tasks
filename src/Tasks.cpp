@@ -641,7 +641,7 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 		const rbd::MultiBody& mb = mbs[r];
 		const rbd::MultiBodyConfig& mbc = mbcs[r];
 
-		eval_ -=  rbd::computeCoM(mbs[r], mbcs[r])*robotsWeight_[i];
+		eval_ -= rbd::computeCoM(mbs[r], mbcs[r])*robotsWeight_[i];
 		speed_ += jac_[i].velocity(mb, mbc);
 		normalAcc_ += jac_[i].normalAcceleration(mb, mbc);
 		jacMat_[i] = jac_[i].jacobian(mb, mbc);
@@ -662,7 +662,7 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 		const rbd::MultiBody& mb = mbs[r];
 		const rbd::MultiBodyConfig& mbc = mbcs[r];
 
-		eval_ -=  rbd::computeCoM(mbs[r], mbcs[r])*robotsWeight_[i];
+		eval_ -= rbd::computeCoM(mbs[r], mbcs[r])*robotsWeight_[i];
 		speed_ += jac_[i].velocity(mb, mbc);
 		normalAcc_ += jac_[i].normalAcceleration(mb, mbc, normalAccB[r]);
 		jacMat_[i] = jac_[i].jacobian(mb, mbc);
@@ -684,7 +684,7 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 		const rbd::MultiBody& mb = mbs[r];
 		const rbd::MultiBodyConfig& mbc = mbcs[r];
 
-		eval_ -= coms[r];
+		eval_ -= coms[r]*robotsWeight_[i];
 		speed_ += jac_[i].velocity(mb, mbc);
 		normalAcc_ += jac_[i].normalAcceleration(mb, mbc, normalAccB[r]);
 		jacMat_[i] = jac_[i].jacobian(mb, mbc);
