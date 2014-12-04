@@ -737,61 +737,61 @@ const Eigen::VectorXd& OrientationTask::normalAcc()
 
 
 /**
-  *																SurfaceOrientationTask
-  */
+	*																SurfaceOrientationTask
+	*/
 
 
 SurfaceOrientationTask::SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs,
-    int rI, int bodyId,
-    const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s):
-    ot_(mbs[rI], bodyId, ori, X_b_s),
-    robotIndex_(rI)
+	int rI, int bodyId,
+	const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s):
+	ot_(mbs[rI], bodyId, ori, X_b_s),
+	robotIndex_(rI)
 {}
 
 
 SurfaceOrientationTask::SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs,
-    int rI, int bodyId,
-    const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s):
-    ot_(mbs[rI], bodyId, ori, X_b_s),
-    robotIndex_(rI)
+	int rI, int bodyId,
+	const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s):
+	ot_(mbs[rI], bodyId, ori, X_b_s),
+	robotIndex_(rI)
 {}
 
 
 int SurfaceOrientationTask::dim()
 {
-    return 3;
+	return 3;
 }
 
 
 void SurfaceOrientationTask::update(const std::vector<rbd::MultiBody>& mbs,
-    const std::vector<rbd::MultiBodyConfig>& mbcs,
-    const SolverData& data)
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
 {
-    ot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+	ot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
 }
 
 
 const Eigen::MatrixXd& SurfaceOrientationTask::jac()
 {
-    return ot_.jac();
+	return ot_.jac();
 }
 
 
 const Eigen::VectorXd& SurfaceOrientationTask::eval()
 {
-    return ot_.eval();
+	return ot_.eval();
 }
 
 
 const Eigen::VectorXd& SurfaceOrientationTask::speed()
 {
-    return ot_.speed();
+	return ot_.speed();
 }
 
 
 const Eigen::VectorXd& SurfaceOrientationTask::normalAcc()
 {
-		return ot_.normalAcc();
+	return ot_.normalAcc();
 }
 
 

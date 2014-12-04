@@ -470,44 +470,44 @@ private:
 class SurfaceOrientationTask : public HighLevelTask
 {
 public:
-    SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
-        int bodyId, const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s);
-    SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
-        int bodyId, const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s);
+	SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
+			int bodyId, const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s);
+	SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
+			int bodyId, const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s);
 
-    tasks::SurfaceOrientationTask& task()
-    {
-        return ot_;
-    }
+	tasks::SurfaceOrientationTask& task()
+	{
+			return ot_;
+	}
 
-    void orientation(const Eigen::Quaterniond& ori)
-    {
-        ot_.orientation(ori);
-    }
+	void orientation(const Eigen::Quaterniond& ori)
+	{
+			ot_.orientation(ori);
+	}
 
-    void orientation(const Eigen::Matrix3d& ori)
-    {
-        ot_.orientation(ori);
-    }
+	void orientation(const Eigen::Matrix3d& ori)
+	{
+			ot_.orientation(ori);
+	}
 
-    const Eigen::Matrix3d& orientation() const
-    {
-        return ot_.orientation();
-    }
+	const Eigen::Matrix3d& orientation() const
+	{
+			return ot_.orientation();
+	}
 
-    virtual int dim();
-    virtual void update(const std::vector<rbd::MultiBody>& mbs,
-        const std::vector<rbd::MultiBodyConfig>& mbcs,
-        const SolverData& data);
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+			const std::vector<rbd::MultiBodyConfig>& mbcs,
+			const SolverData& data);
 
-    virtual const Eigen::MatrixXd& jac();
-    virtual const Eigen::VectorXd& eval();
-    virtual const Eigen::VectorXd& speed();
-    virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
 
 private:
-    tasks::SurfaceOrientationTask ot_;
-    int robotIndex_;
+	tasks::SurfaceOrientationTask ot_;
+	int robotIndex_;
 };
 
 
