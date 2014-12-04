@@ -118,6 +118,9 @@ public:
 		int r1Index, int r2Index, int r1BodyId, int r2BodyId,
 		const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s);
 
+	int r1Index() const;
+	int r2Index() const;
+
 	void X_r1b_r1s(const sva::PTransformd& X_r1b_r1s);
 	const sva::PTransformd& X_r1b_r1s() const;
 

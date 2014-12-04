@@ -272,6 +272,18 @@ MultiRobotTransformTask::MultiRobotTransformTask(
 {}
 
 
+int MultiRobotTransformTask::r1Index() const
+{
+	return r1Index_;
+}
+
+
+int MultiRobotTransformTask::r2Index() const
+{
+	return r2Index_;
+}
+
+
 void MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd& X_r1b_r1s)
 {
 	X_r1b_r1s_ = X_r1b_r1s;
