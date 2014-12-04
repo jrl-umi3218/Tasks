@@ -265,8 +265,10 @@ MultiRobotTransformTask::MultiRobotTransformTask(
 	eval_(6),
 	speed_(6),
 	normalAcc_(6),
-	jacMat_({Eigen::MatrixXd::Zero(6,mbs[r1Index].nrDof()),
-					 Eigen::MatrixXd::Zero(6,mbs[r2Index].nrDof())})
+	jacMat1_(6, jacR1B_.dof()),
+	jacMat2_(6, jacR2B_.dof()),
+	fullJacMat_({Eigen::MatrixXd::Zero(6,mbs[r1Index].nrDof()),
+							Eigen::MatrixXd::Zero(6,mbs[r2Index].nrDof())})
 {}
 
 
@@ -341,16 +343,16 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 	speed_ = -V_err_r1s.vector();
 	normalAcc_ = -AN_err_r1s.vector();
 
-	auto jacMat1 = jacR1B_.jacobian(mb1, mbc1, X_0_r1s);
+	jacMat1_.noalias() = jacR1B_.jacobian(mb1, mbc1, X_0_r1s);
 	for(int i = 0; i < jacR1B_.dof(); ++i)
 	{
-		jacMat1.col(i) -= err_r1s.cross(
-			sva::MotionVecd(jacMat1.col(i).head<3>(), Vector3d::Zero())).vector();
+		jacMat1_.col(i).head<6>() -= err_r1s.cross(
+			sva::MotionVecd(jacMat1_.col(i).head<3>(), Vector3d::Zero())).vector();
 	}
-	auto jacMat2 = -jacR2B_.jacobian(mb2, mbc2, E_r2s_r1s*X_0_r2s);
+	jacMat2_.noalias() = -jacR2B_.jacobian(mb2, mbc2, E_r2s_r1s*X_0_r2s);
 
-	jacR1B_.fullJacobian(mb1, jacMat1, jacMat_[0]);
-	jacR2B_.fullJacobian(mb2, jacMat2, jacMat_[1]);
+	jacR1B_.fullJacobian(mb1, jacMat1_, fullJacMat_[0]);
+	jacR2B_.fullJacobian(mb2, jacMat2_, fullJacMat_[1]);
 }
 
 
@@ -373,7 +375,7 @@ const Eigen::VectorXd& MultiRobotTransformTask::normalAcc() const
 
 const Eigen::MatrixXd& MultiRobotTransformTask::jac(int index) const
 {
-	return jacMat_[index];
+	return fullJacMat_[index];
 }
 
 

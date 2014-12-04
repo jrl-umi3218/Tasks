@@ -143,7 +143,8 @@ private:
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
-	std::vector<Eigen::MatrixXd> jacMat_;
+	Eigen::MatrixXd jacMat1_, jacMat2_;
+	std::vector<Eigen::MatrixXd> fullJacMat_;
 };
 
 
