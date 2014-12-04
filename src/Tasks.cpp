@@ -312,42 +312,42 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 	sva::PTransformd X_0_r1s = X_r1b_r1s_*X_0_r1b;
 	sva::PTransformd X_0_r2s = X_r2b_r2s_*X_0_r2b;
 	sva::PTransformd X_r1s_r2s = X_0_r2s*X_0_r1s.inv();
-	sva::PTransformd X_r1b_r2b = X_0_r2b*X_0_r1b.inv();
 
-	sva::PTransformd E_r2b_r1b(Matrix3d(X_r1b_r2b.rotation().transpose()));
+	sva::PTransformd E_r2s_r1s(Matrix3d(X_r1s_r2s.rotation().transpose()));
+	sva::PTransformd X_r2b_r2s_r1s(E_r2s_r1s*X_r2b_r2s_);
 
-	sva::MotionVecd err_r1b(sva::rotationVelocity(X_r1b_r2b.rotation(), 1e-7),
-		X_r1b_r2b.translation());
+	sva::MotionVecd err_r1s(sva::rotationVelocity(X_r1s_r2s.rotation(), 1e-7),
+		X_r1s_r2s.translation());
 
-	sva::MotionVecd V_r1b_r1b = jacR1B_.bodyVelocity(mb1, mbc1);
-	sva::MotionVecd V_r2b_r1b = jacR2B_.velocity(mb2, mbc2, E_r2b_r1b);
+	sva::MotionVecd V_r1s_r1s = jacR1B_.velocity(mb1, mbc1, X_r1b_r1s_);
+	sva::MotionVecd V_r2s_r1s = jacR2B_.velocity(mb2, mbc2, X_r2b_r2s_r1s);
 
-	sva::MotionVecd V_err_b = V_r2b_r1b - V_r1b_r1b;
-	sva::MotionVecd w_r1b(V_r1b_r1b.angular(), Vector3d::Zero());
+	sva::MotionVecd V_err_s = V_r2s_r1s - V_r1s_r1s;
+	sva::MotionVecd w_r1s(V_r1s_r1s.angular(), Vector3d::Zero());
 
-	sva::MotionVecd V_err_r1b = err_r1b.cross(w_r1b) + V_err_b;
+	sva::MotionVecd V_err_r1s = err_r1s.cross(w_r1s) + V_err_s;
 
-	sva::MotionVecd AN_r1b_r1b = jacR1B_.bodyNormalAcceleration(mb1, mbc1,
-		normalAccBR1);
-	sva::MotionVecd wAN_r1b_r1b(AN_r1b_r1b.angular(), Vector3d::Zero());
-	sva::MotionVecd AN_r2b_r1b = jacR2B_.normalAcceleration(mb2, mbc2, normalAccBR2,
-		E_r2b_r1b, sva::MotionVecd(V_err_b.angular(), Vector3d::Zero()));
-	sva::MotionVecd AN_err_b = AN_r2b_r1b - AN_r1b_r1b;
+	sva::MotionVecd AN_r1s_r1s = jacR1B_.normalAcceleration(mb1, mbc1,
+		normalAccBR1, X_r1b_r1s_, sva::MotionVecd(Vector6d::Zero()));
+	sva::MotionVecd wAN_r1s_r1s(AN_r1s_r1s.angular(), Vector3d::Zero());
+	sva::MotionVecd AN_r2s_r1s = jacR2B_.normalAcceleration(mb2, mbc2, normalAccBR2,
+		X_r2b_r2s_r1s, sva::MotionVecd(V_err_s.angular(), Vector3d::Zero()));
+	sva::MotionVecd AN_err_s = AN_r2s_r1s - AN_r1s_r1s;
 
-	sva::MotionVecd AN_err_r1b = (V_err_b + err_r1b.cross(w_r1b)).cross(w_r1b) +
-		err_r1b.cross(wAN_r1b_r1b) + AN_err_b;
+	sva::MotionVecd AN_err_r1s = (V_err_s + err_r1s.cross(w_r1s)).cross(w_r1s) +
+		err_r1s.cross(wAN_r1s_r1s) + AN_err_s;
 
-	eval_ = err_r1b.vector();
-	speed_ = -V_err_r1b.vector();
-	normalAcc_ = -AN_err_r1b.vector();
+	eval_ = err_r1s.vector();
+	speed_ = -V_err_r1s.vector();
+	normalAcc_ = -AN_err_r1s.vector();
 
-	auto jacMat1 = jacR1B_.bodyJacobian(mb1, mbc1);
+	auto jacMat1 = jacR1B_.jacobian(mb1, mbc1, X_0_r1s);
 	for(int i = 0; i < jacR1B_.dof(); ++i)
 	{
-		jacMat1.col(i) -= err_r1b.cross(
+		jacMat1.col(i) -= err_r1s.cross(
 			sva::MotionVecd(jacMat1.col(i).head<3>(), Vector3d::Zero())).vector();
 	}
-	auto jacMat2 = -jacR2B_.jacobian(mb2, mbc2, E_r2b_r1b*X_0_r2b);
+	auto jacMat2 = -jacR2B_.jacobian(mb2, mbc2, E_r2s_r1s*X_0_r2s);
 
 	jacR1B_.fullJacobian(mb1, jacMat1, jacMat_[0]);
 	jacR2B_.fullJacobian(mb2, jacMat2, jacMat_[1]);
