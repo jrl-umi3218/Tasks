@@ -111,6 +111,43 @@ private:
 
 
 
+class MultiRobotTransformTask
+{
+public:
+	MultiRobotTransformTask(const std::vector<rbd::MultiBody>& mbs,
+		int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+		const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s);
+
+	void X_r1b_r1s(const sva::PTransformd& X_r1b_r1s);
+	const sva::PTransformd& X_r1b_r1s() const;
+
+	void X_r2b_r2s(const sva::PTransformd& X_r2b_r2s);
+	const sva::PTransformd& X_r2b_r2s() const;
+
+	void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac(int index) const;
+
+private:
+	int r1Index_, r2Index_;
+	int r1BodyIndex_, r2BodyIndex_;
+	sva::PTransformd X_r1b_r1s_, X_r2b_r2s_;
+	rbd::Jacobian jacR1B_, jacR2B_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	std::vector<Eigen::MatrixXd> jacMat_;
+};
+
+
+
 class SurfaceOrientationTask
 {
 public:

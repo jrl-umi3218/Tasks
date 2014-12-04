@@ -242,6 +242,20 @@ struct PosTester
 };
 
 
+/// Test MultiRobotTransformTask, the rotation part is not reliable since
+/// he use rotationVelocity
+struct PosMRTTTester
+{
+	void operator()(const Eigen::VectorXd& speedCur,
+		const Eigen::VectorXd& accCur, const Eigen::VectorXd& speedDiff,
+		const Eigen::VectorXd& accDiff, double tol)
+	{
+		BOOST_CHECK_SMALL((speedCur.tail<3>() - speedDiff.tail<3>()).norm(), tol);
+		BOOST_CHECK_SMALL((accCur.tail<3>() - accDiff.tail<3>()).norm(), tol);
+	}
+};
+
+
 /// Test position task with orientation error (speedDiff is not realiable)
 struct OriTaskTester
 {
@@ -380,6 +394,32 @@ BOOST_AUTO_TEST_CASE(OrientationTaskTest)
 		OriTaskTester());
 	testTaskNumDiff(mb, mbc, ot, NormalAccUpdater<tasks::OrientationTask>(mb),
 		OriTaskTester());
+}
+
+
+BOOST_AUTO_TEST_CASE(MultiRobotTransformTaskTest)
+{
+	using namespace Eigen;
+	using namespace rbd;
+
+	MultiBody mb1, mb2;
+	MultiBodyConfig mbc1, mbc2;
+
+	std::tie(mb1, mbc1) = makeZXZArm();
+	std::tie(mb2, mbc2) = makeZXZArm();
+
+	std::vector<MultiBody> mbs{mb1, mb2};
+	std::vector<MultiBodyConfig> mbcs{mbc1, mbc2};
+
+	sva::PTransformd X_r1b_r1s(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+	sva::PTransformd X_r2b_r2s(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+
+	tasks::MultiRobotTransformTask mrtt(mbs, 0, 1, 3, 3, X_r1b_r1s, X_r2b_r2s);
+
+	testTaskNumDiff(mbs, mbcs, mrtt,
+		MRNormalAccUpdater<tasks::MultiRobotTransformTask>(mbs, 6), PosMRTTTester());
 }
 
 
