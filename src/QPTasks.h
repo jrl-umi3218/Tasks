@@ -628,6 +628,70 @@ private:
 };
 
 
+class MultiRobotTransformTask : public Task
+{
+public:
+	MultiRobotTransformTask(const std::vector<rbd::MultiBody>& mbs,
+		int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+		const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s,
+		double stiffness, double weight);
+
+	tasks::MultiRobotTransformTask& task()
+	{
+		return mrtt_;
+	}
+
+	void X_r1b_r1s(const sva::PTransformd& X_r1b_r1s);
+	const sva::PTransformd& X_r1b_r1s() const;
+
+	void X_r2b_r2s(const sva::PTransformd& X_r2b_r2s);
+	const sva::PTransformd& X_r2b_r2s() const;
+
+	double stiffness() const
+	{
+		return stiffness_;
+	}
+
+	void stiffness(double stiffness);
+
+	void dimWeight(const Eigen::Vector6d& dim);
+
+	const Eigen::Vector6d& dimWeight() const
+	{
+		return dimWeight_;
+	}
+
+	virtual std::pair<int, int> begin() const
+	{
+		return {alphaDBegin_, alphaDBegin_};
+	}
+
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+
+private:
+	int alphaDBegin_;
+	double stiffness_, stiffnessSqrt_;
+	Eigen::Vector6d dimWeight_;
+	std::vector<int> posInQ_, robotIndexes_;
+	tasks::MultiRobotTransformTask mrtt_;
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	Eigen::Vector6d CSum_;
+	// cache
+	Eigen::MatrixXd preQ_;
+};
+
+
 class MomentumTask : public HighLevelTask
 {
 public:

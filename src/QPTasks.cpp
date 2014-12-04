@@ -1003,6 +1003,137 @@ void MultiCoMTask::init(const std::vector<rbd::MultiBody>& mbs)
 
 
 /**
+	*													MultiRobotTransformTask
+	*/
+
+
+MultiRobotTransformTask::MultiRobotTransformTask(
+	const std::vector<rbd::MultiBody>& mbs,
+	int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+	const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s,
+	double stiffness, double weight):
+	Task(weight),
+	alphaDBegin_(-1),
+	stiffness_(stiffness),
+	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	dimWeight_(Eigen::Vector6d::Ones()),
+	posInQ_(2, -1),
+	robotIndexes_{{r1Index, r2Index}},
+	mrtt_(mbs, r1Index, r2Index, r1BodyId, r2BodyId, X_r1b_r1s, X_r2b_r2s),
+	Q_(),
+	C_(),
+	CSum_(),
+	preQ_()
+{}
+
+
+void MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd& X_r1b_r1s)
+{
+	mrtt_.X_r1b_r1s(X_r1b_r1s);
+}
+
+
+const sva::PTransformd& MultiRobotTransformTask::X_r1b_r1s() const
+{
+	return mrtt_.X_r1b_r1s();
+}
+
+
+void MultiRobotTransformTask::X_r2b_r2s(const sva::PTransformd& X_r2b_r2s)
+{
+	mrtt_.X_r2b_r2s(X_r2b_r2s);
+}
+
+
+const sva::PTransformd& MultiRobotTransformTask::X_r2b_r2s() const
+{
+	return mrtt_.X_r2b_r2s();
+}
+
+
+void MultiRobotTransformTask::stiffness(double stiffness)
+{
+	stiffness_ = stiffness;
+	stiffnessSqrt_ = 2.*std::sqrt(stiffness);
+}
+
+
+void MultiRobotTransformTask::dimWeight(const Eigen::Vector6d& dim)
+{
+	dimWeight_ = dim;
+}
+
+
+void MultiRobotTransformTask::updateNrVars(
+	const std::vector<rbd::MultiBody>& /* mbs */, const SolverData& data)
+{
+	auto minMaxIndex =
+		std::minmax_element(robotIndexes_.begin(), robotIndexes_.end());
+	alphaDBegin_ = data.alphaDBegin(*(minMaxIndex.first));
+	int lastBegin = data.alphaDBegin(*(minMaxIndex.second));
+	int lastAlphaD = data.alphaD(*(minMaxIndex.second));
+	int size = lastBegin + lastAlphaD - alphaDBegin_;
+
+	Q_.setZero(size, size);
+	C_.setZero(size);
+
+	posInQ_.clear();
+	for(int r: robotIndexes_)
+	{
+		posInQ_.push_back(data.alphaDBegin(r) - alphaDBegin_);
+	}
+}
+
+
+void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	mrtt_.update(mbs, mbcs, data.normalAccB());
+	CSum_.noalias() = stiffness_*mrtt_.eval();
+	CSum_.noalias() -= stiffnessSqrt_*mrtt_.speed();
+	CSum_.noalias() -= mrtt_.normalAcc();
+	for(int i = 0; i < int(posInQ_.size()); ++i)
+	{
+		int r = robotIndexes_[i];
+		int begin = posInQ_[i];
+		int dof = data.alphaD(r);
+
+		const Eigen::MatrixXd& J = mrtt_.jac(i);
+		preQ_.block(0, 0, 3, dof).noalias() = dimWeight_.asDiagonal()*J;
+
+		Q_.block(begin, begin, dof, dof).noalias() =
+			J.transpose()*preQ_.block(0, 0, 3, dof);
+		C_.segment(begin, dof).noalias() = -J.transpose()*dimWeight_.asDiagonal()*CSum_;
+	}
+}
+
+
+const Eigen::MatrixXd& MultiRobotTransformTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& MultiRobotTransformTask::C() const
+{
+	return C_;
+}
+
+
+const Eigen::VectorXd& MultiRobotTransformTask::eval() const
+{
+	return mrtt_.eval();
+}
+
+
+const Eigen::VectorXd& MultiRobotTransformTask::speed() const
+{
+	return mrtt_.speed();
+}
+
+
+/**
 	*													MomentumTask
 	*/
 
