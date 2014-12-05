@@ -433,3 +433,69 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
 	solver.removeTask(&posture2Task);
 	solver.removeTask(&multiCoM);
 }
+
+
+// Test the MultiRobotTransformTask
+// We try to set he two end effector at the same frame.
+BOOST_AUTO_TEST_CASE(MultiRobotTransformTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb1, mb2;
+	MultiBodyConfig mbc1Init, mbc2Init;
+
+	std::tie(mb1, mbc1Init) = makeZXZArm(true,
+		sva::PTransformd(sva::RotZ(-cst::pi<double>()/4.), Vector3d(-0.5, 0., 0.)));
+	forwardKinematics(mb1, mbc1Init);
+	forwardVelocity(mb1, mbc1Init);
+
+	std::tie(mb2, mbc2Init) = makeZXZArm(false,
+		 sva::PTransformd(sva::RotZ(cst::pi<double>()/2.), Vector3d(0.5, 0., 0.)));
+	forwardKinematics(mb2, mbc2Init);
+	forwardVelocity(mb2, mbc2Init);
+
+	std::vector<MultiBody> mbs = {mb1, mb2};
+	std::vector<MultiBodyConfig> mbcs = {mbc1Init, mbc2Init};
+
+	// Test ContactAccConstr constraint
+	// Also test PositionTask on the second robot
+
+	qp::QPSolver solver;
+
+	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
+	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
+	qp::MultiRobotTransformTask mrtt(mbs, 0, 1, 3, 3,
+		sva::PTransformd(sva::RotZ(-cst::pi<double>()/8.)),
+		sva::PTransformd::Identity(), 100., 1000.);
+	mrtt.dimWeight((Vector6d() << 0., 0., 1., 1., 1.,0.).finished());
+
+	solver.addTask(&posture1Task);
+	solver.addTask(&posture2Task);
+	solver.addTask(&mrtt);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+	// 3 dof + 9 dof
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 9);
+
+	for(int i = 0; i < 2000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		for(std::size_t r = 0; r < mbs.size(); ++r)
+		{
+			eulerIntegration(mbs[r], mbcs[r], 0.005);
+
+			forwardKinematics(mbs[r], mbcs[r]);
+			forwardVelocity(mbs[r], mbcs[r]);
+		}
+	}
+	BOOST_CHECK_SMALL(mrtt.eval().norm(), 1e-3);
+
+	solver.removeTask(&posture1Task);
+	solver.removeTask(&posture2Task);
+	solver.removeTask(&mrtt);
+}

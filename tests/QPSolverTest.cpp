@@ -1432,7 +1432,8 @@ BOOST_AUTO_TEST_CASE(SurfaceOrientationTask)
 	solver.nrVars(mbs, {}, {});
 	solver.updateConstrSize();
 
-	qp::SurfaceOrientationTask surfOriTask(mbs, 0, 3, RotZ(cst::pi<double>()/2.), sva::PTransformd(Vector3d(0., 0., 0.)));
+	qp::SurfaceOrientationTask surfOriTask(mbs, 0, 3,
+		RotZ(cst::pi<double>()/2.), sva::PTransformd(Vector3d(0., 0., 0.)));
 	qp::SetPointTask surfOriTaskSp(mbs, 0, &surfOriTask, 10., 1.);
 
 	// Test addTask

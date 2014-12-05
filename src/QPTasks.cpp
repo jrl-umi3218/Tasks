@@ -1024,7 +1024,14 @@ MultiRobotTransformTask::MultiRobotTransformTask(
 	C_(),
 	CSum_(),
 	preQ_()
-{}
+{
+	int maxDof = 0;
+	for(int r: robotIndexes_)
+	{
+		maxDof = std::max(maxDof, mbs[r].nrDof());
+	}
+	preQ_.resize(6, maxDof);
+}
 
 
 void MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd& X_r1b_r1s)
@@ -1100,10 +1107,10 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 		int dof = data.alphaD(r);
 
 		const Eigen::MatrixXd& J = mrtt_.jac(i);
-		preQ_.block(0, 0, 3, dof).noalias() = dimWeight_.asDiagonal()*J;
+		preQ_.block(0, 0, 6, dof).noalias() = dimWeight_.asDiagonal()*J;
 
 		Q_.block(begin, begin, dof, dof).noalias() =
-			J.transpose()*preQ_.block(0, 0, 3, dof);
+			J.transpose()*preQ_.block(0, 0, 6, dof);
 		C_.segment(begin, dof).noalias() = -J.transpose()*dimWeight_.asDiagonal()*CSum_;
 	}
 }
