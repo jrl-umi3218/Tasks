@@ -56,7 +56,8 @@ def import_eigen3_types(mod):
 
 
 def build_tasks(posTask, oriTask, surfOriTask, positionTask, comTask,
-                multiCoMTask, momTask, linVelTask, oriTrackTask):
+                multiCoMTask, momTask, linVelTask, oriTrackTask,
+                multiRobotTransformTask):
   def add_std_func(cls):
     cls.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -163,6 +164,38 @@ def build_tasks(posTask, oriTask, surfOriTask, positionTask, comTask,
   multiCoMTask.add_method('jac', retval('const Eigen::MatrixXd&'),
                           [param('int', 'index')], is_const=True)
 
+  # MultiRobotTransformTask
+  multiRobotTransformTask.add_constructor(
+    [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+     param('int', 'r1Index'), param('int', 'r2Index'),
+     param('int', 'r1BodyIndex'), param('int', 'r2BodyIndex'),
+     param('const sva::PTransformd&', 'X_r1b_r1s'),
+     param('const sva::PTransformd&', 'X_r2b_r2s')])
+
+  multiRobotTransformTask.add_method('r1Index', retval('int'), [], is_const=True)
+  multiRobotTransformTask.add_method('r2Index', retval('int'), [], is_const=True)
+  multiRobotTransformTask.add_method('X_r1b_r1s', None,
+    [param('const sva::PTransformd&', 'X_r1b_r1s')])
+  multiRobotTransformTask.add_method('X_r1b_r1s', retval('sva::PTransformd'),
+                                     [], is_const=True)
+  multiRobotTransformTask.add_method('X_r2b_r2s', None,
+                                     [param('const sva::PTransformd&', 'X_r2b_r2s')])
+  multiRobotTransformTask.add_method('X_r2b_r2s', retval('sva::PTransformd'),
+                                     [], is_const=True)
+  multiRobotTransformTask.add_method('update', None,
+    [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+      param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
+      param('const std::vector<std::vector<sva::MotionVecd> >&', 'normalAccB')])
+
+  multiRobotTransformTask.add_method('eval', retval('const Eigen::VectorXd&'), [],
+                                     is_const=True)
+  multiRobotTransformTask.add_method('speed', retval('const Eigen::VectorXd&'), [],
+                                     is_const=True)
+  multiRobotTransformTask.add_method('normalAcc', retval('const Eigen::VectorXd&'), [],
+                                     is_const=True)
+  multiRobotTransformTask.add_method('jac', retval('const Eigen::MatrixXd&'),
+                                     [param('int', 'index')], is_const=True)
+
   # MomentumTask
   momTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
                            param('const sva::ForceVecd&', 'mom')])
@@ -239,6 +272,7 @@ def build_qp(tasks):
   postureTask = qp.add_class('PostureTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
   multiCoMTask = qp.add_class('MultiCoMTask', parent=task)
+  multiRobotTransformTask = qp.add_class('MultiRobotTransformTask', parent=task)
   momTask = qp.add_class('MomentumTask', parent=hlTask)
   contactTask = qp.add_class('ContactTask', parent=task)
   gripperTorqueTask = qp.add_class('GripperTorqueTask', parent=task)
@@ -278,7 +312,8 @@ def build_qp(tasks):
   boundConstrName = ['PositiveLambda', 'JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['SetPointTask', 'PIDTask', 'TargetObjectiveTask',
               'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
-              'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask']
+              'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask',
+              'tasks::qp::MultiRobotTransformTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'SurfaceOrientationTask', 'CoMTask', 'LinVelocityTask',
                 'OrientationTrackingTask', 'MomentumTask', 'JointsSelector']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
@@ -297,11 +332,11 @@ def build_qp(tasks):
                       'tasks::qp::JointStiffness', 'vector')
   tasks.add_container('std::vector<tasks::qp::SpringJoint>',
                       'tasks::qp::SpringJoint', 'vector')
-  tasks.add_container('std::vector<sva::MotionVecd>', 'sva::MotionVecd', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
   tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
   tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
-  tasks.add_container('std::vector<std::vector<Eigen::VectorXd> >', 'std::vector<Eigen::VectorXd>', 'vector')
+  tasks.add_container('std::vector<std::vector<Eigen::VectorXd> >',
+                      'std::vector<Eigen::VectorXd>', 'vector')
 
 
   # QPSolver
@@ -856,6 +891,41 @@ def build_qp(tasks):
                            param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
                            param('const tasks::qp::SolverData&', 'data')])
 
+  # MultiRobotTransformTask
+  multiRobotTransformTask.add_constructor(
+      [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+      param('int', 'r1Index'), param('int', 'r2Index'),
+      param('int', 'r1BodyIndex'), param('int', 'r2BodyIndex'),
+      param('const sva::PTransformd&', 'X_r1b_r1s'),
+      param('const sva::PTransformd&', 'X_r2b_r2s'),
+      param('double', 'stiffness'), param('double', 'weight')])
+
+  multiRobotTransformTask.add_method('X_r1b_r1s', None,
+    [param('const sva::PTransformd&', 'X_r1b_r1s')])
+  multiRobotTransformTask.add_method('X_r1b_r1s', retval('sva::PTransformd'),
+                                     [], is_const=True)
+  multiRobotTransformTask.add_method('X_r2b_r2s', None,
+                                     [param('const sva::PTransformd&', 'X_r2b_r2s')])
+  multiRobotTransformTask.add_method('X_r2b_r2s', retval('sva::PTransformd'),
+                                     [], is_const=True)
+
+  multiRobotTransformTask.add_method('eval', retval('const Eigen::VectorXd&'), [],
+                                     is_const=True)
+  multiRobotTransformTask.add_method('speed', retval('const Eigen::VectorXd&'), [],
+                                     is_const=True)
+
+  multiRobotTransformTask.add_method('stiffness', None, [param('double', 'stiffness')])
+  multiRobotTransformTask.add_method('stiffness', retval('double'), [],
+                                     is_const=True)
+  multiRobotTransformTask.add_method('dimWeight', None,
+                                     [param('const Eigen::Vector6d&', 'dimWeight')])
+  multiRobotTransformTask.add_method('dimWeight', retval('Eigen::Vector6d'), [],
+                                     is_const=True)
+  multiRobotTransformTask.add_method('update', None,
+    [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+      param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
+      param('const tasks::qp::SolverData&', 'data')])
+
   # MomentumTask
   momTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('int', 'robotIndex'),
@@ -1133,6 +1203,7 @@ if __name__ == '__main__':
   momTask = tasks.add_class('MomentumTask')
   linVelTask = tasks.add_class('LinVelocityTask')
   oriTrackTask = tasks.add_class('OrientationTrackingTask')
+  multiRobotTransformTask = tasks.add_class('MultiRobotTransformTask')
 
   # build list type
   tasks.add_container('std::vector<int>', 'int', 'vector')
@@ -1142,9 +1213,12 @@ if __name__ == '__main__':
                       'rbd::MultiBody', 'vector')
   tasks.add_container('std::vector<rbd::MultiBodyConfig>',
                       'rbd::MultiBodyConfig', 'vector')
+  tasks.add_container('std::vector<sva::MotionVecd>', 'sva::MotionVecd', 'vector')
+  tasks.add_container('std::vector<std::vector<sva::MotionVecd> >',
+                      'std::vector<sva::MotionVecd>', 'vector')
 
   build_tasks(posTask, oriTask, surfOriTask, postureTask, comTask, multiCoMTask,
-              momTask, linVelTask, oriTrackTask)
+              momTask, linVelTask, oriTrackTask, multiRobotTransformTask)
 
   # qp
   build_qp(tasks)
