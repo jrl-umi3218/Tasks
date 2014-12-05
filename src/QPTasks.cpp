@@ -1100,6 +1100,17 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 	CSum_.noalias() = stiffness_*mrtt_.eval();
 	CSum_.noalias() -= stiffnessSqrt_*mrtt_.speed();
 	CSum_.noalias() -= mrtt_.normalAcc();
+
+	// first we set to zero used part of Q and C
+	for(int i = 0; i < int(posInQ_.size()); ++i)
+	{
+		int r = robotIndexes_[i];
+		int begin = posInQ_[i];
+		int dof = data.alphaD(r);
+		Q_.block(begin, begin, dof, dof).setZero();
+		C_.segment(begin, dof).setZero();
+	}
+
 	for(int i = 0; i < int(posInQ_.size()); ++i)
 	{
 		int r = robotIndexes_[i];
@@ -1109,9 +1120,11 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 		const Eigen::MatrixXd& J = mrtt_.jac(i);
 		preQ_.block(0, 0, 6, dof).noalias() = dimWeight_.asDiagonal()*J;
 
-		Q_.block(begin, begin, dof, dof).noalias() =
+		// scince the two robot index could be the same
+		// we had to increment the Q and C matrix
+		Q_.block(begin, begin, dof, dof).noalias() +=
 			J.transpose()*preQ_.block(0, 0, 6, dof);
-		C_.segment(begin, dof).noalias() = -J.transpose()*dimWeight_.asDiagonal()*CSum_;
+		C_.segment(begin, dof).noalias() -= J.transpose()*dimWeight_.asDiagonal()*CSum_;
 	}
 }
 
