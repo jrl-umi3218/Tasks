@@ -348,7 +348,7 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 		X_r2b_r2s_r1s, sva::MotionVecd(V_err_s.angular(), Vector3d::Zero()));
 	sva::MotionVecd AN_err_s = AN_r2s_r1s - AN_r1s_r1s;
 
-	sva::MotionVecd AN_err_r1s = (V_err_s + err_r1s.cross(w_r1s)).cross(w_r1s) +
+	sva::MotionVecd AN_err_r1s = V_err_r1s.cross(w_r1s) +
 		err_r1s.cross(wAN_r1s_r1s) + AN_err_s;
 
 	eval_ = err_r1s.vector();
