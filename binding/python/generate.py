@@ -54,6 +54,12 @@ def import_eigen3_types(mod):
   mod.add_class('Quaterniond', foreign_cpp_namespace='Eigen', import_from_module='eigen3')
 
 
+def build_boost_timer(tasks):
+  cpuTime = tasks.add_struct('cpu_times', foreign_cpp_namespace='boost::timer')
+  cpuTime.add_instance_attribute('wall', 'long long int')
+  cpuTime.add_instance_attribute('user', 'long long int')
+  cpuTime.add_instance_attribute('system', 'long long int')
+
 
 def build_tasks(posTask, oriTask, surfOriTask, positionTask, comTask,
                 multiCoMTask, momTask, linVelTask, oriTrackTask,
@@ -398,6 +404,11 @@ def build_qp(tasks):
   sol.add_method('contactLambdaPosition', retval('int'),
                  [param('const tasks::qp::ContactId&', 'contactId')], is_const=True)
   sol.add_method('data', retval('tasks::qp::SolverData'), [], is_const=True)
+
+  sol.add_method('solveTime', retval('boost::timer::cpu_times'),
+                 [], is_const=True)
+  sol.add_method('solveAndBuildTime', retval('boost::timer::cpu_times'),
+                 [], is_const=True)
 
   # SolverData
   solData.add_method('nrVars', retval('int'), [], is_const=True)
@@ -1187,6 +1198,8 @@ if __name__ == '__main__':
                                message_rvalue='%(EXC)s.what()')
   out_ex = tasks.add_exception('std::out_of_range', foreign_cpp_namespace=' ',
                                message_rvalue='%(EXC)s.what()')
+
+  build_boost_timer(tasks)
 
   # import Eigen3, sva and rbd types
   import_eigen3_types(tasks)

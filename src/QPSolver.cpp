@@ -78,9 +78,12 @@ bool QPSolver::solve(const std::vector<rbd::MultiBody>& mbs,
 bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
+	solverAndBuildTimer_.start();
 	preUpdate(mbs, mbcs);
 
+	solverTimer_.start();
 	bool success = solver_->solve();
+	solverTimer_.stop();
 
 	if(!success)
 	{
@@ -89,6 +92,7 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
 										 genInEqConstr_, boundConstr_,
 										 std::cerr) << std::endl;
 	}
+	solverAndBuildTimer_.stop();
 
 	return success;
 }
@@ -437,6 +441,18 @@ int QPSolver::contactLambdaPosition(const ContactId& cId) const
 	}
 
 	return -1;
+}
+
+
+boost::timer::cpu_times QPSolver::solveTime() const
+{
+	return solverTimer_.elapsed();
+}
+
+
+boost::timer::cpu_times QPSolver::solveAndBuildTime() const
+{
+	return solverAndBuildTimer_.elapsed();
 }
 
 

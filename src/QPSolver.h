@@ -20,6 +20,9 @@
 #include <memory>
 #include <vector>
 
+// boost
+#include <boost/timer/timer.hpp>
+
 // Eigen
 #include <Eigen/Core>
 
@@ -132,6 +135,9 @@ public:
 
 	int contactLambdaPosition(const ContactId& cId) const;
 
+	boost::timer::cpu_times solveTime() const;
+	boost::timer::cpu_times solveAndBuildTime() const;
+
 protected:
 	void preUpdate(const std::vector<rbd::MultiBody>& mbs,
 								const std::vector<rbd::MultiBodyConfig>& mbcs);
@@ -153,6 +159,8 @@ private:
 	int maxEqLines_, maxInEqLines_, maxGenInEqLines_;
 
 	std::unique_ptr<GenQPSolver> solver_;
+
+	boost::timer::cpu_timer solverTimer_, solverAndBuildTimer_;
 };
 
 

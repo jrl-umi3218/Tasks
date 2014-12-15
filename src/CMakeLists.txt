@@ -11,14 +11,18 @@ if(${POSTURE_GENERATOR})
   list(APPEND HEADERS PGJacobian.h PostureGenerator.h PGConstr.h)
 endif()
 
+set(BOOST_COMPONENTS timer system)
+SEARCH_FOR_BOOST()
+
+include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
-
 
 PKG_CONFIG_USE_DEPENDENCY(Tasks sch-core)
 PKG_CONFIG_USE_DEPENDENCY(Tasks SpaceVecAlg)
 PKG_CONFIG_USE_DEPENDENCY(Tasks RBDyn)
 PKG_CONFIG_USE_DEPENDENCY(Tasks EigenQP)
+target_link_libraries(Tasks ${Boost_LIBRARIES})
 
 if(${POSTURE_GENERATOR})
   PKG_CONFIG_USE_DEPENDENCY(Tasks ipopt)
