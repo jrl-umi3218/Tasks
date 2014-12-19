@@ -129,14 +129,16 @@ UnilateralContact::UnilateralContact(int r1I, int r2I,
 	int r1BId, int r2BId,
 	std::vector<Eigen::Vector3d> r1P,
 	const Eigen::Matrix3d& r1Frame,
-	const sva::PTransformd& X,
-	int nrGen, double mu):
+    const sva::PTransformd& Xbb,
+    int nrGen, double mu,
+    const sva::PTransformd& Xbs):
 	contactId(r1I, r2I, r1BId, r2BId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cone(r1Frame, nrGen, mu),
 	r2Cone(),
-	X_b1_b2(X)
+    X_b1_b2(Xbb),
+    X_b1_s1(Xbs)
 {
 	construct(r1Frame, nrGen, mu);
 }
@@ -145,14 +147,16 @@ UnilateralContact::UnilateralContact(int r1I, int r2I,
 UnilateralContact::UnilateralContact(const ContactId& cId,
 	std::vector<Eigen::Vector3d> r1P,
 	const Eigen::Matrix3d& r1Frame,
-	const sva::PTransformd& X,
-	int nrGen, double mu):
+    const sva::PTransformd& Xbb,
+    int nrGen, double mu,
+    const sva::PTransformd& Xbs):
 	contactId(cId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cone(r1Frame, nrGen, mu),
 	r2Cone(),
-	X_b1_b2(X)
+    X_b1_b2(Xbb),
+    X_b1_s1(Xbs)
 {
 	construct(r1Frame, nrGen, mu);
 }
@@ -276,14 +280,16 @@ BilateralContact::BilateralContact(int r1I, int r2I,
 	int r1BId, int r2BId,
 	std::vector<Eigen::Vector3d> r1P,
 	const std::vector<Eigen::Matrix3d>& r1Frames,
-	const sva::PTransformd& X,
-	int nrGen, double mu):
+    const sva::PTransformd& Xbb,
+    int nrGen, double mu,
+    const sva::PTransformd& Xbs):
 	contactId(r1I, r2I, r1BId, r2BId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cones(r1Points.size()),
 	r2Cones(r1Points.size()),
-	X_b1_b2(X)
+    X_b1_b2(Xbb),
+    X_b1_s1(Xbs)
 {
 	construct(r1Frames, nrGen, mu);
 }
@@ -292,14 +298,16 @@ BilateralContact::BilateralContact(int r1I, int r2I,
 BilateralContact::BilateralContact(const ContactId& cId,
 	std::vector<Eigen::Vector3d> r1P,
 	const std::vector<Eigen::Matrix3d>& r1Frames,
-	const sva::PTransformd& X,
-	int nrGen, double mu):
+    const sva::PTransformd& Xbb,
+    int nrGen, double mu,
+    const sva::PTransformd& Xbs):
 	contactId(cId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cones(r1Points.size()),
 	r2Cones(r1Points.size()),
-	X_b1_b2(X)
+    X_b1_b2(Xbb),
+    X_b1_s1(Xbs)
 {
 	construct(r1Frames, nrGen, mu);
 }
@@ -311,7 +319,8 @@ BilateralContact::BilateralContact(const UnilateralContact& c):
 	r2Points(c.r2Points),
 	r1Cones(c.r1Points.size(), c.r1Cone),
 	r2Cones(c.r1Points.size(), c.r2Cone),
-	X_b1_b2(c.X_b1_b2)
+    X_b1_b2(c.X_b1_b2),
+    X_b1_s1(c.X_b1_s1)
 { }
 
 

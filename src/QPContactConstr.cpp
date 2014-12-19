@@ -102,7 +102,7 @@ ContactConstrCommon::contactCommonInContact(
 	{
 		if(isValid(c.contactId))
 		{
-			ret.insert({c.contactId, c.X_b1_b2});
+            ret.insert({c.contactId, c.X_b1_s1, c.X_b1_b2});
 		}
 	}
 
@@ -170,11 +170,11 @@ void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 			if(mbs[rIndex].nrDof() > 0)
 			{
 				contacts.emplace_back(rIndex, data.alphaDBegin(rIndex), sign,
-															rbd::Jacobian(mbs[rIndex], bId), point);
+                                      rbd::Jacobian(mbs[rIndex], bId), point);
 			}
 		};
-		addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., sva::PTransformd::Identity());
-		addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., cC.X_b1_b2.inv());
+        addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., cC.X_b1_s1);
+        addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., cC.X_b1_s1*cC.X_b1_b2.inv());
 
 		int b1Index = mbs[cC.cId.r1Index].bodyIndexById(cC.cId.r1BodyId);
 		int b2Index = mbs[cC.cId.r2Index].bodyIndexById(cC.cId.r2BodyId);

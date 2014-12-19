@@ -67,13 +67,15 @@ struct UnilateralContact
 		std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
-		int nrGen, double mu);
+        int nrGen, double mu,
+        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity());
 
 	UnilateralContact(const ContactId& cId,
 		std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
-		int nrGen, double mu);
+        int nrGen, double mu,
+        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity());
 
 	/// @return Cone c, point p force vector in body coordinate.
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda, int p,
@@ -112,6 +114,7 @@ struct UnilateralContact
 	std::vector<Eigen::Vector3d> r1Points, r2Points;
 	FrictionCone r1Cone, r2Cone;
 	sva::PTransformd X_b1_b2;
+    sva::PTransformd X_b1_s1;
 
 private:
 	void construct(const Eigen::MatrixXd& r1Frame, int nrGen, double mu);
@@ -127,13 +130,15 @@ struct BilateralContact
 		std::vector<Eigen::Vector3d> r1Points,
 		const std::vector<Eigen::Matrix3d>& r1Frames,
 		const sva::PTransformd& X_b1_b2,
-		int nrGen, double mu);
+        int nrGen, double mu,
+        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity());
 
 	BilateralContact(const ContactId& cId,
 		std::vector<Eigen::Vector3d> r1Points,
 		const std::vector<Eigen::Matrix3d>& r1Frames,
 		const sva::PTransformd& X_b1_b2,
-		int nrGen, double mu);
+        int nrGen, double mu,
+        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity());
 
 	BilateralContact(const UnilateralContact& c);
 
@@ -174,6 +179,7 @@ struct BilateralContact
 	std::vector<Eigen::Vector3d> r1Points, r2Points;
 	std::vector<FrictionCone> r1Cones, r2Cones;
 	sva::PTransformd X_b1_b2;
+    sva::PTransformd X_b1_s1;
 
 private:
 	void construct(const std::vector<Eigen::Matrix3d>& r1Frames, int nrGen, double mu);
