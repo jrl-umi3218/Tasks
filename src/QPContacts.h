@@ -46,7 +46,8 @@ struct FrictionCone
 struct ContactId
 {
 	ContactId();
-	ContactId(int r1Index, int r2Index, int r1BodyId, int r2BodyId);
+    ContactId(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+              int nSurf = -1);
 
 	bool operator==(const ContactId& cId) const;
 	bool operator!=(const ContactId& cId) const;
@@ -55,6 +56,7 @@ struct ContactId
 
 	int r1Index, r2Index;
 	int r1BodyId, r2BodyId;
+    int numSurf;
 };
 
 
@@ -68,7 +70,8 @@ struct UnilateralContact
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
         int nrGen, double mu,
-        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity());
+        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity(),
+        int nSurf = -1);
 
 	UnilateralContact(const ContactId& cId,
 		std::vector<Eigen::Vector3d> r1Points,
@@ -131,7 +134,8 @@ struct BilateralContact
 		const std::vector<Eigen::Matrix3d>& r1Frames,
 		const sva::PTransformd& X_b1_b2,
         int nrGen, double mu,
-        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity());
+        const sva::PTransformd& X_b1_s1 = sva::PTransformd::Identity(),
+        int nSurf = -1);
 
 	BilateralContact(const ContactId& cId,
 		std::vector<Eigen::Vector3d> r1Points,

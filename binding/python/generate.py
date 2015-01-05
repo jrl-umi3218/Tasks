@@ -456,11 +456,13 @@ def build_qp(tasks):
   # ContactId
   contactId.add_constructor([])
   contactId.add_constructor([param('int', 'r1Index'), param('int', 'r2Index'),
-                             param('int', 'r1BodyId'), param('int', 'r2BodyId')])
+                             param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+                             param('int', 'nSurf', default_value='0')])
   contactId.add_instance_attribute('r1Index', 'int')
   contactId.add_instance_attribute('r2Index', 'int')
   contactId.add_instance_attribute('r1BodyId', 'int')
   contactId.add_instance_attribute('r2BodyId', 'int')
+  contactId.add_instance_attribute('numSurf', 'int')
   contactId.add_binary_comparison_operator('==')
   contactId.add_binary_comparison_operator('!=')
   contactId.add_binary_comparison_operator('<')
@@ -473,12 +475,17 @@ def build_qp(tasks):
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
     param('const sva::PTransformd&', 'X_b1_b2'),
-    param('int', 'nrGen'), param('double', 'mu')])
+    param('int', 'nrGen'), param('double', 'mu'),
+    param('const sva::PTransformd&','X_b1_s1',
+           default_value='sva::PTransformd::Identity()'),
+    param('int', 'nSurf', default_value='0')])
   unilateralContact.add_constructor([param('const tasks::qp::ContactId&', 'contactId'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
     param('const sva::PTransformd&', 'X_b1_b2'),
-    param('int', 'nrGen'), param('double', 'mu')])
+    param('int', 'nrGen'), param('double', 'mu'),
+    param('const sva::PTransformd&', 'X_b1_s1',
+           default_value='sva::PTransformd::Identity()')])
 
   unilateralContact.add_instance_attribute('contactId', 'tasks::qp::ContactId')
   unilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d>')
@@ -486,6 +493,7 @@ def build_qp(tasks):
   unilateralContact.add_instance_attribute('r1Cone', 'tasks::qp::FrictionCone')
   unilateralContact.add_instance_attribute('r2Cone', 'tasks::qp::FrictionCone')
   unilateralContact.add_instance_attribute('X_b1_b2', 'sva::PTransformd')
+  unilateralContact.add_instance_attribute('X_b1_s1', 'sva::PTransformd')
   unilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
                                [param('const Eigen::VectorXd&', 'lambda'),
                                 param('int', 'point'),
@@ -503,18 +511,23 @@ def build_qp(tasks):
   # BilateralContact
   bilateralContact.add_constructor([])
   bilateralContact.add_constructor([
-    param('const tasks::qp::ContactId&', 'contactId'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
-    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
-    param('const sva::PTransformd&', 'X_b1_b2'),
-    param('int', 'nrGen'), param('double', 'mu')])
-  bilateralContact.add_constructor([
     param('int', 'r1Index'), param('int', 'r2Index'),
     param('int', 'r1BodyId'), param('int', 'r2BodyId'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
     param('const sva::PTransformd&', 'X_b1_b2'),
-    param('int', 'nrGen'), param('double', 'mu')])
+    param('int', 'nrGen'), param('double', 'mu'),
+    param('const sva::PTransformd&','X_b1_s1',
+           default_value='sva::PTransformd::Identity()'),
+    param('int', 'nSurf', default_value='0')])
+  bilateralContact.add_constructor([
+    param('const tasks::qp::ContactId&', 'contactId'),
+    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
+    param('const sva::PTransformd&', 'X_b1_b2'),
+    param('int', 'nrGen'), param('double', 'mu'),
+    param('const sva::PTransformd&','X_b1_s1',
+          default_value='sva::PTransformd::Identity()')])
   bilateralContact.add_constructor([
     param('const tasks::qp::UnilateralContact&', 'uc')])
 
@@ -524,6 +537,7 @@ def build_qp(tasks):
   bilateralContact.add_instance_attribute('r1Cones', 'std::vector<tasks::qp::FrictionCone>')
   bilateralContact.add_instance_attribute('r2Cones', 'std::vector<tasks::qp::FrictionCone>')
   bilateralContact.add_instance_attribute('X_b1_b2', 'sva::PTransformd')
+  bilateralContact.add_instance_attribute('X_b1_s1', 'sva::PTransformd')
   bilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
                               [param('const Eigen::VectorXd&', 'lambda'),
                                param('int', 'point'),
