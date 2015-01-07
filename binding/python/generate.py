@@ -457,7 +457,7 @@ def build_qp(tasks):
   contactId.add_constructor([])
   contactId.add_constructor([param('int', 'r1Index'), param('int', 'r2Index'),
                              param('int', 'r1BodyId'), param('int', 'r2BodyId'),
-                             param('int', 'nSurf', default_value='0')])
+                             param('int', 'nSurf', default_value='-1')])
   contactId.add_instance_attribute('r1Index', 'int')
   contactId.add_instance_attribute('r2Index', 'int')
   contactId.add_instance_attribute('r1BodyId', 'int')
@@ -478,7 +478,7 @@ def build_qp(tasks):
     param('int', 'nrGen'), param('double', 'mu'),
     param('const sva::PTransformd&','X_b1_s1',
            default_value='sva::PTransformd::Identity()'),
-    param('int', 'nSurf', default_value='0')])
+    param('int', 'nSurf', default_value='-1')])
   unilateralContact.add_constructor([param('const tasks::qp::ContactId&', 'contactId'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
@@ -519,7 +519,7 @@ def build_qp(tasks):
     param('int', 'nrGen'), param('double', 'mu'),
     param('const sva::PTransformd&','X_b1_s1',
            default_value='sva::PTransformd::Identity()'),
-    param('int', 'nSurf', default_value='0')])
+    param('int', 'nSurf', default_value='-1')])
   bilateralContact.add_constructor([
     param('const tasks::qp::ContactId&', 'contactId'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
