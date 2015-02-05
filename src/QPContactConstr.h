@@ -51,7 +51,7 @@ protected:
 	struct ContactCommon
 	{
 		ContactId cId;
-        sva::PTransformd X_b1_s1;
+		sva::PTransformd X_b1_s1;
 		sva::PTransformd X_b1_b2;
 
 		bool operator==(const ContactCommon& cc) const;

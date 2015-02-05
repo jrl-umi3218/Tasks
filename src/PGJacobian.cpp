@@ -48,10 +48,10 @@ Eigen::Matrix<double, 3, 4> quatVelToAngularVel(const std::vector<double>& q)
 
 
 PGJacobian::PGJacobian(const rbd::MultiBody& mb, const rbd::Jacobian& jac):
-  free_(),
-  spherical_(),
-  other_(),
-  jac_()
+	free_(),
+	spherical_(),
+	other_(),
+	jac_()
 {
 	int curPos = 0;
 	int curPosPG = 0;

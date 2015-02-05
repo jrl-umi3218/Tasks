@@ -122,9 +122,9 @@ private:
 
 
 PostureGenerator::PostureGenerator(const rbd::MultiBody& mb,
-  const rbd::MultiBodyConfig& mbc):
-  mb_(mb),
-  mbc_(mbc)
+	const rbd::MultiBodyConfig& mbc):
+	mb_(mb),
+	mbc_(mbc)
 {
 	for(std::size_t i = 0; i < mb.nrJoints(); ++i)
 	{
@@ -161,31 +161,31 @@ bool PostureGenerator::solve()
 
 void PostureGenerator::addObjective(Objective* obj)
 {
-  obj_.push_back(obj);
+	obj_.push_back(obj);
 }
 
 
 void PostureGenerator::removeObjective(Objective* obj)
 {
-  obj_.erase(std::find(obj_.begin(), obj_.end(), obj));
+	obj_.erase(std::find(obj_.begin(), obj_.end(), obj));
 }
 
 
 int PostureGenerator::nrObjectives() const
 {
-  return obj_.size();
+	return obj_.size();
 }
 
 
 void PostureGenerator::addConstraint(Constraint* co)
 {
-  constr_.push_back(co);
+	constr_.push_back(co);
 }
 
 
 void PostureGenerator::removeConstraint(Constraint* co)
 {
-  constr_.erase(std::find(constr_.begin(), constr_.end(), co));
+	constr_.erase(std::find(constr_.begin(), constr_.end(), co));
 }
 
 

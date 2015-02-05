@@ -31,9 +31,9 @@ namespace pg
 
 
 UnitQuaternion::UnitQuaternion(const rbd::MultiBody& mb):
-  quatPos_(),
-  val_(),
-  jac_()
+	quatPos_(),
+	val_(),
+	jac_()
 {
 	for(std::size_t i = 0; i < mb.nrJoints(); ++i)
 	{
@@ -122,14 +122,14 @@ Eigen::VectorXd UnitQuaternion::upper() const
 
 
 DummyContact::DummyContact(const rbd::MultiBody& mb, int bodyId,
-  const Eigen::Vector3d& obj):
-  Constraint(3),
-  obj_(obj),
-  body_(mb.bodyIndexById(bodyId)),
-  bodyJac_(mb, bodyId),
-  bodyPgJac_(mb, bodyJac_),
-  val_(3),
-  jac_(bodyPgJac_.params()*3)
+	const Eigen::Vector3d& obj):
+	Constraint(3),
+	obj_(obj),
+	body_(mb.bodyIndexById(bodyId)),
+	bodyJac_(mb, bodyId),
+	bodyPgJac_(mb, bodyJac_),
+	val_(3),
+	jac_(bodyPgJac_.params()*3)
 {
 }
 
