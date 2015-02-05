@@ -178,7 +178,8 @@ void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 
 		int b1Index = mbs[cC.cId.r1Index].bodyIndexById(cC.cId.r1BodyId);
 		int b2Index = mbs[cC.cId.r2Index].bodyIndexById(cC.cId.r2BodyId);
-		cont_.emplace_back(std::move(contacts), dof, b1Index, b2Index, cC.X_b1_b2, cC.cId);
+		cont_.emplace_back(std::move(contacts), dof, b1Index, b2Index, cC.X_b1_b2,
+			cC.X_b1_cf, cC.cId);
 	}
 	updateNrEq();
 
@@ -412,10 +413,11 @@ void ContactPosConstr::update(const std::vector<rbd::MultiBody>& mbs,
 		// target the derivative of the position error
 		sva::PTransformd X_b1_b2 = mbcs[cd.contactId.r2Index].bodyPosW[cd.b2Index]*
 			mbcs[cd.contactId.r1Index].bodyPosW[cd.b1Index].inv();
-		Vector6d error;
-		error.head<3>() = sva::rotationError(cd.X_b1_b2.rotation(), X_b1_b2.rotation(), 1e-7);
-		error.tail<3>() = X_b1_b2.translation() - cd.X_b1_b2.translation();
-		b_.segment(index, rows) += cd.dof*(error/timeStep_);
+		sva::MotionVecd error_b1, error_cf;
+		error_b1.angular() = sva::rotationError(cd.X_b1_b2.rotation(), X_b1_b2.rotation(), 1e-7);
+		error_b1.linear() = X_b1_b2.translation() - cd.X_b1_b2.translation();
+		error_cf = cd.X_b1_cf*error_b1;
+		b_.segment(index, rows) += cd.dof*(error_cf.vector()/timeStep_);
 
 		index += rows;
 	}

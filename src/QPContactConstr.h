@@ -51,7 +51,7 @@ protected:
 	struct ContactCommon
 	{
 		ContactId cId;
-		sva::PTransformd X_b1_s1;
+		sva::PTransformd X_b1_cf;
 		sva::PTransformd X_b1_b2;
 
 		bool operator==(const ContactCommon& cc) const;
@@ -110,12 +110,13 @@ protected:
 	{
 		ContactData(std::vector<ContactSideData> csds,
 			const Eigen::MatrixXd& d, int b1, int b2, const sva::PTransformd& X_bb,
-			const ContactId& cId):
+			const sva::PTransformd& X_bcf, const ContactId& cId):
 			contacts(std::move(csds)),
 			dof(d),
 			b1Index(b1),
 			b2Index(b2),
 			X_b1_b2(X_bb),
+			X_b1_cf(X_bcf),
 			contactId(cId)
 		{}
 
@@ -123,6 +124,7 @@ protected:
 		Eigen::MatrixXd dof;
 		int b1Index, b2Index;
 		sva::PTransformd X_b1_b2;
+		sva::PTransformd X_b1_cf;
 		ContactId contactId;
 	};
 
