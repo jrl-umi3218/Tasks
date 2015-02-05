@@ -84,16 +84,16 @@ ContactId::ContactId():
 	r2Index(-1),
 	r1BodyId(-1),
 	r2BodyId(-1),
-	numSurf(-1)
+	ambiguityId(-1)
 {}
 
 
-ContactId::ContactId(int r1I, int r2I, int r1BId, int r2BId, int nSurf):
+ContactId::ContactId(int r1I, int r2I, int r1BId, int r2BId, int ambId):
 	r1Index(r1I),
 	r2Index(r2I),
 	r1BodyId(r1BId),
 	r2BodyId(r2BId),
-	numSurf(nSurf)
+	ambiguityId(ambId)
 {}
 
 
@@ -101,7 +101,7 @@ bool ContactId::operator==(const ContactId& cId) const
 {
 	return r1Index == cId.r1Index && r2Index == cId.r2Index &&
 	r1BodyId == cId.r1BodyId && r2BodyId == cId.r2BodyId &&
-	numSurf==cId.numSurf;
+	ambiguityId == cId.ambiguityId;
 }
 
 
@@ -121,7 +121,7 @@ bool ContactId::operator<(const ContactId& cId) const
 		r2Index == cId.r2Index && r2BodyId < cId.r2BodyId) ||
 		(r1Index == cId.r1Index && r1BodyId == cId.r1BodyId &&
 		r2Index == cId.r2Index && r2BodyId == cId.r2BodyId &&
-		numSurf < cId.numSurf);
+		ambiguityId < cId.ambiguityId);
 }
 
 
@@ -138,14 +138,33 @@ UnilateralContact::UnilateralContact(int r1I, int r2I,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
-	const sva::PTransformd& Xbs, int nSurf):
-	contactId(r1I, r2I, r1BId, r2BId, nSurf),
+	const sva::PTransformd& Xbcf):
+	contactId(r1I, r2I, r1BId, r2BId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cone(r1Frame, nrGen, mu),
 	r2Cone(),
 	X_b1_b2(Xbb),
-	X_b1_s1(Xbs)
+	X_b1_cf(Xbcf)
+{
+	construct(r1Frame, nrGen, mu);
+}
+
+
+UnilateralContact::UnilateralContact(int r1I, int r2I,
+	int r1BId, int r2BId, int ambId,
+	std::vector<Eigen::Vector3d> r1P,
+	const Eigen::Matrix3d& r1Frame,
+	const sva::PTransformd& Xbb,
+	int nrGen, double mu,
+	const sva::PTransformd& Xbcf):
+	contactId(r1I, r2I, r1BId, r2BId, ambId),
+	r1Points(std::move(r1P)),
+	r2Points(),
+	r1Cone(r1Frame, nrGen, mu),
+	r2Cone(),
+	X_b1_b2(Xbb),
+	X_b1_cf(Xbcf)
 {
 	construct(r1Frame, nrGen, mu);
 }
@@ -156,14 +175,14 @@ UnilateralContact::UnilateralContact(const ContactId& cId,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
-	const sva::PTransformd& Xbs):
+	const sva::PTransformd& Xbcf):
 	contactId(cId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cone(r1Frame, nrGen, mu),
 	r2Cone(),
 	X_b1_b2(Xbb),
-	X_b1_s1(Xbs)
+	X_b1_cf(Xbcf)
 {
 	construct(r1Frame, nrGen, mu);
 }
@@ -289,14 +308,33 @@ BilateralContact::BilateralContact(int r1I, int r2I,
 	const std::vector<Eigen::Matrix3d>& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
-	const sva::PTransformd& Xbs, int nSurf):
-	contactId(r1I, r2I, r1BId, r2BId, nSurf),
+	const sva::PTransformd& Xbcf):
+	contactId(r1I, r2I, r1BId, r2BId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cones(r1Points.size()),
 	r2Cones(r1Points.size()),
 	X_b1_b2(Xbb),
-	X_b1_s1(Xbs)
+	X_b1_cf(Xbcf)
+{
+	construct(r1Frames, nrGen, mu);
+}
+
+
+BilateralContact::BilateralContact(int r1I, int r2I,
+	int r1BId, int r2BId, int ambId,
+	std::vector<Eigen::Vector3d> r1P,
+	const std::vector<Eigen::Matrix3d>& r1Frames,
+	const sva::PTransformd& Xbb,
+	int nrGen, double mu,
+	const sva::PTransformd& Xbcf):
+	contactId(r1I, r2I, r1BId, r2BId, ambId),
+	r1Points(std::move(r1P)),
+	r2Points(),
+	r1Cones(r1Points.size()),
+	r2Cones(r1Points.size()),
+	X_b1_b2(Xbb),
+	X_b1_cf(Xbcf)
 {
 	construct(r1Frames, nrGen, mu);
 }
@@ -307,14 +345,14 @@ BilateralContact::BilateralContact(const ContactId& cId,
 	const std::vector<Eigen::Matrix3d>& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
-	const sva::PTransformd& Xbs):
+	const sva::PTransformd& Xbcf):
 	contactId(cId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cones(r1Points.size()),
 	r2Cones(r1Points.size()),
 	X_b1_b2(Xbb),
-	X_b1_s1(Xbs)
+	X_b1_cf(Xbcf)
 {
 	construct(r1Frames, nrGen, mu);
 }
@@ -327,7 +365,7 @@ BilateralContact::BilateralContact(const UnilateralContact& c):
 	r1Cones(c.r1Points.size(), c.r1Cone),
 	r2Cones(c.r1Points.size(), c.r2Cone),
 	X_b1_b2(c.X_b1_b2),
-	X_b1_s1(c.X_b1_s1)
+	X_b1_cf(c.X_b1_cf)
 { }
 
 
