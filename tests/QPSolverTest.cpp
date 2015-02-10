@@ -1193,11 +1193,18 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 
 	qp::QPSolver solver;
 
-	qp::ContactSpeedConstr contCstrSpeed(0.005);
-	// target in body coordinate is transform into world frame
+	sva::PTransformd X_b1_cf(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+
+	qp::ContactPosConstr contCstrSpeed(0.005);
+	// target in cf coordinate is transform into world frame
 	qp::PositionTask posTask(mbs, 0, 0,
-		mbcInit.bodyPosW[0].rotation().transpose()*Vector3d(1., 1., -1.));
+		(X_b1_cf*mbcInit.bodyPosW[0]).rotation().transpose()*Vector3d(1., 1., -1.));
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
+	// Rotation in cf coordinate
+	qp::OrientationTask oriTask(mbs, 0, 0,
+		(X_b1_cf*mbcInit.bodyPosW[0]).rotation().transpose()*sva::RotY(0.1)*sva::RotX(0.5));
+	qp::SetPointTask oriTaskSp(mbs, 0, &oriTask, 10., 1.);
 
 	contCstrSpeed.addToSolver(solver);
 	solver.addTask(&posTaskSp);
@@ -1210,11 +1217,10 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 			Vector3d(0.1, -0.1, 0.)
 		};
 
-	sva::PTransformd X_b1_cf(Quaterniond(Vector4d::Random().normalized()),
-		Vector3d::Random());
+	sva::PTransformd X_b1_b2(mbcEnv.bodyPosW[0]*mbcInit.bodyPosW[0].inv());
 	std::vector<qp::UnilateralContact> uni =
 		{qp::UnilateralContact(0, 1, 0, 0,
-			points, Matrix3d::Identity(), sva::PTransformd::Identity(),
+			points, Matrix3d::Identity(), X_b1_b2,
 			3, 0.7, X_b1_cf)};
 
 	// contactDof must be provide in r1BodyId frame
@@ -1273,6 +1279,37 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	BOOST_CHECK_GT(std::pow(
 		compute6dErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
 			X_b1_cf*mbcInit.bodyPosW[0])(4), 2), 0.1);
+
+
+	// test WX Free and updateDofContacts
+	contactDof.setZero();
+	contactDof(0, 1) = 1.;
+	contactDof(1, 2) = 1.;
+	contactDof(2, 3) = 1.;
+	contactDof(3, 4) = 1.;
+	contactDof(4, 5) = 1.;
+	contCstrSpeed.resetDofContacts();
+	contCstrSpeed.addDofContact({0, 1, 0, 0}, contactDof);
+	contCstrSpeed.updateDofContacts();
+
+	// add the orientation task in cf coordinate
+	solver.addTask(&oriTaskSp);
+	solver.updateTasksNrVars(mbs);
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 100; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.005);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+	}
+
+	BOOST_CHECK_SMALL(computeDofErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
+		X_b1_cf*mbcInit.bodyPosW[0], contactDof), 1e-4);
+	BOOST_CHECK_GT(std::abs(
+		compute6dErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
+			X_b1_cf*mbcInit.bodyPosW[0])(0)), 0.1);
 }
 
 
