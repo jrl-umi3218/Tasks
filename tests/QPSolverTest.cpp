@@ -1210,10 +1210,12 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 			Vector3d(0.1, -0.1, 0.)
 		};
 
+	sva::PTransformd X_b1_cf(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
 	std::vector<qp::UnilateralContact> uni =
 		{qp::UnilateralContact(0, 1, 0, 0,
 			points, Matrix3d::Identity(), sva::PTransformd::Identity(),
-			3, 0.7)};
+			3, 0.7, X_b1_cf)};
 
 	// contactDof must be provide in r1BodyId frame
 	MatrixXd contactDof(5, 6);
@@ -1239,10 +1241,11 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 		forwardVelocity(mbs[0], mbcs[0]);
 	}
 
-	BOOST_CHECK_SMALL(computeDofErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
-		contactDof), 1e-6);
+	BOOST_CHECK_SMALL(computeDofErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
+		X_b1_cf*mbcInit.bodyPosW[0], contactDof), 1e-6);
 	BOOST_CHECK_GT(std::pow(
-		compute6dErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(5), 2), 0.1);
+		compute6dErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
+			X_b1_cf*mbcInit.bodyPosW[0])(5), 2), 0.1);
 
 
 	// test Y Free and updateDofContacts
@@ -1265,10 +1268,11 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 		forwardVelocity(mbs[0], mbcs[0]);
 	}
 
-	BOOST_CHECK_SMALL(computeDofErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0],
-		contactDof), 1e-6);
+	BOOST_CHECK_SMALL(computeDofErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
+		X_b1_cf*mbcInit.bodyPosW[0], contactDof), 1e-6);
 	BOOST_CHECK_GT(std::pow(
-		compute6dErrorInB1(mbcs[0].bodyPosW[0], mbcInit.bodyPosW[0])(4), 2), 0.1);
+		compute6dErrorInB1(X_b1_cf*mbcs[0].bodyPosW[0],
+			X_b1_cf*mbcInit.bodyPosW[0])(4), 2), 0.1);
 }
 
 
