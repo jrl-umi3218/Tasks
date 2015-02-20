@@ -246,7 +246,7 @@ const Eigen::MatrixXd& OrientationTask::jacDot() const
 
 
 /**
-	*													SurfaceOrientationTask
+	*													MultiRobotTransformTask
 	*/
 
 
