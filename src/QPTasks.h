@@ -512,6 +512,56 @@ private:
 
 
 
+class GazeTask : public HighLevelTask
+{
+public:
+	GazeTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const Eigen::Vector2d& point2d, double depthEstimate,
+		const sva::PTransformd& X_b_gaze,
+		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero());
+	GazeTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const Eigen::Vector3d& point3d, const sva::PTransformd& X_b_gaze,
+		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero());
+
+
+	tasks::GazeTask& task()
+	{
+			return gazet_;
+	}
+
+	void error(const Eigen::Vector2d& point2d,
+		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero())
+	{
+			gazet_.error(point2d, point2d_ref);
+	}
+
+	void error(const Eigen::Vector3d& point3d,
+		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero())
+	{
+			gazet_.error(point3d, point2d_ref);
+	}
+
+	const Eigen::Vector2d& error() const
+	{
+			return gazet_.error();
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+private:
+	tasks::GazeTask gazet_;
+	int robotIndex_;
+};
+
+
+
 class CoMTask : public HighLevelTask
 {
 public:

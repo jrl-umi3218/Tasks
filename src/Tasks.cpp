@@ -518,6 +518,115 @@ const Eigen::MatrixXd& SurfaceOrientationTask::jacDot() const
 
 
 /**
+	*													GazeTask
+	*/
+
+
+GazeTask::GazeTask(const rbd::MultiBody &mb, int bodyId,
+	const Eigen::Vector2d& point2d, double depthEstimate, const sva::PTransformd& X_b_gaze,
+	const Eigen::Vector2d& point2d_ref):
+	point2d_(point2d),
+	point2d_ref_(point2d_ref),
+	depthEstimate_(depthEstimate),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	X_b_gaze_(X_b_gaze),
+	eval_(2),
+	speed_(2),
+	normalAcc_(2),
+	jacMat_(2, mb.nrDof()),
+	jacDotMat_(2, mb.nrDof())
+{
+}
+
+
+GazeTask::GazeTask(const rbd::MultiBody &mb, int bodyId,
+	const Eigen::Vector3d &point3d, const sva::PTransformd& X_b_gaze,
+	const Eigen::Vector2d& point2d_ref):
+	point2d_ref_(point2d_ref),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	X_b_gaze_(X_b_gaze),
+	eval_(2),
+	speed_(2),
+	normalAcc_(2),
+	jacMat_(2, mb.nrDof()),
+	jacDotMat_(2, mb.nrDof())
+{
+	point2d_ << point3d[0]/point3d[2], point3d[1]/point3d[2];
+	depthEstimate_ = point3d[2];
+}
+
+
+void GazeTask::error(const Eigen::Vector2d& point2d, const Eigen::Vector2d& point2d_ref)
+{
+	point2d_ = point2d;
+	point2d_ref_ = point2d_ref;
+}
+
+
+void GazeTask::error(const Eigen::Vector3d& point3d, const Eigen::Vector2d& point2d_ref)
+{
+	point2d_ << point3d[0]/point3d[2], point3d[1]/point3d[2];
+	depthEstimate_ = point3d[2];
+	point2d_ref_ = point2d_ref;
+}
+
+
+const Eigen::Vector2d& GazeTask::error() const
+{
+	return point2d_ref_ - point2d_;
+}
+
+
+void GazeTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const std::vector<sva::MotionVecd>& normalAccB)
+{
+	eval_ = point2d_ref_ - point2d_;
+
+	sva::PTransformd X_0_gaze = X_b_gaze_*mbc.bodyPosW[bodyIndex_];
+	L_img_ = rbd::interactionMatrix(point2d_, depthEstimate_);
+	speed_ = L_img_*(jac_.velocity(mb, mbc, X_b_gaze_)).vector();
+
+	normalAcc_ = L_img_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_gaze_,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector();
+
+	Eigen::MatrixXd shortJacMat = L_img_*jac_.jacobian(mb, mbc, X_0_gaze).block(0, 0, 6, jac_.dof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+const Eigen::VectorXd& GazeTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& GazeTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& GazeTask::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& GazeTask::jac() const
+{
+	return jacMat_;
+}
+
+
+const Eigen::MatrixXd& GazeTask::jacDot() const
+{
+	return jacDotMat_;
+}
+
+
+/**
 	*													PostureTask
 	*/
 

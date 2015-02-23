@@ -796,6 +796,68 @@ const Eigen::VectorXd& SurfaceOrientationTask::normalAcc()
 
 
 /**
+	*																GazeTask
+	*/
+
+
+GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, int bodyId,
+	const Eigen::Vector2d& point2d, double depthEstimate,
+	const sva::PTransformd& X_b_gaze,
+	const Eigen::Vector2d& point2d_ref):
+	gazet_(mbs[robotIndex], bodyId, point2d, depthEstimate, X_b_gaze, point2d_ref),
+	robotIndex_(robotIndex)
+{}
+
+
+GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, int bodyId,
+	const Eigen::Vector3d& point3d, const sva::PTransformd& X_b_gaze,
+	const Eigen::Vector2d& point2d_ref):
+	gazet_(mbs[robotIndex], bodyId, point3d, X_b_gaze, point2d_ref),
+	robotIndex_(robotIndex)
+{}
+
+
+int GazeTask::dim()
+{
+	return 2;
+}
+
+
+void GazeTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	gazet_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+}
+
+
+const Eigen::MatrixXd& GazeTask::jac()
+{
+	return gazet_.jac();
+}
+
+
+const Eigen::VectorXd& GazeTask::eval()
+{
+	return gazet_.eval();
+}
+
+
+const Eigen::VectorXd& GazeTask::speed()
+{
+	return gazet_.speed();
+}
+
+
+const Eigen::VectorXd& GazeTask::normalAcc()
+{
+	return gazet_.normalAcc();
+}
+
+
+/**
 	*													CoMTask
 	*/
 

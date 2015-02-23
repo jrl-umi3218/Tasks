@@ -23,6 +23,7 @@
 #include <RBDyn/CoM.h>
 #include <RBDyn/Jacobian.h>
 #include <RBDyn/Momentum.h>
+#include <RBDyn/VisServo.h>
 
 // forward declarations
 // RBDyn
@@ -187,6 +188,51 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+};
+
+
+
+class GazeTask
+{
+public:
+	GazeTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector2d &point2d,
+		double depthEstimate, const sva::PTransformd& X_b_gaze,
+		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
+	GazeTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d &point3d,
+		const sva::PTransformd& X_b_gaze,
+		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
+
+	void error(const Eigen::Vector2d& point2d,
+		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
+	void error(const Eigen::Vector3d& point3d,
+		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
+	const Eigen::Vector2d& error() const;
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+			const std::vector<sva::MotionVecd>& normalAccB);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+	const Eigen::MatrixXd& jacDot() const;
+
+private:
+	Eigen::Vector2d point2d_;
+	Eigen::Vector2d point2d_ref_;
+	double depthEstimate_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+	sva::PTransformd X_b_gaze_;
+	Eigen::Matrix<double, 2, 6> L_img_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::MatrixXd jacDotMat_;
+	Eigen::MatrixXd interactionMat_;
 };
 
 
