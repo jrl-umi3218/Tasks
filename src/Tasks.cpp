@@ -573,12 +573,6 @@ void GazeTask::error(const Eigen::Vector3d& point3d, const Eigen::Vector2d& poin
 }
 
 
-const Eigen::Vector2d& GazeTask::error() const
-{
-	return point2d_ref_ - point2d_;
-}
-
-
 void GazeTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const std::vector<sva::MotionVecd>& normalAccB)
 {

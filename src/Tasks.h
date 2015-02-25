@@ -206,7 +206,6 @@ public:
 		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
 	void error(const Eigen::Vector3d& point3d,
 		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
-	const Eigen::Vector2d& error() const;
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 			const std::vector<sva::MotionVecd>& normalAccB);

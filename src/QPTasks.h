@@ -523,7 +523,6 @@ public:
 		int bodyId, const Eigen::Vector3d& point3d, const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero());
 
-
 	tasks::GazeTask& task()
 	{
 			return gazet_;
@@ -539,11 +538,6 @@ public:
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero())
 	{
 			gazet_.error(point3d, point2d_ref);
-	}
-
-	const Eigen::Vector2d& error() const
-	{
-			return gazet_.error();
 	}
 
 	virtual int dim();

@@ -141,7 +141,6 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, positionTask, comTask,
   gazeTask.add_method('error', None, [param('const Eigen::Vector3d&', 'point3d'),
                                       param('const Eigen::Vector2d&', 'point2d_ref',
                                             default_value='Eigen::Vector2d::Zero()')])
-  gazeTask.add_method('error', retval('Eigen::Vector2d'), [], is_const=True)
   gazeTask.add_method('update', None, [param('const rbd::MultiBody&', 'mb'),
                                        param('const rbd::MultiBodyConfig&', 'mbc'),
                                        param('const std::vector<sva::MotionVecd>&', 'normalAccB')])
@@ -914,7 +913,6 @@ def build_qp(tasks):
   gazeTask.add_method('error', None, [param('const Eigen::Vector3d&', 'point3d'),
                                       param('const Eigen::Vector2d&', 'point2d_ref',
                                             default_value='Eigen::Vector2d::Zero()')])
-  gazeTask.add_method('error', retval('Eigen::Vector2d'), [], is_const=True)
 
   # PostureTask
   postureTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
