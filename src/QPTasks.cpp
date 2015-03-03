@@ -134,6 +134,126 @@ const Eigen::VectorXd& SetPointTask::C() const
 
 
 /**
+	*														TrackingTask
+	*/
+
+
+TrackingTask::TrackingTask(const std::vector<rbd::MultiBody>& mbs,
+	int rI,
+	HighLevelTask* hlTask,
+	double gainPos, double gainVel, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	gainPos_(gainPos),
+	gainVel_(gainVel),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
+	errorPos_(hlTask->dim()),
+	errorVel_(hlTask->dim()),
+	refAccel_(hlTask->dim()),
+	robotIndex_(rI),
+	alphaDBegin_(0),
+	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
+	C_(mbs[rI].nrDof()),
+	preQ_(hlTask->dim(), mbs[rI].nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
+{}
+
+
+TrackingTask::TrackingTask(const std::vector<rbd::MultiBody>& mbs,
+	int rI,
+	HighLevelTask* hlTask,
+	double gainPos, double gainVel, const Eigen::VectorXd& dimWeight, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	gainPos_(gainPos),
+	gainVel_(gainVel),
+	dimWeight_(dimWeight),
+	errorPos_(hlTask->dim()),
+	errorVel_(hlTask->dim()),
+	refAccel_(hlTask->dim()),
+	robotIndex_(rI),
+	alphaDBegin_(0),
+	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
+	C_(mbs[rI].nrDof()),
+	preQ_(hlTask->dim(), mbs[rI].nrDof()),
+	CVecSum_(hlTask->dim()),
+	preC_(hlTask->dim())
+{}
+
+
+void TrackingTask::setGains(double gainPos, double gainVel)
+{
+	gainPos_ = gainPos;
+	gainVel_ = gainVel;
+}
+
+
+void TrackingTask::dimWeight(const Eigen::VectorXd& dim)
+{
+	dimWeight_ = dim;
+}
+
+
+void TrackingTask::errorPos(const Eigen::VectorXd& errorPos)
+{
+	errorPos_ = errorPos;
+}
+
+
+void TrackingTask::errorVel(const Eigen::VectorXd& errorVel)
+{
+	errorVel_ = errorVel;
+}
+
+
+void TrackingTask::refAccel(const Eigen::VectorXd& refAccel)
+{
+	refAccel_ = refAccel;
+}
+
+
+void TrackingTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+	const SolverData& data)
+{
+	alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+
+void TrackingTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	hlTask_->update(mbs, mbcs, data);
+
+	const Eigen::MatrixXd& J = hlTask_->jac();
+	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
+
+	preQ_.noalias() = dimWeight_.asDiagonal()*J;
+	Q_.noalias() = J.transpose()*preQ_;
+
+	CVecSum_.noalias() = gainPos_*errorPos_;
+	CVecSum_.noalias() += gainVel_*errorVel_;
+	CVecSum_.noalias() += refAccel_;
+	CVecSum_.noalias() -= normalAcc;
+	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
+	C_.noalias() = -J.transpose()*preC_;
+}
+
+
+const Eigen::MatrixXd& TrackingTask::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& TrackingTask::C() const
+{
+	return C_;
+}
+
+
+/**
 	*														PIDTask
 	*/
 

@@ -91,6 +91,59 @@ private:
 };
 
 
+class TrackingTask : public Task
+{
+public:
+	TrackingTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double gainPos, double gainVel, double weight);
+
+	TrackingTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double gainPos, double gainVel,
+		const Eigen::VectorXd& dimWeight, double weight);
+
+	void setGains(double gainPos, double gainVel);
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(alphaDBegin_, alphaDBegin_);
+	}
+
+	void dimWeight(const Eigen::VectorXd& dim);
+
+	const Eigen::VectorXd& dimWeight() const
+	{
+		return dimWeight_;
+	}
+
+	void errorPos(const Eigen::VectorXd& errorPos);
+	void errorVel(const Eigen::VectorXd& errorVel);
+	void refAccel(const Eigen::VectorXd& refAccel);
+
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+private:
+	HighLevelTask* hlTask_;
+
+	double gainPos_, gainVel_;
+	Eigen::VectorXd dimWeight_;
+	Eigen::VectorXd errorPos_, errorVel_, refAccel_;
+	int robotIndex_, alphaDBegin_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	// cache
+	Eigen::MatrixXd preQ_;
+	Eigen::VectorXd CVecSum_, preC_;
+};
+
+
 class PIDTask : public Task
 {
 public:
