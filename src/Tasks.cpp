@@ -385,14 +385,15 @@ const Eigen::Matrix3d& TransformTask::E_0_c() const
 void TransformTask::update(const rbd::MultiBody& mb,
 	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
 {
-	sva::PTransformd X_0_p = X_b_p_*mbc.bodyPosW[bodyIndex_];
+	sva::PTransformd X_0_p(X_b_p_*mbc.bodyPosW[bodyIndex_]);
 	sva::PTransformd E_p_c(Eigen::Matrix3d(E_0_c_*X_0_p.rotation().transpose()));
-	sva::MotionVecd V_p_c = jac_.velocity(mb, mbc, E_p_c*X_b_p_);
+	sva::PTransformd X_b_p_c(E_p_c*X_b_p_);
+	sva::MotionVecd V_p_c(jac_.velocity(mb, mbc, X_b_p_c));
 	sva::MotionVecd w_p_c(V_p_c.angular(), Eigen::Vector3d::Zero());
 
 	eval_ = (sva::PTransformd(E_0_c_)*sva::transformError(X_0_p, X_0_t_, 1e-7)).vector();
 	speed_ = V_p_c.vector();
-	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB, E_p_c*X_b_p_, w_p_c).vector();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_c, w_p_c).vector();
 	const auto& shortJacMat = jac_.jacobian(mb, mbc, E_p_c*X_0_p);
 
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
