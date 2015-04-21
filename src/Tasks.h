@@ -112,6 +112,81 @@ private:
 
 
 
+class TransformTaskCommon
+{
+public:
+	TransformTaskCommon(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p);
+
+	void target(const sva::PTransformd& X_0_t);
+	const sva::PTransformd& target() const;
+
+	void X_b_p(const sva::PTransformd& X_b_p);
+	const sva::PTransformd& X_b_p() const;
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+
+protected:
+	sva::PTransformd X_0_t_;
+	sva::PTransformd X_b_p_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+};
+
+
+
+class SurfaceTransformTask : public TransformTaskCommon
+{
+public:
+	/**
+		* Compute eval, speed, normalAcc and jac in moving 'p' frame.
+		*/
+	SurfaceTransformTask(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p);
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
+
+protected:
+	Eigen::MatrixXd jacMatTmp_;
+};
+
+
+
+class TransformTask : public TransformTaskCommon
+{
+public:
+	/**
+		* Compute eval, speed, normalAcc and jac in the world frame (0) or in the
+		* user defined static frame 'c'.
+		* @param E_0_c Optional rotation between the world farme and a user
+		* defined frame 'c' to change the frame of the task.
+		*/
+	TransformTask(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p,
+		const Eigen::Matrix3d& E_0_c=Eigen::Matrix3d::Identity());
+
+	void E_0_c(const Eigen::Matrix3d& E_0_c);
+	const Eigen::Matrix3d& E_0_c() const;
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
+
+private:
+	Eigen::Matrix3d E_0_c_;
+};
+
+
+
 class MultiRobotTransformTask
 {
 public:

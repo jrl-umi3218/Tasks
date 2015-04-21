@@ -520,6 +520,87 @@ private:
 
 
 
+template <typename transform_task_t>
+class TransformTaskCommon : public HighLevelTask
+{
+public:
+	TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
+
+	tasks::TransformTask& task()
+	{
+		return tt_;
+	}
+
+	void target(const sva::PTransformd& X_0_t)
+	{
+		tt_.target(X_0_t);
+	}
+
+	const sva::PTransformd& X_0_t() const
+	{
+		return tt_.target();
+	}
+
+	void X_b_p(const sva::PTransformd& X_b_p)
+	{
+		tt_.X_b_p(X_b_p);
+	}
+
+	const sva::PTransformd& X_b_p() const
+	{
+		return tt_.X_b_p();
+	}
+
+	virtual int dim();
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+protected:
+	transform_task_t tt_;
+	int robotIndex_;
+};
+
+
+
+/// TransformTask in surface frame.
+class SurfaceTransformTask : public TransformTaskCommon<tasks::SurfaceTransformTask>
+{
+public:
+	SurfaceTransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
+
+	virtual void update(const std::vector<rbd::MultiBody>& mb,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
+		const SolverData& data);
+};
+
+
+
+/// TransformTask in world or user frame.
+class TransformTask : public TransformTaskCommon<tasks::TransformTask>
+{
+public:
+	TransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity(),
+		const Eigen::Matrix3d& E_0_c=Eigen::Matrix3d::Identity());
+
+	void E_0_c(const Eigen::Matrix3d& E_0_c);
+	const Eigen::Matrix3d& E_0_c() const;
+
+	virtual void update(const std::vector<rbd::MultiBody>& mb,
+		const std::vector<rbd::MultiBodyConfig>& mbc,
+		const SolverData& data);
+};
+
+
+
 class SurfaceOrientationTask : public HighLevelTask
 {
 public:
