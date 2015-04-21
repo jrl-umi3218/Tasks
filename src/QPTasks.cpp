@@ -19,7 +19,6 @@
 // includes
 // std
 #include <cmath>
-#include <iostream>
 #include <set>
 
 // Eigen
@@ -866,7 +865,8 @@ const Eigen::VectorXd& OrientationTask::normalAcc()
 
 
 template <typename transform_task_t>
-TransformTaskCommon<transform_task_t>::TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int rI,
+TransformTaskCommon<transform_task_t>::TransformTaskCommon(
+		const std::vector<rbd::MultiBody>& mbs, int rI,
 	int bodyId, const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
 	tt_(mbs[rI], bodyId, X_0_t, X_b_p),
 	robotIndex_(rI)
