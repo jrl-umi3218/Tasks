@@ -24,9 +24,6 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/math/constants/constants.hpp>
 
-// Eigen
-#include <unsupported/Eigen/Polynomials>
-
 // SpaceVecAlg
 #include <SpaceVecAlg/SpaceVecAlg>
 
@@ -242,6 +239,20 @@ struct PosTester
 };
 
 
+/// Test TransformTask, position is reliable but only rotational acceleration
+/// is reliable
+struct PosTTTester
+{
+	void operator()(const Eigen::VectorXd& speedCur,
+		const Eigen::VectorXd& accCur, const Eigen::VectorXd& speedDiff,
+		const Eigen::VectorXd& accDiff, double tol)
+	{
+		BOOST_CHECK_SMALL((speedCur.tail<3>() - speedDiff.tail<3>()).norm(), tol);
+		BOOST_CHECK_SMALL((accCur - accDiff).norm(), tol);
+	}
+};
+
+
 /// Test MultiRobotTransformTask, the rotation part is not reliable since
 /// he use rotationVelocity
 struct PosMRTTTester
@@ -416,7 +427,7 @@ BOOST_AUTO_TEST_CASE(TransformTaskTest)
 	tasks::TransformTask tt(mb, 3, X_0_t, X_b_s, E_0_c.matrix());
 
 	testTaskNumDiff(mb, mbc, tt,
-		NormalAccUpdater<tasks::TransformTask>(mb), PosMRTTTester(), 10);
+		NormalAccUpdater<tasks::TransformTask>(mb), PosTTTester(), 100);
 }
 
 
@@ -438,7 +449,7 @@ BOOST_AUTO_TEST_CASE(SurfaceTransformTaskTest)
 	tasks::SurfaceTransformTask tt(mb, 3, X_0_t, X_b_s);
 
 	testTaskNumDiff(mb, mbc, tt,
-		NormalAccUpdater<tasks::SurfaceTransformTask>(mb), PosMRTTTester(), 10);
+		NormalAccUpdater<tasks::SurfaceTransformTask>(mb), PosMRTTTester(), 100);
 }
 
 
