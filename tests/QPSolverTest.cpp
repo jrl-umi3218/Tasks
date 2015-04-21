@@ -1648,3 +1648,92 @@ BOOST_AUTO_TEST_CASE(JointsSelector)
 	BOOST_REQUIRE_EQUAL(js1.normalAcc(), js2.normalAcc());
 }
 
+
+BOOST_AUTO_TEST_CASE(QPTransformTaskTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb;
+	MultiBodyConfig mbcInit;
+
+	std::tie(mb, mbcInit) = makeZXZArm(false);
+
+	std::vector<MultiBody> mbs = {mb};
+	std::vector<MultiBodyConfig> mbcs(1);
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+
+	qp::QPSolver solver;
+
+	solver.nrVars(mbs, {}, {});
+	BOOST_CHECK_EQUAL(solver.nrVars(), 9);
+
+	solver.updateConstrSize();
+
+
+	// Test TransformTask
+	sva::PTransformd X_b_s(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+	sva::PTransformd X_0_t(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+	Quaterniond E_0_c(Vector4d::Random().normalized());
+
+	qp::TransformTask transTask(mbs, 0, 3, X_0_t, X_b_s, E_0_c.matrix());
+	VectorXd dimW(6);
+	dimW << 1., 1., 1., 1., 1., 1.;
+	qp::SetPointTask transTaskSp(mbs, 0, &transTask, 10., dimW, 100.);
+	// must add postureTask to avoid singularity
+	qp::PostureTask postureTask(mbs, 0, {{}, {0.}, {0.}, {0.}}, .5, 10.);
+
+	// addTask all the tasks
+	solver.addTask(&transTaskSp);
+	solver.addTask(&postureTask);
+	solver.updateTasksNrVars(mbs);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
+
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mb, mbcs[0], 0.001);
+
+		forwardKinematics(mb, mbcs[0]);
+		forwardVelocity(mb, mbcs[0]);
+	}
+
+	BOOST_CHECK_SMALL(transTask.eval().norm(), 1e-5);
+
+	// removeTask transTaskSp
+	solver.removeTask(&transTaskSp);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test SurfaceTransformTask
+	qp::SurfaceTransformTask surfTransTask(mbs, 0, 3, X_0_t, X_b_s);
+	qp::SetPointTask surfTransTaskSp(mbs, 0, &surfTransTask, 10., dimW, 100.);
+	solver.addTask(&surfTransTaskSp);
+	solver.updateTasksNrVars(mbs);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 2);
+
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 10000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mb, mbcs[0], 0.001);
+
+		forwardKinematics(mb, mbcs[0]);
+		forwardVelocity(mb, mbcs[0]);
+	}
+
+	BOOST_CHECK_SMALL(surfTransTask.eval().norm(), 1e-5);
+
+	solver.removeTask(&surfTransTaskSp);
+	solver.removeTask(&postureTask);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+}
