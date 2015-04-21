@@ -19,6 +19,7 @@
 
 // includes
 // std
+#include <iostream>
 #include <set>
 
 // rbd
@@ -246,6 +247,159 @@ const Eigen::MatrixXd& OrientationTask::jacDot() const
 
 
 /**
+	*													TransformTaskCommon
+	*/
+
+
+TransformTaskCommon::TransformTaskCommon(const rbd::MultiBody& mb, int bodyId,
+		const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
+	X_0_t_(X_0_t),
+	X_b_p_(X_b_p),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	eval_(6),
+	speed_(6),
+	normalAcc_(6),
+	jacMat_(6, mb.nrDof())
+{
+}
+
+
+void TransformTaskCommon::target(const sva::PTransformd& X_0_t)
+{
+	X_0_t_ = X_0_t;
+}
+
+
+const sva::PTransformd& TransformTaskCommon::target() const
+{
+	return X_0_t_;
+}
+
+
+void TransformTaskCommon::X_b_p(const sva::PTransformd& X_b_p)
+{
+	X_b_p_ = X_b_p;
+}
+
+
+const sva::PTransformd& TransformTaskCommon::X_b_p() const
+{
+	return X_b_p_;
+}
+
+
+const Eigen::VectorXd& TransformTaskCommon::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& TransformTaskCommon::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& TransformTaskCommon::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& TransformTaskCommon::jac() const
+{
+	return jacMat_;
+}
+
+
+/**
+	*													SurfaceTransformTask
+	*/
+
+
+SurfaceTransformTask::SurfaceTransformTask(const rbd::MultiBody& mb, int bodyId,
+		const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
+	TransformTaskCommon(mb, bodyId, X_0_t, X_b_p),
+	jacMatTmp_(6, jac_.dof())
+{
+}
+
+
+void SurfaceTransformTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
+{
+	sva::PTransformd X_0_p = X_b_p_*mbc.bodyPosW[bodyIndex_];
+	sva::PTransformd X_p_t = X_0_t_*X_0_p.inv();
+
+	sva::MotionVecd err_p = sva::transformVelocity(X_p_t, 1e-7);
+	sva::MotionVecd V_0_p = jac_.velocity(mb, mbc, X_b_p_);
+	sva::MotionVecd w_0_p = sva::MotionVecd(V_0_p.angular(), Eigen::Vector3d::Zero());
+	sva::MotionVecd AN_0_p = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_,
+		sva::MotionVecd(Eigen::Vector6d::Zero()));
+	sva::MotionVecd wAN_0_p = sva::MotionVecd(AN_0_p.angular(), Eigen::Vector3d::Zero());
+	sva::MotionVecd V_err_p = err_p.cross(w_0_p) - V_0_p;
+
+	eval_ = err_p.vector();
+	speed_ = -V_err_p.vector();
+	normalAcc_ = -(V_err_p.cross(w_0_p) + err_p.cross(wAN_0_p) - AN_0_p).vector();
+
+	jacMatTmp_ = jac_.jacobian(mb, mbc, X_0_p);
+
+	for(int i = 0; i < jac_.dof(); ++i)
+	{
+		jacMatTmp_.col(i).head<6>() -= err_p.cross(
+			sva::MotionVecd(jacMatTmp_.col(i).head<3>(), Eigen::Vector3d::Zero())).vector();
+	}
+
+	jac_.fullJacobian(mb, jacMatTmp_, jacMat_);
+}
+
+
+/**
+	*													TransformTask
+	*/
+
+
+TransformTask::TransformTask(const rbd::MultiBody& mb, int bodyId,
+		const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p,
+		const Eigen::Matrix3d& E_0_c):
+	TransformTaskCommon(mb, bodyId, X_0_t, X_b_p),
+	E_0_c_(E_0_c)
+{
+}
+
+
+void TransformTask::E_0_c(const Eigen::Matrix3d& E_0_c)
+{
+	E_0_c_ = E_0_c;
+}
+
+
+const Eigen::Matrix3d& TransformTask::E_0_c() const
+{
+	return E_0_c_;
+}
+
+
+void TransformTask::update(const rbd::MultiBody& mb,
+	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
+{
+	sva::PTransformd X_0_p = X_b_p_*mbc.bodyPosW[bodyIndex_];
+	sva::PTransformd E_p_c(Eigen::Matrix3d(E_0_c_*X_0_p.rotation().transpose()));
+	sva::MotionVecd V_p_c = jac_.velocity(mb, mbc, E_p_c*X_b_p_);
+	sva::MotionVecd w_p_c(V_p_c.angular(), Eigen::Vector3d::Zero());
+
+	eval_ = (sva::PTransformd(E_0_c_)*sva::transformError(X_0_p, X_0_t_, 1e-7)).vector();
+	speed_ = V_p_c.vector();
+	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB, E_p_c*X_b_p_, w_p_c).vector();
+	const auto& shortJacMat = jac_.jacobian(mb, mbc, E_p_c*X_0_p);
+
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+/**
 	*													MultiRobotTransformTask
 	*/
 
@@ -330,8 +484,7 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 	sva::PTransformd E_r2s_r1s(Matrix3d(X_r1s_r2s.rotation().transpose()));
 	sva::PTransformd X_r2b_r2s_r1s(E_r2s_r1s*X_r2b_r2s_);
 
-	sva::MotionVecd err_r1s(sva::rotationVelocity(X_r1s_r2s.rotation(), 1e-7),
-		X_r1s_r2s.translation());
+	sva::MotionVecd err_r1s(sva::transformVelocity(X_r1s_r2s, 1e-7));
 
 	sva::MotionVecd V_r1s_r1s = jacR1B_.velocity(mb1, mbc1, X_r1b_r1s_);
 	sva::MotionVecd V_r2s_r1s = jacR2B_.velocity(mb2, mbc2, X_r2b_r2s_r1s);

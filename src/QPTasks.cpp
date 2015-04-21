@@ -776,20 +776,24 @@ void PositionTask::update(const std::vector<rbd::MultiBody>& mbs,
 	pt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
 }
 
+
 const Eigen::MatrixXd& PositionTask::jac()
 {
 	return pt_.jac();
 }
+
 
 const Eigen::VectorXd& PositionTask::eval()
 {
 	return pt_.eval();
 }
 
+
 const Eigen::VectorXd& PositionTask::speed()
 {
 	return pt_.speed();
 }
+
 
 const Eigen::VectorXd& PositionTask::normalAcc()
 {
@@ -853,6 +857,111 @@ const Eigen::VectorXd& OrientationTask::speed()
 const Eigen::VectorXd& OrientationTask::normalAcc()
 {
 	return ot_.normalAcc();
+}
+
+
+/**
+	*											TransformTaskCommon
+	*/
+
+
+template <typename transform_task_t>
+TransformTaskCommon<transform_task_t>::TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int rI,
+	int bodyId, const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
+	tt_(mbs[rI], bodyId, X_0_t, X_b_p),
+	robotIndex_(rI)
+{
+}
+
+
+template <typename transform_task_t>
+int TransformTaskCommon<transform_task_t>::dim()
+{
+	return 6;
+}
+
+
+template <typename transform_task_t>
+const Eigen::MatrixXd& TransformTaskCommon<transform_task_t>::jac()
+{
+	return tt_.jac();
+}
+
+
+template <typename transform_task_t>
+const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::eval()
+{
+	return tt_.eval();
+}
+
+
+template <typename transform_task_t>
+const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::speed()
+{
+	return tt_.speed();
+}
+
+
+template <typename transform_task_t>
+const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::normalAcc()
+{
+	return tt_.normalAcc();
+}
+
+
+/**
+	*											SurfaceTransformTask
+	*/
+
+
+SurfaceTransformTask::SurfaceTransformTask(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex,
+	int bodyId, const sva::PTransformd& X_0_t,
+	const sva::PTransformd& X_b_p):
+	TransformTaskCommon(mbs, robotIndex, bodyId, X_0_t, X_b_p)
+{
+}
+
+
+void SurfaceTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	tt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+}
+
+
+/**
+	*											TransformTask
+	*/
+
+
+TransformTask::TransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+	int bodyId, const sva::PTransformd& X_0_t,
+	const sva::PTransformd& X_b_p, const Eigen::Matrix3d& E_0_c):
+	TransformTaskCommon(mbs, robotIndex, bodyId, X_0_t, X_b_p)
+{
+	tt_.E_0_c(E_0_c);
+}
+
+
+void TransformTask::E_0_c(const Eigen::Matrix3d& E_0_c)
+{
+	tt_.E_0_c(E_0_c);
+}
+
+
+const Eigen::Matrix3d& TransformTask::E_0_c() const
+{
+	return tt_.E_0_c();
+}
+
+
+void TransformTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	tt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
 }
 
 

@@ -397,6 +397,51 @@ BOOST_AUTO_TEST_CASE(OrientationTaskTest)
 }
 
 
+BOOST_AUTO_TEST_CASE(TransformTaskTest)
+{
+	using namespace Eigen;
+	using namespace rbd;
+
+	MultiBody mb;
+	MultiBodyConfig mbc;
+
+	std::tie(mb, mbc) = makeZXZArm();
+
+	sva::PTransformd X_b_s(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+	sva::PTransformd X_0_t(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+	Eigen::Quaterniond E_0_c(Vector4d::Random().normalized());
+
+	tasks::TransformTask tt(mb, 3, X_0_t, X_b_s, E_0_c.matrix());
+
+	testTaskNumDiff(mb, mbc, tt,
+		NormalAccUpdater<tasks::TransformTask>(mb), PosMRTTTester(), 10);
+}
+
+
+BOOST_AUTO_TEST_CASE(SurfaceTransformTaskTest)
+{
+	using namespace Eigen;
+	using namespace rbd;
+
+	MultiBody mb;
+	MultiBodyConfig mbc;
+
+	std::tie(mb, mbc) = makeZXZArm();
+
+	sva::PTransformd X_b_s(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+	sva::PTransformd X_0_t(Quaterniond(Vector4d::Random().normalized()),
+		Vector3d::Random());
+
+	tasks::SurfaceTransformTask tt(mb, 3, X_0_t, X_b_s);
+
+	testTaskNumDiff(mb, mbc, tt,
+		NormalAccUpdater<tasks::SurfaceTransformTask>(mb), PosMRTTTester(), 10);
+}
+
+
 BOOST_AUTO_TEST_CASE(MultiRobotTransformTaskTest)
 {
 	using namespace Eigen;
