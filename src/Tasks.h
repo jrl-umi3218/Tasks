@@ -115,7 +115,8 @@ private:
 class TransformTaskCommon
 {
 public:
-	TransformTaskCommon(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
+	TransformTaskCommon(const rbd::MultiBody& mb, int bodyId,
+		const sva::PTransformd& X_0_t,
 		const sva::PTransformd& X_b_p);
 
 	void target(const sva::PTransformd& X_0_t);
@@ -150,8 +151,9 @@ public:
 	/**
 		* Compute eval, speed, normalAcc and jac in moving 'p' frame.
 		*/
-	SurfaceTransformTask(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
-		const sva::PTransformd& X_b_p);
+	SurfaceTransformTask(const rbd::MultiBody& mb, int bodyId,
+		const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 		const std::vector<sva::MotionVecd>& normalAccB);
@@ -172,7 +174,7 @@ public:
 		* defined frame 'c' to change the frame of the task.
 		*/
 	TransformTask(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
-		const sva::PTransformd& X_b_p,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity(),
 		const Eigen::Matrix3d& E_0_c=Eigen::Matrix3d::Identity());
 
 	void E_0_c(const Eigen::Matrix3d& E_0_c);

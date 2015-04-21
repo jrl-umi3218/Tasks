@@ -538,7 +538,7 @@ public:
 		tt_.target(X_0_t);
 	}
 
-	const sva::PTransformd& X_0_t() const
+	const sva::PTransformd& target() const
 	{
 		return tt_.target();
 	}
