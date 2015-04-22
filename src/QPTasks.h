@@ -38,7 +38,53 @@ namespace qp
 {
 
 
-class SetPointTask : public Task
+class SetPointTaskCommon : public Task
+{
+public:
+	SetPointTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double weight);
+	SetPointTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, const Eigen::VectorXd& dimWeight,
+		double weight);
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(alphaDBegin_, alphaDBegin_);
+	}
+
+	void dimWeight(const Eigen::VectorXd& dim);
+
+	const Eigen::VectorXd& dimWeight() const
+	{
+		return dimWeight_;
+	}
+
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& Q() const;
+	virtual const Eigen::VectorXd& C() const;
+
+protected:
+	void computeQC(Eigen::VectorXd& error);
+
+protected:
+	HighLevelTask* hlTask_;
+	Eigen::VectorXd error_;
+
+private:
+	Eigen::VectorXd dimWeight_;
+	int robotIndex_, alphaDBegin_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+	// cache
+	Eigen::MatrixXd preQ_;
+	Eigen::VectorXd preC_;
+};
+
+
+class SetPointTask : public SetPointTaskCommon
 {
 public:
 	SetPointTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -55,43 +101,16 @@ public:
 
 	void stiffness(double stiffness);
 
-	virtual std::pair<int, int> begin() const
-	{
-		return std::make_pair(alphaDBegin_, alphaDBegin_);
-	}
-
-	void dimWeight(const Eigen::VectorXd& dim);
-
-	const Eigen::VectorXd& dimWeight() const
-	{
-		return dimWeight_;
-	}
-
-	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
-
 private:
-	HighLevelTask* hlTask_;
-
 	double stiffness_, stiffnessSqrt_;
-	Eigen::VectorXd dimWeight_;
-	int robotIndex_, alphaDBegin_;
-
-	Eigen::MatrixXd Q_;
-	Eigen::VectorXd C_;
-	// cache
-	Eigen::MatrixXd preQ_;
-	Eigen::VectorXd CVecSum_, preC_;
 };
 
 
-class TrackingTask : public Task
+class TrackingTask : public SetPointTaskCommon
 {
 public:
 	TrackingTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -103,48 +122,22 @@ public:
 
 	void setGains(double gainPos, double gainVel);
 
-	virtual std::pair<int, int> begin() const
-	{
-		return std::make_pair(alphaDBegin_, alphaDBegin_);
-	}
-
-	void dimWeight(const Eigen::VectorXd& dim);
-
-	const Eigen::VectorXd& dimWeight() const
-	{
-		return dimWeight_;
-	}
-
 	void errorPos(const Eigen::VectorXd& errorPos);
 	void errorVel(const Eigen::VectorXd& errorVel);
 	void refAccel(const Eigen::VectorXd& refAccel);
 
-	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
-
 private:
-	HighLevelTask* hlTask_;
-
 	double gainPos_, gainVel_;
-	Eigen::VectorXd dimWeight_;
 	Eigen::VectorXd errorPos_, errorVel_, refAccel_;
-	int robotIndex_, alphaDBegin_;
-
-	Eigen::MatrixXd Q_;
-	Eigen::VectorXd C_;
-	// cache
-	Eigen::MatrixXd preQ_;
-	Eigen::VectorXd CVecSum_, preC_;
 };
 
 
-class PIDTask : public Task
+/// @deprecated Must be replace by TrackingTask
+class PIDTask : public SetPointTaskCommon
 {
 public:
 	PIDTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -161,44 +154,17 @@ public:
 	double D() const;
 	void D(double d);
 
-	virtual std::pair<int, int> begin() const
-	{
-		return std::make_pair(alphaDBegin_, alphaDBegin_);
-	}
-
-	void dimWeight(const Eigen::VectorXd& dim);
-
-	const Eigen::VectorXd& dimWeight() const
-	{
-		return dimWeight_;
-	}
-
 	void error(const Eigen::VectorXd& err);
 	void errorD(const Eigen::VectorXd& errD);
 	void errorI(const Eigen::VectorXd& errI);
 
-	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
-
 private:
-	HighLevelTask* hlTask_;
-
 	double P_, I_, D_;
-	Eigen::VectorXd dimWeight_;
-	int robotIndex_, alphaDBegin_;
-
-	Eigen::MatrixXd Q_;
-	Eigen::VectorXd C_;
 	Eigen::VectorXd error_, errorD_, errorI_;
-	// cache
-	Eigen::MatrixXd preQ_;
-	Eigen::VectorXd CVecSum_, preC_;
 };
 
 
