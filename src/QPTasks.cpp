@@ -36,6 +36,84 @@ namespace qp
 
 
 /**
+	*														SetPointTaskCommon
+	*/
+
+
+SetPointTaskCommon::SetPointTaskCommon(const std::vector<rbd::MultiBody>& mbs,
+	int rI,
+	HighLevelTask* hlTask,
+	double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	error_(hlTask->dim()),
+	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
+	robotIndex_(rI),
+	alphaDBegin_(0),
+	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
+	C_(mbs[rI].nrDof()),
+	preQ_(hlTask->dim(), mbs[rI].nrDof()),
+	preC_(hlTask->dim())
+{}
+
+
+SetPointTaskCommon::SetPointTaskCommon(const std::vector<rbd::MultiBody>& mbs,
+	int rI,
+	HighLevelTask* hlTask,
+	const Eigen::VectorXd& dimWeight, double weight):
+	Task(weight),
+	hlTask_(hlTask),
+	error_(hlTask->dim()),
+	dimWeight_(dimWeight),
+	robotIndex_(rI),
+	alphaDBegin_(0),
+	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
+	C_(mbs[rI].nrDof()),
+	preQ_(hlTask->dim(), mbs[rI].nrDof()),
+	preC_(hlTask->dim())
+{}
+
+
+void SetPointTaskCommon::dimWeight(const Eigen::VectorXd& dim)
+{
+	dimWeight_ = dim;
+}
+
+
+void SetPointTaskCommon::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+	const SolverData& data)
+{
+	alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+
+void SetPointTaskCommon::computeQC(Eigen::VectorXd& error)
+{
+	const Eigen::MatrixXd& J = hlTask_->jac();
+	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
+
+	error.noalias() -= normalAcc;
+	preC_.noalias() = dimWeight_.asDiagonal()*error;
+	C_.noalias() = -J.transpose()*preC_;
+
+	preQ_.noalias() = dimWeight_.asDiagonal()*J;
+	Q_.noalias() = J.transpose()*preQ_;
+}
+
+
+const Eigen::MatrixXd& SetPointTaskCommon::Q() const
+{
+	return Q_;
+}
+
+
+const Eigen::VectorXd& SetPointTaskCommon::C() const
+{
+	return C_;
+}
+
+
+/**
 	*														SetPointTask
 	*/
 
@@ -44,18 +122,9 @@ SetPointTask::SetPointTask(const std::vector<rbd::MultiBody>& mbs,
 	int rI,
 	HighLevelTask* hlTask,
 	double stiffness, double weight):
-	Task(weight),
-	hlTask_(hlTask),
+	SetPointTaskCommon(mbs, rI, hlTask, weight),
 	stiffness_(stiffness),
-	stiffnessSqrt_(2.*std::sqrt(stiffness)),
-	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
-	robotIndex_(rI),
-	alphaDBegin_(0),
-	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
-	C_(mbs[rI].nrDof()),
-	preQ_(hlTask->dim(), mbs[rI].nrDof()),
-	CVecSum_(hlTask->dim()),
-	preC_(hlTask->dim())
+	stiffnessSqrt_(2.*std::sqrt(stiffness))
 {}
 
 
@@ -63,18 +132,9 @@ SetPointTask::SetPointTask(const std::vector<rbd::MultiBody>& mbs,
 	int rI,
 	HighLevelTask* hlTask,
 	double stiffness, const Eigen::VectorXd& dimWeight, double weight):
-	Task(weight),
-	hlTask_(hlTask),
+	SetPointTaskCommon(mbs, rI, hlTask, dimWeight, weight),
 	stiffness_(stiffness),
-	stiffnessSqrt_(2.*std::sqrt(stiffness)),
-	dimWeight_(dimWeight),
-	robotIndex_(rI),
-	alphaDBegin_(0),
-	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
-	C_(mbs[rI].nrDof()),
-	preQ_(hlTask->dim(), mbs[rI].nrDof()),
-	CVecSum_(hlTask->dim()),
-	preC_(hlTask->dim())
+	stiffnessSqrt_(2.*std::sqrt(stiffness))
 {}
 
 
@@ -85,50 +145,18 @@ void SetPointTask::stiffness(double stiffness)
 }
 
 
-void SetPointTask::dimWeight(const Eigen::VectorXd& dim)
-{
-	dimWeight_ = dim;
-}
-
-
-void SetPointTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
-	const SolverData& data)
-{
-	alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
-
-
 void SetPointTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
 	hlTask_->update(mbs, mbcs, data);
 
-	const Eigen::MatrixXd& J = hlTask_->jac();
 	const Eigen::VectorXd& err = hlTask_->eval();
 	const Eigen::VectorXd& speed = hlTask_->speed();
-	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
 
-	preQ_.noalias() = dimWeight_.asDiagonal()*J;
-	Q_.noalias() = J.transpose()*preQ_;
-
-	CVecSum_.noalias() = stiffness_*err;
-	CVecSum_.noalias() -= stiffnessSqrt_*speed;
-	CVecSum_.noalias() -= normalAcc;
-	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
-	C_.noalias() = -J.transpose()*preC_;
-}
-
-
-const Eigen::MatrixXd& SetPointTask::Q() const
-{
-	return Q_;
-}
-
-
-const Eigen::VectorXd& SetPointTask::C() const
-{
-	return C_;
+	error_.noalias() = stiffness_*err;
+	error_.noalias() -= stiffnessSqrt_*speed;
+	computeQC(error_);
 }
 
 
@@ -141,21 +169,12 @@ TrackingTask::TrackingTask(const std::vector<rbd::MultiBody>& mbs,
 	int rI,
 	HighLevelTask* hlTask,
 	double gainPos, double gainVel, double weight):
-	Task(weight),
-	hlTask_(hlTask),
+	SetPointTaskCommon(mbs, rI, hlTask, weight),
 	gainPos_(gainPos),
 	gainVel_(gainVel),
-	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
 	errorPos_(Eigen::VectorXd::Zero(hlTask->dim())),
 	errorVel_(Eigen::VectorXd::Zero(hlTask->dim())),
-	refAccel_(Eigen::VectorXd::Zero(hlTask->dim())),
-	robotIndex_(rI),
-	alphaDBegin_(0),
-	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
-	C_(mbs[rI].nrDof()),
-	preQ_(hlTask->dim(), mbs[rI].nrDof()),
-	CVecSum_(hlTask->dim()),
-	preC_(hlTask->dim())
+	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
 
 
@@ -163,21 +182,12 @@ TrackingTask::TrackingTask(const std::vector<rbd::MultiBody>& mbs,
 	int rI,
 	HighLevelTask* hlTask,
 	double gainPos, double gainVel, const Eigen::VectorXd& dimWeight, double weight):
-	Task(weight),
-	hlTask_(hlTask),
+	SetPointTaskCommon(mbs, rI, hlTask, dimWeight, weight),
 	gainPos_(gainPos),
 	gainVel_(gainVel),
-	dimWeight_(dimWeight),
 	errorPos_(Eigen::VectorXd::Zero(hlTask->dim())),
 	errorVel_(Eigen::VectorXd::Zero(hlTask->dim())),
-	refAccel_(Eigen::VectorXd::Zero(hlTask->dim())),
-	robotIndex_(rI),
-	alphaDBegin_(0),
-	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
-	C_(mbs[rI].nrDof()),
-	preQ_(hlTask->dim(), mbs[rI].nrDof()),
-	CVecSum_(hlTask->dim()),
-	preC_(hlTask->dim())
+	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
 
 
@@ -185,12 +195,6 @@ void TrackingTask::setGains(double gainPos, double gainVel)
 {
 	gainPos_ = gainPos;
 	gainVel_ = gainVel;
-}
-
-
-void TrackingTask::dimWeight(const Eigen::VectorXd& dim)
-{
-	dimWeight_ = dim;
 }
 
 
@@ -212,43 +216,16 @@ void TrackingTask::refAccel(const Eigen::VectorXd& refAccel)
 }
 
 
-void TrackingTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
-	const SolverData& data)
-{
-	alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
-
-
 void TrackingTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
 	hlTask_->update(mbs, mbcs, data);
 
-	const Eigen::MatrixXd& J = hlTask_->jac();
-	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
-
-	preQ_.noalias() = dimWeight_.asDiagonal()*J;
-	Q_.noalias() = J.transpose()*preQ_;
-
-	CVecSum_.noalias() = gainPos_*errorPos_;
-	CVecSum_.noalias() += gainVel_*errorVel_;
-	CVecSum_.noalias() += refAccel_;
-	CVecSum_.noalias() -= normalAcc;
-	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
-	C_.noalias() = -J.transpose()*preC_;
-}
-
-
-const Eigen::MatrixXd& TrackingTask::Q() const
-{
-	return Q_;
-}
-
-
-const Eigen::VectorXd& TrackingTask::C() const
-{
-	return C_;
+	error_.noalias() = gainPos_*errorPos_;
+	error_.noalias() += gainVel_*errorVel_;
+	error_.noalias() += refAccel_;
+	computeQC(error_);
 }
 
 
@@ -261,22 +238,13 @@ PIDTask::PIDTask(const std::vector<rbd::MultiBody>& mbs,
 	int rI,
 	HighLevelTask* hlTask,
 	double P, double I, double D, double weight):
-	Task(weight),
-	hlTask_(hlTask),
+	SetPointTaskCommon(mbs, rI, hlTask, weight),
 	P_(P),
 	I_(I),
 	D_(D),
-	dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
-	robotIndex_(rI),
-	alphaDBegin_(0),
-	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
-	C_(mbs[rI].nrDof()),
-	error_(hlTask->dim()),
-	errorD_(hlTask->dim()),
-	errorI_(hlTask->dim()),
-	preQ_(hlTask->dim(), mbs[rI].nrDof()),
-	CVecSum_(hlTask->dim()),
-	preC_(hlTask->dim())
+	error_(Eigen::VectorXd::Zero(hlTask->dim())),
+	errorD_(Eigen::VectorXd::Zero(hlTask->dim())),
+	errorI_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
 
 
@@ -285,22 +253,13 @@ PIDTask::PIDTask(const std::vector<rbd::MultiBody>& mbs,
 	HighLevelTask* hlTask,
 	double P, double I, double D,
 	const Eigen::VectorXd& dimWeight, double weight):
-	Task(weight),
-	hlTask_(hlTask),
+	SetPointTaskCommon(mbs, rI, hlTask, dimWeight, weight),
 	P_(P),
 	I_(I),
 	D_(D),
-	dimWeight_(dimWeight),
-	robotIndex_(rI),
-	alphaDBegin_(0),
-	Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
-	C_(mbs[rI].nrDof()),
-	error_(hlTask->dim()),
-	errorD_(hlTask->dim()),
-	errorI_(hlTask->dim()),
-	preQ_(hlTask->dim(), mbs[rI].nrDof()),
-	CVecSum_(hlTask->dim()),
-	preC_(hlTask->dim())
+	error_(Eigen::VectorXd::Zero(hlTask->dim())),
+	errorD_(Eigen::VectorXd::Zero(hlTask->dim())),
+	errorI_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
 
 
@@ -340,12 +299,6 @@ void PIDTask::D(double d)
 }
 
 
-void PIDTask::dimWeight(const Eigen::VectorXd& dim)
-{
-	dimWeight_ = dim;
-}
-
-
 void PIDTask::error(const Eigen::VectorXd& err)
 {
 	error_ = err;
@@ -364,43 +317,16 @@ void PIDTask::errorI(const Eigen::VectorXd& errI)
 }
 
 
-void PIDTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
-	const SolverData& data)
-{
-	alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
-
-
 void PIDTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
 	hlTask_->update(mbs, mbcs, data);
 
-	const Eigen::MatrixXd& J = hlTask_->jac();
-	const Eigen::VectorXd& normalAcc = hlTask_->normalAcc();
-
-	preQ_.noalias() = dimWeight_.asDiagonal()*J;
-	Q_.noalias() = J.transpose()*preQ_;
-
-	CVecSum_.noalias() = P_*error_;
-	CVecSum_.noalias() -= D_*errorD_;
-	CVecSum_.noalias() -= I_*errorI_;
-	CVecSum_.noalias() -= normalAcc;
-	preC_.noalias() = dimWeight_.asDiagonal()*CVecSum_;
-	C_.noalias() = -J.transpose()*preC_;
-}
-
-
-const Eigen::MatrixXd& PIDTask::Q() const
-{
-	return Q_;
-}
-
-
-const Eigen::VectorXd& PIDTask::C() const
-{
-	return C_;
+	error_.noalias() = P_*error_;
+	error_.noalias() -= D_*errorD_;
+	error_.noalias() -= I_*errorI_;
+	computeQC(error_);
 }
 
 

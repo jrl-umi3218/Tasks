@@ -758,6 +758,19 @@ def build_qp(tasks):
   hlTask.add_method('speed', retval('Eigen::VectorXd'), [])
   hlTask.add_method('normalAcc', retval('Eigen::VectorXd'), [])
 
+  # SetPointTaskCommon
+  def addSpCommonMethods(spt):
+    spt.add_method('dimWeight', retval('const Eigen::VectorXd&'), [], is_const=True)
+    spt.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'dim')])
+
+    spt.add_method('update', None,
+                   [param('const std::vector<rbd::MultiBody>&', 'mb'),
+                    param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
+                    param('const tasks::qp::SolverData&', 'data')])
+
+    spt.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
+    spt.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
+
   # SetPointTask
   def spConstructor(hlTaskName):
     for t in hlTaskName:
@@ -778,20 +791,10 @@ def build_qp(tasks):
                               param('double', 'weight')])
 
   spConstructor(hlTaskName)
+  addSpCommonMethods(spTask)
 
   spTask.add_method('stiffness', retval('double'), [], is_const=True)
   spTask.add_method('stiffness', None, [param('double', 'weight')])
-
-  spTask.add_method('dimWeight', retval('const Eigen::VectorXd&'), [], is_const=True)
-  spTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'dim')])
-
-  spTask.add_method('update', None,
-                    [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                     param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
-                     param('const tasks::qp::SolverData&', 'data')])
-
-  spTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
-  spTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # TrackingTask
   def trConstructor(hlTaskName):
@@ -815,24 +818,14 @@ def build_qp(tasks):
                               param('double', 'weight')])
 
   trConstructor(hlTaskName)
+  addSpCommonMethods(trTask)
 
   trTask.add_method('setGains', None, [param('double', 'gainPos'),
                                        param('double', 'gainVel')])
 
-  trTask.add_method('dimWeight', retval('const Eigen::VectorXd&'), [], is_const=True)
-  trTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'dim')])
-
   trTask.add_method('errorPos', None, [param('const Eigen::VectorXd&', 'errorPos')])
   trTask.add_method('errorVel', None, [param('const Eigen::VectorXd&', 'errorVel')])
   trTask.add_method('refAccel', None, [param('const Eigen::VectorXd&', 'refAccel')])
-
-  trTask.add_method('update', None,
-                    [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                     param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
-                     param('const tasks::qp::SolverData&', 'data')])
-
-  trTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
-  trTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # TargetObjectiveTask
   def toConstructor(hlTaskName):
@@ -909,6 +902,7 @@ def build_qp(tasks):
                               param('double', 'weight')])
 
   pidConstructor(hlTaskName)
+  addSpCommonMethods(pidTask)
 
   pidTask.add_method('P', retval('double'), [], is_const=True)
   pidTask.add_method('P', None, [param('double', 'weight')])
@@ -921,16 +915,6 @@ def build_qp(tasks):
   pidTask.add_method('errorD', None, [param('const Eigen::VectorXd&', 'errorD')])
   pidTask.add_method('errorI', None, [param('const Eigen::VectorXd&', 'errorI')])
 
-  pidTask.add_method('dimWeight', retval('const Eigen::VectorXd&'), [], is_const=True)
-  pidTask.add_method('dimWeight', None, [param('const Eigen::VectorXd&', 'dim')])
-
-  pidTask.add_method('update', None,
-                    [param('const std::vector<rbd::MultiBody>&', 'mb'),
-                     param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
-                     param('const tasks::qp::SolverData&', 'data')])
-
-  pidTask.add_method('Q', retval('Eigen::MatrixXd'), [], is_const=True)
-  pidTask.add_method('C', retval('Eigen::VectorXd'), [], is_const=True)
 
   # PositionTask
   posTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
