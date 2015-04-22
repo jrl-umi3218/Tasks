@@ -136,6 +136,31 @@ private:
 };
 
 
+class TrajectoryTask : public SetPointTaskCommon
+{
+public:
+	TrajectoryTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double gainPos, double gainVel, double weight);
+
+	TrajectoryTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		HighLevelTask* hlTask, double gainPos, double gainVel,
+		const Eigen::VectorXd& dimWeight, double weight);
+
+	void setGains(double gainPos, double gainVel);
+
+	void refVel(const Eigen::VectorXd& refVel);
+	void refAccel(const Eigen::VectorXd& refAccel);
+
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+private:
+	double gainPos_, gainVel_;
+	Eigen::VectorXd refVel_, refAccel_;
+};
+
+
 /// @deprecated Must be replace by TrackingTask
 class PIDTask : public SetPointTaskCommon
 {

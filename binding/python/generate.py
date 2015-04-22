@@ -342,6 +342,7 @@ def build_qp(tasks):
 
   spTask = qp.add_class('SetPointTask', parent=task)
   trTask = qp.add_class('TrackingTask', parent=task)
+  trajTask = qp.add_class('TrajectoryTask', parent=task)
   pidTask = qp.add_class('PIDTask', parent=task)
   toTask = qp.add_class('TargetObjectiveTask', parent=task)
 
@@ -392,8 +393,8 @@ def build_qp(tasks):
   ineqConstrName = ['CollisionConstr', 'GripperTorqueConstr', 'CoMIncPlaneConstr']
   genineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr']
   boundConstrName = ['PositiveLambda', 'JointLimitsConstr', 'DamperJointLimitsConstr']
-  taskName = ['SetPointTask', 'TrackingTask', 'PIDTask', 'TargetObjectiveTask',
-              'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
+  taskName = ['SetPointTask', 'TrackingTask', 'TrajectoryTask', 'PIDTask',
+              'TargetObjectiveTask', 'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask',
               'tasks::qp::MultiRobotTransformTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'SurfaceOrientationTask',
@@ -826,6 +827,36 @@ def build_qp(tasks):
   trTask.add_method('errorPos', None, [param('const Eigen::VectorXd&', 'errorPos')])
   trTask.add_method('errorVel', None, [param('const Eigen::VectorXd&', 'errorVel')])
   trTask.add_method('refAccel', None, [param('const Eigen::VectorXd&', 'refAccel')])
+
+  # TrajectoryTask
+  def trajConstructor(hlTaskName):
+    for t in hlTaskName:
+      name = 'tasks::qp::%s *' % t
+      trajTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('int', 'robotIndex'),
+                                param(name, 'hlTask',
+                                      transfer_ownership=False),
+                                param('double', 'gainPos'),
+                                param('double', 'gainVel'),
+                                param('double', 'weight')])
+
+      trajTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                                param('int', 'robotIndex'),
+                                param(name, 'hlTask',
+                                      transfer_ownership=False),
+                                param('double', 'gainPos'),
+                                param('double', 'gainVel'),
+                                param('const Eigen::VectorXd&', 'dimWeight'),
+                                param('double', 'weight')])
+
+  trajConstructor(hlTaskName)
+  addSpCommonMethods(trajTask)
+
+  trajTask.add_method('setGains', None, [param('double', 'gainPos'),
+                                         param('double', 'gainVel')])
+
+  trajTask.add_method('refVel', None, [param('const Eigen::VectorXd&', 'refVel')])
+  trajTask.add_method('refAccel', None, [param('const Eigen::VectorXd&', 'refAccel')])
 
   # TargetObjectiveTask
   def toConstructor(hlTaskName):

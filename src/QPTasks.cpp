@@ -230,6 +230,70 @@ void TrackingTask::update(const std::vector<rbd::MultiBody>& mbs,
 
 
 /**
+	*														TrajectoryTask
+	*/
+
+
+TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
+	int rI,
+	HighLevelTask* hlTask,
+	double gainPos, double gainVel, double weight):
+	SetPointTaskCommon(mbs, rI, hlTask, weight),
+	gainPos_(gainPos),
+	gainVel_(gainVel),
+	refVel_(Eigen::VectorXd::Zero(hlTask->dim())),
+	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
+{}
+
+
+TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
+	int rI,
+	HighLevelTask* hlTask,
+	double gainPos, double gainVel, const Eigen::VectorXd& dimWeight, double weight):
+	SetPointTaskCommon(mbs, rI, hlTask, dimWeight, weight),
+	gainPos_(gainPos),
+	gainVel_(gainVel),
+	refVel_(Eigen::VectorXd::Zero(hlTask->dim())),
+	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
+{}
+
+
+void TrajectoryTask::setGains(double gainPos, double gainVel)
+{
+	gainPos_ = gainPos;
+	gainVel_ = gainVel;
+}
+
+
+void TrajectoryTask::refVel(const Eigen::VectorXd& refVel)
+{
+	refVel_ = refVel;
+}
+
+
+void TrajectoryTask::refAccel(const Eigen::VectorXd& refAccel)
+{
+	refAccel_ = refAccel;
+}
+
+
+void TrajectoryTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	hlTask_->update(mbs, mbcs, data);
+
+	const Eigen::VectorXd& err = hlTask_->eval();
+	const Eigen::VectorXd& speed = hlTask_->speed();
+
+	error_.noalias() = gainPos_*err;
+	error_.noalias() += gainVel_*(refVel_ - speed);
+	error_.noalias() += refAccel_;
+	computeQC(error_);
+}
+
+
+/**
 	*														PIDTask
 	*/
 
