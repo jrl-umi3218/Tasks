@@ -218,6 +218,26 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda,
 }
 
 
+sva::ForceVecd UnilateralContact::force(const Eigen::VectorXd& lambda,
+	const std::vector<Eigen::Vector3d>& p, const FrictionCone& c) const
+{
+	sva::ForceVecd F_b(Eigen::Vector6d::Zero());
+	int pos = 0;
+
+	for(int i = 0; i < int(p.size()); ++i)
+	{
+		// force at point p in frame b
+		sva::ForceVecd F_p_b(Eigen::Vector3d::Zero(),
+												force(lambda.segment(pos, nrLambda(i)), i, c));
+		// F_b += xlt(r_b_p)^T F_p_b
+		F_b += sva::PTransformd(p[i]).transMul(F_p_b);
+		pos += nrLambda(i);
+	}
+
+	return F_b;
+}
+
+
 int UnilateralContact::nrLambda(int /* point */) const
 {
 	return static_cast<int>(r1Cone.generators.size());
@@ -266,6 +286,24 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda,
 	}
 
 	return force(lambda, cone);
+}
+
+
+sva::ForceVecd UnilateralContact::sForce(const Eigen::VectorXd& lambda,
+	const std::vector<Eigen::Vector3d>& r_b_pi,
+	const FrictionCone& c_b) const
+{
+	int totalLambda = nrLambda();
+
+	if(static_cast<int>(lambda.rows()) != totalLambda)
+	{
+		std::ostringstream str;
+		str << "number of lambda and generator mismatch: expected ("
+				<< totalLambda << ") gived (" << lambda.rows() << ")";
+		throw std::domain_error(str.str());
+	}
+
+	return force(lambda, r_b_pi, c_b);
 }
 
 
@@ -399,6 +437,26 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
 }
 
 
+sva::ForceVecd BilateralContact::force(const Eigen::VectorXd& lambda,
+	const std::vector<Eigen::Vector3d>& p, const std::vector<FrictionCone>& c) const
+{
+	sva::ForceVecd F_b(Eigen::Vector6d::Zero());
+	int pos = 0;
+
+	for(int i = 0; i < int(p.size()); ++i)
+	{
+		// force at point p in frame b
+		sva::ForceVecd F_p_b(Eigen::Vector3d::Zero(),
+												force(lambda.segment(pos, nrLambda(i)), i, c));
+		// F_b += xlt(r_b_p)^T F_p_b
+		F_b += sva::PTransformd(p[i]).transMul(F_p_b);
+		pos += nrLambda(i);
+	}
+
+	return F_b;
+}
+
+
 int BilateralContact::nrLambda(int point) const
 {
 	return static_cast<int>(r1Cones[point].generators.size());
@@ -446,6 +504,24 @@ Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda,
 	}
 
 	return force(lambda, cones);
+}
+
+
+sva::ForceVecd BilateralContact::sForce(const Eigen::VectorXd& lambda,
+	const std::vector<Eigen::Vector3d>& r_b_pi,
+	const std::vector<FrictionCone>& c_pi_b) const
+{
+	int totalLambda = nrLambda();
+
+	if(static_cast<int>(lambda.rows()) != totalLambda)
+	{
+		std::ostringstream str;
+		str << "number of lambda and generator mismatch: expected ("
+				<< totalLambda << ") gived (" << lambda.rows() << ")";
+		throw std::domain_error(str.str());
+	}
+
+	return force(lambda, r_b_pi, c_pi_b);
 }
 
 

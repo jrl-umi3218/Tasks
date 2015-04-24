@@ -591,6 +591,11 @@ def build_qp(tasks):
                                [param('const Eigen::VectorXd&', 'lambda'),
                                 param('const tasks::qp::FrictionCone&', 'c')],
                                throw=[dom_ex], custom_name='force', is_const=True)
+  unilateralContact.add_method('sForce', retval('sva::ForceVecd'),
+                               [param('const Eigen::VectorXd&', 'lambda'),
+                                param('const std::vector<Eigen::Vector3d>&', 'r_b_pi'),
+                                param('const tasks::qp::FrictionCone&', 'c_b')],
+                               throw=[dom_ex], custom_name='force', is_const=True)
   unilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
                                is_const=True, throw=[dom_ex], custom_name='nrLambda')
   unilateralContact.add_method('nrLambda', retval('int'), [],
@@ -643,6 +648,11 @@ def build_qp(tasks):
   bilateralContact.add_method('sForce', retval('Eigen::Vector3d'),
                               [param('const Eigen::VectorXd&', 'lambda'),
                                param('const std::vector<tasks::qp::FrictionCone>&', 'c')],
+                              throw=[dom_ex], custom_name='force', is_const=True)
+  bilateralContact.add_method('sForce', retval('sva::ForceVecd'),
+                              [param('const Eigen::VectorXd&', 'lambda'),
+                               param('const std::vector<Eigen::Vector3d>&', 'r_b_pi'),
+                               param('const std::vector<tasks::qp::FrictionCone>&', 'c_pi_b')],
                               throw=[dom_ex], custom_name='force', is_const=True)
   bilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
                               is_const=True, throw=[dom_ex], custom_name='nrLambda')

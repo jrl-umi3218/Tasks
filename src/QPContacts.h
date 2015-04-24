@@ -94,6 +94,17 @@ struct UnilateralContact
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda,
 		const FrictionCone& c) const;
 
+	/**
+	 * Compute force applied on the body origin in the body frame.
+	 * @param lambda Linearized contact forces.
+	 * @param r_b_pi List of transformation r_b_pi (body origin to point i).
+	 * @param c_pi_b Friction cone associated with each point in body frame.
+	 * @return F_b, the 6D force applied on the body origin at the body frame.
+	 */
+	sva::ForceVecd force(const Eigen::VectorXd& lambda,
+		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const FrictionCone& c_pi_b) const;
+
 	/// @return Number of lambda needed to compute the force vector of the contact point.
 	int nrLambda(int point) const;
 	/// @return Number of lambda needed to compute the force vector.
@@ -112,6 +123,13 @@ struct UnilateralContact
 		*/
 	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda,
 		const FrictionCone& c) const;
+	/**
+		* Safe version of @see force.
+		* @throw std::domain_error If lambda don't match the number of generator.
+		*/
+	sva::ForceVecd sForce(const Eigen::VectorXd& lambda,
+		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const FrictionCone& c_pi_b) const;
 
 	/**
 		* Safe version of @see nrLambda.
@@ -167,6 +185,17 @@ struct BilateralContact
 	Eigen::Vector3d force(const Eigen::VectorXd& lambda,
 		const std::vector<FrictionCone>& c) const;
 
+	/**
+	 * Compute force applied on the body origin in the body frame.
+	 * @param lambda Linearized contact forces.
+	 * @param r_b_pi List of transformation r_b_pi (body origin to point i).
+	 * @param c_pi_b Frictions cones associated with each point in body frame.
+	 * @return F_b, the 6D force applied on the body origin at the body frame.
+	 */
+	sva::ForceVecd force(const Eigen::VectorXd& lambda,
+		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const std::vector<FrictionCone>& c_pi_b) const;
+
 	/// @return Number of lambda needed to compute the force vector of the contact point.
 	int nrLambda(int point) const;
 	/// @return Number of lambda needed to compute the force vector.
@@ -185,6 +214,13 @@ struct BilateralContact
 		*/
 	Eigen::Vector3d sForce(const Eigen::VectorXd& lambda,
 		const std::vector<FrictionCone>& c) const;
+	/**
+		* Safe version of @see force.
+		* @throw std::domain_error If lambda don't match the number of generator.
+		*/
+	sva::ForceVecd sForce(const Eigen::VectorXd& lambda,
+		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const std::vector<FrictionCone>& c_pi_b) const;
 
 	/**
 		* Safe version of @see nrLambda.
