@@ -113,10 +113,12 @@ public:
 	int nrBoundConstraints() const;
 
 	void addConstraint(Constraint* co);
+	void addConstraint(const std::vector<rbd::MultiBody>& mbs, Constraint* co);
 	void removeConstraint(Constraint* co);
 	int nrConstraints() const;
 
 	void addTask(Task* task);
+	void addTask(const std::vector<rbd::MultiBody>& mbs, Task* task);
 	void removeTask(Task* task);
 	void resetTasks();
 	int nrTasks() const;
@@ -187,6 +189,12 @@ public:
 	void addToSolver(QPSolver& sol)
 	{
 		sol.addConstraint(this);
+		addToSolver_p(sol, (&Fun::addToSolver)...);
+	}
+
+	void addToSolver(const std::vector<rbd::MultiBody>& mbs, QPSolver& sol)
+	{
+		sol.addConstraint(mbs, this);
 		addToSolver_p(sol, (&Fun::addToSolver)...);
 	}
 

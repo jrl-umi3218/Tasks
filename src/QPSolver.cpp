@@ -326,6 +326,21 @@ void QPSolver::addConstraint(Constraint* co)
 }
 
 
+void QPSolver::addConstraint(const std::vector<rbd::MultiBody>& mbs,
+	Constraint* co)
+{
+	if(std::find(constr_.begin(), constr_.end(), co) == constr_.end())
+	{
+		constr_.push_back(co);
+		// check if nrVars has been call at least one
+		if(data_.nrVars_ > 0)
+		{
+			co->updateNrVars(mbs, data_);
+		}
+	}
+}
+
+
 void QPSolver::removeConstraint(Constraint* co)
 {
 	auto it = std::find(constr_.begin(), constr_.end(), co);
@@ -346,6 +361,20 @@ void QPSolver::addTask(Task* task)
 	if(std::find(tasks_.begin(), tasks_.end(), task) == tasks_.end())
 	{
 		tasks_.push_back(task);
+	}
+}
+
+
+void QPSolver::addTask(const std::vector<rbd::MultiBody>& mbs, Task* task)
+{
+	if(std::find(tasks_.begin(), tasks_.end(), task) == tasks_.end())
+	{
+		tasks_.push_back(task);
+		// check if nrVars has been call at least one
+		if(data_.nrVars_ > 0)
+		{
+			task->updateNrVars(mbs, data_);
+		}
 	}
 }
 

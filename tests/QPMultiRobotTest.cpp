@@ -399,13 +399,18 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
 
 	qp::ContactSpeedConstr contCstrSpeed(0.001);
 
-	contCstrSpeed.addToSolver(solver);
 	solver.addTask(&posture1Task);
 	solver.addTask(&posture2Task);
-	solver.addTask(&multiCoM);
 
 	solver.nrVars(mbs, contVec, {});
+
+	// Add MultiCoMTask and ContactSpeedConstr after the nrVars call to test
+	// addTask and addToSolver with nrVars init
+	solver.addTask(mbs, &multiCoM);
+	contCstrSpeed.addToSolver(mbs, solver);
+
 	solver.updateConstrSize();
+
 	// 3 dof + 3 dof + 1*nrGen lambda
 	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 3 + 1*nrGen);
 
