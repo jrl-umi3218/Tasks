@@ -467,6 +467,12 @@ def build_qp(tasks):
   add_std_solver_add_rm_nr('BoundConstraint', boundConstrName)
   add_std_solver_add_rm_nr('Constraint', constrName)
   add_std_solver_add_rm_nr('Task', taskName)
+  sol.add_method('addTask', None,
+                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                  param('Task*', 'ptr', transfer_ownership=False)])
+  sol.add_method('addConstraint', None,
+                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                  param('Constraint*', 'ptr', transfer_ownership=False)])
   sol.add_method('resetTasks', None, [])
 
   sol.add_method('solver', None, [param('const std::string&', 'name')])
@@ -1398,6 +1404,9 @@ def build_qp(tasks):
   def add_add_remove_solver(constr):
     for c in constr:
       c.add_method('addToSolver', None, [param('tasks::qp::QPSolver&', 'solver')])
+      c.add_method('addToSolver', None,
+                   [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                    param('tasks::qp::QPSolver&', 'solver')])
       c.add_method('removeFromSolver', None, [param('tasks::qp::QPSolver&',  'solver')])
   add_add_remove_solver(constrList)
 
