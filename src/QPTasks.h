@@ -22,6 +22,7 @@
 // Tasks
 #include "Tasks.h"
 #include "QPSolver.h"
+#include "QPMotionConstr.h"
 
 // forward declaration
 // RBDyn
@@ -346,6 +347,54 @@ struct JointStiffness
 };
 
 
+class TorqueTask : public Task
+{
+public:
+        TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const TorqueBound& tb, double weight);
+
+        TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
+                   double weight);
+
+        TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const TorqueBound& tb, int efId,
+                   double weight);
+
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	virtual const Eigen::MatrixXd& Q() const
+        {
+          return Q_;
+        }
+
+	virtual const Eigen::VectorXd& C() const
+        {
+          return C_;
+        }
+
+        virtual const Eigen::VectorXd& jointSelect() const
+        {
+          return jointSelector_;
+        }
+
+private:
+        int robotIndex_;
+        int alphaDBegin_, lambdaBegin_;
+        MotionConstr motionConstr;
+        Eigen::VectorXd jointSelector_;
+        Eigen::MatrixXd Q_;
+        Eigen::VectorXd C_;
+};
 
 class PostureTask : public Task
 {

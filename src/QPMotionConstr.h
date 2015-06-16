@@ -145,6 +145,15 @@ public:
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
+        //Matrix
+        const Eigen::MatrixXd matrix() const
+        {
+          return A_;
+        }
+	//Contact torque
+	Eigen::MatrixXd contactMatrix() const;
+	//Access fd...
+	const rbd::ForwardDynamics fd() const;
 
 protected:
 	Eigen::VectorXd torqueL_, torqueU_;

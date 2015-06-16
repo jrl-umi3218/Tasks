@@ -29,6 +29,7 @@ def import_rbd_types(mod):
   mod.add_class('MultiBodyConfig', foreign_cpp_namespace='rbd', import_from_module='rbdyn')
   mod.add_class('Jacobian', foreign_cpp_namespace='rbd', import_from_module='rbdyn')
   mod.add_class('CoMJacobianDummy', foreign_cpp_namespace='rbd', import_from_module='rbdyn')
+  mod.add_class('ForwardDynamics', foreign_cpp_namespace='rbd', import_from_module='rbdyn')
 
 
 
@@ -351,6 +352,7 @@ def build_qp(tasks):
   surfOriTask = qp.add_class('SurfaceOrientationTask', parent=hlTask)
   gazeTask = qp.add_class('GazeTask', parent=hlTask)
   postureTask = qp.add_class('PostureTask', parent=task)
+  torqueTask = qp.add_class('TorqueTask', parent=task)
   comTask = qp.add_class('CoMTask', parent=hlTask)
   multiCoMTask = qp.add_class('MultiCoMTask', parent=task)
   multiRobotTransformTask = qp.add_class('MultiRobotTransformTask', parent=task)
@@ -396,7 +398,7 @@ def build_qp(tasks):
   taskName = ['SetPointTask', 'TrackingTask', 'TrajectoryTask', 'PIDTask',
               'TargetObjectiveTask', 'tasks::qp::PostureTask', 'tasks::qp::ContactTask',
               'tasks::qp::GripperTorqueTask', 'tasks::qp::MultiCoMTask',
-              'tasks::qp::MultiRobotTransformTask']
+              'tasks::qp::MultiRobotTransformTask', 'tasks::qp::TorqueTask']
   hlTaskName = ['PositionTask', 'OrientationTask', 'SurfaceOrientationTask',
                 'GazeTask', 'CoMTask', 'LinVelocityTask', 'OrientationTrackingTask',
                 'MomentumTask', 'JointsSelector', 'TransformTask',
@@ -1087,6 +1089,31 @@ def build_qp(tasks):
                      param('const tasks::qp::SolverData&', 'data')])
   postureTask.add_method('eval', retval('Eigen::VectorXd'), [])
 
+  # TorqueTask
+  torqueTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
+                               param('const TorqueBound&', 'tb'),
+                               param('double', 'weight')])
+
+  torqueTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
+                               param('const TorqueBound&', 'tb'),
+                               param('const Eigen::VectorXd', 'jointSelect'),
+                               param('double', 'weight')])
+
+  torqueTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
+                               param('const TorqueBound&', 'tb'),
+                               param('int', 'efId'),
+                               param('double', 'weight')])
+
+  torqueTask.add_method('update', None,
+                    [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                     param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
+                     param('const tasks::qp::SolverData&', 'data')])
+
+  torqueTask.add_method('jointSelect', retval('const Eigen::VectorXd', 'jointSelect'),
+                        [], is_const=True)
   # CoMTask
   comTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('int', 'robotIndex'),
@@ -1258,6 +1285,10 @@ def build_qp(tasks):
   motionConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                 param('int', 'robotIndex'),
                                 param('const tasks::TorqueBound&', 'tb')])
+
+  motionConstr.add_method('contactMatrix', retval('Eigen::MatrixXd'), [], is_const=True)
+  motionConstr.add_method('fd', retval('const rbd::ForwardDynamics'), [], is_const=True)
+
   addMotionDefault(motionConstr)
 
   # MotionPolyConstr

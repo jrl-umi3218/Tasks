@@ -346,6 +346,15 @@ void MotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	AU_.head(torqueU_.rows()) += torqueU_;
 }
 
+Eigen::MatrixXd MotionConstr::contactMatrix() const
+{
+	return A_.block(0, nrDof_, A_.rows(), A_.cols() - nrDof_);
+}
+
+const rbd::ForwardDynamics MotionConstr::fd() const
+{
+	return fd_;
+}
 
 /**
 	*															MotionSpringConstr
