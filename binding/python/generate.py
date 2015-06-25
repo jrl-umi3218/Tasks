@@ -325,6 +325,7 @@ def build_qp(tasks):
   unilateralContact = qp.add_struct('UnilateralContact')
   bilateralContact = qp.add_struct('BilateralContact')
   jointStiffness = qp.add_struct('JointStiffness')
+  jointGains = qp.add_struct('JointGains')
   springJoint = qp.add_struct('SpringJoint')
   qBound = tasks.add_struct('QBound')
   alphaBound = tasks.add_struct('AlphaBound')
@@ -415,6 +416,8 @@ def build_qp(tasks):
                       'tasks::qp::BilateralContact', 'vector')
   tasks.add_container('std::vector<tasks::qp::JointStiffness>',
                       'tasks::qp::JointStiffness', 'vector')
+  tasks.add_container('std::vector<tasks::qp::JointGains>',
+                      'tasks::qp::JointGains', 'vector')
   tasks.add_container('std::vector<tasks::qp::SpringJoint>',
                       'tasks::qp::SpringJoint', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
@@ -671,6 +674,15 @@ def build_qp(tasks):
                                   param('double', 'stiffness')])
   jointStiffness.add_instance_attribute('jointId', 'int')
   jointStiffness.add_instance_attribute('stiffness', 'std::vector<Eigen::Vector3d>')
+
+  # JointGains
+  jointGains.add_constructor([])
+  jointGains.add_constructor([param('int', 'jointId'),
+                              param('double', 'stiffness'),
+                              param('double', 'damping')])
+  jointGains.add_instance_attribute('jointId', 'int')
+  jointGains.add_instance_attribute('stiffness', 'double')
+  jointGains.add_instance_attribute('damping', 'double')
 
   # SpringJoint
   springJoint.add_constructor([])
@@ -1081,6 +1093,10 @@ def build_qp(tasks):
                          [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                           param('std::vector<tasks::qp::JointStiffness>', 'js')])
 
+  postureTask.add_method('jointsGains', None,
+                         [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                          param('std::vector<tasks::qp::JointGains>', 'jg')])
+
   postureTask.add_method('update', None,
                     [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                      param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
@@ -1483,4 +1499,3 @@ if __name__ == '__main__':
 
   with open(sys.argv[1], 'w') as f:
     tasks.generate(f)
-

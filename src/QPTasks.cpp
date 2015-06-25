@@ -688,6 +688,20 @@ void PostureTask::jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
 	}
 }
 
+void PostureTask::jointsGains(const std::vector<rbd::MultiBody> &mbs,
+	const std::vector<JointGains> &jgv)
+{
+	jointDatas_.clear();
+	jointDatas_.reserve(jgv.size());
+
+	const rbd::MultiBody& mb = mbs[robotIndex_];
+	for(const JointGains& jg: jgv)
+	{
+		int jointIndex = mb.jointIndexById(jg.jointId);
+		jointDatas_.push_back({jg.stiffness, jg.damping, mb.jointPosInDof(jointIndex),
+			mb.joint(jointIndex).dof()});
+	}
+}
 
 void PostureTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	const SolverData& data)

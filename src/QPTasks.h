@@ -345,6 +345,22 @@ struct JointStiffness
 	double stiffness;
 };
 
+struct JointGains
+{
+	JointGains():
+		jointId(),
+		stiffness(),
+		damping()
+	{}
+	JointGains(int jId, double stif, double damp):
+		jointId(jId),
+		stiffness(stif),
+		damping(damp)
+	{}
+
+	int jointId;
+	double stiffness, damping;
+};
 
 
 class PostureTask : public Task
@@ -377,6 +393,9 @@ public:
 
 	void jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<JointStiffness>& jsv);
+
+	void jointsGains(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<JointGains>& jgv);
 
 	virtual std::pair<int, int> begin() const
 	{
