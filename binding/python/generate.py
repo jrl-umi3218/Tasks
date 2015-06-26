@@ -673,7 +673,7 @@ def build_qp(tasks):
   jointStiffness.add_constructor([param('int', 'jointId'),
                                   param('double', 'stiffness')])
   jointStiffness.add_instance_attribute('jointId', 'int')
-  jointStiffness.add_instance_attribute('stiffness', 'std::vector<Eigen::Vector3d>')
+  jointStiffness.add_instance_attribute('stiffness', 'double')
 
   # JointGains
   jointGains.add_constructor([])
