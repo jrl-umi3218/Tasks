@@ -352,6 +352,13 @@ struct JointGains
 		stiffness(),
 		damping()
 	{}
+	JointGains(int jId, double stif) :
+		jointId(jId),
+		stiffness(stif)
+	{
+		damping = 2.*std::sqrt(stif);
+	}
+
 	JointGains(int jId, double stif, double damp):
 		jointId(jId),
 		stiffness(stif),
@@ -389,7 +396,15 @@ public:
 		return stiffness_;
 	}
 
+	double damping() const
+	{
+		return damping_;
+	}
+
 	void stiffness(double stiffness);
+
+	void gains(double stiffness);
+	void gains(double stiffness, double damping);
 
 	void jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<JointStiffness>& jsv);
@@ -416,7 +431,7 @@ public:
 private:
 	struct JointData
 	{
-		double stiffness, stiffnessSqrt;
+		double stiffness, damping;
 		int start, size;
 	};
 
@@ -424,7 +439,7 @@ private:
 	tasks::PostureTask pt_;
 
 	double stiffness_;
-	double stiffnessSqrt_;
+	double damping_;
 	int robotIndex_, alphaDBegin_;
 
 	std::vector<JointData> jointDatas_;

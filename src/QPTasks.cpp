@@ -655,7 +655,7 @@ PostureTask::PostureTask(const std::vector<rbd::MultiBody>& mbs,
 	Task(weight),
 	pt_(mbs[rI], q),
 	stiffness_(stiffness),
-	stiffnessSqrt_(2.*std::sqrt(stiffness)),
+	damping_(2.*std::sqrt(stiffness)),
 	robotIndex_(rI),
 	alphaDBegin_(0),
 	jointDatas_(),
@@ -668,9 +668,20 @@ PostureTask::PostureTask(const std::vector<rbd::MultiBody>& mbs,
 void PostureTask::stiffness(double stiffness)
 {
 	stiffness_ = stiffness;
-	stiffnessSqrt_ = 2.*std::sqrt(stiffness);
+	damping_ = 2.*std::sqrt(stiffness);
 }
 
+void PostureTask::gains(double stiffness)
+{
+	stiffness_ = stiffness;
+	damping_ = 2.*std::sqrt(stiffness);
+}
+
+void PostureTask::gains(double stiffness, double damping)
+{
+	stiffness_ = stiffness;
+	damping_ = damping;
+}
 
 void PostureTask::jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<JointStiffness>& jsv)
@@ -727,13 +738,13 @@ void PostureTask::update(const std::vector<rbd::MultiBody>& mbs,
 	int end = mb.nrDof() - deb;
 	// joint
 	C_.segment(deb, end) = -stiffness_*pt_.eval().segment(deb, end) +
-		stiffnessSqrt_*alphaVec_.segment(deb, end);
+		damping_*alphaVec_.segment(deb, end);
 
 	for(const JointData& pjd: jointDatas_)
 	{
 		C_.segment(pjd.start, pjd.size) =
 				-pjd.stiffness*pt_.eval().segment(pjd.start, pjd.size) +
-				pjd.stiffnessSqrt*alphaVec_.segment(pjd.start, pjd.size);
+				pjd.damping*alphaVec_.segment(pjd.start, pjd.size);
 	}
 }
 

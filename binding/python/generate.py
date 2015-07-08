@@ -678,6 +678,8 @@ def build_qp(tasks):
   # JointGains
   jointGains.add_constructor([])
   jointGains.add_constructor([param('int', 'jointId'),
+                              param('double', 'stiffness')])
+  jointGains.add_constructor([param('int', 'jointId'),
                               param('double', 'stiffness'),
                               param('double', 'damping')])
   jointGains.add_instance_attribute('jointId', 'int')
@@ -1082,6 +1084,10 @@ def build_qp(tasks):
 
   postureTask.add_method('stiffness', retval('double'), [], is_const=True)
   postureTask.add_method('stiffness', None, [param('double', 'weight')])
+  postureTask.add_method('damping', retval('double'), [], is_const=True)
+  postureTask.add_method('gains', None, [param('double', 'stiffness')])
+  postureTask.add_method('gains', None, [param('double', 'stiffness'),
+                                         param('double', 'damping')])
 
   postureTask.add_method('posture', None,
                          [param('std::vector<std::vector<double> >', 'q')])
