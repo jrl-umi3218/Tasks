@@ -22,7 +22,10 @@
 
 // Tasks
 #include "QLDQPSolver.h"
-#include "LSSOLQPSolver.h"
+
+#ifdef LSSOL_SOLVER_FOUND
+	#include "LSSOLQPSolver.h"
+#endif
 
 
 namespace tasks
