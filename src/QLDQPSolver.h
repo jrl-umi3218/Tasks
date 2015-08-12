@@ -16,19 +16,11 @@
 #pragma once
 
 // includes
-// std
-#include <vector>
+// eigen-qld
+#include <eigen-qld/QLD.h>
 
-// Eigen
-#include <Eigen/Core>
-
-
-// forward declaration
-// RBDyn
-namespace rbd
-{
-class MultiBody;
-}
+// Tasks
+#include "GenQPSolver.h"
 
 
 namespace tasks
@@ -36,44 +28,43 @@ namespace tasks
 
 namespace qp
 {
-// forward declarition
-class Task;
-class Equality;
-class Inequality;
-class GenInequality;
-class Bound;
-class GenQPSolver;
 
 
-
-GenQPSolver* createQPSolver(const std::string& name);
-
-
-class GenQPSolver
+class QLDQPSolver : public GenQPSolver
 {
 public:
-	static const std::string default_qp_solver;
+	QLDQPSolver();
 
-public:
-	virtual ~GenQPSolver() {}
-
-	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq) = 0;
+	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq);
 	virtual void updateMatrix(const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
 		const std::vector<Inequality*>& inEqConstr,
 		const std::vector<GenInequality*>& genInEqConstr,
-		const std::vector<Bound*>& boundConstr) = 0;
-
-	virtual bool solve() = 0;
-
-	virtual const Eigen::VectorXd& result() const = 0;
+		const std::vector<Bound*>& boundConstr);
+	virtual bool solve();
+	virtual const Eigen::VectorXd& result() const;
 	virtual std::ostream& errorMsg(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
 		const std::vector<Inequality*>& inEqConstr,
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr,
-		std::ostream& out) const = 0;
+		std::ostream& out) const;
+
+private:
+	Eigen::QLD qld_;
+
+	Eigen::MatrixXd Aeq_, Aineq_;
+	Eigen::VectorXd beq_, bineq_;
+
+	Eigen::VectorXd XL_;
+	Eigen::VectorXd XU_;
+
+	Eigen::MatrixXd Q_;
+	Eigen::VectorXd C_;
+
+	int nrAeqLines_;
+	int nrAineqLines_;
 };
 
 

@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
-INCLUDE(cmake/cpack.cmake)
 INCLUDE(cmake/eigen.cmake)
 
 SET(PROJECT_NAME Tasks)
@@ -12,7 +11,8 @@ SET(PROJECT_URL "https://github.com/jorisv//Tasks")
 # Disable -Werror on Unix for now.
 SET(CXX_DISABLE_WERROR True)
 
-SETUP_PROJECT()
+project(${PROJECT_NAME} CXX)
+SETUP_PROJECT(FALSE)
 
 option(PYTHON_BINDING "Generate python binding." ON)
 option(POSTURE_GENERATOR "Build the non linear posture generator." OFF)
@@ -27,7 +27,8 @@ SEARCH_FOR_EIGEN()
 ADD_REQUIRED_DEPENDENCY("sch-core")
 ADD_REQUIRED_DEPENDENCY("SpaceVecAlg")
 ADD_REQUIRED_DEPENDENCY("RBDyn")
-ADD_REQUIRED_DEPENDENCY("EigenQP")
+ADD_REQUIRED_DEPENDENCY("eigen-qld")
+ADD_OPTIONAL_DEPENDENCY("eigen-lssol")
 
 if(${POSTURE_GENERATOR})
   ADD_REQUIRED_DEPENDENCY("ipopt")
@@ -45,7 +46,4 @@ endif()
 
 # Add dependency towards the library in the pkg-config file.
 PKG_CONFIG_APPEND_LIBS(Tasks)
-
 SETUP_PROJECT_FINALIZE()
-SETUP_PROJECT_CPACK()
-
