@@ -1,3 +1,7 @@
+# Tasks
+
+[![Build Status](https://travis-ci.org/jorisv/Tasks.svg?branch=master)](https://travis-ci.org/jorisv/Tasks)
+
 Tasks is a library tha allow to control a robot or to compute the inverse kinematics.
 
 Pulling git subtree

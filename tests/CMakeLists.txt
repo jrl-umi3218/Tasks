@@ -26,18 +26,3 @@ endmacro(addUnitTest)
 addUnitTest(QPSolverTest)
 addUnitTest(QPMultiRobotTest)
 addUnitTest(TasksTest)
-
-
-if(${POSTURE_GENERATOR})
-  add_executable(PGJacobianTest PGJacobianTest.cpp)
-  target_link_libraries(PGJacobianTest ${Boost_LIBRARIES} RBDyn Tasks)
-  PKG_CONFIG_USE_DEPENDENCY(PGJacobianTest SpaceVecAlg)
-  PKG_CONFIG_USE_DEPENDENCY(PGJacobianTest RBDyn)
-  add_test(PGJacobiantUnit PGJacobianTest)
-
-  add_executable(PGTest PGTest.cpp)
-  target_link_libraries(PGTest ${Boost_LIBRARIES} RBDyn Tasks)
-  PKG_CONFIG_USE_DEPENDENCY(PGTest SpaceVecAlg)
-  PKG_CONFIG_USE_DEPENDENCY(PGTest RBDyn)
-  add_test(PGUnit PGTest)
-endif()

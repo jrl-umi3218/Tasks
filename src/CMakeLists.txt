@@ -11,11 +11,6 @@ if(${EIGEN_LSSOL_FOUND})
   list(APPEND HEADERS LSSOLQPSolver.h)
 endif()
 
-if(${POSTURE_GENERATOR})
-  list(APPEND SOURCES PGJacobian.cpp PostureGenerator.cpp PGConstr.cpp)
-  list(APPEND HEADERS PGJacobian.h PostureGenerator.h PGConstr.h)
-endif()
-
 set(BOOST_COMPONENTS timer system)
 SEARCH_FOR_BOOST()
 
@@ -35,12 +30,7 @@ endif()
 
 target_link_libraries(Tasks ${Boost_LIBRARIES})
 
-if(${POSTURE_GENERATOR})
-  PKG_CONFIG_USE_DEPENDENCY(Tasks ipopt)
-endif()
-
 
 set(INSTALL_PATH include/Tasks)
 install(FILES ${HEADERS} DESTINATION ${INSTALL_PATH})
 install(TARGETS Tasks DESTINATION "lib")
-
