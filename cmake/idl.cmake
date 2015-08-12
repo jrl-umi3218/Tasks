@@ -37,9 +37,16 @@ ENDMACRO ()
 # An include directory can also be specified.
 #
 # FILENAME : IDL filename without the extension
+#            Can be prefixed by a path: _path/_filename
 # DIRECTORY : IDL directory
+#             The idl file being search for is: ${DIRECTORY}/${_filename}.idl
 #
 MACRO(GENERATE_IDL_FILE FILENAME DIRECTORY)
+  GET_FILENAME_COMPONENT (_PATH ${FILENAME} PATH)
+  GET_FILENAME_COMPONENT (_NAME ${FILENAME} NAME)
+  IF (_PATH STREQUAL "")
+    SET(_PATH "./")
+  ENDIF (_PATH STREQUAL "")
   FIND_PROGRAM(OMNIIDL omniidl)
   IF(${OMNIIDL} STREQUAL OMNIIDL-NOTFOUND)
     MESSAGE(FATAL_ERROR "cannot find omniidl.")
@@ -47,8 +54,9 @@ MACRO(GENERATE_IDL_FILE FILENAME DIRECTORY)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${FILENAME}SK.cc ${FILENAME}.hh
     COMMAND ${OMNIIDL}
-    ARGS -bcxx ${_OMNIIDL_INCLUDE_FLAG} ${DIRECTORY}/${FILENAME}.idl
-    MAIN_DEPENDENCY ${DIRECTORY}/${FILENAME}.idl
+    ARGS -bcxx -Wbkeep_inc_path ${_OMNIIDL_INCLUDE_FLAG}
+    -C${_PATH} ${DIRECTORY}/${_NAME}.idl
+    MAIN_DEPENDENCY ${DIRECTORY}/${_NAME}.idl
     )
   SET(ALL_IDL_STUBS ${FILENAME}SK.cc ${FILENAME}.hh ${ALL_IDL_STUBS})
 
