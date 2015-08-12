@@ -10,6 +10,7 @@ SET(PROJECT_URL "https://github.com/jorisv//Tasks")
 
 # Disable -Werror on Unix for now.
 SET(CXX_DISABLE_WERROR True)
+set(DOXYGEN_USE_MATHJAX "YES")
 
 project(${PROJECT_NAME} CXX)
 SETUP_PROJECT(FALSE)
