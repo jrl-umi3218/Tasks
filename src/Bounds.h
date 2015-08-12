@@ -27,7 +27,11 @@
 namespace tasks
 {
 
-/// General position vector bound.
+
+/**
+	* General position vector bounds
+	* \f$ \underline{q} \f$ and \f$ \overline{q} \f$.
+	*/
 struct QBound
 {
 	QBound() {}
@@ -37,12 +41,17 @@ struct QBound
 		uQBound(std::move(uQB))
 	{ }
 
+	/// \f$ \underline{q} \f$
 	std::vector<std::vector<double>> lQBound;
+	/// \f$ \overline{q} \f$
 	std::vector<std::vector<double>> uQBound;
 };
 
 
-/// General velocity vector bound.
+/**
+	* General velocity vector bounds
+	* \f$ \underline{\alpha} \f$ and \f$ \overline{\alpha} \f$.
+	*/
 struct AlphaBound
 {
 	AlphaBound() {}
@@ -52,12 +61,17 @@ struct AlphaBound
 		uAlphaBound(std::move(uAB))
 	{ }
 
+	/// \f$ \underline{\alpha} \f$
 	std::vector<std::vector<double>> lAlphaBound;
+	/// \f$ \overline{\alpha} \f$
 	std::vector<std::vector<double>> uAlphaBound;
 };
 
 
-/// General force vector bound.
+/**
+	* General force vector bounds
+	* \f$ \underline{\tau} \f$ and \f$ \overline{\tau} \f$.
+	*/
 struct TorqueBound
 {
 	TorqueBound() {}
@@ -67,12 +81,19 @@ struct TorqueBound
 		uTorqueBound(std::move(uTB))
 	{ }
 
+	/// \f$ \underline{\tau} \f$
 	std::vector<std::vector<double>> lTorqueBound;
+	/// \f$ \overline{\tau} \f$
 	std::vector<std::vector<double>> uTorqueBound;
 };
 
 
-/// General force vector bound.
+/**
+	* General force vector bounds in function of articular position
+	* \f$ \underline{\tau}(q) \f$ and \f$ \overline{\tau}(q) \f$.
+	* The upper and lower bound function is represented
+	* by a polynomial of any degree (coefficients are ordered by degree).
+	*/
 struct PolyTorqueBound
 {
 	PolyTorqueBound() {}
@@ -82,9 +103,11 @@ struct PolyTorqueBound
 		uPolyTorqueBound(std::move(uPTB))
 	{ }
 
-
+	/// \f$ \underline{\tau}(q) \f$
 	std::vector<std::vector<Eigen::VectorXd>> lPolyTorqueBound;
+	/// \f$ \overline{\tau}(q) \f$
 	std::vector<std::vector<Eigen::VectorXd>> uPolyTorqueBound;
 };
+
 
 } // namespace tasks

@@ -37,6 +37,10 @@ namespace qp
 static const double DIAG_CONSTANT = 1e-4;
 
 
+/**
+	* Fill the \f$ Q \f$ matrix and the \f$ c \f$ vector based on the
+	* task list.
+	*/
 inline void fillQC(const std::vector<Task*>& tasks, int nrVars,
 	Eigen::MatrixXd& Q, Eigen::VectorXd& C)
 {
@@ -73,6 +77,10 @@ inline void fillQC(const std::vector<Task*>& tasks, int nrVars,
 // general qp form
 
 
+/**
+	* Fill the \f$ A \f$ matrix and the \f$ L \f$ and \f$ U \f$ bounds vectors
+	* based on the equality constaint list.
+	*/
 inline int fillEq(const std::vector<Equality*>& eq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& AL, Eigen::VectorXd& AU)
 {
@@ -96,6 +104,10 @@ inline int fillEq(const std::vector<Equality*>& eq, int nrVars,
 }
 
 
+/**
+	* Fill the \f$ A \f$ matrix and the \f$ L \f$ and \f$ U \f$ bounds vectors
+	* based on the inequality constaint list.
+	*/
 inline int fillInEq(const std::vector<Inequality*>& inEq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& AL, Eigen::VectorXd& AU)
 {
@@ -119,6 +131,10 @@ inline int fillInEq(const std::vector<Inequality*>& inEq, int nrVars,
 }
 
 
+/**
+	* Fill the \f$ A \f$ matrix and the \f$ L \f$ and \f$ U \f$ bounds vectors
+	* based on the general inequality constaint list.
+	*/
 inline int fillGenInEq(const std::vector<GenInequality*>& genInEq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& AL, Eigen::VectorXd& AU)
 {
@@ -146,6 +162,10 @@ inline int fillGenInEq(const std::vector<GenInequality*>& genInEq, int nrVars,
 // standard qp form
 
 
+/**
+	* Fill the \f$ A \f$ matrix and the \f$ b \f$ vectors
+	* based on the equality constaint list.
+	*/
 inline int fillEq(const std::vector<Equality*>& eq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& b)
 {
@@ -168,6 +188,10 @@ inline int fillEq(const std::vector<Equality*>& eq, int nrVars,
 }
 
 
+/**
+	* Fill the \f$ A \f$ matrix and the \f$ b \f$ vectors
+	* based on the inequality constaint list.
+	*/
 inline int fillInEq(const std::vector<Inequality*>& inEq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& b)
 {
@@ -190,6 +214,10 @@ inline int fillInEq(const std::vector<Inequality*>& inEq, int nrVars,
 }
 
 
+/**
+	* Fill the \f$ A \f$ matrix and the \f$ b \f$ vectors
+	* based on the general inequality constaint list.
+	*/
 inline int fillGenInEq(const std::vector<GenInequality*>& genInEq, int nrVars,
 	int nrALines, Eigen::MatrixXd& A, Eigen::VectorXd& b)
 {
@@ -219,6 +247,10 @@ inline int fillGenInEq(const std::vector<GenInequality*>& genInEq, int nrVars,
 }
 
 
+/**
+	* Fill the \f$ L \f$  and \f$ U \f$ bounds vectors
+	* based on the bound constaint list.
+	*/
 inline void fillBound(const std::vector<Bound*>& bounds,
 	Eigen::VectorXd& XL, Eigen::VectorXd& XU)
 {

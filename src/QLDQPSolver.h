@@ -30,6 +30,9 @@ namespace qp
 {
 
 
+/**
+	* GenQPSolver interface implementation with the QLD QP solver.
+	*/
 class QLDQPSolver : public GenQPSolver
 {
 public:
