@@ -19,6 +19,9 @@
 # Look for Doxygen, add a custom rule to generate the documentation
 # and install the documentation properly.
 #
+# Available user options (to be set before calling SETUP_PROJECT):
+#   DOXYGEN_DOT_IMAGE_FORMAT: format for dot images. Defaults to "svg".
+#   DOXYGEN_USE_MATHJAX: use MathJax to render LaTeX equations. Defaults to "NO".
 MACRO(_SETUP_PROJECT_DOCUMENTATION)
   # Search for Doxygen.
   FIND_PACKAGE(Doxygen)
@@ -40,6 +43,16 @@ MACRO(_SETUP_PROJECT_DOCUMENTATION)
   ELSE(DOXYGEN_DOT_FOUND)
     SET(HAVE_DOT NO)
   ENDIF(DOXYGEN_DOT_FOUND)
+
+  # Dot support.
+  IF(NOT DEFINED DOXYGEN_DOT_IMAGE_FORMAT)
+    SET(DOXYGEN_DOT_IMAGE_FORMAT "svg")
+  ENDIF()
+
+  # MathJax support.
+  IF(NOT DEFINED DOXYGEN_USE_MATHJAX)
+    SET(DOXYGEN_USE_MATHJAX "NO")
+  ENDIF()
 
   # Teach CMake how to generate the documentation.
   IF(MSVC)
@@ -78,6 +91,12 @@ MACRO(_SETUP_PROJECT_DOCUMENTATION)
     ${CMAKE_CURRENT_BINARY_DIR}/doc/doxygen-html
     )
 
+  # Install MathJax minimal version.
+  IF(${DOXYGEN_USE_MATHJAX} STREQUAL "YES")
+    FILE(COPY ${PROJECT_SOURCE_DIR}/cmake/doxygen/MathJax
+         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/doc/doxygen-html)
+  ENDIF()
+
   # Install generated files.
   INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/doc/${PROJECT_NAME}.doxytag
@@ -97,6 +116,8 @@ MACRO(_SETUP_PROJECT_DOCUMENTATION)
     DOXYGEN_DOT_EXECUTABLE
     DOXYGEN_DOT_FOUND
     DOXYGEN_DOT_PATH
+    DOXYGEN_DOT_IMAGE_FORMAT
+    DOXYGEN_USE_MATHJAX
     )
 ENDMACRO(_SETUP_PROJECT_DOCUMENTATION)
 
@@ -109,6 +130,31 @@ ENDMACRO(_SETUP_PROJECT_DOCUMENTATION)
 # the replacement of user-defined variables.
 #
 MACRO(_SETUP_PROJECT_DOCUMENTATION_FINALIZE)
+  IF(${DOXYGEN_USE_MATHJAX} STREQUAL "YES")
+    MESSAGE("-- Doxygen rendering: using MathJax backend")
+    SET(DOXYGEN_HEADER_NAME "header-mathjax.html")
+  ELSE()
+    MESSAGE("-- Doxygen rendering: using LaTeX backend")
+    # Make sure latex, dvips and gs are available
+    FIND_PROGRAM(LATEX latex DOC "LaTeX compiler")
+    IF(NOT LATEX)
+      MESSAGE(SEND_ERROR "Failed to find latex.")
+    ENDIF()
+
+    FIND_PROGRAM(DVIPS dvips DOC "DVI to PostScript converter")
+    IF(NOT DVIPS)
+      MESSAGE(SEND_ERROR "Failed to find dvips.")
+    ENDIF()
+
+    FIND_PROGRAM(GS gs DOC
+                 "GhostScript interpreter")
+    IF(NOT GS)
+      MESSAGE(SEND_ERROR "Failed to find gs.")
+    ENDIF()
+
+    SET(DOXYGEN_HEADER_NAME "header.html")
+  ENDIF()
+
   # Generate Doxyfile.extra.
   CONFIGURE_FILE(
     ${PROJECT_SOURCE_DIR}/doc/Doxyfile.extra.in
