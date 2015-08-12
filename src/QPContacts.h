@@ -33,20 +33,44 @@ namespace qp
 {
 
 
+/**
+	* Linearized friction cone generator.
+	* Compute the vector that linearize the friction cone (generatrix).
+	*/
 struct FrictionCone
 {
 	FrictionCone(){}
+
+	/**
+		* @param frame Friction cone frame. The friction cone is define along
+		* the frame normal axis (last line).
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param dir Cone direction.
+		*/
 	FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu,
 		double direction=1.);
 
+	/// Vector of generatrix
 	std::vector<Eigen::Vector3d> generators;
 };
 
 
 
+/**
+	* Unique identifier for a contact.
+	*/
 struct ContactId
 {
 	ContactId();
+	/**
+		* @param r1Index First robot imply in the contact.
+		* @param r2Index Second robot imply in the contact.
+		* @param r1BodyId Body id of robot r1Index imply in the contact.
+		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param ambiguityId If two or more contacts have the same r1Index, r2Index,
+		* r1BodyId, r2BodyId the ambiguityId is used to dissociate them.
+		*/
 	ContactId(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
 		int ambiguityId=-1);
 
@@ -62,10 +86,28 @@ struct ContactId
 
 
 
+/**
+	* Model of a planar contacts.
+	* All friction cone are in the same direction.
+	*/
 struct UnilateralContact
 {
 	UnilateralContact(){}
 
+	/**
+		* @param r1Index First robot imply in the contact.
+		* @param r2Index Second robot imply in the contact.
+		* @param r1BodyId Body id of robot r1Index imply in the contact.
+		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1Points Contact points in r1BodyId frame.
+		* @param r1Frame Friction cone frame in rbBodyId frame.
+		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param X_b1_cf Define the \f$ cf \f$ frame (common frame) used in
+		* the contact constraints.
+		* @see ContactConstrCommon::addDofContact
+		*/
 	UnilateralContact(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
 		std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
@@ -73,6 +115,22 @@ struct UnilateralContact
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
 
+	/**
+		* @param r1Index First robot imply in the contact.
+		* @param r2Index Second robot imply in the contact.
+		* @param r1BodyId Body id of robot r1Index imply in the contact.
+		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param ambId ambiguityId.
+		* @param r1Points Contact points in r1BodyId frame.
+		* @param r1Frame Friction cone frame in rbBodyId frame.
+		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param X_b1_cf Define the \f$ cf \f$ frame (common frame) used in
+		* the contact constraints.
+		* @see ContactConstrCommon::addDofContact
+		* @see ContactId::ContactId
+		*/
 	UnilateralContact(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
 		int ambId, std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
@@ -80,6 +138,17 @@ struct UnilateralContact
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
 
+	/**
+		* @param cId Contact id.
+		* @param r1Points Contact points in r1BodyId frame.
+		* @param r1Frame Friction cone frame in rbBodyId frame.
+		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param X_b1_cf Define the \f$ cf \f$ frame (common frame) used in
+		* the contact constraints.
+		* @see ContactConstrCommon::addDofContact
+		*/
 	UnilateralContact(const ContactId& cId,
 		std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
@@ -149,10 +218,29 @@ private:
 };
 
 
+
+/**
+	* Model of a generic contacts.
+	* Friction cone frame can be different for each contact points.
+	*/
 struct BilateralContact
 {
 	BilateralContact(){}
 
+	/**
+		* @param r1Index First robot imply in the contact.
+		* @param r2Index Second robot imply in the contact.
+		* @param r1BodyId Body id of robot r1Index imply in the contact.
+		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1Points Contact points in r1BodyId frame.
+		* @param r1Frames Friction cone frame in r1Points order in rbBodyId frame.
+		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param X_b1_cf Define the \f$ cf \f$ frame (common frame) used in
+		* the contact constraints.
+		* @see ContactConstrCommon::addDofContact
+		*/
 	BilateralContact(int r1Index, int r2Index,
 		int r1BodyId, int r2BodyId,
 		std::vector<Eigen::Vector3d> r1Points,
@@ -161,6 +249,22 @@ struct BilateralContact
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
 
+	/**
+		* @param r1Index First robot imply in the contact.
+		* @param r2Index Second robot imply in the contact.
+		* @param r1BodyId Body id of robot r1Index imply in the contact.
+		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param ambId ambiguityId.
+		* @param r1Points Contact points in r1BodyId frame.
+		* @param r1Frames Friction cone frame in r1Points order in rbBodyId frame.
+		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param X_b1_cf Define the \f$ cf \f$ frame (common frame) used in
+		* the contact constraints.
+		* @see ContactConstrCommon::addDofContact
+		* @see ContactId::ContactId
+		*/
 	BilateralContact(int r1Index, int r2Index,
 		int r1BodyId, int r2BodyId, int ambId,
 		std::vector<Eigen::Vector3d> r1Points,
@@ -169,6 +273,17 @@ struct BilateralContact
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
 
+	/**
+		* @param cId Contact id.
+		* @param r1Points Contact points in r1BodyId frame.
+		* @param r1Frames Friction cone frame in r1Points order in rbBodyId frame.
+		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
+		* @param nrGen Number of generatrix.
+		* @param mu Coefficient of friction.
+		* @param X_b1_cf Define the \f$ cf \f$ frame (common frame) used in
+		* the contact constraints.
+		* @see ContactConstrCommon::addDofContact
+		*/
 	BilateralContact(const ContactId& cId,
 		std::vector<Eigen::Vector3d> r1Points,
 		const std::vector<Eigen::Matrix3d>& r1Frames,
@@ -176,6 +291,9 @@ struct BilateralContact
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
 
+	/**
+		* Construct a BilateralContact from an UnilateralContact.
+		*/
 	BilateralContact(const UnilateralContact& c);
 
 	/// @return Cone c[point] force vector in body coordinate.

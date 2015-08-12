@@ -36,15 +36,47 @@ namespace tasks
 namespace qp
 {
 
+
+/**
+	* Manage modifier on contact constraint.
+	*/
 class ContactConstrCommon
 {
 public:
+	/**
+		* Add a virtual contact.
+		* A virtual contact don't have any motion constraint apply on it (move freely).
+		* It can be seen like a Dof contact with \f$ S \in \mathbb{R}^{0 \times 6} \f$
+		*/
 	bool addVirtualContact(const ContactId& contactId);
+
+	/// Remove a virtual contact.
 	bool removeVirtualContact(const ContactId& contactId);
+
+	/// Remove all virtual contact.
 	void resetVirtualContacts();
 
+	/**
+		* Free some degree of freedom of a contact like in the BoundedSpeedConstr.
+		* \f[ \bar{v} = S v \f]
+		* with \f$ v \f$ the velocity in the UnilateralContact and BilateralContact
+		* \f$ cf \f$ frame.
+		* @param dof \f$ S \in \mathbb{R}^{n \times 6} \f$
+		* @see BoundedSpeedConstr
+		* @see ContactConstr::updateDofContacts
+		*/
 	bool addDofContact(const ContactId& contactId, const Eigen::MatrixXd& dof);
+
+	/**
+		* Remove a Dof contact.
+		* @see ContactConstr::updateDofContacts
+		*/
 	bool removeDofContact(const ContactId& contactId);
+
+	/**
+		* Remove all Dof contact.
+		* @see ContactConstr::updateDofContacts
+		*/
 	void resetDofContacts();
 
 protected:
@@ -69,13 +101,21 @@ protected:
 };
 
 
-
+/**
+	* Common contact constraint computation.
+	*/
 class ContactConstr : public ConstraintFunction<Equality>,
 	public ContactConstrCommon
 {
 public:
 	ContactConstr();
 
+	/**
+		* Update \f$ S \f$ matrix based on Dof contact.
+		* You must call this method after calling ContactConstrCommon::addDofContact,
+		* ContactConstrCommon::removeDofContact
+		* and ContactConstrCommon::resetDofContacts.
+		*/
 	void updateDofContacts();
 
 	// Constraint
@@ -145,6 +185,14 @@ protected:
 
 
 
+/**
+	* Contact constraint by targeting a null acceleration.
+	* \f[ a = 0 \f]
+	* The contact velocity must be null to make this constraint work.
+	*
+	* This constraint formulation is usually unstable, prefer
+	* ContactSpeedConstr and ContactPosConstr.
+	*/
 class ContactAccConstr : public ContactConstr
 {
 public:
@@ -159,9 +207,16 @@ public:
 
 
 
+/**
+	* Contact constraint by targeting a null velocity.
+	* \f[ v + a \Delta_{dt} = 0 \f]
+	* This constraint formulation is stable for robot/environment contact.
+	* For robot/robot contact prefer ContactPosConstr.
+	*/
 class ContactSpeedConstr : public ContactConstr
 {
 public:
+	/// @param timeStep Time step in second.
 	ContactSpeedConstr(double timeStep);
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -175,9 +230,18 @@ private:
 
 
 
+/**
+	* Contact constraint by targeting a constant frame.
+	* \f[ v + a \Delta_{dt} = \frac{\epsilon(q)}{\Delta_{dt}} \f]
+	* Where \f$ \epsilon \f$ is the error between the initial
+	* and current contact frame.
+	*
+	* This constraint formulation is stable in all case.
+	*/
 class ContactPosConstr : public ContactConstr
 {
 public:
+	/// @param timeStep Time step in second.
 	ContactPosConstr(double timeStep);
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -188,6 +252,7 @@ public:
 private:
 	double timeStep_;
 };
+
 
 } // qp
 
