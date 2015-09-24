@@ -542,11 +542,12 @@ private:
 class RelativeDistTask
 {
 public:
+	typedef std::tuple<int, int, Eigen::Vector3d> rbInfo;
+	typedef std::pair<rbInfo, rbInfo> rbPairInfo;
+
+public:
 	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
-		const int rIndex, const int e1Index, const int e2Index,
-		const int r1BodyId, const int r2BodyId, const int e1BodyId, const int e2BodyId,
-		Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
-		Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
+		rbPairInfo& rbpi1, rbPairInfo& rbpi2,
 		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
 		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
 
@@ -570,11 +571,8 @@ private:
 		RelativeBodiesInfo()
 		{}
 
-		RelativeBodiesInfo(const rbd::MultiBody& mb1, const rbd::MultiBody& mb2,
-			const int r1Ind, const int r2Ind,
-			const int b1Id, const int b2Id,
-			Eigen::Vector3d& body1Point, Eigen::Vector3d& body2Point,
-			Eigen::Vector3d fixedVector);
+		RelativeBodiesInfo(const std::vector<rbd::MultiBody>& mbs,
+			rbPairInfo& rbpi, Eigen::Vector3d fixedVector);
 
 		int r1Index, r2Index, b1Index, b2Index;
 		Eigen::Vector3d b1Point, b2Point, n;
@@ -586,12 +584,13 @@ private:
 private:
 	double timestep_;
 	bool isVectorFixed_;
-	Eigen::Vector3d fixedVector_[2];
-	RelativeBodiesInfo rbInfo_[2];
+
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
+
+	RelativeBodiesInfo rbInfo_[2];
 };
 
 } // namespace tasks

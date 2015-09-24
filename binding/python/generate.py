@@ -313,17 +313,19 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, positionTask, comTask,
   add_trans_std(surfTransTask)
 
   # RelativeDistTask
+  rbInfo = relDistTask.add_class('rbInfo')
+  rbPairInfo = relDistTask.add_class('rbPairInfo')
+  rbInfo.add_constructor([])
+  rbInfo.add_constructor([param('int', 'index'), param('int', 'id'),
+                          param('Eigen::Vector3d', 'bodyPoint')])
+  rbPairInfo.add_constructor([])
+  rbPairInfo.add_constructor([param('rbInfo', 'rbi1'), param('rbInfo', 'rbi2')])
   relDistTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                               param('double', 'timestep'), param('int', 'rIndex'),
-                               param('int', 'e1Index'), param('int', 'e2Index'),
-                               param('int', 'r1BbodyId'), param('int', 'r2BbodyId'),
-                               param('int', 'e1BbodyId'), param('int', 'e2BbodyId'),
-                               param('Eigen::Vector3d&', 'r1BodyPoint'),
-                               param('Eigen::Vector3d&', 'r2BodyPoint'),
-                               param('Eigen::Vector3d&', 'e1BodyPoint'),
-                               param('Eigen::Vector3d&', 'e2BodyPoint'),
+                               param('double', 'timestep'),
+                               param('rbPairInfo&', 'rbpi1'), param('rbPairInfo&', 'rbpi2'),
                                param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
                                param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
+
   relDistTask.add_method('update', None,
                          [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                           param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
@@ -1290,14 +1292,9 @@ def build_qp(tasks):
 
   # RelativeDistTask
   relDistTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                               param('double', 'timestep'), param('int', 'rIndex'),
-                               param('int', 'e1Index'), param('int', 'e2Index'),
-                               param('int', 'r1BbodyId'), param('int', 'r2BbodyId'),
-                               param('int', 'e1BbodyId'), param('int', 'e2BbodyId'),
-                               param('Eigen::Vector3d&', 'r1BodyPoint'),
-                               param('Eigen::Vector3d&', 'r2BodyPoint'),
-                               param('Eigen::Vector3d&', 'e1BodyPoint'),
-                               param('Eigen::Vector3d&', 'e2BodyPoint'),
+                               param('double', 'timestep'),
+                               param('tasks::RelativeDistTask::rbPairInfo&', 'rbpi1'),
+                               param('tasks::RelativeDistTask::rbPairInfo&', 'rbpi2'),
                                param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
                                param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
 

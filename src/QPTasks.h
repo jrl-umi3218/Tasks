@@ -1133,10 +1133,7 @@ class RelativeDistTask : public HighLevelTask
 {
 public:
 	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
-		const int rIndex, const int e1Index, const int e2Index,
-		const int r1BodyId, const int r2BodyId, const int e1BodyId, const int e2BodyId,
-		Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
-		Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
+		tasks::RelativeDistTask::rbPairInfo& rbpi1, tasks::RelativeDistTask::rbPairInfo& rbpi2,
 		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
 		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
 
@@ -1144,11 +1141,6 @@ public:
 	{
 		return rdt_;
 	}
-
-	//const Eigen::Vector3d& distance() const
-	//{
-	//	return pt_.distance();
-	//}
 
 	//void bodyPoint(const int rIndex, const int bId, const Eigen::Vector3d& point)
 	//{
