@@ -64,7 +64,7 @@ def build_boost_timer(tasks):
 
 def build_tasks(posTask, oriTask, surfOriTask, gazeTask, positionTask, comTask,
                 multiCoMTask, momTask, linVelTask, oriTrackTask,
-                multiRobotTransformTask, transTask, surfTransTask):
+                multiRobotTransformTask, transTask, surfTransTask, relDistTask):
   def add_std_func(cls):
     cls.add_method('update', None,
                    [param('const rbd::MultiBody&', 'mb'),
@@ -312,6 +312,25 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, positionTask, comTask,
 
   add_trans_std(surfTransTask)
 
+  # RelativeDistTask
+  relDistTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('double', 'timestep'), param('int', 'rIndex'),
+                               param('int', 'e1Index'), param('int', 'e2Index'),
+                               param('int', 'r1BbodyId'), param('int', 'r2BbodyId'),
+                               param('int', 'e1BbodyId'), param('int', 'e2BbodyId'),
+                               param('Eigen::Vector3d&', 'r1BodyPoint'),
+                               param('Eigen::Vector3d&', 'r2BodyPoint'),
+                               param('Eigen::Vector3d&', 'e1BodyPoint'),
+                               param('Eigen::Vector3d&', 'e2BodyPoint'),
+                               param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
+                               param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
+  relDistTask.add_method('update', None,
+                         [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                          param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
+                          param('const std::vector<std::vector<sva::MotionVecd> >&', 'normalAccB')])
+  relDistTask.add_method('eval', retval('Eigen::VectorXd'), [], is_const=True)
+  relDistTask.add_method('jac', retval('Eigen::MatrixXd'), [], is_const=True)
+
 
 
 def build_qp(tasks):
@@ -363,6 +382,7 @@ def build_qp(tasks):
   transTask = qp.add_class('TransformTask', parent=hlTask)
   surfTransTask = qp.add_class('SurfaceTransformTask', parent=hlTask)
   jointsSelector = qp.add_class('JointsSelector', parent=hlTask)
+  relDistTask = qp.add_class('RelativeDistTask', parent=hlTask)
 
   motionConstr = qp.add_class('MotionConstr', parent=[genineqConstr, constr])
   motionPolyConstr = qp.add_class('MotionPolyConstr', parent=[genineqConstr,
@@ -401,7 +421,7 @@ def build_qp(tasks):
   hlTaskName = ['PositionTask', 'OrientationTask', 'SurfaceOrientationTask',
                 'GazeTask', 'CoMTask', 'LinVelocityTask', 'OrientationTrackingTask',
                 'MomentumTask', 'JointsSelector', 'TransformTask',
-                'SurfaceTransformTask']
+                'SurfaceTransformTask', 'RelativeDistTask']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 collisionConstr, jointLimitsConstr, damperJointLimitsConstr,
                 motionSpringConstr, gripperTorqueConstr, boundedSpeedConstr,
@@ -1268,6 +1288,18 @@ def build_qp(tasks):
                              param('const std::vector<int>&', 'unactiveJointsId')],
                             is_static=True)
 
+  # RelativeDistTask
+  relDistTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('double', 'timestep'), param('int', 'rIndex'),
+                               param('int', 'e1Index'), param('int', 'e2Index'),
+                               param('int', 'r1BbodyId'), param('int', 'r2BbodyId'),
+                               param('int', 'e1BbodyId'), param('int', 'e2BbodyId'),
+                               param('Eigen::Vector3d&', 'r1BodyPoint'),
+                               param('Eigen::Vector3d&', 'r2BodyPoint'),
+                               param('Eigen::Vector3d&', 'e1BodyPoint'),
+                               param('Eigen::Vector3d&', 'e2BodyPoint'),
+                               param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
+                               param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
 
   # MotionConstr
   def addMotionDefault(motion):
@@ -1480,6 +1512,7 @@ if __name__ == '__main__':
   multiRobotTransformTask = tasks.add_class('MultiRobotTransformTask')
   transTask = tasks.add_class('TransformTask')
   surfTransTask = tasks.add_class('SurfaceTransformTask')
+  relDistTask = tasks.add_class('RelativeDistTask')
 
   # build list type
   tasks.add_container('std::vector<int>', 'int', 'vector')
@@ -1495,7 +1528,7 @@ if __name__ == '__main__':
 
   build_tasks(posTask, oriTask, surfOriTask, gazeTask, postureTask, comTask, multiCoMTask,
               momTask, linVelTask, oriTrackTask, multiRobotTransformTask, transTask,
-              surfTransTask)
+              surfTransTask, relDistTask)
 
   # qp
   build_qp(tasks)

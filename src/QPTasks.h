@@ -1129,6 +1129,51 @@ private:
 	Eigen::VectorXd speed_, normalAcc_;
 };
 
+class RelativeDistTask : public HighLevelTask
+{
+public:
+	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
+		const int rIndex, const int e1Index, const int e2Index,
+		const int r1BodyId, const int r2BodyId, const int e1BodyId, const int e2BodyId,
+		Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
+		Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
+		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
+		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
+
+	tasks::RelativeDistTask& task()
+	{
+		return rdt_;
+	}
+
+	//const Eigen::Vector3d& distance() const
+	//{
+	//	return pt_.distance();
+	//}
+
+	//void bodyPoint(const int rIndex, const int bId, const Eigen::Vector3d& point)
+	//{
+	//	pt_.bodyPoint(rIndex, bId, point);
+	//}
+
+	//const Eigen::Vector3d& bodyPoint(rIndex, bId) const
+	//{
+	//	return pt_.bodyPoint(rIndex, bId);
+	//}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+private:
+	tasks::RelativeDistTask rdt_;
+};
+
 } // namespace qp
 
 } // namespace tasks

@@ -544,17 +544,19 @@ class RelativeDistTask
 public:
 	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
 		const int rIndex, const int e1Index, const int e2Index,
-		const int r1BodyId, const int r2BodyId, const int e1BodyId, const int e2BodyId, Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
-		Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint);
+		const int r1BodyId, const int r2BodyId, const int e1BodyId, const int e2BodyId,
+		Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
+		Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
+		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
+		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
 
 	//const Eigen::Vector3d& distance() const;
 
 	//void bodyPoint(const int rIndex, const int bId, const Eigen::Vector3d& point);
 	//const Eigen::Vector3d& bodyPoint(rIndex, bId) const;
 
-	void update(const std::vector<rbd::MultiBody>& mbs, const std::vector<rbd::MultiBodyConfig>& mbcs);
-	//void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
-	//	const std::vector<sva::MotionVecd>& normalAccB);
+	void update(const std::vector<rbd::MultiBody>& mbs, const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
 
 	const Eigen::VectorXd& eval() const;
 	const Eigen::VectorXd& speed() const;
@@ -571,17 +573,21 @@ private:
 		RelativeBodiesInfo(const rbd::MultiBody& mb1, const rbd::MultiBody& mb2,
 			const int r1Ind, const int r2Ind,
 			const int b1Id, const int b2Id,
-			Eigen::Vector3d& body1Point, Eigen::Vector3d& body2Point);
+			Eigen::Vector3d& body1Point, Eigen::Vector3d& body2Point,
+			Eigen::Vector3d fixedVector);
 
 		int r1Index, r2Index, b1Index, b2Index;
 		Eigen::Vector3d b1Point, b2Point, n;
 		rbd::Jacobian jac;
+		Eigen::Vector3d u;
 		Eigen::Vector3d offn;
 	};
 
 private:
 	double timestep_;
-	RelativeBodiesInfo rbInfo[2];
+	bool isVectorFixed_;
+	Eigen::Vector3d fixedVector_[2];
+	RelativeBodiesInfo rbInfo_[2];
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;

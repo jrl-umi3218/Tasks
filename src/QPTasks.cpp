@@ -1780,6 +1780,61 @@ const Eigen::VectorXd& OrientationTrackingTask::normalAcc()
 	return normalAcc_;
 }
 
+/**
+	*											RelativeDistTask
+	*/
+
+
+RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
+	const int rIndex, const int e1Index, const int e2Index,
+	const int r1BodyId, const int r2BodyId,
+	const int e1BodyId, const int e2BodyId,
+	Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
+	Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
+	const Eigen::Vector3d &u1, const Eigen::Vector3d &u2):
+	rdt_(mbs, timestep, rIndex, e1Index, e2Index, r1BodyId, r2BodyId, e1BodyId, e2BodyId, r1BodyPoint, r2BodyPoint, e1BodyPoint, e2BodyPoint, u1, u2)
+{
+}
+
+
+int RelativeDistTask::dim()
+{
+	return 1;
+}
+
+
+void RelativeDistTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	rdt_.update(mbs, mbcs, data.normalAccB());
+
+}
+
+
+const Eigen::MatrixXd& RelativeDistTask::jac()
+{
+	return rdt_.jac();
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::eval()
+{
+	return rdt_.eval();
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::speed()
+{
+	return rdt_.speed();
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::normalAcc()
+{
+	return rdt_.normalAcc();
+}
+
 } // namespace qp
 
 } // namespace tasks
