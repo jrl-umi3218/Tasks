@@ -1482,37 +1482,33 @@ void OrientationTrackingTask::zeroJacobian(Eigen::MatrixXd& jac) const
 	*													RelativeDistTask
 	*/
 
-RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
-	const int rIndex, const int e1Index, const int e2Index,
-	const int r1BodyId, const int r2BodyId, const int e1BodyId, const int e2BodyId,
-	Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
-	Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
+RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody>& mbs,
+	const double timestep, rbPairInfo& rbpi1, rbPairInfo& rbpi2,
 	const Eigen::Vector3d &u1, const Eigen::Vector3d &u2) :
 	timestep_(timestep),
+	isVectorFixed_(false),
 	eval_(1),
 	speed_(1),
 	normalAcc_(1),
-	jacMat_(1, mbs[rIndex].nrDof()),
-	isVectorFixed_(false)
+	jacMat_(1, mbs[std::get<0>(rbpi1.first)].nrDof())
 {
-	rbInfo_[0] = RelativeDistTask::RelativeBodiesInfo(mbs[rIndex], mbs[e1Index], rIndex, e1Index, r1BodyId, e1BodyId, r1BodyPoint, e1BodyPoint, u1);
-	rbInfo_[1] = RelativeDistTask::RelativeBodiesInfo(mbs[rIndex], mbs[e2Index], rIndex, e2Index, r2BodyId, e2BodyId, r2BodyPoint, e2BodyPoint, u2);
+	rbInfo_[0] = RelativeDistTask::RelativeBodiesInfo(mbs, rbpi1, u1);
+	rbInfo_[1] = RelativeDistTask::RelativeBodiesInfo(mbs, rbpi2, u2);
 	if(u1!=Eigen::Vector3d::Zero() && u2!=Eigen::Vector3d::Zero())
 	{
 		isVectorFixed_ = true;
 	}
 }
 
-RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const rbd::MultiBody& mb1, const rbd::MultiBody& mb2,
-	const int r1Ind, const int r2Ind, const int b1Id, const int b2Id,
-	Eigen::Vector3d& body1Point, Eigen::Vector3d& body2Point, Eigen::Vector3d fixedVector) :
-	r1Index(r1Ind),
-	r2Index(r2Ind),
-	b1Index(mb1.bodyIndexById(b1Id)),
-	b2Index(mb2.bodyIndexById(b2Id)),
-	b1Point(std::move(body1Point)),
-	b2Point(std::move(body2Point)),
-	jac(mb1, b1Id, b1Point),
+RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const std::vector<rbd::MultiBody>& mbs,
+	rbPairInfo& rbpi, Eigen::Vector3d fixedVector) :
+	r1Index(std::get<0>(rbpi.first)),
+	r2Index(std::get<0>(rbpi.second)),
+	b1Index(mbs[r1Index].bodyIndexById(std::get<1>(rbpi.first))),
+	b2Index(mbs[r2Index].bodyIndexById(std::get<1>(rbpi.second))),
+	b1Point(std::get<2>(rbpi.first)),
+	b2Point(std::get<2>(rbpi.second)),
+	jac(mbs[r1Index], std::get<1>(rbpi.first), b1Point),
 	u(fixedVector),
 	offn(Eigen::Vector3d::Zero())
 {

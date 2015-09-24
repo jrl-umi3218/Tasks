@@ -1784,18 +1784,11 @@ const Eigen::VectorXd& OrientationTrackingTask::normalAcc()
 	*											RelativeDistTask
 	*/
 
-
-RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
-	const int rIndex, const int e1Index, const int e2Index,
-	const int r1BodyId, const int r2BodyId,
-	const int e1BodyId, const int e2BodyId,
-	Eigen::Vector3d &r1BodyPoint, Eigen::Vector3d &r2BodyPoint,
-	Eigen::Vector3d &e1BodyPoint, Eigen::Vector3d &e2BodyPoint,
-	const Eigen::Vector3d &u1, const Eigen::Vector3d &u2):
-	rdt_(mbs, timestep, rIndex, e1Index, e2Index, r1BodyId, r2BodyId, e1BodyId, e2BodyId, r1BodyPoint, r2BodyPoint, e1BodyPoint, e2BodyPoint, u1, u2)
+RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody> &mbs, const double timestep,
+	tasks::RelativeDistTask::rbPairInfo &rbpi1, tasks::RelativeDistTask::rbPairInfo &rbpi2, const Eigen::Vector3d &u1, const Eigen::Vector3d &u2) :
+	rdt_(mbs, timestep, rbpi1, rbpi2, u1, u2)
 {
 }
-
 
 int RelativeDistTask::dim()
 {
