@@ -1372,6 +1372,17 @@ def build_qp(tasks):
                                 param('double', 'damping'),
                                 param('double', 'dampingOff', default_value='0.')])
 
+  comIncPlaneConstr.add_method('addPlane', None,
+                               [param('int', 'planeId'),
+                                param('const Eigen::Vector3d&', 'normal'),
+                                param('double', 'offset'),
+                                param('double', 'di'),
+                                param('double', 'ds'),
+                                param('double', 'damping'),
+                                param('Eigen::Vector3d', 'speed'),
+                                param('Eigen::Vector3d', 'normalDot'),
+                                param('double', 'dampingOff', default_value='0.')])
+
   comIncPlaneConstr.add_method('rmPlane', retval('bool'), [param('int', 'planeId')])
   comIncPlaneConstr.add_method('nrPlanes', retval('int'),
                                [], is_const=True)
