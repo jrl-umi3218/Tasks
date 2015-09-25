@@ -712,8 +712,8 @@ void TorqueTask::update(const std::vector<rbd::MultiBody>& mbs,
 {
   motionConstr.update(mbs, mbcs, data);
   Q_.noalias() = motionConstr.matrix().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
-  //C_.noalias() = motionConstr.fd().C().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
-  C_.setZero();
+  C_.noalias() = motionConstr.fd().C().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
+  //C_.setZero();
 }
 
 /**
@@ -1580,17 +1580,13 @@ void ContactTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	int nrLambda = 0;
 	begin_ = data.lambdaBegin();
 	std::vector<FrictionCone> cones;
+	int curLambda = 0;
 
 	if(nrLambda == 0)
 	{
 		for(const BilateralContact& uc: data.allContacts())
 		{
-			int curLambda = 0;
-			for(std::size_t i = 0; i < uc.r1Points.size(); ++i)
-			{
-				curLambda += uc.nrLambda(static_cast<int>(i));
-			}
-
+			curLambda = uc.nrLambda();
 			if(uc.contactId == contactId_)
 			{
 				nrLambda = curLambda;
@@ -1623,8 +1619,9 @@ void ContactTask::update(const std::vector<rbd::MultiBody>& /* mbs */,
 	const std::vector<rbd::MultiBodyConfig>& /* mbcs */,
 	const SolverData& /* data */)
 {
-	C_.noalias() = -conesJac_.transpose()*
-			(stiffness_*error_ - stiffnessSqrt_*errorD_);
+	/*C_.noalias() = -conesJac_.transpose()*
+			(stiffness_*error_ - stiffnessSqrt_*errorD_);*/
+          C_.noalias() = -conesJac_.transpose()*error_;
 }
 
 
