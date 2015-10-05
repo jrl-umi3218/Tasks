@@ -1142,15 +1142,12 @@ public:
 		return rdt_;
 	}
 
-	//void bodyPoint(const int rIndex, const int bId, const Eigen::Vector3d& point)
-	//{
-	//	pt_.bodyPoint(rIndex, bId, point);
-	//}
-
-	//const Eigen::Vector3d& bodyPoint(rIndex, bId) const
-	//{
-	//	return pt_.bodyPoint(rIndex, bId);
-	//}
+	void bodyPoint(const std::vector<rbd::MultiBody>& mbs,
+		const int rIndex, const int bId, const Eigen::Vector3d& point)
+	{
+		int bIndex = mbs[rIndex].bodyIndexById(bId);
+		rdt_.bodyPoint(rIndex, bIndex, point);
+	}
 
 	virtual int dim();
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,

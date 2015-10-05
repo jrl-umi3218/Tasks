@@ -1514,6 +1514,22 @@ RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const std::vector<rbd::
 {
 }
 
+void RelativeDistTask::bodyPoint(const int rIndex, const int bIndex, const Eigen::Vector3d &point)
+{
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		if(rbi.r1Index==rIndex && rbi.b1Index==bIndex)
+		{
+			rbi.b1Point = point;
+			rbi.jac.point(point);
+		}
+		else if(rbi.r2Index==rIndex && rbi.b2Index==bIndex)
+		{
+			rbi.b2Point = point;
+		}
+	}
+}
+
 void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std::vector<rbd::MultiBodyConfig> &mbcs,
 	const std::vector<std::vector<sva::MotionVecd> > &normalAccB)
 {
@@ -1542,12 +1558,9 @@ void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std:
 			n = (X_0_p2*X_0_p1.inv()).translation()/d;
 			dn = (n - rbi.offn)/timestep_;
 		}
-		//double d = r_p2_p1.norm();
 		eval_[0] += sign*d;
 
 		//Compute the jacobian matrix
-		//Eigen::Vector3d n = (X_0_p2*X_0_p1.inv()).translation()/d;
-		//Eigen::Vector3d dn = (n - rbi.offn)/timestep_;
 		Eigen::MatrixXd shortMat;
 		Eigen::MatrixXd fullJac;
 		fullJac.resize(3, mbs[rbi.r1Index].nrDof());
@@ -1563,6 +1576,7 @@ void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std:
 					+ sign*rbi.jac.normalAcceleration(mbs[rbi.r1Index], mbcs[rbi.r1Index], normalAccB[rbi.r1Index]).linear().dot(n);
 
 		//Update offn and sign
+		//little hack: sign is +1 for the first pair and -1 for the second
 		sign *= -1;
 		rbi.offn = n;
 	}

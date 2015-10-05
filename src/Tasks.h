@@ -542,7 +542,9 @@ private:
 class RelativeDistTask
 {
 public:
+	//Give information on 1 body (robotIndex, bodyId, bodyPoint)
 	typedef std::tuple<int, int, Eigen::Vector3d> rbInfo;
+	//Pair two body informations
 	typedef std::pair<rbInfo, rbInfo> rbPairInfo;
 
 public:
@@ -551,10 +553,7 @@ public:
 		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
 		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
 
-	//const Eigen::Vector3d& distance() const;
-
-	//void bodyPoint(const int rIndex, const int bId, const Eigen::Vector3d& point);
-	//const Eigen::Vector3d& bodyPoint(rIndex, bId) const;
+	void bodyPoint(const int rIndex, const int bIndex, const Eigen::Vector3d& point);
 
 	void update(const std::vector<rbd::MultiBody>& mbs, const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);

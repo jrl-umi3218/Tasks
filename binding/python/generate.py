@@ -1297,6 +1297,11 @@ def build_qp(tasks):
                                param('tasks::RelativeDistTask::rbPairInfo&', 'rbpi2'),
                                param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
                                param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
+  relDistTask.add_method('bodyPoint', None,
+                         [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                          param('const int', 'rIndex'),
+                          param('const int', 'bId'),
+                          param('const Eigen::Vector3d&', 'point')])
 
   # MotionConstr
   def addMotionDefault(motion):
