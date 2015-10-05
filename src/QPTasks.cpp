@@ -1828,6 +1828,57 @@ const Eigen::VectorXd& RelativeDistTask::normalAcc()
 	return rdt_.normalAcc();
 }
 
+
+/**
+	*											VectorOrientationTask
+	*/
+
+
+VectorOrientationTask::VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int rI,
+	int bodyId, const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector):
+	vot_(mbs[rI], bodyId, bodyVector, targetVector),
+	robotIndex_(rI)
+{
+}
+
+
+int VectorOrientationTask::dim()
+{
+	return 3;
+}
+
+
+void VectorOrientationTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	vot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+}
+
+
+const Eigen::MatrixXd& VectorOrientationTask::jac()
+{
+	return vot_.jac();
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::eval()
+{
+	return vot_.eval();
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::speed()
+{
+	return vot_.speed();
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::normalAcc()
+{
+	return vot_.normalAcc();
+}
+
 } // namespace qp
 
 } // namespace tasks

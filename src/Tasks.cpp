@@ -1605,4 +1605,93 @@ const Eigen::MatrixXd& RelativeDistTask::jac() const
 	return jacMat_;
 }
 
+/**
+	*													VectorOrientationTask
+	*/
+
+VectorOrientationTask::VectorOrientationTask(const rbd::MultiBody &mb, int bodyId,
+	const Eigen::Vector3d &bodyVector, const Eigen::Vector3d &targetVector) :
+	accVector_(Eigen::Vector3d::Zero()),
+	bodyVector_(bodyVector),
+	targetVector_(targetVector),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	eval_(3),
+	speed_(3),
+	normalAcc_(3),
+	jacMat_(3, mb.nrDof())
+{
+}
+
+void VectorOrientationTask::update(const rbd::MultiBody &mb,
+	const rbd::MultiBodyConfig &mbc,
+	const std::vector<sva::MotionVecd> &normalAccB)
+{
+	//Evaluation of eval
+	Eigen::Matrix3d E_0_b = mbc.bodyPosW[bodyIndex_].rotation();
+	Eigen::Vector3d accVector_ = E_0_b*bodyVector_;
+	eval_ = accVector_ - targetVector_;
+
+	//Evaluation of speed and jacMat
+	Eigen::Matrix3d skewBodyOri = skewMatrix(bodyVector_);
+	Eigen::MatrixXd shortMat, fullJac(3, mb.nrDof());
+	shortMat = jac_.jacobian(mb, mbc);
+	jac_.fullJacobian(mb, shortMat.block(0, 0, 3, mb.nrDof()), fullJac);
+	jacMat_ = -E_0_b*skewBodyOri*fullJac;
+	Eigen::Vector3d w_b_b = jac_.bodyVelocity(mb, mbc).angular();
+	speed_ = -E_0_b*skewBodyOri*w_b_b;
+
+	//Evaluation of normalJacMat
+	Eigen::Vector3d w_0_b = jac_.velocity(mb, mbc).angular();
+	normalAcc_ = -skewMatrix(w_0_b)*E_0_b*skewBodyOri*w_b_b
+				 - E_0_b*skewBodyOri*jac_.bodyNormalAcceleration(mb, mbc, normalAccB).angular();
+}
+
+Eigen::Matrix3d VectorOrientationTask::skewMatrix(const Eigen::Vector3d &v)
+{
+	Eigen::Matrix3d m;
+	m << 0., -v[2], v[1],
+		 v[2], 0., -v[0],
+		 -v[1], v[0], 0.;
+	return m;
+}
+
+void VectorOrientationTask::bodyVector(const Eigen::Vector3d &vector)
+{
+	bodyVector_ = vector;
+}
+
+const Eigen::Vector3d &VectorOrientationTask::bodyVector() const
+{
+	return accVector_;
+}
+
+void VectorOrientationTask::target(const Eigen::Vector3d &vector)
+{
+	targetVector_ = vector;
+}
+
+const Eigen::VectorXd& VectorOrientationTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& VectorOrientationTask::jac() const
+{
+	return jacMat_;
+}
+
 } // namespace tasks

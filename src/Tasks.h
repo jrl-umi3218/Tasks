@@ -592,4 +592,38 @@ private:
 	RelativeBodiesInfo rbInfo_[2];
 };
 
+class VectorOrientationTask
+{
+public:
+	VectorOrientationTask(const rbd::MultiBody& mb, int bodyId,
+	const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector);
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
+
+	void bodyVector(const Eigen::Vector3d& vector);
+	const Eigen::Vector3d& bodyVector() const;
+	void target(const Eigen::Vector3d& vector);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+
+private:
+	Eigen::Matrix3d skewMatrix(const Eigen::Vector3d& v);
+
+private:
+	Eigen::Vector3d accVector_, bodyVector_, targetVector_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+
+};
+
 } // namespace tasks

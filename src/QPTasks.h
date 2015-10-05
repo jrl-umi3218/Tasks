@@ -1129,6 +1129,7 @@ private:
 	Eigen::VectorXd speed_, normalAcc_;
 };
 
+
 class RelativeDistTask : public HighLevelTask
 {
 public:
@@ -1161,6 +1162,44 @@ public:
 
 private:
 	tasks::RelativeDistTask rdt_;
+};
+
+
+class VectorOrientationTask : public HighLevelTask
+{
+public:
+	VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector);
+
+	tasks::VectorOrientationTask& task()
+	{
+		return vot_;
+	}
+	void bodyVector(const Eigen::Vector3d& vector)
+	{
+		vot_.bodyVector(vector);
+	}
+	const Eigen::Vector3d bodyVector() const
+	{
+		return vot_.bodyVector();
+	}
+	void target(const Eigen::Vector3d& vector)
+	{
+		vot_.target(vector);
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody> &mbs,
+		const std::vector<rbd::MultiBodyConfig> &mbcs,
+		const SolverData &data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+private:
+	tasks::VectorOrientationTask vot_;
+	int robotIndex_;
 };
 
 } // namespace qp
