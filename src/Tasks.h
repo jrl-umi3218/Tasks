@@ -615,7 +615,7 @@ private:
 	Eigen::Matrix3d skewMatrix(const Eigen::Vector3d& v);
 
 private:
-	Eigen::Vector3d accVector_, bodyVector_, targetVector_;
+	Eigen::Vector3d actualVector_, bodyVector_, targetVector_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
 

@@ -1611,7 +1611,7 @@ const Eigen::MatrixXd& RelativeDistTask::jac() const
 
 VectorOrientationTask::VectorOrientationTask(const rbd::MultiBody &mb, int bodyId,
 	const Eigen::Vector3d &bodyVector, const Eigen::Vector3d &targetVector) :
-	accVector_(Eigen::Vector3d::Zero()),
+	actualVector_(Eigen::Vector3d::Zero()),
 	bodyVector_(bodyVector),
 	targetVector_(targetVector),
 	bodyIndex_(mb.bodyIndexById(bodyId)),
@@ -1628,23 +1628,23 @@ void VectorOrientationTask::update(const rbd::MultiBody &mb,
 	const std::vector<sva::MotionVecd> &normalAccB)
 {
 	//Evaluation of eval
-	Eigen::Matrix3d E_0_b = mbc.bodyPosW[bodyIndex_].rotation();
-	Eigen::Vector3d accVector_ = E_0_b*bodyVector_;
-	eval_ = accVector_ - targetVector_;
+	Eigen::Matrix3d E_0_b = mbc.bodyPosW[bodyIndex_].rotation().transpose();
+	actualVector_ = E_0_b*bodyVector_;
+	eval_ = targetVector_ - actualVector_;
 
 	//Evaluation of speed and jacMat
-	Eigen::Matrix3d skewBodyOri = skewMatrix(bodyVector_);
 	Eigen::MatrixXd shortMat, fullJac(3, mb.nrDof());
-	shortMat = jac_.jacobian(mb, mbc);
+	shortMat = jac_.bodyJacobian(mb, mbc);
 	jac_.fullJacobian(mb, shortMat.block(0, 0, 3, mb.nrDof()), fullJac);
-	jacMat_ = -E_0_b*skewBodyOri*fullJac;
+	jacMat_ = -E_0_b*skewMatrix(bodyVector_)*fullJac;
 	Eigen::Vector3d w_b_b = jac_.bodyVelocity(mb, mbc).angular();
-	speed_ = -E_0_b*skewBodyOri*w_b_b;
+	speed_ = E_0_b*(w_b_b.cross(bodyVector_));
 
-	//Evaluation of normalJacMat
-	Eigen::Vector3d w_0_b = jac_.velocity(mb, mbc).angular();
-	normalAcc_ = -skewMatrix(w_0_b)*E_0_b*skewBodyOri*w_b_b
-				 - E_0_b*skewBodyOri*jac_.bodyNormalAcceleration(mb, mbc, normalAccB).angular();
+	//Evaluation of normalAcc
+	Eigen::Vector3d bodyNormalAcc = jac_.bodyNormalAcceleration(mb, mbc, normalAccB).angular();
+	normalAcc_ = w_b_b.cross(w_b_b.cross(bodyVector_));
+	normalAcc_ += bodyNormalAcc.cross(bodyVector_);
+	normalAcc_ = E_0_b*normalAcc_;
 }
 
 Eigen::Matrix3d VectorOrientationTask::skewMatrix(const Eigen::Vector3d &v)
@@ -1663,7 +1663,7 @@ void VectorOrientationTask::bodyVector(const Eigen::Vector3d &vector)
 
 const Eigen::Vector3d &VectorOrientationTask::bodyVector() const
 {
-	return accVector_;
+	return actualVector_;
 }
 
 void VectorOrientationTask::target(const Eigen::Vector3d &vector)
