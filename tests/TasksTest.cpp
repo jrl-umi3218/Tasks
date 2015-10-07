@@ -290,6 +290,17 @@ struct VelTester
 	}
 };
 
+/// Test position task (eval, speed and acc are defined)
+struct VectOriTester
+{
+	void operator()(const Eigen::VectorXd& speedCur,
+		const Eigen::VectorXd& accCur, const Eigen::VectorXd& speedDiff,
+		const Eigen::VectorXd& accDiff, double tol)
+	{
+		BOOST_CHECK_SMALL((speedCur - speedDiff).norm(), tol);
+		BOOST_CHECK_SMALL((accCur - accDiff).norm(), tol);
+	}
+};
 
 /**
 	* Use finite difference to test a task.
@@ -579,4 +590,20 @@ BOOST_AUTO_TEST_CASE(LinVelocityTaskTest)
 		VelTester());
 	testTaskNumDiff(mb, mbc, lvt, NormalAccUpdater<tasks::LinVelocityTask>(mb),
 		VelTester());
+}
+
+BOOST_AUTO_TEST_CASE(VectorOrientationTaskTest)
+{
+	using namespace Eigen;
+	using namespace rbd;
+
+	MultiBody mb;
+	MultiBodyConfig mbc;
+
+	std::tie(mb, mbc) = makeZXZArm();
+
+	tasks::VectorOrientationTask vot(mb, 3, Vector3d::Random(), Vector3d::Random());
+
+	testTaskNumDiff(mb, mbc, vot, NormalAccUpdater<tasks::VectorOrientationTask>(mb),
+		VectOriTester());
 }
