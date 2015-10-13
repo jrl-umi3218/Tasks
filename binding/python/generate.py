@@ -1317,6 +1317,13 @@ def build_qp(tasks):
                          [param('const rbd::MultiBody&', 'mbs'),
                           param('const int', 'bId'),
                           param('const Eigen::Vector3d&', 'u')])
+
+  # VectorOrientationTask
+  vectOriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'), param('int', 'bodyId'),
+                               param('const Eigen::Vector3d&', 'bodyVector'),
+                               param('const Eigen::Vector3d&', 'targetVector')])
+  vectOriTask.add_method('bodyVector', None, [param('const Eigen::Vector3d&', 'vector')])
   vectOriTask.add_method('bodyVector', retval('Eigen::Vector3d'), [], is_const=True)
   vectOriTask.add_method('target', None, [param('const Eigen::Vector3d&', 'vector')])
 
