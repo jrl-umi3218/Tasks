@@ -623,8 +623,6 @@ private:
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
-
-	RelativeBodiesInfo rbInfo_[2];
 };
 
 } // namespace tasks
