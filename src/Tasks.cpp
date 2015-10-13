@@ -1482,56 +1482,71 @@ void OrientationTrackingTask::zeroJacobian(Eigen::MatrixXd& jac) const
 	*													RelativeDistTask
 	*/
 
-RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody>& mbs,
-	const double timestep, rbPairInfo& rbpi1, rbPairInfo& rbpi2,
-	const Eigen::Vector3d &u1, const Eigen::Vector3d &u2) :
+RelativeDistTask::RelativeDistTask(const rbd::MultiBody& mb,
+	const double timestep, const rbInfo& rbi1, const rbInfo& rbi2,
+	const Eigen::Vector3d& u1, const Eigen::Vector3d& u2) :
 	timestep_(timestep),
 	isVectorFixed_(false),
 	eval_(1),
 	speed_(1),
 	normalAcc_(1),
-	jacMat_(1, mbs[std::get<0>(rbpi1.first)].nrDof())
+	jacMat_(1, mb.nrDof())
 {
-	rbInfo_[0] = RelativeDistTask::RelativeBodiesInfo(mbs, rbpi1, u1);
-	rbInfo_[1] = RelativeDistTask::RelativeBodiesInfo(mbs, rbpi2, u2);
+	rbInfo_[0] = RelativeDistTask::RelativeBodiesInfo(mb, rbi1, u1);
+	rbInfo_[1] = RelativeDistTask::RelativeBodiesInfo(mb, rbi2, u2);
 	if(u1!=Eigen::Vector3d::Zero() && u2!=Eigen::Vector3d::Zero())
 	{
 		isVectorFixed_ = true;
 	}
 }
 
-RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const std::vector<rbd::MultiBody>& mbs,
-	rbPairInfo& rbpi, Eigen::Vector3d fixedVector) :
-	r1Index(std::get<0>(rbpi.first)),
-	r2Index(std::get<0>(rbpi.second)),
-	b1Index(mbs[r1Index].bodyIndexById(std::get<1>(rbpi.first))),
-	b2Index(mbs[r2Index].bodyIndexById(std::get<1>(rbpi.second))),
-	b1Point(std::get<2>(rbpi.first)),
-	b2Point(std::get<2>(rbpi.second)),
-	jac(mbs[r1Index], std::get<1>(rbpi.first), b1Point),
+RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const rbd::MultiBody& mb,
+	const rbInfo& rbi, const Eigen::Vector3d& fixedVector) :
+	b1Index(mb.bodyIndexById(std::get<0>(rbi))),
+	r_b1_p(std::get<1>(rbi)),
+	r_0_b2p(std::get<2>(rbi)),
+	jac(mb, std::get<0>(rbi), r_b1_p),
 	u(fixedVector),
 	offn(Eigen::Vector3d::Zero())
 {
 }
 
-void RelativeDistTask::bodyPoint(const int rIndex, const int bIndex, const Eigen::Vector3d &point)
+void RelativeDistTask::robotPoint(const int bIndex, const Eigen::Vector3d& point)
 {
 	for(RelativeBodiesInfo& rbi : rbInfo_)
 	{
-		if(rbi.r1Index==rIndex && rbi.b1Index==bIndex)
+		if(rbi.b1Index==bIndex)
 		{
-			rbi.b1Point = point;
+			rbi.r_b1_p = point;
 			rbi.jac.point(point);
-		}
-		else if(rbi.r2Index==rIndex && rbi.b2Index==bIndex)
-		{
-			rbi.b2Point = point;
 		}
 	}
 }
 
-void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std::vector<rbd::MultiBodyConfig> &mbcs,
-	const std::vector<std::vector<sva::MotionVecd> > &normalAccB)
+void RelativeDistTask::envPoint(const int bIndex, const Eigen::Vector3d& point)
+{
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		if(rbi.b1Index==bIndex)
+		{
+			rbi.r_0_b2p = point;
+		}
+	}
+}
+
+void RelativeDistTask::vector(const int bIndex, const Eigen::Vector3d& u)
+{
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		if(rbi.b1Index==bIndex)
+		{
+			rbi.u = u;
+		}
+	}
+}
+
+void RelativeDistTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const std::vector<sva::MotionVecd>& normalAccB)
 {
 	double sign = 1;
 	jacMat_.setZero();
@@ -1541,9 +1556,9 @@ void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std:
 	for(RelativeBodiesInfo& rbi : rbInfo_)
 	{
 		//Compute the error
-		sva::PTransformd X_0_p1 = sva::PTransformd(rbi.b1Point)*mbcs[rbi.r1Index].bodyPosW[rbi.b1Index];
-		sva::PTransformd X_0_p2 = sva::PTransformd(rbi.b2Point)*mbcs[rbi.r2Index].bodyPosW[rbi.b2Index];
-		Eigen::Vector3d r_p2_p1 = X_0_p1.translation()-X_0_p2.translation();
+		sva::PTransformd X_0_p1 = sva::PTransformd(rbi.r_b1_p)*mbc.bodyPosW[rbi.b1Index];
+		Eigen::Vector3d r_0_p2 = rbi.r_0_b2p;
+		Eigen::Vector3d r_p2_p1 = X_0_p1.translation()-r_0_p2;
 		double d;
 		Eigen::Vector3d n, dn;
 		if(isVectorFixed_)
@@ -1555,7 +1570,7 @@ void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std:
 		else
 		{
 			d = r_p2_p1.norm();
-			n = (X_0_p2*X_0_p1.inv()).translation()/d;
+			n = (r_0_p2 - X_0_p1.translation())/d;
 			dn = (n - rbi.offn)/timestep_;
 		}
 		eval_[0] += sign*d;
@@ -1563,17 +1578,17 @@ void RelativeDistTask::update(const std::vector<rbd::MultiBody> &mbs, const std:
 		//Compute the jacobian matrix
 		Eigen::MatrixXd shortMat;
 		Eigen::MatrixXd fullJac;
-		fullJac.resize(3, mbs[rbi.r1Index].nrDof());
-		shortMat = rbi.jac.jacobian(mbs[rbi.r1Index], mbcs[rbi.r1Index]);
-		rbi.jac.fullJacobian(mbs[rbi.r1Index], shortMat.block(3, 0, 3, mbs[rbi.r1Index].nrDof()), fullJac);
+		fullJac.resize(3, mb.nrDof());
+		shortMat = rbi.jac.jacobian(mb, mbc);
+		rbi.jac.fullJacobian(mb, shortMat.block(3, 0, 3, mb.nrDof()), fullJac);
 		jacMat_ += sign*n.transpose()*fullJac;
 
 		//Compute the speed
-		speed_[0] += sign*rbi.jac.velocity(mbs[rbi.r1Index], mbcs[rbi.r1Index]).linear().dot(n);
+		speed_[0] += sign*rbi.jac.velocity(mb, mbc).linear().dot(n);
 
 		//Compute the normal acceleration (JDot alpha)
-		normalAcc_[0] += sign*(fullJac*rbd::dofToVector(mbs[rbi.r1Index], mbcs[rbi.r1Index].alpha)).dot(dn)
-					+ sign*rbi.jac.normalAcceleration(mbs[rbi.r1Index], mbcs[rbi.r1Index], normalAccB[rbi.r1Index]).linear().dot(n);
+		normalAcc_[0] += sign*(fullJac*rbd::dofToVector(mb, mbc.alpha)).dot(dn)
+					+ sign*rbi.jac.normalAcceleration(mb, mbc, normalAccB).linear().dot(n);
 
 		//Update offn and sign
 		//little hack: sign is +1 for the first pair and -1 for the second

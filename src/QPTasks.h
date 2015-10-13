@@ -1133,8 +1133,8 @@ private:
 class RelativeDistTask : public HighLevelTask
 {
 public:
-	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
-		tasks::RelativeDistTask::rbPairInfo& rbpi1, tasks::RelativeDistTask::rbPairInfo& rbpi2,
+	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const int rIndex, const double timestep,
+		tasks::RelativeDistTask::rbInfo& rbi1, tasks::RelativeDistTask::rbInfo& rbi2,
 		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
 		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
 
@@ -1143,11 +1143,20 @@ public:
 		return rdt_;
 	}
 
-	void bodyPoint(const std::vector<rbd::MultiBody>& mbs,
-		const int rIndex, const int bId, const Eigen::Vector3d& point)
+	void robotPoint(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& point)
 	{
-		int bIndex = mbs[rIndex].bodyIndexById(bId);
-		rdt_.bodyPoint(rIndex, bIndex, point);
+		int bIndex = mb.bodyIndexById(bId);
+		rdt_.robotPoint(bIndex, point);
+	}
+	void envPoint(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& point)
+	{
+		int bIndex = mb.bodyIndexById(bId);
+		rdt_.envPoint(bIndex, point);
+	}
+	void vector(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& u)
+	{
+		int bIndex = mb.bodyIndexById(bId);
+		rdt_.vector(bIndex, u);
 	}
 
 	virtual int dim();
@@ -1161,6 +1170,7 @@ public:
 	virtual const Eigen::VectorXd& normalAcc();
 
 private:
+	int rIndex_;
 	tasks::RelativeDistTask rdt_;
 };
 
