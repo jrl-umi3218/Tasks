@@ -542,22 +542,21 @@ private:
 class RelativeDistTask
 {
 public:
-	typedef std::tuple<int, int, Eigen::Vector3d> rbInfo;
-	typedef std::pair<rbInfo, rbInfo> rbPairInfo;
+	//Give information on 1 body (bodyId, r_b1_p, r_0_b2p)
+	typedef std::tuple<int, Eigen::Vector3d, Eigen::Vector3d> rbInfo;
 
 public:
-	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const double timestep,
-		rbPairInfo& rbpi1, rbPairInfo& rbpi2,
+	RelativeDistTask(const rbd::MultiBody& mb, const double timestep,
+		const rbInfo& rbi1, const rbInfo& rbi2,
 		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
 		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
 
-	//const Eigen::Vector3d& distance() const;
+	void robotPoint(const int bIndex, const Eigen::Vector3d& point);
+	void envPoint(const int bIndex, const Eigen::Vector3d& point);
+	void vector(const int bIndex, const Eigen::Vector3d& u);
 
-	//void bodyPoint(const int rIndex, const int bId, const Eigen::Vector3d& point);
-	//const Eigen::Vector3d& bodyPoint(rIndex, bId) const;
-
-	void update(const std::vector<rbd::MultiBody>& mbs, const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
 
 	const Eigen::VectorXd& eval() const;
 	const Eigen::VectorXd& speed() const;
@@ -571,11 +570,11 @@ private:
 		RelativeBodiesInfo()
 		{}
 
-		RelativeBodiesInfo(const std::vector<rbd::MultiBody>& mbs,
-			rbPairInfo& rbpi, Eigen::Vector3d fixedVector);
+		RelativeBodiesInfo(const rbd::MultiBody& mb,
+			const rbInfo& rbi, const Eigen::Vector3d& fixedVector);
 
-		int r1Index, r2Index, b1Index, b2Index;
-		Eigen::Vector3d b1Point, b2Point, n;
+		int b1Index;
+		Eigen::Vector3d r_b1_p, r_0_b2p, n;
 		rbd::Jacobian jac;
 		Eigen::Vector3d u;
 		Eigen::Vector3d offn;

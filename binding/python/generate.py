@@ -314,22 +314,18 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, positionTask, comTask,
 
   # RelativeDistTask
   rbInfo = relDistTask.add_class('rbInfo')
-  rbPairInfo = relDistTask.add_class('rbPairInfo')
   rbInfo.add_constructor([])
-  rbInfo.add_constructor([param('int', 'index'), param('int', 'id'),
-                          param('Eigen::Vector3d', 'bodyPoint')])
-  rbPairInfo.add_constructor([])
-  rbPairInfo.add_constructor([param('rbInfo', 'rbi1'), param('rbInfo', 'rbi2')])
-  relDistTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                               param('double', 'timestep'),
-                               param('rbPairInfo&', 'rbpi1'), param('rbPairInfo&', 'rbpi2'),
+  rbInfo.add_constructor([param('int', 'bodyId'), param('Eigen::Vector3d', 'r_b1_p'),
+                          param('Eigen::Vector3d', 'r_0_b2p')])
+  relDistTask.add_constructor([param('const rbd::MultiBody&', 'mb'), param('double', 'timestep'),
+                               param('rbInfo&', 'rbi1'), param('rbInfo&', 'rbi2'),
                                param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
                                param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
 
   relDistTask.add_method('update', None,
-                         [param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                          param('const std::vector<rbd::MultiBodyConfig>&', 'mbcs'),
-                          param('const std::vector<std::vector<sva::MotionVecd> >&', 'normalAccB')])
+                         [param('const rbd::MultiBody&', 'mbs'),
+                          param('const rbd::MultiBodyConfig&', 'mbcs'),
+                          param('const std::vector<sva::MotionVecd>&', 'normalAccB')])
   relDistTask.add_method('eval', retval('Eigen::VectorXd'), [], is_const=True)
   relDistTask.add_method('jac', retval('Eigen::MatrixXd'), [], is_const=True)
 
@@ -1292,11 +1288,23 @@ def build_qp(tasks):
 
   # RelativeDistTask
   relDistTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                               param('double', 'timestep'),
-                               param('tasks::RelativeDistTask::rbPairInfo&', 'rbpi1'),
-                               param('tasks::RelativeDistTask::rbPairInfo&', 'rbpi2'),
+                               param('int', 'rIndex'), param('double', 'timestep'),
+                               param('tasks::RelativeDistTask::rbInfo&', 'rbi1'),
+                               param('tasks::RelativeDistTask::rbInfo&', 'rbi2'),
                                param('const Eigen::Vector3d&', 'u1', default_value='Eigen::Vector3d::Zero()'),
                                param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
+  relDistTask.add_method('robotPoint', None,
+                         [param('const rbd::MultiBody&', 'mbs'),
+                          param('const int', 'bId'),
+                          param('const Eigen::Vector3d&', 'point')])
+  relDistTask.add_method('envPoint', None,
+                         [param('const rbd::MultiBody&', 'mbs'),
+                          param('const int', 'bId'),
+                          param('const Eigen::Vector3d&', 'point')])
+  relDistTask.add_method('vector', None,
+                         [param('const rbd::MultiBody&', 'mbs'),
+                          param('const int', 'bId'),
+                          param('const Eigen::Vector3d&', 'u')])
 
   # MotionConstr
   def addMotionDefault(motion):
