@@ -684,7 +684,7 @@ void CoMIncPlaneConstr::addPlane(int planeId,
 void CoMIncPlaneConstr::addPlane(int planeId,
 	const Eigen::Vector3d& normal, double offset,
 	double di, double ds, double damping,
-        Eigen::Vector3d& speed, Eigen::Vector3d& normalDot, double dampingOff)
+        const Eigen::Vector3d& speed, const Eigen::Vector3d& normalDot, double dampingOff)
 {
 	dataVec_.emplace_back(planeId, normal, offset,
 		di, ds, damping, dampingOff, speed, normalDot);

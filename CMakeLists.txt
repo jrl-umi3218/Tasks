@@ -14,6 +14,7 @@ set(DOXYGEN_USE_MATHJAX "YES")
 
 project(${PROJECT_NAME} CXX)
 SETUP_PROJECT(FALSE)
+add_definitions(-mfpmath=sse -msse2)
 
 option(PYTHON_BINDING "Generate python binding." ON)
 option(UNIT_TESTS "Generate unit tests." ON)

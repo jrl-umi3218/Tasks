@@ -388,8 +388,8 @@ public:
 	void addPlane(
 		int planeId, const Eigen::Vector3d& normal, double offset,
 		double di, double ds, double damping,
-                Eigen::Vector3d& speed,
-                Eigen::Vector3d& normalDot, double dampingOff=0.);
+                const Eigen::Vector3d& speed,
+                const Eigen::Vector3d& normalDot, double dampingOff=0.);
 
 	/**
 		* Remove a plane.
