@@ -385,6 +385,12 @@ public:
 		int planeId, const Eigen::Vector3d& normal, double offset,
 		double di, double ds, double damping, double dampingOff=0.);
 
+	void addPlane(
+		int planeId, const Eigen::Vector3d& normal, double offset,
+		double di, double ds, double damping,
+                Eigen::Vector3d& speed,
+                Eigen::Vector3d& normalDot, double dampingOff=0.);
+
 	/**
 		* Remove a plane.
 		* @param planeId Plane id to remove.
@@ -426,8 +432,11 @@ private:
 		enum class DampingType {Hard, Soft, Free};
 		PlaneData(int planeId,
 			const Eigen::Vector3d& normal, double offset,
-			double di, double ds, double damping, double dampingOff);
+			double di, double ds, double damping, double dampingOff,
+                        const Eigen::Vector3d& speed,
+                        const Eigen::Vector3d& normalDot);
 		Eigen::Vector3d normal;
+		Eigen::Vector3d normalDot;
 		double offset;
 		double dist;
 		double di, ds;
@@ -435,6 +444,7 @@ private:
 		int planeId;
 		DampingType dampingType;
 		double dampingOff;
+                Eigen::Vector3d speed;
 	};
 
 private:

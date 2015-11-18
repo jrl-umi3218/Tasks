@@ -637,8 +637,11 @@ double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody>& mbs,
 
 CoMIncPlaneConstr::PlaneData::PlaneData(
 	int planeId, const Eigen::Vector3d& normal, double offset,
-	double di, double ds, double damping, double dampOff):
+	double di, double ds, double damping, double dampOff,
+        const Eigen::Vector3d& speed,
+        const Eigen::Vector3d& normalDot):
 		normal(normal),
+		normalDot(normalDot),
 		offset(offset),
 		dist(0.),
 		di(di),
@@ -646,7 +649,8 @@ CoMIncPlaneConstr::PlaneData::PlaneData(
 		damping(damping),
 		planeId(planeId),
 		dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
-		dampingOff(dampOff)
+		dampingOff(dampOff),
+		speed(speed)
 {
 }
 
@@ -672,9 +676,21 @@ void CoMIncPlaneConstr::addPlane(int planeId,
 	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(planeId, normal, offset,
-		di, ds, damping, dampingOff);
+		di, ds, damping, dampingOff, Eigen::Vector3d::Zero(),
+                Eigen::Vector3d::Zero());
 	activated_.reserve(dataVec_.size());
 }
+
+void CoMIncPlaneConstr::addPlane(int planeId,
+	const Eigen::Vector3d& normal, double offset,
+	double di, double ds, double damping,
+        Eigen::Vector3d& speed, Eigen::Vector3d& normalDot, double dampingOff)
+{
+	dataVec_.emplace_back(planeId, normal, offset,
+		di, ds, damping, dampingOff, speed, normalDot);
+	activated_.reserve(dataVec_.size());
+}
+
 
 
 bool CoMIncPlaneConstr::rmPlane(int planeId)
@@ -763,7 +779,8 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody>& mbs,
 		for(std::size_t i: activated_)
 		{
 			PlaneData& d = dataVec_[i];
-			double distDot = d.normal.dot(comSpeed);
+			double distDot = d.normal.dot(comSpeed-d.speed);
+			double distDDot = d.normalDot.dot(comSpeed-d.speed);
 
 			if(d.dampingType == PlaneData::DampingType::Free)
 			{
@@ -782,7 +799,7 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody>& mbs,
 				-(step_*d.normal.transpose())*jacComMat;
 
 			// dampers + ddot + dt*normal^T*J*qdot
-			bInEq_(nrActivated_) = dampers + distDot + step_*(d.normal.dot(comNormalAcc));
+			bInEq_(nrActivated_) = dampers + distDot + step_*(d.normal.dot(comNormalAcc)+distDDot);
 			++nrActivated_;
 		}
 	}
@@ -809,10 +826,14 @@ std::string CoMIncPlaneConstr::descInEq(const std::vector<rbd::MultiBody>& /* mb
 			{
 				std::stringstream ss;
 				ss << "planeId: " << d.planeId << std::endl;
+				ss << "normal: " << d.normal.transpose();
+				ss << "offset: " << d.offset << std::endl;
 				ss << "dist: " << d.dist << std::endl;
 				ss << "di: " << d.di << std::endl;
 				ss << "ds: " << d.ds << std::endl;
 				ss << "damp: " << d.damping << std::endl;
+				ss << "speed: " << d.speed.transpose() << std::endl;
+				ss << "normalDot: " << d.normalDot.transpose() << std::endl;
 				return ss.str();
 			}
 			++curLine;

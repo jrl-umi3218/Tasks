@@ -642,6 +642,79 @@ const Eigen::VectorXd& JointsSelector::normalAcc()
 	return hl_->normalAcc();
 }
 
+/** Torque Task **/
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const TorqueBound& tb, double weight):
+  Task(weight),
+  robotIndex_(robotIndex),
+  alphaDBegin_(-1),
+  lambdaBegin_(-1),
+  motionConstr(mbs, robotIndex, tb),
+  jointSelector_(mbs[robotIndex].nrDof()),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof())
+{
+  jointSelector_.setOnes();
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
+                       double weight):
+  Task(weight),
+  robotIndex_(robotIndex),
+  alphaDBegin_(-1),
+  lambdaBegin_(-1),
+  motionConstr(mbs, robotIndex, tb),
+  jointSelector_(jointSelect),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof())
+{
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const TorqueBound& tb, int efId,
+                       double weight):
+  Task(weight),
+  robotIndex_(robotIndex),
+  alphaDBegin_(-1),
+  lambdaBegin_(-1),
+  motionConstr(mbs, robotIndex, tb),
+  jointSelector_(mbs[robotIndex].nrDof()),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof())
+{
+  rbd::Jacobian jac(mbs[robotIndex], efId);
+  jointSelector_.setZero();
+  for(auto i : jac.jointsPath())
+  {
+    //Do not add root joint !
+    if(i != 0)
+    {
+    jointSelector_.segment(mbs[robotIndex].jointPosInDof(i),
+                           mbs[robotIndex].joint(i).dof()).setOnes();
+    }
+  }
+}
+
+void TorqueTask::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                              const SolverData& data)
+{
+  motionConstr.updateNrVars(mbs, data);
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+  lambdaBegin_ = data.lambdaBegin();
+  Q_.resize(data.nrVars(), data.nrVars());
+  C_.resize(data.nrVars());
+}
+
+void TorqueTask::update(const std::vector<rbd::MultiBody>& mbs,
+                        const std::vector<rbd::MultiBodyConfig>& mbcs,
+                        const SolverData& data)
+{
+  motionConstr.update(mbs, mbcs, data);
+  Q_.noalias() = motionConstr.matrix().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
+  C_.noalias() = motionConstr.fd().C().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
+  //C_.setZero();
+}
 
 /**
 	*												PostureTask
@@ -1532,17 +1605,13 @@ void ContactTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	int nrLambda = 0;
 	begin_ = data.lambdaBegin();
 	std::vector<FrictionCone> cones;
+	int curLambda = 0;
 
 	if(nrLambda == 0)
 	{
 		for(const BilateralContact& uc: data.allContacts())
 		{
-			int curLambda = 0;
-			for(std::size_t i = 0; i < uc.r1Points.size(); ++i)
-			{
-				curLambda += uc.nrLambda(static_cast<int>(i));
-			}
-
+			curLambda = uc.nrLambda();
 			if(uc.contactId == contactId_)
 			{
 				nrLambda = curLambda;
@@ -1575,8 +1644,9 @@ void ContactTask::update(const std::vector<rbd::MultiBody>& /* mbs */,
 	const std::vector<rbd::MultiBodyConfig>& /* mbcs */,
 	const SolverData& /* data */)
 {
-	C_.noalias() = -conesJac_.transpose()*
-			(stiffness_*error_ - stiffnessSqrt_*errorD_);
+	/*C_.noalias() = -conesJac_.transpose()*
+			(stiffness_*error_ - stiffnessSqrt_*errorD_);*/
+          C_.noalias() = -conesJac_.transpose()*error_;
 }
 
 
