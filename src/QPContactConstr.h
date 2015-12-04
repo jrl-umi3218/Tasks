@@ -29,7 +29,6 @@
 // Tasks
 #include "QPSolver.h"
 
-
 namespace tasks
 {
 
@@ -40,7 +39,7 @@ namespace qp
 /**
 	* Manage modifier on contact constraint.
 	*/
-class ContactConstrCommon
+class TASKS_DLLAPI ContactConstrCommon
 {
 public:
 	/**
@@ -104,7 +103,7 @@ protected:
 /**
 	* Common contact constraint computation.
 	*/
-class ContactConstr : public ConstraintFunction<Equality>,
+class TASKS_DLLAPI ContactConstr : public ConstraintFunction<Equality>,
 	public ContactConstrCommon
 {
 public:
@@ -193,7 +192,7 @@ protected:
 	* This constraint formulation is usually unstable, prefer
 	* ContactSpeedConstr and ContactPosConstr.
 	*/
-class ContactAccConstr : public ContactConstr
+class TASKS_DLLAPI ContactAccConstr : public ContactConstr
 {
 public:
 	ContactAccConstr();
@@ -213,7 +212,7 @@ public:
 	* This constraint formulation is stable for robot/environment contact.
 	* For robot/robot contact prefer ContactPosConstr.
 	*/
-class ContactSpeedConstr : public ContactConstr
+class TASKS_DLLAPI ContactSpeedConstr : public ContactConstr
 {
 public:
 	/// @param timeStep Time step in second.
@@ -238,7 +237,7 @@ private:
 	*
 	* This constraint formulation is stable in all case.
 	*/
-class ContactPosConstr : public ContactConstr
+class TASKS_DLLAPI ContactPosConstr : public ContactConstr
 {
 public:
 	/// @param timeStep Time step in second.

@@ -29,7 +29,7 @@
 namespace rbd
 {
 class MultiBody;
-class MultiBodyConfig;
+struct MultiBodyConfig;
 }
 
 namespace tasks
@@ -39,7 +39,7 @@ namespace qp
 {
 
 
-class SetPointTaskCommon : public Task
+class TASKS_DLLAPI SetPointTaskCommon : public Task
 {
 public:
 	SetPointTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -85,7 +85,7 @@ private:
 };
 
 
-class SetPointTask : public SetPointTaskCommon
+class TASKS_DLLAPI SetPointTask : public SetPointTaskCommon
 {
 public:
 	SetPointTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -111,7 +111,7 @@ private:
 };
 
 
-class TrackingTask : public SetPointTaskCommon
+class TASKS_DLLAPI TrackingTask : public SetPointTaskCommon
 {
 public:
 	TrackingTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -137,7 +137,7 @@ private:
 };
 
 
-class TrajectoryTask : public SetPointTaskCommon
+class TASKS_DLLAPI TrajectoryTask : public SetPointTaskCommon
 {
 public:
 	TrajectoryTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -163,7 +163,7 @@ private:
 
 
 /// @deprecated Must be replace by TrackingTask
-class PIDTask : public SetPointTaskCommon
+class TASKS_DLLAPI PIDTask : public SetPointTaskCommon
 {
 public:
 	PIDTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -194,7 +194,7 @@ private:
 };
 
 
-class TargetObjectiveTask : public Task
+class TASKS_DLLAPI TargetObjectiveTask : public Task
 {
 public:
 	TargetObjectiveTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -290,7 +290,7 @@ private:
 
 
 
-class JointsSelector : public HighLevelTask
+class TASKS_DLLAPI JointsSelector : public HighLevelTask
 {
 public:
 	static JointsSelector ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
@@ -370,7 +370,7 @@ struct JointGains
 	double stiffness, damping;
 };
 
-class TorqueTask : public Task
+class TASKS_DLLAPI TorqueTask : public Task
 {
 public:
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -419,7 +419,7 @@ private:
         Eigen::VectorXd C_;
 };
 
-class PostureTask : public Task
+class TASKS_DLLAPI PostureTask : public Task
 {
 public:
 	PostureTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -500,7 +500,7 @@ private:
 
 
 
-class PositionTask : public HighLevelTask
+class TASKS_DLLAPI PositionTask : public HighLevelTask
 {
 public:
 	PositionTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -549,7 +549,7 @@ private:
 
 
 
-class OrientationTask : public HighLevelTask
+class TASKS_DLLAPI OrientationTask : public HighLevelTask
 {
 public:
 	OrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
@@ -595,7 +595,7 @@ private:
 
 
 template <typename transform_task_t>
-class TransformTaskCommon : public HighLevelTask
+class TASKS_DLLAPI TransformTaskCommon : public HighLevelTask
 {
 public:
 	TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -642,7 +642,7 @@ protected:
 
 
 /// TransformTask in surface frame.
-class SurfaceTransformTask : public TransformTaskCommon<tasks::SurfaceTransformTask>
+class TASKS_DLLAPI SurfaceTransformTask : public TransformTaskCommon<tasks::SurfaceTransformTask>
 {
 public:
 	SurfaceTransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -657,7 +657,7 @@ public:
 
 
 /// TransformTask in world or user frame.
-class TransformTask : public TransformTaskCommon<tasks::TransformTask>
+class TASKS_DLLAPI TransformTask : public TransformTaskCommon<tasks::TransformTask>
 {
 public:
 	TransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -675,7 +675,7 @@ public:
 
 
 
-class SurfaceOrientationTask : public HighLevelTask
+class TASKS_DLLAPI SurfaceOrientationTask : public HighLevelTask
 {
 public:
 	SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
@@ -720,7 +720,7 @@ private:
 
 
 
-class GazeTask : public HighLevelTask
+class TASKS_DLLAPI GazeTask : public HighLevelTask
 {
 public:
 	GazeTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -764,7 +764,7 @@ private:
 
 
 
-class CoMTask : public HighLevelTask
+class TASKS_DLLAPI CoMTask : public HighLevelTask
 {
 public:
 	CoMTask(const std::vector<rbd::MultiBody>& mbs,
@@ -805,7 +805,7 @@ private:
 };
 
 
-class MultiCoMTask : public Task
+class TASKS_DLLAPI MultiCoMTask : public Task
 {
 public:
 	MultiCoMTask(const std::vector<rbd::MultiBody>& mb,
@@ -880,7 +880,7 @@ private:
 };
 
 
-class MultiRobotTransformTask : public Task
+class TASKS_DLLAPI MultiRobotTransformTask : public Task
 {
 public:
 	MultiRobotTransformTask(const std::vector<rbd::MultiBody>& mbs,
@@ -944,7 +944,7 @@ private:
 };
 
 
-class MomentumTask : public HighLevelTask
+class TASKS_DLLAPI MomentumTask : public HighLevelTask
 {
 public:
 	MomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -981,7 +981,7 @@ private:
 };
 
 
-class ContactTask : public Task
+class TASKS_DLLAPI ContactTask : public Task
 {
 public:
 	ContactTask(ContactId contactId, double stiffness, double weight):
@@ -1028,7 +1028,7 @@ private:
 
 
 
-class GripperTorqueTask : public Task
+class TASKS_DLLAPI GripperTorqueTask : public Task
 {
 public:
 	GripperTorqueTask(ContactId contactId, const Eigen::Vector3d& origin,
@@ -1068,7 +1068,7 @@ private:
 
 
 
-class LinVelocityTask : public HighLevelTask
+class TASKS_DLLAPI LinVelocityTask : public HighLevelTask
 {
 public:
 	LinVelocityTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -1117,7 +1117,7 @@ private:
 
 
 
-class OrientationTrackingTask : public HighLevelTask
+class TASKS_DLLAPI OrientationTrackingTask : public HighLevelTask
 {
 public:
 	OrientationTrackingTask(const std::vector<rbd::MultiBody>& mbs,

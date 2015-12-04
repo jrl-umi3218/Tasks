@@ -25,6 +25,7 @@
 // SpaceVecAlg
 #include <SpaceVecAlg/SpaceVecAlg>
 
+#include <tasks/config.hh>
 
 namespace tasks
 {
@@ -37,7 +38,7 @@ namespace qp
 	* Linearized friction cone generator.
 	* Compute the vector that linearize the friction cone (generatrix).
 	*/
-struct FrictionCone
+struct TASKS_DLLAPI FrictionCone
 {
 	FrictionCone(){}
 
@@ -60,7 +61,7 @@ struct FrictionCone
 /**
 	* Unique identifier for a contact.
 	*/
-struct ContactId
+struct TASKS_DLLAPI ContactId
 {
 	ContactId();
 	/**
@@ -90,7 +91,7 @@ struct ContactId
 	* Model of a planar contacts.
 	* All friction cone are in the same direction.
 	*/
-struct UnilateralContact
+struct TASKS_DLLAPI UnilateralContact
 {
 	UnilateralContact(){}
 
@@ -223,7 +224,7 @@ private:
 	* Model of a generic contacts.
 	* Friction cone frame can be different for each contact points.
 	*/
-struct BilateralContact
+struct TASKS_DLLAPI BilateralContact
 {
 	BilateralContact(){}
 

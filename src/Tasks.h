@@ -25,19 +25,21 @@
 #include <RBDyn/Momentum.h>
 #include <RBDyn/VisServo.h>
 
+#include <tasks/config.hh>
+
 // forward declarations
 // RBDyn
 namespace rbd
 {
 	class MultiBody;
-	class MultiBodyConfig;
+	struct MultiBodyConfig;
 }
 
 namespace tasks
 {
 
 
-class PositionTask
+class TASKS_DLLAPI PositionTask
 {
 public:
 	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos,
@@ -76,7 +78,7 @@ private:
 
 
 
-class OrientationTask
+class TASKS_DLLAPI OrientationTask
 {
 public:
 	OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Quaterniond& ori);
@@ -112,7 +114,7 @@ private:
 
 
 
-class TransformTaskCommon
+class TASKS_DLLAPI TransformTaskCommon
 {
 public:
 	TransformTaskCommon(const rbd::MultiBody& mb, int bodyId,
@@ -145,7 +147,7 @@ protected:
 
 
 
-class SurfaceTransformTask : public TransformTaskCommon
+class TASKS_DLLAPI SurfaceTransformTask : public TransformTaskCommon
 {
 public:
 	/**
@@ -164,7 +166,7 @@ protected:
 
 
 
-class TransformTask : public TransformTaskCommon
+class TASKS_DLLAPI TransformTask : public TransformTaskCommon
 {
 public:
 	/**
@@ -189,7 +191,7 @@ private:
 
 
 
-class MultiRobotTransformTask
+class TASKS_DLLAPI MultiRobotTransformTask
 {
 public:
 	MultiRobotTransformTask(const std::vector<rbd::MultiBody>& mbs,
@@ -230,7 +232,7 @@ private:
 
 
 
-class SurfaceOrientationTask
+class TASKS_DLLAPI SurfaceOrientationTask
 {
 public:
 	SurfaceOrientationTask(const rbd::MultiBody& mb, int bodyId,
@@ -269,7 +271,7 @@ private:
 
 
 
-class GazeTask
+class TASKS_DLLAPI GazeTask
 {
 public:
 	GazeTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector2d &point2d,
@@ -313,7 +315,7 @@ private:
 
 
 
-class PostureTask
+class TASKS_DLLAPI PostureTask
 {
 public:
 	PostureTask(const rbd::MultiBody& mb, std::vector<std::vector<double> > q);
@@ -338,7 +340,7 @@ private:
 
 
 
-class CoMTask
+class TASKS_DLLAPI CoMTask
 {
 public:
 	CoMTask(const rbd::MultiBody& mb, const Eigen::Vector3d& com);
@@ -375,7 +377,7 @@ private:
 
 
 
-class MultiCoMTask
+class TASKS_DLLAPI MultiCoMTask
 {
 public:
 	MultiCoMTask(const std::vector<rbd::MultiBody>& mbs,
@@ -426,7 +428,7 @@ private:
 
 
 
-class MomentumTask
+class TASKS_DLLAPI MomentumTask
 {
 public:
 	MomentumTask(const rbd::MultiBody& mb, const sva::ForceVecd mom);
@@ -459,7 +461,7 @@ private:
 
 
 
-class LinVelocityTask
+class TASKS_DLLAPI LinVelocityTask
 {
 public:
 	LinVelocityTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& vel,
@@ -498,7 +500,7 @@ private:
 
 
 
-class OrientationTrackingTask
+class TASKS_DLLAPI OrientationTrackingTask
 {
 public:
 	OrientationTrackingTask(const rbd::MultiBody& mb, int bodyId,

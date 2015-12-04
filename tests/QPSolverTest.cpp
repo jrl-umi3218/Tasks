@@ -1296,7 +1296,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	solver.addTask(&oriTaskSp);
 	solver.updateTasksNrVars(mbs);
 	mbcs[0] = mbcInit;
-	for(int i = 0; i < 100; ++i)
+	for(int i = 0; i < 1000; ++i)
 	{
 		BOOST_REQUIRE(solver.solve(mbs, mbcs));
 		eulerIntegration(mbs[0], mbcs[0], 0.005);

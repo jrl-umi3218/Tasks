@@ -22,12 +22,11 @@
 // Tasks
 #include "QPContacts.h"
 
-
 // forward declaration
 namespace rbd
 {
 class MultiBody;
-class MultiBodyConfig;
+struct MultiBodyConfig;
 }
 
 namespace tasks
@@ -37,7 +36,7 @@ namespace qp
 {
 
 
-class SolverData
+class TASKS_DLLAPI SolverData
 {
 public:
 	friend class QPSolver;

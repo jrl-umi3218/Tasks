@@ -19,6 +19,7 @@
 
 // includes
 // std
+#include <numeric>
 #include <set>
 
 // rbd

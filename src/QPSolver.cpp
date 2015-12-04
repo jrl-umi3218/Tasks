@@ -18,8 +18,10 @@
 
 // includes
 // std
+#include <algorithm>
 #include <iostream>
 #include <limits>
+#include <numeric>
 #include <cmath>
 
 // RBDyn

@@ -33,7 +33,7 @@ namespace qp
 /**
 	* GenQPSolver interface implementation with the QLD QP solver.
 	*/
-class QLDQPSolver : public GenQPSolver
+class TASKS_DLLAPI QLDQPSolver : public GenQPSolver
 {
 public:
 	QLDQPSolver();

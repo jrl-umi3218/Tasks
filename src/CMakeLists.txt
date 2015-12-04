@@ -17,6 +17,7 @@ SEARCH_FOR_BOOST()
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
+set_target_properties(Tasks PROPERTIES COMPILE_FLAGS "-Dtasks_EXPORTS")
 
 PKG_CONFIG_USE_DEPENDENCY(Tasks sch-core)
 PKG_CONFIG_USE_DEPENDENCY(Tasks SpaceVecAlg)
@@ -33,4 +34,8 @@ target_link_libraries(Tasks ${Boost_LIBRARIES})
 
 set(INSTALL_PATH include/Tasks)
 install(FILES ${HEADERS} DESTINATION ${INSTALL_PATH})
-install(TARGETS Tasks DESTINATION "lib")
+install(TARGETS Tasks 
+                      RUNTIME DESTINATION bin
+                      LIBRARY DESTINATION lib
+                      ARCHIVE DESTINATION lib
+)

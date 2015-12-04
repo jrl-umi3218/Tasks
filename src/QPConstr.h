@@ -40,15 +40,15 @@ class CD_Pair;
 
 namespace tasks
 {
-class QBound;
-class AlphaBound;
+struct QBound;
+struct AlphaBound;
 
 namespace qp
 {
 
 
 /// Convert a sch-core transformation matrix to a sva::PTransformd matrix.
-sch::Matrix4x4 tosch(const sva::PTransformd& t);
+TASKS_DLLAPI sch::Matrix4x4 tosch(const sva::PTransformd& t);
 
 
 /**
@@ -61,7 +61,7 @@ sch::Matrix4x4 tosch(const sva::PTransformd& t);
 	* This constraint can be impossible to fulfill when articulation velocity
 	* is really high. Always prefer to use DamperJointLimitsConstr.
 	*/
-class JointLimitsConstr : public ConstraintFunction<Bound>
+class TASKS_DLLAPI JointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	/**
@@ -129,7 +129,7 @@ private:
 	* - \f$ d_s = 0.01 (\overline{q} - \underline{q}) \f$
 	* - \f$ \xi_{\text{off}} = 0.5 \f$
 	*/
-class DamperJointLimitsConstr : public ConstraintFunction<Bound>
+class TASKS_DLLAPI DamperJointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	/**
@@ -214,7 +214,7 @@ private:
 	* the following formula:
 	* \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
 	*/
-class CollisionConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI CollisionConstr : public ConstraintFunction<Inequality>
 {
 public:
 	/**
@@ -355,7 +355,7 @@ private:
 	* the following formula:
 	* \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
 	*/
-class CoMIncPlaneConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI CoMIncPlaneConstr : public ConstraintFunction<Inequality>
 {
 public:
 	/**
@@ -462,7 +462,7 @@ private:
 
 
 
-class GripperTorqueConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI GripperTorqueConstr : public ConstraintFunction<Inequality>
 {
 public:
 	GripperTorqueConstr();
@@ -521,7 +521,7 @@ private:
 	* \f$ a \f$ the link acceleration in link frame
 	* and \f$ S \f$ the axis selection matrix.
 	*/
-class BoundedSpeedConstr : public ConstraintFunction<GenInequality>
+class TASKS_DLLAPI BoundedSpeedConstr : public ConstraintFunction<GenInequality>
 {
 public:
 	/**

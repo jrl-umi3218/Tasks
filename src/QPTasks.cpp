@@ -19,6 +19,7 @@
 // includes
 // std
 #include <cmath>
+#include <iterator>
 #include <set>
 
 // Eigen

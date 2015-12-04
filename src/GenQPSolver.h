@@ -22,6 +22,7 @@
 // Eigen
 #include <Eigen/Core>
 
+#include <tasks/config.hh>
 
 // forward declaration
 // RBDyn
@@ -49,7 +50,7 @@ class GenQPSolver;
 	* Factory to create GenQPSolver implementation.
 	* Two argument are supported QLD and LSSOL.
 	*/
-GenQPSolver* createQPSolver(const std::string& name);
+TASKS_DLLAPI GenQPSolver* createQPSolver(const std::string& name);
 
 
 /**
@@ -60,7 +61,7 @@ GenQPSolver* createQPSolver(const std::string& name);
 	* \text{s.t. } & L \leq \left\{ \begin{array}{c} x \\ A x \end{array} \right\} \leq U
 	* \f}
 	*/
-class GenQPSolver
+class TASKS_DLLAPI GenQPSolver
 {
 public:
 	/// Default QP solver.

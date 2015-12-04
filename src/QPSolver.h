@@ -30,13 +30,14 @@
 #include "QPSolverData.h"
 #include "QPContacts.h"
 
+#include <tasks/config.hh>
 
 // forward declaration
 // RBDyn
 namespace rbd
 {
 class MultiBody;
-class MultiBodyConfig;
+struct MultiBodyConfig;
 }
 
 
@@ -55,7 +56,7 @@ class GenQPSolver;
 
 
 
-class QPSolver
+class TASKS_DLLAPI QPSolver
 {
 public:
 	QPSolver();
@@ -167,7 +168,7 @@ private:
 
 
 
-class Constraint
+class TASKS_DLLAPI Constraint
 {
 public:
 	virtual ~Constraint() {}
@@ -228,7 +229,7 @@ private:
 
 
 
-class Equality
+class TASKS_DLLAPI Equality
 {
 public:
 	virtual ~Equality() {}
@@ -255,7 +256,7 @@ public:
 
 
 
-class Inequality
+class TASKS_DLLAPI Inequality
 {
 public:
 	virtual ~Inequality() {}
@@ -282,7 +283,7 @@ public:
 
 
 
-class GenInequality
+class TASKS_DLLAPI GenInequality
 {
 public:
 	virtual ~GenInequality() {}
@@ -310,7 +311,7 @@ public:
 
 
 
-class Bound
+class TASKS_DLLAPI Bound
 {
 public:
 	virtual ~Bound() {}
@@ -335,7 +336,7 @@ public:
 
 
 
-class Task
+class TASKS_DLLAPI Task
 {
 public:
 	Task(double weight):
@@ -370,7 +371,7 @@ private:
 
 
 
-class HighLevelTask
+class TASKS_DLLAPI HighLevelTask
 {
 public:
 	virtual ~HighLevelTask() {}

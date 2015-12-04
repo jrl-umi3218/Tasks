@@ -32,13 +32,13 @@
 
 namespace tasks
 {
-class TorqueBound;
-class PolyTorqueBound;
+struct TorqueBound;
+struct PolyTorqueBound;
 
 namespace qp
 {
 
-class PositiveLambda : public ConstraintFunction<Bound>
+class TASKS_DLLAPI PositiveLambda : public ConstraintFunction<Bound>
 {
 public:
 	PositiveLambda();
@@ -75,7 +75,7 @@ private:
 };
 
 
-class MotionConstrCommon : public ConstraintFunction<GenInequality>
+class TASKS_DLLAPI MotionConstrCommon : public ConstraintFunction<GenInequality>
 {
 public:
 	MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
@@ -135,7 +135,7 @@ protected:
 };
 
 
-class MotionConstr : public MotionConstrCommon
+class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
 	MotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -172,7 +172,7 @@ struct SpringJoint
 };
 
 
-class MotionSpringConstr : public MotionConstr
+class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 {
 public:
 	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
@@ -203,7 +203,7 @@ protected:
  * @brief Use polynome in function of q to compute torque limits.
  * BEWARE: Only work with 1 dof/param joint
  */
-class MotionPolyConstr : public MotionConstrCommon
+class TASKS_DLLAPI MotionPolyConstr : public MotionConstrCommon
 {
 public:
 	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,

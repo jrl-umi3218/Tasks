@@ -33,7 +33,7 @@ namespace qp
 /**
 	* GenQPSolver interface implementation with the LSSOL QP solver.
 	*/
-class LSSOLQPSolver : public GenQPSolver
+class TASKS_DLLAPI LSSOLQPSolver : public GenQPSolver
 {
 public:
 	LSSOLQPSolver();
