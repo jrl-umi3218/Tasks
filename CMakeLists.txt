@@ -12,7 +12,6 @@ SET(PROJECT_URL "https://github.com/jorisv//Tasks")
 SET(CXX_DISABLE_WERROR True)
 set(DOXYGEN_USE_MATHJAX "YES")
 
-project(${PROJECT_NAME} CXX)
 SETUP_PROJECT(FALSE)
 add_definitions(-mfpmath=sse -msse2)
 
