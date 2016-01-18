@@ -715,6 +715,39 @@ private:
 
 
 
+class PositionBasedVisServoTask : public HighLevelTask
+{
+public:
+	PositionBasedVisServoTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const sva::PTransformd& X_t_s,
+		const sva::PTransformd& X_b_s=sva::PTransformd::Identity());
+
+	tasks::PositionBasedVisServoTask& task()
+	{
+			return pbvst_;
+	}
+
+	void error(const sva::PTransformd& X_t_s)
+	{
+			pbvst_.error(X_t_s);
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+private:
+	tasks::PositionBasedVisServoTask pbvst_;
+	int robotIndex_;
+};
+
+
+
 class CoMTask : public HighLevelTask
 {
 public:

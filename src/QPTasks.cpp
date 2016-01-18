@@ -1102,6 +1102,58 @@ const Eigen::VectorXd& GazeTask::normalAcc()
 
 
 /**
+	*																PositionBasedVisServoTask
+	*/
+
+
+PositionBasedVisServoTask::PositionBasedVisServoTask(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, int bodyId,
+	const sva::PTransformd& X_t_s,
+	const sva::PTransformd& X_b_s):
+	pbvst_(mbs[robotIndex], bodyId, X_t_s, X_b_s),
+	robotIndex_(robotIndex)
+{}
+
+
+int PositionBasedVisServoTask::dim()
+{
+	return 6;
+}
+
+
+void PositionBasedVisServoTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	pbvst_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+}
+
+
+const Eigen::MatrixXd& PositionBasedVisServoTask::jac()
+{
+	return pbvst_.jac();
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::eval()
+{
+	return pbvst_.eval();
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::speed()
+{
+	return pbvst_.speed();
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::normalAcc()
+{
+	return pbvst_.normalAcc();
+}
+
+
+/**
 	*													CoMTask
 	*/
 

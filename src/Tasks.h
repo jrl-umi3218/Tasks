@@ -308,7 +308,43 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-	Eigen::MatrixXd interactionMat_;
+};
+
+
+
+class PositionBasedVisServoTask
+{
+public:
+	PositionBasedVisServoTask(const rbd::MultiBody &mb, int bodyId,
+		const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s);
+
+	void error(const sva::PTransformd& X_t_s);
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+			const std::vector<sva::MotionVecd>& normalAccB);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+	const Eigen::MatrixXd& jacDot() const;
+
+private:
+	sva::PTransformd X_t_s_;
+	sva::PTransformd X_b_s_;
+	double angle_;
+	Eigen::Vector3d axis_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+
+	Eigen::Matrix<double, 6, 6> L_pbvs_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::MatrixXd jacDotMat_;
 };
 
 

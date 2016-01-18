@@ -732,7 +732,7 @@ void GazeTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	eval_ = point2d_ref_ - point2d_;
 
 	sva::PTransformd X_0_gaze = X_b_gaze_*mbc.bodyPosW[bodyIndex_];
-	L_img_ = rbd::interactionMatrix(point2d_, depthEstimate_);
+	L_img_ = rbd::imagePointJacobian(point2d_, depthEstimate_);
 	speed_ = L_img_*(jac_.velocity(mb, mbc, X_b_gaze_)).vector();
 
 	normalAcc_ = L_img_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_gaze_,
@@ -768,6 +768,83 @@ const Eigen::MatrixXd& GazeTask::jac() const
 
 
 const Eigen::MatrixXd& GazeTask::jacDot() const
+{
+	return jacDotMat_;
+}
+
+
+/**
+	*													PositionBasedVisServoTask
+	*/
+
+
+PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb, int bodyId,
+	const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s):
+	X_t_s_(X_t_s),
+	X_b_s_(X_b_s),
+	angle_(0.),
+	axis_(Eigen::Vector3d::Zero()),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	L_pbvs_(Eigen::Matrix<double, 6, 6>::Zero()),
+	eval_(6),
+	speed_(6),
+	normalAcc_(6),
+	jacMat_(6, mb.nrDof()),
+	jacDotMat_(6, mb.nrDof())
+{
+}
+
+
+void PositionBasedVisServoTask::error(const sva::PTransformd& X_t_s)
+{
+	X_t_s_ = X_t_s;
+}
+
+void PositionBasedVisServoTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const std::vector<sva::MotionVecd>& normalAccB)
+{
+	rbd::getAngleAxis(X_t_s_.rotation().transpose(), angle_, axis_);
+	eval_.tail(3) = -X_t_s_.translation();
+	eval_.head(3) = angle_*axis_;
+
+	sva::PTransformd X_0_s = X_b_s_*mbc.bodyPosW[bodyIndex_];
+	L_pbvs_ = rbd::poseJacobian(X_t_s_.rotation());
+
+	speed_ = L_pbvs_*(jac_.velocity(mb, mbc, X_b_s_)).vector();
+	normalAcc_ = L_pbvs_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_s_,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector();
+
+	Eigen::MatrixXd shortJacMat = L_pbvs_*jac_.jacobian(mb, mbc, X_0_s).block(0, 0, 6, jac_.dof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& PositionBasedVisServoTask::jac() const
+{
+	return jacMat_;
+}
+
+
+const Eigen::MatrixXd& PositionBasedVisServoTask::jacDot() const
 {
 	return jacDotMat_;
 }
