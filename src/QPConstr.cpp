@@ -47,7 +47,7 @@ JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
 	int robotIndex, QBound bound, double step):
 	robotIndex_(robotIndex),
 	alphaDBegin_(-1),
-	alphaDOffset_(mbs[robotIndex].joint(0).dof() > 1 ? mbs[robotIndex].nrDof() : 0),
+	alphaDOffset_(mbs[robotIndex].joint(0).dof() > 1 ? mbs[robotIndex].joint(0).dof() : 0),
 	step_(step),
 	qMin_(),
 	qMax_(),
