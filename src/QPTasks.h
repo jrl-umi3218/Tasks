@@ -764,6 +764,39 @@ private:
 
 
 
+class TASKS_DLLAPI PositionBasedVisServoTask : public HighLevelTask
+{
+public:
+	PositionBasedVisServoTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const sva::PTransformd& X_t_s,
+		const sva::PTransformd& X_b_s=sva::PTransformd::Identity());
+
+	tasks::PositionBasedVisServoTask& task()
+	{
+			return pbvst_;
+	}
+
+	void error(const sva::PTransformd& X_t_s)
+	{
+			pbvst_.error(X_t_s);
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+private:
+	tasks::PositionBasedVisServoTask pbvst_;
+	int robotIndex_;
+};
+
+
+
 class TASKS_DLLAPI CoMTask : public HighLevelTask
 {
 public:
@@ -1176,6 +1209,89 @@ private:
 	tasks::OrientationTrackingTask ott_;
 	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd speed_, normalAcc_;
+};
+
+
+class RelativeDistTask : public HighLevelTask
+{
+public:
+	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const int rIndex, const double timestep,
+		tasks::RelativeDistTask::rbInfo& rbi1, tasks::RelativeDistTask::rbInfo& rbi2,
+		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
+		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
+
+	tasks::RelativeDistTask& task()
+	{
+		return rdt_;
+	}
+
+	void robotPoint(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& point)
+	{
+		int bIndex = mb.bodyIndexById(bId);
+		rdt_.robotPoint(bIndex, point);
+	}
+	void envPoint(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& point)
+	{
+		int bIndex = mb.bodyIndexById(bId);
+		rdt_.envPoint(bIndex, point);
+	}
+	void vector(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& u)
+	{
+		int bIndex = mb.bodyIndexById(bId);
+		rdt_.vector(bIndex, u);
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+
+private:
+	int rIndex_;
+	tasks::RelativeDistTask rdt_;
+};
+
+
+class VectorOrientationTask : public HighLevelTask
+{
+public:
+	VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+		int bodyId, const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector);
+
+	tasks::VectorOrientationTask& task()
+	{
+		return vot_;
+	}
+	void bodyVector(const Eigen::Vector3d& vector)
+	{
+		vot_.bodyVector(vector);
+	}
+	const Eigen::Vector3d bodyVector() const
+	{
+		return vot_.bodyVector();
+	}
+	void target(const Eigen::Vector3d& vector)
+	{
+		vot_.target(vector);
+	}
+
+	virtual int dim();
+	virtual void update(const std::vector<rbd::MultiBody> &mbs,
+		const std::vector<rbd::MultiBodyConfig> &mbcs,
+		const SolverData &data);
+
+	virtual const Eigen::MatrixXd& jac();
+	virtual const Eigen::VectorXd& eval();
+	virtual const Eigen::VectorXd& speed();
+	virtual const Eigen::VectorXd& normalAcc();
+private:
+	tasks::VectorOrientationTask vot_;
+	int robotIndex_;
 };
 
 } // namespace qp

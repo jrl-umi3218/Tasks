@@ -733,7 +733,7 @@ void GazeTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	eval_ = point2d_ref_ - point2d_;
 
 	sva::PTransformd X_0_gaze = X_b_gaze_*mbc.bodyPosW[bodyIndex_];
-	L_img_ = rbd::interactionMatrix(point2d_, depthEstimate_);
+	L_img_ = rbd::imagePointJacobian(point2d_, depthEstimate_);
 	speed_ = L_img_*(jac_.velocity(mb, mbc, X_b_gaze_)).vector();
 
 	normalAcc_ = L_img_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_gaze_,
@@ -769,6 +769,83 @@ const Eigen::MatrixXd& GazeTask::jac() const
 
 
 const Eigen::MatrixXd& GazeTask::jacDot() const
+{
+	return jacDotMat_;
+}
+
+
+/**
+	*													PositionBasedVisServoTask
+	*/
+
+
+PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb, int bodyId,
+	const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s):
+	X_t_s_(X_t_s),
+	X_b_s_(X_b_s),
+	angle_(0.),
+	axis_(Eigen::Vector3d::Zero()),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	L_pbvs_(Eigen::Matrix<double, 6, 6>::Zero()),
+	eval_(6),
+	speed_(6),
+	normalAcc_(6),
+	jacMat_(6, mb.nrDof()),
+	jacDotMat_(6, mb.nrDof())
+{
+}
+
+
+void PositionBasedVisServoTask::error(const sva::PTransformd& X_t_s)
+{
+	X_t_s_ = X_t_s;
+}
+
+void PositionBasedVisServoTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const std::vector<sva::MotionVecd>& normalAccB)
+{
+	rbd::getAngleAxis(X_t_s_.rotation().transpose(), angle_, axis_);
+	eval_.tail(3) = -X_t_s_.translation();
+	eval_.head(3) = angle_*axis_;
+
+	sva::PTransformd X_0_s = X_b_s_*mbc.bodyPosW[bodyIndex_];
+	L_pbvs_ = rbd::poseJacobian(X_t_s_.rotation());
+
+	speed_ = L_pbvs_*(jac_.velocity(mb, mbc, X_b_s_)).vector();
+	normalAcc_ = L_pbvs_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_s_,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector();
+
+	Eigen::MatrixXd shortJacMat = L_pbvs_*jac_.jacobian(mb, mbc, X_0_s).block(0, 0, 6, jac_.dof());
+	jac_.fullJacobian(mb, shortJacMat, jacMat_);
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& PositionBasedVisServoTask::jac() const
+{
+	return jacMat_;
+}
+
+
+const Eigen::MatrixXd& PositionBasedVisServoTask::jacDot() const
 {
 	return jacDotMat_;
 }
@@ -1478,5 +1555,236 @@ void OrientationTrackingTask::zeroJacobian(Eigen::MatrixXd& jac) const
 	}
 }
 
+
+/**
+	*													RelativeDistTask
+	*/
+
+RelativeDistTask::RelativeDistTask(const rbd::MultiBody& mb,
+	const double timestep, const rbInfo& rbi1, const rbInfo& rbi2,
+	const Eigen::Vector3d& u1, const Eigen::Vector3d& u2) :
+	timestep_(timestep),
+	isVectorFixed_(false),
+	eval_(1),
+	speed_(1),
+	normalAcc_(1),
+	jacMat_(1, mb.nrDof())
+{
+	rbInfo_[0] = RelativeDistTask::RelativeBodiesInfo(mb, rbi1, u1);
+	rbInfo_[1] = RelativeDistTask::RelativeBodiesInfo(mb, rbi2, u2);
+	if(u1!=Eigen::Vector3d::Zero() && u2!=Eigen::Vector3d::Zero())
+	{
+		isVectorFixed_ = true;
+	}
+}
+
+RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const rbd::MultiBody& mb,
+	const rbInfo& rbi, const Eigen::Vector3d& fixedVector) :
+	b1Index(mb.bodyIndexById(std::get<0>(rbi))),
+	r_b1_p(std::get<1>(rbi)),
+	r_0_b2p(std::get<2>(rbi)),
+	jac(mb, std::get<0>(rbi), r_b1_p),
+	u(fixedVector),
+	offn(Eigen::Vector3d::Zero())
+{
+}
+
+void RelativeDistTask::robotPoint(const int bIndex, const Eigen::Vector3d& point)
+{
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		if(rbi.b1Index==bIndex)
+		{
+			rbi.r_b1_p = point;
+			rbi.jac.point(point);
+		}
+	}
+}
+
+void RelativeDistTask::envPoint(const int bIndex, const Eigen::Vector3d& point)
+{
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		if(rbi.b1Index==bIndex)
+		{
+			rbi.r_0_b2p = point;
+		}
+	}
+}
+
+void RelativeDistTask::vector(const int bIndex, const Eigen::Vector3d& u)
+{
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		if(rbi.b1Index==bIndex)
+		{
+			rbi.u = u;
+		}
+	}
+}
+
+void RelativeDistTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+	const std::vector<sva::MotionVecd>& normalAccB)
+{
+	double sign = 1;
+	jacMat_.setZero();
+	eval_.setZero();
+	speed_.setZero();
+	normalAcc_.setZero();
+	for(RelativeBodiesInfo& rbi : rbInfo_)
+	{
+		//Compute the error
+		sva::PTransformd X_0_p1 = sva::PTransformd(rbi.r_b1_p)*mbc.bodyPosW[rbi.b1Index];
+		Eigen::Vector3d r_0_p2 = rbi.r_0_b2p;
+		Eigen::Vector3d r_p2_p1 = X_0_p1.translation()-r_0_p2;
+		double d;
+		Eigen::Vector3d n, dn;
+		if(isVectorFixed_)
+		{
+			d = std::abs(r_p2_p1.dot(rbi.u));
+			n = -rbi.u;
+			dn = Eigen::Vector3d::Zero();
+		}
+		else
+		{
+			d = r_p2_p1.norm();
+			n = (r_0_p2 - X_0_p1.translation())/d;
+			dn = (n - rbi.offn)/timestep_;
+		}
+		eval_[0] += sign*d;
+
+		//Compute the jacobian matrix
+		Eigen::MatrixXd shortMat;
+		Eigen::MatrixXd fullJac;
+		fullJac.resize(3, mb.nrDof());
+		shortMat = rbi.jac.jacobian(mb, mbc);
+		rbi.jac.fullJacobian(mb, shortMat.block(3, 0, 3, mb.nrDof()), fullJac);
+		jacMat_ += sign*n.transpose()*fullJac;
+
+		//Compute the speed
+		speed_[0] += sign*rbi.jac.velocity(mb, mbc).linear().dot(n);
+
+		//Compute the normal acceleration (JDot alpha)
+		normalAcc_[0] += sign*(fullJac*rbd::dofToVector(mb, mbc.alpha)).dot(dn)
+					+ sign*rbi.jac.normalAcceleration(mb, mbc, normalAccB).linear().dot(n);
+
+		//Update offn and sign
+		//little hack: sign is +1 for the first pair and -1 for the second
+		sign *= -1;
+		rbi.offn = n;
+	}
+}
+
+const Eigen::VectorXd& RelativeDistTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& RelativeDistTask::jac() const
+{
+	return jacMat_;
+}
+
+/**
+	*													VectorOrientationTask
+	*/
+
+VectorOrientationTask::VectorOrientationTask(const rbd::MultiBody &mb, int bodyId,
+	const Eigen::Vector3d &bodyVector, const Eigen::Vector3d &targetVector) :
+	actualVector_(Eigen::Vector3d::Zero()),
+	bodyVector_(bodyVector),
+	targetVector_(targetVector),
+	bodyIndex_(mb.bodyIndexById(bodyId)),
+	jac_(mb, bodyId),
+	eval_(3),
+	speed_(3),
+	normalAcc_(3),
+	jacMat_(3, mb.nrDof())
+{
+}
+
+void VectorOrientationTask::update(const rbd::MultiBody &mb,
+	const rbd::MultiBodyConfig &mbc,
+	const std::vector<sva::MotionVecd> &normalAccB)
+{
+	//Evaluation of eval
+	Eigen::Matrix3d E_0_b = mbc.bodyPosW[bodyIndex_].rotation().transpose();
+	actualVector_ = E_0_b*bodyVector_;
+	eval_ = targetVector_ - actualVector_;
+
+	//Evaluation of speed and jacMat
+	Eigen::MatrixXd shortMat, fullJac(3, mb.nrDof());
+	shortMat = jac_.bodyJacobian(mb, mbc);
+	jac_.fullJacobian(mb, shortMat.block(0, 0, 3, mb.nrDof()), fullJac);
+	jacMat_ = -E_0_b*skewMatrix(bodyVector_)*fullJac;
+	Eigen::Vector3d w_b_b = jac_.bodyVelocity(mb, mbc).angular();
+	speed_ = E_0_b*(w_b_b.cross(bodyVector_));
+
+	//Evaluation of normalAcc
+	Eigen::Vector3d bodyNormalAcc = jac_.bodyNormalAcceleration(mb, mbc, normalAccB).angular();
+	normalAcc_ = w_b_b.cross(w_b_b.cross(bodyVector_));
+	normalAcc_ += bodyNormalAcc.cross(bodyVector_);
+	normalAcc_ = E_0_b*normalAcc_;
+}
+
+Eigen::Matrix3d VectorOrientationTask::skewMatrix(const Eigen::Vector3d &v)
+{
+	Eigen::Matrix3d m;
+	m << 0., -v[2], v[1],
+		 v[2], 0., -v[0],
+		 -v[1], v[0], 0.;
+	return m;
+}
+
+void VectorOrientationTask::bodyVector(const Eigen::Vector3d &vector)
+{
+	bodyVector_ = vector;
+}
+
+const Eigen::Vector3d &VectorOrientationTask::bodyVector() const
+{
+	return actualVector_;
+}
+
+void VectorOrientationTask::target(const Eigen::Vector3d &vector)
+{
+	targetVector_ = vector;
+}
+
+const Eigen::VectorXd& VectorOrientationTask::eval() const
+{
+	return eval_;
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::speed() const
+{
+	return speed_;
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::normalAcc() const
+{
+	return normalAcc_;
+}
+
+
+const Eigen::MatrixXd& VectorOrientationTask::jac() const
+{
+	return jacMat_;
+}
 
 } // namespace tasks

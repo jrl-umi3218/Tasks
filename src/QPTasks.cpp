@@ -1176,6 +1176,58 @@ const Eigen::VectorXd& GazeTask::normalAcc()
 
 
 /**
+	*																PositionBasedVisServoTask
+	*/
+
+
+PositionBasedVisServoTask::PositionBasedVisServoTask(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, int bodyId,
+	const sva::PTransformd& X_t_s,
+	const sva::PTransformd& X_b_s):
+	pbvst_(mbs[robotIndex], bodyId, X_t_s, X_b_s),
+	robotIndex_(robotIndex)
+{}
+
+
+int PositionBasedVisServoTask::dim()
+{
+	return 6;
+}
+
+
+void PositionBasedVisServoTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	pbvst_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+}
+
+
+const Eigen::MatrixXd& PositionBasedVisServoTask::jac()
+{
+	return pbvst_.jac();
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::eval()
+{
+	return pbvst_.eval();
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::speed()
+{
+	return pbvst_.speed();
+}
+
+
+const Eigen::VectorXd& PositionBasedVisServoTask::normalAcc()
+{
+	return pbvst_.normalAcc();
+}
+
+
+/**
 	*													CoMTask
 	*/
 
@@ -1849,6 +1901,106 @@ const Eigen::VectorXd& OrientationTrackingTask::speed()
 const Eigen::VectorXd& OrientationTrackingTask::normalAcc()
 {
 	return normalAcc_;
+}
+
+/**
+	*											RelativeDistTask
+	*/
+
+RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const int rIndex, const double timestep,
+	tasks::RelativeDistTask::rbInfo& rbi1, tasks::RelativeDistTask::rbInfo& rbi2, const Eigen::Vector3d& u1, const Eigen::Vector3d& u2) :
+	rIndex_(rIndex),
+	rdt_(mbs[rIndex], timestep, rbi1, rbi2, u1, u2)
+{
+}
+
+int RelativeDistTask::dim()
+{
+	return 1;
+}
+
+
+void RelativeDistTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	rdt_.update(mbs[rIndex_], mbcs[rIndex_], data.normalAccB(rIndex_));
+
+}
+
+
+const Eigen::MatrixXd& RelativeDistTask::jac()
+{
+	return rdt_.jac();
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::eval()
+{
+	return rdt_.eval();
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::speed()
+{
+	return rdt_.speed();
+}
+
+
+const Eigen::VectorXd& RelativeDistTask::normalAcc()
+{
+	return rdt_.normalAcc();
+}
+
+
+/**
+	*											VectorOrientationTask
+	*/
+
+
+VectorOrientationTask::VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int rI,
+	int bodyId, const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector):
+	vot_(mbs[rI], bodyId, bodyVector, targetVector),
+	robotIndex_(rI)
+{
+}
+
+
+int VectorOrientationTask::dim()
+{
+	return 3;
+}
+
+
+void VectorOrientationTask::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs,
+	const SolverData& data)
+{
+	vot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+}
+
+
+const Eigen::MatrixXd& VectorOrientationTask::jac()
+{
+	return vot_.jac();
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::eval()
+{
+	return vot_.eval();
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::speed()
+{
+	return vot_.speed();
+}
+
+
+const Eigen::VectorXd& VectorOrientationTask::normalAcc()
+{
+	return vot_.normalAcc();
 }
 
 } // namespace qp

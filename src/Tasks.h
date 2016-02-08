@@ -310,7 +310,43 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
-	Eigen::MatrixXd interactionMat_;
+};
+
+
+
+class PositionBasedVisServoTask
+{
+public:
+	PositionBasedVisServoTask(const rbd::MultiBody &mb, int bodyId,
+		const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s);
+
+	void error(const sva::PTransformd& X_t_s);
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+			const std::vector<sva::MotionVecd>& normalAccB);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+	const Eigen::MatrixXd& jacDot() const;
+
+private:
+	sva::PTransformd X_t_s_;
+	sva::PTransformd X_b_s_;
+	double angle_;
+	Eigen::Vector3d axis_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+
+	Eigen::Matrix<double, 6, 6> L_pbvs_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::MatrixXd jacDotMat_;
 };
 
 
@@ -539,6 +575,92 @@ private:
 	Eigen::MatrixXd shortJacMat_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+};
+
+class RelativeDistTask
+{
+public:
+	//Give information on 1 body (bodyId, r_b1_p, r_0_b2p)
+	typedef std::tuple<int, Eigen::Vector3d, Eigen::Vector3d> rbInfo;
+
+public:
+	RelativeDistTask(const rbd::MultiBody& mb, const double timestep,
+		const rbInfo& rbi1, const rbInfo& rbi2,
+		const Eigen::Vector3d& u1=Eigen::Vector3d::Zero(),
+		const Eigen::Vector3d& u2=Eigen::Vector3d::Zero());
+
+	void robotPoint(const int bIndex, const Eigen::Vector3d& point);
+	void envPoint(const int bIndex, const Eigen::Vector3d& point);
+	void vector(const int bIndex, const Eigen::Vector3d& u);
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+
+private:
+	struct RelativeBodiesInfo
+	{
+		RelativeBodiesInfo()
+		{}
+
+		RelativeBodiesInfo(const rbd::MultiBody& mb,
+			const rbInfo& rbi, const Eigen::Vector3d& fixedVector);
+
+		int b1Index;
+		Eigen::Vector3d r_b1_p, r_0_b2p, n;
+		rbd::Jacobian jac;
+		Eigen::Vector3d u;
+		Eigen::Vector3d offn;
+	};
+
+private:
+	double timestep_;
+	bool isVectorFixed_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
+
+	RelativeBodiesInfo rbInfo_[2];
+};
+
+class VectorOrientationTask
+{
+public:
+	VectorOrientationTask(const rbd::MultiBody& mb, int bodyId,
+	const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector);
+
+	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
+		const std::vector<sva::MotionVecd>& normalAccB);
+
+	void bodyVector(const Eigen::Vector3d& vector);
+	const Eigen::Vector3d& bodyVector() const;
+	void target(const Eigen::Vector3d& vector);
+
+	const Eigen::VectorXd& eval() const;
+	const Eigen::VectorXd& speed() const;
+	const Eigen::VectorXd& normalAcc() const;
+
+	const Eigen::MatrixXd& jac() const;
+
+private:
+	Eigen::Matrix3d skewMatrix(const Eigen::Vector3d& v);
+
+private:
+	Eigen::Vector3d actualVector_, bodyVector_, targetVector_;
+	int bodyIndex_;
+	rbd::Jacobian jac_;
+
+	Eigen::VectorXd eval_;
+	Eigen::VectorXd speed_;
+	Eigen::VectorXd normalAcc_;
+	Eigen::MatrixXd jacMat_;
 };
 
 } // namespace tasks
