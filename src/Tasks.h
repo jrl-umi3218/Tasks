@@ -577,7 +577,7 @@ private:
 	Eigen::MatrixXd jacDotMat_;
 };
 
-class RelativeDistTask
+class TASKS_DLLAPI RelativeDistTask
 {
 public:
 	//Give information on 1 body (bodyId, r_b1_p, r_0_b2p)
@@ -630,7 +630,7 @@ private:
 	RelativeBodiesInfo rbInfo_[2];
 };
 
-class VectorOrientationTask
+class TASKS_DLLAPI VectorOrientationTask
 {
 public:
 	VectorOrientationTask(const rbd::MultiBody& mb, int bodyId,

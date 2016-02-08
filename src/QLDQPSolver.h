@@ -52,7 +52,7 @@ public:
 		const std::vector<Inequality*>& inEqConstr,
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr,
-		std::ostream& out) const;
+		std::ostream& out) const override;
 
 private:
 	Eigen::QLD qld_;
