@@ -600,7 +600,11 @@ class TASKS_DLLAPI TransformTaskCommon : public HighLevelTask
 public:
 	TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 		int bodyId, const sva::PTransformd& X_0_t,
-		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity())
+	:  tt_(mbs[robotIndex], bodyId, X_0_t, X_b_p),
+	   robotIndex_(robotIndex)
+	{
+	}
 
 	tasks::TransformTask& task()
 	{
@@ -627,12 +631,30 @@ public:
 		return tt_.X_b_p();
 	}
 
-	virtual int dim();
+	virtual int dim()
+	{
+	  return 6;
+	}
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac()
+	{
+	  return tt_.jac();
+	}
+
+	virtual const Eigen::VectorXd& eval()
+	{
+	  return tt_.eval();
+	}
+
+	virtual const Eigen::VectorXd& speed()
+	{
+	  return tt_.speed();
+	}
+
+	virtual const Eigen::VectorXd& normalAcc()
+	{
+	  return tt_.normalAcc();
+	}
 
 protected:
 	transform_task_t tt_;

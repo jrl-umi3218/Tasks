@@ -949,56 +949,6 @@ const Eigen::VectorXd& OrientationTask::normalAcc()
 
 
 /**
-	*											TransformTaskCommon
-	*/
-
-
-template <typename transform_task_t>
-TransformTaskCommon<transform_task_t>::TransformTaskCommon(
-		const std::vector<rbd::MultiBody>& mbs, int rI,
-	int bodyId, const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
-	tt_(mbs[rI], bodyId, X_0_t, X_b_p),
-	robotIndex_(rI)
-{
-}
-
-
-template <typename transform_task_t>
-int TransformTaskCommon<transform_task_t>::dim()
-{
-	return 6;
-}
-
-
-template <typename transform_task_t>
-const Eigen::MatrixXd& TransformTaskCommon<transform_task_t>::jac()
-{
-	return tt_.jac();
-}
-
-
-template <typename transform_task_t>
-const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::eval()
-{
-	return tt_.eval();
-}
-
-
-template <typename transform_task_t>
-const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::speed()
-{
-	return tt_.speed();
-}
-
-
-template <typename transform_task_t>
-const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::normalAcc()
-{
-	return tt_.normalAcc();
-}
-
-
-/**
 	*											SurfaceTransformTask
 	*/
 
