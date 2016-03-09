@@ -1,6 +1,7 @@
 # Tasks
 
-[![Build Status](https://travis-ci.org/jorisv/Tasks.svg?branch=master)](https://travis-ci.org/jorisv/Tasks)
+[![License LGPL 3](https://img.shields.io/badge/license-LGPLv3-green.svg)](http://www.gnu.org/licenses/lgpl-3.0.txt)
+[![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
 
 The Tasks library is designed to make real-time control for kinematics tree and list of kinematics tree.
 
@@ -42,19 +43,21 @@ To compile you need the following tools:
  * [g++]() >= 4.7 (for C++11 support)
  * [Boost](http://www.boost.org/doc/libs/1_58_0/more/getting_started/unix-variants.html) >= 1.49
  * [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) >= 3.2
- * [PyBindGen](https://launchpad.net/pybindgen) = 0.16
- * [Eigen3ToPython](https://github.com/jorisv/Eigen3ToPython) (to use the python binding)
- * [SpaceVecAlg](https://github.com/jorisv/SpaceVecAlg)
- * [RBDyn](https://github.com/jorisv/RBDyn)
- * [eigen-qld](https://github.com/jorisv/eigen-qld)
+ * [SpaceVecAlg](https://github.com/jrl-umi3218/SpaceVecAlg)
+ * [RBDyn](https://github.com/jrl-umi3218/RBDyn)
+ * [eigen-qld](https://github.com/jrl-umi3218/eigen-qld)
  * [eigen-lssol]() (Optional, if you have the LSSOL licence ask us this library)
  * [sch-core](https://github.com/jrl-umi3218/sch-core)
+
+For Python bindings:
+ * [PyBindGen](https://launchpad.net/pybindgen) = 0.16
+ * [Eigen3ToPython](https://github.com/jorisv/Eigen3ToPython) (to use the python binding)
 
 #### Building
 
 ```sh
-git clone --recursive https://github.com/jorisv/RBDyn
-cd RBDyn
+git clone --recursive https://github.com/jrl-umi3218/Tasks
+cd Tasks
 mkdir _build
 cd _build
 cmake [options] ..
