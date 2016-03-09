@@ -2,6 +2,7 @@
 
 [![License LGPL 3](https://img.shields.io/badge/license-LGPLv3-green.svg)](http://www.gnu.org/licenses/lgpl-3.0.txt)
 [![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
+[![AppVeyor status](https://ci.appveyor.com/api/projects/status/nr1staa8w3hmvy3f/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
 
 The Tasks library is designed to make real-time control for kinematics tree and list of kinematics tree.
 
