@@ -405,7 +405,6 @@ bool CollisionConstr::rmCollision(int collId)
 
 	if(it != dataVec_.end())
 	{
-		delete it->pair;
 		dataVec_.erase(it);
 		return true;
 	}
