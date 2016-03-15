@@ -310,6 +310,7 @@ private:
 		CollData(std::vector<BodyCollData> bcds, int collId,
 			sch::S_Object* body1, sch::S_Object* body2,
 			double di, double ds, double damping, double dampingOff);
+		~CollData();
 
 		sch::CD_Pair* pair;
 		Eigen::Vector3d normVecDist;
