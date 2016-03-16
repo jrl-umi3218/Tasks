@@ -35,6 +35,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
 set_target_properties(Tasks PROPERTIES COMPILE_FLAGS "-Dtasks_EXPORTS")
+set_target_properties(Tasks PROPERTIES SOVERSION 0 VERSION 0.9.0)
 
 PKG_CONFIG_USE_DEPENDENCY(Tasks sch-core)
 PKG_CONFIG_USE_DEPENDENCY(Tasks SpaceVecAlg)
