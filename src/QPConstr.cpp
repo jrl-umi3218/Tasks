@@ -348,13 +348,6 @@ CollisionConstr::CollData::CollData(
 {
 }
 
-CollisionConstr::CollData::~CollData()
-{
-	delete pair;
-}
-
-
-
 CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double step):
 	dataVec_(),
 	step_(step),
