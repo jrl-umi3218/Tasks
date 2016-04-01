@@ -250,9 +250,9 @@ public:
 		* @param dampingOff \f$ \xi_{\text{off}} \f$.
 		*/
 	void addCollision(const std::vector<rbd::MultiBody>& mbs, int collId,
-		int r1Index, int r1BodyId,
+		int r1Index, const std::string& r1BodyName,
 		sch::S_Object* body1, const sva::PTransformd& X_op1_o1,
-		int r2Index, int r2BodyId,
+		int r2Index, const std::string& r2BodyName,
 		sch::S_Object* body2, const sva::PTransformd& X_op2_o2,
 		double di, double ds, double damping, double dampingOff=0.);
 
@@ -295,13 +295,14 @@ private:
 	struct BodyCollData
 	{
 		BodyCollData(const rbd::MultiBody& mb,
-			int rIndex, int bodyId, sch::S_Object* hull,
-			const sva::PTransformd& X_op_o);
+			int rIndex, const std::string& bodyName,
+			sch::S_Object* hull, const sva::PTransformd& X_op_o);
 
 		sch::S_Object* hull;
 		rbd::Jacobian jac;
 		sva::PTransformd X_op_o;
-		int rIndex, bIndex, bodyId;
+		int rIndex, bIndex;
+		std::string bodyName;
 	};
 
 	struct CollData
@@ -547,7 +548,8 @@ public:
 		* \f$ \underline{v} \in \mathbb{R}^{n} \f$ and
 		* \f$ \overline{v} \in \mathbb{R}^{n} \f$.
 		*/
-	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, 
+		const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& speed);
 
@@ -564,17 +566,18 @@ public:
 		* @param lowerSpeed Lower velocity \f$ \underline{v} \in \mathbb{R}^{n} \f$.
 		* @param upperSpeed Upper velocity \f$ \overline{v} \in \mathbb{R}^{n} \f$.
 		*/
-	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs,
+		const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed);
 
 	/**
 		* Remove a bounded speed constraint.
-		* @param bodyId Remove the constraint apply on bodyId.
+		* @param bodyName Remove the constraint applied on bodyName.
 		* @return true if the constraint has been removed false if bodyId
 		* was associated with no constraint.
 		*/
-	bool removeBoundedSpeed(int bodyId);
+	bool removeBoundedSpeed(const std::string& bodyName);
 
 	/// Remove all bounded speed constraint.
 	void resetBoundedSpeeds();
@@ -607,14 +610,15 @@ private:
 	struct BoundedSpeedData
 	{
 		BoundedSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
-			const Eigen::VectorXd& ls, const Eigen::VectorXd& us, int bId):
+			const Eigen::VectorXd& ls, const Eigen::VectorXd& us,
+			const std::string& bName):
 			jac(j),
 			bodyPoint(j.point()),
 			dof(d),
 			lSpeed(ls),
 			uSpeed(us),
 			body(j.jointsPath().back()),
-			bodyId(bId)
+			bodyName(bName)
 		{}
 
 		rbd::Jacobian jac;
@@ -622,7 +626,7 @@ private:
 		Eigen::MatrixXd dof;
 		Eigen::VectorXd lSpeed, uSpeed;
 		int body;
-		int bodyId;
+		std::string bodyName;
 	};
 
 private:

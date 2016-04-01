@@ -69,12 +69,13 @@ struct TASKS_DLLAPI ContactId
 	/**
 		* @param r1Index First robot imply in the contact.
 		* @param r2Index Second robot imply in the contact.
-		* @param r1BodyId Body id of robot r1Index imply in the contact.
-		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1BodyName Body name of robot r1Index imply in the contact.
+		* @param r2BodyName Body name of robot r2Index imply in the contact.
 		* @param ambiguityId If two or more contacts have the same r1Index, r2Index,
 		* r1BodyId, r2BodyId the ambiguityId is used to dissociate them.
 		*/
-	ContactId(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+	ContactId(int r1Index, int r2Index,
+		const std::string& r1BodyName, const std::string& r2BodyName,
 		int ambiguityId=-1);
 
 	bool operator==(const ContactId& cId) const;
@@ -83,7 +84,7 @@ struct TASKS_DLLAPI ContactId
 	bool operator<(const ContactId& cId) const;
 
 	int r1Index, r2Index;
-	int r1BodyId, r2BodyId;
+	std::string r1BodyName, r2BodyName;
 	int ambiguityId;
 };
 
@@ -100,8 +101,8 @@ struct TASKS_DLLAPI UnilateralContact
 	/**
 		* @param r1Index First robot imply in the contact.
 		* @param r2Index Second robot imply in the contact.
-		* @param r1BodyId Body id of robot r1Index imply in the contact.
-		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1BodyName Body name of robot r1Index imply in the contact.
+		* @param r2BodyName Body name of robot r2Index imply in the contact.
 		* @param r1Points Contact points in r1BodyId frame.
 		* @param r1Frame Friction cone frame in rbBodyId frame.
 		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
@@ -111,7 +112,8 @@ struct TASKS_DLLAPI UnilateralContact
 		* the contact constraints.
 		* @see ContactConstrCommon::addDofContact
 		*/
-	UnilateralContact(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+	UnilateralContact(int r1Index, int r2Index,
+		const std::string& r1BodyName, const std::string& r2BodyName,
 		std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
@@ -121,8 +123,8 @@ struct TASKS_DLLAPI UnilateralContact
 	/**
 		* @param r1Index First robot imply in the contact.
 		* @param r2Index Second robot imply in the contact.
-		* @param r1BodyId Body id of robot r1Index imply in the contact.
-		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1BodyName Body name of robot r1Index imply in the contact.
+		* @param r2BodyName Body name of robot r2Index imply in the contact.
 		* @param ambId ambiguityId.
 		* @param r1Points Contact points in r1BodyId frame.
 		* @param r1Frame Friction cone frame in rbBodyId frame.
@@ -134,7 +136,8 @@ struct TASKS_DLLAPI UnilateralContact
 		* @see ContactConstrCommon::addDofContact
 		* @see ContactId::ContactId
 		*/
-	UnilateralContact(int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+	UnilateralContact(int r1Index, int r2Index,
+		const std::string& r1BodyName, const std::string& r2BodyName,
 		int ambId, std::vector<Eigen::Vector3d> r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
@@ -233,8 +236,8 @@ struct TASKS_DLLAPI BilateralContact
 	/**
 		* @param r1Index First robot imply in the contact.
 		* @param r2Index Second robot imply in the contact.
-		* @param r1BodyId Body id of robot r1Index imply in the contact.
-		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1BodyName Body name of robot r1Index imply in the contact.
+		* @param r2BodyName Body name of robot r2Index imply in the contact.
 		* @param r1Points Contact points in r1BodyId frame.
 		* @param r1Frames Friction cone frame in r1Points order in rbBodyId frame.
 		* @param X_b1_b2 Transformation between r1BodyId and r2BodyId frame.
@@ -245,7 +248,7 @@ struct TASKS_DLLAPI BilateralContact
 		* @see ContactConstrCommon::addDofContact
 		*/
 	BilateralContact(int r1Index, int r2Index,
-		int r1BodyId, int r2BodyId,
+		const std::string& r1BodyName, const std::string& r2BodyName,
 		std::vector<Eigen::Vector3d> r1Points,
 		const std::vector<Eigen::Matrix3d>& r1Frames,
 		const sva::PTransformd& X_b1_b2,
@@ -255,8 +258,8 @@ struct TASKS_DLLAPI BilateralContact
 	/**
 		* @param r1Index First robot imply in the contact.
 		* @param r2Index Second robot imply in the contact.
-		* @param r1BodyId Body id of robot r1Index imply in the contact.
-		* @param r2BodyId Body id of robot r2Index imply in the contact.
+		* @param r1BodyName Body id of robot r1Index imply in the contact.
+		* @param r2BodyName Body id of robot r2Index imply in the contact.
 		* @param ambId ambiguityId.
 		* @param r1Points Contact points in r1BodyId frame.
 		* @param r1Frames Friction cone frame in r1Points order in rbBodyId frame.
@@ -269,8 +272,8 @@ struct TASKS_DLLAPI BilateralContact
 		* @see ContactId::ContactId
 		*/
 	BilateralContact(int r1Index, int r2Index,
-		int r1BodyId, int r2BodyId, int ambId,
-		std::vector<Eigen::Vector3d> r1Points,
+		const std::string& r1BodyName, const std::string& r2BodyName,
+		int ambId, std::vector<Eigen::Vector3d> r1Points,
 		const std::vector<Eigen::Matrix3d>& r1Frames,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,

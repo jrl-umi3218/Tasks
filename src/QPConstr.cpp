@@ -321,13 +321,13 @@ sch::Matrix4x4 tosch(const sva::PTransformd& t)
 
 
 CollisionConstr::BodyCollData::BodyCollData(const rbd::MultiBody& mb,
-	int rI, int bId, sch::S_Object* h, const sva::PTransformd& X):
+	int rI, const std::string& bName, sch::S_Object* h, const sva::PTransformd& X):
 	hull(h),
-	jac(mb, bId),
+	jac(mb, bName),
 	X_op_o(X),
 	rIndex(rI),
-	bIndex(mb.bodyIndexById(bId)),
-	bodyId(bId)
+	bIndex(mb.bodyIndexByName(bName)),
+	bodyName(bName)
 {}
 
 
@@ -365,9 +365,9 @@ CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double 
 
 
 void CollisionConstr::addCollision(const std::vector<rbd::MultiBody>& mbs, int collId,
-	int r1Index, int r1BodyId,
+	int r1Index, const std::string& r1BodyName,
 	sch::S_Object* body1, const sva::PTransformd& X_op1_o1,
-	int r2Index, int r2BodyId,
+	int r2Index, const std::string& r2BodyName,
 	sch::S_Object* body2, const sva::PTransformd& X_op2_o2,
 	double di, double ds, double damping, double dampingOff)
 {
@@ -376,11 +376,11 @@ void CollisionConstr::addCollision(const std::vector<rbd::MultiBody>& mbs, int c
 	std::vector<BodyCollData> bodies;
 	if(mb1.nrDof() > 0)
 	{
-		bodies.emplace_back(mb1, r1Index, r1BodyId, body1, X_op1_o1);
+		bodies.emplace_back(mb1, r1Index, r1BodyName, body1, X_op1_o1);
 	}
 	if(mb2.nrDof() > 0)
 	{
-		bodies.emplace_back(mb2, r2Index, r2BodyId, body2, X_op2_o2);
+		bodies.emplace_back(mb2, r2Index, r2BodyName, body2, X_op2_o2);
 	}
 
 	dataVec_.emplace_back(std::move(bodies), collId, body1, body2,
@@ -971,19 +971,14 @@ std::string GripperTorqueConstr::nameInEq() const
 }
 
 
-std::string GripperTorqueConstr::descInEq(const std::vector<rbd::MultiBody>& mbs,
+std::string GripperTorqueConstr::descInEq(const std::vector<rbd::MultiBody>& /* mbs */,
 	int line)
 {
 	std::stringstream ss;
 	const GripperData& gd = dataVec_[line];
 
-	const rbd::MultiBody& mb1 = mbs[gd.contactId.r1Index];
-	const rbd::MultiBody& mb2 = mbs[gd.contactId.r1Index];
-	int r1BodyIndex = mb1.bodyIndexById(gd.contactId.r1BodyId);
-	int r2BodyIndex = mb2.bodyIndexById(gd.contactId.r2BodyId);
-
-	ss << mb1.body(r1BodyIndex).name() << "/" <<
-				mb2.body(r2BodyIndex).name() << std::endl;
+	ss << gd.contactId.r1BodyName << "/" <<
+				gd.contactId.r2BodyName << std::endl;
 	ss << "limits: " << gd.torqueLimit << std::endl;
 	return ss.str();
 }
@@ -1026,30 +1021,30 @@ BoundedSpeedConstr::BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 
 
 void BoundedSpeedConstr::addBoundedSpeed(
-	const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	const std::vector<rbd::MultiBody>& mbs, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& speed)
 {
-	addBoundedSpeed(mbs, bodyId, bodyPoint, dof, speed, speed);
+	addBoundedSpeed(mbs, bodyName, bodyPoint, dof, speed, speed);
 }
 
 
 void BoundedSpeedConstr::addBoundedSpeed(
-	const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	const std::vector<rbd::MultiBody>& mbs, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed)
 {
-	rbd::Jacobian jac(mbs[robotIndex_], bodyId, bodyPoint);
-	cont_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyId});
+	rbd::Jacobian jac(mbs[robotIndex_], bodyName, bodyPoint);
+	cont_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyName});
 }
 
 
-bool BoundedSpeedConstr::removeBoundedSpeed(int bodyId)
+bool BoundedSpeedConstr::removeBoundedSpeed(const std::string& bodyName)
 {
 	auto it = std::find_if(cont_.begin(), cont_.end(),
-		[bodyId](const BoundedSpeedData& data)
+		[bodyName](const BoundedSpeedData& data)
 		{
-			return data.bodyId == bodyId;
+			return data.bodyName == bodyName;
 		});
 
 	if(it != cont_.end())

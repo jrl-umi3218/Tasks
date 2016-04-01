@@ -111,12 +111,13 @@ protected:
 	{
 		ContactData() {}
 		ContactData(const rbd::MultiBody& mb,
-			int bodyId, int lambdaBegin,
+			const std::string& bodyName, int lambdaBegin,
 			std::vector<Eigen::Vector3d> points,
 			const std::vector<FrictionCone>& cones);
 
 
-		int bodyIndex, lambdaBegin;
+		std::string bodyIndex;
+		int lambdaBegin;
 		rbd::Jacobian jac;
 		std::vector<Eigen::Vector3d> points;
 		// BEWARE generator are minus to avoid one multiplication by -1 in the
@@ -165,11 +166,11 @@ protected:
 struct SpringJoint
 {
 	SpringJoint(){}
-	SpringJoint(int jId, double K, double C, double O):
-		jointId(jId),K(K),C(C),O(O)
+	SpringJoint(const std::string& jName, double K, double C, double O):
+		jointName(jName),K(K),C(C),O(O)
 	{}
 
-	int jointId;
+	std::string jointName;
 	double K, C, O;
 };
 

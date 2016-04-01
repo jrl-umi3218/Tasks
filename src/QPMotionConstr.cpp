@@ -62,8 +62,8 @@ void PositiveLambda::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	for(std::size_t i = 0; i < allC.size(); ++i)
 	{
 		cont_.push_back({allC[i].contactId,
-										data.lambdaBegin(int(i)),
-										allC[i].nrLambda()});
+				data.lambdaBegin(int(i)),
+				allC[i].nrLambda()});
 	}
 }
 
@@ -80,7 +80,7 @@ std::string PositiveLambda::nameBound() const
 }
 
 
-std::string PositiveLambda::descBound(const std::vector<rbd::MultiBody>& mbs,
+std::string PositiveLambda::descBound(const std::vector<rbd::MultiBody>& /* mbs */,
 	int line)
 {
 	std::ostringstream oss;
@@ -91,10 +91,8 @@ std::string PositiveLambda::descBound(const std::vector<rbd::MultiBody>& mbs,
 		int end = begin + cd.nrLambda;
 		if(line >= begin && line < end)
 		{
-			const rbd::MultiBody& mb1 = mbs[cd.cId.r1Index];
-			const rbd::MultiBody& mb2 = mbs[cd.cId.r2Index];
-			oss << "Body 1: " << mb1.body(mb1.bodyIndexById(cd.cId.r1BodyId)).name() << std::endl;
-			oss << "Body 2: " << mb2.body(mb2.bodyIndexById(cd.cId.r2BodyId)).name() << std::endl;
+			oss << "Body 1: " << cd.cId.r1BodyName << std::endl;
+			oss << "Body 2: " << cd.cId.r2BodyName << std::endl;
 			break;
 		}
 	}
@@ -127,12 +125,12 @@ const Eigen::VectorXd& PositiveLambda::Upper() const
 
 
 MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb,
-	int bId, int lB,
+	const std::string& bName, int lB,
 	std::vector<Eigen::Vector3d> pts,
 	const std::vector<FrictionCone>& cones):
 	bodyIndex(),
 	lambdaBegin(lB),
-	jac(mb, bId),
+	jac(mb, bName),
 	points(std::move(pts)),
 	minusGenerators(cones.size())
 {
@@ -215,13 +213,13 @@ void MotionConstrCommon::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const BilateralContact& c = cCont[i];
 		if(robotIndex_ == c.contactId.r1Index)
 		{
-			cont_.emplace_back(mb, c.contactId.r1BodyId, data.lambdaBegin(int(i)),
+			cont_.emplace_back(mb, c.contactId.r1BodyName, data.lambdaBegin(int(i)),
 				c.r1Points, c.r1Cones);
 		}
 		// we don't use else to manage self contact on the robot
 		if(robotIndex_ == c.contactId.r2Index)
 		{
-			cont_.emplace_back(mb, c.contactId.r2BodyId, data.lambdaBegin(int(i)),
+			cont_.emplace_back(mb, c.contactId.r2BodyName, data.lambdaBegin(int(i)),
 				c.r2Points, c.r2Cones);
 		}
 	}
@@ -372,7 +370,7 @@ MotionSpringConstr::MotionSpringConstr(
 	const rbd::MultiBody& mb = mbs[robotIndex_];
 	for(const SpringJoint& sj: springs)
 	{
-		int index = mb.jointIndexById(sj.jointId);
+		int index = mb.jointIndexByName(sj.jointName);
 		int posInDof = mb.jointPosInDof(index);
 		springs_.push_back({index, posInDof, sj.K, sj.C, sj.O});
 	}
