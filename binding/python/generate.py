@@ -84,7 +84,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # PositionTask
   posTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Vector3d&', 'pos'),
                            param('const Eigen::Vector3d&', 'bodyPoint',
                                  default_value='Eigen::Vector3d::Zero()')])
@@ -97,10 +97,10 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # OrientationTask
   oriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Quaterniond&', 'ori')])
   oriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Matrix3d&', 'ori')])
 
   oriTask.add_method('orientation', None, [param('const Eigen::Matrix3d&', 'ori')])
@@ -110,11 +110,11 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # SurfaceOrientationTask
   surfOriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                               param('int', 'bodyId'),
+                               param('const std::string&', 'bodyName'),
                                param('const Eigen::Quaterniond&', 'ori'),
                                param('const sva::PTransformd&', 'X_b_s')])
   surfOriTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                               param('int', 'bodyId'),
+                               param('const std::string&', 'bodyName'),
                                param('const Eigen::Matrix3d&', 'ori'),
                                param('const sva::PTransformd&', 'X_b_s')])
 
@@ -125,14 +125,14 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # GazeTask
   gazeTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                            param('int', 'bodyId'),
+                            param('const std::string&', 'bodyName'),
                             param('const Eigen::Vector2d&', 'point2d'),
                             param('double', 'depthEstimate'),
                             param('const sva::PTransformd&', 'X_b_gaze'),
                             param('const Eigen::Vector2d&', 'point2d_ref',
                                   default_value='Eigen::Vector2d::Zero()')])
   gazeTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                            param('int', 'bodyId'),
+                            param('const std::string&', 'bodyName'),
                             param('const Eigen::Vector3d&', 'point3d'),
                             param('const sva::PTransformd&', 'X_b_gaze'),
                             param('const Eigen::Vector2d&', 'point2d_ref',
@@ -155,7 +155,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # Position Based Visual Servoing Task
   pbvsTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                            param('int', 'bodyId'),
+                            param('const std::string&', 'bodyName'),
                             param('const sva::PTransformd&', 'X_t_s'),
                             param('const sva::PTransformd&', 'X_b_s',
                             default_value='sva::PTransformd::Identity()')])
@@ -225,7 +225,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
   multiRobotTransformTask.add_constructor(
     [param('const std::vector<rbd::MultiBody>&', 'mbs'),
      param('int', 'r1Index'), param('int', 'r2Index'),
-     param('int', 'r1BodyIndex'), param('int', 'r2BodyIndex'),
+     param('const std::string&', 'r1BodyName'), param('const std::string&', 'r2BodyName'),
      param('const sva::PTransformd&', 'X_r1b_r1s'),
      param('const sva::PTransformd&', 'X_r2b_r2s')])
 
@@ -264,7 +264,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # LinVelocityTask
   linVelTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Vector3d&', 'pos'),
                            param('const Eigen::Vector3d&', 'bodyPoint',
                                  default_value='Eigen::Vector3d::Zero()')])
@@ -277,10 +277,10 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # OrientationTrackingTask
   oriTrackTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                param('int', 'bodyId'),
+                                param('const std::string&', 'bodyName'),
                                 param('const Eigen::Vector3d&', 'bodyPoint'),
                                 param('const Eigen::Vector3d&', 'bodyAxis'),
-                                param('const std::vector<int>&', 'trackingJointId'),
+                                param('const std::vector<std::string>&', 'trackingJointName'),
                                 param('const Eigen::Vector3d&', 'trackedPoint')])
 
   oriTrackTask.add_method('trackedPoint', None, [param('const Eigen::Vector3d&', 'bPoint')])
@@ -311,7 +311,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
     cls.add_method('jac', retval('const Eigen::MatrixXd&'), [], is_const=True)
 
   transTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                             param('int', 'bodyId'),
+                             param('const std::string&', 'bodyName'),
                              param('const sva::PTransformd&', 'X_0_t'),
                              param('const sva::PTransformd&', 'X_b_p',
                                    default_value='sva::PTransformd::Identity()'),
@@ -324,7 +324,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # SurfaceTransformTask
   surfTransTask.add_constructor([param('const rbd::MultiBody&', 'mb'),
-                                 param('int', 'bodyId'),
+                                 param('const std::string&', 'bodyName'),
                                  param('const sva::PTransformd&', 'X_0_t'),
                                  param('const sva::PTransformd&', 'X_b_p',
                                        default_value='sva::PTransformd::Identity()')])
@@ -334,7 +334,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
   # RelativeDistTask
   rbInfo = relDistTask.add_class('rbInfo')
   rbInfo.add_constructor([])
-  rbInfo.add_constructor([param('int', 'bodyId'), param('Eigen::Vector3d', 'r_b1_p'),
+  rbInfo.add_constructor([param('const std::string&', 'bodyName'), param('Eigen::Vector3d', 'r_b1_p'),
                           param('Eigen::Vector3d', 'r_0_b2p')])
   relDistTask.add_constructor([param('const rbd::MultiBody&', 'mb'), param('double', 'timestep'),
                                param('rbInfo&', 'rbi1'), param('rbInfo&', 'rbi2'),
@@ -350,7 +350,7 @@ def build_tasks(posTask, oriTask, surfOriTask, gazeTask, pbvsTask, positionTask,
 
   # VectorOrientationTask
   vectOriTask.add_constructor([param('const rbd::MultiBody', 'mb'),
-                               param('int', 'bodyId'),
+                               param('const std::string&', 'bodyName'),
                                param('const Eigen::Vector3d&', 'bodyVector'),
                                param('const Eigen::Vector3d&', 'targetVector')])
   vectOriTask.add_method('update', None,
@@ -595,12 +595,13 @@ def build_qp(tasks):
   # ContactId
   contactId.add_constructor([])
   contactId.add_constructor([param('int', 'r1Index'), param('int', 'r2Index'),
-                             param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+                             param('const std::string&', 'r1BodyName'),
+                             param('const std::string&', 'r2BodyName'),
                              param('int', 'nSurf', default_value='-1')])
   contactId.add_instance_attribute('r1Index', 'int')
   contactId.add_instance_attribute('r2Index', 'int')
-  contactId.add_instance_attribute('r1BodyId', 'int')
-  contactId.add_instance_attribute('r2BodyId', 'int')
+  contactId.add_instance_attribute('r1BodyName', 'std::string')
+  contactId.add_instance_attribute('r2BodyName', 'std::string')
   contactId.add_instance_attribute('ambiguityId', 'int')
   contactId.add_binary_comparison_operator('==')
   contactId.add_binary_comparison_operator('!=')
@@ -610,7 +611,8 @@ def build_qp(tasks):
   unilateralContact.add_constructor([])
   unilateralContact.add_constructor([
     param('int', 'r1Index'), param('int', 'r2Index'),
-    param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+    param('const std::string&', 'r1BodyName'),
+    param('const std::string&', 'r2BodyName'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
     param('const sva::PTransformd&', 'X_b1_b2'),
@@ -619,7 +621,8 @@ def build_qp(tasks):
            default_value='sva::PTransformd::Identity()')])
   unilateralContact.add_constructor([
     param('int', 'r1Index'), param('int', 'r2Index'),
-    param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+    param('const std::string&', 'r1BodyName'),
+    param('const std::string&', 'r2BodyName'),
     param('int', 'ambiguityId'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
@@ -665,7 +668,8 @@ def build_qp(tasks):
   bilateralContact.add_constructor([])
   bilateralContact.add_constructor([
     param('int', 'r1Index'), param('int', 'r2Index'),
-    param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+    param('const std::string&', 'r1BodyName'),
+    param('const std::string&', 'r2BodyName'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
     param('const sva::PTransformd&', 'X_b1_b2'),
@@ -674,7 +678,8 @@ def build_qp(tasks):
            default_value='sva::PTransformd::Identity()')])
   bilateralContact.add_constructor([
     param('int', 'r1Index'), param('int', 'r2Index'),
-    param('int', 'r1BodyId'), param('int', 'r2BodyId'),
+    param('const std::string&', 'r1BodyName'),
+    param('const std::string&', 'r2BodyName'),
     param('int', 'ambiguityId'),
     param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
     param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
@@ -721,28 +726,28 @@ def build_qp(tasks):
 
   # JointStiffness
   jointStiffness.add_constructor([])
-  jointStiffness.add_constructor([param('int', 'jointId'),
+  jointStiffness.add_constructor([param('const std::string&', 'jointName'),
                                   param('double', 'stiffness')])
-  jointStiffness.add_instance_attribute('jointId', 'int')
+  jointStiffness.add_instance_attribute('jointName', 'std::string')
   jointStiffness.add_instance_attribute('stiffness', 'double')
 
   # JointGains
   jointGains.add_constructor([])
-  jointGains.add_constructor([param('int', 'jointId'),
+  jointGains.add_constructor([param('const std::string&', 'jointName'),
                               param('double', 'stiffness')])
-  jointGains.add_constructor([param('int', 'jointId'),
+  jointGains.add_constructor([param('const std::string&', 'jointName'),
                               param('double', 'stiffness'),
                               param('double', 'damping')])
-  jointGains.add_instance_attribute('jointId', 'int')
+  jointGains.add_instance_attribute('jointName', 'std::string')
   jointGains.add_instance_attribute('stiffness', 'double')
   jointGains.add_instance_attribute('damping', 'double')
 
   # SpringJoint
   springJoint.add_constructor([])
-  springJoint.add_constructor([param('int', 'jointId'),
+  springJoint.add_constructor([param('const std::string&', 'jointName'),
                                param('double', 'K'), param('double', 'C'),
                                param('double', 'O')])
-  springJoint.add_instance_attribute('jointId', 'int')
+  springJoint.add_instance_attribute('jointName', 'std::string')
   springJoint.add_instance_attribute('K', 'double')
   springJoint.add_instance_attribute('C', 'double')
   springJoint.add_instance_attribute('O', 'double')
@@ -1031,7 +1036,7 @@ def build_qp(tasks):
   # PositionTask
   posTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('int', 'robotIndex'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Vector3d&', 'pos'),
                            param('const Eigen::Vector3d&', 'bodyPoint',
                                  default_value='Eigen::Vector3d::Zero()')])
@@ -1045,11 +1050,11 @@ def build_qp(tasks):
   # OrientationTask
   oriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('int', 'robotIndex'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Quaterniond&', 'ori')])
   oriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                            param('int', 'robotIndex'),
-                           param('int', 'bodyId'),
+                           param('const std::string&', 'bodyName'),
                            param('const Eigen::Matrix3d&', 'ori')])
 
   oriTask.add_method('orientation', None, [param('const Eigen::Matrix3d&', 'ori')])
@@ -1064,7 +1069,7 @@ def build_qp(tasks):
     cls.add_method('X_b_p', retval('sva::PTransformd'), [], is_const=True)
   transTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                              param('int', 'robotIndex'),
-                             param('int', 'bodyId'),
+                             param('const std::string&', 'bodyName'),
                              param('const sva::PTransformd&', 'X_0_t'),
                              param('const sva::PTransformd&', 'X_b_p',
                                    default_value='sva::PTransformd::Identity()'),
@@ -1078,7 +1083,7 @@ def build_qp(tasks):
   # SurfaceTransformTask
   surfTransTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                  param('int', 'robotIndex'),
-                                 param('int', 'bodyId'),
+                                 param('const std::string&', 'bodyName'),
                                  param('const sva::PTransformd&', 'X_0_t'),
                                  param('const sva::PTransformd&', 'X_b_p',
                                        default_value='sva::PTransformd::Identity()')])
@@ -1088,12 +1093,12 @@ def build_qp(tasks):
   # SurfaceOrientationTask
   surfOriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                param('int', 'robotIndex'),
-                               param('int', 'bodyId'),
+                               param('const std::string&', 'bodyName'),
                                param('const Eigen::Quaterniond&', 'ori'),
                                param('const sva::PTransformd&', 'X_b_s')])
   surfOriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                param('int', 'robotIndex'),
-                               param('int', 'bodyId'),
+                               param('const std::string&', 'bodyName'),
                                param('const Eigen::Matrix3d&', 'ori'),
                                param('const sva::PTransformd&', 'X_b_s')])
 
@@ -1104,7 +1109,7 @@ def build_qp(tasks):
   # GazeTask
   gazeTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                             param('int', 'robotIndex'),
-                            param('int', 'bodyId'),
+                            param('const std::string&', 'bodyName'),
                             param('const Eigen::Vector2d&', 'point2d'),
                             param('double', 'depthEstimate'),
                             param('const sva::PTransformd&', 'X_b_gaze'),
@@ -1112,7 +1117,7 @@ def build_qp(tasks):
                                   default_value='Eigen::Vector2d::Zero()')])
   gazeTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                             param('int', 'robotIndex'),
-                            param('int', 'bodyId'),
+                            param('const std::string&', 'bodyName'),
                             param('const Eigen::Vector3d&', 'point3d'),
                             param('const sva::PTransformd&', 'X_b_gaze'),
                             param('const Eigen::Vector2d&', 'point2d_ref',
@@ -1128,7 +1133,7 @@ def build_qp(tasks):
   # PositionBasedVisServoTask
   pbvsTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                             param('int', 'robotIndex'),
-                            param('int', 'bodyId'),
+                            param('const std::string&', 'bodyName'),
                             param('const sva::PTransformd&', 'X_t_s'),
                             param('const sva::PTransformd&', 'X_b_s',
                             default_value='sva::PTransformd::Identity()')])
@@ -1185,7 +1190,7 @@ def build_qp(tasks):
   torqueTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                param('int', 'robotIndex'),
                                param('const TorqueBound&', 'tb'),
-                               param('int', 'efId'),
+                               param('const std::string&', 'efName'),
                                param('double', 'weight')])
 
   torqueTask.add_method('update', None,
@@ -1249,7 +1254,8 @@ def build_qp(tasks):
   multiRobotTransformTask.add_constructor(
       [param('const std::vector<rbd::MultiBody>&', 'mbs'),
       param('int', 'r1Index'), param('int', 'r2Index'),
-      param('int', 'r1BodyIndex'), param('int', 'r2BodyIndex'),
+      param('const std::string&', 'r1BodyName'),
+      param('const std::string&', 'r2BodyName'),
       param('const sva::PTransformd&', 'X_r1b_r1s'),
       param('const sva::PTransformd&', 'X_r2b_r2s'),
       param('double', 'stiffness'), param('double', 'weight')])
@@ -1306,7 +1312,7 @@ def build_qp(tasks):
   # LinVelocityTask
   linVelTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                               param('int', 'robotIndex'),
-                              param('int', 'bodyId'),
+                              param('const std::string&', 'bodyName'),
                               param('const Eigen::Vector3d&', 'pos'),
                               param('const Eigen::Vector3d&', 'bodyPoint',
                                     default_value='Eigen::Vector3d::Zero()')])
@@ -1320,10 +1326,10 @@ def build_qp(tasks):
   # OrientationTrackingTask
   oriTrackTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                 param('int', 'robotIndex'),
-                                param('int', 'bodyId'),
+                                param('const std::string&', 'bodyName'),
                                 param('const Eigen::Vector3d&', 'bodyPoint'),
                                 param('const Eigen::Vector3d&', 'bodyAxis'),
-                                param('const std::vector<int>&', 'trackingJointId'),
+                                param('const std::vector<std::string>&', 'trackingJointName'),
                                 param('const Eigen::Vector3d&', 'trackedPoint')])
 
   oriTrackTask.add_method('trackedPoint', None, [param('const Eigen::Vector3d&', 'bPoint')])
@@ -1338,20 +1344,20 @@ def build_qp(tasks):
                                   param('int', 'robotIndex'),
                                   param('tasks::qp::HighLevelTask*', 'hl',
                                         transfer_ownership=False),
-                                  param('const std::vector<int>&', 'selectedJointsId')])
+                                  param('const std::vector<std::string>&', 'selectedJointsName')])
   jointsSelector.add_method('ActiveJoints', retval('tasks::qp::JointsSelector'),
                             [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                              param('int', 'robotIndex'),
                              param('tasks::qp::HighLevelTask*', 'hl',
                                    transfer_ownership=False),
-                             param('const std::vector<int>&', 'activeJointsId')],
+                             param('const std::vector<std::string>&', 'activeJointsName')],
                             is_static=True)
   jointsSelector.add_method('UnactiveJoints', retval('tasks::qp::JointsSelector'),
                             [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                              param('int', 'robotIndex'),
                              param('tasks::qp::HighLevelTask*', 'hl',
                                    transfer_ownership=False),
-                             param('const std::vector<int>&', 'unactiveJointsId')],
+                             param('const std::vector<std::string>&', 'unactiveJointsName')],
                             is_static=True)
 
   # RelativeDistTask
@@ -1363,20 +1369,20 @@ def build_qp(tasks):
                                param('const Eigen::Vector3d&', 'u2', default_value='Eigen::Vector3d::Zero()')])
   relDistTask.add_method('robotPoint', None,
                          [param('const rbd::MultiBody&', 'mbs'),
-                          param('const int', 'bId'),
+                          param('const std::string&', 'bName'),
                           param('const Eigen::Vector3d&', 'point')])
   relDistTask.add_method('envPoint', None,
                          [param('const rbd::MultiBody&', 'mbs'),
-                          param('const int', 'bId'),
+                          param('const std::string&', 'bName'),
                           param('const Eigen::Vector3d&', 'point')])
   relDistTask.add_method('vector', None,
                          [param('const rbd::MultiBody&', 'mbs'),
-                          param('const int', 'bId'),
+                          param('const std::string&', 'bName'),
                           param('const Eigen::Vector3d&', 'u')])
 
   # VectorOrientationTask
   vectOriTask.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                               param('int', 'robotIndex'), param('int', 'bodyId'),
+                               param('int', 'robotIndex'), param('const std::string&', 'bodyName'),
                                param('const Eigen::Vector3d&', 'bodyVector'),
                                param('const Eigen::Vector3d&', 'targetVector')])
   vectOriTask.add_method('bodyVector', None, [param('const Eigen::Vector3d&', 'vector')])
@@ -1448,10 +1454,12 @@ def build_qp(tasks):
   collisionConstr.add_method('addCollision', None,
                              [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                              param('int', 'collId'),
-                             param('int', 'r1Index'), param('int', 'r1BodyId'),
+                             param('int', 'r1Index'),
+                             param('const std::string&', 'r1BodyName'),
                              param('sch::S_Object*', 'body1', transfer_ownership=False),
                              param('const sva::PTransformd&', 'X_op1_o1'),
-                             param('int', 'r2Index'), param('int', 'r2BodyId'),
+                             param('int', 'r2Index'),
+                             param('const std::string&', 'r2BodyName'),
                              param('sch::S_Object*', 'body2', transfer_ownership=False),
                              param('const sva::PTransformd&', 'X_op2_o2'),
                              param('double', 'di'),
@@ -1533,19 +1541,19 @@ def build_qp(tasks):
                                       param('double', 'timeStep')])
   boundedSpeedConstr.add_method('addBoundedSpeed', None,
                                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                                 param('int', 'bodyId'),
+                                 param('const std::string&', 'bodyName'),
                                  param('const Eigen::Vector3d&', 'bodyPoint'),
                                  param('const Eigen::MatrixXd&', 'dof'),
                                  param('const Eigen::VectorXd&', 'speed')])
   boundedSpeedConstr.add_method('addBoundedSpeed', None,
                                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
-                                 param('int', 'bodyId'),
+                                 param('const std::string&', 'bodyName'),
                                  param('const Eigen::Vector3d&', 'bodyPoint'),
                                  param('const Eigen::MatrixXd&', 'dof'),
                                  param('const Eigen::VectorXd&', 'lowerSpeed'),
                                  param('const Eigen::VectorXd&', 'upperSpeed')])
   boundedSpeedConstr.add_method('removeBoundedSpeed', retval('bool'),
-                                [param('int', 'bodyId')])
+                                [param('const std::string&', 'bodyName')])
   boundedSpeedConstr.add_method('resetBoundedSpeeds', None, [])
   boundedSpeedConstr.add_method('nrBoundedSpeeds', retval('int'), [])
 
@@ -1615,6 +1623,7 @@ if __name__ == '__main__':
 
   # build list type
   tasks.add_container('std::vector<int>', 'int', 'vector')
+  tasks.add_container('std::vector<std::string>', 'std::string', 'vector')
   tasks.add_container('std::vector<double>', 'double', 'vector')
   tasks.add_container('std::vector<std::vector<double> >', 'std::vector<double>', 'vector')
   tasks.add_container('std::vector<rbd::MultiBody>',
