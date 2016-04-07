@@ -84,17 +84,18 @@ FrictionCone::FrictionCone(const Eigen::Matrix3d& frame, int nrGen, double mu,
 ContactId::ContactId():
 	r1Index(-1),
 	r2Index(-1),
-	r1BodyId(-1),
-	r2BodyId(-1),
+	r1BodyName(""),
+	r2BodyName(""),
 	ambiguityId(-1)
 {}
 
 
-ContactId::ContactId(int r1I, int r2I, int r1BId, int r2BId, int ambId):
+ContactId::ContactId(int r1I, int r2I,
+	const std::string& r1BName, const std::string& r2BName, int ambId):
 	r1Index(r1I),
 	r2Index(r2I),
-	r1BodyId(r1BId),
-	r2BodyId(r2BId),
+	r1BodyName(r1BName),
+	r2BodyName(r2BName),
 	ambiguityId(ambId)
 {}
 
@@ -102,7 +103,7 @@ ContactId::ContactId(int r1I, int r2I, int r1BId, int r2BId, int ambId):
 bool ContactId::operator==(const ContactId& cId) const
 {
 	return r1Index == cId.r1Index && r2Index == cId.r2Index &&
-	r1BodyId == cId.r1BodyId && r2BodyId == cId.r2BodyId &&
+	r1BodyName == cId.r1BodyName && r2BodyName == cId.r2BodyName &&
 	ambiguityId == cId.ambiguityId;
 }
 
@@ -116,13 +117,13 @@ bool ContactId::operator!=(const ContactId& cId) const
 bool ContactId::operator<(const ContactId& cId) const
 {
 	return r1Index < cId.r1Index ||
-		(r1Index == cId.r1Index && r1BodyId < cId.r1BodyId) ||
-		(r1Index == cId.r1Index && r1BodyId == cId.r1BodyId &&
+		(r1Index == cId.r1Index && r1BodyName < cId.r1BodyName) ||
+		(r1Index == cId.r1Index && r1BodyName == cId.r1BodyName &&
 		r2Index < cId.r2Index) ||
-		(r1Index == cId.r1Index && r1BodyId == cId.r1BodyId &&
-		r2Index == cId.r2Index && r2BodyId < cId.r2BodyId) ||
-		(r1Index == cId.r1Index && r1BodyId == cId.r1BodyId &&
-		r2Index == cId.r2Index && r2BodyId == cId.r2BodyId &&
+		(r1Index == cId.r1Index && r1BodyName == cId.r1BodyName &&
+		r2Index == cId.r2Index && r2BodyName < cId.r2BodyName) ||
+		(r1Index == cId.r1Index && r1BodyName == cId.r1BodyName &&
+		r2Index == cId.r2Index && r2BodyName == cId.r2BodyName &&
 		ambiguityId < cId.ambiguityId);
 }
 
@@ -135,13 +136,13 @@ bool ContactId::operator<(const ContactId& cId) const
 
 
 UnilateralContact::UnilateralContact(int r1I, int r2I,
-	int r1BId, int r2BId,
+	const std::string& r1BName, const std::string& r2BName,
 	std::vector<Eigen::Vector3d> r1P,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
-	contactId(r1I, r2I, r1BId, r2BId),
+	contactId(r1I, r2I, r1BName, r2BName),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cone(r1Frame, nrGen, mu),
@@ -154,13 +155,13 @@ UnilateralContact::UnilateralContact(int r1I, int r2I,
 
 
 UnilateralContact::UnilateralContact(int r1I, int r2I,
-	int r1BId, int r2BId, int ambId,
+	const std::string& r1BName, const std::string& r2BName, int ambId,
 	std::vector<Eigen::Vector3d> r1P,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
-	contactId(r1I, r2I, r1BId, r2BId, ambId),
+	contactId(r1I, r2I, r1BName, r2BName, ambId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cone(r1Frame, nrGen, mu),
@@ -343,13 +344,13 @@ void UnilateralContact::construct(const Eigen::MatrixXd& r1Frame, int nrGen, dou
 
 
 BilateralContact::BilateralContact(int r1I, int r2I,
-	int r1BId, int r2BId,
+	const std::string& r1BName, const std::string& r2BName,
 	std::vector<Eigen::Vector3d> r1P,
 	const std::vector<Eigen::Matrix3d>& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
-	contactId(r1I, r2I, r1BId, r2BId),
+	contactId(r1I, r2I, r1BName, r2BName),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cones(r1Points.size()),
@@ -362,13 +363,14 @@ BilateralContact::BilateralContact(int r1I, int r2I,
 
 
 BilateralContact::BilateralContact(int r1I, int r2I,
-	int r1BId, int r2BId, int ambId,
+	const std::string& r1BName, const std::string& r2BName,
+	int ambId,
 	std::vector<Eigen::Vector3d> r1P,
 	const std::vector<Eigen::Matrix3d>& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
-	contactId(r1I, r2I, r1BId, r2BId, ambId),
+	contactId(r1I, r2I, r1BName, r2BName, ambId),
 	r1Points(std::move(r1P)),
 	r2Points(),
 	r1Cones(r1Points.size()),

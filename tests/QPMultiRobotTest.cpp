@@ -84,13 +84,13 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
 	qp::QPSolver solver;
 
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact(0, 1, 3, 3,
+		{qp::UnilateralContact(0, 1, "b3", "b3",
 			{Vector3d::Zero()}, RotX(cst::pi<double>()/2.), X_b1_b2,
 			3, std::tan(cst::pi<double>()/4.))};
 
 	Matrix3d oriD = RotZ(cst::pi<double>()/4.);
 	Vector3d posD(oriD*mbc2Init.bodyPosW.back().translation());
-	qp::PositionTask posTask(mbs, 1, 3, posD);
+	qp::PositionTask posTask(mbs, 1, "b3", posD);
 	qp::SetPointTask posTaskSp(mbs, 1, &posTask, 1000., 1.);
 
 	qp::ContactAccConstr contCstrAcc;
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
 	// Also test OrientationTask on the second robot
 
 	mbcs = {mbc1Init, mbc2Init};
-	qp::OrientationTask oriTask(mbs, 1, 3, oriD);
+	qp::OrientationTask oriTask(mbs, 1, "b3", oriD);
 	qp::SetPointTask oriTaskSp(mbs, 1, &oriTask, 1000., 1.);
 
 	qp::ContactSpeedConstr contCstrSpeed(0.001);
@@ -231,19 +231,19 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 
 	// The fixed robot can pull the other
 	std::vector<qp::UnilateralContact> contVecFail =
-		{qp::UnilateralContact(0, 1, 3, 0,
+		{qp::UnilateralContact(0, 1, "b3", "b0",
 			points, RotX(-cst::pi<double>()/2.), X_b1_b2,
 			nrGen, 0.7)};
 
 	// The fixed robot can push the other
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact({0, 1, 3, 0},
+		{qp::UnilateralContact({0, 1, "b3", "b0"},
 			points, RotX(cst::pi<double>()/2.), X_b1_b2,
 			nrGen, 0.7)};
 
 	// The fixed robot has non coplanar force apply on the other
 	std::vector<qp::BilateralContact> contVecBi =
-		{qp::BilateralContact({0, 1, 3, 0},
+		{qp::BilateralContact({0, 1, "b3", "b0"},
 			biPoints, biFrames, X_b1_b2,
 			nrGen, 1.)};
 
@@ -386,7 +386,7 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
 	const int nrGen = 3;
 	// The fixed robot can push the other
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact({0, 1, 3, 3},
+		{qp::UnilateralContact({0, 1, "b3", "b3"},
 		 {Vector3d(0.,0.,0.)}, RotX(cst::pi<double>()/2.), X_b1_b2,
 			nrGen, 0.7)};
 
@@ -475,7 +475,7 @@ BOOST_AUTO_TEST_CASE(MultiRobotTransformTest)
 
 	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
 	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
-	qp::MultiRobotTransformTask mrtt(mbs, 0, 1, 3, 3,
+	qp::MultiRobotTransformTask mrtt(mbs, 0, 1, "b3", "b3",
 		sva::PTransformd(sva::RotZ(-cst::pi<double>()/8.)),
 		sva::PTransformd::Identity(), 100., 1000.);
 	mrtt.dimWeight((Vector6d() << 0., 0., 1., 1., 1.,0.).finished());

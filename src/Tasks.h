@@ -44,7 +44,8 @@ namespace tasks
 class TASKS_DLLAPI PositionTask
 {
 public:
-	PositionTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& pos,
+	PositionTask(const rbd::MultiBody& mb, const std::string& bodyName,
+		const Eigen::Vector3d& pos,
 		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	void position(const Eigen::Vector3d& pos);
@@ -83,8 +84,10 @@ private:
 class TASKS_DLLAPI OrientationTask
 {
 public:
-	OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Quaterniond& ori);
-	OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Matrix3d& ori);
+	OrientationTask(const rbd::MultiBody& mb, const std::string& bodyName,
+			const Eigen::Quaterniond& ori);
+	OrientationTask(const rbd::MultiBody& mb, const std::string& bodyName,
+			const Eigen::Matrix3d& ori);
 
 	void orientation(const Eigen::Quaterniond& ori);
 	void orientation(const Eigen::Matrix3d& ori);
@@ -119,7 +122,7 @@ private:
 class TASKS_DLLAPI TransformTaskCommon
 {
 public:
-	TransformTaskCommon(const rbd::MultiBody& mb, int bodyId,
+	TransformTaskCommon(const rbd::MultiBody& mb, const std::string& bodyName,
 		const sva::PTransformd& X_0_t,
 		const sva::PTransformd& X_b_p);
 
@@ -155,7 +158,7 @@ public:
 	/**
 		* Compute eval, speed, normalAcc and jac in moving 'p' frame.
 		*/
-	SurfaceTransformTask(const rbd::MultiBody& mb, int bodyId,
+	SurfaceTransformTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const sva::PTransformd& X_0_t,
 		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
 
@@ -177,7 +180,8 @@ public:
 		* @param E_0_c Optional rotation between the world farme and a user
 		* defined frame 'c' to change the frame of the task.
 		*/
-	TransformTask(const rbd::MultiBody& mb, int bodyId, const sva::PTransformd& X_0_t,
+	TransformTask(const rbd::MultiBody& mb, const std::string& bodyName,
+		const sva::PTransformd& X_0_t,
 		const sva::PTransformd& X_b_p=sva::PTransformd::Identity(),
 		const Eigen::Matrix3d& E_0_c=Eigen::Matrix3d::Identity());
 
@@ -197,7 +201,8 @@ class TASKS_DLLAPI MultiRobotTransformTask
 {
 public:
 	MultiRobotTransformTask(const std::vector<rbd::MultiBody>& mbs,
-		int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+		int r1Index, int r2Index, const std::string& r1BodyName,
+		const std::string& r2BodyName,
 		const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s);
 
 	int r1Index() const;
@@ -237,9 +242,9 @@ private:
 class TASKS_DLLAPI SurfaceOrientationTask
 {
 public:
-	SurfaceOrientationTask(const rbd::MultiBody& mb, int bodyId,
+	SurfaceOrientationTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s);
-	SurfaceOrientationTask(const rbd::MultiBody& mb, int bodyId,
+	SurfaceOrientationTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s);
 
 	void orientation(const Eigen::Quaterniond& ori);
@@ -276,10 +281,12 @@ private:
 class TASKS_DLLAPI GazeTask
 {
 public:
-	GazeTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector2d &point2d,
+	GazeTask(const rbd::MultiBody& mb, const std::string& bodyName,
+		const Eigen::Vector2d &point2d,
 		double depthEstimate, const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
-	GazeTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d &point3d,
+	GazeTask(const rbd::MultiBody& mb, const std::string& bodyName,
+		const Eigen::Vector3d &point3d,
 		const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
 
@@ -319,7 +326,7 @@ private:
 class PositionBasedVisServoTask
 {
 public:
-	PositionBasedVisServoTask(const rbd::MultiBody &mb, int bodyId,
+	PositionBasedVisServoTask(const rbd::MultiBody &mb, const std::string& bodyName,
 		const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s);
 
 	void error(const sva::PTransformd& X_t_s);
@@ -502,7 +509,8 @@ private:
 class TASKS_DLLAPI LinVelocityTask
 {
 public:
-	LinVelocityTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Vector3d& vel,
+	LinVelocityTask(const rbd::MultiBody& mb, const std::string& bodyName,
+		const Eigen::Vector3d& vel,
 		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	void velocity(const Eigen::Vector3d& s);
@@ -541,9 +549,9 @@ private:
 class TASKS_DLLAPI OrientationTrackingTask
 {
 public:
-	OrientationTrackingTask(const rbd::MultiBody& mb, int bodyId,
+	OrientationTrackingTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
-		const std::vector<int>& trackingJointsId,
+		const std::vector<std::string>& trackingJointsName,
 		const Eigen::Vector3d& trackedPoint);
 
 	void trackedPoint(const Eigen::Vector3d& tp);
@@ -582,8 +590,8 @@ private:
 class TASKS_DLLAPI RelativeDistTask
 {
 public:
-	//Give information on 1 body (bodyId, r_b1_p, r_0_b2p)
-	typedef std::tuple<int, Eigen::Vector3d, Eigen::Vector3d> rbInfo;
+	//Give information on 1 body (bodyName, r_b1_p, r_0_b2p)
+	typedef std::tuple<std::string, Eigen::Vector3d, Eigen::Vector3d> rbInfo;
 
 public:
 	RelativeDistTask(const rbd::MultiBody& mb, const double timestep,
@@ -635,7 +643,7 @@ private:
 class TASKS_DLLAPI VectorOrientationTask
 {
 public:
-	VectorOrientationTask(const rbd::MultiBody& mb, int bodyId,
+	VectorOrientationTask(const rbd::MultiBody& mb, const std::string& bodyName,
 	const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector);
 
 	void update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,

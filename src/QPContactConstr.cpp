@@ -166,20 +166,21 @@ void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 			dof = it->second;
 		}
 		std::vector<ContactSideData> contacts;
-		auto addContact = [&mbs, &data, &contacts](int rIndex, int bId,
+		auto addContact = [&mbs, &data, &contacts](int rIndex,
+			const std::string& bName,
 			double sign, const sva::PTransformd& point)
 		{
 			if(mbs[rIndex].nrDof() > 0)
 			{
 				contacts.emplace_back(rIndex, data.alphaDBegin(rIndex), sign,
-															rbd::Jacobian(mbs[rIndex], bId), point);
+							rbd::Jacobian(mbs[rIndex], bName), point);
 			}
 		};
-		addContact(cC.cId.r1Index, cC.cId.r1BodyId, 1., cC.X_b1_cf);
-		addContact(cC.cId.r2Index, cC.cId.r2BodyId, -1., cC.X_b1_cf*cC.X_b1_b2.inv());
+		addContact(cC.cId.r1Index, cC.cId.r1BodyName, 1., cC.X_b1_cf);
+		addContact(cC.cId.r2Index, cC.cId.r2BodyName, -1., cC.X_b1_cf*cC.X_b1_b2.inv());
 
-		int b1Index = mbs[cC.cId.r1Index].bodyIndexById(cC.cId.r1BodyId);
-		int b2Index = mbs[cC.cId.r2Index].bodyIndexById(cC.cId.r2BodyId);
+		int b1Index = mbs[cC.cId.r1Index].bodyIndexByName(cC.cId.r1BodyName);
+		int b2Index = mbs[cC.cId.r2Index].bodyIndexByName(cC.cId.r2BodyName);
 		cont_.emplace_back(std::move(contacts), dof, b1Index, b2Index, cC.X_b1_b2,
 			cC.X_b1_cf, cC.cId);
 	}
