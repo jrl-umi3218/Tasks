@@ -338,6 +338,9 @@ private:
 	Eigen::MatrixXd fullJac_, distJac_;
 
 	int nrVars_;
+
+  CollisionConstr(const CollisionConstr&) = delete;
+  CollisionConstr& operator=(const CollisionConstr&) = delete;
 };
 
 
