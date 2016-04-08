@@ -116,7 +116,7 @@ protected:
 			const std::vector<FrictionCone>& cones);
 
 
-		std::string bodyIndex;
+		int bodyIndex;
 		int lambdaBegin;
 		rbd::Jacobian jac;
 		std::vector<Eigen::Vector3d> points;
