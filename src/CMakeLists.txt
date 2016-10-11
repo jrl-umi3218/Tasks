@@ -1,3 +1,20 @@
+# Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+#
+# This file is part of Tasks.
+#
+# Tasks is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Tasks is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
+
 set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp
             QPContacts.cpp QPSolverData.cpp QPMotionConstr.cpp
             GenQPSolver.cpp QPContactConstr.cpp QLDQPSolver.cpp)
@@ -17,6 +34,8 @@ SEARCH_FOR_BOOST()
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(Tasks SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
+set_target_properties(Tasks PROPERTIES COMPILE_FLAGS "-Dtasks_EXPORTS")
+set_target_properties(Tasks PROPERTIES SOVERSION 0 VERSION 0.9.0)
 
 PKG_CONFIG_USE_DEPENDENCY(Tasks sch-core)
 PKG_CONFIG_USE_DEPENDENCY(Tasks SpaceVecAlg)
@@ -33,4 +52,8 @@ target_link_libraries(Tasks ${Boost_LIBRARIES})
 
 set(INSTALL_PATH include/Tasks)
 install(FILES ${HEADERS} DESTINATION ${INSTALL_PATH})
-install(TARGETS Tasks DESTINATION "lib")
+install(TARGETS Tasks 
+                      RUNTIME DESTINATION bin
+                      LIBRARY DESTINATION lib
+                      ARCHIVE DESTINATION lib
+)

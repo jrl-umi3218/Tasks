@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -22,13 +24,14 @@
 // Tasks
 #include "Tasks.h"
 #include "QPSolver.h"
+#include "QPMotionConstr.h"
 
 // forward declaration
 // RBDyn
 namespace rbd
 {
 class MultiBody;
-class MultiBodyConfig;
+struct MultiBodyConfig;
 }
 
 namespace tasks
@@ -38,7 +41,7 @@ namespace qp
 {
 
 
-class SetPointTaskCommon : public Task
+class TASKS_DLLAPI SetPointTaskCommon : public Task
 {
 public:
 	SetPointTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -84,7 +87,7 @@ private:
 };
 
 
-class SetPointTask : public SetPointTaskCommon
+class TASKS_DLLAPI SetPointTask : public SetPointTaskCommon
 {
 public:
 	SetPointTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -110,7 +113,7 @@ private:
 };
 
 
-class TrackingTask : public SetPointTaskCommon
+class TASKS_DLLAPI TrackingTask : public SetPointTaskCommon
 {
 public:
 	TrackingTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -136,7 +139,7 @@ private:
 };
 
 
-class TrajectoryTask : public SetPointTaskCommon
+class TASKS_DLLAPI TrajectoryTask : public SetPointTaskCommon
 {
 public:
 	TrajectoryTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -162,7 +165,7 @@ private:
 
 
 /// @deprecated Must be replace by TrackingTask
-class PIDTask : public SetPointTaskCommon
+class TASKS_DLLAPI PIDTask : public SetPointTaskCommon
 {
 public:
 	PIDTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -193,7 +196,7 @@ private:
 };
 
 
-class TargetObjectiveTask : public Task
+class TASKS_DLLAPI TargetObjectiveTask : public Task
 {
 public:
 	TargetObjectiveTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -289,13 +292,15 @@ private:
 
 
 
-class JointsSelector : public HighLevelTask
+class TASKS_DLLAPI JointsSelector : public HighLevelTask
 {
 public:
 	static JointsSelector ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
-		int robotIndex, HighLevelTask* hl, const std::vector<int>& activeJointsId);
+		int robotIndex, HighLevelTask* hl,
+		const std::vector<std::string>& activeJointsName);
 	static JointsSelector UnactiveJoints(const std::vector<rbd::MultiBody>& mbs,
-		int robotIndex, HighLevelTask* hl, const std::vector<int>& unactiveJointsId);
+		int robotIndex, HighLevelTask* hl,
+		const std::vector<std::string>& unactiveJointsName);
 
 public:
 	struct SelectedData
@@ -305,7 +310,7 @@ public:
 
 public:
 	JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		HighLevelTask* hl, const std::vector<int>& selectedJointsId);
+		HighLevelTask* hl, const std::vector<std::string>& selectedJointsName);
 
 	const std::vector<SelectedData> selectedJoints() const
 	{
@@ -333,44 +338,92 @@ private:
 struct JointStiffness
 {
 	JointStiffness():
-		jointId(),
+		jointName(),
 		stiffness()
 	{}
-	JointStiffness(int jId, double stif):
-		jointId(jId),
+	JointStiffness(const std::string& jName, double stif):
+		jointName(jName),
 		stiffness(stif)
 	{}
 
-	int jointId;
+	std::string jointName;
 	double stiffness;
 };
 
 struct JointGains
 {
 	JointGains():
-		jointId(),
+		jointName(),
 		stiffness(),
 		damping()
 	{}
-	JointGains(int jId, double stif) :
-		jointId(jId),
+	JointGains(const std::string& jName, double stif) :
+		jointName(jName),
 		stiffness(stif)
 	{
 		damping = 2.*std::sqrt(stif);
 	}
 
-	JointGains(int jId, double stif, double damp):
-		jointId(jId),
+	JointGains(const std::string& jName, double stif, double damp):
+		jointName(jName),
 		stiffness(stif),
 		damping(damp)
 	{}
 
-	int jointId;
+	std::string jointName;
 	double stiffness, damping;
 };
 
+class TASKS_DLLAPI TorqueTask : public Task
+{
+public:
+        TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const TorqueBound& tb, double weight);
 
-class PostureTask : public Task
+        TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
+                   double weight);
+
+        TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const TorqueBound& tb, const std::string& efName,
+                   double weight);
+
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual std::pair<int, int> begin() const
+	{
+		return std::make_pair(0, 0);
+	}
+
+	virtual const Eigen::MatrixXd& Q() const
+        {
+          return Q_;
+        }
+
+	virtual const Eigen::VectorXd& C() const
+        {
+          return C_;
+        }
+
+        virtual const Eigen::VectorXd& jointSelect() const
+        {
+          return jointSelector_;
+        }
+
+private:
+        int robotIndex_;
+        int alphaDBegin_, lambdaBegin_;
+        MotionConstr motionConstr;
+        Eigen::VectorXd jointSelector_;
+        Eigen::MatrixXd Q_;
+        Eigen::VectorXd C_;
+};
+
+class TASKS_DLLAPI PostureTask : public Task
 {
 public:
 	PostureTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -451,11 +504,11 @@ private:
 
 
 
-class PositionTask : public HighLevelTask
+class TASKS_DLLAPI PositionTask : public HighLevelTask
 {
 public:
 	PositionTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const Eigen::Vector3d& pos,
+		const std::string& bodyName, const Eigen::Vector3d& pos,
 		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	tasks::PositionTask& task()
@@ -500,13 +553,13 @@ private:
 
 
 
-class OrientationTask : public HighLevelTask
+class TASKS_DLLAPI OrientationTask : public HighLevelTask
 {
 public:
 	OrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
-		int bodyId, const Eigen::Quaterniond& ori);
+		const std::string& bodyName, const Eigen::Quaterniond& ori);
 	OrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
-		int bodyId, const Eigen::Matrix3d& ori);
+		const std::string& bodyName, const Eigen::Matrix3d& ori);
 
 	tasks::OrientationTask& task()
 	{
@@ -546,12 +599,16 @@ private:
 
 
 template <typename transform_task_t>
-class TransformTaskCommon : public HighLevelTask
+class TASKS_DLLAPI TransformTaskCommon : public HighLevelTask
 {
 public:
 	TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const sva::PTransformd& X_0_t,
-		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
+		const std::string& bodyName, const sva::PTransformd& X_0_t,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity())
+	:  tt_(mbs[robotIndex], bodyName, X_0_t, X_b_p),
+	   robotIndex_(robotIndex)
+	{
+	}
 
 	tasks::TransformTask& task()
 	{
@@ -578,12 +635,30 @@ public:
 		return tt_.X_b_p();
 	}
 
-	virtual int dim();
+	virtual int dim()
+	{
+	  return 6;
+	}
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac()
+	{
+	  return tt_.jac();
+	}
+
+	virtual const Eigen::VectorXd& eval()
+	{
+	  return tt_.eval();
+	}
+
+	virtual const Eigen::VectorXd& speed()
+	{
+	  return tt_.speed();
+	}
+
+	virtual const Eigen::VectorXd& normalAcc()
+	{
+	  return tt_.normalAcc();
+	}
 
 protected:
 	transform_task_t tt_;
@@ -593,11 +668,11 @@ protected:
 
 
 /// TransformTask in surface frame.
-class SurfaceTransformTask : public TransformTaskCommon<tasks::SurfaceTransformTask>
+class TASKS_DLLAPI SurfaceTransformTask : public TransformTaskCommon<tasks::SurfaceTransformTask>
 {
 public:
 	SurfaceTransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const sva::PTransformd& X_0_t,
+		const std::string& bodyName, const sva::PTransformd& X_0_t,
 		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
 
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
@@ -608,11 +683,11 @@ public:
 
 
 /// TransformTask in world or user frame.
-class TransformTask : public TransformTaskCommon<tasks::TransformTask>
+class TASKS_DLLAPI TransformTask : public TransformTaskCommon<tasks::TransformTask>
 {
 public:
 	TransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const sva::PTransformd& X_0_t,
+		const std::string& bodyName, const sva::PTransformd& X_0_t,
 		const sva::PTransformd& X_b_p=sva::PTransformd::Identity(),
 		const Eigen::Matrix3d& E_0_c=Eigen::Matrix3d::Identity());
 
@@ -626,13 +701,15 @@ public:
 
 
 
-class SurfaceOrientationTask : public HighLevelTask
+class TASKS_DLLAPI SurfaceOrientationTask : public HighLevelTask
 {
 public:
 	SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
-			int bodyId, const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s);
+			const std::string& bodyName, const Eigen::Quaterniond& ori,
+			const sva::PTransformd& X_b_s);
 	SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robodIndex,
-			int bodyId, const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s);
+			const std::string& bodyName, const Eigen::Matrix3d& ori,
+			const sva::PTransformd& X_b_s);
 
 	tasks::SurfaceOrientationTask& task()
 	{
@@ -671,15 +748,16 @@ private:
 
 
 
-class GazeTask : public HighLevelTask
+class TASKS_DLLAPI GazeTask : public HighLevelTask
 {
 public:
 	GazeTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const Eigen::Vector2d& point2d, double depthEstimate,
-		const sva::PTransformd& X_b_gaze,
+		const std::string& bodyName, const Eigen::Vector2d& point2d,
+		double depthEstimate, const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero());
 	GazeTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const Eigen::Vector3d& point3d, const sva::PTransformd& X_b_gaze,
+		const std::string& bodyName, const Eigen::Vector3d& point3d,
+		const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero());
 
 	tasks::GazeTask& task()
@@ -715,11 +793,11 @@ private:
 
 
 
-class PositionBasedVisServoTask : public HighLevelTask
+class TASKS_DLLAPI PositionBasedVisServoTask : public HighLevelTask
 {
 public:
 	PositionBasedVisServoTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const sva::PTransformd& X_t_s,
+		const std::string& bodyName, const sva::PTransformd& X_t_s,
 		const sva::PTransformd& X_b_s=sva::PTransformd::Identity());
 
 	tasks::PositionBasedVisServoTask& task()
@@ -748,7 +826,7 @@ private:
 
 
 
-class CoMTask : public HighLevelTask
+class TASKS_DLLAPI CoMTask : public HighLevelTask
 {
 public:
 	CoMTask(const std::vector<rbd::MultiBody>& mbs,
@@ -789,7 +867,7 @@ private:
 };
 
 
-class MultiCoMTask : public Task
+class TASKS_DLLAPI MultiCoMTask : public Task
 {
 public:
 	MultiCoMTask(const std::vector<rbd::MultiBody>& mb,
@@ -864,11 +942,12 @@ private:
 };
 
 
-class MultiRobotTransformTask : public Task
+class TASKS_DLLAPI MultiRobotTransformTask : public Task
 {
 public:
 	MultiRobotTransformTask(const std::vector<rbd::MultiBody>& mbs,
-		int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+		int r1Index, int r2Index,
+		const std::string& r1BodyName, const std::string& r2BodyName,
 		const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s,
 		double stiffness, double weight);
 
@@ -928,7 +1007,7 @@ private:
 };
 
 
-class MomentumTask : public HighLevelTask
+class TASKS_DLLAPI MomentumTask : public HighLevelTask
 {
 public:
 	MomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -965,7 +1044,7 @@ private:
 };
 
 
-class ContactTask : public Task
+class TASKS_DLLAPI ContactTask : public Task
 {
 public:
 	ContactTask(ContactId contactId, double stiffness, double weight):
@@ -1012,7 +1091,7 @@ private:
 
 
 
-class GripperTorqueTask : public Task
+class TASKS_DLLAPI GripperTorqueTask : public Task
 {
 public:
 	GripperTorqueTask(ContactId contactId, const Eigen::Vector3d& origin,
@@ -1052,11 +1131,11 @@ private:
 
 
 
-class LinVelocityTask : public HighLevelTask
+class TASKS_DLLAPI LinVelocityTask : public HighLevelTask
 {
 public:
 	LinVelocityTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const Eigen::Vector3d& vel,
+		const std::string& bodyName, const Eigen::Vector3d& vel,
 		const Eigen::Vector3d& bodyPoint=Eigen::Vector3d::Zero());
 
 	tasks::LinVelocityTask& task()
@@ -1101,13 +1180,13 @@ private:
 
 
 
-class OrientationTrackingTask : public HighLevelTask
+class TASKS_DLLAPI OrientationTrackingTask : public HighLevelTask
 {
 public:
 	OrientationTrackingTask(const std::vector<rbd::MultiBody>& mbs,
-		int robotIndex, int bodyId,
+		int robotIndex, const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
-		const std::vector<int>& trackingJointsId,
+		const std::vector<std::string>& trackingJointsName,
 		const Eigen::Vector3d& trackedPoint);
 
 	tasks::OrientationTrackingTask& task()
@@ -1176,19 +1255,22 @@ public:
 		return rdt_;
 	}
 
-	void robotPoint(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& point)
+	void robotPoint(const rbd::MultiBody& mb, const std::string& bName,
+			const Eigen::Vector3d& point)
 	{
-		int bIndex = mb.bodyIndexById(bId);
+		int bIndex = mb.bodyIndexByName(bName);
 		rdt_.robotPoint(bIndex, point);
 	}
-	void envPoint(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& point)
+	void envPoint(const rbd::MultiBody& mb, const std::string&  bName,
+			const Eigen::Vector3d& point)
 	{
-		int bIndex = mb.bodyIndexById(bId);
+		int bIndex = mb.bodyIndexByName(bName);
 		rdt_.envPoint(bIndex, point);
 	}
-	void vector(const rbd::MultiBody& mb, const int bId, const Eigen::Vector3d& u)
+	void vector(const rbd::MultiBody& mb, const std::string& bName,
+			const Eigen::Vector3d& u)
 	{
-		int bIndex = mb.bodyIndexById(bId);
+		int bIndex = mb.bodyIndexByName(bName);
 		rdt_.vector(bIndex, u);
 	}
 
@@ -1212,7 +1294,8 @@ class VectorOrientationTask : public HighLevelTask
 {
 public:
 	VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		int bodyId, const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector);
+		const std::string& bodyName, const Eigen::Vector3d& bodyVector,
+		const Eigen::Vector3d& targetVector);
 
 	tasks::VectorOrientationTask& task()
 	{

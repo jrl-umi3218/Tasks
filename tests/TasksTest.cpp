@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -391,7 +393,7 @@ BOOST_AUTO_TEST_CASE(PositionTaskTest)
 
 	std::tie(mb, mbc) = makeZXZArm();
 
-	tasks::PositionTask pt(mb, 3, Vector3d::Random(), Vector3d::Random());
+	tasks::PositionTask pt(mb, "b3", Vector3d::Random(), Vector3d::Random());
 
 	testTaskNumDiff(mb, mbc, pt, ClassicUpdater<tasks::PositionTask>(),
 		PosTester());
@@ -410,7 +412,7 @@ BOOST_AUTO_TEST_CASE(OrientationTaskTest)
 
 	std::tie(mb, mbc) = makeZXZArm();
 
-	tasks::OrientationTask ot(mb, 3, Quaterniond(Vector4d::Random().normalized()));
+	tasks::OrientationTask ot(mb, "b3", Quaterniond(Vector4d::Random().normalized()));
 
 	testTaskNumDiff(mb, mbc, ot, ClassicUpdater<tasks::OrientationTask>(),
 		OriTaskTester());
@@ -435,7 +437,7 @@ BOOST_AUTO_TEST_CASE(TransformTaskTest)
 		Vector3d::Random());
 	Eigen::Quaterniond E_0_c(Vector4d::Random().normalized());
 
-	tasks::TransformTask tt(mb, 3, X_0_t, X_b_s, E_0_c.matrix());
+	tasks::TransformTask tt(mb, "b3", X_0_t, X_b_s, E_0_c.matrix());
 
 	testTaskNumDiff(mb, mbc, tt,
 		NormalAccUpdater<tasks::TransformTask>(mb), PosTTTester(), 100);
@@ -457,7 +459,7 @@ BOOST_AUTO_TEST_CASE(SurfaceTransformTaskTest)
 	sva::PTransformd X_0_t(Quaterniond(Vector4d::Random().normalized()),
 		Vector3d::Random());
 
-	tasks::SurfaceTransformTask tt(mb, 3, X_0_t, X_b_s);
+	tasks::SurfaceTransformTask tt(mb, "b3", X_0_t, X_b_s);
 
 	testTaskNumDiff(mb, mbc, tt,
 		NormalAccUpdater<tasks::SurfaceTransformTask>(mb), PosMRTTTester(), 100);
@@ -483,7 +485,7 @@ BOOST_AUTO_TEST_CASE(MultiRobotTransformTaskTest)
 	sva::PTransformd X_r2b_r2s(Quaterniond(Vector4d::Random().normalized()),
 		Vector3d::Random());
 
-	tasks::MultiRobotTransformTask mrtt(mbs, 0, 1, 3, 3, X_r1b_r1s, X_r2b_r2s);
+	tasks::MultiRobotTransformTask mrtt(mbs, 0, 1, "b3", "b3", X_r1b_r1s, X_r2b_r2s);
 
 	testTaskNumDiff(mbs, mbcs, mrtt,
 		MRNormalAccUpdater<tasks::MultiRobotTransformTask>(mbs, 6), PosMRTTTester());
@@ -500,7 +502,7 @@ BOOST_AUTO_TEST_CASE(SurfaceOrientationTaskTest)
 
 	std::tie(mb, mbc) = makeZXZArm();
 
-	tasks::SurfaceOrientationTask sot(mb, 3,
+	tasks::SurfaceOrientationTask sot(mb, "b3",
 		Quaterniond(Vector4d::Random().normalized()),
 		sva::PTransformd(Quaterniond(Vector4d::Random().normalized()), Vector3d::Random()));
 
@@ -584,7 +586,7 @@ BOOST_AUTO_TEST_CASE(LinVelocityTaskTest)
 
 	std::tie(mb, mbc) = makeZXZArm();
 
-	tasks::LinVelocityTask lvt(mb, 3, Vector3d::Random());
+	tasks::LinVelocityTask lvt(mb, "b3", Vector3d::Random());
 
 	testTaskNumDiff(mb, mbc, lvt, ClassicUpdater<tasks::LinVelocityTask>(),
 		VelTester());
@@ -602,7 +604,7 @@ BOOST_AUTO_TEST_CASE(VectorOrientationTaskTest)
 
 	std::tie(mb, mbc) = makeZXZArm();
 
-	tasks::VectorOrientationTask vot(mb, 3, Vector3d::Random(), Vector3d::Random());
+	tasks::VectorOrientationTask vot(mb, "b3", Vector3d::Random(), Vector3d::Random());
 
 	testTaskNumDiff(mb, mbc, vot, NormalAccUpdater<tasks::VectorOrientationTask>(mb),
 		VectOriTester());

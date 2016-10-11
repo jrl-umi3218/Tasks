@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -40,15 +42,15 @@ class CD_Pair;
 
 namespace tasks
 {
-class QBound;
-class AlphaBound;
+struct QBound;
+struct AlphaBound;
 
 namespace qp
 {
 
 
 /// Convert a sch-core transformation matrix to a sva::PTransformd matrix.
-sch::Matrix4x4 tosch(const sva::PTransformd& t);
+TASKS_DLLAPI sch::Matrix4x4 tosch(const sva::PTransformd& t);
 
 
 /**
@@ -61,7 +63,7 @@ sch::Matrix4x4 tosch(const sva::PTransformd& t);
 	* This constraint can be impossible to fulfill when articulation velocity
 	* is really high. Always prefer to use DamperJointLimitsConstr.
 	*/
-class JointLimitsConstr : public ConstraintFunction<Bound>
+class TASKS_DLLAPI JointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	/**
@@ -129,7 +131,7 @@ private:
 	* - \f$ d_s = 0.01 (\overline{q} - \underline{q}) \f$
 	* - \f$ \xi_{\text{off}} = 0.5 \f$
 	*/
-class DamperJointLimitsConstr : public ConstraintFunction<Bound>
+class TASKS_DLLAPI DamperJointLimitsConstr : public ConstraintFunction<Bound>
 {
 public:
 	/**
@@ -214,7 +216,7 @@ private:
 	* the following formula:
 	* \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
 	*/
-class CollisionConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI CollisionConstr : public ConstraintFunction<Inequality>
 {
 public:
 	/**
@@ -248,9 +250,9 @@ public:
 		* @param dampingOff \f$ \xi_{\text{off}} \f$.
 		*/
 	void addCollision(const std::vector<rbd::MultiBody>& mbs, int collId,
-		int r1Index, int r1BodyId,
+		int r1Index, const std::string& r1BodyName,
 		sch::S_Object* body1, const sva::PTransformd& X_op1_o1,
-		int r2Index, int r2BodyId,
+		int r2Index, const std::string& r2BodyName,
 		sch::S_Object* body2, const sva::PTransformd& X_op2_o2,
 		double di, double ds, double damping, double dampingOff=0.);
 
@@ -293,13 +295,14 @@ private:
 	struct BodyCollData
 	{
 		BodyCollData(const rbd::MultiBody& mb,
-			int rIndex, int bodyId, sch::S_Object* hull,
-			const sva::PTransformd& X_op_o);
+			int rIndex, const std::string& bodyName,
+			sch::S_Object* hull, const sva::PTransformd& X_op_o);
 
 		sch::S_Object* hull;
 		rbd::Jacobian jac;
 		sva::PTransformd X_op_o;
-		int rIndex, bIndex, bodyId;
+		int rIndex, bIndex;
+		std::string bodyName;
 	};
 
 	struct CollData
@@ -308,8 +311,7 @@ private:
 		CollData(std::vector<BodyCollData> bcds, int collId,
 			sch::S_Object* body1, sch::S_Object* body2,
 			double di, double ds, double damping, double dampingOff);
-
-		sch::CD_Pair* pair;
+		std::unique_ptr<sch::CD_Pair> pair;
 		Eigen::Vector3d normVecDist;
 		double di, ds;
 		double damping;
@@ -336,6 +338,9 @@ private:
 	Eigen::MatrixXd fullJac_, distJac_;
 
 	int nrVars_;
+
+  CollisionConstr(const CollisionConstr&) = delete;
+  CollisionConstr& operator=(const CollisionConstr&) = delete;
 };
 
 
@@ -355,7 +360,7 @@ private:
 	* the following formula:
 	* \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
 	*/
-class CoMIncPlaneConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI CoMIncPlaneConstr : public ConstraintFunction<Inequality>
 {
 public:
 	/**
@@ -384,6 +389,12 @@ public:
 	void addPlane(
 		int planeId, const Eigen::Vector3d& normal, double offset,
 		double di, double ds, double damping, double dampingOff=0.);
+
+	void addPlane(
+		int planeId, const Eigen::Vector3d& normal, double offset,
+		double di, double ds, double damping,
+                const Eigen::Vector3d& speed,
+                const Eigen::Vector3d& normalDot, double dampingOff=0.);
 
 	/**
 		* Remove a plane.
@@ -426,8 +437,11 @@ private:
 		enum class DampingType {Hard, Soft, Free};
 		PlaneData(int planeId,
 			const Eigen::Vector3d& normal, double offset,
-			double di, double ds, double damping, double dampingOff);
+			double di, double ds, double damping, double dampingOff,
+                        const Eigen::Vector3d& speed,
+                        const Eigen::Vector3d& normalDot);
 		Eigen::Vector3d normal;
+		Eigen::Vector3d normalDot;
 		double offset;
 		double dist;
 		double di, ds;
@@ -435,6 +449,7 @@ private:
 		int planeId;
 		DampingType dampingType;
 		double dampingOff;
+                Eigen::Vector3d speed;
 	};
 
 private:
@@ -452,7 +467,7 @@ private:
 
 
 
-class GripperTorqueConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI GripperTorqueConstr : public ConstraintFunction<Inequality>
 {
 public:
 	GripperTorqueConstr();
@@ -511,7 +526,7 @@ private:
 	* \f$ a \f$ the link acceleration in link frame
 	* and \f$ S \f$ the axis selection matrix.
 	*/
-class BoundedSpeedConstr : public ConstraintFunction<GenInequality>
+class TASKS_DLLAPI BoundedSpeedConstr : public ConstraintFunction<GenInequality>
 {
 public:
 	/**
@@ -536,7 +551,8 @@ public:
 		* \f$ \underline{v} \in \mathbb{R}^{n} \f$ and
 		* \f$ \overline{v} \in \mathbb{R}^{n} \f$.
 		*/
-	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, 
+		const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& speed);
 
@@ -553,17 +569,18 @@ public:
 		* @param lowerSpeed Lower velocity \f$ \underline{v} \in \mathbb{R}^{n} \f$.
 		* @param upperSpeed Upper velocity \f$ \overline{v} \in \mathbb{R}^{n} \f$.
 		*/
-	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs,
+		const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed);
 
 	/**
 		* Remove a bounded speed constraint.
-		* @param bodyId Remove the constraint apply on bodyId.
+		* @param bodyName Remove the constraint applied on bodyName.
 		* @return true if the constraint has been removed false if bodyId
 		* was associated with no constraint.
 		*/
-	bool removeBoundedSpeed(int bodyId);
+	bool removeBoundedSpeed(const std::string& bodyName);
 
 	/// Remove all bounded speed constraint.
 	void resetBoundedSpeeds();
@@ -596,14 +613,15 @@ private:
 	struct BoundedSpeedData
 	{
 		BoundedSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
-			const Eigen::VectorXd& ls, const Eigen::VectorXd& us, int bId):
+			const Eigen::VectorXd& ls, const Eigen::VectorXd& us,
+			const std::string& bName):
 			jac(j),
 			bodyPoint(j.point()),
 			dof(d),
 			lSpeed(ls),
 			uSpeed(us),
 			body(j.jointsPath().back()),
-			bodyId(bId)
+			bodyName(bName)
 		{}
 
 		rbd::Jacobian jac;
@@ -611,7 +629,7 @@ private:
 		Eigen::MatrixXd dof;
 		Eigen::VectorXd lSpeed, uSpeed;
 		int body;
-		int bodyId;
+		std::string bodyName;
 	};
 
 private:

@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -33,7 +35,7 @@ namespace qp
 /**
 	* GenQPSolver interface implementation with the QLD QP solver.
 	*/
-class QLDQPSolver : public GenQPSolver
+class TASKS_DLLAPI QLDQPSolver : public GenQPSolver
 {
 public:
 	QLDQPSolver();
@@ -52,7 +54,7 @@ public:
 		const std::vector<Inequality*>& inEqConstr,
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr,
-		std::ostream& out) const;
+		std::ostream& out) const override;
 
 private:
 	Eigen::QLD qld_;

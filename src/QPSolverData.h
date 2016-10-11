@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -22,12 +24,11 @@
 // Tasks
 #include "QPContacts.h"
 
-
 // forward declaration
 namespace rbd
 {
 class MultiBody;
-class MultiBodyConfig;
+struct MultiBodyConfig;
 }
 
 namespace tasks
@@ -37,7 +38,7 @@ namespace qp
 {
 
 
-class SolverData
+class TASKS_DLLAPI SolverData
 {
 public:
 	friend class QPSolver;

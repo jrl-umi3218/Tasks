@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -19,6 +21,7 @@
 // includes
 // std
 #include <cmath>
+#include <iterator>
 #include <set>
 
 // Eigen
@@ -548,48 +551,48 @@ const Eigen::VectorXd& TargetObjectiveTask::C() const
 
 
 JointsSelector JointsSelector::ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, HighLevelTask* hl, const std::vector<int>& activeJointsId)
+	int robotIndex, HighLevelTask* hl, const std::vector<std::string>& activeJointsName)
 {
-	return JointsSelector(mbs, robotIndex, hl, activeJointsId);
+	return JointsSelector(mbs, robotIndex, hl, activeJointsName);
 }
 
 
 JointsSelector JointsSelector::UnactiveJoints(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, HighLevelTask* hl, const std::vector<int>& unactiveJointsId)
+	int robotIndex, HighLevelTask* hl, const std::vector<std::string>& unactiveJointsName)
 {
 	using namespace std::placeholders;
 	const rbd::MultiBody& mb = mbs[robotIndex];
 
-	std::vector<int> activeJointsId;
-	// sort unactiveJointsId by puting them into a set
-	std::set<int> unactiveJointsIdSet(unactiveJointsId.begin(),
-		unactiveJointsId.end());
+	std::vector<std::string> activeJointsName;
+	// sort unactiveJointsName by puting them into a set
+	std::set<std::string> unactiveJointsNameSet(unactiveJointsName.begin(),
+		unactiveJointsName.end());
 	// create a set with all joints id
-	std::set<int> jointsIdSet;
+	std::set<std::string> jointsNameSet;
 	std::transform(mb.joints().begin(), mb.joints().end(),
-		std::inserter(jointsIdSet, jointsIdSet.begin()),
-		std::bind(&rbd::Joint::id, _1));
+		std::inserter(jointsNameSet, jointsNameSet.begin()),
+		std::bind(&rbd::Joint::name, _1));
 
 	// remove unactive joints from the set
-	std::set_difference(jointsIdSet.begin(), jointsIdSet.end(),
-		unactiveJointsIdSet.begin(), unactiveJointsIdSet.end(),
-		std::inserter(activeJointsId, activeJointsId.begin()));
+	std::set_difference(jointsNameSet.begin(), jointsNameSet.end(),
+		unactiveJointsNameSet.begin(), unactiveJointsNameSet.end(),
+		std::inserter(activeJointsName, activeJointsName.begin()));
 
-	return JointsSelector(mbs, robotIndex, hl, activeJointsId);
+	return JointsSelector(mbs, robotIndex, hl, activeJointsName);
 }
 
 
 JointsSelector::JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-	HighLevelTask* hl, const std::vector<int>& selectedJointsId):
+	HighLevelTask* hl, const std::vector<std::string>& selectedJointsName):
 	jac_(Eigen::MatrixXd::Zero(hl->dim(), mbs[robotIndex].nrDof())),
 	selectedJoints_(),
 	hl_(hl)
 {
 	const rbd::MultiBody& mb = mbs[robotIndex];
-	selectedJoints_.reserve(selectedJointsId.size());
-	for(int jId: selectedJointsId)
+	selectedJoints_.reserve(selectedJointsName.size());
+	for(const std::string& jName: selectedJointsName)
 	{
-		int index = mb.jointIndexById(jId);
+		int index = mb.jointIndexByName(jName);
 		selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()});
 	}
 	// sort data in posInDof order
@@ -642,6 +645,79 @@ const Eigen::VectorXd& JointsSelector::normalAcc()
 	return hl_->normalAcc();
 }
 
+/** Torque Task **/
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const TorqueBound& tb, double weight):
+  Task(weight),
+  robotIndex_(robotIndex),
+  alphaDBegin_(-1),
+  lambdaBegin_(-1),
+  motionConstr(mbs, robotIndex, tb),
+  jointSelector_(mbs[robotIndex].nrDof()),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof())
+{
+  jointSelector_.setOnes();
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
+                       double weight):
+  Task(weight),
+  robotIndex_(robotIndex),
+  alphaDBegin_(-1),
+  lambdaBegin_(-1),
+  motionConstr(mbs, robotIndex, tb),
+  jointSelector_(jointSelect),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof())
+{
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const TorqueBound& tb, const std::string& efName,
+                       double weight):
+  Task(weight),
+  robotIndex_(robotIndex),
+  alphaDBegin_(-1),
+  lambdaBegin_(-1),
+  motionConstr(mbs, robotIndex, tb),
+  jointSelector_(mbs[robotIndex].nrDof()),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof())
+{
+  rbd::Jacobian jac(mbs[robotIndex], efName);
+  jointSelector_.setZero();
+  for(auto i : jac.jointsPath())
+  {
+    //Do not add root joint !
+    if(i != 0)
+    {
+    jointSelector_.segment(mbs[robotIndex].jointPosInDof(i),
+                           mbs[robotIndex].joint(i).dof()).setOnes();
+    }
+  }
+}
+
+void TorqueTask::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                              const SolverData& data)
+{
+  motionConstr.updateNrVars(mbs, data);
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+  lambdaBegin_ = data.lambdaBegin();
+  Q_.resize(data.nrVars(), data.nrVars());
+  C_.resize(data.nrVars());
+}
+
+void TorqueTask::update(const std::vector<rbd::MultiBody>& mbs,
+                        const std::vector<rbd::MultiBodyConfig>& mbcs,
+                        const SolverData& data)
+{
+  motionConstr.update(mbs, mbcs, data);
+  Q_.noalias() = motionConstr.matrix().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
+  C_.noalias() = motionConstr.fd().C().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
+  //C_.setZero();
+}
 
 /**
 	*												PostureTask
@@ -692,7 +768,7 @@ void PostureTask::jointsStiffness(const std::vector<rbd::MultiBody>& mbs,
 	const rbd::MultiBody& mb = mbs[robotIndex_];
 	for(const JointStiffness& js: jsv)
 	{
-		int jointIndex = mb.jointIndexById(js.jointId);
+		int jointIndex = mb.jointIndexByName(js.jointName);
 		jointDatas_.push_back({js.stiffness, 2.*std::sqrt(js.stiffness),
 													mb.jointPosInDof(jointIndex),
 													mb.joint(jointIndex).dof()});
@@ -708,7 +784,7 @@ void PostureTask::jointsGains(const std::vector<rbd::MultiBody> &mbs,
 	const rbd::MultiBody& mb = mbs[robotIndex_];
 	for(const JointGains& jg: jgv)
 	{
-		int jointIndex = mb.jointIndexById(jg.jointId);
+		int jointIndex = mb.jointIndexByName(jg.jointName);
 		jointDatas_.push_back({jg.stiffness, jg.damping, mb.jointPosInDof(jointIndex),
 			mb.joint(jointIndex).dof()});
 	}
@@ -770,8 +846,9 @@ const Eigen::VectorXd& PostureTask::eval() const
 
 
 PositionTask::PositionTask(const std::vector<rbd::MultiBody>& mbs, int rI,
-	int bodyId, const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
-	pt_(mbs[rI], bodyId, pos, bodyPoint),
+	const std::string& bodyName, const Eigen::Vector3d& pos,
+	const Eigen::Vector3d& bodyPoint):
+	pt_(mbs[rI], bodyName, pos, bodyPoint),
 	robotIndex_(rI)
 {
 }
@@ -821,17 +898,17 @@ const Eigen::VectorXd& PositionTask::normalAcc()
 
 
 OrientationTask::OrientationTask(const std::vector<rbd::MultiBody>& mbs,
-	int rI, int bodyId,
+	int rI, const std::string& bodyName,
 	const Eigen::Quaterniond& ori):
-	ot_(mbs[rI], bodyId, ori),
+	ot_(mbs[rI], bodyName, ori),
 	robotIndex_(rI)
 {}
 
 
 OrientationTask::OrientationTask(const std::vector<rbd::MultiBody>& mbs,
-	int rI, int bodyId,
+	int rI, const std::string& bodyName,
 	const Eigen::Matrix3d& ori):
-	ot_(mbs[rI], bodyId, ori),
+	ot_(mbs[rI], bodyName, ori),
 	robotIndex_(rI)
 {}
 
@@ -875,65 +952,15 @@ const Eigen::VectorXd& OrientationTask::normalAcc()
 
 
 /**
-	*											TransformTaskCommon
-	*/
-
-
-template <typename transform_task_t>
-TransformTaskCommon<transform_task_t>::TransformTaskCommon(
-		const std::vector<rbd::MultiBody>& mbs, int rI,
-	int bodyId, const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
-	tt_(mbs[rI], bodyId, X_0_t, X_b_p),
-	robotIndex_(rI)
-{
-}
-
-
-template <typename transform_task_t>
-int TransformTaskCommon<transform_task_t>::dim()
-{
-	return 6;
-}
-
-
-template <typename transform_task_t>
-const Eigen::MatrixXd& TransformTaskCommon<transform_task_t>::jac()
-{
-	return tt_.jac();
-}
-
-
-template <typename transform_task_t>
-const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::eval()
-{
-	return tt_.eval();
-}
-
-
-template <typename transform_task_t>
-const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::speed()
-{
-	return tt_.speed();
-}
-
-
-template <typename transform_task_t>
-const Eigen::VectorXd& TransformTaskCommon<transform_task_t>::normalAcc()
-{
-	return tt_.normalAcc();
-}
-
-
-/**
 	*											SurfaceTransformTask
 	*/
 
 
 SurfaceTransformTask::SurfaceTransformTask(const std::vector<rbd::MultiBody>& mbs,
 	int robotIndex,
-	int bodyId, const sva::PTransformd& X_0_t,
+	const std::string& bodyName, const sva::PTransformd& X_0_t,
 	const sva::PTransformd& X_b_p):
-	TransformTaskCommon(mbs, robotIndex, bodyId, X_0_t, X_b_p)
+	TransformTaskCommon(mbs, robotIndex, bodyName, X_0_t, X_b_p)
 {
 }
 
@@ -952,9 +979,9 @@ void SurfaceTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 
 
 TransformTask::TransformTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-	int bodyId, const sva::PTransformd& X_0_t,
+	const std::string& bodyName, const sva::PTransformd& X_0_t,
 	const sva::PTransformd& X_b_p, const Eigen::Matrix3d& E_0_c):
-	TransformTaskCommon(mbs, robotIndex, bodyId, X_0_t, X_b_p)
+	TransformTaskCommon(mbs, robotIndex, bodyName, X_0_t, X_b_p)
 {
 	tt_.E_0_c(E_0_c);
 }
@@ -986,17 +1013,17 @@ void TransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 
 
 SurfaceOrientationTask::SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs,
-	int rI, int bodyId,
+	int rI, const std::string& bodyName,
 	const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s):
-	ot_(mbs[rI], bodyId, ori, X_b_s),
+	ot_(mbs[rI], bodyName, ori, X_b_s),
 	robotIndex_(rI)
 {}
 
 
 SurfaceOrientationTask::SurfaceOrientationTask(const std::vector<rbd::MultiBody>& mbs,
-	int rI, int bodyId,
+	int rI, const std::string& bodyName,
 	const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s):
-	ot_(mbs[rI], bodyId, ori, X_b_s),
+	ot_(mbs[rI], bodyName, ori, X_b_s),
 	robotIndex_(rI)
 {}
 
@@ -1045,20 +1072,20 @@ const Eigen::VectorXd& SurfaceOrientationTask::normalAcc()
 
 
 GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, int bodyId,
+	int robotIndex, const std::string& bodyName,
 	const Eigen::Vector2d& point2d, double depthEstimate,
 	const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
-	gazet_(mbs[robotIndex], bodyId, point2d, depthEstimate, X_b_gaze, point2d_ref),
+	gazet_(mbs[robotIndex], bodyName, point2d, depthEstimate, X_b_gaze, point2d_ref),
 	robotIndex_(robotIndex)
 {}
 
 
 GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, int bodyId,
+	int robotIndex, const std::string& bodyName,
 	const Eigen::Vector3d& point3d, const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
-	gazet_(mbs[robotIndex], bodyId, point3d, X_b_gaze, point2d_ref),
+	gazet_(mbs[robotIndex], bodyName, point3d, X_b_gaze, point2d_ref),
 	robotIndex_(robotIndex)
 {}
 
@@ -1107,10 +1134,10 @@ const Eigen::VectorXd& GazeTask::normalAcc()
 
 
 PositionBasedVisServoTask::PositionBasedVisServoTask(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, int bodyId,
+	int robotIndex, const std::string& bodyName,
 	const sva::PTransformd& X_t_s,
 	const sva::PTransformd& X_b_s):
-	pbvst_(mbs[robotIndex], bodyId, X_t_s, X_b_s),
+	pbvst_(mbs[robotIndex], bodyName, X_t_s, X_b_s),
 	robotIndex_(robotIndex)
 {}
 
@@ -1367,7 +1394,8 @@ void MultiCoMTask::init(const std::vector<rbd::MultiBody>& mbs)
 
 MultiRobotTransformTask::MultiRobotTransformTask(
 	const std::vector<rbd::MultiBody>& mbs,
-	int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+	int r1Index, int r2Index,
+	const std::string& r1BodyName, const std::string& r2BodyName,
 	const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s,
 	double stiffness, double weight):
 	Task(weight),
@@ -1377,7 +1405,7 @@ MultiRobotTransformTask::MultiRobotTransformTask(
 	dimWeight_(Eigen::Vector6d::Ones()),
 	posInQ_(2, -1),
 	robotIndexes_{{r1Index, r2Index}},
-	mrtt_(mbs, r1Index, r2Index, r1BodyId, r2BodyId, X_r1b_r1s, X_r2b_r2s),
+	mrtt_(mbs, r1Index, r2Index, r1BodyName, r2BodyName, X_r1b_r1s, X_r2b_r2s),
 	Q_(),
 	C_(),
 	CSum_(),
@@ -1584,17 +1612,13 @@ void ContactTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	int nrLambda = 0;
 	begin_ = data.lambdaBegin();
 	std::vector<FrictionCone> cones;
+	int curLambda = 0;
 
 	if(nrLambda == 0)
 	{
 		for(const BilateralContact& uc: data.allContacts())
 		{
-			int curLambda = 0;
-			for(std::size_t i = 0; i < uc.r1Points.size(); ++i)
-			{
-				curLambda += uc.nrLambda(static_cast<int>(i));
-			}
-
+			curLambda = uc.nrLambda();
 			if(uc.contactId == contactId_)
 			{
 				nrLambda = curLambda;
@@ -1627,8 +1651,9 @@ void ContactTask::update(const std::vector<rbd::MultiBody>& /* mbs */,
 	const std::vector<rbd::MultiBodyConfig>& /* mbcs */,
 	const SolverData& /* data */)
 {
-	C_.noalias() = -conesJac_.transpose()*
-			(stiffness_*error_ - stiffnessSqrt_*errorD_);
+	/*C_.noalias() = -conesJac_.transpose()*
+			(stiffness_*error_ - stiffnessSqrt_*errorD_);*/
+          C_.noalias() = -conesJac_.transpose()*error_;
 }
 
 
@@ -1727,9 +1752,9 @@ const Eigen::VectorXd& GripperTorqueTask::C() const
 
 
 LinVelocityTask::LinVelocityTask(const std::vector<rbd::MultiBody>& mbs,
-	int rI, int bodyId,
+	int rI, const std::string& bodyName,
 	const Eigen::Vector3d& speed, const Eigen::Vector3d& bodyPoint):
-	pt_(mbs[rI], bodyId, speed, bodyPoint),
+	pt_(mbs[rI], bodyName, speed, bodyPoint),
 	robotIndex_(rI)
 {
 }
@@ -1779,12 +1804,12 @@ const Eigen::VectorXd& LinVelocityTask::normalAcc()
 
 
 OrientationTrackingTask::OrientationTrackingTask(
-	const std::vector<rbd::MultiBody>& mbs, int rI, int bodyId,
+	const std::vector<rbd::MultiBody>& mbs, int rI, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
-	const std::vector<int>& trackingJointsId,
+	const std::vector<std::string>& trackingJointsName,
 	const Eigen::Vector3d& trackedPoint):
 	robotIndex_(rI),
-	ott_(mbs[rI], bodyId, bodyPoint, bodyAxis, trackingJointsId, trackedPoint),
+	ott_(mbs[rI], bodyName, bodyPoint, bodyAxis, trackingJointsName, trackedPoint),
 	alphaVec_(mbs[rI].nrDof()),
 	speed_(3),
 	normalAcc_(3)
@@ -1888,8 +1913,9 @@ const Eigen::VectorXd& RelativeDistTask::normalAcc()
 
 
 VectorOrientationTask::VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int rI,
-	int bodyId, const Eigen::Vector3d& bodyVector, const Eigen::Vector3d& targetVector):
-	vot_(mbs[rI], bodyId, bodyVector, targetVector),
+	const std::string& bodyName, const Eigen::Vector3d& bodyVector,
+	const Eigen::Vector3d& targetVector):
+	vot_(mbs[rI], bodyName, bodyVector, targetVector),
 	robotIndex_(rI)
 {
 }

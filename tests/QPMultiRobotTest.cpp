@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -82,13 +84,13 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
 	qp::QPSolver solver;
 
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact(0, 1, 3, 3,
+		{qp::UnilateralContact(0, 1, "b3", "b3",
 			{Vector3d::Zero()}, RotX(cst::pi<double>()/2.), X_b1_b2,
 			3, std::tan(cst::pi<double>()/4.))};
 
 	Matrix3d oriD = RotZ(cst::pi<double>()/4.);
 	Vector3d posD(oriD*mbc2Init.bodyPosW.back().translation());
-	qp::PositionTask posTask(mbs, 1, 3, posD);
+	qp::PositionTask posTask(mbs, 1, "b3", posD);
 	qp::SetPointTask posTaskSp(mbs, 1, &posTask, 1000., 1.);
 
 	qp::ContactAccConstr contCstrAcc;
@@ -128,7 +130,7 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
 	// Also test OrientationTask on the second robot
 
 	mbcs = {mbc1Init, mbc2Init};
-	qp::OrientationTask oriTask(mbs, 1, 3, oriD);
+	qp::OrientationTask oriTask(mbs, 1, "b3", oriD);
 	qp::SetPointTask oriTaskSp(mbs, 1, &oriTask, 1000., 1.);
 
 	qp::ContactSpeedConstr contCstrSpeed(0.001);
@@ -229,19 +231,19 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 
 	// The fixed robot can pull the other
 	std::vector<qp::UnilateralContact> contVecFail =
-		{qp::UnilateralContact(0, 1, 3, 0,
+		{qp::UnilateralContact(0, 1, "b3", "b0",
 			points, RotX(-cst::pi<double>()/2.), X_b1_b2,
 			nrGen, 0.7)};
 
 	// The fixed robot can push the other
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact({0, 1, 3, 0},
+		{qp::UnilateralContact({0, 1, "b3", "b0"},
 			points, RotX(cst::pi<double>()/2.), X_b1_b2,
 			nrGen, 0.7)};
 
 	// The fixed robot has non coplanar force apply on the other
 	std::vector<qp::BilateralContact> contVecBi =
-		{qp::BilateralContact({0, 1, 3, 0},
+		{qp::BilateralContact({0, 1, "b3", "b0"},
 			biPoints, biFrames, X_b1_b2,
 			nrGen, 1.)};
 
@@ -384,7 +386,7 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
 	const int nrGen = 3;
 	// The fixed robot can push the other
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact({0, 1, 3, 3},
+		{qp::UnilateralContact({0, 1, "b3", "b3"},
 		 {Vector3d(0.,0.,0.)}, RotX(cst::pi<double>()/2.), X_b1_b2,
 			nrGen, 0.7)};
 
@@ -473,7 +475,7 @@ BOOST_AUTO_TEST_CASE(MultiRobotTransformTest)
 
 	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
 	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
-	qp::MultiRobotTransformTask mrtt(mbs, 0, 1, 3, 3,
+	qp::MultiRobotTransformTask mrtt(mbs, 0, 1, "b3", "b3",
 		sva::PTransformd(sva::RotZ(-cst::pi<double>()/8.)),
 		sva::PTransformd::Identity(), 100., 1000.);
 	mrtt.dimWeight((Vector6d() << 0., 0., 1., 1., 1.,0.).finished());
@@ -503,4 +505,81 @@ BOOST_AUTO_TEST_CASE(MultiRobotTransformTest)
 	solver.removeTask(&posture1Task);
 	solver.removeTask(&posture2Task);
 	solver.removeTask(&mrtt);
+}
+
+
+// Test the TorqueTask
+BOOST_AUTO_TEST_CASE(TorqueTaskTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	MultiBody mb1, mb2;
+	MultiBodyConfig mbc1Init, mbc2Init;
+
+	std::tie(mb1, mbc1Init) = makeZXZArm(true,
+		sva::PTransformd(sva::RotZ(-cst::pi<double>()/4.), Vector3d(-0.5, 0., 0.)));
+	forwardKinematics(mb1, mbc1Init);
+	forwardVelocity(mb1, mbc1Init);
+
+	std::tie(mb2, mbc2Init) = makeZXZArm(false,
+		 sva::PTransformd(sva::RotZ(cst::pi<double>()/2.), Vector3d(0.5, 0., 0.)));
+	forwardKinematics(mb2, mbc2Init);
+	forwardVelocity(mb2, mbc2Init);
+
+	std::vector<MultiBody> mbs = {mb1, mb2};
+	std::vector<MultiBodyConfig> mbcs = {mbc1Init, mbc2Init};
+
+	// Test ContactAccConstr constraint
+	// Also test PositionTask on the second robot
+
+	qp::QPSolver solver;
+
+        std::vector<std::vector<double>> lsup;
+        std::vector<std::vector<double>> linf;
+        std::vector<double> sup;
+        std::vector<double> inf;
+
+        for(const auto j: mb1.joints())
+        {
+          sup.resize(j.dof());
+          inf.resize(j.dof());
+          std::fill(sup.begin(), sup.end(), 1e4);
+          std::fill(inf.begin(), inf.end(), -1e4);
+          lsup.push_back(sup);
+          linf.push_back(inf);
+        }
+
+        TorqueBound tb(lsup, linf);
+
+	qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
+	qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
+	qp::TorqueTask tt(mbs, 0, tb, 1);
+
+	solver.addTask(&posture1Task);
+	solver.addTask(&posture2Task);
+	solver.addTask(&tt);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+	// 3 dof + 9 dof
+	BOOST_CHECK_EQUAL(solver.nrVars(), 3 + 9);
+
+	for(int i = 0; i < 2000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		for(std::size_t r = 0; r < mbs.size(); ++r)
+		{
+			eulerIntegration(mbs[r], mbcs[r], 0.005);
+
+			forwardKinematics(mbs[r], mbcs[r]);
+			forwardVelocity(mbs[r], mbcs[r]);
+		}
+	}
+	solver.removeTask(&posture1Task);
+	solver.removeTask(&posture2Task);
+	solver.removeTask(&tt);
 }

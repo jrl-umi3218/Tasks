@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -16,7 +18,6 @@
 // includes
 // std
 #include <fstream>
-#include <iostream>
 #include <tuple>
 
 // boost
@@ -118,7 +119,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	solver.updateConstrSize();
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
-	qp::PositionTask posTask(mbs, 0, 3, posD);
+	qp::PositionTask posTask(mbs, 0, "b3", posD);
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
 	// Test addTask
@@ -143,7 +144,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
 
-	qp::OrientationTask oriTask(mbs, 0, 3, RotZ(cst::pi<double>()/2.));
+	qp::OrientationTask oriTask(mbs, 0, "b3", RotZ(cst::pi<double>()/2.));
 	qp::SetPointTask oriTaskSp(mbs, 0, &oriTask, 10., 1.);
 
 	// Test addTask
@@ -169,7 +170,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 
 
 	qp::PostureTask postureTask(mbs, 0, {{}, {0.2}, {0.4}, {-0.8}}, 10., 1.);
-	postureTask.jointsStiffness(mbs, {{2, 10.}});
+	postureTask.jointsStiffness(mbs, {{"j2", 10.}});
 	solver.addTask(&postureTask);
 
 	// Test PostureTask
@@ -210,7 +211,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
 	solver.removeTask(&comTaskSp);
 
 
-	qp::LinVelocityTask linVelocityTask(mbs, 0, 3, -Vector3d::UnitX()*0.005);
+	qp::LinVelocityTask linVelocityTask(mbs, 0, "b3", -Vector3d::UnitX()*0.005);
 	qp::SetPointTask linVelocityTaskSp(mbs, 0, &linVelocityTask, 1000., 10000.);
 
 	solver.addTask(&linVelocityTaskSp);
@@ -261,14 +262,14 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 
 	std::vector<qp::UnilateralContact> contVec =
-		{qp::UnilateralContact(0, 1, 3, 0, {Vector3d::Zero()}, Matrix3d::Identity(),
+		{qp::UnilateralContact(0, 1, "b3", "b0", {Vector3d::Zero()}, Matrix3d::Identity(),
 		 sva::PTransformd::Identity(), 3, std::tan(cst::pi<double>()/4.))};
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
-	qp::PositionTask posTask(mbs, 0, 3, posD);
+	qp::PositionTask posTask(mbs, 0, "b3", posD);
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
-	qp::OrientationTask oriTask(mbs, 0, 3, RotZ(cst::pi<double>()/2.));
+	qp::OrientationTask oriTask(mbs, 0, "b3", RotZ(cst::pi<double>()/2.));
 	qp::SetPointTask oriTaskSp(mbs, 0, &oriTask, 10., 1.);
 
 
@@ -428,7 +429,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	// MotionConstr test with contact
 	mbcs[0] = mbcInit;
 	contVec =
-		{qp::UnilateralContact(0, 1, 3, 0, {Vector3d::Zero()}, Matrix3d::Identity(),
+		{qp::UnilateralContact(0, 1, "b3", "b0", {Vector3d::Zero()}, Matrix3d::Identity(),
 		 sva::PTransformd::Identity(), 3, std::tan(cst::pi<double>()/4.))};
 
 	solver.addGenInequalityConstraint(&motionCstr);
@@ -493,8 +494,8 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
 
 	qp::QPSolver solver;
 
-	int bodyI = mb.bodyIndexById(3);
-	qp::PositionTask posTask(mbs, 0, 3,
+	int bodyI = mb.bodyIndexByName("b3");
+	qp::PositionTask posTask(mbs, 0, "b3",
 		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
@@ -574,8 +575,8 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 
 	qp::QPSolver solver;
 
-	int bodyI = mb.bodyIndexById(3);
-	qp::PositionTask posTask(mbs, 0, 3,
+	int bodyI = mb.bodyIndexByName("b3");
+	qp::PositionTask posTask(mbs, 0, "b3",
 		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
@@ -656,8 +657,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
 	qp::QPSolver solver;
 
-	int bodyI = mb.bodyIndexById(3);
-	qp::PositionTask posTask(mbs, 0, 3,
+	int bodyI = mb.bodyIndexByName("b3");
+	qp::PositionTask posTask(mbs, 0, "b3",
 		RotZ(cst::pi<double>()/2.)*mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
@@ -813,8 +814,8 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 
 	qp::QPSolver solver;
 
-	int bodyI = mb.bodyIndexById(3);
-	qp::PositionTask posTask(mbs, 0, 3, mbcInit.bodyPosW[bodyI].translation());
+	int bodyI = mb.bodyIndexByName("b3");
+	qp::PositionTask posTask(mbs, 0, "b3", mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
 
 	sch::S_Sphere b0(0.25), b3(0.25);
@@ -824,8 +825,8 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 	qp::CollisionConstr autoCollConstr(mbs, 0.001);
 	int collId1 = 10;
 	autoCollConstr.addCollision(mbs, collId1,
-		0, 0, &b0, I,
-		0, 3, &b3, I,
+		0, "b0", &b0, I,
+		0, "b3", &b3, I,
 		0.01, 0.005, 1.);
 	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
 
@@ -867,8 +868,8 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
 
 	// test automatic damping computation
 	autoCollConstr.addCollision(mbs, collId1,
-		0, 0, &b0, I,
-		0, 3, &b3, I,
+		0, "b0", &b0, I,
+		0, "b3", &b3, I,
 		0.1, 0.01, 0., 0.1);
 	BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
 	posTask.position(mbcInit.bodyPosW[bodyI].translation());
@@ -933,8 +934,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 
 	qp::QPSolver solver;
 
-	int bodyI = mb.bodyIndexById(3);
-	qp::PositionTask posTask(mbs, 0, 3, mbcInit.bodyPosW[bodyI].translation());
+	int bodyI = mb.bodyIndexByName("b3");
+	qp::PositionTask posTask(mbs, 0, "b3", mbcInit.bodyPosW[bodyI].translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
 
 	sch::S_Sphere b0(0.25), b3(0.25);
@@ -946,8 +947,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 	qp::CollisionConstr seCollConstr(mbs, 0.001);
 	int collId1 = 10;
 	seCollConstr.addCollision(mbs, collId1,
-		0, 3, &b3, I,
-		1, 0, &b0, I,
+		0, "b3", &b3, I,
+		1, "b0", &b0, I,
 		0.01, 0.005, 1.);
 	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
 
@@ -989,8 +990,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
 
 	// test damping computation
 	seCollConstr.addCollision(mbs, collId1,
-		0, 3, &b3, I,
-		1, 0, &b0, I,
+		0, "b3", &b3, I,
+		1, "b0", &b0, I,
 		0.1, 0.01, 0., 0.1);
 	BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
 	posTask.position(mbcInit.bodyPosW[bodyI].translation());
@@ -1087,11 +1088,11 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 		};
 
 	std::vector<qp::UnilateralContact> uni =
-		{qp::UnilateralContact(0, 1, 0, 0,
+		{qp::UnilateralContact(0, 1, "b0", "b0",
 			points, Matrix3d::Identity(), sva::PTransformd::Identity(),
 			3, 0.7)};
 	std::vector<qp::BilateralContact> bi =
-		{qp::BilateralContact(0, 1, 0, 0,
+		{qp::BilateralContact(0, 1, "b0", "b0",
 			points, biFrames, sva::PTransformd::Identity(),
 			3., 0.7)};
 
@@ -1198,11 +1199,11 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 
 	qp::ContactPosConstr contCstrSpeed(0.005);
 	// target in cf coordinate is transform into world frame
-	qp::PositionTask posTask(mbs, 0, 0,
+	qp::PositionTask posTask(mbs, 0, "b0",
 		(X_b1_cf*mbcInit.bodyPosW[0]).rotation().transpose()*Vector3d(1., 1., -1.));
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 	// Rotation in cf coordinate
-	qp::OrientationTask oriTask(mbs, 0, 0,
+	qp::OrientationTask oriTask(mbs, 0, "b0",
 		(X_b1_cf*mbcInit.bodyPosW[0]).rotation().transpose()*sva::RotY(0.1)*sva::RotX(0.5));
 	qp::SetPointTask oriTaskSp(mbs, 0, &oriTask, 10., 1.);
 
@@ -1219,7 +1220,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 
 	sva::PTransformd X_b1_b2(mbcEnv.bodyPosW[0]*mbcInit.bodyPosW[0].inv());
 	std::vector<qp::UnilateralContact> uni =
-		{qp::UnilateralContact(0, 1, 0, 0,
+		{qp::UnilateralContact(0, 1, "b0", "b0",
 			points, Matrix3d::Identity(), X_b1_b2,
 			3, 0.7, X_b1_cf)};
 
@@ -1233,7 +1234,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	contactDof(4, 4) = 1.;
 
 	// test Z free
-	contCstrSpeed.addDofContact({0, 1, 0, 0}, contactDof);
+	contCstrSpeed.addDofContact({0, 1, "b0", "b0"}, contactDof);
 	solver.nrVars(mbs, uni, {});
 	solver.updateConstrSize();
 
@@ -1262,7 +1263,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	contactDof(3, 3) = 1.;
 	contactDof(4, 5) = 1.;
 	contCstrSpeed.resetDofContacts();
-	contCstrSpeed.addDofContact({0, 1, 0, 0}, contactDof);
+	contCstrSpeed.addDofContact({0, 1, "b0", "b0"}, contactDof);
 	contCstrSpeed.updateDofContacts();
 	mbcs[0] = mbcInit;
 	for(int i = 0; i < 100; ++i)
@@ -1289,14 +1290,14 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	contactDof(3, 4) = 1.;
 	contactDof(4, 5) = 1.;
 	contCstrSpeed.resetDofContacts();
-	contCstrSpeed.addDofContact({0, 1, 0, 0}, contactDof);
+	contCstrSpeed.addDofContact({0, 1, "b0", "b0"}, contactDof);
 	contCstrSpeed.updateDofContacts();
 
 	// add the orientation task in cf coordinate
 	solver.addTask(&oriTaskSp);
 	solver.updateTasksNrVars(mbs);
 	mbcs[0] = mbcInit;
-	for(int i = 0; i < 100; ++i)
+	for(int i = 0; i < 1000; ++i)
 	{
 		BOOST_REQUIRE(solver.solve(mbs, mbcs));
 		eulerIntegration(mbs[0], mbcs[0], 0.005);
@@ -1335,13 +1336,13 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 	qp::QPSolver solver;
 	solver.solver("QLD");
 
-	int bodyId = 3;
-	int bodyIndex = mb.bodyIndexById(bodyId);
+	std::string bodyName("b3");
+	int bodyIndex = mb.bodyIndexByName(bodyName);
 	sva::PTransformd bodyPoint(Vector3d(0., 0.1, 0.));
 
 	qp::BoundedSpeedConstr constSpeed(mbs, 0, 0.005);
 	qp::PostureTask postureTask(mbs, 0, {{}, {0.}, {0.}, {0.}}, 1., 0.01);
-	qp::PositionTask posTask(mbs, 0, bodyId, Vector3d(1., -1., 1.), bodyPoint.translation());
+	qp::PositionTask posTask(mbs, 0, bodyName, Vector3d(1., -1., 1.), bodyPoint.translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 20., 1.);
 	MatrixXd dof(1, 6);
 	VectorXd speed(1);
@@ -1349,7 +1350,7 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 	// X body axis must have 0 velocity
 	dof << 0.,0.,0.,1.,0.,0.;
 	speed << 0.;
-	constSpeed.addBoundedSpeed(mbs, bodyId, bodyPoint.translation(), dof, speed);
+	constSpeed.addBoundedSpeed(mbs, bodyName, bodyPoint.translation(), dof, speed);
 	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 1);
 
 	constSpeed.addToSolver(solver);
@@ -1378,7 +1379,7 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 
 
 	// same test but with Z axis
-	BOOST_CHECK(constSpeed.removeBoundedSpeed(bodyId));
+	BOOST_CHECK(constSpeed.removeBoundedSpeed(bodyName));
 	constSpeed.updateBoundedSpeeds();
 	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 0);
 	BOOST_CHECK_EQUAL(constSpeed.maxGenInEq(), 0);
@@ -1386,7 +1387,7 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 	// must resize constraint matrix since nrMaxIneq has changed
 	solver.updateConstrSize();
 	dof << 0.,0.,0.,0.,0.,1.;
-	constSpeed.addBoundedSpeed(mbs, bodyId, bodyPoint.translation(), dof, speed);
+	constSpeed.addBoundedSpeed(mbs, bodyName, bodyPoint.translation(), dof, speed);
 	constSpeed.updateBoundedSpeeds();
 	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 1);
 	BOOST_CHECK_EQUAL(constSpeed.maxGenInEq(), 1);
@@ -1473,7 +1474,7 @@ BOOST_AUTO_TEST_CASE(SurfaceOrientationTask)
 	solver.nrVars(mbs, {}, {});
 	solver.updateConstrSize();
 
-	qp::SurfaceOrientationTask surfOriTask(mbs, 0, 3,
+	qp::SurfaceOrientationTask surfOriTask(mbs, 0, "b3",
 		RotZ(cst::pi<double>()/2.), sva::PTransformd(Vector3d(0., 0., 0.)));
 	qp::SetPointTask surfOriTaskSp(mbs, 0, &surfOriTask, 10., 1.);
 
@@ -1507,9 +1508,9 @@ BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
 
 	qp::QPSolver solver;
 
-	int bodyI = mb.bodyIndexById(3);
+	int bodyI = mb.bodyIndexByName("b3");
 	Eigen::Vector3d initPos(mbcInit.bodyPosW[bodyI].translation());
-	qp::PositionTask posTask(mbs, 0, 3, initPos);
+	qp::PositionTask posTask(mbs, 0, "b3", initPos);
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
 	Eigen::Vector3d n1(0., 0., -1.);
 	Eigen::Vector3d n2(0., 0., 1.);
@@ -1607,10 +1608,10 @@ BOOST_AUTO_TEST_CASE(JointsSelector)
 
 	qp::QPSolver solver;
 
-	qp::PositionTask pt(mbs, 0, 3, Vector3d::Zero());
+	qp::PositionTask pt(mbs, 0, "b3", Vector3d::Zero());
 	// construct two JointSelector that should have the same joints
-	qp::JointsSelector js1(qp::JointsSelector::ActiveJoints(mbs, 0, &pt, {2, 1}));
-	qp::JointsSelector js2(qp::JointsSelector::UnactiveJoints(mbs, 0, &pt, {0, -1}));
+	qp::JointsSelector js1(qp::JointsSelector::ActiveJoints(mbs, 0, &pt, {"j2", "j1"}));
+	qp::JointsSelector js2(qp::JointsSelector::UnactiveJoints(mbs, 0, &pt, {"j0", "Root"}));
 	qp::SetPointTask js1Sp(mbs, 0, &js1, 1., 1.);
 	qp::SetPointTask js2Sp(mbs, 0, &js2, 1., 1.);
 
@@ -1684,7 +1685,7 @@ BOOST_AUTO_TEST_CASE(QPTransformTaskTest)
 		Vector3d::Random());
 	Quaterniond E_0_c(Vector4d::Random().normalized());
 
-	qp::TransformTask transTask(mbs, 0, 3, X_0_t, X_b_s, E_0_c.matrix());
+	qp::TransformTask transTask(mbs, 0, "b3", X_0_t, X_b_s, E_0_c.matrix());
 	VectorXd dimW(6);
 	dimW << 1., 1., 1., 1., 1., 1.;
 	qp::SetPointTask transTaskSp(mbs, 0, &transTask, 10., dimW, 100.);
@@ -1715,7 +1716,7 @@ BOOST_AUTO_TEST_CASE(QPTransformTaskTest)
 
 
 	// Test SurfaceTransformTask
-	qp::SurfaceTransformTask surfTransTask(mbs, 0, 3, X_0_t, X_b_s);
+	qp::SurfaceTransformTask surfTransTask(mbs, 0, "b3", X_0_t, X_b_s);
 	qp::SetPointTask surfTransTaskSp(mbs, 0, &surfTransTask, 10., dimW, 100.);
 	solver.addTask(&surfTransTaskSp);
 	solver.updateTasksNrVars(mbs);

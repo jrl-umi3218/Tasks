@@ -1,4 +1,7 @@
 INPUT                  = @CMAKE_SOURCE_DIR@/src
 IMAGE_PATH             = @CMAKE_SOURCE_DIR@/doc/pictures
 FILE_PATTERNS          = *.h *.idl
-
+TAGFILES = \
+"@SPACEVECALG_DOXYGENDOCDIR@/SpaceVecAlg.doxytag = @SPACEVECALG_DOXYGENDOCDIR@" \
+"@RBDYN_DOXYGENDOCDIR@/RBDyn.doxytag = @RBDYN_DOXYGENDOCDIR@" \
+"@SCH_CORE_DOXYGENDOCDIR@/sch-core.doxytag = @SCH_CORE_DOXYGENDOCDIR@"

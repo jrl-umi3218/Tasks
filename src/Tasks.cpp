@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -19,6 +21,7 @@
 
 // includes
 // std
+#include <numeric>
 #include <set>
 
 // rbd
@@ -34,12 +37,12 @@ namespace tasks
 	*/
 
 
-PositionTask::PositionTask(const rbd::MultiBody& mb, int bodyId,
+PositionTask::PositionTask(const rbd::MultiBody& mb, const std::string& bodyName,
 	const Eigen::Vector3d& pos, const Eigen::Vector3d& bodyPoint):
 	pos_(pos),
 	point_(bodyPoint),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId, bodyPoint),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName, bodyPoint),
 	eval_(3),
 	speed_(3),
 	normalAcc_(3),
@@ -141,10 +144,10 @@ const Eigen::MatrixXd& PositionTask::jacDot() const
 	*/
 
 
-OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Quaterniond& ori):
+OrientationTask::OrientationTask(const rbd::MultiBody& mb, const std::string& bodyName, const Eigen::Quaterniond& ori):
 	ori_(ori.matrix()),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	eval_(3),
 	speed_(3),
 	normalAcc_(3),
@@ -154,10 +157,10 @@ OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eig
 }
 
 
-OrientationTask::OrientationTask(const rbd::MultiBody& mb, int bodyId, const Eigen::Matrix3d& ori):
+OrientationTask::OrientationTask(const rbd::MultiBody& mb, const std::string& bodyName, const Eigen::Matrix3d& ori):
 	ori_(ori),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	eval_(3),
 	speed_(3),
 	normalAcc_(3),
@@ -250,12 +253,12 @@ const Eigen::MatrixXd& OrientationTask::jacDot() const
 	*/
 
 
-TransformTaskCommon::TransformTaskCommon(const rbd::MultiBody& mb, int bodyId,
+TransformTaskCommon::TransformTaskCommon(const rbd::MultiBody& mb, const std::string& bodyName,
 		const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
 	X_0_t_(X_0_t),
 	X_b_p_(X_b_p),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	eval_(6),
 	speed_(6),
 	normalAcc_(6),
@@ -317,9 +320,9 @@ const Eigen::MatrixXd& TransformTaskCommon::jac() const
 	*/
 
 
-SurfaceTransformTask::SurfaceTransformTask(const rbd::MultiBody& mb, int bodyId,
+SurfaceTransformTask::SurfaceTransformTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p):
-	TransformTaskCommon(mb, bodyId, X_0_t, X_b_p),
+	TransformTaskCommon(mb, bodyName, X_0_t, X_b_p),
 	jacMatTmp_(6, jac_.dof())
 {
 }
@@ -360,10 +363,10 @@ void SurfaceTransformTask::update(const rbd::MultiBody& mb,
 	*/
 
 
-TransformTask::TransformTask(const rbd::MultiBody& mb, int bodyId,
+TransformTask::TransformTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const sva::PTransformd& X_0_t, const sva::PTransformd& X_b_p,
 		const Eigen::Matrix3d& E_0_c):
-	TransformTaskCommon(mb, bodyId, X_0_t, X_b_p),
+	TransformTaskCommon(mb, bodyName, X_0_t, X_b_p),
 	E_0_c_(E_0_c)
 {
 }
@@ -406,16 +409,17 @@ void TransformTask::update(const rbd::MultiBody& mb,
 
 MultiRobotTransformTask::MultiRobotTransformTask(
 	const std::vector<rbd::MultiBody>& mbs,
-	int r1Index, int r2Index, int r1BodyId, int r2BodyId,
+	int r1Index, int r2Index,
+	const std::string& r1BodyName, const std::string& r2BodyName,
 	const sva::PTransformd& X_r1b_r1s, const sva::PTransformd& X_r2b_r2s):
 	r1Index_(r1Index),
 	r2Index_(r2Index),
-	r1BodyIndex_(mbs[r1Index].bodyIndexById(r1BodyId)),
-	r2BodyIndex_(mbs[r2Index].bodyIndexById(r2BodyId)),
+	r1BodyIndex_(mbs[r1Index].bodyIndexByName(r1BodyName)),
+	r2BodyIndex_(mbs[r2Index].bodyIndexByName(r2BodyName)),
 	X_r1b_r1s_(X_r1b_r1s),
 	X_r2b_r2s_(X_r2b_r2s),
-	jacR1B_(mbs[r1Index], r1BodyId),
-	jacR2B_(mbs[r2Index], r2BodyId),
+	jacR1B_(mbs[r1Index], r1BodyName),
+	jacR2B_(mbs[r2Index], r2BodyName),
 	eval_(6),
 	speed_(6),
 	normalAcc_(6),
@@ -550,10 +554,11 @@ const Eigen::MatrixXd& MultiRobotTransformTask::jac(int index) const
 
 
 SurfaceOrientationTask::SurfaceOrientationTask(const rbd::MultiBody& mb,
-	int bodyId, const Eigen::Quaterniond& ori, const sva::PTransformd& X_b_s):
+	const std::string& bodyName, const Eigen::Quaterniond& ori,
+	const sva::PTransformd& X_b_s):
 	ori_(ori.matrix()),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	X_b_s_(X_b_s),
 	eval_(3),
 	speed_(3),
@@ -565,10 +570,10 @@ SurfaceOrientationTask::SurfaceOrientationTask(const rbd::MultiBody& mb,
 
 
 SurfaceOrientationTask::SurfaceOrientationTask(const rbd::MultiBody& mb,
-	int bodyId, const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s):
+	const std::string& bodyName, const Eigen::Matrix3d& ori, const sva::PTransformd& X_b_s):
 	ori_(ori),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	X_b_s_(X_b_s),
 	eval_(3),
 	speed_(3),
@@ -675,14 +680,14 @@ const Eigen::MatrixXd& SurfaceOrientationTask::jacDot() const
 	*/
 
 
-GazeTask::GazeTask(const rbd::MultiBody &mb, int bodyId,
+GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 	const Eigen::Vector2d& point2d, double depthEstimate, const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
 	point2d_(point2d),
 	point2d_ref_(point2d_ref),
 	depthEstimate_(depthEstimate),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	X_b_gaze_(X_b_gaze),
 	eval_(2),
 	speed_(2),
@@ -693,12 +698,12 @@ GazeTask::GazeTask(const rbd::MultiBody &mb, int bodyId,
 }
 
 
-GazeTask::GazeTask(const rbd::MultiBody &mb, int bodyId,
+GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 	const Eigen::Vector3d &point3d, const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
 	point2d_ref_(point2d_ref),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	X_b_gaze_(X_b_gaze),
 	eval_(2),
 	speed_(2),
@@ -778,14 +783,15 @@ const Eigen::MatrixXd& GazeTask::jacDot() const
 	*/
 
 
-PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb, int bodyId,
-	const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s):
+PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb,
+	const std::string& bodyName, const sva::PTransformd& X_t_s,
+	const sva::PTransformd& X_b_s):
 	X_t_s_(X_t_s),
 	X_b_s_(X_b_s),
 	angle_(0.),
 	axis_(Eigen::Vector3d::Zero()),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	L_pbvs_(Eigen::Matrix<double, 6, 6>::Zero()),
 	eval_(6),
 	speed_(6),
@@ -1319,12 +1325,12 @@ const Eigen::MatrixXd& MomentumTask::jacDot() const
 	*/
 
 
-LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, int bodyId,
+LinVelocityTask::LinVelocityTask(const rbd::MultiBody& mb, const std::string& bodyName,
 	const Eigen::Vector3d& v, const Eigen::Vector3d& bodyPoint):
 	vel_(v),
 	point_(bodyPoint),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId, bodyPoint),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName, bodyPoint),
 	eval_(3),
 	speed_(3),
 	normalAcc_(3),
@@ -1424,24 +1430,25 @@ const Eigen::MatrixXd& LinVelocityTask::jacDot() const
 
 
 OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody& mb,
-	int bodyId, const Eigen::Vector3d& bodyPoint, const Eigen::Vector3d& bodyAxis,
-	const std::vector<int>& trackingJointsId,
+	const std::string& bodyName, const Eigen::Vector3d& bodyPoint,
+	const Eigen::Vector3d& bodyAxis,
+	const std::vector<std::string>& trackingJointsName,
 	const Eigen::Vector3d& trackedPoint):
-	bodyIndex_(mb.bodyIndexById(bodyId)),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	bodyPoint_(bodyPoint),
 	bodyAxis_(bodyAxis),
 	zeroJacIndex_(),
 	trackedPoint_(trackedPoint),
-	jac_(mb, bodyId),
+	jac_(mb, bodyName),
 	eval_(3),
 	shortJacMat_(3, jac_.dof()),
 	jacMat_(3, mb.nrDof()),
 	jacDotMat_(3, mb.nrDof())
 {
 	std::set<int> trackingJointsIndex;
-	for(int id: trackingJointsId)
+	for(const std::string& name: trackingJointsName)
 	{
-		trackingJointsIndex.insert(mb.jointIndexById(id));
+		trackingJointsIndex.insert(mb.jointIndexByName(name));
 	}
 
 	int jacPos = 0;
@@ -1579,7 +1586,7 @@ RelativeDistTask::RelativeDistTask(const rbd::MultiBody& mb,
 
 RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const rbd::MultiBody& mb,
 	const rbInfo& rbi, const Eigen::Vector3d& fixedVector) :
-	b1Index(mb.bodyIndexById(std::get<0>(rbi))),
+	b1Index(mb.bodyIndexByName(std::get<0>(rbi))),
 	r_b1_p(std::get<1>(rbi)),
 	r_0_b2p(std::get<2>(rbi)),
 	jac(mb, std::get<0>(rbi), r_b1_p),
@@ -1701,13 +1708,14 @@ const Eigen::MatrixXd& RelativeDistTask::jac() const
 	*													VectorOrientationTask
 	*/
 
-VectorOrientationTask::VectorOrientationTask(const rbd::MultiBody &mb, int bodyId,
+VectorOrientationTask::VectorOrientationTask(const rbd::MultiBody &mb,
+	const std::string& bodyName,
 	const Eigen::Vector3d &bodyVector, const Eigen::Vector3d &targetVector) :
 	actualVector_(Eigen::Vector3d::Zero()),
 	bodyVector_(bodyVector),
 	targetVector_(targetVector),
-	bodyIndex_(mb.bodyIndexById(bodyId)),
-	jac_(mb, bodyId),
+	bodyIndex_(mb.bodyIndexByName(bodyName)),
+	jac_(mb, bodyName),
 	eval_(3),
 	speed_(3),
 	normalAcc_(3),

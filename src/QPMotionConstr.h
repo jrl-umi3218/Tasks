@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -32,13 +34,13 @@
 
 namespace tasks
 {
-class TorqueBound;
-class PolyTorqueBound;
+struct TorqueBound;
+struct PolyTorqueBound;
 
 namespace qp
 {
 
-class PositiveLambda : public ConstraintFunction<Bound>
+class TASKS_DLLAPI PositiveLambda : public ConstraintFunction<Bound>
 {
 public:
 	PositiveLambda();
@@ -75,7 +77,7 @@ private:
 };
 
 
-class MotionConstrCommon : public ConstraintFunction<GenInequality>
+class TASKS_DLLAPI MotionConstrCommon : public ConstraintFunction<GenInequality>
 {
 public:
 	MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
@@ -109,12 +111,13 @@ protected:
 	{
 		ContactData() {}
 		ContactData(const rbd::MultiBody& mb,
-			int bodyId, int lambdaBegin,
+			const std::string& bodyName, int lambdaBegin,
 			std::vector<Eigen::Vector3d> points,
 			const std::vector<FrictionCone>& cones);
 
 
-		int bodyIndex, lambdaBegin;
+		int bodyIndex;
+		int lambdaBegin;
 		rbd::Jacobian jac;
 		std::vector<Eigen::Vector3d> points;
 		// BEWARE generator are minus to avoid one multiplication by -1 in the
@@ -135,7 +138,7 @@ protected:
 };
 
 
-class MotionConstr : public MotionConstrCommon
+class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
 	MotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -145,6 +148,15 @@ public:
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
+        //Matrix
+        const Eigen::MatrixXd matrix() const
+        {
+          return A_;
+        }
+	//Contact torque
+	Eigen::MatrixXd contactMatrix() const;
+	//Access fd...
+	const rbd::ForwardDynamics fd() const;
 
 protected:
 	Eigen::VectorXd torqueL_, torqueU_;
@@ -154,16 +166,16 @@ protected:
 struct SpringJoint
 {
 	SpringJoint(){}
-	SpringJoint(int jId, double K, double C, double O):
-		jointId(jId),K(K),C(C),O(O)
+	SpringJoint(const std::string& jName, double K, double C, double O):
+		jointName(jName),K(K),C(C),O(O)
 	{}
 
-	int jointId;
+	std::string jointName;
 	double K, C, O;
 };
 
 
-class MotionSpringConstr : public MotionConstr
+class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 {
 public:
 	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
@@ -194,7 +206,7 @@ protected:
  * @brief Use polynome in function of q to compute torque limits.
  * BEWARE: Only work with 1 dof/param joint
  */
-class MotionPolyConstr : public MotionConstrCommon
+class TASKS_DLLAPI MotionPolyConstr : public MotionConstrCommon
 {
 public:
 	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,

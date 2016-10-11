@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -47,7 +49,7 @@ JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody>& mbs,
 	int robotIndex, QBound bound, double step):
 	robotIndex_(robotIndex),
 	alphaDBegin_(-1),
-	alphaDOffset_(mbs[robotIndex].joint(0).dof() > 1 ? mbs[robotIndex].nrDof() : 0),
+	alphaDOffset_(mbs[robotIndex].joint(0).dof() > 1 ? mbs[robotIndex].joint(0).dof() : 0),
 	step_(step),
 	qMin_(),
 	qMax_(),
@@ -319,13 +321,13 @@ sch::Matrix4x4 tosch(const sva::PTransformd& t)
 
 
 CollisionConstr::BodyCollData::BodyCollData(const rbd::MultiBody& mb,
-	int rI, int bId, sch::S_Object* h, const sva::PTransformd& X):
+	int rI, const std::string& bName, sch::S_Object* h, const sva::PTransformd& X):
 	hull(h),
-	jac(mb, bId),
+	jac(mb, bName),
 	X_op_o(X),
 	rIndex(rI),
-	bIndex(mb.bodyIndexById(bId)),
-	bodyId(bId)
+	bIndex(mb.bodyIndexByName(bName)),
+	bodyName(bName)
 {}
 
 
@@ -346,8 +348,6 @@ CollisionConstr::CollData::CollData(
 {
 }
 
-
-
 CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double step):
 	dataVec_(),
 	step_(step),
@@ -365,9 +365,9 @@ CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody>& mbs, double 
 
 
 void CollisionConstr::addCollision(const std::vector<rbd::MultiBody>& mbs, int collId,
-	int r1Index, int r1BodyId,
+	int r1Index, const std::string& r1BodyName,
 	sch::S_Object* body1, const sva::PTransformd& X_op1_o1,
-	int r2Index, int r2BodyId,
+	int r2Index, const std::string& r2BodyName,
 	sch::S_Object* body2, const sva::PTransformd& X_op2_o2,
 	double di, double ds, double damping, double dampingOff)
 {
@@ -376,11 +376,11 @@ void CollisionConstr::addCollision(const std::vector<rbd::MultiBody>& mbs, int c
 	std::vector<BodyCollData> bodies;
 	if(mb1.nrDof() > 0)
 	{
-		bodies.emplace_back(mb1, r1Index, r1BodyId, body1, X_op1_o1);
+		bodies.emplace_back(mb1, r1Index, r1BodyName, body1, X_op1_o1);
 	}
 	if(mb2.nrDof() > 0)
 	{
-		bodies.emplace_back(mb2, r2Index, r2BodyId, body2, X_op2_o2);
+		bodies.emplace_back(mb2, r2Index, r2BodyName, body2, X_op2_o2);
 	}
 
 	dataVec_.emplace_back(std::move(bodies), collId, body1, body2,
@@ -398,7 +398,6 @@ bool CollisionConstr::rmCollision(int collId)
 
 	if(it != dataVec_.end())
 	{
-		delete it->pair;
 		dataVec_.erase(it);
 		return true;
 	}
@@ -637,8 +636,11 @@ double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody>& mbs,
 
 CoMIncPlaneConstr::PlaneData::PlaneData(
 	int planeId, const Eigen::Vector3d& normal, double offset,
-	double di, double ds, double damping, double dampOff):
+	double di, double ds, double damping, double dampOff,
+        const Eigen::Vector3d& speed,
+        const Eigen::Vector3d& normalDot):
 		normal(normal),
+		normalDot(normalDot),
 		offset(offset),
 		dist(0.),
 		di(di),
@@ -646,7 +648,8 @@ CoMIncPlaneConstr::PlaneData::PlaneData(
 		damping(damping),
 		planeId(planeId),
 		dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
-		dampingOff(dampOff)
+		dampingOff(dampOff),
+		speed(speed)
 {
 }
 
@@ -672,9 +675,21 @@ void CoMIncPlaneConstr::addPlane(int planeId,
 	double di, double ds, double damping, double dampingOff)
 {
 	dataVec_.emplace_back(planeId, normal, offset,
-		di, ds, damping, dampingOff);
+		di, ds, damping, dampingOff, Eigen::Vector3d::Zero(),
+                Eigen::Vector3d::Zero());
 	activated_.reserve(dataVec_.size());
 }
+
+void CoMIncPlaneConstr::addPlane(int planeId,
+	const Eigen::Vector3d& normal, double offset,
+	double di, double ds, double damping,
+        const Eigen::Vector3d& speed, const Eigen::Vector3d& normalDot, double dampingOff)
+{
+	dataVec_.emplace_back(planeId, normal, offset,
+		di, ds, damping, dampingOff, speed, normalDot);
+	activated_.reserve(dataVec_.size());
+}
+
 
 
 bool CoMIncPlaneConstr::rmPlane(int planeId)
@@ -763,7 +778,8 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody>& mbs,
 		for(std::size_t i: activated_)
 		{
 			PlaneData& d = dataVec_[i];
-			double distDot = d.normal.dot(comSpeed);
+			double distDot = d.normal.dot(comSpeed-d.speed);
+			double distDDot = d.normalDot.dot(comSpeed-d.speed);
 
 			if(d.dampingType == PlaneData::DampingType::Free)
 			{
@@ -782,7 +798,7 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody>& mbs,
 				-(step_*d.normal.transpose())*jacComMat;
 
 			// dampers + ddot + dt*normal^T*J*qdot
-			bInEq_(nrActivated_) = dampers + distDot + step_*(d.normal.dot(comNormalAcc));
+			bInEq_(nrActivated_) = dampers + distDot + step_*(d.normal.dot(comNormalAcc)+distDDot);
 			++nrActivated_;
 		}
 	}
@@ -809,10 +825,14 @@ std::string CoMIncPlaneConstr::descInEq(const std::vector<rbd::MultiBody>& /* mb
 			{
 				std::stringstream ss;
 				ss << "planeId: " << d.planeId << std::endl;
+				ss << "normal: " << d.normal.transpose();
+				ss << "offset: " << d.offset << std::endl;
 				ss << "dist: " << d.dist << std::endl;
 				ss << "di: " << d.di << std::endl;
 				ss << "ds: " << d.ds << std::endl;
 				ss << "damp: " << d.damping << std::endl;
+				ss << "speed: " << d.speed.transpose() << std::endl;
+				ss << "normalDot: " << d.normalDot.transpose() << std::endl;
 				return ss.str();
 			}
 			++curLine;
@@ -951,19 +971,14 @@ std::string GripperTorqueConstr::nameInEq() const
 }
 
 
-std::string GripperTorqueConstr::descInEq(const std::vector<rbd::MultiBody>& mbs,
+std::string GripperTorqueConstr::descInEq(const std::vector<rbd::MultiBody>& /* mbs */,
 	int line)
 {
 	std::stringstream ss;
 	const GripperData& gd = dataVec_[line];
 
-	const rbd::MultiBody& mb1 = mbs[gd.contactId.r1Index];
-	const rbd::MultiBody& mb2 = mbs[gd.contactId.r1Index];
-	int r1BodyIndex = mb1.bodyIndexById(gd.contactId.r1BodyId);
-	int r2BodyIndex = mb2.bodyIndexById(gd.contactId.r2BodyId);
-
-	ss << mb1.body(r1BodyIndex).name() << "/" <<
-				mb2.body(r2BodyIndex).name() << std::endl;
+	ss << gd.contactId.r1BodyName << "/" <<
+				gd.contactId.r2BodyName << std::endl;
 	ss << "limits: " << gd.torqueLimit << std::endl;
 	return ss.str();
 }
@@ -1006,30 +1021,30 @@ BoundedSpeedConstr::BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 
 
 void BoundedSpeedConstr::addBoundedSpeed(
-	const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	const std::vector<rbd::MultiBody>& mbs, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& speed)
 {
-	addBoundedSpeed(mbs, bodyId, bodyPoint, dof, speed, speed);
+	addBoundedSpeed(mbs, bodyName, bodyPoint, dof, speed, speed);
 }
 
 
 void BoundedSpeedConstr::addBoundedSpeed(
-	const std::vector<rbd::MultiBody>& mbs, int bodyId,
+	const std::vector<rbd::MultiBody>& mbs, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed)
 {
-	rbd::Jacobian jac(mbs[robotIndex_], bodyId, bodyPoint);
-	cont_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyId});
+	rbd::Jacobian jac(mbs[robotIndex_], bodyName, bodyPoint);
+	cont_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyName});
 }
 
 
-bool BoundedSpeedConstr::removeBoundedSpeed(int bodyId)
+bool BoundedSpeedConstr::removeBoundedSpeed(const std::string& bodyName)
 {
 	auto it = std::find_if(cont_.begin(), cont_.end(),
-		[bodyId](const BoundedSpeedData& data)
+		[bodyName](const BoundedSpeedData& data)
 		{
-			return data.bodyId == bodyId;
+			return data.bodyName == bodyName;
 		});
 
 	if(it != cont_.end())

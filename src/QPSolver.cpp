@@ -1,3 +1,5 @@
+// Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+//
 // This file is part of Tasks.
 //
 // Tasks is free software: you can redistribute it and/or modify
@@ -18,8 +20,10 @@
 
 // includes
 // std
+#include <algorithm>
 #include <iostream>
 #include <limits>
+#include <numeric>
 #include <cmath>
 
 // RBDyn
