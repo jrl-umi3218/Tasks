@@ -121,16 +121,16 @@ MACRO(_SETUP_PROJECT_PACKAGE_INIT)
 #   * <prefix>/lib/cmake/<PROJECT-NAME>
 #   * <prefix>/lib/
 #   * <prefix>/include/
-set(config_install_dir "lib/cmake/${PROJECT_NAME}")
-set(include_install_dir "include")
-set(include_install_destination "${include_install_dir}/${PROJECT_NAME}")
+set(CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
+set(INCLUDE_INSTALL_DIR "include")
+set(INCLUDE_INSTALL_DESTINATION "${INCLUDE_INSTALL_DIR}/${PROJECT_NAME}")
 
-set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
 # Configuration
-set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
-set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
-set(targets_export_name "${PROJECT_NAME}Targets")
+set(VERSION_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+set(PROJECT_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
+set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
 set(namespace "${PROJECT_NAME}::")
 ENDMACRO(_SETUP_PROJECT_PACKAGE_INIT)
 
@@ -232,16 +232,16 @@ MACRO(_SETUP_PROJECT_PACKAGE_FINALIZE)
 #   * <prefix>/lib/cmake/<PROJECT-NAME>
 #   * <prefix>/lib/
 #   * <prefix>/include/
-set(config_install_dir "lib/cmake/${PROJECT_NAME}")
-set(include_install_dir "include")
-set(include_install_destination "${include_install_dir}/${PROJECT_NAME}")
+set(CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
+set(INCLUDE_INSTALL_DIR "include")
+set(INCLUDE_INSTALL_DESTINATION "${INCLUDE_INSTALL_DIR}/${PROJECT_NAME}")
 
-set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
 # Configuration
-set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
-set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
-set(targets_export_name "${PROJECT_NAME}Targets")
+set(VERSION_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+set(PROJECT_CONFIG "${GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
+set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
 set(namespace "${PROJECT_NAME}::")
 
 # Include module with fuction 'write_basic_package_version_file'
@@ -250,66 +250,33 @@ include(CMakePackageConfigHelpers)
 # Configure '<PROJECT-NAME>ConfigVersion.cmake'
 # Note: PROJECT_VERSION is used as a VERSION
 write_basic_package_version_file(
-    "${version_config}" COMPATIBILITY SameMajorVersion
+    "${VERSION_CONFIG}" COMPATIBILITY SameMajorVersion
 )
 
 # Configure '<PROJECT-NAME>Config.cmake'
 # Use variables:
-#   * targets_export_name
+#   * TARGETS_EXPORT_NAME
 #   * PROJECT_NAME
 configure_package_config_file(
     "cmake/Config.cmake.in"
-    "${project_config}"
-    INSTALL_DESTINATION "${config_install_dir}"
+    "${PROJECT_CONFIG}"
+    INSTALL_DESTINATION "${CONFIG_INSTALL_DIR}"
 )
-
-# # Targets:
-# #   * <prefix>/lib/libbar.a
-# #   * <prefix>/lib/libbaz.a
-# #   * header location after install: <prefix>/include/foo/Bar.hpp
-# #   * headers can be included by C++ code `#include <foo/Bar.hpp>`
-# install(
-#     TARGETS ${SETUP_PROJECT_PACKAGE_TARGETS}
-#     EXPORT "${targets_export_name}"
-#     LIBRARY DESTINATION "lib"
-#     ARCHIVE DESTINATION "lib"
-#     RUNTIME DESTINATION "bin"
-#     INCLUDES DESTINATION "${include_install_dir}"
-# )
-
-# # Headers:
-# #   * Source/foo/Bar.hpp -> <prefix>/include/foo/Bar.hpp
-# #   * Source/foo/Baz.hpp -> <prefix>/include/foo/Baz.hpp
-# install(
-#     DIRECTORY "Source/foo"
-#     DESTINATION "${include_install_dir}"
-#     FILES_MATCHING PATTERN "*.h*"
-# )
-
-# # Export headers:
-# #   * ${CMAKE_CURRENT_BINARY_DIR}/bar_export.h -> <prefix>/include/bar_export.h
-# #   * ${CMAKE_CURRENT_BINARY_DIR}/baz_export.h -> <prefix>/include/baz_export.h
-# install(
-#     FILES
-#         "${CMAKE_CURRENT_BINARY_DIR}/bar_export.h"
-#         "${CMAKE_CURRENT_BINARY_DIR}/baz_export.h"
-#     DESTINATION "${include_install_dir}"
-# )
 
 # Config
 #   * <prefix>/lib/cmake/Foo/FooConfig.cmake
 #   * <prefix>/lib/cmake/Foo/FooConfigVersion.cmake
 install(
-    FILES "${project_config}" "${version_config}"
-    DESTINATION "${config_install_dir}"
+    FILES "${PROJECT_CONFIG}" "${VERSION_CONFIG}"
+    DESTINATION "${CONFIG_INSTALL_DIR}"
 )
 
 # Config
 #   * <prefix>/lib/cmake/Foo/FooTargets.cmake
 install(
-    EXPORT "${targets_export_name}"
+    EXPORT "${TARGETS_EXPORT_NAME}"
     NAMESPACE "${namespace}"
-    DESTINATION "${config_install_dir}"
+    DESTINATION "${CONFIG_INSTALL_DIR}"
 )
 ENDMACRO(_SETUP_PROJECT_PACKAGE_FINALIZE)
 
