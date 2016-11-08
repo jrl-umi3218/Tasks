@@ -4,28 +4,28 @@
 [![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
 [![AppVeyor status](https://ci.appveyor.com/api/projects/status/nr1staa8w3hmvy3f/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
 
-The Tasks library is designed to make real-time control for kinematics tree and list of kinematics tree.
+Tasks is library for real time control of robots and kinematic trees using constrained optimization.
+It has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.
 
 ## Documentation
 
 Features:
  * Support Kinematics Tree with Revolute/Prismatic/Spherical/Free/Planar/Cylindrical joints
  * Dynamic motion (motion must fulfill the equation of motion)
- * Contacts forces in friction cone
+ * Contact forces in friction cones
  * Static contacts
  * Articular position, speed and torque limits
  * Collision avoidance
- * Multi-robot (can solve a problem involving multiple robots in contact)
+ * Multi-robot contact (can solve problems involving multiple robots in contact)
  * Tasks:
   * Posture target (articular position target, mandatory if you want avoid singularity issues)
   * Link Position/Orientation target
   * Link Velocity target
-  * CoM target
+  * Center of Mass (CoM) target
   * Momentum target
   * Contact force target
 
 To make sure that Tasks works as intended, unit tests are available for each algorithm.
-Besides, the library has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.
 
 The [SpaceVecAlg and RBDyn tutorial](https://github.com/jorisv/sva_rbdyn_tutorials) is also a big resources to understand how to use Tasks by providing a lot of IPython Notebook that will present real use case.
 
