@@ -37,7 +37,7 @@ Use the [multi-contact-unstable](https://launchpad.net/~pierre-gergondet+ppa/+ar
 ```bash
 sudo add-apt-repository ppa:pierre-gergondet+ppa/multi-contact-unstable
 sudo apt-get update
-sudo apt-get install tasks
+sudo apt-get install libtasks-dev libtasks-qld-doc
 ```
 
 ### Homebrew OS X install
