@@ -29,6 +29,8 @@ To make sure that Tasks works as intended, unit tests are available for each alg
 
 The [SpaceVecAlg and RBDyn tutorial](https://github.com/jorisv/sva_rbdyn_tutorials) is also a big resources to understand how to use Tasks by providing a lot of IPython Notebook that will present real use case.
 
+An online documentation can be found [online](https://jrl-umi3218.github.io/Tasks).
+
 ## Installing
 
 ### Ubuntu 14.04 and 16.04 binary ppa install
