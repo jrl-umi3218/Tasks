@@ -82,6 +82,21 @@ public:
 	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq) = 0;
 
 	/**
+	* Setup dependent variables, only linear dependency are supported
+	* @param full_to_reduced A full to reduced variables vector
+	* @param reduced_to_full A reduced to full variables vector
+	* @param dependencies List of tuple {primary, replica, factor}
+	*/
+	virtual void setReductionParameters(std::vector<int> full_to_reduced,
+																			std::vector<int> reduced_to_full,
+																			std::vector<std::tuple<int, int, double>> dependencies)
+	{
+		full_to_reduced_ = full_to_reduced;
+		reduced_to_full_ = reduced_to_full;
+		dependencies_ = dependencies;
+	}
+
+	/**
 		* Construct the QP matrices.
 		* @param tasks Build \f$ Q \f$ and \f$ c \f$.
 		* @param eqConstr Build \f$ A x = b \f$ constraints.
@@ -112,6 +127,10 @@ public:
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr,
 		std::ostream& out) const = 0;
+protected:
+	std::vector<int> full_to_reduced_;
+	std::vector<int> reduced_to_full_;
+	std::vector<std::tuple<int, int, double>> dependencies_;
 };
 
 

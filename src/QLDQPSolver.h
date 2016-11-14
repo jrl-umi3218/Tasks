@@ -40,14 +40,14 @@ class TASKS_DLLAPI QLDQPSolver : public GenQPSolver
 public:
 	QLDQPSolver();
 
-	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq);
+	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq) override;
 	virtual void updateMatrix(const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
 		const std::vector<Inequality*>& inEqConstr,
 		const std::vector<GenInequality*>& genInEqConstr,
-		const std::vector<Bound*>& boundConstr);
-	virtual bool solve();
-	virtual const Eigen::VectorXd& result() const;
+		const std::vector<Bound*>& boundConstr) override;
+	virtual bool solve() override;
+	virtual const Eigen::VectorXd& result() const override;
 	virtual std::ostream& errorMsg(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<Task*>& tasks,
 		const std::vector<Equality*>& eqConstr,
@@ -62,11 +62,21 @@ private:
 	Eigen::MatrixXd Aeq_, Aineq_;
 	Eigen::VectorXd beq_, bineq_;
 
+	Eigen::MatrixXd Aeq_full_, Aineq_full_;
+
 	Eigen::VectorXd XL_;
 	Eigen::VectorXd XU_;
 
+	Eigen::VectorXd XL_full_;
+	Eigen::VectorXd XU_full_;
+
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
+
+	Eigen::MatrixXd Q_full_;
+	Eigen::VectorXd C_full_;
+
+	Eigen::VectorXd X_full_;
 
 	int nrAeqLines_;
 	int nrAineqLines_;

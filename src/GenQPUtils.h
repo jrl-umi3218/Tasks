@@ -75,6 +75,43 @@ inline void fillQC(const std::vector<Task*>& tasks, int nrVars,
 	}
 }
 
+/**
+	* Reduce \f$ Q \f$ matrix and the \f$ c \f$ vector based on the dependencies list
+	*/
+inline void reduceQC(const Eigen::MatrixXd & Q_full, const Eigen::VectorXd & C_full,
+										 Eigen::MatrixXd & Q, Eigen::VectorXd & C,
+										 const std::vector<int> & full_to_reduced,
+										 const std::vector<int> & reduced_to_full,
+										 const std::vector<std::tuple<int, int, double>> & dependencies)
+{
+	/* Start by moving the non-reduced variables to their new location */
+	for(size_t i = 0; i < reduced_to_full.size(); ++i)
+	{
+		for(size_t j = 0; j < reduced_to_full.size(); ++j)
+		{
+			Q(i,j) = Q_full(reduced_to_full[i], reduced_to_full[j]);
+		}
+		C(i) = C_full(reduced_to_full[i]);
+	}
+	/* Apply the reduction */
+	for(const auto & d : dependencies)
+	{
+		const int & primary_full_i = std::get<0>(d);
+		const int & primary_reduced_i = full_to_reduced[primary_full_i];
+		const int & replica_full_i = std::get<1>(d);
+		const double & alpha = 1/std::get<2>(d);
+		/* Apply reduction to C */
+		C(primary_reduced_i) += alpha*C_full(replica_full_i);
+		/* Add cross-terms to Q */
+		for(size_t i = 0; i < reduced_to_full.size(); ++i)
+		{
+			Q(i, primary_reduced_i) += alpha*Q_full(reduced_to_full[i], replica_full_i);
+			Q(primary_reduced_i, i) += alpha*Q_full(replica_full_i, reduced_to_full[i]);
+		}
+		/* Add diagonal element to Q */
+		Q(primary_reduced_i, primary_reduced_i) += alpha*alpha*Q_full(replica_full_i, replica_full_i);
+	}
+}
 
 // general qp form
 
@@ -267,6 +304,90 @@ inline void fillBound(const std::vector<Bound*>& bounds,
 	}
 }
 
+/**
+	* Reduce \f$ A \f$ matrix based on the dependencies list
+	*/
+inline void reduceA(const Eigen::MatrixXd & A_full,
+										Eigen::MatrixXd & A,
+										const std::vector<int> & full_to_reduced,
+										const std::vector<int> & reduced_to_full,
+										const std::vector<std::tuple<int, int, double>> & dependencies)
+{
+	for(size_t i = 0; i < static_cast<size_t>(A_full.rows()); ++i)
+	{
+		for(size_t j = 0; j <reduced_to_full.size(); ++j)
+		{
+			A(i,j) = A_full(i, reduced_to_full[j]);
+		}
+	}
+	for(const auto & d : dependencies)
+	{
+		const int & primary_full_i = std::get<0>(d);
+		const int & primary_reduced_i = full_to_reduced[primary_full_i];
+		const int & replica_full_i = std::get<1>(d);
+		const double & alpha = std::get<2>(d);
+		for(int i = 0; i < A.rows(); ++i)
+		{
+			A(i, primary_reduced_i) += alpha*A_full(i, replica_full_i);
+		}
+	}
+}
+
+/**
+	* Reduce bounds vector based on the dependencies list
+	*/
+inline void reduceBound(const Eigen::VectorXd & XL_full,
+												Eigen::VectorXd & XL,
+												const Eigen::VectorXd & XU_full,
+												Eigen::VectorXd & XU,
+												const std::vector<int> & full_to_reduced,
+												const std::vector<int> & reduced_to_full,
+												const std::vector<std::tuple<int, int, double>> & dependencies)
+{
+	for(size_t i = 0; i < static_cast<size_t>(XL.rows()); ++i)
+	{
+		XL(i) = XL_full(reduced_to_full[i]);
+		XU(i) = XU_full(reduced_to_full[i]);
+	}
+	for(const auto & d : dependencies)
+	{
+		const int & primary_full_i = std::get<0>(d);
+		const int & primary_reduced_i = full_to_reduced[primary_full_i];
+		const int & replica_full_i = std::get<1>(d);
+		const double & alpha = std::get<2>(d);
+		if(alpha < 0)
+		{
+			XL(primary_reduced_i) = std::max(XL(primary_reduced_i), XU_full(replica_full_i)/alpha);
+			XU(primary_reduced_i) = std::min(XU(primary_reduced_i), XL_full(replica_full_i)/alpha);
+		}
+		else
+		{
+			XL(primary_reduced_i) = std::max(XL(primary_reduced_i), XL_full(replica_full_i)/alpha);
+			XU(primary_reduced_i) = std::min(XU(primary_reduced_i), XU_full(replica_full_i)/alpha);
+		}
+	}
+}
+
+/**
+	* Return the full variable from the reduced variable
+	*/
+inline void expandResult(const Eigen::VectorXd & result,
+												 Eigen::VectorXd & result_full,
+												 const std::vector<int> & reduced_to_full,
+												 const std::vector<std::tuple<int, int, double>> & dependencies)
+{
+	for(size_t i = 0; i < reduced_to_full.size(); ++i)
+	{
+		result_full(reduced_to_full[i]) = result(i);
+	}
+	for(const auto & d : dependencies)
+	{
+		const int & primary_full_i = std::get<0>(d);
+		const int & replica_full_i = std::get<1>(d);
+		const double & alpha = std::get<2>(d);
+		result_full(replica_full_i) = alpha*result_full(primary_full_i);
+	}
+}
 
 // print of a constraint at a given line
 template<typename T>

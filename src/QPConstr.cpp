@@ -292,7 +292,6 @@ double DamperJointLimitsConstr::computeDamper(double dist,
 	return damping*((dist - sDist)/(iDist - sDist));
 }
 
-
 /**
 	*													CollisionConstr
 	*/
@@ -638,8 +637,8 @@ double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody>& mbs,
 CoMIncPlaneConstr::PlaneData::PlaneData(
 	int planeId, const Eigen::Vector3d& normal, double offset,
 	double di, double ds, double damping, double dampOff,
-        const Eigen::Vector3d& speed,
-        const Eigen::Vector3d& normalDot):
+	const Eigen::Vector3d& speed,
+	const Eigen::Vector3d& normalDot):
 		normal(normal),
 		normalDot(normalDot),
 		offset(offset),
@@ -677,14 +676,14 @@ void CoMIncPlaneConstr::addPlane(int planeId,
 {
 	dataVec_.emplace_back(planeId, normal, offset,
 		di, ds, damping, dampingOff, Eigen::Vector3d::Zero(),
-                Eigen::Vector3d::Zero());
+		Eigen::Vector3d::Zero());
 	activated_.reserve(dataVec_.size());
 }
 
 void CoMIncPlaneConstr::addPlane(int planeId,
 	const Eigen::Vector3d& normal, double offset,
 	double di, double ds, double damping,
-        const Eigen::Vector3d& speed, const Eigen::Vector3d& normalDot, double dampingOff)
+	const Eigen::Vector3d& speed, const Eigen::Vector3d& normalDot, double dampingOff)
 {
 	dataVec_.emplace_back(planeId, normal, offset,
 		di, ds, damping, dampingOff, speed, normalDot);
@@ -1429,7 +1428,7 @@ void ImageConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			if((constrDirection_==1.) || ((point2d_[iOther] > (*iDistMin_)[iOther]) && (point2d_[iOther] < (*iDistMax_)[iOther])))
 			{
 				if((constrDirection_*point2d_[i] < constrDirection_*(*iDistMin_)[i]) //check min
-					 && ((constrDirection_==1.) || (point2d_[i] < 0.))) //handle occlusion constraint ambiquity
+						&& ((constrDirection_==1.) || (point2d_[i] < 0.))) //handle occlusion constraint ambiquity
 				{
 					if(constrDirection_*point2d_  [i] > constrDirection_*(*sDistMin_)[i])
 					{
