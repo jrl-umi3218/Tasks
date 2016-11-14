@@ -689,6 +689,10 @@ GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	jac_(mb, bodyName),
 	X_b_gaze_(X_b_gaze),
+	L_img_(Eigen::Matrix<double, 2, 6>::Zero()),
+	surfaceVelocity_(Eigen::Matrix<double,6,1>::Zero()),
+	L_Z_dot_(Eigen::Matrix<double,1,6> ::Zero()),
+	L_img_dot_(Eigen::Matrix<double,2,6>::Zero()),
 	eval_(2),
 	speed_(2),
 	normalAcc_(2),
@@ -705,6 +709,10 @@ GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	jac_(mb, bodyName),
 	X_b_gaze_(X_b_gaze),
+	L_img_(Eigen::Matrix<double, 2, 6>::Zero()),
+	surfaceVelocity_(Eigen::Matrix<double,6,1>::Zero()),
+	L_Z_dot_(Eigen::Matrix<double,1,6> ::Zero()),
+	L_img_dot_(Eigen::Matrix<double,2,6>::Zero()),
 	eval_(2),
 	speed_(2),
 	normalAcc_(2),
@@ -734,16 +742,22 @@ void GazeTask::error(const Eigen::Vector3d& point3d, const Eigen::Vector2d& poin
 void GazeTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const std::vector<sva::MotionVecd>& normalAccB)
 {
+	// compute eval term
 	eval_ = point2d_ref_ - point2d_;
 
-	sva::PTransformd X_0_gaze = X_b_gaze_*mbc.bodyPosW[bodyIndex_];
-	L_img_ = rbd::imagePointJacobian(point2d_, depthEstimate_);
-	speed_ = L_img_*(jac_.velocity(mb, mbc, X_b_gaze_)).vector();
+	// compute speed term
+	rbd::imagePointJacobian(point2d_, depthEstimate_, L_img_);
+	surfaceVelocity_ = (jac_.velocity(mb, mbc, X_b_gaze_)).vector();
+	speed_ = L_img_*surfaceVelocity_;
 
+	// compute norm accel term
+	rbd::depthDotJacobian(speed_, depthEstimate_, L_Z_dot_);
+	rbd::imagePointJacobianDot(point2d_, speed_, depthEstimate_, L_Z_dot_*surfaceVelocity_, L_img_dot_);
 	normalAcc_ = L_img_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_gaze_,
-		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector();
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + L_img_dot_*surfaceVelocity_;
 
-	Eigen::MatrixXd shortJacMat = L_img_*jac_.jacobian(mb, mbc, X_0_gaze).block(0, 0, 6, jac_.dof());
+	// compute the task Jacobian
+	Eigen::MatrixXd shortJacMat = L_img_*jac_.jacobian(mb, mbc, X_b_gaze_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 6, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
@@ -793,6 +807,9 @@ PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb,
 	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	jac_(mb, bodyName),
 	L_pbvs_(Eigen::Matrix<double, 6, 6>::Zero()),
+	surfaceVelocity_(Eigen::Matrix<double, 6, 1>::Zero()),
+	omegaSkew_(Eigen::Matrix3d::Zero()),
+	L_pbvs_dot_(Eigen::Matrix<double, 6, 6>::Zero()),
 	eval_(6),
 	speed_(6),
 	normalAcc_(6),
@@ -810,18 +827,25 @@ void PositionBasedVisServoTask::error(const sva::PTransformd& X_t_s)
 void PositionBasedVisServoTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const std::vector<sva::MotionVecd>& normalAccB)
 {
+	// compute eval term
 	rbd::getAngleAxis(X_t_s_.rotation().transpose(), angle_, axis_);
 	eval_.tail(3) = -X_t_s_.translation();
 	eval_.head(3) = angle_*axis_;
 
-	sva::PTransformd X_0_s = X_b_s_*mbc.bodyPosW[bodyIndex_];
-	L_pbvs_ = rbd::poseJacobian(X_t_s_.rotation());
+	// compute speed term
+	rbd::poseJacobian(X_t_s_.rotation(), L_pbvs_);
+	surfaceVelocity_ = (jac_.velocity(mb, mbc, X_b_s_)).vector();
+	speed_ = L_pbvs_*surfaceVelocity_;
 
-	speed_ = L_pbvs_*(jac_.velocity(mb, mbc, X_b_s_)).vector();
+	// compute norm accel term
+	rbd::getSkewSym(surfaceVelocity_.head(3), omegaSkew_);
+	L_pbvs_dot_ << Eigen::Matrix3d::Zero(), Eigen::Matrix3d::Zero(),
+								 Eigen::Matrix3d::Zero(), -X_t_s_.rotation().transpose()*omegaSkew_;
 	normalAcc_ = L_pbvs_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_s_,
-		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector();
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + L_pbvs_dot_*surfaceVelocity_;
 
-	Eigen::MatrixXd shortJacMat = L_pbvs_*jac_.jacobian(mb, mbc, X_0_s).block(0, 0, 6, jac_.dof());
+	// compute the task Jacobian
+	Eigen::MatrixXd shortJacMat = L_pbvs_*jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 6, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 

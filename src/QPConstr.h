@@ -284,7 +284,7 @@ public:
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
 
-	// InInequality Constraint
+	// In Inequality Constraint
 	virtual int nrInEq() const;
 	virtual int maxInEq() const;
 
@@ -424,7 +424,7 @@ public:
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
 
-	// InInequality Constraint
+	// In Inequality Constraint
 	virtual int nrInEq() const;
 	virtual int maxInEq() const;
 
@@ -488,7 +488,7 @@ public:
 	virtual std::string nameInEq() const;
 	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mb, int line);
 
-	// InInequality Constraint
+	// In Inequality Constraint
 	virtual int maxInEq() const;
 
 	virtual const Eigen::MatrixXd& AInEq() const;
@@ -646,6 +646,123 @@ private:
 
 	int nrVars_;
 	double timeStep_;
+};
+
+
+
+/**
+	* Generalized Image Point Constraint
+	* This can be used as either a Field of View constraint
+	* or an Occlusion avoidance constraint. Both with damping
+	* Note that the point must start within the feasible boundary.
+	*/
+class ImageConstr : public ConstraintFunction<Inequality>
+{
+public:
+	/**
+		* @param mbs Multi-robot system.
+		* @param robotIndex the index of the robot the constraint is used on
+		* @param bName name of the body containing the camera
+		* @param X_b_gaze pose of the camera frame relative to the body containing it
+		* @param step Time step in second.
+		* @param constrDirection used to switch between a field of view constraint (point
+		* 	inside the image limits) and occlusion avoidance (point outside the limits) 1 by
+		*		default corresponds to FoV, set it to -1 for occlusion avoidance
+		*/
+	ImageConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string &bName,
+		const sva::PTransformd& X_b_gaze, double step, double constrDirection=1.);
+
+	/**
+	 * @brief setLimits
+	 * @param min
+	 * @param max
+	 * @param iPercent
+	 * @param sPercent
+	 * @param damping
+	 */
+	void setLimits(const Eigen::Vector2d& min, const Eigen::Vector2d& max, const double iPercent,
+		const double sPercent, const double damping, const double dampingOffsetPercent);
+
+	/**
+	 * @brief addPoint
+	 * @param point2d
+	 * @param depthEstimate
+	 * @return
+	 */
+	int addPoint(const Eigen::Vector2d& point2d, const double depthEstimate);
+	int addPoint(const Eigen::Vector3d& point3d);
+
+	/**
+	 * @brief addPoint - overload for adding a self point
+	 * @param mbs
+	 * @param bodyId
+	 * @param X_b_p
+	 */
+	void addPoint(const std::vector<rbd::MultiBody>& mbs, const std::string &bName,
+		const sva::PTransformd& X_b_p=sva::PTransformd::Identity());
+	void reset();
+	void updatePoint(const int pointId, const Eigen::Vector2d& point2d);
+	void updatePoint(const int pointId, const Eigen::Vector2d& point2d, const double depthEstimate);
+	void updatePoint(const int pointId, const Eigen::Vector3d& point3d);
+
+	void computeComponents(const rbd::MultiBody &mb, const rbd::MultiBodyConfig &mbc,
+		const SolverData &data, const Eigen::Vector2d& point2d, const double depth,
+		rbd::Jacobian &jac, const int bodyIndex, const sva::PTransformd& X_b_p,
+		Eigen::MatrixXd& fullJacobian, Eigen::Vector2d& bCommonTerm);
+
+	// Constraint
+	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+		const SolverData& data);
+
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	// In Inequality Constraint
+	virtual std::string nameInEq() const;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual int nrInEq() const;
+	virtual int maxInEq() const;
+
+	virtual const Eigen::MatrixXd& AInEq() const;
+	virtual const Eigen::VectorXd& bInEq() const;
+
+private:
+	struct PointData
+	{
+		PointData(const Eigen::Vector2d& pt, const double d);
+		Eigen::Vector2d point2d;
+		double depthEstimate;
+	};
+	struct RobotPointData
+	{
+		RobotPointData(const std::string &bName, const sva::PTransformd& X, const rbd::Jacobian& j);
+		const std::string& bName;
+		sva::PTransformd X_b_p;
+		rbd::Jacobian jac;
+	};
+
+private:
+	std::vector<PointData> dataVec_;
+	std::vector<RobotPointData> dataVecRob_;
+	int robotIndex_, bodyIndex_, alphaDBegin_;
+	int nrVars_;
+	double step_, accelFactor_;
+	int nrActivated_;
+
+	rbd::Jacobian jac_;
+	sva::PTransformd X_b_gaze_;
+	Eigen::Matrix<double, 2, 6> L_img_;
+	Eigen::Matrix<double, 6, 1> surfaceVelocity_;
+	Eigen::Matrix<double, 1, 6> L_Z_dot_;
+	Eigen::Matrix<double, 2, 6> L_img_dot_;
+	Eigen::Vector2d speed_;
+	Eigen::Vector2d normalAcc_;
+	Eigen::MatrixXd jacMat_;
+	Eigen::Vector2d iDistMin_, iDistMax_, sDistMin_, sDistMax_;
+	double damping_, dampingOffset_, ineqInversion_, constrDirection_;
+	Eigen::MatrixXd AInEq_;
+	Eigen::VectorXd bInEq_;
 };
 
 

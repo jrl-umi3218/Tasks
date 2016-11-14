@@ -436,13 +436,14 @@ def build_qp(tasks):
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
   boundedSpeedConstr = qp.add_class('BoundedSpeedConstr', parent=[genineqConstr, constr])
 
+  imageConstr = qp.add_class('ImageConstr', parent=[ineqConstr, constr])
 
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'CollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
                 'MotionSpringConstr', 'GripperTorqueConstr', 'BoundedSpeedConstr',
-                'CoMIncPlaneConstr', 'PositiveLambda', 'ContactPosConstr']
+                'CoMIncPlaneConstr', 'PositiveLambda', 'ContactPosConstr', 'ImageConstr']
   eqConstrName = ['ContactAccConstr', 'ContactSpeedConstr', 'ContactPosConstr']
-  ineqConstrName = ['CollisionConstr', 'GripperTorqueConstr', 'CoMIncPlaneConstr']
+  ineqConstrName = ['CollisionConstr', 'GripperTorqueConstr', 'CoMIncPlaneConstr', 'ImageConstr']
   genineqConstrName = ['MotionConstr', 'MotionPolyConstr', 'MotionSpringConstr']
   boundConstrName = ['PositiveLambda', 'JointLimitsConstr', 'DamperJointLimitsConstr']
   taskName = ['SetPointTask', 'TrackingTask', 'TrajectoryTask', 'PIDTask',
@@ -456,7 +457,7 @@ def build_qp(tasks):
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 collisionConstr, jointLimitsConstr, damperJointLimitsConstr,
                 motionSpringConstr, gripperTorqueConstr, boundedSpeedConstr,
-                comIncPlaneConstr, positiveLambdaConstr, contactPosConstr]
+                comIncPlaneConstr, positiveLambdaConstr, contactPosConstr, imageConstr]
 
   # build list type
   tasks.add_container('std::vector<tasks::qp::FrictionCone>',
@@ -792,7 +793,7 @@ def build_qp(tasks):
                      param('const std::vector<rbd::MultiBodyConfig>&', 'mbc'),
                      param('const tasks::qp::SolverData&', 'data')])
 
-  # InequalityConstraint
+  # EqualityConstraint
   eqConstr.add_method('maxEq', retval('int'), [])
   eqConstr.add_method('nrEq', retval('int'), [])
   eqConstr.add_method('AEq', retval('Eigen::MatrixXd'), [])
@@ -1558,6 +1559,42 @@ def build_qp(tasks):
   boundedSpeedConstr.add_method('nrBoundedSpeeds', retval('int'), [])
 
   boundedSpeedConstr.add_method('updateBoundedSpeeds', None, [])
+
+  # ImageConstr
+  imageConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                               param('int', 'robotIndex'),
+                               param('const std::string&', 'bodyName'),
+                               param('const sva::PTransformd&', 'X_b_gaze'),
+                               param('double', 'step'),
+                               param('double', 'constrDirection', default_value='1.')])
+  imageConstr.add_method('setLimits', None,
+                         [param('const Eigen::Vector2d&', 'min'),
+                          param('const Eigen::Vector2d&', 'max'),
+                          param('const double', 'iPercent'),
+                          param('const double', 'sPercent'),
+                          param('const double', 'damping'),
+                          param('const double', 'dampingOffsetPercent')])
+  imageConstr.add_method('addPoint', retval('int'),
+                         [param('const Eigen::Vector2d&', 'point2d'),
+                          param('const double', 'depthEstimate')])
+  imageConstr.add_method('addPoint', retval('int'),
+                         [param('const Eigen::Vector3d&', 'point3d')])
+  imageConstr.add_method('addPoint', None,
+                         [param('const std::vector<rbd::MultiBody>&', 'mbs'),
+                          param('const std::string&', 'bodyName'),
+                          param('const sva::PTransformd&', 'X_b_p', default_value='sva::PTransformd::Identity()')])
+  imageConstr.add_method('reset', None, [])
+  imageConstr.add_method('updatePoint', None,
+                         [param('const int', 'pointId'),
+                          param('const Eigen::Vector2d&', 'point2d')])
+  imageConstr.add_method('updatePoint', None,
+                         [param('const int', 'pointId'),
+                          param('const Eigen::Vector2d&', 'point2d'),
+                          param('const double', 'depthEstimate')])
+  imageConstr.add_method('updatePoint', None,
+                         [param('const int', 'pointId'),
+                          param('const Eigen::Vector3d&', 'point3d')])
+
 
 
   def add_add_remove_solver(constr):
