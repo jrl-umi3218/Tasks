@@ -2,7 +2,7 @@ var NAVTREE =
 [
   [ "Tasks", "index.html", [
     [ "index", "/tmp/_ci/install/share/doc/RBDyn/doxygen-html/index.html", null ],
-    [ "Deprecated List", "a00113.html", null ],
+    [ "Deprecated List", "a00114.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -33,9 +33,9 @@ var NAVTREEINDEX =
 [
 ".html",
 "a00027.html#a89a44401b4eda6d61119a9c10ddc8f15",
-"a00051.html#ae05671131b11746457977a8346efe93c",
-"a00070.html#a3d95f00b951cf908737e892b373decaa",
-"a00094.html#a8cf2cae94d6f8db4c231927b0db6bfd5"
+"a00051.html#a83d448ccdac0d5ea230e8434b45dcf5f",
+"a00070.html#ab8bc374c0cf2c5f8689ca8306fde2caf",
+"a00093.html#ae289cf9828301b6f5463cab64ec87afb"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

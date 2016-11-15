@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::JointLimitsConstr Class Reference</title>
+<title>tasks::qp::JointGains Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -97,154 +97,75 @@ $(document).ready(function(){initNavTree('a00038.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00138.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a00188.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::JointLimitsConstr Class Reference</div>  </div>
+<div class="title">tasks::qp::JointGains Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Avoid to reach articular position limits based on direct integration.  
- <a href="a00038.html#details">More...</a></p>
-
-<p><code>#include &lt;QPConstr.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for tasks::qp::JointLimitsConstr:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="a00038.png" usemap="#tasks::qp::JointLimitsConstr_map" alt=""/>
-  <map id="tasks::qp::JointLimitsConstr_map" name="tasks::qp::JointLimitsConstr_map">
-<area href="a00014.html" alt="tasks::qp::ConstraintFunction&lt; Bound &gt;" shape="rect" coords="120,56,351,80"/>
-<area href="a00013.html" alt="tasks::qp::Constraint" shape="rect" coords="0,0,231,24"/>
-</map>
- </div></div>
+<p><code>#include &lt;QPTasks.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a79767272482e70fc2f72c97458a7d752"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a79767272482e70fc2f72c97458a7d752">JointLimitsConstr</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, <a class="el" href="a00067.html">QBound</a> bound, double step)</td></tr>
-<tr class="separator:a79767272482e70fc2f72c97458a7d752"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1111b414928906d149c4f7db2700d78d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a1111b414928906d149c4f7db2700d78d">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const <a class="el" href="a00075.html">SolverData</a> &amp;data)</td></tr>
-<tr class="separator:a1111b414928906d149c4f7db2700d78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3645fe895f0d58ebd85af95cee0170d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#af3645fe895f0d58ebd85af95cee0170d">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00075.html">SolverData</a> &amp;data)</td></tr>
-<tr class="separator:af3645fe895f0d58ebd85af95cee0170d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac17f66e4cf9dac1c287e5a0e92248816"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#ac17f66e4cf9dac1c287e5a0e92248816">nameBound</a> () const </td></tr>
-<tr class="separator:ac17f66e4cf9dac1c287e5a0e92248816"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99a5770280cb96622684c52fe81043e2"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a99a5770280cb96622684c52fe81043e2">descBound</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int line)</td></tr>
-<tr class="separator:a99a5770280cb96622684c52fe81043e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5781886a9b5aef692c7f0b140a62a1e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#ac5781886a9b5aef692c7f0b140a62a1e">beginVar</a> () const </td></tr>
-<tr class="separator:ac5781886a9b5aef692c7f0b140a62a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dc0659d463b9536214da3b83f5db0ca"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a5dc0659d463b9536214da3b83f5db0ca">Lower</a> () const </td></tr>
-<tr class="separator:a5dc0659d463b9536214da3b83f5db0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacf71fb30418d08f6323b6fd0aa25d95"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#aacf71fb30418d08f6323b6fd0aa25d95">Upper</a> () const </td></tr>
-<tr class="separator:aacf71fb30418d08f6323b6fd0aa25d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00014"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00014')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00014.html">tasks::qp::ConstraintFunction&lt; Bound &gt;</a></td></tr>
-<tr class="memitem:a43bbf05e31926b2e19f0fdd86669d9b5 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a43bbf05e31926b2e19f0fdd86669d9b5">~ConstraintFunction</a> ()</td></tr>
-<tr class="separator:a43bbf05e31926b2e19f0fdd86669d9b5 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a> (<a class="el" href="a00069.html">QPSolver</a> &amp;sol)</td></tr>
-<tr class="separator:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, <a class="el" href="a00069.html">QPSolver</a> &amp;sol)</td></tr>
-<tr class="separator:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a> (<a class="el" href="a00069.html">QPSolver</a> &amp;sol)</td></tr>
-<tr class="separator:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00013"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00013')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00013.html">tasks::qp::Constraint</a></td></tr>
-<tr class="memitem:ab0a2de8684c5cb2901578a345ec0c162 inherit pub_methods_a00013"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a> ()</td></tr>
-<tr class="separator:ab0a2de8684c5cb2901578a345ec0c162 inherit pub_methods_a00013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add0cd36307b044425a1175e82be95c8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#add0cd36307b044425a1175e82be95c8f">JointGains</a> ()</td></tr>
+<tr class="separator:add0cd36307b044425a1175e82be95c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5518172f15ccd822adeb64786855a9cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a5518172f15ccd822adeb64786855a9cb">JointGains</a> (const std::string &amp;jName, double stif)</td></tr>
+<tr class="separator:a5518172f15ccd822adeb64786855a9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84e051a4f37a2a15de59b3d900953f87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a84e051a4f37a2a15de59b3d900953f87">JointGains</a> (const std::string &amp;jName, double stif, double damp)</td></tr>
+<tr class="separator:a84e051a4f37a2a15de59b3d900953f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a08d3a7fa0479efaaa54f8e49301e280f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a08d3a7fa0479efaaa54f8e49301e280f">jointName</a></td></tr>
+<tr class="separator:a08d3a7fa0479efaaa54f8e49301e280f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0a41a5153da3a170bafea2c4453a7a5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#ab0a41a5153da3a170bafea2c4453a7a5">stiffness</a></td></tr>
+<tr class="separator:ab0a41a5153da3a170bafea2c4453a7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a590ae8fd57e2a1e708491f05f3262ad7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00038.html#a590ae8fd57e2a1e708491f05f3262ad7">damping</a></td></tr>
+<tr class="separator:a590ae8fd57e2a1e708491f05f3262ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Avoid to reach articular position limits based on direct integration. </p>
-<p class="formulaDsp">
-\[ \underline{q} \leq q + \alpha \Delta_{step} + \frac{1}{2} \dot{\alpha} \Delta_{step}^2 \leq \overline{q} \]
-</p>
-<p> This constraint can be impossible to fulfill when articulation velocity is really high. Always prefer to use <a class="el" href="a00026.html" title="Avoid to reach articular position and velocity limits based on a velocity damper. ...">DamperJointLimitsConstr</a>. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a79767272482e70fc2f72c97458a7d752"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="add0cd36307b044425a1175e82be95c8f"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::JointLimitsConstr::JointLimitsConstr </td>
+          <td class="memname">tasks::qp::JointGains::JointGains </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotIndex</em>, </td>
         </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5518172f15ccd822adeb64786855a9cb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
         <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00067.html">QBound</a>&#160;</td>
-          <td class="paramname"><em>bound</em>, </td>
+          <td class="memname">tasks::qp::JointGains::JointGains </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>jName</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>step</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mbs</td><td>Multi-robot system. </td></tr>
-    <tr><td class="paramname">robotIndex</td><td>Constrained robot Index in mbs. </td></tr>
-    <tr><td class="paramname">bound</td><td>Articular position bounds. </td></tr>
-    <tr><td class="paramname">step</td><td>Time step in second. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac5781886a9b5aef692c7f0b140a62a1e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual int tasks::qp::JointLimitsConstr::beginVar </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a99a5770280cb96622684c52fe81043e2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::string tasks::qp::JointLimitsConstr::descBound </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
+          <td class="paramname"><em>stif</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -254,14 +175,16 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>References <a class="el" href="a00038.html#a590ae8fd57e2a1e708491f05f3262ad7">damping</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a5dc0659d463b9536214da3b83f5db0ca"></a>
+<a class="anchor" id="a84e051a4f37a2a15de59b3d900953f87"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -269,68 +192,22 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointLimitsConstr::Lower </td>
+          <td class="memname">tasks::qp::JointGains::JointGains </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac17f66e4cf9dac1c287e5a0e92248816"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::string tasks::qp::JointLimitsConstr::nameBound </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="af3645fe895f0d58ebd85af95cee0170d"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void tasks::qp::JointLimitsConstr::update </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>jName</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbcs</em>, </td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>stif</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00075.html">SolverData</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>damp</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -340,70 +217,48 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00013.html#acaa7ba68e4d9fcbf627c048aef01dc43">tasks::qp::Constraint</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a1111b414928906d149c4f7db2700d78d"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a590ae8fd57e2a1e708491f05f3262ad7"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::JointLimitsConstr::updateNrVars </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00075.html">SolverData</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">double tasks::qp::JointGains::damping</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00013.html#a1d20144cd73582d7f597f4806bfdc132">tasks::qp::Constraint</a>.</p>
+<p>Referenced by <a class="el" href="a00038.html#a5518172f15ccd822adeb64786855a9cb">JointGains()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aacf71fb30418d08f6323b6fd0aa25d95"></a>
+<a class="anchor" id="a08d3a7fa0479efaaa54f8e49301e280f"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointLimitsConstr::Upper </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="memname">std::string tasks::qp::JointGains::jointName</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab0a41a5153da3a170bafea2c4453a7a5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double tasks::qp::JointGains::stiffness</td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -414,8 +269,8 @@ Public Member Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00038.html">JointLimitsConstr</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00038.html">JointGains</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:51 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

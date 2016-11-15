@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::JointsSelector::SelectedData Struct Reference</title>
+<title>tasks::RelativeDistTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -96,44 +96,283 @@ $(document).ready(function(){initNavTree('a00072.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00184.html">List of all members</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a00134.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::JointsSelector::SelectedData Struct Reference</div>  </div>
+<div class="title">tasks::RelativeDistTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;QPTasks.h&gt;</code></p>
+<p><code>#include &lt;Tasks.h&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ac2c3ce5bd04545655fefe4ac0a701159"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#ac2c3ce5bd04545655fefe4ac0a701159">posInDof</a></td></tr>
-<tr class="separator:ac2c3ce5bd04545655fefe4ac0a701159"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67cd5c7c9bb87ce3c7e7940e2e75efce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a67cd5c7c9bb87ce3c7e7940e2e75efce">dof</a></td></tr>
-<tr class="separator:a67cd5c7c9bb87ce3c7e7940e2e75efce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a75ccd14f42390a90f4fa913647844840"><td class="memItemLeft" align="right" valign="top">typedef std::tuple<br class="typebreak"/>
+&lt; std::string, Eigen::Vector3d, <br class="typebreak"/>
+Eigen::Vector3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a75ccd14f42390a90f4fa913647844840">rbInfo</a></td></tr>
+<tr class="separator:a75ccd14f42390a90f4fa913647844840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae61d9885b5904b203d0290b0de489cd0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#ae61d9885b5904b203d0290b0de489cd0">RelativeDistTask</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &amp;mb, const double timestep, const <a class="el" href="a00072.html#a75ccd14f42390a90f4fa913647844840">rbInfo</a> &amp;rbi1, const <a class="el" href="a00072.html#a75ccd14f42390a90f4fa913647844840">rbInfo</a> &amp;rbi2, const Eigen::Vector3d &amp;u1=Eigen::Vector3d::Zero(), const Eigen::Vector3d &amp;u2=Eigen::Vector3d::Zero())</td></tr>
+<tr class="separator:ae61d9885b5904b203d0290b0de489cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ea4a20a552a873d090c584477f58c4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a3ea4a20a552a873d090c584477f58c4f">robotPoint</a> (const int bIndex, const Eigen::Vector3d &amp;point)</td></tr>
+<tr class="separator:a3ea4a20a552a873d090c584477f58c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac26562c72ef4f9c697e027ccc7e0e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a2ac26562c72ef4f9c697e027ccc7e0e6">envPoint</a> (const int bIndex, const Eigen::Vector3d &amp;point)</td></tr>
+<tr class="separator:a2ac26562c72ef4f9c697e027ccc7e0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8164d6f23aba4482cc14e56225081d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#acb8164d6f23aba4482cc14e56225081d">vector</a> (const int bIndex, const Eigen::Vector3d &amp;u)</td></tr>
+<tr class="separator:acb8164d6f23aba4482cc14e56225081d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1432afeef1ca0c5013e740c19fe11177"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a1432afeef1ca0c5013e740c19fe11177">update</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a1432afeef1ca0c5013e740c19fe11177"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fe5c20ae5cc4f174b1f75173a23f7e8"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a1fe5c20ae5cc4f174b1f75173a23f7e8">eval</a> () const </td></tr>
+<tr class="separator:a1fe5c20ae5cc4f174b1f75173a23f7e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8791d0b1561f1b265c35a77c2910c59d"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a8791d0b1561f1b265c35a77c2910c59d">speed</a> () const </td></tr>
+<tr class="separator:a8791d0b1561f1b265c35a77c2910c59d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d95f00b951cf908737e892b373decaa"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#a3d95f00b951cf908737e892b373decaa">normalAcc</a> () const </td></tr>
+<tr class="separator:a3d95f00b951cf908737e892b373decaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed89b6c404631c49ea30466c87c8a116"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html#aed89b6c404631c49ea30466c87c8a116">jac</a> () const </td></tr>
+<tr class="separator:aed89b6c404631c49ea30466c87c8a116"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a67cd5c7c9bb87ce3c7e7940e2e75efce"></a>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a75ccd14f42390a90f4fa913647844840"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int tasks::qp::JointsSelector::SelectedData::dof</td>
+          <td class="memname">typedef std::tuple&lt;std::string, Eigen::Vector3d, Eigen::Vector3d&gt; <a class="el" href="a00072.html#a75ccd14f42390a90f4fa913647844840">tasks::RelativeDistTask::rbInfo</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ac2c3ce5bd04545655fefe4ac0a701159"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ae61d9885b5904b203d0290b0de489cd0"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int tasks::qp::JointsSelector::SelectedData::posInDof</td>
+          <td class="memname">tasks::RelativeDistTask::RelativeDistTask </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>timestep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a00072.html#a75ccd14f42390a90f4fa913647844840">rbInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>rbi1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a00072.html#a75ccd14f42390a90f4fa913647844840">rbInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>rbi2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>u1</em> = <code>Eigen::Vector3d::Zero()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>u2</em> = <code>Eigen::Vector3d::Zero()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2ac26562c72ef4f9c697e027ccc7e0e6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::RelativeDistTask::envPoint </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>bIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>point</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00071.html#a39c737ceec7d5b3242df364d6df79815">tasks::qp::RelativeDistTask::envPoint()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1fe5c20ae5cc4f174b1f75173a23f7e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::RelativeDistTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aed89b6c404631c49ea30466c87c8a116"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::RelativeDistTask::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3d95f00b951cf908737e892b373decaa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::RelativeDistTask::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3ea4a20a552a873d090c584477f58c4f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::RelativeDistTask::robotPoint </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>bIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>point</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00071.html#ad3c8ae8598019167f9097a0ed3563747">tasks::qp::RelativeDistTask::robotPoint()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8791d0b1561f1b265c35a77c2910c59d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::RelativeDistTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1432afeef1ca0c5013e740c19fe11177"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::RelativeDistTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="acb8164d6f23aba4482cc14e56225081d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::RelativeDistTask::vector </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>bIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>u</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00071.html#ab195e00cfebc156a2e62be8f5ca0ff8f">tasks::qp::RelativeDistTask::vector()</a>.</p>
 
 </div>
 </div>
@@ -143,8 +382,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00039.html">JointsSelector</a></li><li class="navelem"><a class="el" href="a00072.html">SelectedData</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00072.html">RelativeDistTask</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:50 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

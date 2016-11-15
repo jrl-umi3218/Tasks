@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('a00013.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00165.html">List of all members</a>  </div>
+<a href="a00167.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">tasks::qp::Constraint Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
@@ -116,14 +116,15 @@ Inheritance diagram for tasks::qp::Constraint:</div>
 <area href="a00014.html" alt="tasks::qp::ConstraintFunction&lt; Inequality &gt;" shape="rect" coords="1405,56,1676,80"/>
 <area href="a00014.html" alt="tasks::qp::ConstraintFunction&lt; Fun &gt;" shape="rect" coords="1686,56,1957,80"/>
 <area href="a00026.html" title="Avoid to reach articular position and velocity limits based on a velocity damper. ..." alt="tasks::qp::DamperJointLimitsConstr" shape="rect" coords="281,112,552,136"/>
-<area href="a00038.html" title="Avoid to reach articular position limits based on direct integration. " alt="tasks::qp::JointLimitsConstr" shape="rect" coords="281,168,552,192"/>
-<area href="a00064.html" alt="tasks::qp::PositiveLambda" shape="rect" coords="281,224,552,248"/>
+<area href="a00039.html" title="Avoid to reach articular position limits based on direct integration. " alt="tasks::qp::JointLimitsConstr" shape="rect" coords="281,168,552,192"/>
+<area href="a00065.html" alt="tasks::qp::PositiveLambda" shape="rect" coords="281,224,552,248"/>
 <area href="a00017.html" title="Common contact constraint computation. " alt="tasks::qp::ContactConstr" shape="rect" coords="562,112,833,136"/>
 <area href="a00004.html" title="Constraint some link velocity in link frame by direct integration. " alt="tasks::qp::BoundedSpeedConstr" shape="rect" coords="1124,112,1395,136"/>
-<area href="a00047.html" alt="tasks::qp::MotionConstrCommon" shape="rect" coords="1124,168,1395,192"/>
+<area href="a00048.html" alt="tasks::qp::MotionConstrCommon" shape="rect" coords="1124,168,1395,192"/>
 <area href="a00005.html" title="Avoid that too robot links enter into collision based on a velocity damper. " alt="tasks::qp::CollisionConstr" shape="rect" coords="1686,112,1957,136"/>
 <area href="a00006.html" title="Prevent robot CoM to go out of a convex hull. " alt="tasks::qp::CoMIncPlaneConstr" shape="rect" coords="1686,168,1957,192"/>
 <area href="a00033.html" alt="tasks::qp::GripperTorqueConstr" shape="rect" coords="1686,224,1957,248"/>
+<area href="a00036.html" title="Generalized Image Point Constraint This can be used as either a Field of View constraint or an Occlus..." alt="tasks::qp::ImageConstr" shape="rect" coords="1686,280,1957,304"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -131,9 +132,9 @@ Inheritance diagram for tasks::qp::Constraint:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0a2de8684c5cb2901578a345ec0c162"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a> ()</td></tr>
 <tr class="separator:ab0a2de8684c5cb2901578a345ec0c162"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d20144cd73582d7f597f4806bfdc132"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#a1d20144cd73582d7f597f4806bfdc132">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;msb, const <a class="el" href="a00075.html">SolverData</a> &amp;data)=0</td></tr>
+<tr class="memitem:a1d20144cd73582d7f597f4806bfdc132"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#a1d20144cd73582d7f597f4806bfdc132">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;msb, const <a class="el" href="a00076.html">SolverData</a> &amp;data)=0</td></tr>
 <tr class="separator:a1d20144cd73582d7f597f4806bfdc132"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaa7ba68e4d9fcbf627c048aef01dc43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#acaa7ba68e4d9fcbf627c048aef01dc43">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00075.html">SolverData</a> &amp;data)=0</td></tr>
+<tr class="memitem:acaa7ba68e4d9fcbf627c048aef01dc43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#acaa7ba68e4d9fcbf627c048aef01dc43">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00076.html">SolverData</a> &amp;data)=0</td></tr>
 <tr class="separator:acaa7ba68e4d9fcbf627c048aef01dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -183,7 +184,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00075.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -199,7 +200,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="a00004.html#ad5efe77a77c4a13c243feaad3381cdb4">tasks::qp::BoundedSpeedConstr</a>, <a class="el" href="a00033.html#ad6f7eec133734486d0e5c7d36c7646e6">tasks::qp::GripperTorqueConstr</a>, <a class="el" href="a00006.html#adeb74c75bfeb1c5c66b3a1ef81b5351d">tasks::qp::CoMIncPlaneConstr</a>, <a class="el" href="a00005.html#acf68cb9fc70fb33383307f74610950f3">tasks::qp::CollisionConstr</a>, <a class="el" href="a00022.html#a49c6a5029370a29957bf2e229880d71d">tasks::qp::ContactPosConstr</a>, <a class="el" href="a00024.html#a22a8b2f8afe6e93e5d9f86acf27141f6">tasks::qp::ContactSpeedConstr</a>, <a class="el" href="a00048.html#afbc8f05242e49ecba6c066ea574ff11b">tasks::qp::MotionPolyConstr</a>, <a class="el" href="a00015.html#aa14fa21706de81248135aad38edac869">tasks::qp::ContactAccConstr</a>, <a class="el" href="a00049.html#a86b987047b0376795d6a9f8512f45b7b">tasks::qp::MotionSpringConstr</a>, <a class="el" href="a00026.html#a0a2126cc6751ca3b7da93a6fe42e9d34">tasks::qp::DamperJointLimitsConstr</a>, <a class="el" href="a00046.html#abf577470d36589e452535045431e674f">tasks::qp::MotionConstr</a>, <a class="el" href="a00038.html#af3645fe895f0d58ebd85af95cee0170d">tasks::qp::JointLimitsConstr</a>, and <a class="el" href="a00064.html#a4c3ce80dc5fb1d643450068c1edafeb3">tasks::qp::PositiveLambda</a>.</p>
+<p>Implemented in <a class="el" href="a00036.html#ae6d4c6af9692608c584c8a6f1e257012">tasks::qp::ImageConstr</a>, <a class="el" href="a00004.html#ad5efe77a77c4a13c243feaad3381cdb4">tasks::qp::BoundedSpeedConstr</a>, <a class="el" href="a00033.html#ad6f7eec133734486d0e5c7d36c7646e6">tasks::qp::GripperTorqueConstr</a>, <a class="el" href="a00006.html#adeb74c75bfeb1c5c66b3a1ef81b5351d">tasks::qp::CoMIncPlaneConstr</a>, <a class="el" href="a00005.html#acf68cb9fc70fb33383307f74610950f3">tasks::qp::CollisionConstr</a>, <a class="el" href="a00022.html#a49c6a5029370a29957bf2e229880d71d">tasks::qp::ContactPosConstr</a>, <a class="el" href="a00024.html#a22a8b2f8afe6e93e5d9f86acf27141f6">tasks::qp::ContactSpeedConstr</a>, <a class="el" href="a00049.html#afbc8f05242e49ecba6c066ea574ff11b">tasks::qp::MotionPolyConstr</a>, <a class="el" href="a00015.html#aa14fa21706de81248135aad38edac869">tasks::qp::ContactAccConstr</a>, <a class="el" href="a00050.html#a86b987047b0376795d6a9f8512f45b7b">tasks::qp::MotionSpringConstr</a>, <a class="el" href="a00026.html#a0a2126cc6751ca3b7da93a6fe42e9d34">tasks::qp::DamperJointLimitsConstr</a>, <a class="el" href="a00047.html#abf577470d36589e452535045431e674f">tasks::qp::MotionConstr</a>, <a class="el" href="a00039.html#af3645fe895f0d58ebd85af95cee0170d">tasks::qp::JointLimitsConstr</a>, and <a class="el" href="a00065.html#a4c3ce80dc5fb1d643450068c1edafeb3">tasks::qp::PositiveLambda</a>.</p>
 
 </div>
 </div>
@@ -219,7 +220,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00075.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -235,7 +236,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="a00004.html#a3a2138368ef632763692ca6cfd7ea937">tasks::qp::BoundedSpeedConstr</a>, <a class="el" href="a00033.html#adcbe941d5e6609a7357dc2b885436ee7">tasks::qp::GripperTorqueConstr</a>, <a class="el" href="a00006.html#a2f298ed2b312f6b393639485c60e85dd">tasks::qp::CoMIncPlaneConstr</a>, <a class="el" href="a00005.html#af87ecbece4245a3f4bd26fcda48c73a8">tasks::qp::CollisionConstr</a>, <a class="el" href="a00026.html#a4e945a39c9828b37242224438f0578d4">tasks::qp::DamperJointLimitsConstr</a>, <a class="el" href="a00017.html#aa30cb765eec107617ac0cd9aa16efea1">tasks::qp::ContactConstr</a>, <a class="el" href="a00047.html#a896082d1b385150703048a1772a1c81e">tasks::qp::MotionConstrCommon</a>, <a class="el" href="a00038.html#a1111b414928906d149c4f7db2700d78d">tasks::qp::JointLimitsConstr</a>, and <a class="el" href="a00064.html#a982ac755941340aff7b37e58b80776d3">tasks::qp::PositiveLambda</a>.</p>
+<p>Implemented in <a class="el" href="a00036.html#a23ef6ffd5f66666c81c01965daba5ea3">tasks::qp::ImageConstr</a>, <a class="el" href="a00004.html#a3a2138368ef632763692ca6cfd7ea937">tasks::qp::BoundedSpeedConstr</a>, <a class="el" href="a00033.html#adcbe941d5e6609a7357dc2b885436ee7">tasks::qp::GripperTorqueConstr</a>, <a class="el" href="a00006.html#a2f298ed2b312f6b393639485c60e85dd">tasks::qp::CoMIncPlaneConstr</a>, <a class="el" href="a00005.html#af87ecbece4245a3f4bd26fcda48c73a8">tasks::qp::CollisionConstr</a>, <a class="el" href="a00026.html#a4e945a39c9828b37242224438f0578d4">tasks::qp::DamperJointLimitsConstr</a>, <a class="el" href="a00017.html#aa30cb765eec107617ac0cd9aa16efea1">tasks::qp::ContactConstr</a>, <a class="el" href="a00048.html#a896082d1b385150703048a1772a1c81e">tasks::qp::MotionConstrCommon</a>, <a class="el" href="a00039.html#a1111b414928906d149c4f7db2700d78d">tasks::qp::JointLimitsConstr</a>, and <a class="el" href="a00065.html#a982ac755941340aff7b37e58b80776d3">tasks::qp::PositiveLambda</a>.</p>
 
 </div>
 </div>
@@ -245,8 +246,8 @@ Public Member Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00013.html">Constraint</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00013.html">Constraint</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:51 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

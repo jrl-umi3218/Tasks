@@ -1,7 +1,9 @@
 var a00088 =
 [
-    [ "TransformTask", "a00088.html#a47ef3ff9e94d1c029843cf2e8efd0e03", null ],
-    [ "E_0_c", "a00088.html#af28399b8910027ff33d9230fdf5611b8", null ],
-    [ "E_0_c", "a00088.html#a6d7fe6363bd841a1c1e96b5e834b4ada", null ],
-    [ "update", "a00088.html#a2cdf770b2c150f752ff44c9a049f31b2", null ]
+    [ "TrajectoryTask", "a00088.html#a59da3ed4a1c7e832ed3c0901f3733646", null ],
+    [ "TrajectoryTask", "a00088.html#ac5defd525f27953454f9dde50ee3c45d", null ],
+    [ "refAccel", "a00088.html#ab205f45b28c0df29e37c3906b4caa4c1", null ],
+    [ "refVel", "a00088.html#acb1ed22d8d4325d27016ba86d807b4f3", null ],
+    [ "setGains", "a00088.html#a80b3bb11ef78052992b837fe43b545eb", null ],
+    [ "update", "a00088.html#a6fdbb39c099219ea31436daae1ca3a75", null ]
 ];

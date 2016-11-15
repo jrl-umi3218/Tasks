@@ -77,7 +77,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00071.html','');});
+$(document).ready(function(){initNavTree('a00042.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -96,31 +96,32 @@ $(document).ready(function(){initNavTree('a00071.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::RelativeDistTask Member List</div>  </div>
+<div class="title">tasks::qp::LinVelocityTask Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00071.html#a7a10c1e28470f8f76f30f7a574fe05bf">dim</a>()</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00071.html#a39c737ceec7d5b3242df364d6df79815">envPoint</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bName, const Eigen::Vector3d &amp;point)</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00071.html#a1dadbd15c432b77273e6b40bdaa5999b">eval</a>()</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00071.html#a1b0820a82fc2f488ca5dcea41bb314ad">jac</a>()</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00071.html#a6bfcbc5f3b2bce4d2da019dca6450d0b">normalAcc</a>()</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00071.html#aee57978784aaab94d4f038f06afecb63">RelativeDistTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const int rIndex, const double timestep, tasks::RelativeDistTask::rbInfo &amp;rbi1, tasks::RelativeDistTask::rbInfo &amp;rbi2, const Eigen::Vector3d &amp;u1=Eigen::Vector3d::Zero(), const Eigen::Vector3d &amp;u2=Eigen::Vector3d::Zero())</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00071.html#ad3c8ae8598019167f9097a0ed3563747">robotPoint</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bName, const Eigen::Vector3d &amp;point)</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00071.html#aca76ddee633628ab4ffbb639c81190b5">speed</a>()</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00071.html#a585bc9c8c947501a9a551de98c199157">task</a>()</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00071.html#a081ddb05a7c4d1c7fe1f741bc55d27a8">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data)</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00071.html#ab195e00cfebc156a2e62be8f5ca0ff8f">vector</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bName, const Eigen::Vector3d &amp;u)</td><td class="entry"><a class="el" href="a00071.html">tasks::qp::RelativeDistTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00035.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a>()</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::HighLevelTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00042.html#a941b5b6c91e6ef5e4fe8b17f292960b9">bodyPoint</a>(const Eigen::Vector3d &amp;point)</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00042.html#a529060db7ae536679c8f671636b5f86f">bodyPoint</a>() const </td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00042.html#a8a2638aea03724c35a28eff3e0f902c3">dim</a>()</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00042.html#abb54c45a211348b4ebf0e5709906f0e4">eval</a>()</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00042.html#a0eb49a401acbcf7e8161985de2577bd1">jac</a>()</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00042.html#ae921424aba1fecef6930c77b806ac926">LinVelocityTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;vel, const Eigen::Vector3d &amp;bodyPoint=Eigen::Vector3d::Zero())</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00042.html#aa67eb8e53005797ad009e21f1e1f76b2">normalAcc</a>()</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00042.html#af9770bf1237a0db73380d9e0151f2d87">speed</a>()</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00042.html#a7e3bb105336bad70048f7e23d9e47033">task</a>()</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00042.html#a08761d55162b1fb3bb2673dec2e3e42d">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data)</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00042.html#a7e8ca63a563784c7ed90c2c36d71eca0">velocity</a>(const Eigen::Vector3d &amp;s)</td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00042.html#ad2ef5910140a364e8f598d8fabc426d6">velocity</a>() const </td><td class="entry"><a class="el" href="a00042.html">tasks::qp::LinVelocityTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00035.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a>()</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::HighLevelTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:51 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('a00032.html','');});
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="a00135.html">List of all members</a>  </div>
+<a href="a00136.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">tasks::qp::GenQPSolver Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
@@ -114,8 +114,8 @@ Inheritance diagram for tasks::qp::GenQPSolver:</div>
  <div class="center">
   <img src="a00032.png" usemap="#tasks::qp::GenQPSolver_map" alt=""/>
   <map id="tasks::qp::GenQPSolver_map" name="tasks::qp::GenQPSolver_map">
-<area href="a00043.html" title="GenQPSolver interface implementation with the LSSOL QP solver. " alt="tasks::qp::LSSOLQPSolver" shape="rect" coords="0,56,160,80"/>
-<area href="a00068.html" title="GenQPSolver interface implementation with the QLD QP solver. " alt="tasks::qp::QLDQPSolver" shape="rect" coords="170,56,330,80"/>
+<area href="a00044.html" title="GenQPSolver interface implementation with the LSSOL QP solver. " alt="tasks::qp::LSSOLQPSolver" shape="rect" coords="0,56,160,80"/>
+<area href="a00069.html" title="GenQPSolver interface implementation with the QLD QP solver. " alt="tasks::qp::QLDQPSolver" shape="rect" coords="170,56,330,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -126,7 +126,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaf305726925f3693e24dd82b473817e3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#aaf305726925f3693e24dd82b473817e3">updateSize</a> (int nrVars, int nrEq, int nrInEq, int nrGenInEq)=0</td></tr>
 <tr class="memdesc:aaf305726925f3693e24dd82b473817e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the problem size.  <a href="#aaf305726925f3693e24dd82b473817e3">More...</a><br/></td></tr>
 <tr class="separator:aaf305726925f3693e24dd82b473817e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c72a60336439e940e2976d327dd98dd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a7c72a60336439e940e2976d327dd98dd">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr)=0</td></tr>
+<tr class="memitem:a7c72a60336439e940e2976d327dd98dd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a7c72a60336439e940e2976d327dd98dd">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr)=0</td></tr>
 <tr class="memdesc:a7c72a60336439e940e2976d327dd98dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the QP matrices.  <a href="#a7c72a60336439e940e2976d327dd98dd">More...</a><br/></td></tr>
 <tr class="separator:a7c72a60336439e940e2976d327dd98dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb9f3d99281925cd65cf1f9b29ce89ac"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#afb9f3d99281925cd65cf1f9b29ce89ac">solve</a> ()=0</td></tr>
@@ -134,7 +134,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afb9f3d99281925cd65cf1f9b29ce89ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b2bbb5cd5e65aeec71466a98bbc7d7e"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e">result</a> () const =0</td></tr>
 <tr class="separator:a5b2bbb5cd5e65aeec71466a98bbc7d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b51f336322baaca38f31c9b0f5df98"><td class="memItemLeft" align="right" valign="top">virtual std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a54b51f336322baaca38f31c9b0f5df98">errorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr, std::ostream &amp;out) const =0</td></tr>
+<tr class="memitem:a54b51f336322baaca38f31c9b0f5df98"><td class="memItemLeft" align="right" valign="top">virtual std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a54b51f336322baaca38f31c9b0f5df98">errorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr, std::ostream &amp;out) const =0</td></tr>
 <tr class="separator:a54b51f336322baaca38f31c9b0f5df98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
@@ -190,7 +190,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;&#160;</td>
           <td class="paramname"><em>tasks</em>, </td>
         </tr>
         <tr>
@@ -202,7 +202,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;&#160;</td>
           <td class="paramname"><em>inEqConstr</em>, </td>
         </tr>
         <tr>
@@ -237,7 +237,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Error message if <a class="el" href="a00032.html#afb9f3d99281925cd65cf1f9b29ce89ac" title="Solve the quadratic program. ">GenQPSolver::solve</a> has returned false. </dd></dl>
 
-<p>Implemented in <a class="el" href="a00043.html#a710a1f1b2e91b05fac21228fad56f2e8">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00068.html#af3ce529f75e491c1cd60b91dd284eb80">tasks::qp::QLDQPSolver</a>.</p>
+<p>Implemented in <a class="el" href="a00044.html#a710a1f1b2e91b05fac21228fad56f2e8">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00069.html#af3ce529f75e491c1cd60b91dd284eb80">tasks::qp::QLDQPSolver</a>.</p>
 
 </div>
 </div>
@@ -263,7 +263,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Optimal \( x \) vector. </dd></dl>
 
-<p>Implemented in <a class="el" href="a00043.html#af9aaae8d96fa2469dce321cea201a69d">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00068.html#a4313bcbe4a5a212a57925ac7518fefb2">tasks::qp::QLDQPSolver</a>.</p>
+<p>Implemented in <a class="el" href="a00044.html#af9aaae8d96fa2469dce321cea201a69d">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00069.html#a4313bcbe4a5a212a57925ac7518fefb2">tasks::qp::QLDQPSolver</a>.</p>
 
 </div>
 </div>
@@ -291,7 +291,7 @@ Static Public Attributes</h2></td></tr>
 <p>Solve the quadratic program. </p>
 <dl class="section return"><dt>Returns</dt><dd>true of success false on failure. </dd></dl>
 
-<p>Implemented in <a class="el" href="a00043.html#a5b3e5522e4d633bb6b7c59b945a4f11b">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00068.html#ad7fd879ceb4dbb5e8a6eab8a50c18925">tasks::qp::QLDQPSolver</a>.</p>
+<p>Implemented in <a class="el" href="a00044.html#a5b3e5522e4d633bb6b7c59b945a4f11b">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00069.html#ad7fd879ceb4dbb5e8a6eab8a50c18925">tasks::qp::QLDQPSolver</a>.</p>
 
 </div>
 </div>
@@ -305,7 +305,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">virtual void tasks::qp::GenQPSolver::updateMatrix </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;&#160;</td>
           <td class="paramname"><em>tasks</em>, </td>
         </tr>
         <tr>
@@ -317,7 +317,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;&#160;</td>
           <td class="paramname"><em>inEqConstr</em>, </td>
         </tr>
         <tr>
@@ -357,7 +357,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="a00043.html#a5eed8478f413c578057efaa4a3a7684d">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00068.html#aec1b18dfcc8d9fc8df01f066547482f7">tasks::qp::QLDQPSolver</a>.</p>
+<p>Implemented in <a class="el" href="a00044.html#a5eed8478f413c578057efaa4a3a7684d">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00069.html#aec1b18dfcc8d9fc8df01f066547482f7">tasks::qp::QLDQPSolver</a>.</p>
 
 </div>
 </div>
@@ -416,7 +416,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="a00043.html#ad0866aa00d27ebd946774ee5862c55e2">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00068.html#a83806ed05748975e53d74ba779868a34">tasks::qp::QLDQPSolver</a>.</p>
+<p>Implemented in <a class="el" href="a00044.html#ad0866aa00d27ebd946774ee5862c55e2">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00069.html#a83806ed05748975e53d74ba779868a34">tasks::qp::QLDQPSolver</a>.</p>
 
 </div>
 </div>
@@ -449,8 +449,8 @@ Static Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00032.html">GenQPSolver</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00032.html">GenQPSolver</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:50 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

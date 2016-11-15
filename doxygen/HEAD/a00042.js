@@ -1,16 +1,15 @@
 var a00042 =
 [
-    [ "LinVelocityTask", "a00042.html#a5cd35cfbfb12de24095edf651e58700f", null ],
-    [ "bodyPoint", "a00042.html#aa27b5d80826e16b98918d7c80b31c769", null ],
-    [ "bodyPoint", "a00042.html#ae844424fb6d92b9bb4421e48ca2f8e6c", null ],
-    [ "eval", "a00042.html#afa9ce92a9b2b79be11b5a7c995010ec7", null ],
-    [ "jac", "a00042.html#af07871a32bee95d421c610945f02b370", null ],
-    [ "jacDot", "a00042.html#a84ae3c792d0b51bd1776536911efd9dc", null ],
-    [ "normalAcc", "a00042.html#ace56ca66a07831a2575ff281dd3fb8f4", null ],
-    [ "speed", "a00042.html#a4643bad99a755d2ca2ca73b2a80bf912", null ],
-    [ "update", "a00042.html#a01ac37878ebe04770a55233ef64e5c62", null ],
-    [ "update", "a00042.html#a8c8da46a5b3abe0893135fc40fcb3075", null ],
-    [ "updateDot", "a00042.html#a291555f05786d8fac07082085d0b6f36", null ],
-    [ "velocity", "a00042.html#a9ced043d1c378186715551e512a7574d", null ],
-    [ "velocity", "a00042.html#a97006348fc2e010083c70b874fd0123c", null ]
+    [ "LinVelocityTask", "a00042.html#ae921424aba1fecef6930c77b806ac926", null ],
+    [ "bodyPoint", "a00042.html#a941b5b6c91e6ef5e4fe8b17f292960b9", null ],
+    [ "bodyPoint", "a00042.html#a529060db7ae536679c8f671636b5f86f", null ],
+    [ "dim", "a00042.html#a8a2638aea03724c35a28eff3e0f902c3", null ],
+    [ "eval", "a00042.html#abb54c45a211348b4ebf0e5709906f0e4", null ],
+    [ "jac", "a00042.html#a0eb49a401acbcf7e8161985de2577bd1", null ],
+    [ "normalAcc", "a00042.html#aa67eb8e53005797ad009e21f1e1f76b2", null ],
+    [ "speed", "a00042.html#af9770bf1237a0db73380d9e0151f2d87", null ],
+    [ "task", "a00042.html#a7e3bb105336bad70048f7e23d9e47033", null ],
+    [ "update", "a00042.html#a08761d55162b1fb3bb2673dec2e3e42d", null ],
+    [ "velocity", "a00042.html#a7e8ca63a563784c7ed90c2c36d71eca0", null ],
+    [ "velocity", "a00042.html#ad2ef5910140a364e8f598d8fabc426d6", null ]
 ];

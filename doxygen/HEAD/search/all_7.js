@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['gains',['gains',['../a00065.html#a739a5d0d760ba01113ea18aa3160c0da',1,'tasks::qp::PostureTask::gains(double stiffness)'],['../a00065.html#a0d16ea5b77758fe575667d0f43f319f9',1,'tasks::qp::PostureTask::gains(double stiffness, double damping)']]],
+  ['gains',['gains',['../a00067.html#a739a5d0d760ba01113ea18aa3160c0da',1,'tasks::qp::PostureTask::gains(double stiffness)'],['../a00067.html#a0d16ea5b77758fe575667d0f43f319f9',1,'tasks::qp::PostureTask::gains(double stiffness, double damping)']]],
   ['gazetask',['GazeTask',['../a00030.html',1,'tasks']]],
   ['gazetask',['GazeTask',['../a00029.html',1,'tasks::qp']]],
   ['gazetask',['GazeTask',['../a00029.html#a37c7e3e10fc054e0435dc7656c141565',1,'tasks::qp::GazeTask::GazeTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00029.html#a538a7e6844f23921d4649f5169d8a4da',1,'tasks::qp::GazeTask::GazeTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00030.html#aba1bfe65a758ea66b3861eb8f165c160',1,'tasks::GazeTask::GazeTask(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00030.html#a12599ce7b03170f7b9d33e521cfc417d',1,'tasks::GazeTask::GazeTask(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())']]],
   ['generators',['generators',['../a00028.html#a21e18e3e28defbb740615260a07489c1',1,'tasks::qp::FrictionCone']]],
   ['geninequality',['GenInequality',['../a00031.html',1,'tasks::qp']]],
   ['genqpsolver',['GenQPSolver',['../a00032.html',1,'tasks::qp']]],
-  ['genqpsolver_2eh',['GenQPSolver.h',['../a00096.html',1,'']]],
-  ['genqputils_2eh',['GenQPUtils.h',['../a00097.html',1,'']]],
+  ['genqpsolver_2eh',['GenQPSolver.h',['../a00097.html',1,'']]],
+  ['genqputils_2eh',['GenQPUtils.h',['../a00098.html',1,'']]],
   ['geometries_5f',['geometries_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00062.html#aeee20aadf85e04b86790615c76c0e64f',1,'sch::STP_BV']]],
   ['geometry',['Geometry',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00019.html#a9f5137e8a1732a8f6c1ae2315260d87b',1,'sch::Geometry']]],
   ['geometry',['Geometry',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00019.html',1,'sch']]],
@@ -41,6 +41,7 @@ var searchData=
   ['getpolyhedronalgorithm',['getPolyhedronAlgorithm',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00039.html#ad41837a17e79dcfbf47bfe42ac6d91db',1,'sch::S_Polyhedron']]],
   ['getposition',['getPosition',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00034.html#abbb0d20fdc6676b72c2de9da135c0168',1,'sch::S_Box']]],
   ['getradius',['getRadius',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00041.html#a000ee82b3a6290c29eacf04f2ccde5e8',1,'sch::S_Sphere::getRadius()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00065.html#a28793ae60f154ccc4aeb13f3d80ab603',1,'sch::STP_SmallSphere::getRadius()']]],
+  ['getskewsym',['getSkewSym',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#af84dc61728c402a7a3a5b61dc7b8a780',1,'rbd']]],
   ['getslices',['getSlices',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00034.html#a7c564fe26f8ccba3b25f4ba6234ca028',1,'sch::S_Box']]],
   ['getsource',['getSource',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00016.html#a8ef2b26460a5c82f3fff44eca59cfcaf',1,'sch::Depth_Edge']]],
   ['getstacks',['getStacks',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00034.html#a227f1e49b3834f240035309621a25962',1,'sch::S_Box']]],
@@ -53,8 +54,8 @@ var searchData=
   ['gjk',['GJK',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00020.html',1,'GJK'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00020.html#a65c29054e9f3ec5cbeead6a75a419d2c',1,'GJK::GJK()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#a2ddeeded589eba6c0b8814f258a04488',1,'sch::CD_Pair::GJK()']]],
   ['gjk_2eh',['GJK.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00078.html',1,'']]],
   ['gravity',['gravity',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html#a0f275f9fe70453bfd32a67b113850e3e',1,'rbd::MultiBodyConfig']]],
-  ['grippertorqueconstr',['GripperTorqueConstr',['../a00033.html',1,'tasks::qp']]],
   ['grippertorqueconstr',['GripperTorqueConstr',['../a00033.html#a158480db320f0d977606763c0ca30320',1,'tasks::qp::GripperTorqueConstr']]],
-  ['grippertorquetask',['GripperTorqueTask',['../a00034.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask']]],
-  ['grippertorquetask',['GripperTorqueTask',['../a00034.html',1,'tasks::qp']]]
+  ['grippertorqueconstr',['GripperTorqueConstr',['../a00033.html',1,'tasks::qp']]],
+  ['grippertorquetask',['GripperTorqueTask',['../a00034.html',1,'tasks::qp']]],
+  ['grippertorquetask',['GripperTorqueTask',['../a00034.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask']]]
 ];

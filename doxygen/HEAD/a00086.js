@@ -1,10 +1,12 @@
 var a00086 =
 [
-    [ "TrackingTask", "a00086.html#ae2c35b8f257be870f3bc00d4e003718e", null ],
-    [ "TrackingTask", "a00086.html#ab4bf15311e7502060de127bcd48aaa11", null ],
-    [ "errorPos", "a00086.html#a3239f7871cdab11b28e2f2e578e17912", null ],
-    [ "errorVel", "a00086.html#aa7e75dcb2e63cfa39b0fa49226d7a575", null ],
-    [ "refAccel", "a00086.html#a20e5c060814329fd2aef628b3c439234", null ],
-    [ "setGains", "a00086.html#adacea85596258631196cdc1dc5a50ae1", null ],
-    [ "update", "a00086.html#a9644d26234f5244b2f13ba2e8540adc5", null ]
+    [ "TorqueTask", "a00086.html#a3163e17d2bdd6c0ae542cb28322a58e7", null ],
+    [ "TorqueTask", "a00086.html#a27717972fc82e9dd7921b3d3e73cb2ed", null ],
+    [ "TorqueTask", "a00086.html#ac011b1323c97601b29bcba56039f76f3", null ],
+    [ "begin", "a00086.html#a3aab059411836c088e61da1bc0aa9b62", null ],
+    [ "C", "a00086.html#a358e215e748f51abb565a09136a1e41c", null ],
+    [ "jointSelect", "a00086.html#a39500797b93affb67ca33ad5b176a331", null ],
+    [ "Q", "a00086.html#ab0d00a7e0dbc6b54a4d4a1c7304e0cb6", null ],
+    [ "update", "a00086.html#ab36fff5ad52cd5c120dcf5121db4cb32", null ],
+    [ "updateNrVars", "a00086.html#aaf296fe8d8a2be96d8829b4edf35dba9", null ]
 ];

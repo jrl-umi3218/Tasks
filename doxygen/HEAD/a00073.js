@@ -1,8 +1,5 @@
 var a00073 =
 [
-    [ "SetPointTask", "a00073.html#a1923d25709fc0342fb0fc3500073fd4c", null ],
-    [ "SetPointTask", "a00073.html#aa6f09ff46587aa9096aad7fecdad4c7d", null ],
-    [ "stiffness", "a00073.html#afea0b9087a682045868bd62d6dd78480", null ],
-    [ "stiffness", "a00073.html#a1c99498ee959a53b793d7d4159423f39", null ],
-    [ "update", "a00073.html#ab52f74164fd8223f03309d8fa82add29", null ]
+    [ "dof", "a00073.html#a67cd5c7c9bb87ce3c7e7940e2e75efce", null ],
+    [ "posInDof", "a00073.html#ac2c3ce5bd04545655fefe4ac0a701159", null ]
 ];

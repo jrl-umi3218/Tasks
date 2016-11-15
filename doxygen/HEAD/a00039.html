@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::JointsSelector Class Reference</title>
+<title>tasks::qp::JointLimitsConstr Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -96,67 +96,72 @@ $(document).ready(function(){initNavTree('a00039.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="a00183.html">List of all members</a>  </div>
+<a href="a00139.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::JointsSelector Class Reference</div>  </div>
+<div class="title">tasks::qp::JointLimitsConstr Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;QPTasks.h&gt;</code></p>
+<p>Avoid to reach articular position limits based on direct integration.  
+ <a href="a00039.html#details">More...</a></p>
+
+<p><code>#include &lt;QPConstr.h&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for tasks::qp::JointsSelector:</div>
+Inheritance diagram for tasks::qp::JointLimitsConstr:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="a00039.png" usemap="#tasks::qp::JointsSelector_map" alt=""/>
-  <map id="tasks::qp::JointsSelector_map" name="tasks::qp::JointsSelector_map">
-<area href="a00035.html" alt="tasks::qp::HighLevelTask" shape="rect" coords="0,0,148,24"/>
+  <img src="a00039.png" usemap="#tasks::qp::JointLimitsConstr_map" alt=""/>
+  <map id="tasks::qp::JointLimitsConstr_map" name="tasks::qp::JointLimitsConstr_map">
+<area href="a00014.html" alt="tasks::qp::ConstraintFunction&lt; Bound &gt;" shape="rect" coords="120,56,351,80"/>
+<area href="a00013.html" alt="tasks::qp::Constraint" shape="rect" coords="0,0,231,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00072.html">SelectedData</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a75375dfa12416551b0f1d6e8835addd3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a75375dfa12416551b0f1d6e8835addd3">JointsSelector</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, <a class="el" href="a00035.html">HighLevelTask</a> *hl, const std::vector&lt; std::string &gt; &amp;selectedJointsName)</td></tr>
-<tr class="separator:a75375dfa12416551b0f1d6e8835addd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d186469793e27a4ed7a54edcc7d8193"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="a00072.html">SelectedData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a7d186469793e27a4ed7a54edcc7d8193">selectedJoints</a> () const </td></tr>
-<tr class="separator:a7d186469793e27a4ed7a54edcc7d8193"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2da34bb437142fc0a5448f2f8d70ab83"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a2da34bb437142fc0a5448f2f8d70ab83">dim</a> ()</td></tr>
-<tr class="separator:a2da34bb437142fc0a5448f2f8d70ab83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a908339c391af378abb76b02d6a3e7993"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a908339c391af378abb76b02d6a3e7993">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00075.html">SolverData</a> &amp;data)</td></tr>
-<tr class="separator:a908339c391af378abb76b02d6a3e7993"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b3e5a119a4c7735e935cbd494819cf6"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a6b3e5a119a4c7735e935cbd494819cf6">jac</a> ()</td></tr>
-<tr class="separator:a6b3e5a119a4c7735e935cbd494819cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40ecbb7e9a3ad977b668eaf4168a719a"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a40ecbb7e9a3ad977b668eaf4168a719a">eval</a> ()</td></tr>
-<tr class="separator:a40ecbb7e9a3ad977b668eaf4168a719a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5a4b15b68b44a31d3d632afa1e1041c"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ae5a4b15b68b44a31d3d632afa1e1041c">speed</a> ()</td></tr>
-<tr class="separator:ae5a4b15b68b44a31d3d632afa1e1041c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b577d797e9eed93d8e4b919e144a367"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a8b577d797e9eed93d8e4b919e144a367">normalAcc</a> ()</td></tr>
-<tr class="separator:a8b577d797e9eed93d8e4b919e144a367"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00035"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00035')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00035.html">tasks::qp::HighLevelTask</a></td></tr>
-<tr class="memitem:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00035"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00035.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a> ()</td></tr>
-<tr class="separator:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00035"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a1a77d026c1fe5211b95cae74910da98b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00039.html">JointsSelector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a1a77d026c1fe5211b95cae74910da98b">ActiveJoints</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, <a class="el" href="a00035.html">HighLevelTask</a> *hl, const std::vector&lt; std::string &gt; &amp;activeJointsName)</td></tr>
-<tr class="separator:a1a77d026c1fe5211b95cae74910da98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae714f4156f8eb905fa3aace3d303fc9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00039.html">JointsSelector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#aae714f4156f8eb905fa3aace3d303fc9">UnactiveJoints</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, <a class="el" href="a00035.html">HighLevelTask</a> *hl, const std::vector&lt; std::string &gt; &amp;unactiveJointsName)</td></tr>
-<tr class="separator:aae714f4156f8eb905fa3aace3d303fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79767272482e70fc2f72c97458a7d752"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a79767272482e70fc2f72c97458a7d752">JointLimitsConstr</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, <a class="el" href="a00068.html">QBound</a> bound, double step)</td></tr>
+<tr class="separator:a79767272482e70fc2f72c97458a7d752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1111b414928906d149c4f7db2700d78d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a1111b414928906d149c4f7db2700d78d">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const <a class="el" href="a00076.html">SolverData</a> &amp;data)</td></tr>
+<tr class="separator:a1111b414928906d149c4f7db2700d78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3645fe895f0d58ebd85af95cee0170d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#af3645fe895f0d58ebd85af95cee0170d">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00076.html">SolverData</a> &amp;data)</td></tr>
+<tr class="separator:af3645fe895f0d58ebd85af95cee0170d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17f66e4cf9dac1c287e5a0e92248816"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ac17f66e4cf9dac1c287e5a0e92248816">nameBound</a> () const </td></tr>
+<tr class="separator:ac17f66e4cf9dac1c287e5a0e92248816"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99a5770280cb96622684c52fe81043e2"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a99a5770280cb96622684c52fe81043e2">descBound</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int line)</td></tr>
+<tr class="separator:a99a5770280cb96622684c52fe81043e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5781886a9b5aef692c7f0b140a62a1e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ac5781886a9b5aef692c7f0b140a62a1e">beginVar</a> () const </td></tr>
+<tr class="separator:ac5781886a9b5aef692c7f0b140a62a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dc0659d463b9536214da3b83f5db0ca"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a5dc0659d463b9536214da3b83f5db0ca">Lower</a> () const </td></tr>
+<tr class="separator:a5dc0659d463b9536214da3b83f5db0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacf71fb30418d08f6323b6fd0aa25d95"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#aacf71fb30418d08f6323b6fd0aa25d95">Upper</a> () const </td></tr>
+<tr class="separator:aacf71fb30418d08f6323b6fd0aa25d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00014"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00014')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00014.html">tasks::qp::ConstraintFunction&lt; Bound &gt;</a></td></tr>
+<tr class="memitem:a43bbf05e31926b2e19f0fdd86669d9b5 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a43bbf05e31926b2e19f0fdd86669d9b5">~ConstraintFunction</a> ()</td></tr>
+<tr class="separator:a43bbf05e31926b2e19f0fdd86669d9b5 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a> (<a class="el" href="a00070.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, <a class="el" href="a00070.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a> (<a class="el" href="a00070.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00013"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00013')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00013.html">tasks::qp::Constraint</a></td></tr>
+<tr class="memitem:ab0a2de8684c5cb2901578a345ec0c162 inherit pub_methods_a00013"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a> ()</td></tr>
+<tr class="separator:ab0a2de8684c5cb2901578a345ec0c162 inherit pub_methods_a00013"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a75375dfa12416551b0f1d6e8835addd3"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Avoid to reach articular position limits based on direct integration. </p>
+<p class="formulaDsp">
+\[ \underline{q} \leq q + \alpha \Delta_{step} + \frac{1}{2} \dot{\alpha} \Delta_{step}^2 \leq \overline{q} \]
+</p>
+<p> This constraint can be impossible to fulfill when articulation velocity is really high. Always prefer to use <a class="el" href="a00026.html" title="Avoid to reach articular position and velocity limits based on a velocity damper. ...">DamperJointLimitsConstr</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a79767272482e70fc2f72c97458a7d752"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::JointsSelector::JointsSelector </td>
+          <td class="memname">tasks::qp::JointLimitsConstr::JointLimitsConstr </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
@@ -170,14 +175,14 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="a00035.html">HighLevelTask</a> *&#160;</td>
-          <td class="paramname"><em>hl</em>, </td>
+          <td class="paramtype"><a class="el" href="a00068.html">QBound</a>&#160;</td>
+          <td class="paramname"><em>bound</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>selectedJointsName</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>step</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -186,11 +191,20 @@ Static Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mbs</td><td>Multi-robot system. </td></tr>
+    <tr><td class="paramname">robotIndex</td><td>Constrained robot Index in mbs. </td></tr>
+    <tr><td class="paramname">bound</td><td>Articular position bounds. </td></tr>
+    <tr><td class="paramname">step</td><td>Time step in second. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a1a77d026c1fe5211b95cae74910da98b"></a>
+<a class="anchor" id="ac5781886a9b5aef692c7f0b140a62a1e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -198,153 +212,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="a00039.html">JointsSelector</a> tasks::qp::JointsSelector::ActiveJoints </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00035.html">HighLevelTask</a> *&#160;</td>
-          <td class="paramname"><em>hl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>activeJointsName</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a2da34bb437142fc0a5448f2f8d70ab83"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual int tasks::qp::JointsSelector::dim </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#aed24cd07ba6490a8508c2fcbc52e33f6">tasks::qp::HighLevelTask</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a40ecbb7e9a3ad977b668eaf4168a719a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointsSelector::eval </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#af7a1c4c56697a44df3e692e76a42dc49">tasks::qp::HighLevelTask</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6b3e5a119a4c7735e935cbd494819cf6"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::JointsSelector::jac </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#a843ba46006369277b515a6a22cbe08f9">tasks::qp::HighLevelTask</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8b577d797e9eed93d8e4b919e144a367"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointsSelector::normalAcc </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#ad5b4b5ca67ce2b059cb44b4e00918b38">tasks::qp::HighLevelTask</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a7d186469793e27a4ed7a54edcc7d8193"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt;<a class="el" href="a00072.html">SelectedData</a>&gt; tasks::qp::JointsSelector::selectedJoints </td>
+          <td class="memname">virtual int tasks::qp::JointLimitsConstr::beginVar </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -352,39 +220,14 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae5a4b15b68b44a31d3d632afa1e1041c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointsSelector::speed </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00035.html#a39cc67617b7d74386e638f1e5b0da083">tasks::qp::HighLevelTask</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="aae714f4156f8eb905fa3aace3d303fc9"></a>
+<a class="anchor" id="a99a5770280cb96622684c52fe81043e2"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -392,7 +235,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="a00039.html">JointsSelector</a> tasks::qp::JointsSelector::UnactiveJoints </td>
+          <td class="memname">virtual std::string tasks::qp::JointLimitsConstr::descBound </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
@@ -401,19 +244,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00035.html">HighLevelTask</a> *&#160;</td>
-          <td class="paramname"><em>hl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>unactiveJointsName</em>&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -423,14 +254,14 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a908339c391af378abb76b02d6a3e7993"></a>
+<a class="anchor" id="a5dc0659d463b9536214da3b83f5db0ca"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -438,7 +269,53 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::JointsSelector::update </td>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointLimitsConstr::Lower </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac17f66e4cf9dac1c287e5a0e92248816"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::JointLimitsConstr::nameBound </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af3645fe895f0d58ebd85af95cee0170d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::JointLimitsConstr::update </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
@@ -452,7 +329,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00075.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -468,7 +345,66 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00035.html#a6af9649e3cd0adc1643a029333897d02">tasks::qp::HighLevelTask</a>.</p>
+<p>Implements <a class="el" href="a00013.html#acaa7ba68e4d9fcbf627c048aef01dc43">tasks::qp::Constraint</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1111b414928906d149c4f7db2700d78d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::JointLimitsConstr::updateNrVars </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a00013.html#a1d20144cd73582d7f597f4806bfdc132">tasks::qp::Constraint</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aacf71fb30418d08f6323b6fd0aa25d95"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::JointLimitsConstr::Upper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -478,8 +414,8 @@ Static Public Member Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00039.html">JointsSelector</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00039.html">JointLimitsConstr</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:50 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>LSSOLQPSolver.h File Reference</title>
+<title>GenQPUtils.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -93,27 +93,70 @@ $(document).ready(function(){initNavTree('a00098.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">LSSOLQPSolver.h File Reference</div>  </div>
+<div class="title">GenQPUtils.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;eigen-lssol/LSSOL.h&gt;</code><br/>
-<code>#include &quot;<a class="el" href="a00096.html">GenQPSolver.h</a>&quot;</code><br/>
+<div class="textblock"><code>#include &lt;vector&gt;</code><br/>
+<code>#include &lt;Eigen/Core&gt;</code><br/>
+<code>#include &quot;<a class="el" href="a00105.html">QPSolver.h</a>&quot;</code><br/>
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00043.html">tasks::qp::LSSOLQPSolver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the LSSOL QP solver.  <a href="a00043.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:a00110"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00110.html">tasks</a></td></tr>
+<tr class="memitem:a00111"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00111.html">tasks</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00111"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00111.html">tasks::qp</a></td></tr>
+<tr class="memitem:a00112"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html">tasks::qp</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3acd478a67503f59d9247a42d049ccab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a3acd478a67503f59d9247a42d049ccab">tasks::qp::fillQC</a> (const std::vector&lt; Task * &gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</td></tr>
+<tr class="memdesc:a3acd478a67503f59d9247a42d049ccab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( Q \) matrix and the \( c \) vector based on the task list.  <a href="#a3acd478a67503f59d9247a42d049ccab">More...</a><br/></td></tr>
+<tr class="separator:a3acd478a67503f59d9247a42d049ccab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a483f5734b17b8c4500a85814c867ebc9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a483f5734b17b8c4500a85814c867ebc9">tasks::qp::fillEq</a> (const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</td></tr>
+<tr class="memdesc:a483f5734b17b8c4500a85814c867ebc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( A \) matrix and the \( L \) and \( U \) bounds vectors based on the equality constaint list.  <a href="#a483f5734b17b8c4500a85814c867ebc9">More...</a><br/></td></tr>
+<tr class="separator:a483f5734b17b8c4500a85814c867ebc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77e5a5962c21c03aeda39abeeb516912"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a77e5a5962c21c03aeda39abeeb516912">tasks::qp::fillInEq</a> (const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</td></tr>
+<tr class="memdesc:a77e5a5962c21c03aeda39abeeb516912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( A \) matrix and the \( L \) and \( U \) bounds vectors based on the inequality constaint list.  <a href="#a77e5a5962c21c03aeda39abeeb516912">More...</a><br/></td></tr>
+<tr class="separator:a77e5a5962c21c03aeda39abeeb516912"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab329f620a78124fb5d860881f293835"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#aab329f620a78124fb5d860881f293835">tasks::qp::fillGenInEq</a> (const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</td></tr>
+<tr class="memdesc:aab329f620a78124fb5d860881f293835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( A \) matrix and the \( L \) and \( U \) bounds vectors based on the general inequality constaint list.  <a href="#aab329f620a78124fb5d860881f293835">More...</a><br/></td></tr>
+<tr class="separator:aab329f620a78124fb5d860881f293835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4af6028d8957e20c500d0bb31a2b9231"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a4af6028d8957e20c500d0bb31a2b9231">tasks::qp::fillEq</a> (const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</td></tr>
+<tr class="memdesc:a4af6028d8957e20c500d0bb31a2b9231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( A \) matrix and the \( b \) vectors based on the equality constaint list.  <a href="#a4af6028d8957e20c500d0bb31a2b9231">More...</a><br/></td></tr>
+<tr class="separator:a4af6028d8957e20c500d0bb31a2b9231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f31965982894310938eeee89933c06f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a5f31965982894310938eeee89933c06f">tasks::qp::fillInEq</a> (const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</td></tr>
+<tr class="memdesc:a5f31965982894310938eeee89933c06f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( A \) matrix and the \( b \) vectors based on the inequality constaint list.  <a href="#a5f31965982894310938eeee89933c06f">More...</a><br/></td></tr>
+<tr class="separator:a5f31965982894310938eeee89933c06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0194ab22689c282d9e6205c973bce141"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a0194ab22689c282d9e6205c973bce141">tasks::qp::fillGenInEq</a> (const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</td></tr>
+<tr class="memdesc:a0194ab22689c282d9e6205c973bce141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( A \) matrix and the \( b \) vectors based on the general inequality constaint list.  <a href="#a0194ab22689c282d9e6205c973bce141">More...</a><br/></td></tr>
+<tr class="separator:a0194ab22689c282d9e6205c973bce141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca70e0c2bf7e2fe95b1817865ae65bd8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#aca70e0c2bf7e2fe95b1817865ae65bd8">tasks::qp::fillBound</a> (const std::vector&lt; Bound * &gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</td></tr>
+<tr class="memdesc:aca70e0c2bf7e2fe95b1817865ae65bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( L \) and \( U \) bounds vectors based on the bound constaint list.  <a href="#aca70e0c2bf7e2fe95b1817865ae65bd8">More...</a><br/></td></tr>
+<tr class="separator:aca70e0c2bf7e2fe95b1817865ae65bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65d9ff284da05686474a0fb01276bbce"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a65d9ff284da05686474a0fb01276bbce"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00112.html#a65d9ff284da05686474a0fb01276bbce">tasks::qp::printConstr</a> (const Eigen::VectorXd &amp;result, T *constr, int line, std::ostream &amp;out)</td></tr>
+<tr class="separator:a65d9ff284da05686474a0fb01276bbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9694a15e3e5b744843aa6dae4fa134da"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a9694a15e3e5b744843aa6dae4fa134da"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00112.html#a9694a15e3e5b744843aa6dae4fa134da">tasks::qp::printConstr</a> (const Eigen::VectorXd &amp;result, Equality *constr, int line, std::ostream &amp;out)</td></tr>
+<tr class="separator:a9694a15e3e5b744843aa6dae4fa134da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abda68512c902b700787e7eea478cd71a"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:abda68512c902b700787e7eea478cd71a"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00112.html#abda68512c902b700787e7eea478cd71a">tasks::qp::printConstr</a> (const Eigen::VectorXd &amp;result, Inequality *constr, int line, std::ostream &amp;out)</td></tr>
+<tr class="separator:abda68512c902b700787e7eea478cd71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92dd7d7ce7ea80e3cf096e82061d0b66"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a92dd7d7ce7ea80e3cf096e82061d0b66"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00112.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr</a> (const Eigen::VectorXd &amp;result, GenInequality *constr, int line, std::ostream &amp;out)</td></tr>
+<tr class="separator:a92dd7d7ce7ea80e3cf096e82061d0b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d2dfd5d6e03be7321854fb1e2bc32df"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a1d2dfd5d6e03be7321854fb1e2bc32df"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00112.html#a1d2dfd5d6e03be7321854fb1e2bc32df">tasks::qp::constrErrorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T * &gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</td></tr>
+<tr class="separator:a1d2dfd5d6e03be7321854fb1e2bc32df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a31e12b1cde7cfcf43f25004aab165bb3"><td class="memItemLeft" align="right" valign="top">static const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a31e12b1cde7cfcf43f25004aab165bb3">tasks::qp::DIAG_CONSTANT</a> = 1e-4</td></tr>
+<tr class="separator:a31e12b1cde7cfcf43f25004aab165bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -121,8 +164,8 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="a00098.html">LSSOLQPSolver.h</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="a00098.html">GenQPUtils.h</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:50 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

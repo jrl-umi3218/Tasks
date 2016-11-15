@@ -77,7 +77,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00083.html','');});
+$(document).ready(function(){initNavTree('a00031.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -96,28 +96,29 @@ $(document).ready(function(){initNavTree('a00083.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::Task Member List</div>  </div>
+<div class="title">tasks::qp::GenInequality Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00083.html">tasks::qp::Task</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00031.html">tasks::qp::GenInequality</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00083.html#a4fb40197774e65a243a371592fd48bbf">begin</a>() const =0</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00083.html#a83cf452e29dc09f6f1190a950497e4de">C</a>() const =0</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00083.html#a1e36e39ffffe29c088d90b1c67ca2137">Q</a>() const =0</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00083.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00083.html#ae23731fb2968a088eab6a5298542437b">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data)=0</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00083.html#a5c5aceb3acc9164a75c73e3051b06577">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data)=0</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00083.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>() const </td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00083.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00083.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00031.html#a43a34f4730c9c55f8534d0f0b6a18a10">addToSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00031.html#a325d9d056bb2f4384f2dd5d7782c7d67">AGenInEq</a>() const =0</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00031.html#a9d2a100b0cac057ed8ab9551c313c258">descGenInEq</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int i)=0</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00031.html#afbc386b920f098adbf97579136f7aafe">LowerGenInEq</a>() const =0</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00031.html#aeb0ca1c17412db12a0b356cf49db1153">maxGenInEq</a>() const =0</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00031.html#ab8b53c19e88c1e5b2dfe20f323406e4e">nameGenInEq</a>() const =0</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00031.html#a0824ef1fa7cca3bc979437b08c316dbe">nrGenInEq</a>() const </td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00031.html#a0cb32ca9ea02aef63634de1e915ba1d7">removeFromSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00031.html#ab9e1c4057da5a53adb8f42ab0a3de2c9">UpperGenInEq</a>() const =0</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00031.html#acc4aa2bbdb2392a856830b123cea0aae">~GenInequality</a>()</td><td class="entry"><a class="el" href="a00031.html">tasks::qp::GenInequality</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:51 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

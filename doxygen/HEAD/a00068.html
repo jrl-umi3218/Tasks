@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::QLDQPSolver Class Reference</title>
+<title>tasks::QBound Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -97,74 +97,40 @@ $(document).ready(function(){initNavTree('a00068.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00137.html">List of all members</a>  </div>
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a00115.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::QLDQPSolver Class Reference</div>  </div>
+<div class="title">tasks::QBound Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the QLD QP solver.  
+<p>General position vector bounds \( \underline{q} \) and \( \overline{q} \).  
  <a href="a00068.html#details">More...</a></p>
 
-<p><code>#include &lt;QLDQPSolver.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for tasks::qp::QLDQPSolver:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="a00068.png" usemap="#tasks::qp::QLDQPSolver_map" alt=""/>
-  <map id="tasks::qp::QLDQPSolver_map" name="tasks::qp::QLDQPSolver_map">
-<area href="a00032.html" title="Generic QP solver abstract interface. " alt="tasks::qp::GenQPSolver" shape="rect" coords="0,0,146,24"/>
-</map>
- </div></div>
+<p><code>#include &lt;Bounds.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a23f91afba5699bb41d02a3081c1ab59e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#a23f91afba5699bb41d02a3081c1ab59e">QLDQPSolver</a> ()</td></tr>
-<tr class="separator:a23f91afba5699bb41d02a3081c1ab59e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83806ed05748975e53d74ba779868a34"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#a83806ed05748975e53d74ba779868a34">updateSize</a> (int nrVars, int nrEq, int nrInEq, int nrGenInEq)</td></tr>
-<tr class="memdesc:a83806ed05748975e53d74ba779868a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the problem size.  <a href="#a83806ed05748975e53d74ba779868a34">More...</a><br/></td></tr>
-<tr class="separator:a83806ed05748975e53d74ba779868a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec1b18dfcc8d9fc8df01f066547482f7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#aec1b18dfcc8d9fc8df01f066547482f7">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr)</td></tr>
-<tr class="memdesc:aec1b18dfcc8d9fc8df01f066547482f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the QP matrices.  <a href="#aec1b18dfcc8d9fc8df01f066547482f7">More...</a><br/></td></tr>
-<tr class="separator:aec1b18dfcc8d9fc8df01f066547482f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7fd879ceb4dbb5e8a6eab8a50c18925"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#ad7fd879ceb4dbb5e8a6eab8a50c18925">solve</a> ()</td></tr>
-<tr class="memdesc:ad7fd879ceb4dbb5e8a6eab8a50c18925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the quadratic program.  <a href="#ad7fd879ceb4dbb5e8a6eab8a50c18925">More...</a><br/></td></tr>
-<tr class="separator:ad7fd879ceb4dbb5e8a6eab8a50c18925"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4313bcbe4a5a212a57925ac7518fefb2"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#a4313bcbe4a5a212a57925ac7518fefb2">result</a> () const </td></tr>
-<tr class="separator:a4313bcbe4a5a212a57925ac7518fefb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3ce529f75e491c1cd60b91dd284eb80"><td class="memItemLeft" align="right" valign="top">virtual std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#af3ce529f75e491c1cd60b91dd284eb80">errorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr, std::ostream &amp;out) const override</td></tr>
-<tr class="separator:af3ce529f75e491c1cd60b91dd284eb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00032"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00032')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00032.html">tasks::qp::GenQPSolver</a></td></tr>
-<tr class="memitem:abc3b4a33780f8fe00fd5d3385dbaf808 inherit pub_methods_a00032"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#abc3b4a33780f8fe00fd5d3385dbaf808">~GenQPSolver</a> ()</td></tr>
-<tr class="separator:abc3b4a33780f8fe00fd5d3385dbaf808 inherit pub_methods_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9adaf296f18e8d83bea065e232714633"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#a9adaf296f18e8d83bea065e232714633">QBound</a> ()</td></tr>
+<tr class="separator:a9adaf296f18e8d83bea065e232714633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb75555826261616bcfc52c56ec0a863"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#adb75555826261616bcfc52c56ec0a863">QBound</a> (std::vector&lt; std::vector&lt; double &gt;&gt; lQB, std::vector&lt; std::vector&lt; double &gt;&gt; uQB)</td></tr>
+<tr class="separator:adb75555826261616bcfc52c56ec0a863"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_static_attribs_a00032"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_a00032')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="a00032.html">tasks::qp::GenQPSolver</a></td></tr>
-<tr class="memitem:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00032"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ad8ee5e4fad141ae5f5e8b73e3842e847">default_qp_solver</a></td></tr>
-<tr class="memdesc:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default QP solver.  <a href="#ad8ee5e4fad141ae5f5e8b73e3842e847">More...</a><br/></td></tr>
-<tr class="separator:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a8b98c406f6daa08af4a7883ba00cf844"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector<br class="typebreak"/>
+&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#a8b98c406f6daa08af4a7883ba00cf844">lQBound</a></td></tr>
+<tr class="memdesc:a8b98c406f6daa08af4a7883ba00cf844"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \underline{q} \)  <a href="#a8b98c406f6daa08af4a7883ba00cf844">More...</a><br/></td></tr>
+<tr class="separator:a8b98c406f6daa08af4a7883ba00cf844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed0fe5130f66d16efcb5af347c9f9be"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector<br class="typebreak"/>
+&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00068.html#a5ed0fe5130f66d16efcb5af347c9f9be">uQBound</a></td></tr>
+<tr class="memdesc:a5ed0fe5130f66d16efcb5af347c9f9be"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \overline{q} \)  <a href="#a5ed0fe5130f66d16efcb5af347c9f9be">More...</a><br/></td></tr>
+<tr class="separator:a5ed0fe5130f66d16efcb5af347c9f9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the QLD QP solver. </p>
+<div class="textblock"><p>General position vector bounds \( \underline{q} \) and \( \overline{q} \). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a23f91afba5699bb41d02a3081c1ab59e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::qp::QLDQPSolver::QLDQPSolver </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af3ce529f75e491c1cd60b91dd284eb80"></a>
+<a class="anchor" id="a9adaf296f18e8d83bea065e232714633"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -172,100 +138,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::ostream&amp; tasks::qp::QLDQPSolver::errorMsg </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tasks</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>eqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>genInEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>boundConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Error message if <a class="el" href="a00032.html#afb9f3d99281925cd65cf1f9b29ce89ac" title="Solve the quadratic program. ">GenQPSolver::solve</a> has returned false. </dd></dl>
-
-<p>Implements <a class="el" href="a00032.html#a54b51f336322baaca38f31c9b0f5df98">tasks::qp::GenQPSolver</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a4313bcbe4a5a212a57925ac7518fefb2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::QLDQPSolver::result </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Optimal \( x \) vector. </dd></dl>
-
-<p>Implements <a class="el" href="a00032.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e">tasks::qp::GenQPSolver</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad7fd879ceb4dbb5e8a6eab8a50c18925"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool tasks::qp::QLDQPSolver::solve </td>
+          <td class="memname">tasks::QBound::QBound </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -273,19 +146,14 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Solve the quadratic program. </p>
-<dl class="section return"><dt>Returns</dt><dd>true of success false on failure. </dd></dl>
-
-<p>Implements <a class="el" href="a00032.html#afb9f3d99281925cd65cf1f9b29ce89ac">tasks::qp::GenQPSolver</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="aec1b18dfcc8d9fc8df01f066547482f7"></a>
+<a class="anchor" id="adb75555826261616bcfc52c56ec0a863"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -293,34 +161,16 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::QLDQPSolver::updateMatrix </td>
+          <td class="memname">tasks::QBound::QBound </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00083.html">Task</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tasks</em>, </td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>lQB</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>eqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00036.html">Inequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>genInEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>boundConstr</em>&#160;</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>uQB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -330,83 +180,39 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Construct the QP matrices. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tasks</td><td>Build \( Q \) and \( c \). </td></tr>
-    <tr><td class="paramname">eqConstr</td><td>Build \( A x = b \) constraints. </td></tr>
-    <tr><td class="paramname">inEqConstr</td><td>Build \( A x \geq b \) constraints. </td></tr>
-    <tr><td class="paramname">genInEqConstr</td><td>Build \( L \leq A x \leq U \) constraints. </td></tr>
-    <tr><td class="paramname">boundConstr</td><td>Build \( L \leq x \leq U \) constraints. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="a00032.html#a7c72a60336439e940e2976d327dd98dd">tasks::qp::GenQPSolver</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a83806ed05748975e53d74ba779868a34"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a8b98c406f6daa08af4a7883ba00cf844"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::QLDQPSolver::updateSize </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrVars</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrEq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrInEq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGenInEq</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::QBound::lQBound</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Update the problem size. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nrVars</td><td>Variable number. </td></tr>
-    <tr><td class="paramname">nrEq</td><td>maximum number of equality. </td></tr>
-    <tr><td class="paramname">nrInEq</td><td>maximum number of inequality. </td></tr>
-    <tr><td class="paramname">nrGenInEq</td><td>maximum number of general inequality. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>\( \underline{q} \) </p>
 
-<p>Implements <a class="el" href="a00032.html#aaf305726925f3693e24dd82b473817e3">tasks::qp::GenQPSolver</a>.</p>
+</div>
+</div>
+<a class="anchor" id="a5ed0fe5130f66d16efcb5af347c9f9be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::QBound::uQBound</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>\( \overline{q} \) </p>
 
 </div>
 </div>
@@ -416,8 +222,8 @@ Additional Inherited Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00068.html">QLDQPSolver</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00068.html">QBound</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:50 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

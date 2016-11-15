@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::MotionSpringConstr Class Reference</title>
+<title>tasks::qp::MotionPolyConstr Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -96,82 +96,69 @@ $(document).ready(function(){initNavTree('a00049.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="a00161.html">List of all members</a>  </div>
+<a href="a00165.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::MotionSpringConstr Class Reference</div>  </div>
+<div class="title">tasks::qp::MotionPolyConstr Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
+<p>Use polynome in function of q to compute torque limits.  
+ <a href="a00049.html#details">More...</a></p>
+
 <p><code>#include &lt;QPMotionConstr.h&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for tasks::qp::MotionSpringConstr:</div>
+Inheritance diagram for tasks::qp::MotionPolyConstr:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="a00049.png" usemap="#tasks::qp::MotionSpringConstr_map" alt=""/>
-  <map id="tasks::qp::MotionSpringConstr_map" name="tasks::qp::MotionSpringConstr_map">
-<area href="a00046.html" alt="tasks::qp::MotionConstr" shape="rect" coords="140,168,411,192"/>
-<area href="a00047.html" alt="tasks::qp::MotionConstrCommon" shape="rect" coords="140,112,411,136"/>
+  <img src="a00049.png" usemap="#tasks::qp::MotionPolyConstr_map" alt=""/>
+  <map id="tasks::qp::MotionPolyConstr_map" name="tasks::qp::MotionPolyConstr_map">
+<area href="a00048.html" alt="tasks::qp::MotionConstrCommon" shape="rect" coords="140,112,411,136"/>
 <area href="a00014.html" alt="tasks::qp::ConstraintFunction&lt; GenInequality &gt;" shape="rect" coords="140,56,411,80"/>
 <area href="a00013.html" alt="tasks::qp::Constraint" shape="rect" coords="0,0,271,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00077.html">SpringJointData</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aae4c8dbb6054294ea28eda06f032219a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#aae4c8dbb6054294ea28eda06f032219a">MotionSpringConstr</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const <a class="el" href="a00084.html">TorqueBound</a> &amp;tb, const std::vector&lt; <a class="el" href="a00076.html">SpringJoint</a> &gt; &amp;springs)</td></tr>
-<tr class="separator:aae4c8dbb6054294ea28eda06f032219a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86b987047b0376795d6a9f8512f45b7b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#a86b987047b0376795d6a9f8512f45b7b">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbc, const <a class="el" href="a00075.html">SolverData</a> &amp;data)</td></tr>
-<tr class="separator:a86b987047b0376795d6a9f8512f45b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00046"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00046')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00046.html">tasks::qp::MotionConstr</a></td></tr>
-<tr class="memitem:a5dc804e968c47791630468c06584d2d2 inherit pub_methods_a00046"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a5dc804e968c47791630468c06584d2d2">MotionConstr</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const <a class="el" href="a00084.html">TorqueBound</a> &amp;tb)</td></tr>
-<tr class="separator:a5dc804e968c47791630468c06584d2d2 inherit pub_methods_a00046"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d1987d41708ec4f54492a00df3a8879 inherit pub_methods_a00046"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a6d1987d41708ec4f54492a00df3a8879">matrix</a> () const </td></tr>
-<tr class="separator:a6d1987d41708ec4f54492a00df3a8879 inherit pub_methods_a00046"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a392675cb972c47829e8e2d8667589895 inherit pub_methods_a00046"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a392675cb972c47829e8e2d8667589895">contactMatrix</a> () const </td></tr>
-<tr class="separator:a392675cb972c47829e8e2d8667589895 inherit pub_methods_a00046"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0223199ac4f6da62bc5994cc612384d inherit pub_methods_a00046"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00007.html">rbd::ForwardDynamics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#ae0223199ac4f6da62bc5994cc612384d">fd</a> () const </td></tr>
-<tr class="separator:ae0223199ac4f6da62bc5994cc612384d inherit pub_methods_a00046"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00047"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00047')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00047.html">tasks::qp::MotionConstrCommon</a></td></tr>
-<tr class="memitem:ae71be277b8002ce97fe338eab8d084af inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#ae71be277b8002ce97fe338eab8d084af">MotionConstrCommon</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex)</td></tr>
-<tr class="separator:ae71be277b8002ce97fe338eab8d084af inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f5c31134d11d698137ff7a7f16c25b6 inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a0f5c31134d11d698137ff7a7f16c25b6">computeTorque</a> (const Eigen::VectorXd &amp;alphaD, const Eigen::VectorXd &amp;lambda)</td></tr>
-<tr class="separator:a0f5c31134d11d698137ff7a7f16c25b6 inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad48ab078f08472ac872bb827d2395533 inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#ad48ab078f08472ac872bb827d2395533">torque</a> () const </td></tr>
-<tr class="separator:ad48ab078f08472ac872bb827d2395533 inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bebeba82ad807c195bcaad90414a9d5 inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a9bebeba82ad807c195bcaad90414a9d5">torque</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs) const </td></tr>
-<tr class="separator:a9bebeba82ad807c195bcaad90414a9d5 inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a896082d1b385150703048a1772a1c81e inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a896082d1b385150703048a1772a1c81e">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const <a class="el" href="a00075.html">SolverData</a> &amp;data)</td></tr>
-<tr class="separator:a896082d1b385150703048a1772a1c81e inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a783cef81086c210b0430dff9829391f7 inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a783cef81086c210b0430dff9829391f7">computeMatrix</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mb, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs)</td></tr>
-<tr class="separator:a783cef81086c210b0430dff9829391f7 inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab52ffb663ee2af9d48c625a59b806bfa inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#ab52ffb663ee2af9d48c625a59b806bfa">nameGenInEq</a> () const </td></tr>
-<tr class="separator:ab52ffb663ee2af9d48c625a59b806bfa inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89c7bde2f2001957ea4e7bde7579b32d inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a89c7bde2f2001957ea4e7bde7579b32d">descGenInEq</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int line)</td></tr>
-<tr class="separator:a89c7bde2f2001957ea4e7bde7579b32d inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3908c2d89470ea9e7b43a726e99362c6 inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a3908c2d89470ea9e7b43a726e99362c6">maxGenInEq</a> () const </td></tr>
-<tr class="separator:a3908c2d89470ea9e7b43a726e99362c6 inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc6f1106b6611b2b4e08b936fcdc4eed inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#acc6f1106b6611b2b4e08b936fcdc4eed">AGenInEq</a> () const </td></tr>
-<tr class="separator:acc6f1106b6611b2b4e08b936fcdc4eed inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11a1fca5889cd1f891f0e76334a75f7b inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a11a1fca5889cd1f891f0e76334a75f7b">LowerGenInEq</a> () const </td></tr>
-<tr class="separator:a11a1fca5889cd1f891f0e76334a75f7b inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebf52a578ad86ab878a3a970af28e65a inherit pub_methods_a00047"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#aebf52a578ad86ab878a3a970af28e65a">UpperGenInEq</a> () const </td></tr>
-<tr class="separator:aebf52a578ad86ab878a3a970af28e65a inherit pub_methods_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93f49c72d7b08577c529416df3a10587"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#a93f49c72d7b08577c529416df3a10587">MotionPolyConstr</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const <a class="el" href="a00060.html">PolyTorqueBound</a> &amp;ptb)</td></tr>
+<tr class="separator:a93f49c72d7b08577c529416df3a10587"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc8f05242e49ecba6c066ea574ff11b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#afbc8f05242e49ecba6c066ea574ff11b">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00076.html">SolverData</a> &amp;data)</td></tr>
+<tr class="separator:afbc8f05242e49ecba6c066ea574ff11b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00048"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00048')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00048.html">tasks::qp::MotionConstrCommon</a></td></tr>
+<tr class="memitem:ae71be277b8002ce97fe338eab8d084af inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#ae71be277b8002ce97fe338eab8d084af">MotionConstrCommon</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex)</td></tr>
+<tr class="separator:ae71be277b8002ce97fe338eab8d084af inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f5c31134d11d698137ff7a7f16c25b6 inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a0f5c31134d11d698137ff7a7f16c25b6">computeTorque</a> (const Eigen::VectorXd &amp;alphaD, const Eigen::VectorXd &amp;lambda)</td></tr>
+<tr class="separator:a0f5c31134d11d698137ff7a7f16c25b6 inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad48ab078f08472ac872bb827d2395533 inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#ad48ab078f08472ac872bb827d2395533">torque</a> () const </td></tr>
+<tr class="separator:ad48ab078f08472ac872bb827d2395533 inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bebeba82ad807c195bcaad90414a9d5 inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a9bebeba82ad807c195bcaad90414a9d5">torque</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs) const </td></tr>
+<tr class="separator:a9bebeba82ad807c195bcaad90414a9d5 inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a896082d1b385150703048a1772a1c81e inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a896082d1b385150703048a1772a1c81e">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const <a class="el" href="a00076.html">SolverData</a> &amp;data)</td></tr>
+<tr class="separator:a896082d1b385150703048a1772a1c81e inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a783cef81086c210b0430dff9829391f7 inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a783cef81086c210b0430dff9829391f7">computeMatrix</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mb, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs)</td></tr>
+<tr class="separator:a783cef81086c210b0430dff9829391f7 inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab52ffb663ee2af9d48c625a59b806bfa inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#ab52ffb663ee2af9d48c625a59b806bfa">nameGenInEq</a> () const </td></tr>
+<tr class="separator:ab52ffb663ee2af9d48c625a59b806bfa inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89c7bde2f2001957ea4e7bde7579b32d inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a89c7bde2f2001957ea4e7bde7579b32d">descGenInEq</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int line)</td></tr>
+<tr class="separator:a89c7bde2f2001957ea4e7bde7579b32d inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3908c2d89470ea9e7b43a726e99362c6 inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a3908c2d89470ea9e7b43a726e99362c6">maxGenInEq</a> () const </td></tr>
+<tr class="separator:a3908c2d89470ea9e7b43a726e99362c6 inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc6f1106b6611b2b4e08b936fcdc4eed inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#acc6f1106b6611b2b4e08b936fcdc4eed">AGenInEq</a> () const </td></tr>
+<tr class="separator:acc6f1106b6611b2b4e08b936fcdc4eed inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a1fca5889cd1f891f0e76334a75f7b inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a11a1fca5889cd1f891f0e76334a75f7b">LowerGenInEq</a> () const </td></tr>
+<tr class="separator:a11a1fca5889cd1f891f0e76334a75f7b inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf52a578ad86ab878a3a970af28e65a inherit pub_methods_a00048"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#aebf52a578ad86ab878a3a970af28e65a">UpperGenInEq</a> () const </td></tr>
+<tr class="separator:aebf52a578ad86ab878a3a970af28e65a inherit pub_methods_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_a00014"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00014')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00014.html">tasks::qp::ConstraintFunction&lt; GenInequality &gt;</a></td></tr>
 <tr class="memitem:a43bbf05e31926b2e19f0fdd86669d9b5 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a43bbf05e31926b2e19f0fdd86669d9b5">~ConstraintFunction</a> ()</td></tr>
 <tr class="separator:a43bbf05e31926b2e19f0fdd86669d9b5 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a> (<a class="el" href="a00069.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="memitem:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a> (<a class="el" href="a00070.html">QPSolver</a> &amp;sol)</td></tr>
 <tr class="separator:aff67c3cdc38c098ddcd8a2b47bc55946 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, <a class="el" href="a00069.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="memitem:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, <a class="el" href="a00070.html">QPSolver</a> &amp;sol)</td></tr>
 <tr class="separator:a1156de5e1b49d1d91319fd96cb936b7a inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a> (<a class="el" href="a00069.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="memitem:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00014.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a> (<a class="el" href="a00070.html">QPSolver</a> &amp;sol)</td></tr>
 <tr class="separator:a454bf752ccf215aa991d036eaf1c3223 inherit pub_methods_a00014"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_a00013"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00013')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00013.html">tasks::qp::Constraint</a></td></tr>
 <tr class="memitem:ab0a2de8684c5cb2901578a345ec0c162 inherit pub_methods_a00013"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00013.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a> ()</td></tr>
@@ -179,48 +166,50 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aad13ef10076249984674dec4c1798299"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a00077.html">SpringJointData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#aad13ef10076249984674dec4c1798299">springs_</a></td></tr>
-<tr class="separator:aad13ef10076249984674dec4c1798299"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_a00046"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00046')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00046.html">tasks::qp::MotionConstr</a></td></tr>
-<tr class="memitem:a2dc3ec557ec06e2e2937fe7157753977 inherit pro_attribs_a00046"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a2dc3ec557ec06e2e2937fe7157753977">torqueL_</a></td></tr>
-<tr class="separator:a2dc3ec557ec06e2e2937fe7157753977 inherit pro_attribs_a00046"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87385049d7441292c5250ec072e020d3 inherit pro_attribs_a00046"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a87385049d7441292c5250ec072e020d3">torqueU_</a></td></tr>
-<tr class="separator:a87385049d7441292c5250ec072e020d3 inherit pro_attribs_a00046"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_a00047"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00047')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00047.html">tasks::qp::MotionConstrCommon</a></td></tr>
-<tr class="memitem:a3843d4962b6ddfd6daebacb7d8e8c7f8 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a3843d4962b6ddfd6daebacb7d8e8c7f8">robotIndex_</a></td></tr>
-<tr class="separator:a3843d4962b6ddfd6daebacb7d8e8c7f8 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abab4bc2b7dfe4ea581184b008702f9ac inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#abab4bc2b7dfe4ea581184b008702f9ac">alphaDBegin_</a></td></tr>
-<tr class="separator:abab4bc2b7dfe4ea581184b008702f9ac inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f03c92906291ec277c53991dfaf42c7 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a5f03c92906291ec277c53991dfaf42c7">nrDof_</a></td></tr>
-<tr class="separator:a5f03c92906291ec277c53991dfaf42c7 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35510f97cf24f0e6292ce4c10481ab1f inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a35510f97cf24f0e6292ce4c10481ab1f">lambdaBegin_</a></td></tr>
-<tr class="separator:a35510f97cf24f0e6292ce4c10481ab1f inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0b1ab80838be2a021ebec95522228dd inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00007.html">rbd::ForwardDynamics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#aa0b1ab80838be2a021ebec95522228dd">fd_</a></td></tr>
-<tr class="separator:aa0b1ab80838be2a021ebec95522228dd inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add4e8d750eefe4d196f4b124d04bbba3 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#add4e8d750eefe4d196f4b124d04bbba3">fullJacLambda_</a></td></tr>
-<tr class="separator:add4e8d750eefe4d196f4b124d04bbba3 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a017d89ce7edd9cef0dded59fd5c92960 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a017d89ce7edd9cef0dded59fd5c92960">jacTrans_</a></td></tr>
-<tr class="separator:a017d89ce7edd9cef0dded59fd5c92960 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc04e4c41aa5201d796ad9d2e15c4728 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#afc04e4c41aa5201d796ad9d2e15c4728">jacLambda_</a></td></tr>
-<tr class="separator:afc04e4c41aa5201d796ad9d2e15c4728 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9447370a70ac6a0ac21d102b890447ee inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a00019.html">ContactData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a9447370a70ac6a0ac21d102b890447ee">cont_</a></td></tr>
-<tr class="separator:a9447370a70ac6a0ac21d102b890447ee inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8dfcd48202dd0d87d0daa621eab9277 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#af8dfcd48202dd0d87d0daa621eab9277">curTorque_</a></td></tr>
-<tr class="separator:af8dfcd48202dd0d87d0daa621eab9277 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e1b827c418a55a43cb20133caa82d35 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a2e1b827c418a55a43cb20133caa82d35">A_</a></td></tr>
-<tr class="separator:a2e1b827c418a55a43cb20133caa82d35 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d3023d1d06e2565a9eea6d8bafbc6d3 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a8d3023d1d06e2565a9eea6d8bafbc6d3">AL_</a></td></tr>
-<tr class="separator:a8d3023d1d06e2565a9eea6d8bafbc6d3 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8541b39617273f08843bc213c60baaf9 inherit pro_attribs_a00047"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a8541b39617273f08843bc213c60baaf9">AU_</a></td></tr>
-<tr class="separator:a8541b39617273f08843bc213c60baaf9 inherit pro_attribs_a00047"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c79e9d0ac757a2fa79c822cf2f72ab7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#a0c79e9d0ac757a2fa79c822cf2f72ab7">torqueL_</a></td></tr>
+<tr class="separator:a0c79e9d0ac757a2fa79c822cf2f72ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b6a5c6234adbd54efbbecca67bc9c4e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#a1b6a5c6234adbd54efbbecca67bc9c4e">torqueU_</a></td></tr>
+<tr class="separator:a1b6a5c6234adbd54efbbecca67bc9c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cb6d383d1f32142b8215f626496fe63"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00049.html#a1cb6d383d1f32142b8215f626496fe63">jointIndex_</a></td></tr>
+<tr class="separator:a1cb6d383d1f32142b8215f626496fe63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_a00048"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00048')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00048.html">tasks::qp::MotionConstrCommon</a></td></tr>
+<tr class="memitem:a3843d4962b6ddfd6daebacb7d8e8c7f8 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a3843d4962b6ddfd6daebacb7d8e8c7f8">robotIndex_</a></td></tr>
+<tr class="separator:a3843d4962b6ddfd6daebacb7d8e8c7f8 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abab4bc2b7dfe4ea581184b008702f9ac inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#abab4bc2b7dfe4ea581184b008702f9ac">alphaDBegin_</a></td></tr>
+<tr class="separator:abab4bc2b7dfe4ea581184b008702f9ac inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f03c92906291ec277c53991dfaf42c7 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a5f03c92906291ec277c53991dfaf42c7">nrDof_</a></td></tr>
+<tr class="separator:a5f03c92906291ec277c53991dfaf42c7 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35510f97cf24f0e6292ce4c10481ab1f inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a35510f97cf24f0e6292ce4c10481ab1f">lambdaBegin_</a></td></tr>
+<tr class="separator:a35510f97cf24f0e6292ce4c10481ab1f inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0b1ab80838be2a021ebec95522228dd inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00007.html">rbd::ForwardDynamics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#aa0b1ab80838be2a021ebec95522228dd">fd_</a></td></tr>
+<tr class="separator:aa0b1ab80838be2a021ebec95522228dd inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add4e8d750eefe4d196f4b124d04bbba3 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#add4e8d750eefe4d196f4b124d04bbba3">fullJacLambda_</a></td></tr>
+<tr class="separator:add4e8d750eefe4d196f4b124d04bbba3 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a017d89ce7edd9cef0dded59fd5c92960 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a017d89ce7edd9cef0dded59fd5c92960">jacTrans_</a></td></tr>
+<tr class="separator:a017d89ce7edd9cef0dded59fd5c92960 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc04e4c41aa5201d796ad9d2e15c4728 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#afc04e4c41aa5201d796ad9d2e15c4728">jacLambda_</a></td></tr>
+<tr class="separator:afc04e4c41aa5201d796ad9d2e15c4728 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9447370a70ac6a0ac21d102b890447ee inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a00019.html">ContactData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a9447370a70ac6a0ac21d102b890447ee">cont_</a></td></tr>
+<tr class="separator:a9447370a70ac6a0ac21d102b890447ee inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8dfcd48202dd0d87d0daa621eab9277 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#af8dfcd48202dd0d87d0daa621eab9277">curTorque_</a></td></tr>
+<tr class="separator:af8dfcd48202dd0d87d0daa621eab9277 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1b827c418a55a43cb20133caa82d35 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a2e1b827c418a55a43cb20133caa82d35">A_</a></td></tr>
+<tr class="separator:a2e1b827c418a55a43cb20133caa82d35 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d3023d1d06e2565a9eea6d8bafbc6d3 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a8d3023d1d06e2565a9eea6d8bafbc6d3">AL_</a></td></tr>
+<tr class="separator:a8d3023d1d06e2565a9eea6d8bafbc6d3 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8541b39617273f08843bc213c60baaf9 inherit pro_attribs_a00048"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00048.html#a8541b39617273f08843bc213c60baaf9">AU_</a></td></tr>
+<tr class="separator:a8541b39617273f08843bc213c60baaf9 inherit pro_attribs_a00048"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aae4c8dbb6054294ea28eda06f032219a"></a>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Use polynome in function of q to compute torque limits. </p>
+<p>BEWARE: Only work with 1 dof/param joint </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a93f49c72d7b08577c529416df3a10587"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::MotionSpringConstr::MotionSpringConstr </td>
+          <td class="memname">tasks::qp::MotionPolyConstr::MotionPolyConstr </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
@@ -234,14 +223,8 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00084.html">TorqueBound</a> &amp;&#160;</td>
-          <td class="paramname"><em>tb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00076.html">SpringJoint</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>springs</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="a00060.html">PolyTorqueBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>ptb</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -254,7 +237,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a86b987047b0376795d6a9f8512f45b7b"></a>
+<a class="anchor" id="afbc8f05242e49ecba6c066ea574ff11b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -262,7 +245,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::MotionSpringConstr::update </td>
+          <td class="memname">virtual void tasks::qp::MotionPolyConstr::update </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
@@ -271,12 +254,12 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbc</em>, </td>
+          <td class="paramname"><em>mbcs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00075.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -292,12 +275,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented from <a class="el" href="a00046.html#abf577470d36589e452535045431e674f">tasks::qp::MotionConstr</a>.</p>
+<p>Implements <a class="el" href="a00013.html#acaa7ba68e4d9fcbf627c048aef01dc43">tasks::qp::Constraint</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="aad13ef10076249984674dec4c1798299"></a>
+<a class="anchor" id="a1cb6d383d1f32142b8215f626496fe63"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -305,7 +288,47 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="a00077.html">SpringJointData</a>&gt; tasks::qp::MotionSpringConstr::springs_</td>
+          <td class="memname">std::vector&lt;int&gt; tasks::qp::MotionPolyConstr::jointIndex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0c79e9d0ac757a2fa79c822cf2f72ab7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::VectorXd&gt; tasks::qp::MotionPolyConstr::torqueL_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1b6a5c6234adbd54efbbecca67bc9c4e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::VectorXd&gt; tasks::qp::MotionPolyConstr::torqueU_</td>
         </tr>
       </table>
   </td>
@@ -323,8 +346,8 @@ Protected Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00110.html">tasks</a></li><li class="navelem"><a class="el" href="a00111.html">qp</a></li><li class="navelem"><a class="el" href="a00049.html">MotionSpringConstr</a></li>
-    <li class="footer">Generated on Thu Nov 10 2016 08:24:33 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00049.html">MotionPolyConstr</a></li>
+    <li class="footer">Generated on Tue Nov 15 2016 01:53:51 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

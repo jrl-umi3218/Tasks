@@ -1,15 +1,15 @@
 var a00052 =
 [
-    [ "MultiRobotTransformTask", "a00052.html#a8f6e1b8388384c5089b9297d65a848d8", null ],
-    [ "eval", "a00052.html#ad346c95ac6120aa4a01d21159c9f6396", null ],
-    [ "jac", "a00052.html#aaeafff73729c4dd087b68403e26fde5c", null ],
-    [ "normalAcc", "a00052.html#a27008f3c88e43325e1510e056204d67b", null ],
-    [ "r1Index", "a00052.html#a92ad69a29fcd1752fb915d3e37eaf915", null ],
-    [ "r2Index", "a00052.html#afef4204b0b8d64fdd4277aa53f6a5a88", null ],
-    [ "speed", "a00052.html#a7e11e3a9d61778b8ed90cb8a099d9084", null ],
-    [ "update", "a00052.html#a251727256873e2bd2df730be58bd9781", null ],
-    [ "X_r1b_r1s", "a00052.html#a1a9bbc561f3314f9eb435d94145c5567", null ],
-    [ "X_r1b_r1s", "a00052.html#a771426e1013d7df2c2637557244f320e", null ],
-    [ "X_r2b_r2s", "a00052.html#af7058dcac3a76234456ffc14d971c40c", null ],
-    [ "X_r2b_r2s", "a00052.html#ad165874fc245e2c9efcbe5e66500cee4", null ]
+    [ "MultiCoMTask", "a00052.html#a481fe0d7f675e85e5bd9b867693dfa33", null ],
+    [ "com", "a00052.html#a22b45d38d8c2f4e9cd4dca94f0a03177", null ],
+    [ "com", "a00052.html#ae9e0ae8028a813d0b7222551b4d6f6f4", null ],
+    [ "eval", "a00052.html#a6566a87c95ee4f0bcca7fb23e15b2a05", null ],
+    [ "jac", "a00052.html#ad01b6fe4dcd14ae290e9342a7cd9d975", null ],
+    [ "normalAcc", "a00052.html#ade4415c7a2709524621e483168d35c51", null ],
+    [ "robotIndexes", "a00052.html#a2b7bf71e59826b6042615237e83a802b", null ],
+    [ "speed", "a00052.html#a630f6bf47d36154c2bdf17e57d67f207", null ],
+    [ "update", "a00052.html#a5ff62c598d20e5fcb3369c796b41b65b", null ],
+    [ "update", "a00052.html#a98822f979d05e4110cda215928c975b3", null ],
+    [ "update", "a00052.html#a12b29eecea86d5d97dd8ec8404c94a00", null ],
+    [ "updateInertialParameters", "a00052.html#a0eddb2f22c0eb8c99c82bb20091d5c1b", null ]
 ];

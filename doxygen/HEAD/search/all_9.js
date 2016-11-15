@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['i',['I',['../a00058.html#a962d3bffa22573570659791feeff39d1',1,'tasks::qp::PIDTask::I() const '],['../a00058.html#acd5b82eea8b6aabdc79009794208ce9e',1,'tasks::qp::PIDTask::I(double i)']]],
+  ['i',['I',['../a00059.html#a962d3bffa22573570659791feeff39d1',1,'tasks::qp::PIDTask::I() const '],['../a00059.html#acd5b82eea8b6aabdc79009794208ce9e',1,'tasks::qp::PIDTask::I(double i)']]],
   ['id_2eh',['ID.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00025.html',1,'']]],
   ['identity',['Identity',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a8f9781828ebc80b8c89a6e9bfba6ea4d',1,'sva::PTransform']]],
   ['idim',['IDIM',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00008.html',1,'rbd']]],
@@ -8,11 +8,14 @@ var searchData=
   ['idim_2eh',['IDIM.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00026.html',1,'']]],
   ['ignorepair',['ignorePair',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00011.html#a9fb17fb4127708212803d040dc4bf620',1,'sch::CD_Scene']]],
   ['ik_2eh',['IK.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00027.html',1,'']]],
-  ['imagepointjacobian',['imagePointJacobian',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#aeebb73b9ba032f830fa7df4164903d45',1,'rbd::imagePointJacobian(const Eigen::Vector2d &amp;point2d, const double depthEstimate)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#afdeb17011822a80a35a56545bbc2c33e',1,'rbd::imagePointJacobian(const Eigen::Vector3d &amp;point3d)']]],
+  ['imageconstr',['ImageConstr',['../a00036.html',1,'tasks::qp']]],
+  ['imageconstr',['ImageConstr',['../a00036.html#a985c69282468b3d03abdd56b5306a7fc',1,'tasks::qp::ImageConstr']]],
+  ['imagepointjacobian',['imagePointJacobian',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#a07491bc6c9c4efc66e979df49eec7a77',1,'rbd::imagePointJacobian(const Eigen::Vector2d &amp;point2d, const double depthEstimate, Eigen::Matrix&lt; double, 2, 6 &gt; &amp;jac)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#a3f883d5b2cb2d74f03f930d7097aa91e',1,'rbd::imagePointJacobian(const Eigen::Vector3d &amp;point3d, Eigen::Matrix&lt; double, 2, 6 &gt; &amp;jac)']]],
+  ['imagepointjacobiandot',['imagePointJacobianDot',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#af911cb4aaa8f45c453f0eb8af449e402',1,'rbd']]],
   ['imphi',['IMPhi',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#a866fa89d4831928b912c77db84f30309',1,'rbd']]],
-  ['index',['index',['../a00077.html#a7430c237c03d5a757c7cb76efb439ec9',1,'tasks::qp::MotionSpringConstr::SpringJointData::index()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00016.html#a5fc5ad0b3cda573da168902ad133d92a',1,'sch::Depth_Edge::index()']]],
+  ['index',['index',['../a00078.html#a7430c237c03d5a757c7cb76efb439ec9',1,'tasks::qp::MotionSpringConstr::SpringJointData::index()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00016.html#a5fc5ad0b3cda573da168902ad133d92a',1,'sch::Depth_Edge::index()']]],
   ['index_5ft',['Index_t',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00114.html#adb1185148e3cd3bcc448295be8c26bcd',1,'sch']]],
-  ['inequality',['Inequality',['../a00036.html',1,'tasks::qp']]],
+  ['inequality',['Inequality',['../a00037.html',1,'tasks::qp']]],
   ['inertia',['inertia',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00001.html#a9a91192039c5479fcea7f4eecb4e2f91',1,'sva::ABInertia::inertia()'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00005.html#a1f6b89e38eac55982d48d8ac9efa38fd',1,'sva::RBInertia::inertia()'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00002.html#a2e4908498efb9dbfb17a2d331806a267',1,'rbd::Body::inertia()']]],
   ['inertiasubtree',['inertiaSubTree',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00007.html#ad83ae9dbf531799c3f0dce5587310ef4',1,'rbd::ForwardDynamics']]],
   ['inertiatoorigin',['inertiaToOrigin',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#a1a0a93626ba1bf5c436166e11da493a3',1,'sva']]],
@@ -22,10 +25,10 @@ var searchData=
   ['instantiate_5fpointer_5foserializer',['instantiate_pointer_oserializer',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00110.html#a36a969c98d97fb6bba03fb0646613a94',1,'boost::archive::detail']]],
   ['interpolate',['interpolate',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#a381dd489edaba2181144933166257665',1,'sva']]],
   ['inv',['inv',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a320c78785763774b308c13b2d168f14a',1,'sva::PTransform']]],
-  ['inversedynamics',['InverseDynamics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a8a1cfa3c30e35f6443eb63da1b66a35c',1,'rbd::InverseDynamics::InverseDynamics()'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a95d57fb181a5c0a2cab373a2fc1c2484',1,'rbd::InverseDynamics::InverseDynamics(const MultiBody &amp;mb)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a476dbc1b84043b1ef2cfdc2d47280717',1,'rbd::InverseDynamics::inverseDynamics(const MultiBody &amp;mb, MultiBodyConfig &amp;mbc)']]],
   ['inversedynamics',['InverseDynamics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html',1,'rbd']]],
+  ['inversedynamics',['InverseDynamics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a8a1cfa3c30e35f6443eb63da1b66a35c',1,'rbd::InverseDynamics::InverseDynamics()'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a95d57fb181a5c0a2cab373a2fc1c2484',1,'rbd::InverseDynamics::InverseDynamics(const MultiBody &amp;mb)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a476dbc1b84043b1ef2cfdc2d47280717',1,'rbd::InverseDynamics::inverseDynamics(const MultiBody &amp;mb, MultiBodyConfig &amp;mbc)']]],
+  ['inversekinematics',['InverseKinematics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00010.html#ad8ac966b9ece34c3a3c95daf842084cc',1,'rbd::InverseKinematics::InverseKinematics(const MultiBody &amp;mb, int ef_index)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00010.html#ae3899d5b6efbaef606567ebf52c2897a',1,'rbd::InverseKinematics::inverseKinematics(const MultiBody &amp;mb, MultiBodyConfig &amp;mbc, const sva::PTransformd &amp;ef_target)']]],
   ['inversekinematics',['InverseKinematics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00010.html',1,'rbd']]],
-  ['inversekinematics',['inverseKinematics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00010.html#ae3899d5b6efbaef606567ebf52c2897a',1,'rbd::InverseKinematics::inverseKinematics(const MultiBody &amp;mb, MultiBodyConfig &amp;mbc, const sva::PTransformd &amp;ef_target)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00010.html#ad8ac966b9ece34c3a3c95daf842084cc',1,'rbd::InverseKinematics::InverseKinematics(const MultiBody &amp;mb, int ef_index)']]],
   ['inversestatics',['InverseStatics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00011.html',1,'rbd']]],
   ['inversestatics',['InverseStatics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00011.html#aaf3896d15a495df0c162c668dc5dc507',1,'rbd::InverseStatics::InverseStatics()'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00011.html#a134bc6e9c98b27f21266d9a5b76c4a00',1,'rbd::InverseStatics::InverseStatics(const MultiBody &amp;mb)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00011.html#a789b578b71c9f48056dd5212ccdb5b7d',1,'rbd::InverseStatics::inverseStatics(const MultiBody &amp;mb, MultiBodyConfig &amp;mbc)']]],
   ['inversion',['Inversion',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00021.html#a248fc3f6a65e8514b279246509b6a94b',1,'CD_Matrix::Matrix3x3T::Inversion()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00022.html#a5151e6f1c602369b90310a772c8c7cd1',1,'CD_Matrix::Matrix4x4T::Inversion(Matrix4x4T &amp;A)'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00022.html#a6c1cc2505235f5827d92ddd1c0f8fb79',1,'CD_Matrix::Matrix4x4T::Inversion()']]],
@@ -50,5 +53,5 @@ var searchData=
   ['issamelimit',['isSameLimit',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00047.html#a94eddb23a17b4840b866b9238d943235',1,'sch::s_STP_VVR::isSameLimit()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00044.html#aaca353ab993f3d5d1df99ed7b04a0b34',1,'sch::s_STN_VVR::isSameLimit()']]],
   ['isvisiblefrom',['isVisibleFrom',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00017.html#a2ef82a1eb4f470ccb7fe0040b3e8a4ae',1,'sch::Depth_Triangle']]],
   ['iszero',['IsZero',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00068.html#a08076c240c7c1f09fadd786093e50c82',1,'CD_Matrix::Vector3T']]],
-  ['iter',['iter',['../a00082.html#a2a44c77f68894ce9212e9650a47e23a0',1,'tasks::qp::TargetObjectiveTask::iter() const '],['../a00082.html#a0bbd08184d765ede109a3bbf20b7daf7',1,'tasks::qp::TargetObjectiveTask::iter(int i)']]]
+  ['iter',['iter',['../a00083.html#a2a44c77f68894ce9212e9650a47e23a0',1,'tasks::qp::TargetObjectiveTask::iter() const '],['../a00083.html#a0bbd08184d765ede109a3bbf20b7daf7',1,'tasks::qp::TargetObjectiveTask::iter(int i)']]]
 ];

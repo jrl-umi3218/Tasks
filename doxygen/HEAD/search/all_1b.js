@@ -14,12 +14,12 @@ var searchData=
   ['_7egenqpsolver',['~GenQPSolver',['../a00032.html#abc3b4a33780f8fe00fd5d3385dbaf808',1,'tasks::qp::GenQPSolver']]],
   ['_7egjk',['~GJK',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00020.html#a88b4e67cc682e0b9a946051fdfc5076b',1,'GJK']]],
   ['_7ehighleveltask',['~HighLevelTask',['../a00035.html#ac11194ec5a81fc18b68209eadfcbf9cc',1,'tasks::qp::HighLevelTask']]],
-  ['_7einequality',['~Inequality',['../a00036.html#a8971f0b14e1d2ea3e5b126692ff6fcf8',1,'tasks::qp::Inequality']]],
+  ['_7einequality',['~Inequality',['../a00037.html#a8971f0b14e1d2ea3e5b126692ff6fcf8',1,'tasks::qp::Inequality']]],
   ['_7emultibodygraph',['~MultiBodyGraph',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html#a91417edd9e1dea7780942ba938c942d1',1,'rbd::MultiBodyGraph']]],
   ['_7eoserializer',['~oserializer',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00027.html#a6aaf075f2ecdb21b9782312ae4718fc7',1,'boost::archive::detail::oserializer']]],
   ['_7epointer_5foserializer',['~pointer_oserializer',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00028.html#a067adf63dcaca806e87f0ec2f957c692',1,'boost::archive::detail::pointer_oserializer']]],
   ['_7epolyhedron_5falgorithms',['~Polyhedron_algorithms',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00029.html#a9fae3a4c389f546cf4fc6fdfaeb6e291',1,'sch::Polyhedron_algorithms']]],
-  ['_7eqpsolver',['~QPSolver',['../a00069.html#abf17142db1a5e1f0cd77bdf57cede049',1,'tasks::qp::QPSolver']]],
+  ['_7eqpsolver',['~QPSolver',['../a00070.html#abf17142db1a5e1f0cd77bdf57cede049',1,'tasks::qp::QPSolver']]],
   ['_7equaterniont',['~QuaternionT',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00032.html#a6fd1d32146d98f52ca874882a3a1f587',1,'CD_Matrix::QuaternionT']]],
   ['_7es_5fbox',['~S_Box',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00033.html#a5ef4ded015dc202edd718b8164724f64',1,'sch::S_Box']]],
   ['_7es_5fobject',['~S_Object',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00034.html#aa3bfbb36b15c273ef28b5fe421445f21',1,'sch::S_Box']]],
@@ -36,5 +36,5 @@ var searchData=
   ['_7estp_5ffeature',['~STP_Feature',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00064.html#ae72e851e09413fffcde241448f521c4e',1,'sch::STP_BigSphere']]],
   ['_7estp_5fsmallsphere',['~STP_SmallSphere',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00065.html#a7b868151f1a9f7f249ad74acaf10cd9f',1,'sch::STP_SmallSphere']]],
   ['_7estp_5ftorus',['~STP_Torus',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00067.html#a490040dab54e2ce4d8cc06e69c5a63f8',1,'sch::STP_Torus']]],
-  ['_7etask',['~Task',['../a00083.html#ac477f102c9a66128557f4800bfb3bb43',1,'tasks::qp::Task']]]
+  ['_7etask',['~Task',['../a00084.html#ac477f102c9a66128557f4800bfb3bb43',1,'tasks::qp::Task']]]
 ];
