@@ -313,6 +313,9 @@ private:
 	rbd::Jacobian jac_;
 	sva::PTransformd X_b_gaze_;
 	Eigen::Matrix<double, 2, 6> L_img_;
+	Eigen::Matrix<double, 6, 1> surfaceVelocity_;
+	Eigen::Matrix<double, 1, 6> L_Z_dot_;
+	Eigen::Matrix<double, 2, 6> L_img_dot_;
 
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
@@ -348,8 +351,10 @@ private:
 	Eigen::Vector3d axis_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
-
 	Eigen::Matrix<double, 6, 6> L_pbvs_;
+	Eigen::Matrix<double, 6, 1> surfaceVelocity_;
+	Eigen::Matrix3d omegaSkew_;
+	Eigen::Matrix<double, 6, 6> L_pbvs_dot_;
 
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
