@@ -661,7 +661,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 
 	Joint j0(Joint::RevZ, true, "j0");
 	Joint j1(Joint::RevZ, true, "j1");
-	j1.set_mimic("j0", -1.0, 0.0);
+	j1.makeMimic("j0", -1.0, 0.0);
 
 	mbg.addJoint(j0);
 	mbg.addJoint(j1);

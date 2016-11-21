@@ -163,11 +163,11 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 			data_.mobileRobotIndex_.push_back(int(r));
 			for(const auto & j : mb.joints())
 			{
-				if(j.is_mimic())
+				if(j.isMimic())
 				{
-					dependencies.emplace_back(data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimic_name())),
+					dependencies.emplace_back(data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimicName())),
 																		data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())),
-																		j.mimic_multiplier());
+																		j.mimicMultiplier());
 				}
 			}
 		}
