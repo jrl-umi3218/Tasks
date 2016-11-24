@@ -226,8 +226,8 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 
 	if(dependencies.size())
 	{
-		std::vector<int> full_to_reduced(data_.nrVars_, -1);
-		std::vector<int> reduced_to_full(data_.nrVars_ - static_cast<int>(dependencies.size()), -1);
+		std::vector<int> fullToReduced(data_.nrVars_, -1);
+		std::vector<int> reducedToFull(data_.nrVars_ - static_cast<int>(dependencies.size()), -1);
 		std::vector<int> removedVars; removedVars.reserve(dependencies.size() + 1);
 		for(const auto & d : dependencies)
 		{
@@ -236,14 +236,14 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 		removedVars.push_back(data_.nrVars_);
 		std::sort(removedVars.begin(), removedVars.end());
 		size_t shift = 0;
-		for(size_t i = 0; i < full_to_reduced.size(); ++i)
+		for(size_t i = 0; i < fullToReduced.size(); ++i)
 		{
-			if(i == removedVars[shift]) { shift++; continue; }
-			full_to_reduced[i] = i - shift;
-			reduced_to_full[i-shift] = i;
+			if(i == static_cast<size_t>(removedVars[shift])) { shift++; continue; }
+			fullToReduced[i] = static_cast<int>(i - shift);
+			reducedToFull[i-shift] = static_cast<int>(i);
 		}
-		solver_->setReductionParameters(std::move(full_to_reduced),
-																		std::move(reduced_to_full),
+		solver_->setReductionParameters(std::move(fullToReduced),
+																		std::move(reducedToFull),
 																		std::move(dependencies));
 	}
 

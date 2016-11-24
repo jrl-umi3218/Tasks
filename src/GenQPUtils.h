@@ -78,38 +78,38 @@ inline void fillQC(const std::vector<Task*>& tasks, int nrVars,
 /**
 	* Reduce \f$ Q \f$ matrix and the \f$ c \f$ vector based on the dependencies list
 	*/
-inline void reduceQC(const Eigen::MatrixXd & Q_full, const Eigen::VectorXd & C_full,
+inline void reduceQC(const Eigen::MatrixXd & QFull, const Eigen::VectorXd & CFull,
 										 Eigen::MatrixXd & Q, Eigen::VectorXd & C,
-										 const std::vector<int> & full_to_reduced,
-										 const std::vector<int> & reduced_to_full,
+										 const std::vector<int> & fullToReduced,
+										 const std::vector<int> & reducedToFull,
 										 const std::vector<std::tuple<int, int, double>> & dependencies)
 {
 	/* Start by moving the non-reduced variables to their new location */
-	for(size_t i = 0; i < reduced_to_full.size(); ++i)
+	for(size_t i = 0; i < reducedToFull.size(); ++i)
 	{
-		for(size_t j = 0; j < reduced_to_full.size(); ++j)
+		for(size_t j = 0; j < reducedToFull.size(); ++j)
 		{
-			Q(i,j) = Q_full(reduced_to_full[i], reduced_to_full[j]);
+			Q(i,j) = QFull(reducedToFull[i], reducedToFull[j]);
 		}
-		C(i) = C_full(reduced_to_full[i]);
+		C(i) = CFull(reducedToFull[i]);
 	}
 	/* Apply the reduction */
 	for(const auto & d : dependencies)
 	{
-		const int & primary_full_i = std::get<0>(d);
-		const int & primary_reduced_i = full_to_reduced[primary_full_i];
-		const int & replica_full_i = std::get<1>(d);
+		const int & primaryFullI = std::get<0>(d);
+		const int & primaryReducedI = fullToReduced[primaryFullI];
+		const int & replicaFullI = std::get<1>(d);
 		const double & alpha = 1/std::get<2>(d);
 		/* Apply reduction to C */
-		C(primary_reduced_i) += alpha*C_full(replica_full_i);
+		C(primaryReducedI) += alpha*CFull(replicaFullI);
 		/* Add cross-terms to Q */
-		for(size_t i = 0; i < reduced_to_full.size(); ++i)
+		for(size_t i = 0; i < reducedToFull.size(); ++i)
 		{
-			Q(i, primary_reduced_i) += alpha*Q_full(reduced_to_full[i], replica_full_i);
-			Q(primary_reduced_i, i) += alpha*Q_full(replica_full_i, reduced_to_full[i]);
+			Q(i, primaryReducedI) += alpha*QFull(reducedToFull[i], replicaFullI);
+			Q(primaryReducedI, i) += alpha*QFull(replicaFullI, reducedToFull[i]);
 		}
 		/* Add diagonal element to Q */
-		Q(primary_reduced_i, primary_reduced_i) += alpha*alpha*Q_full(replica_full_i, replica_full_i);
+		Q(primaryReducedI, primaryReducedI) += alpha*alpha*QFull(replicaFullI, replicaFullI);
 	}
 }
 
@@ -307,28 +307,28 @@ inline void fillBound(const std::vector<Bound*>& bounds,
 /**
 	* Reduce \f$ A \f$ matrix based on the dependencies list
 	*/
-inline void reduceA(const Eigen::MatrixXd & A_full,
+inline void reduceA(const Eigen::MatrixXd & AFull,
 										Eigen::MatrixXd & A,
-										const std::vector<int> & full_to_reduced,
-										const std::vector<int> & reduced_to_full,
+										const std::vector<int> & fullToReduced,
+										const std::vector<int> & reducedToFull,
 										const std::vector<std::tuple<int, int, double>> & dependencies)
 {
-	for(size_t i = 0; i < static_cast<size_t>(A_full.rows()); ++i)
+	for(size_t i = 0; i < static_cast<size_t>(AFull.rows()); ++i)
 	{
-		for(size_t j = 0; j <reduced_to_full.size(); ++j)
+		for(size_t j = 0; j <reducedToFull.size(); ++j)
 		{
-			A(i,j) = A_full(i, reduced_to_full[j]);
+			A(i,j) = AFull(i, reducedToFull[j]);
 		}
 	}
 	for(const auto & d : dependencies)
 	{
-		const int & primary_full_i = std::get<0>(d);
-		const int & primary_reduced_i = full_to_reduced[primary_full_i];
-		const int & replica_full_i = std::get<1>(d);
+		const int & primaryFullI = std::get<0>(d);
+		const int & primaryReducedI = fullToReduced[primaryFullI];
+		const int & replicaFullI = std::get<1>(d);
 		const double & alpha = std::get<2>(d);
 		for(int i = 0; i < A.rows(); ++i)
 		{
-			A(i, primary_reduced_i) += alpha*A_full(i, replica_full_i);
+			A(i, primaryReducedI) += alpha*AFull(i, replicaFullI);
 		}
 	}
 }
@@ -336,34 +336,34 @@ inline void reduceA(const Eigen::MatrixXd & A_full,
 /**
 	* Reduce bounds vector based on the dependencies list
 	*/
-inline void reduceBound(const Eigen::VectorXd & XL_full,
+inline void reduceBound(const Eigen::VectorXd & XLFull,
 												Eigen::VectorXd & XL,
-												const Eigen::VectorXd & XU_full,
+												const Eigen::VectorXd & XUFull,
 												Eigen::VectorXd & XU,
-												const std::vector<int> & full_to_reduced,
-												const std::vector<int> & reduced_to_full,
+												const std::vector<int> & fullToReduced,
+												const std::vector<int> & reducedToFull,
 												const std::vector<std::tuple<int, int, double>> & dependencies)
 {
 	for(size_t i = 0; i < static_cast<size_t>(XL.rows()); ++i)
 	{
-		XL(i) = XL_full(reduced_to_full[i]);
-		XU(i) = XU_full(reduced_to_full[i]);
+		XL(i) = XLFull(reducedToFull[i]);
+		XU(i) = XUFull(reducedToFull[i]);
 	}
 	for(const auto & d : dependencies)
 	{
-		const int & primary_full_i = std::get<0>(d);
-		const int & primary_reduced_i = full_to_reduced[primary_full_i];
-		const int & replica_full_i = std::get<1>(d);
+		const int & primaryFullI = std::get<0>(d);
+		const int & primaryReducedI = fullToReduced[primaryFullI];
+		const int & replicaFullI = std::get<1>(d);
 		const double & alpha = std::get<2>(d);
 		if(alpha < 0)
 		{
-			XL(primary_reduced_i) = std::max(XL(primary_reduced_i), XU_full(replica_full_i)/alpha);
-			XU(primary_reduced_i) = std::min(XU(primary_reduced_i), XL_full(replica_full_i)/alpha);
+			XL(primaryReducedI) = std::max(XL(primaryReducedI), XUFull(replicaFullI)/alpha);
+			XU(primaryReducedI) = std::min(XU(primaryReducedI), XLFull(replicaFullI)/alpha);
 		}
 		else
 		{
-			XL(primary_reduced_i) = std::max(XL(primary_reduced_i), XL_full(replica_full_i)/alpha);
-			XU(primary_reduced_i) = std::min(XU(primary_reduced_i), XU_full(replica_full_i)/alpha);
+			XL(primaryReducedI) = std::max(XL(primaryReducedI), XLFull(replicaFullI)/alpha);
+			XU(primaryReducedI) = std::min(XU(primaryReducedI), XUFull(replicaFullI)/alpha);
 		}
 	}
 }
@@ -372,20 +372,20 @@ inline void reduceBound(const Eigen::VectorXd & XL_full,
 	* Return the full variable from the reduced variable
 	*/
 inline void expandResult(const Eigen::VectorXd & result,
-												 Eigen::VectorXd & result_full,
-												 const std::vector<int> & reduced_to_full,
+												 Eigen::VectorXd & resultFull,
+												 const std::vector<int> & reducedToFull,
 												 const std::vector<std::tuple<int, int, double>> & dependencies)
 {
-	for(size_t i = 0; i < reduced_to_full.size(); ++i)
+	for(size_t i = 0; i < reducedToFull.size(); ++i)
 	{
-		result_full(reduced_to_full[i]) = result(i);
+		resultFull(reducedToFull[i]) = result(i);
 	}
 	for(const auto & d : dependencies)
 	{
-		const int & primary_full_i = std::get<0>(d);
-		const int & replica_full_i = std::get<1>(d);
+		const int & primaryFullI = std::get<0>(d);
+		const int & replicaFullI = std::get<1>(d);
 		const double & alpha = std::get<2>(d);
-		result_full(replica_full_i) = alpha*result_full(primary_full_i);
+		resultFull(replicaFullI) = alpha*resultFull(primaryFullI);
 	}
 }
 

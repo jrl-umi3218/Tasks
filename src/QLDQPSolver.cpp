@@ -35,11 +35,11 @@ QLDQPSolver::QLDQPSolver():
 	qld_(),
 	Aeq_(),Aineq_(),
 	beq_(), bineq_(),
-	Aeq_full_(),Aineq_full_(),
+	AeqFull_(),AineqFull_(),
 	XL_(),XU_(),
-	XL_full_(),XU_full_(),
+	XLFull_(),XUFull_(),
 	Q_(),C_(),
-	Q_full_(),C_full_(),
+	QFull_(),CFull_(),
 	nrAeqLines_(0), nrAineqLines_(0)
 {
 }
@@ -50,17 +50,17 @@ void QLDQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 	int maxAeqLines = nrEq;
 	int maxAineqLines = nrInEq + nrGenInEq*2;
 
-	Aeq_full_.resize(maxAeqLines, nrVars);
-	Aineq_full_.resize(maxAineqLines, nrVars);
+	AeqFull_.resize(maxAeqLines, nrVars);
+	AineqFull_.resize(maxAineqLines, nrVars);
 
 	beq_.resize(maxAeqLines);
 	bineq_.resize(maxAineqLines);
 
-	XL_full_.resize(nrVars);
-	XU_full_.resize(nrVars);
+	XLFull_.resize(nrVars);
+	XUFull_.resize(nrVars);
 
-	Q_full_.resize(nrVars, nrVars);
-	C_full_.resize(nrVars);
+	QFull_.resize(nrVars, nrVars);
+	CFull_.resize(nrVars);
 
 	if(dependencies_.size())
 	{
@@ -75,7 +75,7 @@ void QLDQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 		Q_.resize(reducedNrVars, reducedNrVars);
 		C_.resize(reducedNrVars);
 
-		X_full_.resize(nrVars);
+		XFull_.resize(nrVars);
 
 		qld_.problem(reducedNrVars, maxAeqLines, maxAineqLines);
 		std::cout << "(before) nrVars " << nrVars << std::endl;
@@ -98,25 +98,25 @@ void QLDQPSolver::updateMatrix(
 	const std::vector<GenInequality*>& genInEqConstr,
 	const std::vector<Bound*>& boundConstr)
 {
-	Aeq_full_.setZero();
-	Aineq_full_.setZero();
+	AeqFull_.setZero();
+	AineqFull_.setZero();
 	beq_.setZero();
 	bineq_.setZero();
-	XL_full_.fill(-std::numeric_limits<double>::infinity());
-	XU_full_.fill(std::numeric_limits<double>::infinity());
-	Q_full_.setZero();
-	C_full_.setZero();
+	XLFull_.fill(-std::numeric_limits<double>::infinity());
+	XUFull_.fill(std::numeric_limits<double>::infinity());
+	QFull_.setZero();
+	CFull_.setZero();
 
-	const int nrVars = int(Q_full_.rows());
+	const int nrVars = int(QFull_.rows());
 
 	nrAeqLines_ = 0;
-	nrAeqLines_ = fillEq(eqConstr, nrVars, nrAeqLines_, Aeq_full_, beq_);
+	nrAeqLines_ = fillEq(eqConstr, nrVars, nrAeqLines_, AeqFull_, beq_);
 	nrAineqLines_ = 0;
-	nrAineqLines_ = fillInEq(inEqConstr, nrVars, nrAineqLines_, Aineq_full_, bineq_);
-	nrAineqLines_ = fillGenInEq(genInEqConstr, nrVars, nrAineqLines_, Aineq_full_, bineq_);
+	nrAineqLines_ = fillInEq(inEqConstr, nrVars, nrAineqLines_, AineqFull_, bineq_);
+	nrAineqLines_ = fillGenInEq(genInEqConstr, nrVars, nrAineqLines_, AineqFull_, bineq_);
 
-	fillBound(boundConstr, XL_full_, XU_full_);
-	fillQC(tasks, nrVars, Q_full_, C_full_);
+	fillBound(boundConstr, XLFull_, XUFull_);
+	fillQC(tasks, nrVars, QFull_, CFull_);
 	if(dependencies_.size())
 	{
 		Aeq_.setZero();
@@ -125,10 +125,10 @@ void QLDQPSolver::updateMatrix(
 		XU_.fill(std::numeric_limits<double>::infinity());
 		Q_.setZero();
 		C_.setZero();
-		reduceA(Aeq_full_, Aeq_, full_to_reduced_, reduced_to_full_, dependencies_);
-		reduceA(Aineq_full_, Aineq_, full_to_reduced_, reduced_to_full_, dependencies_);
-		reduceBound(XL_full_, XL_, XU_full_, XU_, full_to_reduced_, reduced_to_full_, dependencies_);
-		reduceQC(Q_full_, C_full_, Q_, C_, full_to_reduced_, reduced_to_full_, dependencies_);
+		reduceA(AeqFull_, Aeq_, fullToReduced_, reducedToFull_, dependencies_);
+		reduceA(AineqFull_, Aineq_, fullToReduced_, reducedToFull_, dependencies_);
+		reduceBound(XLFull_, XL_, XUFull_, XU_, fullToReduced_, reducedToFull_, dependencies_);
+		reduceQC(QFull_, CFull_, Q_, C_, fullToReduced_, reducedToFull_, dependencies_);
 	}
 }
 
@@ -142,16 +142,16 @@ bool QLDQPSolver::solve()
 			Aeq_.block(0, 0, nrAeqLines_, int(Aeq_.cols())), beq_.segment(0, nrAeqLines_),
 			Aineq_.block(0, 0, nrAineqLines_, int(Aineq_.cols())), bineq_.segment(0, nrAineqLines_),
 			XL_, XU_, 1e-6);
-		expandResult(qld_.result(), X_full_,
-								 reduced_to_full_,
+		expandResult(qld_.result(), XFull_,
+								 reducedToFull_,
 								 dependencies_);
 	}
 	else
 	{
-		success = qld_.solve(Q_full_, C_full_,
-			Aeq_full_.block(0, 0, nrAeqLines_, int(Aeq_full_.cols())), beq_.segment(0, nrAeqLines_),
-			Aineq_full_.block(0, 0, nrAineqLines_, int(Aineq_full_.cols())), bineq_.segment(0, nrAineqLines_),
-			XL_full_, XU_full_, 1e-6);
+		success = qld_.solve(QFull_, CFull_,
+			AeqFull_.block(0, 0, nrAeqLines_, int(AeqFull_.cols())), beq_.segment(0, nrAeqLines_),
+			AineqFull_.block(0, 0, nrAineqLines_, int(AineqFull_.cols())), bineq_.segment(0, nrAineqLines_),
+			XLFull_, XUFull_, 1e-6);
 	}
 	return success;
 }
@@ -161,7 +161,7 @@ const Eigen::VectorXd& QLDQPSolver::result() const
 {
 	if(dependencies_.size())
 	{
-		return X_full_;
+		return XFull_;
 	}
 	else
 	{

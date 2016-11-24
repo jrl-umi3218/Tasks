@@ -62,21 +62,21 @@ private:
 	Eigen::MatrixXd Aeq_, Aineq_;
 	Eigen::VectorXd beq_, bineq_;
 
-	Eigen::MatrixXd Aeq_full_, Aineq_full_;
+	Eigen::MatrixXd AeqFull_, AineqFull_;
 
 	Eigen::VectorXd XL_;
 	Eigen::VectorXd XU_;
 
-	Eigen::VectorXd XL_full_;
-	Eigen::VectorXd XU_full_;
+	Eigen::VectorXd XLFull_;
+	Eigen::VectorXd XUFull_;
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
 
-	Eigen::MatrixXd Q_full_;
-	Eigen::VectorXd C_full_;
+	Eigen::MatrixXd QFull_;
+	Eigen::VectorXd CFull_;
 
-	Eigen::VectorXd X_full_;
+	Eigen::VectorXd XFull_;
 
 	int nrAeqLines_;
 	int nrAineqLines_;

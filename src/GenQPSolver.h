@@ -83,16 +83,16 @@ public:
 
 	/**
 	* Setup dependent variables, only linear dependency are supported
-	* @param full_to_reduced A full to reduced variables vector
-	* @param reduced_to_full A reduced to full variables vector
+	* @param fullToReduced A full to reduced variables vector
+	* @param reducedToFull A reduced to full variables vector
 	* @param dependencies List of tuple {primary, replica, factor}
 	*/
-	virtual void setReductionParameters(std::vector<int> full_to_reduced,
-																			std::vector<int> reduced_to_full,
+	virtual void setReductionParameters(std::vector<int> fullToReduced,
+																			std::vector<int> reducedToFull,
 																			std::vector<std::tuple<int, int, double>> dependencies)
 	{
-		full_to_reduced_ = full_to_reduced;
-		reduced_to_full_ = reduced_to_full;
+		fullToReduced_ = fullToReduced;
+		reducedToFull_ = reducedToFull;
 		dependencies_ = dependencies;
 	}
 
@@ -128,8 +128,8 @@ public:
 		const std::vector<Bound*>& boundConstr,
 		std::ostream& out) const = 0;
 protected:
-	std::vector<int> full_to_reduced_;
-	std::vector<int> reduced_to_full_;
+	std::vector<int> fullToReduced_;
+	std::vector<int> reducedToFull_;
 	std::vector<std::tuple<int, int, double>> dependencies_;
 };
 
