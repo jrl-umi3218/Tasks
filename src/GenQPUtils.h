@@ -99,7 +99,7 @@ inline void reduceQC(const Eigen::MatrixXd & QFull, const Eigen::VectorXd & CFul
 		const int & primaryFullI = std::get<0>(d);
 		const int & primaryReducedI = fullToReduced[primaryFullI];
 		const int & replicaFullI = std::get<1>(d);
-		const double & alpha = 1/std::get<2>(d);
+		const double & alpha = std::get<2>(d);
 		/* Apply reduction to C */
 		C(primaryReducedI) += alpha*CFull(replicaFullI);
 		/* Add cross-terms to Q */
@@ -313,12 +313,9 @@ inline void reduceA(const Eigen::MatrixXd & AFull,
 										const std::vector<int> & reducedToFull,
 										const std::vector<std::tuple<int, int, double>> & dependencies)
 {
-	for(size_t i = 0; i < static_cast<size_t>(AFull.rows()); ++i)
+	for(size_t i = 0; i <reducedToFull.size(); ++i)
 	{
-		for(size_t j = 0; j <reducedToFull.size(); ++j)
-		{
-			A(i,j) = AFull(i, reducedToFull[j]);
-		}
+		A.col(i) = AFull.col(reducedToFull[i]);
 	}
 	for(const auto & d : dependencies)
 	{
@@ -326,10 +323,7 @@ inline void reduceA(const Eigen::MatrixXd & AFull,
 		const int & primaryReducedI = fullToReduced[primaryFullI];
 		const int & replicaFullI = std::get<1>(d);
 		const double & alpha = std::get<2>(d);
-		for(int i = 0; i < A.rows(); ++i)
-		{
-			A(i, primaryReducedI) += alpha*AFull(i, replicaFullI);
-		}
+		A.col(primaryReducedI) += alpha*AFull.col(replicaFullI);
 	}
 }
 
