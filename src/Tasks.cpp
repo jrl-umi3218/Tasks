@@ -1688,7 +1688,7 @@ void RelativeDistTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConf
 		Eigen::MatrixXd fullJac;
 		fullJac.resize(3, mb.nrDof());
 		shortMat = rbi.jac.jacobian(mb, mbc);
-		rbi.jac.fullJacobian(mb, shortMat.block(3, 0, 3, mb.nrDof()), fullJac);
+		rbi.jac.fullJacobian(mb, shortMat.block(3, 0, 3, rbi.jac.dof()), fullJac);
 		jacMat_ += sign*n.transpose()*fullJac;
 
 		//Compute the speed
@@ -1759,7 +1759,7 @@ void VectorOrientationTask::update(const rbd::MultiBody &mb,
 	//Evaluation of speed and jacMat
 	Eigen::MatrixXd shortMat, fullJac(3, mb.nrDof());
 	shortMat = jac_.bodyJacobian(mb, mbc);
-	jac_.fullJacobian(mb, shortMat.block(0, 0, 3, mb.nrDof()), fullJac);
+	jac_.fullJacobian(mb, shortMat.block(0, 0, 3, jac_.dof()), fullJac);
 	jacMat_ = -E_0_b*skewMatrix(bodyVector_)*fullJac;
 	Eigen::Vector3d w_b_b = jac_.bodyVelocity(mb, mbc).angular();
 	speed_ = E_0_b*(w_b_b.cross(bodyVector_));
