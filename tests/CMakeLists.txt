@@ -30,7 +30,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 set(HEADERS arms.h)
 
 macro(addUnitTest name)
-  if(${UNIT_TESTS})
+  if(NOT ${DISABLE_TESTS})
     add_executable(${name} ${name}.cpp ${HEADERS})
     target_link_libraries(${name} ${Boost_LIBRARIES} Tasks)
     PKG_CONFIG_USE_DEPENDENCY(${name} sch-core)
