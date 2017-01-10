@@ -1094,7 +1094,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	std::vector<qp::BilateralContact> bi =
 		{qp::BilateralContact(0, 1, "b0", "b0",
 			points, biFrames, sva::PTransformd::Identity(),
-			3., 0.7)};
+			3, 0.7)};
 
 	solver.nrVars(mbs, uni, {});
 	solver.updateConstrSize();
