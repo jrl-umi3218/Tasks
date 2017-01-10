@@ -326,7 +326,7 @@ private:
 
 
 
-class PositionBasedVisServoTask
+class TASKS_DLLAPI PositionBasedVisServoTask
 {
 public:
 	PositionBasedVisServoTask(const rbd::MultiBody &mb, const std::string& bodyName,
