@@ -45,7 +45,7 @@ endif()
 # External dependencies
 SEARCH_FOR_EIGEN()
 
-ADD_REQUIRED_DEPENDENCY("sch-core")
+ADD_REQUIRED_DEPENDENCY("sch-core" "sch-core_d")
 ADD_REQUIRED_DEPENDENCY("SpaceVecAlg")
 ADD_REQUIRED_DEPENDENCY("RBDyn" "RBDyn_d")
 ADD_REQUIRED_DEPENDENCY("eigen-qld")

@@ -16,14 +16,13 @@
 
 ENABLE_TESTING()
 
-set(BOOST_COMPONENTS unit_test_framework timer)
+set(BOOST_COMPONENTS unit_test_framework timer system)
 search_for_boost()
-#find_package(Boost COMPONENTS unit_test_framework timer REQUIRED)
 add_definitions(-DBOOST_TEST_DYN_LINK)
 IF(WIN32)
-    #This is one of the way to avoid link errors related to static variables in program_options
-    ADD_DEFINITIONS( -DBOOST_ALL_DYN_LINK )
-  ENDIF(WIN32)
+  #This is one of the way to avoid link errors related to static variables in program_options
+  ADD_DEFINITIONS( -DBOOST_ALL_DYN_LINK )
+ENDIF(WIN32)
 
 include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories(${Boost_INCLUDE_DIRS})

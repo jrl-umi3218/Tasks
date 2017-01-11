@@ -610,7 +610,7 @@ public:
 	{
 	}
 
-  transform_task_t& task()
+	transform_task_t& task()
 	{
 		return tt_;
 	}
@@ -666,7 +666,6 @@ protected:
 };
 
 
-template TASKS_DLLAPI class TransformTaskCommon<tasks::SurfaceTransformTask>;
 
 /// TransformTask in surface frame.
 class TASKS_DLLAPI SurfaceTransformTask : public TransformTaskCommon<tasks::SurfaceTransformTask>
@@ -681,8 +680,6 @@ public:
 		const SolverData& data);
 };
 
-
-template TASKS_DLLAPI class TransformTaskCommon<tasks::TransformTask>;
 
 
 /// TransformTask in world or user frame.
