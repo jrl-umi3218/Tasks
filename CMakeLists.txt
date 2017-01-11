@@ -63,3 +63,4 @@ endif()
 # Add dependency towards the library in the pkg-config file.
 PKG_CONFIG_APPEND_LIBS(Tasks)
 SETUP_PROJECT_FINALIZE()
+SETUP_PROJECT_PACKAGE_FINALIZE()
