@@ -26,6 +26,9 @@ env:
   - APT_DEPENDENCIES="doxygen doxygen-latex libboost-all-dev python-numpy gfortran"
   - GIT_DEPENDENCIES="jrl-umi3218/SpaceVecAlg jrl-umi3218/RBDyn jrl-umi3218/eigen-qld jrl-umi3218/sch-core"
   - DEBSIGN_KEYID=5AE5CD75
+  - GH_USERNAME=gergondet
+  - GH_REPO=jrl-umi3218/Tasks
+  - secure: "sGswEcmMXNjod4m7F2ISsOsW8lM5EJckRp/SqkzdpAKDZl9W2zBoitMi/8FR3KGbpMsHHVP5SCa3+x3djDh3YXqZwxQm/+upqKWDFVXusdR+W/Xy0IncnRO2ADyCtfvb3Phc9TAvKey7GNP2bWTFC0/W0gQcrvT2feDlgWDXm6c="
 notifications:
   email:
   - pierre.gergondet@gmail.com

@@ -2,36 +2,64 @@
 
 [![License LGPL 3](https://img.shields.io/badge/license-LGPLv3-green.svg)](http://www.gnu.org/licenses/lgpl-3.0.txt)
 [![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
-[![AppVeyor status](https://ci.appveyor.com/api/projects/status/nr1staa8w3hmvy3f/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
+[![AppVeyor status](https://ci.appveyor.com/api/projects/status/kteqpch13y0ac3wq/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
 
-The Tasks library is designed to make real-time control for kinematics tree and list of kinematics tree.
+Tasks is library for real time control of robots and kinematic trees using constrained optimization.
+It has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.
 
 ## Documentation
 
 Features:
  * Support Kinematics Tree with Revolute/Prismatic/Spherical/Free/Planar/Cylindrical joints
  * Dynamic motion (motion must fulfill the equation of motion)
- * Contacts forces in friction cone
+ * Contact forces in friction cones
  * Static contacts
  * Articular position, speed and torque limits
  * Collision avoidance
- * Multi-robot (can solve a problem involving multiple robots in contact)
+ * Multi-robot contact (can solve problems involving multiple robots in contact)
  * Tasks:
   * Posture target (articular position target, mandatory if you want avoid singularity issues)
   * Link Position/Orientation target
   * Link Velocity target
-  * CoM target
+  * Center of Mass (CoM) target
   * Momentum target
   * Contact force target
 
 To make sure that Tasks works as intended, unit tests are available for each algorithm.
-Besides, the library has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.
 
 The [SpaceVecAlg and RBDyn tutorial](https://github.com/jorisv/sva_rbdyn_tutorials) is also a big resources to understand how to use Tasks by providing a lot of IPython Notebook that will present real use case.
 
+An online documentation can be found [online](https://jrl-umi3218.github.io/Tasks).
+
 ## Installing
 
-### Manual
+### Ubuntu 14.04 and 16.04 binary ppa install
+
+Use the [multi-contact-unstable](https://launchpad.net/~pierre-gergondet+ppa/+archive/ubuntu/multi-contact-unstable) ppa:
+```bash
+sudo add-apt-repository ppa:pierre-gergondet+ppa/multi-contact-unstable
+sudo apt-get update
+sudo apt-get install libtasks-dev libtasks-qld-doc
+```
+
+### Homebrew OS X install
+
+Install from the command line using [Homebrew](brew.sh):
+
+```bash
+# install homebrew package manager
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# install caskroom application manager
+brew install caskroom/cask/brew-cask
+# tap homebrew-science package repository
+brew tap homebrew/science
+# tap ahundt-robotics repository
+brew tap ahundt/robotics
+# install tasks and all its dependencies
+brew install tasks
+```
+
+### Manually build from source
 
 #### Dependencies
 

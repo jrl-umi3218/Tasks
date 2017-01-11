@@ -25,6 +25,7 @@
 // RBDyn
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
+#include <RBDyn/VisServo.h>
 
 // sch
 #include <sch/CD/CD_Pair.h>
@@ -1181,6 +1182,287 @@ void BoundedSpeedConstr::updateNrEq()
 	A_.setZero(nrEq, nrVars_);
 	lower_.setZero(nrEq);
 	upper_.setZero(nrEq);
+}
+
+
+/**
+	*													ImageConstr
+	*/
+
+
+ImageConstr::PointData::PointData(const Eigen::Vector2d& pt, const double d):
+	point2d(pt),
+	depthEstimate(d)
+{}
+
+
+ImageConstr::RobotPointData::RobotPointData(const std::string& bn, const sva::PTransformd& X, const rbd::Jacobian& j):
+	bName(bn),
+	X_b_p(X),
+	jac(j)
+{}
+
+
+ImageConstr::ImageConstr(const std::vector<rbd::MultiBody>& mbs,
+	int robotIndex, const std::string& bName, const sva::PTransformd& X_b_gaze,
+	double step, double constrDirection):
+	dataVec_(),
+	dataVecRob_(),
+	robotIndex_(robotIndex),
+	bodyIndex_(mbs[robotIndex].bodyIndexByName(bName)),
+	alphaDBegin_(-1),
+	nrVars_(0),
+	step_(step),
+	accelFactor_(0.5*step*step),
+	nrActivated_(0),
+	jac_(mbs[robotIndex], bName),
+	X_b_gaze_(X_b_gaze),
+	L_img_(Eigen::Matrix<double, 2, 6>::Zero()),
+	surfaceVelocity_(Eigen::Matrix<double,6,1>::Zero()),
+	L_Z_dot_(Eigen::Matrix<double,1,6> ::Zero()),
+	L_img_dot_(Eigen::Matrix<double,2,6>::Zero()),
+	speed_(Eigen::Vector2d::Zero()),
+	normalAcc_(Eigen::Vector2d::Zero()),
+	jacMat_(2, mbs[robotIndex].nrDof()),
+	iDistMin_(Eigen::Vector2d::Zero()),
+	iDistMax_(Eigen::Vector2d::Zero()),
+	sDistMin_(Eigen::Vector2d::Zero()),
+	sDistMax_(Eigen::Vector2d::Zero()),
+	damping_(0.),
+	dampingOffset_(0.),
+	ineqInversion_(1),
+	constrDirection_(constrDirection),
+	AInEq_(),
+	bInEq_()
+{}
+
+
+int ImageConstr::addPoint(const Eigen::Vector2d& point2d, const double depthEstimate)
+{
+	dataVec_.emplace_back(point2d, depthEstimate);
+	return int(dataVec_.size())-1;
+}
+
+
+int ImageConstr::addPoint(const Eigen::Vector3d& point3d)
+{
+	Eigen::Vector2d point2d(point3d[0]/point3d[2], point3d[1]/point3d[2]);
+	int id = addPoint(point2d, point3d[2]);
+	return id;
+}
+
+
+void ImageConstr::addPoint(const std::vector<rbd::MultiBody>& mbs,
+	const std::string& bName, const sva::PTransformd& X_b_p)
+{
+	dataVecRob_.emplace_back(bName, X_b_p, rbd::Jacobian(mbs[robotIndex_], bName));
+}
+
+
+void ImageConstr::reset()
+{
+	dataVec_.clear();
+	dataVecRob_.clear();
+}
+
+
+void ImageConstr::updatePoint(const int pointId, const Eigen::Vector2d& point2d)
+{
+	dataVec_[pointId].point2d = point2d;
+}
+
+
+void ImageConstr::updatePoint(const int pointId, const Eigen::Vector2d& point2d,
+	const double depthEstimate)
+{
+	dataVec_[pointId] = PointData(point2d, depthEstimate);
+}
+
+
+void ImageConstr::updatePoint(const int pointId, const Eigen::Vector3d& point3d)
+{
+	Eigen::Vector2d	point2d_(point3d[0]/point3d[2], point3d[1]/point3d[2]);
+	dataVec_[pointId] = PointData(point2d_, point3d[2]);
+}
+
+
+void ImageConstr::setLimits(const Eigen::Vector2d& min, const Eigen::Vector2d& max,
+	const double iPercent, const double sPercent, const double damping, const double dampingOffsetPercent)
+{
+	// precompute avoidance boundaries
+	Eigen::Vector2d dist = max - min;
+	iDistMin_ = min + constrDirection_*iPercent*dist;
+	iDistMax_ = max - constrDirection_*iPercent*dist;
+	sDistMin_ = min + constrDirection_*sPercent*dist;
+	sDistMax_ = max - constrDirection_*sPercent*dist;
+
+	damping_ = damping;
+	dampingOffset_ = constrDirection_*dampingOffsetPercent*damping;
+}
+
+
+void ImageConstr::computeComponents(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc, const SolverData& data,
+	const Eigen::Vector2d& point2d, const double depth, rbd::Jacobian& jac, const int bodyIndex,
+	const sva::PTransformd& X_b_p, Eigen::MatrixXd& fullJacobian, Eigen::Vector2d& bCommonTerm)
+{
+	// compute speed term
+	rbd::imagePointJacobian(point2d, depth, L_img_);
+	surfaceVelocity_ = (jac.velocity(mb, mbc, X_b_p)).vector();
+	speed_ = L_img_*surfaceVelocity_;
+
+	// compute norm accel term
+	rbd::depthDotJacobian(speed_, depth, L_Z_dot_);
+	rbd::imagePointJacobianDot(point2d, speed_, depth, L_Z_dot_*surfaceVelocity_, L_img_dot_);
+	normalAcc_ = L_img_*(jac.normalAcceleration(mb, mbc, data.normalAccB(robotIndex_), X_b_p,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + L_img_dot_*surfaceVelocity_;
+
+	// compute the shortened jacobian
+	const auto& shortJacMat = accelFactor_*L_img_*jac.jacobian(mb, mbc, X_b_p*mbc.bodyPosW[bodyIndex]).block(0, 0, 6, jac.dof());
+
+	// fill objects to return for the QP
+	jac.fullJacobian(mb, shortJacMat, fullJacobian);
+	bCommonTerm = -step_*speed_-accelFactor_*normalAcc_;
+}
+
+
+void ImageConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+	const SolverData& data)
+{
+	alphaDBegin_ = data.alphaDBegin(robotIndex_);
+	nrVars_ = data.nrVars();
+	int nrRows = int(2*(dataVec_.size()+dataVecRob_.size()));
+	AInEq_.setZero(nrRows, nrVars_);
+	bInEq_.setZero(nrRows);
+}
+
+
+void ImageConstr::update(const std::vector<rbd::MultiBody>& mbs,
+	const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data)
+{
+	nrActivated_ = 0;
+
+	const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
+	const rbd::MultiBody& mb = mbs[robotIndex_];
+
+	// For each independent point
+	for(const PointData& ptdata: dataVec_)
+	{
+		Eigen::Vector2d point2d_ = ptdata.point2d;
+
+		Eigen::Vector2d bCommonTerm;
+		computeComponents(mb, mbc, data, ptdata.point2d, ptdata.depthEstimate, jac_, bodyIndex_, X_b_gaze_, jacMat_, bCommonTerm);
+
+		// For x and y
+		for(std::size_t i=0; i<2; ++i)
+		{
+			bool isConstrActive = false;
+			std::size_t iOther = (i==0) ? 1 : 0;
+
+			// check occlusion constraint if it is within the 2D image bounds
+			if((constrDirection_==1.) || ((point2d_[iOther] > iDistMin_[iOther]) && (point2d_[iOther] < iDistMax_[iOther])))
+			{
+				if((constrDirection_*point2d_[i] < constrDirection_*iDistMin_[i]) //check min
+					 && ((constrDirection_==1.) || (point2d_[i] < 0.))) //handle occlusion constraint ambiquity
+				{
+					if(constrDirection_*point2d_  [i] > constrDirection_*sDistMin_[i])
+					{
+						isConstrActive = true;
+						ineqInversion_ = -1.*constrDirection_;
+						bInEq_(nrActivated_) = constrDirection_*(damping_*((point2d_[i] - sDistMin_[i])/(iDistMin_[i] - sDistMin_[i])) - dampingOffset_) + ineqInversion_*bCommonTerm[i];
+					}
+					else
+					{
+						//give maxmimum avoidance when in the safety limit
+						bInEq_(nrActivated_) = - constrDirection_*dampingOffset_ + ineqInversion_*bCommonTerm[i];
+					}
+				}
+				else if((constrDirection_*point2d_[i] > constrDirection_*iDistMax_[i]) // check max
+					&& ((constrDirection_==1.) || (point2d_[i] > 0.))) //handle occlusion constraint ambiquity
+				{
+					if(constrDirection_*point2d_[i] < constrDirection_*sDistMax_[i])
+					{
+						isConstrActive = true;
+						ineqInversion_ = 1.*constrDirection_;
+						bInEq_(nrActivated_) = constrDirection_*(damping_*((point2d_[i] - sDistMax_[i])/(iDistMax_[i] - sDistMax_[i])) - dampingOffset_) + ineqInversion_*bCommonTerm[i];
+					}
+					else
+					{
+						//give maxmimum avoidance when in the safety limit
+						bInEq_(nrActivated_) = - constrDirection_*dampingOffset_ + ineqInversion_*bCommonTerm[i];
+					}
+				}
+			}
+
+			// fill the needed QP constraint data
+			if(isConstrActive)
+			{
+				// update the QP inequality constraint variables
+				AInEq_.block(nrActivated_, alphaDBegin_, 1, mb.nrDof()) = ineqInversion_*jacMat_.block(i, 0, 1, mb.nrDof());
+				++nrActivated_;
+			}
+		}
+	}
+}
+
+
+std::string ImageConstr::nameInEq() const
+{
+	return "ImageConstr";
+}
+
+
+std::string ImageConstr::descInEq(const std::vector<rbd::MultiBody>& /* mbs */,
+	int line)
+{
+	int curLine = 0;
+	for(std::size_t i=0; i<dataVec_.size(); ++i)
+	{
+		// For x and y
+		for(std::size_t j=0; j<2; ++j)
+		{
+			if(curLine == line)
+			{
+				std::stringstream ss;
+				ss << "pointId: " << i << std::endl;
+				if(j==0)
+				{
+					ss << "x" << std::endl;
+				}
+				else
+				{
+					ss << "y" << std::endl;
+				}
+				ss << "normalized 2d location: " << std::endl << dataVec_[i].point2d << std::endl;
+				return ss.str();
+			}
+			++curLine;
+		}
+	}
+	return "";
+}
+
+
+int ImageConstr::nrInEq() const
+{
+	return nrActivated_;
+}
+
+
+int ImageConstr::maxInEq() const
+{
+	return int(2*(dataVec_.size()+dataVecRob_.size()));
+}
+
+
+const Eigen::MatrixXd& ImageConstr::AInEq() const
+{
+	return AInEq_;
+}
+
+
+const Eigen::VectorXd& ImageConstr::bInEq() const
+{
+	return bInEq_;
 }
 
 
