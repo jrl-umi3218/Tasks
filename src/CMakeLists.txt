@@ -28,8 +28,12 @@ if(${EIGEN_LSSOL_FOUND})
   list(APPEND HEADERS LSSOLQPSolver.h)
 endif()
 
-set(BOOST_COMPONENTS timer system)
+set(BOOST_COMPONENTS timer)
 SEARCH_FOR_BOOST()
+IF(WIN32)
+  #This is one of the way to avoid link errors related to static variables in program_options
+  ADD_DEFINITIONS( -DBOOST_ALL_DYN_LINK )
+ENDIF(WIN32)
 
 include_directories(${Boost_INCLUDE_DIRS})
 

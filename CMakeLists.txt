@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 2.8)
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
+INCLUDE(cmake/msvc-specific.cmake)
 
 SET(PROJECT_NAME Tasks)
 SET(PROJECT_DESCRIPTION "...")
@@ -44,7 +45,7 @@ endif()
 # External dependencies
 SEARCH_FOR_EIGEN()
 
-ADD_REQUIRED_DEPENDENCY("sch-core")
+ADD_REQUIRED_DEPENDENCY("sch-core" "sch-core_d")
 ADD_REQUIRED_DEPENDENCY("SpaceVecAlg")
 ADD_REQUIRED_DEPENDENCY("RBDyn" "RBDyn_d")
 ADD_REQUIRED_DEPENDENCY("eigen-qld")
@@ -52,6 +53,12 @@ ADD_OPTIONAL_DEPENDENCY("eigen-lssol")
 
 #########################
 #
+
+# For MSVC, set local environment variable to enable finding the built dll
+# of the main library when launching ctest with RUN_TESTS
+IF(MSVC)
+  SET(CMAKE_MSVCIDE_RUN_PATH "\$(SolutionDir)/src/\$(Configuration)")
+ENDIF(MSVC)
 
 add_subdirectory(src)
 add_subdirectory(tests)
