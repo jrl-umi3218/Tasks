@@ -1,12 +1,11 @@
 var a00062 =
 [
-    [ "PositionBasedVisServoTask", "a00062.html#a354e8653167d8351ace362339c4db9b0", null ],
-    [ "dim", "a00062.html#a213c833e65d8821116ed930b32c21198", null ],
-    [ "error", "a00062.html#a18f74604dedd9fab8d985bfde7f939af", null ],
-    [ "eval", "a00062.html#a81e9669a31c378801fc8ace3716333b2", null ],
-    [ "jac", "a00062.html#addb8a02a4ba76e638067765fd8b29969", null ],
-    [ "normalAcc", "a00062.html#ab5fbbaae4c505a0b40f2877d01fffcb8", null ],
-    [ "speed", "a00062.html#a7509e2a36c2857751d097e7ffd043218", null ],
-    [ "task", "a00062.html#a08e523b76b079de3ac9d0b4e36e0b7a2", null ],
-    [ "update", "a00062.html#ae2be9316a68e3352ff9850015601f360", null ]
+    [ "PositionBasedVisServoTask", "a00062.html#abe06e4b1ed45ed0009b77b46b558bb16", null ],
+    [ "error", "a00062.html#ae5aee442b94ceb3dae1a4dd51bc9d8fb", null ],
+    [ "eval", "a00062.html#ab44f41d717d33c0d0b75e5191a4bdc3a", null ],
+    [ "jac", "a00062.html#a3126cbd8cd35af00a35898f490ab2b5a", null ],
+    [ "jacDot", "a00062.html#ae685f220dc6c85ff03404d503d12c38a", null ],
+    [ "normalAcc", "a00062.html#aac9d51047ff43ce6eba8bfdc8af6038b", null ],
+    [ "speed", "a00062.html#ad088cdfd34db7c96efa4d5f58973e6ac", null ],
+    [ "update", "a00062.html#aa1075ff878937412274bcc7a27ce258b", null ]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['c',['c',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00030.html#acb6f9b291668809e1a4617332bc10b92',1,'sch::PolyhedronTriangle::c()'],['../a00077.html#a2b393d84a55fe348e6e5ce04deefd329',1,'tasks::qp::SpringJoint::C()'],['../a00078.html#a03378bf454ffd094f82b6b80b3b6bbfd',1,'tasks::qp::MotionSpringConstr::SpringJointData::C()']]],
-  ['c_5f',['c_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00033.html#aa87deb72616cbfdf08c76f80e841f94a',1,'sch::S_Box::c_()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00048.html#a909e0faaf3b31cf2753cb3695d2c1d11',1,'sch::S_Superellipsoid::c_()']]],
+  ['c_5f',['c_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00033.html#aa87deb72616cbfdf08c76f80e841f94a',1,'sch::S_Box::c_()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00050.html#a909e0faaf3b31cf2753cb3695d2c1d11',1,'sch::S_Superellipsoid::c_()']]],
   ['center',['center',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00019.html#ad1657e1aa61e080359d0fb38bf233498',1,'sch::Geometry']]],
   ['cid',['cId',['../a00016.html#ad53d259f4e7a95dfb4ac949bf30488dd',1,'tasks::qp::ContactConstrCommon::ContactCommon']]],
   ['collision_5f',['collision_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#a14df71709ba57a2a2e0bf70027d96133',1,'sch::CD_Pair']]],

@@ -8,5 +8,5 @@ var searchData=
   ['qpsolver_2eh',['QPSolver.h',['../a00105.html',1,'']]],
   ['qpsolverdata_2eh',['QPSolverData.h',['../a00106.html',1,'']]],
   ['qptasks_2eh',['QPTasks.h',['../a00107.html',1,'']]],
-  ['quaterniont_2eh',['QuaternionT.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00081.html',1,'']]]
+  ['quaterniont_2eh',['QuaternionT.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00083.html',1,'']]]
 ];
