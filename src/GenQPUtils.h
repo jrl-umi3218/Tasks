@@ -349,15 +349,18 @@ inline void reduceBound(const Eigen::VectorXd & XLFull,
 		const int & primaryReducedI = fullToReduced[primaryFullI];
 		const int & replicaFullI = std::get<1>(d);
 		const double & alpha = std::get<2>(d);
-		if(alpha < 0)
+		if(alpha != 0)
 		{
-			XL(primaryReducedI) = std::max(XL(primaryReducedI), XUFull(replicaFullI)/alpha);
-			XU(primaryReducedI) = std::min(XU(primaryReducedI), XLFull(replicaFullI)/alpha);
-		}
-		else
-		{
-			XL(primaryReducedI) = std::max(XL(primaryReducedI), XLFull(replicaFullI)/alpha);
-			XU(primaryReducedI) = std::min(XU(primaryReducedI), XUFull(replicaFullI)/alpha);
+			if(alpha < 0)
+			{
+				XL(primaryReducedI) = std::max(XL(primaryReducedI), XUFull(replicaFullI)/alpha);
+				XU(primaryReducedI) = std::min(XU(primaryReducedI), XLFull(replicaFullI)/alpha);
+			}
+			else
+			{
+				XL(primaryReducedI) = std::max(XL(primaryReducedI), XLFull(replicaFullI)/alpha);
+				XU(primaryReducedI) = std::min(XU(primaryReducedI), XUFull(replicaFullI)/alpha);
+			}
 		}
 	}
 }
