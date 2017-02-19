@@ -14,19 +14,41 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-MACRO(FINDPYTHON)
-INCLUDE(FindPythonLibs)
-IF (NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
-   MESSAGE(FATAL_ERROR "Python has not been found.")
-ENDIF (NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+# FINDPYTHON
+# ------------------------------------
+#
+# Find python interpreter and python libs.
+# Arguments are passed to the find_package command so
+# refer to find_package documentation to learn about valid arguments.
+#
+# For instance, the command
+# FINDPYTHON(2.7 EXACT REQUIRED)
+# will force CMake to find Python2.7
+#
+# WARNING: According to the FindPythonLibs and FindPythonInterp
+# documentation, you could also set Python_ADDITIONAL_VERSIONS.
+# If you do this, you will not have an error if you found two different versions
+# or another version that the requested one.
+#
 
-INCLUDE(FindPythonInterp)
+IF(CMAKE_VERSION VERSION_LESS "3.2")
+    SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/python ${CMAKE_MODULE_PATH})
+    MESSAGE(WARNING "CMake versions older than 3.2 do not properly find Python. Custom macros are used to find it.")
+ENDIF(CMAKE_VERSION VERSION_LESS "3.2")
+
+MACRO(FINDPYTHON)
+FIND_PACKAGE(PythonInterp ${ARGN})
 IF (NOT ${PYTHONINTERP_FOUND} STREQUAL TRUE)
    MESSAGE(FATAL_ERROR "Python executable has not been found.")
 ENDIF (NOT ${PYTHONINTERP_FOUND} STREQUAL TRUE)
 
+FIND_PACKAGE(PythonLibs ${ARGN})
+IF (NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+   MESSAGE(FATAL_ERROR "Python has not been found.")
+ENDIF (NOT ${PYTHONLIBS_FOUND} STREQUAL TRUE)
+
 # Find PYTHON_LIBRARY_DIRS
-GET_FILENAME_COMPONENT(PYTHON_LIBRARY_DIRS ${PYTHON_LIBRARIES} PATH)
+GET_FILENAME_COMPONENT(PYTHON_LIBRARY_DIRS "${PYTHON_LIBRARIES}" PATH)
 
 # Default Python packages directory
 SET(PYTHON_PACKAGES_DIR site-packages)
@@ -69,19 +91,32 @@ ENDMACRO(FINDPYTHON)
 #           in the factory.
 #
 MACRO(DYNAMIC_GRAPH_PYTHON_MODULE SUBMODULENAME LIBRARYNAME TARGETNAME)
-  FINDPYTHON()
+
+
+  IF(NOT DEFINED PYTHONLIBS_FOUND)
+    FINDPYTHON()
+  ELSEIF(NOT ${PYTHONLIBS_FOUND} STREQUAL "TRUE")
+    MESSAGE(FATAL_ERROR "Python has not been found.")
+  ENDIF()
 
   SET(PYTHON_MODULE ${TARGETNAME})
+  # We need to set this policy to old to accept wrap target.
+  CMAKE_POLICY(PUSH)
+  IF(POLICY CMP0037)
+    CMAKE_POLICY(SET CMP0037 OLD)
+  ENDIF()
 
   ADD_LIBRARY(${PYTHON_MODULE}
     MODULE
     ${PROJECT_SOURCE_DIR}/cmake/dynamic_graph/python-module-py.cc)
 
   FILE(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/src/dynamic_graph/${SUBMODULENAME})
+
   SET_TARGET_PROPERTIES(${PYTHON_MODULE}
     PROPERTIES PREFIX ""
     OUTPUT_NAME dynamic_graph/${SUBMODULENAME}/wrap
    )
+  CMAKE_POLICY(POP)
 
   TARGET_LINK_LIBRARIES(${PYTHON_MODULE} "-Wl,--no-as-needed")
   TARGET_LINK_LIBRARIES(${PYTHON_MODULE} ${LIBRARYNAME} ${PYTHON_LIBRARY})
@@ -137,7 +172,12 @@ ENDMACRO()
 #
 MACRO(PYTHON_INSTALL_ON_SITE MODULE FILE)
 
-  FINDPYTHON()
+  IF(NOT DEFINED PYTHONLIBS_FOUND)
+    FINDPYTHON()
+  ELSEIF(NOT ${PYTHONLIBS_FOUND} STREQUAL "TRUE")
+    MESSAGE(FATAL_ERROR "Python has not been found.")
+  ENDIF()
+
   PYTHON_INSTALL("${MODULE}" "${FILE}" "${PYTHON_SITELIB}")
 
 ENDMACRO()

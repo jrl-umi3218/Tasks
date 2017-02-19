@@ -56,6 +56,7 @@ INCLUDE(cmake/uninstall.cmake)
 INCLUDE(cmake/install-data.cmake)
 INCLUDE(cmake/release.cmake)
 INCLUDE(cmake/version.cmake)
+INCLUDE(cmake/package-config.cmake)
 
  # --------- #
  # Constants #
@@ -102,7 +103,6 @@ MACRO(_CONCATENATE_ARGUMENTS OUTPUT SEPARATOR)
   ENDFOREACH(I RANGE 2 ${ARGC})
   MESSAGE(${${OUTPUT}})
 ENDMACRO(_CONCATENATE_ARGUMENTS OUTPUT)
-
 
 # SETUP_PROJECT
 # -------------
@@ -154,7 +154,14 @@ MACRO(SETUP_PROJECT)
     # Be verbose by default.
     SET(CMAKE_VERBOSE_MAKEFILE TRUE)
   ENDIF(${ARGC})
-
+  
+  # If the variable INSTALL_DOCUMENTATION is not set, then the project will install the doc. Otherwise, 
+  # the doc will be installed if INSTALL_DOCUMENTATION is set to TRUE.
+  IF(DEFINED INSTALL_DOCUMENTATION)
+    SET(_INSTALL_DOC ${INSTALL_DOCUMENTATION} CACHE INTERNAL "")
+  ELSE(DEFINED INSTALL_DOCUMENTATION)
+    SET(_INSTALL_DOC TRUE CACHE INTERNAL "")
+  ENDIF(DEFINED INSTALL_DOCUMENTATION)
 
   ENABLE_TESTING()
 
@@ -170,7 +177,9 @@ MACRO(SETUP_PROJECT)
   _SETUP_PROJECT_UNINSTALL()
   _SETUP_PROJECT_PKG_CONFIG()
   _SETUP_PROJECT_DOCUMENTATION()
+  _SETUP_PROJECT_PACKAGE_INIT()
 ENDMACRO(SETUP_PROJECT)
+
 
 # SETUP_PROJECT_FINALIZE
 # ----------------------

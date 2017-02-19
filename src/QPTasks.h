@@ -626,7 +626,7 @@ public:
 
 
 template <typename transform_task_t>
-class TASKS_DLLAPI TransformTaskCommon : public HighLevelTask
+class TransformTaskCommon : public HighLevelTask
 {
 public:
 	TransformTaskCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -637,7 +637,7 @@ public:
 	{
 	}
 
-	tasks::TransformTask& task()
+	transform_task_t& task()
 	{
 		return tt_;
 	}
@@ -1297,7 +1297,7 @@ public:
 };
 
 
-class RelativeDistTask : public HighLevelTask
+class TASKS_DLLAPI RelativeDistTask : public HighLevelTask
 {
 public:
 	RelativeDistTask(const std::vector<rbd::MultiBody>& mbs, const int rIndex, const double timestep,
@@ -1347,7 +1347,7 @@ public:
 };
 
 
-class VectorOrientationTask : public HighLevelTask
+class TASKS_DLLAPI VectorOrientationTask : public HighLevelTask
 {
 public:
 	VectorOrientationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
