@@ -56,6 +56,8 @@ struct TASKS_DLLAPI FrictionCone
 
 	/// Vector of generatrix
 	std::vector<Eigen::Vector3d> generators;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -86,6 +88,8 @@ struct TASKS_DLLAPI ContactId
 	int r1Index, r2Index;
 	std::string r1BodyName, r2BodyName;
 	int ambiguityId;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -221,6 +225,8 @@ struct TASKS_DLLAPI UnilateralContact
 
 private:
 	void construct(const Eigen::MatrixXd& r1Frame, int nrGen, double mu);
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -361,6 +367,8 @@ struct TASKS_DLLAPI BilateralContact
 
 private:
 	void construct(const std::vector<Eigen::Matrix3d>& r1Frames, int nrGen, double mu);
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 

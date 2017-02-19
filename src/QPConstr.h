@@ -98,6 +98,8 @@ private:
 	Eigen::VectorXd qMin_, qMax_;
 	Eigen::VectorXd qVec_, alphaVec_;
 	Eigen::VectorXd lower_, upper_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -188,6 +190,8 @@ private:
 		int alphaDBegin;
 		double damping;
 		State state;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -197,6 +201,8 @@ private:
 	Eigen::VectorXd lower_, upper_;
 	double step_;
 	double damperOff_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -303,6 +309,8 @@ private:
 		sva::PTransformd X_op_o;
 		int rIndex, bIndex;
 		std::string bodyName;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 	struct CollData
@@ -320,6 +328,8 @@ private:
 		DampingType dampingType;
 		double dampingOff;
 		int collId;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -341,6 +351,9 @@ private:
 
   CollisionConstr(const CollisionConstr&) = delete;
   CollisionConstr& operator=(const CollisionConstr&) = delete;
+
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -463,6 +476,8 @@ private:
 	rbd::CoMJacobian jacCoM_;
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd bInEq_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -504,6 +519,8 @@ private:
 		double torqueLimit;
 		Eigen::Vector3d origin;
 		Eigen::Vector3d axis;
+		public:
+			EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -630,6 +647,8 @@ private:
 		Eigen::VectorXd lSpeed, uSpeed;
 		int body;
 		std::string bodyName;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -646,6 +665,8 @@ private:
 
 	int nrVars_;
 	double timeStep_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -733,6 +754,9 @@ private:
 		PointData(const Eigen::Vector2d& pt, const double d);
 		Eigen::Vector2d point2d;
 		double depthEstimate;
+
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 	struct RobotPointData
 	{
@@ -740,6 +764,9 @@ private:
 		const std::string& bName;
 		sva::PTransformd X_b_p;
 		rbd::Jacobian jac;
+	
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -763,6 +790,8 @@ private:
 	double damping_, dampingOffset_, ineqInversion_, constrDirection_;
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd bInEq_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 

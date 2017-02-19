@@ -84,6 +84,9 @@ private:
 	// cache
 	Eigen::MatrixXd preQ_;
 	Eigen::VectorXd preC_;
+	
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -110,6 +113,8 @@ public:
 
 private:
 	double stiffness_, stiffnessSqrt_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -136,6 +141,8 @@ public:
 private:
 	double gainPos_, gainVel_;
 	Eigen::VectorXd errorPos_, errorVel_, refAccel_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -161,6 +168,8 @@ public:
 private:
 	double gainPos_, gainVel_;
 	Eigen::VectorXd refVel_, refAccel_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -193,6 +202,8 @@ public:
 private:
 	double P_, I_, D_;
 	Eigen::VectorXd error_, errorD_, errorI_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -288,6 +299,8 @@ private:
 	// cache
 	Eigen::MatrixXd preQ_;
 	Eigen::VectorXd CVecSum_, preC_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -331,6 +344,8 @@ private:
 	Eigen::MatrixXd jac_;
 	std::vector<SelectedData> selectedJoints_;
 	HighLevelTask* hl_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -348,6 +363,8 @@ struct JointStiffness
 
 	std::string jointName;
 	double stiffness;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 struct JointGains
@@ -372,6 +389,8 @@ struct JointGains
 
 	std::string jointName;
 	double stiffness, damping;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 class TASKS_DLLAPI TorqueTask : public Task
@@ -421,6 +440,8 @@ private:
         Eigen::VectorXd jointSelector_;
         Eigen::MatrixXd Q_;
         Eigen::VectorXd C_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 class TASKS_DLLAPI PostureTask : public Task
@@ -500,6 +521,8 @@ private:
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
 	Eigen::VectorXd alphaVec_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -549,6 +572,8 @@ public:
 private:
 	tasks::PositionTask pt_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -594,6 +619,8 @@ public:
 private:
 	tasks::OrientationTask ot_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -663,6 +690,8 @@ public:
 protected:
 	transform_task_t tt_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -678,6 +707,8 @@ public:
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
 		const SolverData& data);
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -697,6 +728,8 @@ public:
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
 		const SolverData& data);
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -744,6 +777,8 @@ public:
 private:
 	tasks::SurfaceOrientationTask ot_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -789,6 +824,8 @@ public:
 private:
 	tasks::GazeTask gazet_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -822,6 +859,8 @@ public:
 private:
 	tasks::PositionBasedVisServoTask pbvst_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -864,6 +903,8 @@ public:
 private:
 	tasks::CoMTask ct_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -939,6 +980,8 @@ private:
 	Eigen::Vector3d CSum_;
 	// cache
 	Eigen::MatrixXd preQ_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1004,6 +1047,8 @@ private:
 	Eigen::Vector6d CSum_;
 	// cache
 	Eigen::MatrixXd preQ_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1041,6 +1086,8 @@ public:
 private:
 	tasks::MomentumTask momt_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1087,6 +1134,8 @@ private:
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1127,6 +1176,8 @@ private:
 
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1176,6 +1227,8 @@ public:
 private:
 	tasks::LinVelocityTask pt_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1239,6 +1292,8 @@ private:
 	tasks::OrientationTrackingTask ott_;
 	Eigen::VectorXd alphaVec_;
 	Eigen::VectorXd speed_, normalAcc_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1287,6 +1342,8 @@ public:
 private:
 	int rIndex_;
 	tasks::RelativeDistTask rdt_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -1326,6 +1383,8 @@ public:
 private:
 	tasks::VectorOrientationTask vot_;
 	int robotIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 } // namespace qp

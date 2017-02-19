@@ -99,6 +99,9 @@ protected:
 protected:
 	std::set<ContactId> virtualContacts_;
 	std::map<ContactId, Eigen::MatrixXd> dofContacts_;
+
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -145,6 +148,8 @@ protected:
 		double sign;
 		rbd::Jacobian jac;
 		sva::PTransformd X_b_p;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 	struct ContactData
@@ -167,6 +172,8 @@ protected:
 		sva::PTransformd X_b1_b2;
 		sva::PTransformd X_b1_cf;
 		ContactId contactId;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 protected:
@@ -182,6 +189,8 @@ protected:
 
 	int nrEq_, totalAlphaD_;
 	double timeStep_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -204,6 +213,8 @@ public:
 		const SolverData& data);
 
 	virtual std::string nameEq() const;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -227,6 +238,8 @@ public:
 	virtual std::string nameEq() const;
 private:
 	double timeStep_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -252,6 +265,8 @@ public:
 	virtual std::string nameEq() const;
 private:
 	double timeStep_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
