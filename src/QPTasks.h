@@ -20,6 +20,7 @@
 // includes
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // Tasks
 #include "Tasks.h"
@@ -84,7 +85,7 @@ private:
 	// cache
 	Eigen::MatrixXd preQ_;
 	Eigen::VectorXd preC_;
-	
+
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };

@@ -472,11 +472,11 @@ def build_qp(tasks):
                       'tasks::qp::JointGains', 'vector')
   tasks.add_container('std::vector<tasks::qp::SpringJoint>',
                       'tasks::qp::SpringJoint', 'vector')
-  tasks.add_container('std::vector<Eigen::Vector3d>', 'Eigen::Vector3d', 'vector')
-  tasks.add_container('std::vector<Eigen::Matrix3d>', 'Eigen::Matrix3d', 'vector')
-  tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
-  tasks.add_container('std::vector<std::vector<Eigen::VectorXd> >',
-                      'std::vector<Eigen::VectorXd>', 'vector')
+  tasks.add_container('std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >', 'Eigen::Vector3d', 'vector')
+  tasks.add_container('std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >', 'Eigen::Matrix3d', 'vector')
+  tasks.add_container('std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> >', 'Eigen::VectorXd', 'vector')
+  tasks.add_container('std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > >',
+                      'std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> >', 'vector')
 
 
   # QPSolver
@@ -591,7 +591,7 @@ def build_qp(tasks):
                                 param('double', 'mu'),
                                 param('double', 'direction', default_value='1.')])
 
-  frictionCone.add_instance_attribute('generators', 'std::vector<Eigen::Vector3d>')
+  frictionCone.add_instance_attribute('generators', 'std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >')
 
   # ContactId
   contactId.add_constructor([])
@@ -614,7 +614,7 @@ def build_qp(tasks):
     param('int', 'r1Index'), param('int', 'r2Index'),
     param('const std::string&', 'r1BodyName'),
     param('const std::string&', 'r2BodyName'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
     param('const sva::PTransformd&', 'X_b1_b2'),
     param('int', 'nrGen'), param('double', 'mu'),
@@ -625,14 +625,14 @@ def build_qp(tasks):
     param('const std::string&', 'r1BodyName'),
     param('const std::string&', 'r2BodyName'),
     param('int', 'ambiguityId'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
     param('const sva::PTransformd&', 'X_b1_b2'),
     param('int', 'nrGen'), param('double', 'mu'),
     param('const sva::PTransformd&','X_b1_cf',
            default_value='sva::PTransformd::Identity()')])
   unilateralContact.add_constructor([param('const tasks::qp::ContactId&', 'contactId'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
+    param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r1Points'),
     param('const Eigen::Matrix3d&', 'r1Frame'),
     param('const sva::PTransformd&', 'X_b1_b2'),
     param('int', 'nrGen'), param('double', 'mu'),
@@ -640,8 +640,8 @@ def build_qp(tasks):
            default_value='sva::PTransformd::Identity()')])
 
   unilateralContact.add_instance_attribute('contactId', 'tasks::qp::ContactId')
-  unilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d>')
-  unilateralContact.add_instance_attribute('r2Points', 'std::vector<Eigen::Vector3d>')
+  unilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >')
+  unilateralContact.add_instance_attribute('r2Points', 'std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >')
   unilateralContact.add_instance_attribute('r1Cone', 'tasks::qp::FrictionCone')
   unilateralContact.add_instance_attribute('r2Cone', 'tasks::qp::FrictionCone')
   unilateralContact.add_instance_attribute('X_b1_b2', 'sva::PTransformd')
@@ -657,7 +657,7 @@ def build_qp(tasks):
                                throw=[dom_ex], custom_name='force', is_const=True)
   unilateralContact.add_method('sForce', retval('sva::ForceVecd'),
                                [param('const Eigen::VectorXd&', 'lambda'),
-                                param('const std::vector<Eigen::Vector3d>&', 'r_b_pi'),
+                                param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r_b_pi'),
                                 param('const tasks::qp::FrictionCone&', 'c_b')],
                                throw=[dom_ex], custom_name='force', is_const=True)
   unilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
@@ -671,8 +671,8 @@ def build_qp(tasks):
     param('int', 'r1Index'), param('int', 'r2Index'),
     param('const std::string&', 'r1BodyName'),
     param('const std::string&', 'r2BodyName'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
-    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
+    param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r1Points'),
+    param('const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >&', 'r1Frames'),
     param('const sva::PTransformd&', 'X_b1_b2'),
     param('int', 'nrGen'), param('double', 'mu'),
     param('const sva::PTransformd&','X_b1_cf',
@@ -682,16 +682,16 @@ def build_qp(tasks):
     param('const std::string&', 'r1BodyName'),
     param('const std::string&', 'r2BodyName'),
     param('int', 'ambiguityId'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
-    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
+    param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r1Points'),
+    param('const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >&', 'r1Frames'),
     param('const sva::PTransformd&', 'X_b1_b2'),
     param('int', 'nrGen'), param('double', 'mu'),
     param('const sva::PTransformd&','X_b1_cf',
            default_value='sva::PTransformd::Identity()')])
   bilateralContact.add_constructor([
     param('const tasks::qp::ContactId&', 'contactId'),
-    param('const std::vector<Eigen::Vector3d>&', 'r1Points'),
-    param('const std::vector<Eigen::Matrix3d>&', 'r1Frames'),
+    param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r1Points'),
+    param('const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >&', 'r1Frames'),
     param('const sva::PTransformd&', 'X_b1_b2'),
     param('int', 'nrGen'), param('double', 'mu'),
     param('const sva::PTransformd&','X_b1_cf',
@@ -700,8 +700,8 @@ def build_qp(tasks):
     param('const tasks::qp::UnilateralContact&', 'uc')])
 
   bilateralContact.add_instance_attribute('contactId', 'tasks::qp::ContactId')
-  bilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d>')
-  bilateralContact.add_instance_attribute('r2Points', 'std::vector<Eigen::Vector3d>')
+  bilateralContact.add_instance_attribute('r1Points', 'std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >')
+  bilateralContact.add_instance_attribute('r2Points', 'std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >')
   bilateralContact.add_instance_attribute('r1Cones', 'std::vector<tasks::qp::FrictionCone>')
   bilateralContact.add_instance_attribute('r2Cones', 'std::vector<tasks::qp::FrictionCone>')
   bilateralContact.add_instance_attribute('X_b1_b2', 'sva::PTransformd')
@@ -717,7 +717,7 @@ def build_qp(tasks):
                               throw=[dom_ex], custom_name='force', is_const=True)
   bilateralContact.add_method('sForce', retval('sva::ForceVecd'),
                               [param('const Eigen::VectorXd&', 'lambda'),
-                               param('const std::vector<Eigen::Vector3d>&', 'r_b_pi'),
+                               param('const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >&', 'r_b_pi'),
                                param('const std::vector<tasks::qp::FrictionCone>&', 'c_pi_b')],
                               throw=[dom_ex], custom_name='force', is_const=True)
   bilateralContact.add_method('sNrLambda', retval('int'), [param('int', 'point')],
@@ -776,12 +776,12 @@ def build_qp(tasks):
 
   # PolyTorqueBound
   polyTorqueBound.add_constructor([])
-  polyTorqueBound.add_constructor([param('std::vector<std::vector<Eigen::VectorXd> >', 'lPTB'),
-                                   param('std::vector<std::vector<Eigen::VectorXd> >', 'uPTB')])
+  polyTorqueBound.add_constructor([param('std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > >', 'lPTB'),
+                                   param('std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > >', 'uPTB')])
   polyTorqueBound.add_instance_attribute('lPolyTorqueBound',
-                                         'std::vector<std::vector<Eigen::VectorXd> >')
+                                         'std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > >')
   polyTorqueBound.add_instance_attribute('uPolyTorqueBound',
-                                         'std::vector<std::vector<Eigen::VectorXd> >')
+                                         'std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > >')
 
   # Constraint
   constr.add_method('updateNrVars', None,

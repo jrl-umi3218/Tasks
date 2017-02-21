@@ -44,7 +44,7 @@
 template<typename Task>
 struct TanAccel
 {
-	Eigen::VectorXd tanAcc(Task& task, const std::vector<Eigen::VectorXd>& alphaD)
+	Eigen::VectorXd tanAcc(Task& task, const std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> >& alphaD)
 	{
 		return Eigen::VectorXd(task.jac()*alphaD[0]);
 	}
@@ -58,7 +58,7 @@ struct MRTanAccel
 		tanAccV(taskDim)
 	{}
 
-	Eigen::VectorXd tanAcc(Task& task, const std::vector<Eigen::VectorXd>& alphaD)
+	Eigen::VectorXd tanAcc(Task& task, const std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> >& alphaD)
 	{
 		tanAccV.setZero();
 		for(std::size_t i = 0; i < alphaD.size(); ++i)
@@ -224,7 +224,7 @@ struct MRNormalAccCoMUpdater : public MRTanAccel<Task>
 	}
 
 	std::vector<std::vector<sva::MotionVecd>> normalAccBs;
-	std::vector<Eigen::Vector3d> coms;
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > coms;
 };
 
 
@@ -322,9 +322,9 @@ void testTaskNumDiff(const std::vector<rbd::MultiBody>& mbs,
 
 	std::vector<MultiBodyConfig> mbcsPost(mbcs), mbcsCur(mbcs);
 
-	std::vector<Eigen::VectorXd> q(mbs.size());
-	std::vector<Eigen::VectorXd> alpha(mbs.size());
-	std::vector<Eigen::VectorXd> alphaD(mbs.size());
+	std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> > q(mbs.size());
+	std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> > alpha(mbs.size());
+	std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> > alphaD(mbs.size());
 
 	for(int i = 0; i < nrIter; ++i)
 	{

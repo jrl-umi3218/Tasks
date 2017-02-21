@@ -24,6 +24,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // RBDyn
 #include <RBDyn/Jacobian.h>

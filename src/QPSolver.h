@@ -27,6 +27,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // Tasks
 #include "QPSolverData.h"

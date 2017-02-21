@@ -23,6 +23,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // RBDyn
 #include <RBDyn/FD.h>
@@ -117,18 +118,18 @@ protected:
 		ContactData() {}
 		ContactData(const rbd::MultiBody& mb,
 			const std::string& bodyName, int lambdaBegin,
-			std::vector<Eigen::Vector3d> points,
+			std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points,
 			const std::vector<FrictionCone>& cones);
 
 
 		int bodyIndex;
 		int lambdaBegin;
 		rbd::Jacobian jac;
-		std::vector<Eigen::Vector3d> points;
+		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points;
 		// BEWARE generator are minus to avoid one multiplication by -1 in the
 		// update method
-		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > minusGenerators;
-		
+		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> , Eigen::aligned_allocator<Eigen::Matrix<double, 3, Eigen::Dynamic> > > minusGenerators;
+
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
@@ -234,7 +235,7 @@ public:
 		const SolverData& data);
 
 protected:
-	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
+	std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> > torqueL_, torqueU_;
 	std::vector<int> jointIndex_;
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW

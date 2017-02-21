@@ -24,6 +24,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 
 namespace tasks
@@ -99,16 +100,16 @@ struct TorqueBound
 struct PolyTorqueBound
 {
 	PolyTorqueBound() {}
-	PolyTorqueBound(std::vector<std::vector<Eigen::VectorXd>> lPTB,
-		std::vector<std::vector<Eigen::VectorXd>> uPTB):
+	PolyTorqueBound(std::vector<std::vector<Eigen::VectorXd>, Eigen::aligned_allocator<std::vector<Eigen::VectorXd>> > lPTB,
+		std::vector<std::vector<Eigen::VectorXd>, Eigen::aligned_allocator<std::vector<Eigen::VectorXd>> > uPTB):
 		lPolyTorqueBound(std::move(lPTB)),
 		uPolyTorqueBound(std::move(uPTB))
 	{ }
 
 	/// \f$ \underline{\tau}(q) \f$
-	std::vector<std::vector<Eigen::VectorXd>> lPolyTorqueBound;
+	std::vector<std::vector<Eigen::VectorXd>, Eigen::aligned_allocator<std::vector<Eigen::VectorXd>> > lPolyTorqueBound;
 	/// \f$ \overline{\tau}(q) \f$
-	std::vector<std::vector<Eigen::VectorXd>> uPolyTorqueBound;
+	std::vector<std::vector<Eigen::VectorXd>, Eigen::aligned_allocator<std::vector<Eigen::VectorXd>> > uPolyTorqueBound;
 };
 
 

@@ -730,8 +730,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	Eigen::VectorXd null;
 	lpoly << -30, 1.;
 	upoly << 30, 1.;
-	std::vector<std::vector<Eigen::VectorXd> > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
-	std::vector<std::vector<Eigen::VectorXd> > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
+	std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
+	std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
 	qp::MotionPolyConstr motionPolyCstr(mbs, 0, {lBoundPoly, uBoundPoly});
 
 	motionPolyCstr.addToSolver(solver);
@@ -1071,7 +1071,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 
 	plCstr.addToSolver(solver);
 
-	std::vector<Eigen::Vector3d> points =
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points =
 		{
 			Vector3d(0.1, 0.1, 0.),
 			 Vector3d(-0.1, 0.1, 0.),
@@ -1079,7 +1079,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 			Vector3d(0.1, -0.1, 0.)
 		};
 
-	std::vector<Eigen::Matrix3d> biFrames =
+	std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> > biFrames =
 		{
 			sva::RotY((0.*cst::pi<double>())/2.),
 			sva::RotY((1.*cst::pi<double>())/2.),
@@ -1210,7 +1210,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	contCstrSpeed.addToSolver(solver);
 	solver.addTask(&posTaskSp);
 
-	std::vector<Eigen::Vector3d> points =
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points =
 		{
 			Vector3d(0.1, 0.1, 0.),
 			 Vector3d(-0.1, 0.1, 0.),

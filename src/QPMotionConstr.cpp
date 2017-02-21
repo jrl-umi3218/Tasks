@@ -126,7 +126,7 @@ const Eigen::VectorXd& PositiveLambda::Upper() const
 
 MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb,
 	const std::string& bName, int lB,
-	std::vector<Eigen::Vector3d> pts,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > pts,
 	const std::vector<FrictionCone>& cones):
 	bodyIndex(),
 	lambdaBegin(lB),

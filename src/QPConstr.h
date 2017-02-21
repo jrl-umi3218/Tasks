@@ -20,6 +20,7 @@
 // includes
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // RBDyn
 #include <RBDyn/Jacobian.h>
@@ -568,7 +569,7 @@ public:
 		* \f$ \underline{v} \in \mathbb{R}^{n} \f$ and
 		* \f$ \overline{v} \in \mathbb{R}^{n} \f$.
 		*/
-	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, 
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs,
 		const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& speed);
@@ -764,7 +765,7 @@ private:
 		const std::string& bName;
 		sva::PTransformd X_b_p;
 		rbd::Jacobian jac;
-	
+
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
