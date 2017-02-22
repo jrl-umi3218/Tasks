@@ -245,7 +245,7 @@ private:
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat1_, jacMat2_;
-	std::vector<Eigen::MatrixXd, Eigen::aligned_allocator<Eigen::MatrixXd> > fullJacMat_;
+	std::vector<Eigen::MatrixXd> fullJacMat_;
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
@@ -494,7 +494,7 @@ private:
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
-	std::vector<Eigen::MatrixXd, Eigen::aligned_allocator<Eigen::MatrixXd> > jacMat_;
+	std::vector<Eigen::MatrixXd> jacMat_;
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
