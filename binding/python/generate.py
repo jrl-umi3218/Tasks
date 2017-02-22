@@ -474,9 +474,9 @@ def build_qp(tasks):
                       'tasks::qp::SpringJoint', 'vector')
   tasks.add_container('std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >', 'Eigen::Vector3d', 'vector')
   tasks.add_container('std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >', 'Eigen::Matrix3d', 'vector')
-  tasks.add_container('std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> >', 'Eigen::VectorXd', 'vector')
+  tasks.add_container('std::vector<Eigen::VectorXd>', 'Eigen::VectorXd', 'vector')
   tasks.add_container('std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > >',
-                      'std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> >', 'vector')
+                      'std::vector<Eigen::VectorXd>', 'vector')
 
 
   # QPSolver

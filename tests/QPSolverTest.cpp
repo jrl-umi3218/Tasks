@@ -730,8 +730,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 	Eigen::VectorXd null;
 	lpoly << -30, 1.;
 	upoly << 30, 1.;
-	std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > > lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
-	std::vector<std::vector<Eigen::VectorXd> , Eigen::aligned_allocator<std::vector<Eigen::VectorXd> > > uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
+	std::vector<std::vector<Eigen::VectorXd>> lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
+	std::vector<std::vector<Eigen::VectorXd>> uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
 	qp::MotionPolyConstr motionPolyCstr(mbs, 0, {lBoundPoly, uBoundPoly});
 
 	motionPolyCstr.addToSolver(solver);

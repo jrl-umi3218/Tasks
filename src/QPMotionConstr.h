@@ -128,7 +128,7 @@ protected:
 		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points;
 		// BEWARE generator are minus to avoid one multiplication by -1 in the
 		// update method
-		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> , Eigen::aligned_allocator<Eigen::Matrix<double, 3, Eigen::Dynamic> > > minusGenerators;
+		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > minusGenerators;
 
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -235,7 +235,7 @@ public:
 		const SolverData& data);
 
 protected:
-	std::vector<Eigen::VectorXd, Eigen::aligned_allocator<Eigen::VectorXd> > torqueL_, torqueU_;
+	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
 	std::vector<int> jointIndex_;
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
