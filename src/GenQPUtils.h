@@ -351,6 +351,7 @@ inline void reduceBound(const Eigen::VectorXd & XLFull,
 		const double & alpha = std::get<2>(d);
 		if(alpha != 0)
 		{
+			/** If alpha is negative, the upper/lower bounds should be inverted */
 			if(alpha < 0)
 			{
 				XL(primaryReducedI) = std::max(XL(primaryReducedI), XUFull(replicaFullI)/alpha);
