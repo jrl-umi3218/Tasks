@@ -78,10 +78,6 @@ void QLDQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 		XFull_.resize(nrVars);
 
 		qld_.problem(reducedNrVars, maxAeqLines, maxAineqLines);
-		std::cout << "(before) nrVars " << nrVars << std::endl;
-		std::cout << "nrVars " << reducedNrVars << std::endl;
-		std::cout << "maxAeqLines " << maxAeqLines << std::endl;
-		std::cout << "maxAineqLines " << maxAineqLines << std::endl;
 	}
 	else
 	{
