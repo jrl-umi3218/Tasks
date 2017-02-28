@@ -224,29 +224,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 		c->updateNrVars(mbs, data_);
 	}
 
-	if(dependencies.size())
-	{
-		std::vector<int> fullToReduced(data_.nrVars_, -1);
-		std::vector<int> reducedToFull(data_.nrVars_ - static_cast<int>(dependencies.size()), -1);
-		std::vector<int> removedVars; removedVars.reserve(dependencies.size() + 1);
-		for(const auto & d : dependencies)
-		{
-			removedVars.push_back(std::get<1>(d));
-		}
-		removedVars.push_back(data_.nrVars_);
-		std::sort(removedVars.begin(), removedVars.end());
-		size_t shift = 0;
-		for(size_t i = 0; i < fullToReduced.size(); ++i)
-		{
-			if(i == static_cast<size_t>(removedVars[shift])) { shift++; continue; }
-			fullToReduced[i] = static_cast<int>(i - shift);
-			reducedToFull[i-shift] = static_cast<int>(i);
-		}
-		solver_->setReductionParameters(std::move(fullToReduced),
-																		std::move(reducedToFull),
-																		std::move(dependencies));
-	}
-
+	solver_->setDependencies(data_.nrVars_, dependencies);
 	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 

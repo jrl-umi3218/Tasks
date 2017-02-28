@@ -83,18 +83,10 @@ public:
 
 	/**
 	* Setup dependent variables, only linear dependency are supported
-	* @param fullToReduced A full to reduced variables vector
-	* @param reducedToFull A reduced to full variables vector
+	* @param nrVars Variable number.
 	* @param dependencies List of tuple {primary, replica, factor}
 	*/
-	virtual void setReductionParameters(std::vector<int> fullToReduced,
-																			std::vector<int> reducedToFull,
-																			std::vector<std::tuple<int, int, double>> dependencies)
-	{
-		fullToReduced_ = fullToReduced;
-		reducedToFull_ = reducedToFull;
-		dependencies_ = dependencies;
-	}
+	virtual void setDependencies(int nrVars, std::vector<std::tuple<int, int, double>> dependencies);
 
 	/**
 		* Construct the QP matrices.
@@ -128,8 +120,14 @@ public:
 		const std::vector<Bound*>& boundConstr,
 		std::ostream& out) const = 0;
 protected:
+	/** Correspondance between full variable indices and reduced variables */
 	std::vector<int> fullToReduced_;
+	/** Correspondance between reduced variable indices and full variable indices */
 	std::vector<int> reducedToFull_;
+
+	/** Variable dependencies, each tuple gives the primary variable index in the
+	 * full variable, replica variable index in the full variable and the factor
+	 * in the dependency equation: replica = factor * primary */
 	std::vector<std::tuple<int, int, double>> dependencies_;
 };
 
