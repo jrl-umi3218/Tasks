@@ -281,6 +281,7 @@ private:
 class TASKS_DLLAPI GazeTask
 {
 public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	GazeTask(const rbd::MultiBody& mb, const std::string& bodyName,
 		const Eigen::Vector2d &point2d,
 		double depthEstimate, const sva::PTransformd& X_b_gaze,
@@ -329,6 +330,7 @@ private:
 class TASKS_DLLAPI PositionBasedVisServoTask
 {
 public:
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	PositionBasedVisServoTask(const rbd::MultiBody &mb, const std::string& bodyName,
 		const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s);
 

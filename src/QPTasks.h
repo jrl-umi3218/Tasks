@@ -760,21 +760,27 @@ public:
 		const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero());
 
+	GazeTask(const GazeTask& rhs);
+
+	GazeTask& operator=(const GazeTask& rhs);
+
+	~GazeTask();
+
 	tasks::GazeTask& task()
 	{
-			return gazet_;
+			return *gazet_;
 	}
 
 	void error(const Eigen::Vector2d& point2d,
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero())
 	{
-			gazet_.error(point2d, point2d_ref);
+			gazet_->error(point2d, point2d_ref);
 	}
 
 	void error(const Eigen::Vector3d& point3d,
 		const Eigen::Vector2d& point2d_ref = Eigen::Vector2d::Zero())
 	{
-			gazet_.error(point3d, point2d_ref);
+			gazet_->error(point3d, point2d_ref);
 	}
 
 	virtual int dim();
@@ -787,7 +793,7 @@ public:
 	virtual const Eigen::VectorXd& normalAcc();
 
 private:
-	tasks::GazeTask gazet_;
+	tasks::GazeTask * const gazet_;
 	int robotIndex_;
 };
 
@@ -800,14 +806,20 @@ public:
 		const std::string& bodyName, const sva::PTransformd& X_t_s,
 		const sva::PTransformd& X_b_s=sva::PTransformd::Identity());
 
+	PositionBasedVisServoTask(const PositionBasedVisServoTask & rhs);
+
+	PositionBasedVisServoTask& operator=(const PositionBasedVisServoTask & rhs);
+
+	~PositionBasedVisServoTask();
+
 	tasks::PositionBasedVisServoTask& task()
 	{
-			return pbvst_;
+			return *pbvst_;
 	}
 
 	void error(const sva::PTransformd& X_t_s)
 	{
-			pbvst_.error(X_t_s);
+			pbvst_->error(X_t_s);
 	}
 
 	virtual int dim();
@@ -820,7 +832,7 @@ public:
 	virtual const Eigen::VectorXd& normalAcc();
 
 private:
-	tasks::PositionBasedVisServoTask pbvst_;
+	tasks::PositionBasedVisServoTask * const pbvst_;
 	int robotIndex_;
 };
 
