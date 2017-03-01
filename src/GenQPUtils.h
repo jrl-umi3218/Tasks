@@ -87,7 +87,7 @@ inline void reduceQC(const Eigen::MatrixXd & QFull, const Eigen::VectorXd & CFul
 	/* Start by moving the non-reduced variables to their new location */
 	for(size_t i = 0; i < reducedToFull.size(); ++i)
 	{
-		for(size_t j = 0; j < reducedToFull.size(); ++j)
+		for(size_t j = i; j < reducedToFull.size(); ++j)
 		{
 			Q(i,j) = QFull(reducedToFull[i], reducedToFull[j]);
 		}
@@ -106,11 +106,12 @@ inline void reduceQC(const Eigen::MatrixXd & QFull, const Eigen::VectorXd & CFul
 		for(size_t i = 0; i < reducedToFull.size(); ++i)
 		{
 			Q(i, primaryReducedI) += alpha*QFull(reducedToFull[i], replicaFullI);
-			Q(primaryReducedI, i) += alpha*QFull(replicaFullI, reducedToFull[i]);
 		}
 		/* Add diagonal element to Q */
 		Q(primaryReducedI, primaryReducedI) += alpha*alpha*QFull(replicaFullI, replicaFullI);
 	}
+	/* Update the lower triangular part of Q */
+	Q = Q.selfadjointView<Eigen::Upper>();
 }
 
 // general qp form
