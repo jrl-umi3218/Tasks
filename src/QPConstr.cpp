@@ -1217,17 +1217,17 @@ ImageConstr::ImageConstr(const std::vector<rbd::MultiBody>& mbs,
 	nrActivated_(0),
 	jac_(mbs[robotIndex], bName),
 	X_b_gaze_(X_b_gaze),
-	L_img_(Eigen::Matrix<double, 2, 6>::Zero()),
-	surfaceVelocity_(Eigen::Matrix<double,6,1>::Zero()),
-	L_Z_dot_(Eigen::Matrix<double,1,6> ::Zero()),
-	L_img_dot_(Eigen::Matrix<double,2,6>::Zero()),
-	speed_(Eigen::Vector2d::Zero()),
-	normalAcc_(Eigen::Vector2d::Zero()),
+	L_img_(new Eigen::Matrix<double, 2, 6>(Eigen::Matrix<double, 2, 6>::Zero())),
+	surfaceVelocity_(new Eigen::Matrix<double,6,1>(Eigen::Matrix<double,6,1>::Zero())),
+	L_Z_dot_(new Eigen::Matrix<double,1,6> (Eigen::Matrix<double,1,6> ::Zero())),
+	L_img_dot_(new Eigen::Matrix<double,2,6>(Eigen::Matrix<double,2,6>::Zero())),
+	speed_(new Eigen::Vector2d(Eigen::Vector2d::Zero())),
+	normalAcc_(new Eigen::Vector2d(Eigen::Vector2d::Zero())),
 	jacMat_(2, mbs[robotIndex].nrDof()),
-	iDistMin_(Eigen::Vector2d::Zero()),
-	iDistMax_(Eigen::Vector2d::Zero()),
-	sDistMin_(Eigen::Vector2d::Zero()),
-	sDistMax_(Eigen::Vector2d::Zero()),
+	iDistMin_(new Eigen::Vector2d(Eigen::Vector2d::Zero())),
+	iDistMax_(new Eigen::Vector2d(Eigen::Vector2d::Zero())),
+	sDistMin_(new Eigen::Vector2d(Eigen::Vector2d::Zero())),
+	sDistMax_(new Eigen::Vector2d(Eigen::Vector2d::Zero())),
 	damping_(0.),
 	dampingOffset_(0.),
 	ineqInversion_(1),
@@ -1236,6 +1236,73 @@ ImageConstr::ImageConstr(const std::vector<rbd::MultiBody>& mbs,
 	bInEq_()
 {}
 
+ImageConstr::ImageConstr(const ImageConstr& rhs):
+	dataVec_(rhs.dataVec_),
+	dataVecRob_(rhs.dataVecRob_),
+	robotIndex_(rhs.robotIndex_),
+	bodyIndex_(rhs.bodyIndex_),
+	alphaDBegin_(rhs.alphaDBegin_),
+	nrVars_(rhs.nrVars_),
+	step_(rhs.step_),
+	accelFactor_(rhs.accelFactor_),
+	nrActivated_(rhs.nrActivated_),
+	jac_(rhs.jac_),
+	X_b_gaze_(rhs.X_b_gaze_),
+	L_img_(new Eigen::Matrix<double, 2, 6>(*rhs.L_img_)),
+	surfaceVelocity_(new Eigen::Matrix<double,6,1>(*rhs.surfaceVelocity_)),
+	L_Z_dot_(new Eigen::Matrix<double,1,6>(*rhs.L_Z_dot_)),
+	L_img_dot_(new Eigen::Matrix<double,2,6>(*rhs.L_img_dot_)),
+	speed_(new Eigen::Vector2d(*rhs.speed_)),
+	normalAcc_(new Eigen::Vector2d(*rhs.normalAcc_)),
+	jacMat_(rhs.jacMat_),
+	iDistMin_(new Eigen::Vector2d(*rhs.iDistMin_)),
+	iDistMax_(new Eigen::Vector2d(*rhs.iDistMax_)),
+	sDistMin_(new Eigen::Vector2d(*rhs.sDistMin_)),
+	sDistMax_(new Eigen::Vector2d(*rhs.sDistMax_)),
+	damping_(rhs.damping_),
+	dampingOffset_(rhs.dampingOffset_),
+	ineqInversion_(rhs.ineqInversion_),
+	constrDirection_(rhs.constrDirection_),
+	AInEq_(rhs.AInEq_),
+	bInEq_(rhs.bInEq_)
+{
+}
+
+ImageConstr& ImageConstr::operator=(const ImageConstr& rhs)
+{
+	if(&rhs != this)
+	{
+		dataVec_ = rhs.dataVec_;
+		dataVecRob_ = rhs.dataVecRob_;
+		robotIndex_ = rhs.robotIndex_;
+		bodyIndex_ = rhs.bodyIndex_;
+		alphaDBegin_ = rhs.alphaDBegin_;
+		nrVars_ = rhs.nrVars_;
+		step_ = rhs.step_;
+		accelFactor_ = rhs.accelFactor_;
+		nrActivated_ = rhs.nrActivated_;
+		jac_ = rhs.jac_;
+		X_b_gaze_ = rhs.X_b_gaze_;
+		*L_img_ = *rhs.L_img_;
+		*surfaceVelocity_ = *rhs.surfaceVelocity_;
+		*L_Z_dot_ = *rhs.L_Z_dot_;
+		*L_img_dot_ = *rhs.L_img_dot_;
+		*speed_ = *rhs.speed_;
+		*normalAcc_ = *rhs.normalAcc_;
+		jacMat_ = rhs.jacMat_;
+		*iDistMin_ = *rhs.iDistMin_;
+		*iDistMax_ = *rhs.iDistMax_;
+		*sDistMin_ = *rhs.sDistMin_;
+		*sDistMax_ = *rhs.sDistMax_;
+		damping_ = rhs.damping_;
+		dampingOffset_ = rhs.dampingOffset_;
+		ineqInversion_ = rhs.ineqInversion_;
+		constrDirection_ = rhs.constrDirection_;
+		AInEq_ = rhs.AInEq_;
+		bInEq_ = rhs.bInEq_;
+	}
+	return *this;
+}
 
 int ImageConstr::addPoint(const Eigen::Vector2d& point2d, const double depthEstimate)
 {
@@ -1291,10 +1358,10 @@ void ImageConstr::setLimits(const Eigen::Vector2d& min, const Eigen::Vector2d& m
 {
 	// precompute avoidance boundaries
 	Eigen::Vector2d dist = max - min;
-	iDistMin_ = min + constrDirection_*iPercent*dist;
-	iDistMax_ = max - constrDirection_*iPercent*dist;
-	sDistMin_ = min + constrDirection_*sPercent*dist;
-	sDistMax_ = max - constrDirection_*sPercent*dist;
+	*iDistMin_ = min + constrDirection_*iPercent*dist;
+	*iDistMax_ = max - constrDirection_*iPercent*dist;
+	*sDistMin_ = min + constrDirection_*sPercent*dist;
+	*sDistMax_ = max - constrDirection_*sPercent*dist;
 
 	damping_ = damping;
 	dampingOffset_ = constrDirection_*dampingOffsetPercent*damping;
@@ -1306,22 +1373,22 @@ void ImageConstr::computeComponents(const rbd::MultiBody& mb, const rbd::MultiBo
 	const sva::PTransformd& X_b_p, Eigen::MatrixXd& fullJacobian, Eigen::Vector2d& bCommonTerm)
 {
 	// compute speed term
-	rbd::imagePointJacobian(point2d, depth, L_img_);
-	surfaceVelocity_ = (jac.velocity(mb, mbc, X_b_p)).vector();
-	speed_ = L_img_*surfaceVelocity_;
+	rbd::imagePointJacobian(point2d, depth, *L_img_);
+	*surfaceVelocity_ = (jac.velocity(mb, mbc, X_b_p)).vector();
+	*speed_ = (*L_img_)*(*surfaceVelocity_);
 
 	// compute norm accel term
-	rbd::depthDotJacobian(speed_, depth, L_Z_dot_);
-	rbd::imagePointJacobianDot(point2d, speed_, depth, L_Z_dot_*surfaceVelocity_, L_img_dot_);
-	normalAcc_ = L_img_*(jac.normalAcceleration(mb, mbc, data.normalAccB(robotIndex_), X_b_p,
-		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + L_img_dot_*surfaceVelocity_;
+	rbd::depthDotJacobian(*speed_, depth, *L_Z_dot_);
+	rbd::imagePointJacobianDot(point2d, *speed_, depth, (*L_Z_dot_)*(*surfaceVelocity_), *L_img_dot_);
+	*normalAcc_ = (*L_img_)*(jac.normalAcceleration(mb, mbc, data.normalAccB(robotIndex_), X_b_p,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + (*L_img_dot_)*(*surfaceVelocity_);
 
 	// compute the shortened jacobian
-	const auto& shortJacMat = accelFactor_*L_img_*jac.jacobian(mb, mbc, X_b_p*mbc.bodyPosW[bodyIndex]).block(0, 0, 6, jac.dof());
+	const auto& shortJacMat = accelFactor_*(*L_img_)*jac.jacobian(mb, mbc, X_b_p*mbc.bodyPosW[bodyIndex]).block(0, 0, 6, jac.dof());
 
 	// fill objects to return for the QP
 	jac.fullJacobian(mb, shortJacMat, fullJacobian);
-	bCommonTerm = -step_*speed_-accelFactor_*normalAcc_;
+	bCommonTerm = -step_*(*speed_)-accelFactor_*(*normalAcc_);
 }
 
 
@@ -1359,16 +1426,16 @@ void ImageConstr::update(const std::vector<rbd::MultiBody>& mbs,
 			std::size_t iOther = (i==0) ? 1 : 0;
 
 			// check occlusion constraint if it is within the 2D image bounds
-			if((constrDirection_==1.) || ((point2d_[iOther] > iDistMin_[iOther]) && (point2d_[iOther] < iDistMax_[iOther])))
+			if((constrDirection_==1.) || ((point2d_[iOther] > (*iDistMin_)[iOther]) && (point2d_[iOther] < (*iDistMax_)[iOther])))
 			{
-				if((constrDirection_*point2d_[i] < constrDirection_*iDistMin_[i]) //check min
+				if((constrDirection_*point2d_[i] < constrDirection_*(*iDistMin_)[i]) //check min
 					 && ((constrDirection_==1.) || (point2d_[i] < 0.))) //handle occlusion constraint ambiquity
 				{
-					if(constrDirection_*point2d_  [i] > constrDirection_*sDistMin_[i])
+					if(constrDirection_*point2d_  [i] > constrDirection_*(*sDistMin_)[i])
 					{
 						isConstrActive = true;
 						ineqInversion_ = -1.*constrDirection_;
-						bInEq_(nrActivated_) = constrDirection_*(damping_*((point2d_[i] - sDistMin_[i])/(iDistMin_[i] - sDistMin_[i])) - dampingOffset_) + ineqInversion_*bCommonTerm[i];
+						bInEq_(nrActivated_) = constrDirection_*(damping_*((point2d_[i] - (*sDistMin_)[i])/((*iDistMin_)[i] - (*sDistMin_)[i])) - dampingOffset_) + ineqInversion_*bCommonTerm[i];
 					}
 					else
 					{
@@ -1376,14 +1443,14 @@ void ImageConstr::update(const std::vector<rbd::MultiBody>& mbs,
 						bInEq_(nrActivated_) = - constrDirection_*dampingOffset_ + ineqInversion_*bCommonTerm[i];
 					}
 				}
-				else if((constrDirection_*point2d_[i] > constrDirection_*iDistMax_[i]) // check max
+				else if((constrDirection_*point2d_[i] > constrDirection_*(*iDistMax_)[i]) // check max
 					&& ((constrDirection_==1.) || (point2d_[i] > 0.))) //handle occlusion constraint ambiquity
 				{
-					if(constrDirection_*point2d_[i] < constrDirection_*sDistMax_[i])
+					if(constrDirection_*point2d_[i] < constrDirection_*(*sDistMax_)[i])
 					{
 						isConstrActive = true;
 						ineqInversion_ = 1.*constrDirection_;
-						bInEq_(nrActivated_) = constrDirection_*(damping_*((point2d_[i] - sDistMax_[i])/(iDistMax_[i] - sDistMax_[i])) - dampingOffset_) + ineqInversion_*bCommonTerm[i];
+						bInEq_(nrActivated_) = constrDirection_*(damping_*((point2d_[i] - (*sDistMax_)[i])/((*iDistMax_)[i] - (*sDistMax_)[i])) - dampingOffset_) + ineqInversion_*bCommonTerm[i];
 					}
 					else
 					{

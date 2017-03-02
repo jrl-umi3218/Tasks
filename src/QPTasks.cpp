@@ -1076,7 +1076,7 @@ GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
 	const Eigen::Vector2d& point2d, double depthEstimate,
 	const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
-	gazet_(new tasks::GazeTask(mbs[robotIndex], bodyName, point2d, depthEstimate, X_b_gaze, point2d_ref)),
+	gazet_(mbs[robotIndex], bodyName, point2d, depthEstimate, X_b_gaze, point2d_ref),
 	robotIndex_(robotIndex)
 {}
 
@@ -1085,30 +1085,9 @@ GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
 	int robotIndex, const std::string& bodyName,
 	const Eigen::Vector3d& point3d, const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
-	gazet_(new tasks::GazeTask(mbs[robotIndex], bodyName, point3d, X_b_gaze, point2d_ref)),
+	gazet_(mbs[robotIndex], bodyName, point3d, X_b_gaze, point2d_ref),
 	robotIndex_(robotIndex)
 {}
-
-GazeTask::GazeTask(const GazeTask& rhs):
-	gazet_(new tasks::GazeTask(*rhs.gazet_)),
-	robotIndex_(rhs.robotIndex_)
-{
-}
-
-GazeTask& GazeTask::operator=(const GazeTask& rhs)
-{
-	if(&rhs != this)
-	{
-		robotIndex_ = rhs.robotIndex_;
-		*gazet_ = *rhs.gazet_;
-	}
-	return *this;
-}
-
-GazeTask::~GazeTask()
-{
-	delete gazet_;
-}
 
 int GazeTask::dim()
 {
@@ -1120,31 +1099,31 @@ void GazeTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
-	gazet_->update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+	gazet_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
 }
 
 
 const Eigen::MatrixXd& GazeTask::jac()
 {
-	return gazet_->jac();
+	return gazet_.jac();
 }
 
 
 const Eigen::VectorXd& GazeTask::eval()
 {
-	return gazet_->eval();
+	return gazet_.eval();
 }
 
 
 const Eigen::VectorXd& GazeTask::speed()
 {
-	return gazet_->speed();
+	return gazet_.speed();
 }
 
 
 const Eigen::VectorXd& GazeTask::normalAcc()
 {
-	return gazet_->normalAcc();
+	return gazet_.normalAcc();
 }
 
 
@@ -1157,31 +1136,9 @@ PositionBasedVisServoTask::PositionBasedVisServoTask(const std::vector<rbd::Mult
 	int robotIndex, const std::string& bodyName,
 	const sva::PTransformd& X_t_s,
 	const sva::PTransformd& X_b_s):
-	pbvst_(new tasks::PositionBasedVisServoTask(mbs[robotIndex], bodyName, X_t_s, X_b_s)),
+	pbvst_(mbs[robotIndex], bodyName, X_t_s, X_b_s),
 	robotIndex_(robotIndex)
 {}
-
-
-PositionBasedVisServoTask::PositionBasedVisServoTask(const PositionBasedVisServoTask & rhs):
-	pbvst_(new tasks::PositionBasedVisServoTask(*rhs.pbvst_)),
-	robotIndex_(rhs.robotIndex_)
-{
-}
-
-PositionBasedVisServoTask& PositionBasedVisServoTask::operator=(const PositionBasedVisServoTask & rhs)
-{
-	if(&rhs != this)
-	{
-		*pbvst_ = *rhs.pbvst_;
-		robotIndex_ = rhs.robotIndex_;
-	}
-	return *this;
-}
-
-PositionBasedVisServoTask::~PositionBasedVisServoTask()
-{
-	delete pbvst_;
-}
 
 int PositionBasedVisServoTask::dim()
 {
@@ -1193,31 +1150,31 @@ void PositionBasedVisServoTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
-	pbvst_->update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+	pbvst_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
 }
 
 
 const Eigen::MatrixXd& PositionBasedVisServoTask::jac()
 {
-	return pbvst_->jac();
+	return pbvst_.jac();
 }
 
 
 const Eigen::VectorXd& PositionBasedVisServoTask::eval()
 {
-	return pbvst_->eval();
+	return pbvst_.eval();
 }
 
 
 const Eigen::VectorXd& PositionBasedVisServoTask::speed()
 {
-	return pbvst_->speed();
+	return pbvst_.speed();
 }
 
 
 const Eigen::VectorXd& PositionBasedVisServoTask::normalAcc()
 {
-	return pbvst_->normalAcc();
+	return pbvst_.normalAcc();
 }
 
 
@@ -1449,7 +1406,7 @@ MultiRobotTransformTask::MultiRobotTransformTask(
 	mrtt_(mbs, r1Index, r2Index, r1BodyName, r2BodyName, X_r1b_r1s, X_r2b_r2s),
 	Q_(),
 	C_(),
-	CSum_(),
+	CSum_(Eigen::Vector6d::Zero()),
 	preQ_()
 {
 	int maxDof = 0;
