@@ -660,7 +660,7 @@ private:
 	* or an Occlusion avoidance constraint. Both with damping
 	* Note that the point must start within the feasible boundary.
 	*/
-class ImageConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI ImageConstr : public ConstraintFunction<Inequality>
 {
 public:
 	/**
