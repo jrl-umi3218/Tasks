@@ -1004,14 +1004,15 @@ const Eigen::VectorXd& GripperTorqueConstr::bInEq() const
 
 
 /**
-	*															BoundedSpeedConstr
+	*															BoundedCartesianMotionConstr
 	*/
 
 
-BoundedSpeedConstr::BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
+BoundedCartesianMotionConstr::BoundedCartesianMotionConstr(const std::vector<rbd::MultiBody>& mbs,
 	int robotIndex, double timeStep):
 	robotIndex_(robotIndex),
-	cont_(),
+	velConstr_(),
+	accConstr_(),
 	fullJac_(6, mbs[robotIndex_].nrDof()),
 	A_(),
 	lower_(),
@@ -1021,7 +1022,7 @@ BoundedSpeedConstr::BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
 {}
 
 
-void BoundedSpeedConstr::addBoundedSpeed(
+void BoundedCartesianMotionConstr::addBoundedSpeed(
 	const std::vector<rbd::MultiBody>& mbs, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& speed)
@@ -1030,53 +1031,87 @@ void BoundedSpeedConstr::addBoundedSpeed(
 }
 
 
-void BoundedSpeedConstr::addBoundedSpeed(
+void BoundedCartesianMotionConstr::addBoundedSpeed(
 	const std::vector<rbd::MultiBody>& mbs, const std::string& bodyName,
 	const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 	const Eigen::VectorXd& lowerSpeed, const Eigen::VectorXd& upperSpeed)
 {
 	rbd::Jacobian jac(mbs[robotIndex_], bodyName, bodyPoint);
-	cont_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyName});
+	velConstr_.push_back({jac, dof, lowerSpeed, upperSpeed, bodyName});
 }
 
-
-bool BoundedSpeedConstr::removeBoundedSpeed(const std::string& bodyName)
+bool BoundedCartesianMotionConstr::removeBound(std::vector<BoundedCartesianMotionData>& constr, const std::string& bodyName)
 {
-	auto it = std::find_if(cont_.begin(), cont_.end(),
-		[bodyName](const BoundedSpeedData& data)
-		{
-			return data.bodyName == bodyName;
-		});
+    auto it = std::find_if(constr.begin(), constr.end(),
+        [bodyName](const BoundedCartesianMotionData& data)
+        {
+            return data.bodyName == bodyName;
+        });
 
-	if(it != cont_.end())
-	{
-		cont_.erase(it);
-		return true;
-	}
-
+    if(it != constr.end())
+    {
+        constr.erase(it);
+        return true;
+    }
 	return false;
 }
 
-
-void BoundedSpeedConstr::resetBoundedSpeeds()
+bool BoundedCartesianMotionConstr::removeBoundedSpeed(const std::string& bodyName)
 {
-	cont_.clear();
+    return removeBound(velConstr_, bodyName);
 }
 
 
-std::size_t BoundedSpeedConstr::nrBoundedSpeeds() const
+bool BoundedCartesianMotionConstr::removeBoundedAcceleration(const std::string& bodyName)
 {
-	return cont_.size();
+    return removeBound(accConstr_, bodyName);
 }
 
 
-void BoundedSpeedConstr::updateBoundedSpeeds()
+void BoundedCartesianMotionConstr::resetBoundedSpeeds()
+{
+	velConstr_.clear();
+}
+
+
+void BoundedCartesianMotionConstr::resetBoundedAccelerations()
+{
+	accConstr_.clear();
+}
+
+
+void BoundedCartesianMotionConstr::reset()
+{
+    resetBoundedSpeeds();
+    resetBoundedAccelerations();
+}
+
+
+std::size_t BoundedCartesianMotionConstr::nrBoundedSpeeds() const
+{
+	return velConstr_.size();
+}
+
+
+std::size_t BoundedCartesianMotionConstr::nrBoundedMotions() const
+{
+	return velConstr_.size() + velConstr_.size();
+}
+
+
+std::size_t BoundedCartesianMotionConstr::nrBoundedAccelerations() const
+{
+	return velConstr_.size() + velConstr_.size();
+}
+
+
+void BoundedCartesianMotionConstr::updateBoundedMotions()
 {
 	updateNrEq();
 }
 
 
-void BoundedSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+void BoundedCartesianMotionConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 	const SolverData& data)
 {
 	alphaDBegin_ = data.alphaDBegin(robotIndex_);
@@ -1085,7 +1120,7 @@ void BoundedSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs 
 }
 
 
-void BoundedSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
+void BoundedCartesianMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
 	const SolverData& data)
 {
@@ -1099,43 +1134,77 @@ void BoundedSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	// (TargetSpeed - V_k)/dt - JD_k*alpha_k = J_k*alphaD_{k+1}
 
 	int index = 0;
-	for(std::size_t i = 0; i < cont_.size(); ++i)
+	// Speed limits
+	for(std::size_t i = 0; i < velConstr_.size(); ++i)
 	{
-		int rows = int(cont_[i].dof.rows());
+		int rows = int(velConstr_[i].dof.rows());
 
 		// AEq
-		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
-		cont_[i].jac.fullJacobian(mb, jac, fullJac_);
+		const MatrixXd& jac = velConstr_[i].jac.bodyJacobian(mb, mbc);
+		velConstr_[i].jac.fullJacobian(mb, jac, fullJac_);
 		A_.block(index, alphaDBegin_, rows, mb.nrDof()).noalias() =
-			cont_[i].dof*fullJac_;
+			velConstr_[i].dof*fullJac_;
 
 		// BEq
-		Vector6d speed = cont_[i].jac.bodyVelocity(mb, mbc).vector();
-		Vector6d normalAcc = cont_[i].jac.bodyNormalAcceleration(
+		Vector6d speed = velConstr_[i].jac.bodyVelocity(mb, mbc).vector();
+		Vector6d normalAcc = velConstr_[i].jac.bodyNormalAcceleration(
 			mb, mbc, data.normalAccB(robotIndex_)).vector();
 
-		lower_.segment(index, rows).noalias() = cont_[i].dof*(-normalAcc -
+		lower_.segment(index, rows).noalias() = velConstr_[i].dof*(-normalAcc -
 			(speed/timeStep_));
 		upper_.segment(index, rows).noalias() = lower_.segment(index, rows);
 
-		lower_.segment(index, rows).noalias() += (cont_[i].lSpeed/timeStep_);
-		upper_.segment(index, rows).noalias() += (cont_[i].uSpeed/timeStep_);
+		lower_.segment(index, rows).noalias() += (velConstr_[i].lowerLimit/timeStep_);
+		upper_.segment(index, rows).noalias() += (velConstr_[i].upperLimit/timeStep_);
+		index += rows;
+	}
+
+	// Acceleration limits
+	for(std::size_t i = 0; i < accConstr_.size(); ++i)
+	{
+		int rows = int(accConstr_[i].dof.rows());
+
+		// AEq
+		const MatrixXd& jac = accConstr_[i].jac.bodyJacobian(mb, mbc);
+		accConstr_[i].jac.fullJacobian(mb, jac, fullJac_);
+		A_.block(index, alphaDBegin_, rows, mb.nrDof()).noalias() =
+			accConstr_[i].dof*fullJac_;
+
+		// BEq
+		Vector6d acceleration = accConstr_[i].jac.bodyNormalAcceleration(mb, mbc).vector();
+		Vector6d normalAcc = accConstr_[i].jac.bodyNormalAcceleration(
+			mb, mbc, data.normalAccB(robotIndex_)).vector();
+
+		lower_.segment(index, rows).noalias() = accConstr_[i].dof*(-normalAcc -
+			acceleration);
+		upper_.segment(index, rows).noalias() = lower_.segment(index, rows);
+
+		lower_.segment(index, rows).noalias() += accConstr_[i].lowerLimit;
+		upper_.segment(index, rows).noalias() += accConstr_[i].upperLimit;
 		index += rows;
 	}
 }
 
 
-std::string BoundedSpeedConstr::nameGenInEq() const
+std::string BoundedCartesianMotionConstr::nameGenInEq() const
 {
-	return "BoundedSpeedConstr";
+	return "BoundedCartesianMotionConstr";
 }
 
 
-std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& mbs,
+std::string BoundedCartesianMotionConstr::descGenInEq(const std::vector<rbd::MultiBody>& mbs,
 	int line)
 {
 	int curRow = 0;
-	for(const BoundedSpeedData& c: cont_)
+	for(const BoundedCartesianMotionData& c: velConstr_)
+	{
+		curRow += int(c.dof.rows());
+		if(line < curRow)
+		{
+			return std::string("Body: ") + mbs[robotIndex_].body(c.body).name();
+		}
+	}
+	for(const BoundedCartesianMotionData& c: accConstr_)
 	{
 		curRow += int(c.dof.rows());
 		if(line < curRow)
@@ -1147,34 +1216,38 @@ std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody>& m
 }
 
 
-int BoundedSpeedConstr::maxGenInEq() const
+int BoundedCartesianMotionConstr::maxGenInEq() const
 {
 	return int(A_.rows());
 }
 
 
-const Eigen::MatrixXd& BoundedSpeedConstr::AGenInEq() const
+const Eigen::MatrixXd& BoundedCartesianMotionConstr::AGenInEq() const
 {
 	return A_;
 }
 
 
-const Eigen::VectorXd& BoundedSpeedConstr::LowerGenInEq() const
+const Eigen::VectorXd& BoundedCartesianMotionConstr::LowerGenInEq() const
 {
 	return lower_;
 }
 
 
-const Eigen::VectorXd& BoundedSpeedConstr::UpperGenInEq() const
+const Eigen::VectorXd& BoundedCartesianMotionConstr::UpperGenInEq() const
 {
 	return upper_;
 }
 
 
-void BoundedSpeedConstr::updateNrEq()
+void BoundedCartesianMotionConstr::updateNrEq()
 {
 	int nrEq = 0;
-	for(const BoundedSpeedData& c: cont_)
+	for(const BoundedCartesianMotionData& c: velConstr_)
+	{
+		nrEq += int(c.dof.rows());
+	}
+	for(const BoundedCartesianMotionData& c: accConstr_)
 	{
 		nrEq += int(c.dof.rows());
 	}

@@ -519,7 +519,8 @@ private:
 
 
 /**
-	* Constraint some link velocity in link frame by direct integration.
+	* Constrain link velocity and acceleration in link frame.
+	* Velocity is constrained by direct integration.
 	* \f[
 	* S (\underline{v} - v)
 	* \leq S a \Delta_{dt} \leq
@@ -530,7 +531,7 @@ private:
 	* \f$ a \f$ the link acceleration in link frame
 	* and \f$ S \f$ the axis selection matrix.
 	*/
-class TASKS_DLLAPI BoundedSpeedConstr : public ConstraintFunction<GenInequality>
+class TASKS_DLLAPI BoundedCartesianMotionConstr : public ConstraintFunction<GenInequality>
 {
 public:
 	/**
@@ -538,7 +539,7 @@ public:
 		* @param robotIndex Constrained robot Index in mbs.
 		* @param timeStep Time step in second.
 		*/
-	BoundedSpeedConstr(const std::vector<rbd::MultiBody>& mbs,
+	BoundedCartesianMotionConstr(const std::vector<rbd::MultiBody>& mbs,
 		int robotIndex, double timeStep);
 
 	/**
@@ -555,7 +556,7 @@ public:
 		* \f$ \underline{v} \in \mathbb{R}^{n} \f$ and
 		* \f$ \overline{v} \in \mathbb{R}^{n} \f$.
 		*/
-	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs, 
+	void addBoundedSpeed(const std::vector<rbd::MultiBody>& mbs,
 		const std::string& bodyName,
 		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
 		const Eigen::VectorXd& speed);
@@ -586,14 +587,74 @@ public:
 		*/
 	bool removeBoundedSpeed(const std::string& bodyName);
 
-	/// Remove all bounded speed constraint.
+	/// Remove all bounded speed constraints.
 	void resetBoundedSpeeds();
 
-	/// @return Number of bounded speed constraint.
+	/**
+		* Add a targeted acceleration constraint.
+		* Don't forget to call updateBoundedAccelerations and QPSolver::updateConstrSize.
+		* You can also only call QPSolver::nrVars or QPSolver::updateConstrsNrVars
+		* or QPSolver::updateNrVars.
+		* @param mbs Multi-robot system (must be the same given in the constructor.
+		* @param bodyId Constrained body id in mbs[robotIndex].
+		* @param bodyPoint static translation applied on the link
+		* \f$ v = xlt(bodyPoint) v_{bodyId} \f$.
+		* @param dof \f$ S \in \mathbb{R}^{n \times 6} \f$.
+		* @param acceleration Targeted velocity
+		* \f$ \underline{v} \in \mathbb{R}^{n} \f$ and
+		* \f$ \overline{v} \in \mathbb{R}^{n} \f$.
+		*/
+	void addBoundedAcceleration(const std::vector<rbd::MultiBody>& mbs,
+		const std::string& bodyName,
+		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
+		const Eigen::VectorXd& acceleration);
+
+	/**
+		* Add a bounded acceleration constraint.
+		* Don't forget to call updateBoundedAccelerations and QPSolver::updateConstrSize.
+		* You can also only call QPSolver::nrVars or QPSolver::updateConstrsNrVars
+		* or QPSolver::updateNrVars.
+		* @param mbs Multi-robot system (must be the same given in the constructor.
+		* @param bodyId Constrained body id in mbs[robotIndex].
+		* @param bodyPoint static translation applied on the link
+		* \f$ v = xlt(bodyPoint) v_{bodyId} \f$.
+		* @param dof \f$ S \in \mathbb{R}^{n \times 6} \f$.
+		* @param lowerAcceleration Lower velocity \f$ \underline{v} \in \mathbb{R}^{n} \f$.
+		* @param upperAcceleration Upper velocity \f$ \overline{v} \in \mathbb{R}^{n} \f$.
+		*/
+	void addBoundedAcceleration(const std::vector<rbd::MultiBody>& mbs,
+		const std::string& bodyName,
+		const Eigen::Vector3d& bodyPoint, const Eigen::MatrixXd& dof,
+		const Eigen::VectorXd& lowerAcceleration, const Eigen::VectorXd& upperAcceleration);
+
+	/**
+		* Remove a bounded acceleration constraint.
+		* @param bodyName Remove the constraint applied on bodyName.
+		* @return true if the constraint has been removed false if bodyId
+		* was associated with no constraint.
+		*/
+	bool removeBoundedAcceleration(const std::string& bodyName);
+
+	/// Remove all bounded acceleration constraints.
+	void resetBoundedAccelerations();
+
+	/// Remove all bounded motion constraints,
+	/// including both speed and acceleration.
+	void reset();
+
+	/// @return Number of bounded speed constraints.
 	std::size_t nrBoundedSpeeds() const;
 
+	/// @return Number of bounded acceleration constraints.
+	std::size_t nrBoundedAccelerations() const;
+
+	/// @return Number of bounded speed + acceleration constraints.
+	std::size_t nrBoundedMotions() const;
+
 	/// Reallocate A and b matrix.
-	void updateBoundedSpeeds();
+	/// Applies to both speed and
+	/// acceleration.
+	void updateBoundedMotions();
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -614,16 +675,18 @@ public:
 	virtual const Eigen::VectorXd& UpperGenInEq() const;
 
 private:
-	struct BoundedSpeedData
+	struct BoundedCartesianMotionData
 	{
-		BoundedSpeedData(rbd::Jacobian j, const Eigen::MatrixXd& d,
+		// Represents a limit placed on some type of cartesian motion
+		// can be both speed and acceleration
+		BoundedCartesianMotionData(rbd::Jacobian j, const Eigen::MatrixXd& d,
 			const Eigen::VectorXd& ls, const Eigen::VectorXd& us,
 			const std::string& bName):
 			jac(j),
 			bodyPoint(j.point()),
 			dof(d),
-			lSpeed(ls),
-			uSpeed(us),
+			lowerLimit(ls),
+			upperLimit(us),
 			body(j.jointsPath().back()),
 			bodyName(bName)
 		{}
@@ -631,17 +694,19 @@ private:
 		rbd::Jacobian jac;
 		sva::PTransformd bodyPoint;
 		Eigen::MatrixXd dof;
-		Eigen::VectorXd lSpeed, uSpeed;
+		Eigen::VectorXd lowerLimit, upperLimit;
 		int body;
 		std::string bodyName;
 	};
 
 private:
 	void updateNrEq();
+	bool removeBound(std::vector<BoundedCartesianMotionData>& constr, const std::string& bodyName);
 
 private:
 	int robotIndex_, alphaDBegin_;
-	std::vector<BoundedSpeedData> cont_;
+	std::vector<BoundedCartesianMotionData> velConstr_;
+	std::vector<BoundedCartesianMotionData> accConstr_;
 
 	Eigen::MatrixXd fullJac_;
 
