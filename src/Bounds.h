@@ -24,6 +24,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 
 namespace tasks

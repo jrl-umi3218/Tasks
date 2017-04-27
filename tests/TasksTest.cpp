@@ -224,7 +224,7 @@ struct MRNormalAccCoMUpdater : public MRTanAccel<Task>
 	}
 
 	std::vector<std::vector<sva::MotionVecd>> normalAccBs;
-	std::vector<Eigen::Vector3d> coms;
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > coms;
 };
 
 

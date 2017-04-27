@@ -1259,7 +1259,7 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 
 void MultiCoMTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
-	const std::vector<Eigen::Vector3d>& coms,
+	const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& coms,
 	const std::vector<std::vector<sva::MotionVecd>>& normalAccB)
 {
 	eval_ = com_;

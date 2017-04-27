@@ -20,6 +20,7 @@
 // includes
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // RBDyn
 #include <RBDyn/CoM.h>
@@ -79,6 +80,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -117,6 +120,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -150,6 +155,8 @@ protected:
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -169,6 +176,8 @@ public:
 
 protected:
 	Eigen::MatrixXd jacMatTmp_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -195,6 +204,8 @@ public:
 
 private:
 	Eigen::Matrix3d E_0_c_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -237,6 +248,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat1_, jacMat2_;
 	std::vector<Eigen::MatrixXd> fullJacMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -276,6 +289,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -332,6 +347,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -379,6 +396,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -441,6 +460,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -465,7 +486,7 @@ public:
 		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
 	void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const std::vector<Eigen::Vector3d>& coms,
+		const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& coms,
 		const std::vector<std::vector<sva::MotionVecd>>& normalAccB);
 
 	const Eigen::VectorXd& eval() const;
@@ -492,6 +513,8 @@ private:
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
 	std::vector<Eigen::MatrixXd> jacMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -525,6 +548,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -565,6 +590,8 @@ private:
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -608,6 +635,8 @@ private:
 	Eigen::MatrixXd shortJacMat_;
 	Eigen::MatrixXd jacMat_;
 	Eigen::MatrixXd jacDotMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 class TASKS_DLLAPI RelativeDistTask
@@ -649,6 +678,8 @@ private:
 		rbd::Jacobian jac;
 		Eigen::Vector3d u;
 		Eigen::Vector3d offn;
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -661,6 +692,8 @@ private:
 	Eigen::MatrixXd jacMat_;
 
 	RelativeBodiesInfo rbInfo_[2];
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 class TASKS_DLLAPI VectorOrientationTask
@@ -694,6 +727,8 @@ private:
 	Eigen::VectorXd speed_;
 	Eigen::VectorXd normalAcc_;
 	Eigen::MatrixXd jacMat_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 } // namespace tasks

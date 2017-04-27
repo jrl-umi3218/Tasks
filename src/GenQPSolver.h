@@ -23,6 +23,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 #include <tasks/config.hh>
 

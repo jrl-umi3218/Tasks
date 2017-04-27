@@ -27,6 +27,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // Tasks
 #include "QPSolverData.h"
@@ -166,6 +167,8 @@ private:
 	std::unique_ptr<GenQPSolver> solver_;
 
 	boost::timer::cpu_timer solverTimer_, solverAndBuildTimer_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -179,6 +182,8 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data) = 0;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -227,6 +232,8 @@ private:
 		(this->*function)(sol);
 		removeFromSolver_p(sol, nFun...);
 	}
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -254,6 +261,8 @@ public:
 	{
 		sol.removeEqualityConstraint(this);
 	}
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -281,6 +290,8 @@ public:
 	{
 		sol.removeInequalityConstraint(this);
 	}
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -309,6 +320,8 @@ public:
 	{
 		sol.removeGenInequalityConstraint(this);
 	}
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -334,6 +347,8 @@ public:
 	{
 		sol.removeBoundConstraint(this);
 	}
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -369,6 +384,8 @@ public:
 
 private:
 	double weight_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -388,6 +405,8 @@ public:
 	virtual const Eigen::VectorXd& eval() = 0;
 	virtual const Eigen::VectorXd& speed() = 0;
 	virtual const Eigen::VectorXd& normalAcc() = 0;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 

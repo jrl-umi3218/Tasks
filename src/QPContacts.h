@@ -23,6 +23,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // SpaceVecAlg
 #include <SpaceVecAlg/SpaceVecAlg>
@@ -55,7 +56,9 @@ struct TASKS_DLLAPI FrictionCone
 		double direction=1.);
 
 	/// Vector of generatrix
-	std::vector<Eigen::Vector3d> generators;
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > generators;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -86,6 +89,8 @@ struct TASKS_DLLAPI ContactId
 	int r1Index, r2Index;
 	std::string r1BodyName, r2BodyName;
 	int ambiguityId;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -114,7 +119,7 @@ struct TASKS_DLLAPI UnilateralContact
 		*/
 	UnilateralContact(int r1Index, int r2Index,
 		const std::string& r1BodyName, const std::string& r2BodyName,
-		std::vector<Eigen::Vector3d> r1Points,
+		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,
@@ -138,7 +143,7 @@ struct TASKS_DLLAPI UnilateralContact
 		*/
 	UnilateralContact(int r1Index, int r2Index,
 		const std::string& r1BodyName, const std::string& r2BodyName,
-		int ambId, std::vector<Eigen::Vector3d> r1Points,
+		int ambId, std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,
@@ -156,7 +161,7 @@ struct TASKS_DLLAPI UnilateralContact
 		* @see ContactConstrCommon::addDofContact
 		*/
 	UnilateralContact(const ContactId& cId,
-		std::vector<Eigen::Vector3d> r1Points,
+		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points,
 		const Eigen::Matrix3d& r1Frame,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,
@@ -177,7 +182,7 @@ struct TASKS_DLLAPI UnilateralContact
 	 * @return F_b, the 6D force applied on the body origin at the body frame.
 	 */
 	sva::ForceVecd force(const Eigen::VectorXd& lambda,
-		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& r_b_pi,
 		const FrictionCone& c_pi_b) const;
 
 	/// @return Number of lambda needed to compute the force vector of the contact point.
@@ -203,7 +208,7 @@ struct TASKS_DLLAPI UnilateralContact
 		* @throw std::domain_error If lambda don't match the number of generator.
 		*/
 	sva::ForceVecd sForce(const Eigen::VectorXd& lambda,
-		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& r_b_pi,
 		const FrictionCone& c_pi_b) const;
 
 	/**
@@ -214,13 +219,15 @@ struct TASKS_DLLAPI UnilateralContact
 
 
 	ContactId contactId;
-	std::vector<Eigen::Vector3d> r1Points, r2Points;
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points, r2Points;
 	FrictionCone r1Cone, r2Cone;
 	sva::PTransformd X_b1_b2;
 	sva::PTransformd X_b1_cf;
 
 private:
 	void construct(const Eigen::MatrixXd& r1Frame, int nrGen, double mu);
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -249,8 +256,8 @@ struct TASKS_DLLAPI BilateralContact
 		*/
 	BilateralContact(int r1Index, int r2Index,
 		const std::string& r1BodyName, const std::string& r2BodyName,
-		std::vector<Eigen::Vector3d> r1Points,
-		const std::vector<Eigen::Matrix3d>& r1Frames,
+		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points,
+		const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
@@ -273,8 +280,8 @@ struct TASKS_DLLAPI BilateralContact
 		*/
 	BilateralContact(int r1Index, int r2Index,
 		const std::string& r1BodyName, const std::string& r2BodyName,
-		int ambId, std::vector<Eigen::Vector3d> r1Points,
-		const std::vector<Eigen::Matrix3d>& r1Frames,
+		int ambId, std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points,
+		const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
@@ -291,8 +298,8 @@ struct TASKS_DLLAPI BilateralContact
 		* @see ContactConstrCommon::addDofContact
 		*/
 	BilateralContact(const ContactId& cId,
-		std::vector<Eigen::Vector3d> r1Points,
-		const std::vector<Eigen::Matrix3d>& r1Frames,
+		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points,
+		const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 		const sva::PTransformd& X_b1_b2,
 		int nrGen, double mu,
 		const sva::PTransformd& X_b1_cf=sva::PTransformd::Identity());
@@ -317,7 +324,7 @@ struct TASKS_DLLAPI BilateralContact
 	 * @return F_b, the 6D force applied on the body origin at the body frame.
 	 */
 	sva::ForceVecd force(const Eigen::VectorXd& lambda,
-		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& r_b_pi,
 		const std::vector<FrictionCone>& c_pi_b) const;
 
 	/// @return Number of lambda needed to compute the force vector of the contact point.
@@ -343,7 +350,7 @@ struct TASKS_DLLAPI BilateralContact
 		* @throw std::domain_error If lambda don't match the number of generator.
 		*/
 	sva::ForceVecd sForce(const Eigen::VectorXd& lambda,
-		const std::vector<Eigen::Vector3d>& r_b_pi,
+		const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& r_b_pi,
 		const std::vector<FrictionCone>& c_pi_b) const;
 
 	/**
@@ -354,13 +361,15 @@ struct TASKS_DLLAPI BilateralContact
 
 
 	ContactId contactId;
-	std::vector<Eigen::Vector3d> r1Points, r2Points;
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1Points, r2Points;
 	std::vector<FrictionCone> r1Cones, r2Cones;
 	sva::PTransformd X_b1_b2;
 	sva::PTransformd X_b1_cf;
 
 private:
-	void construct(const std::vector<Eigen::Matrix3d>& r1Frames, int nrGen, double mu);
+	void construct(const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames, int nrGen, double mu);
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 

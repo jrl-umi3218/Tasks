@@ -70,6 +70,8 @@ private:
 
 	int nrAeqLines_;
 	int nrAineqLines_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 

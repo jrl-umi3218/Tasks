@@ -37,7 +37,7 @@ namespace qp
 
 
 /// @throw std::domain_error if points is not a valid points index.
-void checkRange(int point, const std::vector<Eigen::Vector3d>& points)
+void checkRange(int point, const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& points)
 {
 	if(point < 0 || point >= static_cast<int>(points.size()))
 	{
@@ -137,7 +137,7 @@ bool ContactId::operator<(const ContactId& cId) const
 
 UnilateralContact::UnilateralContact(int r1I, int r2I,
 	const std::string& r1BName, const std::string& r2BName,
-	std::vector<Eigen::Vector3d> r1P,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1P,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
@@ -156,7 +156,7 @@ UnilateralContact::UnilateralContact(int r1I, int r2I,
 
 UnilateralContact::UnilateralContact(int r1I, int r2I,
 	const std::string& r1BName, const std::string& r2BName, int ambId,
-	std::vector<Eigen::Vector3d> r1P,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1P,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
@@ -174,7 +174,7 @@ UnilateralContact::UnilateralContact(int r1I, int r2I,
 
 
 UnilateralContact::UnilateralContact(const ContactId& cId,
-	std::vector<Eigen::Vector3d> r1P,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1P,
 	const Eigen::Matrix3d& r1Frame,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
@@ -222,7 +222,7 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd& lambda,
 
 
 sva::ForceVecd UnilateralContact::force(const Eigen::VectorXd& lambda,
-	const std::vector<Eigen::Vector3d>& p, const FrictionCone& c) const
+	const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& p, const FrictionCone& c) const
 {
 	sva::ForceVecd F_b(Eigen::Vector6d::Zero());
 	int pos = 0;
@@ -293,7 +293,7 @@ Eigen::Vector3d UnilateralContact::sForce(const Eigen::VectorXd& lambda,
 
 
 sva::ForceVecd UnilateralContact::sForce(const Eigen::VectorXd& lambda,
-	const std::vector<Eigen::Vector3d>& r_b_pi,
+	const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& r_b_pi,
 	const FrictionCone& c_b) const
 {
 	int totalLambda = nrLambda();
@@ -345,8 +345,8 @@ void UnilateralContact::construct(const Eigen::MatrixXd& r1Frame, int nrGen, dou
 
 BilateralContact::BilateralContact(int r1I, int r2I,
 	const std::string& r1BName, const std::string& r2BName,
-	std::vector<Eigen::Vector3d> r1P,
-	const std::vector<Eigen::Matrix3d>& r1Frames,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1P,
+	const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
@@ -365,8 +365,8 @@ BilateralContact::BilateralContact(int r1I, int r2I,
 BilateralContact::BilateralContact(int r1I, int r2I,
 	const std::string& r1BName, const std::string& r2BName,
 	int ambId,
-	std::vector<Eigen::Vector3d> r1P,
-	const std::vector<Eigen::Matrix3d>& r1Frames,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1P,
+	const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
@@ -383,8 +383,8 @@ BilateralContact::BilateralContact(int r1I, int r2I,
 
 
 BilateralContact::BilateralContact(const ContactId& cId,
-	std::vector<Eigen::Vector3d> r1P,
-	const std::vector<Eigen::Matrix3d>& r1Frames,
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > r1P,
+	const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 	const sva::PTransformd& Xbb,
 	int nrGen, double mu,
 	const sva::PTransformd& Xbcf):
@@ -442,7 +442,8 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
 
 
 sva::ForceVecd BilateralContact::force(const Eigen::VectorXd& lambda,
-	const std::vector<Eigen::Vector3d>& p, const std::vector<FrictionCone>& c) const
+									   const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& p,
+									   const std::vector<FrictionCone>& c) const
 {
 	sva::ForceVecd F_b(Eigen::Vector6d::Zero());
 	int pos = 0;
@@ -512,7 +513,7 @@ Eigen::Vector3d BilateralContact::sForce(const Eigen::VectorXd& lambda,
 
 
 sva::ForceVecd BilateralContact::sForce(const Eigen::VectorXd& lambda,
-	const std::vector<Eigen::Vector3d>& r_b_pi,
+	const std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> >& r_b_pi,
 	const std::vector<FrictionCone>& c_pi_b) const
 {
 	int totalLambda = nrLambda();
@@ -536,7 +537,7 @@ int BilateralContact::sNrLambda(int point) const
 }
 
 
-void BilateralContact::construct(const std::vector<Eigen::Matrix3d>& r1Frames,
+void BilateralContact::construct(const std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> >& r1Frames,
 	int nrGen, double mu)
 {
 	assert(r1Points.size() == r1Frames.size());

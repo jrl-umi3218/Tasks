@@ -23,6 +23,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // RBDyn
 #include <RBDyn/FD.h>
@@ -67,6 +68,8 @@ private:
 	{
 		ContactId cId;
 		int lambdaBegin, nrLambda; // lambda index in x
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 private:
@@ -74,6 +77,9 @@ private:
 	Eigen::VectorXd XL_, XU_;
 
 	std::vector<ContactData> cont_; // only usefull for descBound
+
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -112,17 +118,20 @@ protected:
 		ContactData() {}
 		ContactData(const rbd::MultiBody& mb,
 			const std::string& bodyName, int lambdaBegin,
-			std::vector<Eigen::Vector3d> points,
+			std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points,
 			const std::vector<FrictionCone>& cones);
 
 
 		int bodyIndex;
 		int lambdaBegin;
 		rbd::Jacobian jac;
-		std::vector<Eigen::Vector3d> points;
+		std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points;
 		// BEWARE generator are minus to avoid one multiplication by -1 in the
 		// update method
 		std::vector<Eigen::Matrix<double, 3, Eigen::Dynamic> > minusGenerators;
+
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	};
 
 protected:
@@ -135,6 +144,8 @@ protected:
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd AL_, AU_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -160,6 +171,8 @@ public:
 
 protected:
 	Eigen::VectorXd torqueL_, torqueU_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -172,6 +185,8 @@ struct SpringJoint
 
 	std::string jointName;
 	double K, C, O;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -199,6 +214,8 @@ protected:
 
 protected:
 	std::vector<SpringJointData> springs_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 
@@ -220,6 +237,8 @@ public:
 protected:
 	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
 	std::vector<int> jointIndex_;
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 

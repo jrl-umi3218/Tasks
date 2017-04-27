@@ -204,7 +204,7 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 
 	qp::QPSolver solver;
 
-	std::vector<Eigen::Vector3d> points =
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > points =
 	{
 		Vector3d(0.1, 0., 0.1),
 		Vector3d(0.1, 0., -0.1),
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 		Vector3d(-0.1, 0., 0.1),
 	};
 
-	std::vector<Eigen::Vector3d> biPoints =
+	std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d> > biPoints =
 	{
 		Vector3d(0., 0., 0.),
 		Vector3d(0., 0., 0.),
@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 	};
 
 	const int nrGen = 4;
-	std::vector<Eigen::Matrix3d> biFrames =
+	std::vector<Eigen::Matrix3d, Eigen::aligned_allocator<Eigen::Matrix3d> > biFrames =
 	{
 		RotX((1.*cst::pi<double>())/4.),
 		RotX((3.*cst::pi<double>())/4.),
