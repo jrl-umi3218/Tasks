@@ -434,13 +434,13 @@ def build_qp(tasks):
   damperJointLimitsConstr = qp.add_class('DamperJointLimitsConstr', parent=[boundConstr, constr])
 
   gripperTorqueConstr = qp.add_class('GripperTorqueConstr', parent=[ineqConstr, constr])
-  boundedSpeedConstr = qp.add_class('BoundedSpeedConstr', parent=[genineqConstr, constr])
+  BoundedCartesianMotionConstr = qp.add_class('BoundedCartesianMotionConstr', parent=[genineqConstr, constr])
 
   imageConstr = qp.add_class('ImageConstr', parent=[ineqConstr, constr])
 
   constrName = ['MotionConstr', 'MotionPolyConstr', 'ContactAccConstr', 'ContactSpeedConstr',
                 'CollisionConstr', 'JointLimitsConstr', 'DamperJointLimitsConstr',
-                'MotionSpringConstr', 'GripperTorqueConstr', 'BoundedSpeedConstr',
+                'MotionSpringConstr', 'GripperTorqueConstr', 'BoundedCartesianMotionConstr',
                 'CoMIncPlaneConstr', 'PositiveLambda', 'ContactPosConstr', 'ImageConstr']
   eqConstrName = ['ContactAccConstr', 'ContactSpeedConstr', 'ContactPosConstr']
   ineqConstrName = ['CollisionConstr', 'GripperTorqueConstr', 'CoMIncPlaneConstr', 'ImageConstr']
@@ -456,7 +456,7 @@ def build_qp(tasks):
                 'SurfaceTransformTask', 'RelativeDistTask', 'VectorOrientationTask']
   constrList = [motionConstr, motionPolyConstr, contactAccConstr, contactSpeedConstr,
                 collisionConstr, jointLimitsConstr, damperJointLimitsConstr,
-                motionSpringConstr, gripperTorqueConstr, boundedSpeedConstr,
+                motionSpringConstr, gripperTorqueConstr, BoundedCartesianMotionConstr,
                 comIncPlaneConstr, positiveLambdaConstr, contactPosConstr, imageConstr]
 
   # build list type
@@ -1536,29 +1536,29 @@ def build_qp(tasks):
                                  [param('const tasks::qp::ContactId&', 'contactId')])
   gripperTorqueConstr.add_method('reset', None, [])
 
-  # BoundedSpeedConstr
-  boundedSpeedConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
+  # BoundedCartesianMotionConstr
+  BoundedCartesianMotionConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                       param('int', 'robotIndex'),
                                       param('double', 'timeStep')])
-  boundedSpeedConstr.add_method('addBoundedSpeed', None,
+  BoundedCartesianMotionConstr.add_method('addBoundedSpeed', None,
                                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                  param('const std::string&', 'bodyName'),
                                  param('const Eigen::Vector3d&', 'bodyPoint'),
                                  param('const Eigen::MatrixXd&', 'dof'),
                                  param('const Eigen::VectorXd&', 'speed')])
-  boundedSpeedConstr.add_method('addBoundedSpeed', None,
+  BoundedCartesianMotionConstr.add_method('addBoundedSpeed', None,
                                 [param('const std::vector<rbd::MultiBody>&', 'mbs'),
                                  param('const std::string&', 'bodyName'),
                                  param('const Eigen::Vector3d&', 'bodyPoint'),
                                  param('const Eigen::MatrixXd&', 'dof'),
                                  param('const Eigen::VectorXd&', 'lowerSpeed'),
                                  param('const Eigen::VectorXd&', 'upperSpeed')])
-  boundedSpeedConstr.add_method('removeBoundedSpeed', retval('bool'),
+  BoundedCartesianMotionConstr.add_method('removeBoundedSpeed', retval('bool'),
                                 [param('const std::string&', 'bodyName')])
-  boundedSpeedConstr.add_method('resetBoundedSpeeds', None, [])
-  boundedSpeedConstr.add_method('nrBoundedSpeeds', retval('int'), [])
+  BoundedCartesianMotionConstr.add_method('resetBoundedSpeeds', None, [])
+  BoundedCartesianMotionConstr.add_method('nrBoundedSpeeds', retval('int'), [])
 
-  boundedSpeedConstr.add_method('updateBoundedSpeeds', None, [])
+  BoundedCartesianMotionConstr.add_method('updateBoundedSpeeds', None, [])
 
   # ImageConstr
   imageConstr.add_constructor([param('const std::vector<rbd::MultiBody>&', 'mbs'),

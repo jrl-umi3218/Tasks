@@ -58,12 +58,12 @@ public:
 	void resetVirtualContacts();
 
 	/**
-		* Free some degree of freedom of a contact like in the BoundedSpeedConstr.
+		* Free some degree of freedom of a contact like in the BoundedCartesianMotionConstr.
 		* \f[ \bar{v} = S v \f]
 		* with \f$ v \f$ the velocity in the UnilateralContact and BilateralContact
 		* \f$ cf \f$ frame.
 		* @param dof \f$ S \in \mathbb{R}^{n \times 6} \f$
-		* @see BoundedSpeedConstr
+		* @see BoundedCartesianMotionConstr
 		* @see ContactConstr::updateDofContacts
 		*/
 	bool addDofContact(const ContactId& contactId, const Eigen::MatrixXd& dof);

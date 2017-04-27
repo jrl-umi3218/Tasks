@@ -1340,7 +1340,7 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 	int bodyIndex = mb.bodyIndexByName(bodyName);
 	sva::PTransformd bodyPoint(Vector3d(0., 0.1, 0.));
 
-	qp::BoundedSpeedConstr constSpeed(mbs, 0, 0.005);
+	qp::BoundedCartesianMotionConstr constSpeed(mbs, 0, 0.005);
 	qp::PostureTask postureTask(mbs, 0, {{}, {0.}, {0.}, {0.}}, 1., 0.01);
 	qp::PositionTask posTask(mbs, 0, bodyName, Vector3d(1., -1., 1.), bodyPoint.translation());
 	qp::SetPointTask posTaskSp(mbs, 0, &posTask, 20., 1.);
@@ -1380,7 +1380,7 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 
 	// same test but with Z axis
 	BOOST_CHECK(constSpeed.removeBoundedSpeed(bodyName));
-	constSpeed.updateBoundedSpeeds();
+	constSpeed.updateBoundedMotions();
 	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 0);
 	BOOST_CHECK_EQUAL(constSpeed.maxGenInEq(), 0);
 
@@ -1388,7 +1388,7 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
 	solver.updateConstrSize();
 	dof << 0.,0.,0.,0.,0.,1.;
 	constSpeed.addBoundedSpeed(mbs, bodyName, bodyPoint.translation(), dof, speed);
-	constSpeed.updateBoundedSpeeds();
+	constSpeed.updateBoundedMotions();
 	BOOST_CHECK_EQUAL(constSpeed.nrBoundedSpeeds(), 1);
 	BOOST_CHECK_EQUAL(constSpeed.maxGenInEq(), 1);
 	solver.updateConstrSize();
