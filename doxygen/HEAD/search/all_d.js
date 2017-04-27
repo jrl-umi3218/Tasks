@@ -96,9 +96,9 @@ var searchData=
   ['multibodygraph',['MultiBodyGraph',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html',1,'rbd']]],
   ['multibodygraph_2eh',['MultiBodyGraph.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00034.html',1,'']]],
   ['multibodytoinertialvector',['multiBodyToInertialVector',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00038.html#a0a9fb61b32a276321b743b72aa27fbbf',1,'rbd']]],
-  ['multicomtask',['MultiCoMTask',['../a00051.html#a83d448ccdac0d5ea230e8434b45dcf5f',1,'tasks::qp::MultiCoMTask::MultiCoMTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, std::vector&lt; int &gt; robotIndexes, const Eigen::Vector3d &amp;com, double stiffness, double weight)'],['../a00051.html#aeb784606cbeff3dd1f11242220b0a321',1,'tasks::qp::MultiCoMTask::MultiCoMTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, std::vector&lt; int &gt; robotIndexes, const Eigen::Vector3d &amp;com, double stiffness, const Eigen::Vector3d &amp;dimWeight, double weight)'],['../a00052.html#a481fe0d7f675e85e5bd9b867693dfa33',1,'tasks::MultiCoMTask::MultiCoMTask()']]],
-  ['multicomtask',['MultiCoMTask',['../a00052.html',1,'tasks']]],
-  ['multicomtask',['MultiCoMTask',['../a00051.html',1,'tasks::qp']]],
+  ['multicomtask',['MultiCoMTask',['../a00052.html#a83d448ccdac0d5ea230e8434b45dcf5f',1,'tasks::qp::MultiCoMTask::MultiCoMTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, std::vector&lt; int &gt; robotIndexes, const Eigen::Vector3d &amp;com, double stiffness, double weight)'],['../a00052.html#aeb784606cbeff3dd1f11242220b0a321',1,'tasks::qp::MultiCoMTask::MultiCoMTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, std::vector&lt; int &gt; robotIndexes, const Eigen::Vector3d &amp;com, double stiffness, const Eigen::Vector3d &amp;dimWeight, double weight)'],['../a00051.html#a481fe0d7f675e85e5bd9b867693dfa33',1,'tasks::MultiCoMTask::MultiCoMTask()']]],
+  ['multicomtask',['MultiCoMTask',['../a00052.html',1,'tasks::qp']]],
+  ['multicomtask',['MultiCoMTask',['../a00051.html',1,'tasks']]],
   ['multirobottransformtask',['MultiRobotTransformTask',['../a00053.html',1,'tasks::qp']]],
   ['multirobottransformtask',['MultiRobotTransformTask',['../a00053.html#a438e347acb8969ab6a948c2e726bab66',1,'tasks::qp::MultiRobotTransformTask::MultiRobotTransformTask()'],['../a00054.html#a8f6e1b8388384c5089b9297d65a848d8',1,'tasks::MultiRobotTransformTask::MultiRobotTransformTask()']]],
   ['multirobottransformtask',['MultiRobotTransformTask',['../a00054.html',1,'tasks']]]

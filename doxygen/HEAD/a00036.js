@@ -1,6 +1,8 @@
 var a00036 =
 [
     [ "ImageConstr", "a00036.html#a985c69282468b3d03abdd56b5306a7fc", null ],
+    [ "ImageConstr", "a00036.html#a3b290ac691818ff86205030eafa730f2", null ],
+    [ "ImageConstr", "a00036.html#adf0dd8a09a53250bcda351cbfffb2dbf", null ],
     [ "addPoint", "a00036.html#ade42c4411d70987dd9d7cf815fd20636", null ],
     [ "addPoint", "a00036.html#adf5ee87ea11a6cab6f9effb1628c0d93", null ],
     [ "addPoint", "a00036.html#a5c8b1d26e4c8c970a8b02746913491aa", null ],
@@ -11,6 +13,8 @@ var a00036 =
     [ "maxInEq", "a00036.html#ab3fefdb1f81c57ba9ece5509d88c262c", null ],
     [ "nameInEq", "a00036.html#ad3138d95c076c482361b9cfb126ac360", null ],
     [ "nrInEq", "a00036.html#a41168d2b35768c1fb0bf149baf851dbb", null ],
+    [ "operator=", "a00036.html#a7221bfd17d45d7208a1d02fd74d4dcbf", null ],
+    [ "operator=", "a00036.html#ad28102162a710241e4bef0b6f7555ade", null ],
     [ "reset", "a00036.html#af8e70d3cc1064425d610a60e6238352d", null ],
     [ "setLimits", "a00036.html#a165ccf87f8ee29b59718f9b9f26eb020", null ],
     [ "update", "a00036.html#ae6d4c6af9692608c584c8a6f1e257012", null ],

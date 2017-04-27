@@ -123,6 +123,18 @@ Inheritance diagram for tasks::qp::ImageConstr:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a985c69282468b3d03abdd56b5306a7fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00036.html#a985c69282468b3d03abdd56b5306a7fc">ImageConstr</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bName, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_gaze, double step, double constrDirection=1.)</td></tr>
 <tr class="separator:a985c69282468b3d03abdd56b5306a7fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b290ac691818ff86205030eafa730f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00036.html#a3b290ac691818ff86205030eafa730f2">ImageConstr</a> (const <a class="el" href="a00036.html">ImageConstr</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a3b290ac691818ff86205030eafa730f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a3b290ac691818ff86205030eafa730f2">More...</a><br/></td></tr>
+<tr class="separator:a3b290ac691818ff86205030eafa730f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf0dd8a09a53250bcda351cbfffb2dbf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00036.html#adf0dd8a09a53250bcda351cbfffb2dbf">ImageConstr</a> (<a class="el" href="a00036.html">ImageConstr</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:adf0dd8a09a53250bcda351cbfffb2dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#adf0dd8a09a53250bcda351cbfffb2dbf">More...</a><br/></td></tr>
+<tr class="separator:adf0dd8a09a53250bcda351cbfffb2dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7221bfd17d45d7208a1d02fd74d4dcbf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00036.html">ImageConstr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00036.html#a7221bfd17d45d7208a1d02fd74d4dcbf">operator=</a> (const <a class="el" href="a00036.html">ImageConstr</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a7221bfd17d45d7208a1d02fd74d4dcbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator.  <a href="#a7221bfd17d45d7208a1d02fd74d4dcbf">More...</a><br/></td></tr>
+<tr class="separator:a7221bfd17d45d7208a1d02fd74d4dcbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad28102162a710241e4bef0b6f7555ade"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00036.html">ImageConstr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00036.html#ad28102162a710241e4bef0b6f7555ade">operator=</a> (<a class="el" href="a00036.html">ImageConstr</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:ad28102162a710241e4bef0b6f7555ade"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <a href="#ad28102162a710241e4bef0b6f7555ade">More...</a><br/></td></tr>
+<tr class="separator:ad28102162a710241e4bef0b6f7555ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a165ccf87f8ee29b59718f9b9f26eb020"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00036.html#a165ccf87f8ee29b59718f9b9f26eb020">setLimits</a> (const Eigen::Vector2d &amp;min, const Eigen::Vector2d &amp;max, const double iPercent, const double sPercent, const double damping, const double dampingOffsetPercent)</td></tr>
 <tr class="memdesc:a165ccf87f8ee29b59718f9b9f26eb020"><td class="mdescLeft">&#160;</td><td class="mdescRight">setLimits  <a href="#a165ccf87f8ee29b59718f9b9f26eb020">More...</a><br/></td></tr>
 <tr class="separator:a165ccf87f8ee29b59718f9b9f26eb020"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,6 +247,50 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a3b290ac691818ff86205030eafa730f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::ImageConstr::ImageConstr </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00036.html">ImageConstr</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy constructor. </p>
+
+</div>
+</div>
+<a class="anchor" id="adf0dd8a09a53250bcda351cbfffb2dbf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::ImageConstr::ImageConstr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00036.html">ImageConstr</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move constructor. </p>
 
 </div>
 </div>
@@ -556,6 +612,50 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7221bfd17d45d7208a1d02fd74d4dcbf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00036.html">ImageConstr</a>&amp; tasks::qp::ImageConstr::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a00036.html">ImageConstr</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy assignment operator. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad28102162a710241e4bef0b6f7555ade"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00036.html">ImageConstr</a>&amp; tasks::qp::ImageConstr::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00036.html">ImageConstr</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move assignment operator. </p>
+
+</div>
+</div>
 <a class="anchor" id="af8e70d3cc1064425d610a60e6238352d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -802,7 +902,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00036.html">ImageConstr</a></li>
-    <li class="footer">Generated on Mon Jan 16 2017 01:12:07 for Tasks by
+    <li class="footer">Generated on Thu Apr 27 2017 02:44:22 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

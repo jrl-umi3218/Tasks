@@ -13,8 +13,8 @@ var searchData=
   ['multibody',['MultiBody',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html',1,'rbd']]],
   ['multibodyconfig',['MultiBodyConfig',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html',1,'rbd']]],
   ['multibodygraph',['MultiBodyGraph',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html',1,'rbd']]],
-  ['multicomtask',['MultiCoMTask',['../a00052.html',1,'tasks']]],
-  ['multicomtask',['MultiCoMTask',['../a00051.html',1,'tasks::qp']]],
+  ['multicomtask',['MultiCoMTask',['../a00052.html',1,'tasks::qp']]],
+  ['multicomtask',['MultiCoMTask',['../a00051.html',1,'tasks']]],
   ['multirobottransformtask',['MultiRobotTransformTask',['../a00053.html',1,'tasks::qp']]],
   ['multirobottransformtask',['MultiRobotTransformTask',['../a00054.html',1,'tasks']]]
 ];

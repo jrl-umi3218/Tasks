@@ -70,15 +70,15 @@ var hierarchy =
       [ "tasks::qp::OrientationTask", "a00055.html", null ],
       [ "tasks::qp::OrientationTrackingTask", "a00057.html", null ],
       [ "tasks::qp::PositionBasedVisServoTask", "a00061.html", null ],
-      [ "tasks::qp::PositionTask", "a00064.html", null ],
-      [ "tasks::qp::RelativeDistTask", "a00071.html", null ],
-      [ "tasks::qp::SurfaceOrientationTask", "a00080.html", null ],
-      [ "tasks::qp::TransformTaskCommon< transform_task_t >", "a00092.html", null ],
-      [ "tasks::qp::VectorOrientationTask", "a00094.html", null ],
-      [ "tasks::qp::TransformTaskCommon< tasks::SurfaceTransformTask >", "a00092.html", [
-        [ "tasks::qp::SurfaceTransformTask", "a00081.html", null ]
+      [ "tasks::qp::PositionTask", "a00063.html", null ],
+      [ "tasks::qp::RelativeDistTask", "a00072.html", null ],
+      [ "tasks::qp::SurfaceOrientationTask", "a00079.html", null ],
+      [ "tasks::qp::TransformTaskCommon< transform_task_t >", "a00091.html", null ],
+      [ "tasks::qp::VectorOrientationTask", "a00095.html", null ],
+      [ "tasks::qp::TransformTaskCommon< tasks::SurfaceTransformTask >", "a00091.html", [
+        [ "tasks::qp::SurfaceTransformTask", "a00082.html", null ]
       ] ],
-      [ "tasks::qp::TransformTaskCommon< tasks::TransformTask >", "a00092.html", [
+      [ "tasks::qp::TransformTaskCommon< tasks::TransformTask >", "a00091.html", [
         [ "tasks::qp::TransformTask", "a00090.html", null ]
       ] ]
     ] ],
@@ -87,28 +87,28 @@ var hierarchy =
     [ "tasks::qp::JointStiffness", "a00041.html", null ],
     [ "tasks::LinVelocityTask", "a00043.html", null ],
     [ "tasks::MomentumTask", "a00046.html", null ],
-    [ "tasks::MultiCoMTask", "a00052.html", null ],
+    [ "tasks::MultiCoMTask", "a00051.html", null ],
     [ "tasks::MultiRobotTransformTask", "a00054.html", null ],
     [ "tasks::OrientationTask", "a00056.html", null ],
     [ "tasks::OrientationTrackingTask", "a00058.html", null ],
     [ "tasks::PolyTorqueBound", "a00060.html", null ],
     [ "tasks::PositionBasedVisServoTask", "a00062.html", null ],
-    [ "tasks::PositionTask", "a00063.html", null ],
-    [ "tasks::PostureTask", "a00067.html", null ],
+    [ "tasks::PositionTask", "a00064.html", null ],
+    [ "tasks::PostureTask", "a00066.html", null ],
     [ "tasks::QBound", "a00068.html", null ],
     [ "tasks::qp::QPSolver", "a00070.html", null ],
-    [ "tasks::RelativeDistTask", "a00072.html", null ],
+    [ "tasks::RelativeDistTask", "a00071.html", null ],
     [ "tasks::qp::JointsSelector::SelectedData", "a00073.html", null ],
     [ "tasks::qp::SolverData", "a00076.html", null ],
     [ "tasks::qp::SpringJoint", "a00077.html", null ],
     [ "tasks::qp::MotionSpringConstr::SpringJointData", "a00078.html", null ],
-    [ "tasks::SurfaceOrientationTask", "a00079.html", null ],
+    [ "tasks::SurfaceOrientationTask", "a00080.html", null ],
     [ "tasks::qp::Task", "a00084.html", [
       [ "tasks::qp::ContactTask", "a00025.html", null ],
       [ "tasks::qp::GripperTorqueTask", "a00034.html", null ],
-      [ "tasks::qp::MultiCoMTask", "a00051.html", null ],
+      [ "tasks::qp::MultiCoMTask", "a00052.html", null ],
       [ "tasks::qp::MultiRobotTransformTask", "a00053.html", null ],
-      [ "tasks::qp::PostureTask", "a00066.html", null ],
+      [ "tasks::qp::PostureTask", "a00067.html", null ],
       [ "tasks::qp::SetPointTaskCommon", "a00075.html", [
         [ "tasks::qp::PIDTask", "a00059.html", null ],
         [ "tasks::qp::SetPointTask", "a00074.html", null ],
@@ -119,10 +119,10 @@ var hierarchy =
       [ "tasks::qp::TorqueTask", "a00086.html", null ]
     ] ],
     [ "tasks::TorqueBound", "a00085.html", null ],
-    [ "tasks::TransformTaskCommon", "a00091.html", [
-      [ "tasks::SurfaceTransformTask", "a00082.html", null ],
+    [ "tasks::TransformTaskCommon", "a00092.html", [
+      [ "tasks::SurfaceTransformTask", "a00081.html", null ],
       [ "tasks::TransformTask", "a00089.html", null ]
     ] ],
     [ "tasks::qp::UnilateralContact", "a00093.html", null ],
-    [ "tasks::VectorOrientationTask", "a00095.html", null ]
+    [ "tasks::VectorOrientationTask", "a00094.html", null ]
 ];
