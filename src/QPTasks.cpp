@@ -1089,7 +1089,6 @@ GazeTask::GazeTask(const std::vector<rbd::MultiBody>& mbs,
 	robotIndex_(robotIndex)
 {}
 
-
 int GazeTask::dim()
 {
 	return 2;
@@ -1140,7 +1139,6 @@ PositionBasedVisServoTask::PositionBasedVisServoTask(const std::vector<rbd::Mult
 	pbvst_(mbs[robotIndex], bodyName, X_t_s, X_b_s),
 	robotIndex_(robotIndex)
 {}
-
 
 int PositionBasedVisServoTask::dim()
 {
@@ -1408,7 +1406,7 @@ MultiRobotTransformTask::MultiRobotTransformTask(
 	mrtt_(mbs, r1Index, r2Index, r1BodyName, r2BodyName, X_r1b_r1s, X_r2b_r2s),
 	Q_(),
 	C_(),
-	CSum_(),
+	CSum_(Eigen::Vector6d::Zero()),
 	preQ_()
 {
 	int maxDof = 0;

@@ -29,6 +29,8 @@
 
 #include <tasks/config.hh>
 
+#include <memory>
+
 // forward declarations
 // RBDyn
 namespace rbd
@@ -290,6 +292,14 @@ public:
 		const sva::PTransformd& X_b_gaze,
 		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
 
+	GazeTask(const GazeTask& rhs);
+
+	GazeTask(GazeTask&&) = default;
+
+	GazeTask& operator=(const GazeTask& rhs);
+
+	GazeTask& operator=(GazeTask&&) = default;
+
 	void error(const Eigen::Vector2d& point2d,
 		const Eigen::Vector2d &point2d_ref=Eigen::Vector2d::Zero());
 	void error(const Eigen::Vector3d& point3d,
@@ -306,16 +316,16 @@ public:
 	const Eigen::MatrixXd& jacDot() const;
 
 private:
-	Eigen::Vector2d point2d_;
-	Eigen::Vector2d point2d_ref_;
+	std::unique_ptr<Eigen::Vector2d> point2d_;
+	std::unique_ptr<Eigen::Vector2d> point2d_ref_;
 	double depthEstimate_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
 	sva::PTransformd X_b_gaze_;
-	Eigen::Matrix<double, 2, 6> L_img_;
-	Eigen::Matrix<double, 6, 1> surfaceVelocity_;
-	Eigen::Matrix<double, 1, 6> L_Z_dot_;
-	Eigen::Matrix<double, 2, 6> L_img_dot_;
+	std::unique_ptr<Eigen::Matrix<double, 2, 6>> L_img_;
+	std::unique_ptr<Eigen::Matrix<double, 6, 1>> surfaceVelocity_;
+	std::unique_ptr<Eigen::Matrix<double, 1, 6>> L_Z_dot_;
+	std::unique_ptr<Eigen::Matrix<double, 2, 6>> L_img_dot_;
 
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
@@ -331,6 +341,14 @@ class TASKS_DLLAPI PositionBasedVisServoTask
 public:
 	PositionBasedVisServoTask(const rbd::MultiBody &mb, const std::string& bodyName,
 		const sva::PTransformd& X_t_s, const sva::PTransformd& X_b_s);
+
+	PositionBasedVisServoTask(const PositionBasedVisServoTask& rhs);
+
+	PositionBasedVisServoTask(PositionBasedVisServoTask&&) = default;
+
+	PositionBasedVisServoTask& operator=(const PositionBasedVisServoTask& rhs);
+
+	PositionBasedVisServoTask& operator=(PositionBasedVisServoTask&&) = default;
 
 	void error(const sva::PTransformd& X_t_s);
 
@@ -351,10 +369,10 @@ private:
 	Eigen::Vector3d axis_;
 	int bodyIndex_;
 	rbd::Jacobian jac_;
-	Eigen::Matrix<double, 6, 6> L_pbvs_;
-	Eigen::Matrix<double, 6, 1> surfaceVelocity_;
+	std::unique_ptr<Eigen::Matrix<double, 6, 6>> L_pbvs_;
+	std::unique_ptr<Eigen::Matrix<double, 6, 1>> surfaceVelocity_;
 	Eigen::Matrix3d omegaSkew_;
-	Eigen::Matrix<double, 6, 6> L_pbvs_dot_;
+	std::unique_ptr<Eigen::Matrix<double, 6, 6>> L_pbvs_dot_;
 
 	Eigen::VectorXd eval_;
 	Eigen::VectorXd speed_;
