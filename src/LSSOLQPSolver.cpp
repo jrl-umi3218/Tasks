@@ -34,8 +34,12 @@ namespace qp
 LSSOLQPSolver::LSSOLQPSolver():
 	lssol_(),
 	A_(),AL_(),AU_(),
+	AFull_(),
 	XL_(),XU_(),
+	XLFull_(),XUFull_(),
 	Q_(),C_(),
+	QFull_(),CFull_(),
+	XFull_(),
 	nrALines_(0)
 {
 	lssol_.warm(true);
@@ -46,17 +50,34 @@ LSSOLQPSolver::LSSOLQPSolver():
 void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 {
 	int maxALines = nrEq + nrInEq + nrGenInEq;
-	A_.resize(maxALines, nrVars);
+	AFull_.resize(maxALines, nrVars);
 	AL_.resize(maxALines);
 	AU_.resize(maxALines);
 
-	XL_.resize(nrVars);
-	XU_.resize(nrVars);
+	XLFull_.resize(nrVars);
+	XUFull_.resize(nrVars);
 
-	Q_.resize(nrVars, nrVars);
-	C_.resize(nrVars);
+	QFull_.resize(nrVars, nrVars);
+	CFull_.resize(nrVars);
 
-	lssol_.problem(nrVars, maxALines);
+	if(dependencies_.size())
+	{
+		int nrReducedVars = nrVars - static_cast<int>(dependencies_.size());
+
+		A_.resize(maxALines, nrReducedVars);
+		Q_.resize(nrReducedVars, nrReducedVars);
+		C_.resize(nrReducedVars);
+
+		XL_.resize(nrReducedVars);
+		XU_.resize(nrReducedVars);
+		XFull_.resize(nrVars);
+
+		lssol_.problem(nrReducedVars, maxALines);
+	}
+	else
+	{
+		lssol_.problem(nrVars, maxALines);
+	}
 }
 
 
@@ -67,38 +88,65 @@ void LSSOLQPSolver::updateMatrix(
 	const std::vector<GenInequality*>& genInEqConstr,
 	const std::vector<Bound*>& boundConstr)
 {
-	A_.setZero();
+	AFull_.setZero();
 	AL_.setZero();
 	AU_.setZero();
-	XL_.fill(-std::numeric_limits<double>::infinity());
-	XU_.fill(std::numeric_limits<double>::infinity());
-	Q_.setZero();
-	C_.setZero();
+	XLFull_.fill(-std::numeric_limits<double>::infinity());
+	XUFull_.fill(std::numeric_limits<double>::infinity());
+	QFull_.setZero();
+	CFull_.setZero();
 
-	const int nrVars = int(Q_.rows());
+	const int nrVars = int(QFull_.rows());
 
 	nrALines_ = 0;
-	nrALines_ = fillEq(eqConstr, nrVars, nrALines_, A_, AL_, AU_);
-	nrALines_ = fillInEq(inEqConstr, nrVars, nrALines_, A_, AL_, AU_);
-	nrALines_ = fillGenInEq(genInEqConstr, nrVars, nrALines_, A_, AL_, AU_);
+	nrALines_ = fillEq(eqConstr, nrVars, nrALines_, AFull_, AL_, AU_);
+	nrALines_ = fillInEq(inEqConstr, nrVars, nrALines_, AFull_, AL_, AU_);
+	nrALines_ = fillGenInEq(genInEqConstr, nrVars, nrALines_, AFull_, AL_, AU_);
 
-	fillBound(boundConstr, XL_, XU_);
-	fillQC(tasks, nrVars, Q_, C_);
+	fillBound(boundConstr, XLFull_, XUFull_);
+	fillQC(tasks, nrVars, QFull_, CFull_);
+
+	if(dependencies_.size())
+	{
+		reduceA(AFull_, A_, fullToReduced_, reducedToFull_, dependencies_);
+		reduceBound(XLFull_, XL_, XUFull_, XU_, fullToReduced_, reducedToFull_, dependencies_);
+		reduceQC(QFull_, CFull_, Q_, C_, fullToReduced_, reducedToFull_, dependencies_);
+	}
 }
 
 
 bool LSSOLQPSolver::solve()
 {
-	bool success = lssol_.solve(Q_, C_,
-		A_.block(0, 0, nrALines_, int(A_.cols())), int(A_.rows()),
-		AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XL_, XU_);
+	bool success = false;
+	if(dependencies_.size())
+	{
+		success = lssol_.solve(Q_, C_,
+			A_.block(0, 0, nrALines_, int(A_.cols())), int(A_.rows()),
+			AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XL_, XU_);
+		expandResult(lssol_.result(), XFull_,
+									reducedToFull_,
+									dependencies_);
+	}
+	else
+	{
+		success = lssol_.solve(QFull_, CFull_,
+			AFull_.block(0, 0, nrALines_, int(AFull_.cols())), int(AFull_.rows()),
+			AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XLFull_, XUFull_);
+	}
 	return success;
 }
 
 
 const Eigen::VectorXd& LSSOLQPSolver::result() const
 {
-	return lssol_.result();
+	if(dependencies_.size())
+	{
+		return XFull_;
+	}
+	else
+	{
+		return lssol_.result();
+	}
 }
 
 

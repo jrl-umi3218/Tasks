@@ -92,9 +92,9 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
 	if(!success)
 	{
 		solver_->errorMsg(mbs,
-										 tasks_, eqConstr_, inEqConstr_,
-										 genInEqConstr_, boundConstr_,
-										 std::cerr) << std::endl;
+											tasks_, eqConstr_, inEqConstr_,
+											genInEqConstr_, boundConstr_,
+											std::cerr) << std::endl;
 	}
 	solverAndBuildTimer_.stop();
 
@@ -134,6 +134,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 	std::vector<UnilateralContact> uni,
 	std::vector<BilateralContact> bi)
 {
+	std::vector<std::tuple<int, int, double>> dependencies;
 	data_.alphaD_.resize(mbs.size());
 	data_.alphaDBegin_.resize(mbs.size());
 
@@ -160,6 +161,15 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 		if(mb.nrDof() > 0)
 		{
 			data_.mobileRobotIndex_.push_back(int(r));
+			for(const auto & j : mb.joints())
+			{
+				if(j.isMimic())
+				{
+					dependencies.emplace_back(data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimicName())),
+																		data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())),
+																		j.mimicMultiplier());
+				}
+			}
 		}
 	}
 	data_.totalAlphaD_ = cumAlphaD;
@@ -214,6 +224,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 		c->updateNrVars(mbs, data_);
 	}
 
+	solver_->setDependencies(data_.nrVars_, dependencies);
 	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 
