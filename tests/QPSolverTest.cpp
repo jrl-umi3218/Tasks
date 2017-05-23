@@ -681,7 +681,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 
 	MultiBodyConfig mbcInit(mb);
 	mbcInit.zero(mb);
-	BOOST_CHECK_EQUAL(mbcInit.q[2][0], 0.5);
+	BOOST_CHECK_EQUAL(mbcInit.q[3][0], 0.5);
 
 	forwardKinematics(mb, mbcInit);
 	forwardVelocity(mb, mbcInit);
@@ -710,7 +710,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
 		BOOST_REQUIRE(mbcs[0].q[1][0] == -mbcs[0].q[2][0]);
-		BOOST_REQUIRE(mbcs[0].q[2][0] == 0.5);
+		BOOST_REQUIRE(mbcs[0].q[3][0] == 0.5);
 	}
 	BOOST_CHECK_SMALL(mbcs[0].q[1][0], 1e-4);
 
@@ -724,7 +724,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
 		BOOST_REQUIRE(mbcs[0].q[1][0] == -mbcs[0].q[2][0]);
-		BOOST_REQUIRE(mbcs[0].q[2][0] == 0.5);
+		BOOST_REQUIRE(mbcs[0].q[3][0] == 0.5);
 	}
 	BOOST_CHECK_SMALL(mbcs[0].q[1][0] - 0.2, 1e-4);
 
