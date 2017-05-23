@@ -654,27 +654,34 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 	Body b0(rbi, "b0");
 	Body b1(rbi, "b1");
 	Body b2(rbi, "b2");
+	Body b3(rbi, "b3");
 
 	mbg.addBody(b0);
 	mbg.addBody(b1);
 	mbg.addBody(b2);
+	mbg.addBody(b3);
 
 	Joint j0(Joint::RevZ, true, "j0");
 	Joint j1(Joint::RevZ, true, "j1");
 	j1.makeMimic("j0", -1.0, 0.0);
+	Joint j2(Joint::RevZ, true, "j2");
+	j2.makeMimic("j0", 0.0, 0.5);
 
 	mbg.addJoint(j0);
 	mbg.addJoint(j1);
+	mbg.addJoint(j2);
 
 	PTransformd from = sva::PTransformd::Identity();
 
 	mbg.linkBodies("b0", from, "b1", from, "j0");
 	mbg.linkBodies("b1", from, "b2", from, "j1");
+	mbg.linkBodies("b2", from, "b3", from, "j2");
 
 	MultiBody mb = mbg.makeMultiBody("b0", true, from);
 
 	MultiBodyConfig mbcInit(mb);
 	mbcInit.zero(mb);
+	BOOST_CHECK_EQUAL(mbcInit.q[2][0], 0.5);
 
 	forwardKinematics(mb, mbcInit);
 	forwardVelocity(mb, mbcInit);
@@ -703,11 +710,12 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
 		BOOST_REQUIRE(mbcs[0].q[1][0] == -mbcs[0].q[2][0]);
+		BOOST_REQUIRE(mbcs[0].q[2][0] == 0.5);
 	}
 	BOOST_CHECK_SMALL(mbcs[0].q[1][0], 1e-4);
 
 	mbcs[0] = mbcInit;
-	pt.posture({{}, {0.2}, {-0.2}});
+	pt.posture({{}, {0.2}, {-0.2}, {0.5}});
 	for(int i = 0; i < 1000; ++i)
 	{
 		BOOST_REQUIRE(solver.solve(mbs, mbcs));
@@ -716,6 +724,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 		forwardKinematics(mbs[0], mbcs[0]);
 		forwardVelocity(mbs[0], mbcs[0]);
 		BOOST_REQUIRE(mbcs[0].q[1][0] == -mbcs[0].q[2][0]);
+		BOOST_REQUIRE(mbcs[0].q[2][0] == 0.5);
 	}
 	BOOST_CHECK_SMALL(mbcs[0].q[1][0] - 0.2, 1e-4);
 
