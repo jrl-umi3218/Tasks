@@ -121,22 +121,25 @@ Inheritance diagram for tasks::qp::QLDQPSolver:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a23f91afba5699bb41d02a3081c1ab59e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a23f91afba5699bb41d02a3081c1ab59e">QLDQPSolver</a> ()</td></tr>
 <tr class="separator:a23f91afba5699bb41d02a3081c1ab59e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83806ed05748975e53d74ba779868a34"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a83806ed05748975e53d74ba779868a34">updateSize</a> (int nrVars, int nrEq, int nrInEq, int nrGenInEq)</td></tr>
-<tr class="memdesc:a83806ed05748975e53d74ba779868a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the problem size.  <a href="#a83806ed05748975e53d74ba779868a34">More...</a><br/></td></tr>
-<tr class="separator:a83806ed05748975e53d74ba779868a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec1b18dfcc8d9fc8df01f066547482f7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#aec1b18dfcc8d9fc8df01f066547482f7">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr)</td></tr>
-<tr class="memdesc:aec1b18dfcc8d9fc8df01f066547482f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the QP matrices.  <a href="#aec1b18dfcc8d9fc8df01f066547482f7">More...</a><br/></td></tr>
-<tr class="separator:aec1b18dfcc8d9fc8df01f066547482f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7fd879ceb4dbb5e8a6eab8a50c18925"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#ad7fd879ceb4dbb5e8a6eab8a50c18925">solve</a> ()</td></tr>
-<tr class="memdesc:ad7fd879ceb4dbb5e8a6eab8a50c18925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the quadratic program.  <a href="#ad7fd879ceb4dbb5e8a6eab8a50c18925">More...</a><br/></td></tr>
-<tr class="separator:ad7fd879ceb4dbb5e8a6eab8a50c18925"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4313bcbe4a5a212a57925ac7518fefb2"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a4313bcbe4a5a212a57925ac7518fefb2">result</a> () const </td></tr>
-<tr class="separator:a4313bcbe4a5a212a57925ac7518fefb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac39b5fa66ffe4aa42c22e3119981268e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#ac39b5fa66ffe4aa42c22e3119981268e">updateSize</a> (int nrVars, int nrEq, int nrInEq, int nrGenInEq) override</td></tr>
+<tr class="memdesc:ac39b5fa66ffe4aa42c22e3119981268e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the problem size.  <a href="#ac39b5fa66ffe4aa42c22e3119981268e">More...</a><br/></td></tr>
+<tr class="separator:ac39b5fa66ffe4aa42c22e3119981268e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771aa5e02e50abc1603b08da7e7a649d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a771aa5e02e50abc1603b08da7e7a649d">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr) override</td></tr>
+<tr class="memdesc:a771aa5e02e50abc1603b08da7e7a649d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the QP matrices.  <a href="#a771aa5e02e50abc1603b08da7e7a649d">More...</a><br/></td></tr>
+<tr class="separator:a771aa5e02e50abc1603b08da7e7a649d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96cc2b5d90faaae84bac06d5d5acf6ea"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a96cc2b5d90faaae84bac06d5d5acf6ea">solve</a> () override</td></tr>
+<tr class="memdesc:a96cc2b5d90faaae84bac06d5d5acf6ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the quadratic program.  <a href="#a96cc2b5d90faaae84bac06d5d5acf6ea">More...</a><br/></td></tr>
+<tr class="separator:a96cc2b5d90faaae84bac06d5d5acf6ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63cfa790fe87436d11657c6c3d5e1ee5"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a63cfa790fe87436d11657c6c3d5e1ee5">result</a> () const override</td></tr>
+<tr class="separator:a63cfa790fe87436d11657c6c3d5e1ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3ce529f75e491c1cd60b91dd284eb80"><td class="memItemLeft" align="right" valign="top">virtual std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#af3ce529f75e491c1cd60b91dd284eb80">errorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00027.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00037.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00031.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00003.html">Bound</a> * &gt; &amp;boundConstr, std::ostream &amp;out) const override</td></tr>
 <tr class="separator:af3ce529f75e491c1cd60b91dd284eb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_a00032"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00032')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00032.html">tasks::qp::GenQPSolver</a></td></tr>
 <tr class="memitem:abc3b4a33780f8fe00fd5d3385dbaf808 inherit pub_methods_a00032"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#abc3b4a33780f8fe00fd5d3385dbaf808">~GenQPSolver</a> ()</td></tr>
 <tr class="separator:abc3b4a33780f8fe00fd5d3385dbaf808 inherit pub_methods_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb590ac28fb2fa760304d276fd59e20c inherit pub_methods_a00032"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#abb590ac28fb2fa760304d276fd59e20c">setDependencies</a> (int nrVars, std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; dependencies)</td></tr>
+<tr class="memdesc:abb590ac28fb2fa760304d276fd59e20c inherit pub_methods_a00032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup dependent variables, only linear dependencies are supported.  <a href="#abb590ac28fb2fa760304d276fd59e20c">More...</a><br/></td></tr>
+<tr class="separator:abb590ac28fb2fa760304d276fd59e20c inherit pub_methods_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -144,6 +147,17 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00032"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ad8ee5e4fad141ae5f5e8b73e3842e847">default_qp_solver</a></td></tr>
 <tr class="memdesc:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default QP solver.  <a href="#ad8ee5e4fad141ae5f5e8b73e3842e847">More...</a><br/></td></tr>
 <tr class="separator:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_a00032"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00032')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00032.html">tasks::qp::GenQPSolver</a></td></tr>
+<tr class="memitem:ad497fb681272aef64e78c7b3a775bfbf inherit pro_attribs_a00032"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ad497fb681272aef64e78c7b3a775bfbf">fullToReduced_</a></td></tr>
+<tr class="memdesc:ad497fb681272aef64e78c7b3a775bfbf inherit pro_attribs_a00032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondence between full variable indices and reduced variables.  <a href="#ad497fb681272aef64e78c7b3a775bfbf">More...</a><br/></td></tr>
+<tr class="separator:ad497fb681272aef64e78c7b3a775bfbf inherit pro_attribs_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db3d83a10b1e0c60541ff1b0b226edd inherit pro_attribs_a00032"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a7db3d83a10b1e0c60541ff1b0b226edd">reducedToFull_</a></td></tr>
+<tr class="memdesc:a7db3d83a10b1e0c60541ff1b0b226edd inherit pro_attribs_a00032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondence between reduced variable indices and full variable indices.  <a href="#a7db3d83a10b1e0c60541ff1b0b226edd">More...</a><br/></td></tr>
+<tr class="separator:a7db3d83a10b1e0c60541ff1b0b226edd inherit pro_attribs_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab010e6097d3344cc671ecd6b8e2a120 inherit pro_attribs_a00032"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::tuple&lt; int, <br class="typebreak"/>
+int, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#aab010e6097d3344cc671ecd6b8e2a120">dependencies_</a></td></tr>
+<tr class="memdesc:aab010e6097d3344cc671ecd6b8e2a120 inherit pro_attribs_a00032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable dependencies, each tuple gives the primary variable index in the full variable, replica variable index in the full variable and the factor in the dependency equation: replica = factor * primary.  <a href="#aab010e6097d3344cc671ecd6b8e2a120">More...</a><br/></td></tr>
+<tr class="separator:aab010e6097d3344cc671ecd6b8e2a120 inherit pro_attribs_a00032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the QLD QP solver. </p>
@@ -231,7 +245,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4313bcbe4a5a212a57925ac7518fefb2"></a>
+<a class="anchor" id="a63cfa790fe87436d11657c6c3d5e1ee5"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -247,7 +261,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -257,7 +271,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad7fd879ceb4dbb5e8a6eab8a50c18925"></a>
+<a class="anchor" id="a96cc2b5d90faaae84bac06d5d5acf6ea"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -273,7 +287,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -285,7 +299,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aec1b18dfcc8d9fc8df01f066547482f7"></a>
+<a class="anchor" id="a771aa5e02e50abc1603b08da7e7a649d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -330,7 +344,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -351,7 +365,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a83806ed05748975e53d74ba779868a34"></a>
+<a class="anchor" id="ac39b5fa66ffe4aa42c22e3119981268e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -390,7 +404,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -417,7 +431,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00069.html">QLDQPSolver</a></li>
-    <li class="footer">Generated on Thu Apr 27 2017 02:45:50 for Tasks by
+    <li class="footer">Generated on Tue May 23 2017 12:27:28 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
