@@ -82,7 +82,7 @@ public:
 	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq) = 0;
 
 	/**
-	* Setup dependent variables, only linear dependency are supported
+	* Setup dependent variables, only linear dependencies are supported
 	* @param nrVars Variable number.
 	* @param dependencies List of tuple {primary, replica, factor}
 	*/
@@ -120,9 +120,9 @@ public:
 		const std::vector<Bound*>& boundConstr,
 		std::ostream& out) const = 0;
 protected:
-	/** Correspondance between full variable indices and reduced variables */
+	/** Correspondence between full variable indices and reduced variables */
 	std::vector<int> fullToReduced_;
-	/** Correspondance between reduced variable indices and full variable indices */
+	/** Correspondence between reduced variable indices and full variable indices */
 	std::vector<int> reducedToFull_;
 
 	/** Variable dependencies, each tuple gives the primary variable index in the
