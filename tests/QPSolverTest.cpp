@@ -716,7 +716,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
 
 	mbcs[0] = mbcInit;
 	pt.posture({{}, {0.2}, {-0.2}, {0.5}});
-	for(int i = 0; i < 1000; ++i)
+	for(int i = 0; i < 2000; ++i)
 	{
 		BOOST_REQUIRE(solver.solve(mbs, mbcs));
 		eulerIntegration(mbs[0], mbcs[0], 0.001);
