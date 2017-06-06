@@ -61,6 +61,8 @@ IF(MSVC)
   SET(CMAKE_MSVCIDE_RUN_PATH "\$(SolutionDir)/src/\$(Configuration)")
 ENDIF(MSVC)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 add_subdirectory(src)
 
 if(NOT ${DISABLE_TESTS})
