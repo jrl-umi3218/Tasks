@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "QPTasks.h"
+#include "Tasks/QPTasks.h"
 
 // includes
 // std

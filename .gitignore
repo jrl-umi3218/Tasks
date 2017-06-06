@@ -1,1 +1,10 @@
 *~
+*.pyc
+binding/python/build/
+binding/python/tasks/tasks.cpp
+binding/python/tasks/tasks.so
+binding/python/tasks/__init__.py
+binding/python/tasks/qp/qp.cpp
+binding/python/tasks/qp/qp.so
+binding/python/tasks/qp/__init__.py
+binding/python/setup.py

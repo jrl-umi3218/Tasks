@@ -25,7 +25,7 @@
 #include <Eigen/Core>
 
 // Tasks
-#include "QPSolver.h"
+#include "Tasks/QPSolver.h"
 
 
 namespace tasks

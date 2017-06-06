@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "QPContactConstr.h"
+#include "Tasks/QPContactConstr.h"
 
 // includes
 // std
