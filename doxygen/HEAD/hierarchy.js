@@ -74,7 +74,7 @@ var hierarchy =
       [ "tasks::qp::RelativeDistTask", "a00071.html", null ],
       [ "tasks::qp::SurfaceOrientationTask", "a00080.html", null ],
       [ "tasks::qp::TransformTaskCommon< transform_task_t >", "a00092.html", null ],
-      [ "tasks::qp::VectorOrientationTask", "a00094.html", null ],
+      [ "tasks::qp::VectorOrientationTask", "a00095.html", null ],
       [ "tasks::qp::TransformTaskCommon< tasks::SurfaceTransformTask >", "a00092.html", [
         [ "tasks::qp::SurfaceTransformTask", "a00081.html", null ]
       ] ],
@@ -124,5 +124,5 @@ var hierarchy =
       [ "tasks::TransformTask", "a00089.html", null ]
     ] ],
     [ "tasks::qp::UnilateralContact", "a00093.html", null ],
-    [ "tasks::VectorOrientationTask", "a00095.html", null ]
+    [ "tasks::VectorOrientationTask", "a00094.html", null ]
 ];

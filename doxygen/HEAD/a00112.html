@@ -104,14 +104,14 @@ $(document).ready(function(){initNavTree('a00112.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html">GenQPSolver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic QP solver abstract interface.  <a href="a00032.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00044.html">LSSOLQPSolver</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the LSSOL QP solver.  <a href="a00044.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html">QLDQPSolver</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the QLD QP solver.  <a href="a00069.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html">GenQPSolver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic QP solver abstract interface.  <a href="a00032.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html">JointLimitsConstr</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avoid to reach articular position limits based on direct integration.  <a href="a00039.html#details">More...</a><br/></td></tr>
@@ -259,14 +259,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00071.html">RelativeDistTask</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html">VectorOrientationTask</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html">VectorOrientationTask</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aada2800b4fa88d085376a20b1105b87e"><td class="memItemLeft" align="right" valign="top">TASKS_DLLAPI <a class="el" href="a00032.html">GenQPSolver</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#aada2800b4fa88d085376a20b1105b87e">createQPSolver</a> (const std::string &amp;name)</td></tr>
-<tr class="memdesc:aada2800b4fa88d085376a20b1105b87e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory to create <a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> implementation.  <a href="#aada2800b4fa88d085376a20b1105b87e">More...</a><br/></td></tr>
-<tr class="separator:aada2800b4fa88d085376a20b1105b87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3acd478a67503f59d9247a42d049ccab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a3acd478a67503f59d9247a42d049ccab">fillQC</a> (const std::vector&lt; <a class="el" href="a00084.html">Task</a> * &gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</td></tr>
 <tr class="memdesc:a3acd478a67503f59d9247a42d049ccab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the \( Q \) matrix and the \( c \) vector based on the task list.  <a href="#a3acd478a67503f59d9247a42d049ccab">More...</a><br/></td></tr>
 <tr class="separator:a3acd478a67503f59d9247a42d049ccab"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -318,6 +315,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a1d2dfd5d6e03be7321854fb1e2bc32df"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a1d2dfd5d6e03be7321854fb1e2bc32df"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="a00112.html#a1d2dfd5d6e03be7321854fb1e2bc32df">constrErrorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T * &gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</td></tr>
 <tr class="separator:a1d2dfd5d6e03be7321854fb1e2bc32df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aada2800b4fa88d085376a20b1105b87e"><td class="memItemLeft" align="right" valign="top">TASKS_DLLAPI <a class="el" href="a00032.html">GenQPSolver</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#aada2800b4fa88d085376a20b1105b87e">createQPSolver</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:aada2800b4fa88d085376a20b1105b87e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory to create <a class="el" href="a00032.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> implementation.  <a href="#aada2800b4fa88d085376a20b1105b87e">More...</a><br/></td></tr>
+<tr class="separator:aada2800b4fa88d085376a20b1105b87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2887fd65f669f54a2aaaa911c724a089"><td class="memItemLeft" align="right" valign="top">TASKS_DLLAPI <a class="elRef" doxygen="/tmp/_ci/install/share/doc/sch-core/doxygen-html/sch-core.doxytag:/tmp/_ci/install/share/doc/sch-core/doxygen-html/" href="/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00118.html#a3041e1b0d9a898938dd026b1bd3d4112">sch::Matrix4x4</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00112.html#a2887fd65f669f54a2aaaa911c724a089">tosch</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;t)</td></tr>
 <tr class="memdesc:a2887fd65f669f54a2aaaa911c724a089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a sch-core transformation matrix to a <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> matrix.  <a href="#a2887fd65f669f54a2aaaa911c724a089">More...</a><br/></td></tr>
 <tr class="separator:a2887fd65f669f54a2aaaa911c724a089"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1406,7 +1406,7 @@ template&lt;&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li>
-    <li class="footer">Generated on Tue May 30 2017 13:55:14 for Tasks by
+    <li class="footer">Generated on Wed Jun 7 2017 09:33:58 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

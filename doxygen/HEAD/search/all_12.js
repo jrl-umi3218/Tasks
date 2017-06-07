@@ -50,7 +50,7 @@ var searchData=
   ['resettasks',['resetTasks',['../a00070.html#a038c63bcc76e9ddc446a1b993d6e6d7f',1,'tasks::qp::QPSolver']]],
   ['resettransformation',['resetTransformation',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00035.html#aeeec7152af7e673195a5d5129e92baac',1,'sch::S_Box']]],
   ['resetvirtualcontacts',['resetVirtualContacts',['../a00018.html#a838f717847de788786039ae40d99939c',1,'tasks::qp::ContactConstrCommon']]],
-  ['result',['result',['../a00032.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e',1,'tasks::qp::GenQPSolver::result()'],['../a00044.html#ab3fd8e52ca0126799e3fdd05881d7cd7',1,'tasks::qp::LSSOLQPSolver::result()'],['../a00069.html#a63cfa790fe87436d11657c6c3d5e1ee5',1,'tasks::qp::QLDQPSolver::result()'],['../a00070.html#a7a11343b7f3f6c2188e363e8b988f5c6',1,'tasks::qp::QPSolver::result()']]],
+  ['result',['result',['../a00044.html#ab3fd8e52ca0126799e3fdd05881d7cd7',1,'tasks::qp::LSSOLQPSolver::result()'],['../a00069.html#a63cfa790fe87436d11657c6c3d5e1ee5',1,'tasks::qp::QLDQPSolver::result()'],['../a00032.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e',1,'tasks::qp::GenQPSolver::result()'],['../a00070.html#a7a11343b7f3f6c2188e363e8b988f5c6',1,'tasks::qp::QPSolver::result()']]],
   ['rev',['Rev',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#afff99e26b5eeb3d899af433df385f4fdac5b8dc11c03ee56b4eab11623556d65d',1,'rbd::Joint']]],
   ['revx',['RevX',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#ab948ec84d396e27779015bccdf303536a27319663df173fa147a2d271e0ef355f',1,'rbd::Joint']]],
   ['revy',['RevY',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#ab948ec84d396e27779015bccdf303536a3686aba670ebb2c1a6a3b789114884bd',1,'rbd::Joint']]],

@@ -89,7 +89,7 @@ var files =
       [ "LinVelocityTask", "a00042.html", "a00042" ],
       [ "OrientationTrackingTask", "a00057.html", "a00057" ],
       [ "RelativeDistTask", "a00071.html", "a00071" ],
-      [ "VectorOrientationTask", "a00094.html", "a00094" ]
+      [ "VectorOrientationTask", "a00095.html", "a00095" ]
     ] ],
     [ "Tasks.h", "a00108.html", [
       [ "PositionTask", "a00064.html", "a00064" ],
@@ -108,7 +108,7 @@ var files =
       [ "LinVelocityTask", "a00043.html", "a00043" ],
       [ "OrientationTrackingTask", "a00058.html", "a00058" ],
       [ "RelativeDistTask", "a00072.html", "a00072" ],
-      [ "VectorOrientationTask", "a00095.html", "a00095" ]
+      [ "VectorOrientationTask", "a00094.html", "a00094" ]
     ] ],
     [ "utils.h", "a00109.html", "a00109" ]
 ];

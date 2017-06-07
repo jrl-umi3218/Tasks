@@ -21,5 +21,5 @@ var a00111 =
     [ "LinVelocityTask", "a00043.html", "a00043" ],
     [ "OrientationTrackingTask", "a00058.html", "a00058" ],
     [ "RelativeDistTask", "a00072.html", "a00072" ],
-    [ "VectorOrientationTask", "a00095.html", "a00095" ]
+    [ "VectorOrientationTask", "a00094.html", "a00094" ]
 ];

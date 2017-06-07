@@ -1,8 +1,8 @@
 var a00112 =
 [
-    [ "GenQPSolver", "a00032.html", "a00032" ],
     [ "LSSOLQPSolver", "a00044.html", "a00044" ],
     [ "QLDQPSolver", "a00069.html", "a00069" ],
+    [ "GenQPSolver", "a00032.html", "a00032" ],
     [ "JointLimitsConstr", "a00039.html", "a00039" ],
     [ "DamperJointLimitsConstr", "a00026.html", "a00026" ],
     [ "CollisionConstr", "a00005.html", "a00005" ],
@@ -67,5 +67,5 @@ var a00112 =
     [ "LinVelocityTask", "a00042.html", "a00042" ],
     [ "OrientationTrackingTask", "a00057.html", "a00057" ],
     [ "RelativeDistTask", "a00071.html", "a00071" ],
-    [ "VectorOrientationTask", "a00094.html", "a00094" ]
+    [ "VectorOrientationTask", "a00095.html", "a00095" ]
 ];
