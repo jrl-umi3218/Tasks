@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "GenQPSolver.h"
+#include "Tasks/GenQPSolver.h"
 
 // includes
 // std

@@ -18,14 +18,14 @@
 set(SOURCES Tasks.cpp QPSolver.cpp QPTasks.cpp QPConstr.cpp
             QPContacts.cpp QPSolverData.cpp QPMotionConstr.cpp
             GenQPSolver.cpp QPContactConstr.cpp QLDQPSolver.cpp)
-set(HEADERS Tasks.h QPSolver.h QPTasks.h QPConstr.h
-            QPContacts.h QPSolverData.h QPMotionConstr.h
-            GenQPSolver.h Bounds.h QPContactConstr.h QLDQPSolver.h)
-set(PRIVATE_HEADERS utils.h GenQPUtils.h)
+set(HEADERS Tasks/Tasks.h Tasks/QPSolver.h Tasks/QPTasks.h Tasks/QPConstr.h
+            Tasks/QPContacts.h Tasks/QPSolverData.h Tasks/QPMotionConstr.h
+            Tasks/GenQPSolver.h Tasks/Bounds.h Tasks/QPContactConstr.h)
+set(PRIVATE_HEADERS utils.h GenQPUtils.h QLDQPSolver.h)
 
 if(${EIGEN_LSSOL_FOUND})
   list(APPEND SOURCES LSSOLQPSolver.cpp)
-  list(APPEND HEADERS LSSOLQPSolver.h)
+  list(APPEND PRIVATE_HEADERS LSSOLQPSolver.h)
 endif()
 
 set(BOOST_COMPONENTS timer)

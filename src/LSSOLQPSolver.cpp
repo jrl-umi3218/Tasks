@@ -21,7 +21,7 @@
 // includes
 // Tasks
 #include "GenQPUtils.h"
-#include "QPSolver.h"
+#include "Tasks/QPSolver.h"
 
 
 namespace tasks

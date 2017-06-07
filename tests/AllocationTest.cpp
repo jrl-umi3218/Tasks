@@ -22,8 +22,8 @@
 #include <boost/math/constants/constants.hpp>
 
 // Tasks
-#include "QPConstr.h"
-#include "QPTasks.h"
+#include "Tasks/QPConstr.h"
+#include "Tasks/QPTasks.h"
 
 // Arms
 #include "arms.h"

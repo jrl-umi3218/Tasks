@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "QPSolverData.h"
+#include "Tasks/QPSolverData.h"
 
 // includes
 // RBDyn

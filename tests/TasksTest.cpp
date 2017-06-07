@@ -35,7 +35,7 @@
 #include <RBDyn/FV.h>
 
 // Tasks
-#include "Tasks.h"
+#include "Tasks/Tasks.h"
 
 // Arms
 #include "arms.h"

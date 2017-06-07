@@ -22,7 +22,7 @@
 #include <eigen-lssol/LSSOL.h>
 
 // Tasks
-#include "GenQPSolver.h"
+#include "Tasks/GenQPSolver.h"
 
 
 namespace tasks

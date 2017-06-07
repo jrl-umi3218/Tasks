@@ -22,7 +22,7 @@
 #include <eigen-qld/QLD.h>
 
 // Tasks
-#include "GenQPSolver.h"
+#include "Tasks/GenQPSolver.h"
 
 
 namespace tasks

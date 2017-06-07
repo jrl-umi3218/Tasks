@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "QPConstr.h"
+#include "Tasks/QPConstr.h"
 
 // includes
 // std
@@ -32,7 +32,7 @@
 #include <sch/S_Object/S_Object.h>
 
 // Tasks
-#include "Bounds.h"
+#include "Tasks/Bounds.h"
 #include "utils.h"
 
 namespace tasks

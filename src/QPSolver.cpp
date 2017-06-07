@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "QPSolver.h"
+#include "Tasks/QPSolver.h"
 
 // includes
 // std
@@ -31,7 +31,7 @@
 #include <RBDyn/MultiBodyConfig.h>
 
 // Tasks
-#include "GenQPSolver.h"
+#include "Tasks/GenQPSolver.h"
 
 
 namespace tasks

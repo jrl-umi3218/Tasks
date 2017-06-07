@@ -16,7 +16,7 @@
 // along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
 // associated header
-#include "QPMotionConstr.h"
+#include "Tasks/QPMotionConstr.h"
 
 // includes
 // Eigen
@@ -27,7 +27,7 @@
 #include <RBDyn/MultiBodyConfig.h>
 
 // Tasks
-#include "Bounds.h"
+#include "Tasks/Bounds.h"
 #include "utils.h"
 
 
