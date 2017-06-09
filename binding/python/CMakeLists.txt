@@ -36,6 +36,7 @@ ADD_CUSTOM_TARGET(tasks-python-bindings ALL
   DEPENDS include/qp_wrapper.hpp tasks/c_tasks.pxd tasks/tasks.pxd tasks/tasks.pyx
           tasks/qp/c_qp.pxd tasks/qp/qp.pxd tasks/qp/qp.pyx
 )
+ADD_DEPENDENCIES(tasks-python-bindings Tasks)
 
 if(NOT ${DISABLE_TESTS})
   if(NOT DEFINED PYTHON_DEB_ROOT)
