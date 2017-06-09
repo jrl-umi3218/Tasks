@@ -113,8 +113,8 @@ cdef class PositionBasedVisServoTask(HighLevelTask):
 cdef class PostureTask(Task):
   cdef c_qp.PostureTask * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef PostureTask fromPtr(c_qp.PostureTask*)
+
+cdef PostureTask PostureTaskFromPtr(c_qp.PostureTask*)
 
 cdef class CoMTask(HighLevelTask):
   cdef c_qp.CoMTask * impl
@@ -167,26 +167,26 @@ cdef class GripperTorqueTask(Task):
 cdef class MotionConstr(GenInequality):
   cdef c_qp.MotionConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef MotionConstr fromPtr(c_qp.MotionConstr *)
+
+cdef MotionConstr MotionConstrFromPtr(c_qp.MotionConstr *)
 
 cdef class MotionPolyConstr(GenInequality):
   cdef c_qp.MotionPolyConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef MotionPolyConstr fromPtr(c_qp.MotionPolyConstr *)
+
+cdef MotionPolyConstr MotionPolyConstrFromPtr(c_qp.MotionPolyConstr *)
 
 cdef class MotionSpringConstr(GenInequality):
   cdef c_qp.MotionSpringConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef MotionSpringConstr fromPtr(c_qp.MotionSpringConstr *)
+
+cdef MotionSpringConstr MotionSpringConstrFromPtr(c_qp.MotionSpringConstr *)
 
 cdef class PositiveLambda(Bound):
   cdef c_qp.PositiveLambda * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef PositiveLambda fromPtr(c_qp.PositiveLambda *)
+
+cdef PositiveLambda PositiveLambdaFromPtr(c_qp.PositiveLambda *)
 
 cdef class ContactConstrCommon(Equality):
   cdef c_qp.ContactConstrCommon * contactconstr_base
@@ -194,26 +194,26 @@ cdef class ContactConstrCommon(Equality):
 cdef class ContactAccConstr(ContactConstrCommon):
   cdef c_qp.ContactAccConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef ContactAccConstr fromPtr(c_qp.ContactAccConstr *)
+
+cdef ContactAccConstr ContactAccConstrFromPtr(c_qp.ContactAccConstr *)
 
 cdef class ContactSpeedConstr(ContactConstrCommon):
   cdef c_qp.ContactSpeedConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef ContactSpeedConstr fromPtr(c_qp.ContactSpeedConstr *)
+
+cdef ContactSpeedConstr ContactSpeedConstrFromPtr(c_qp.ContactSpeedConstr *)
 
 cdef class ContactPosConstr(ContactConstrCommon):
   cdef c_qp.ContactPosConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef ContactPosConstr fromPtr(c_qp.ContactPosConstr *)
+
+cdef ContactPosConstr ContactPosConstrFromPtr(c_qp.ContactPosConstr *)
 
 cdef class CollisionConstr(Inequality):
   cdef c_qp.CollisionConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef CollisionConstr fromPtr(c_qp.CollisionConstr*)
+
+cdef CollisionConstr CollisionConstrFromPtr(c_qp.CollisionConstr*)
 
 cdef class CoMIncPlaneConstr(Inequality):
   cdef c_qp.CoMIncPlaneConstr * impl
@@ -221,14 +221,14 @@ cdef class CoMIncPlaneConstr(Inequality):
 cdef class JointLimitsConstr(Bound):
   cdef c_qp.JointLimitsConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef JointLimitsConstr fromPtr(c_qp.JointLimitsConstr *)
+
+cdef JointLimitsConstr JointLimitsConstrFromPtr(c_qp.JointLimitsConstr *)
 
 cdef class DamperJointLimitsConstr(Bound):
   cdef c_qp.DamperJointLimitsConstr * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef DamperJointLimitsConstr fromPtr(c_qp.DamperJointLimitsConstr *)
+
+cdef DamperJointLimitsConstr DamperJointLimitsConstrFromPtr(c_qp.DamperJointLimitsConstr *)
 
 cdef class GripperTorqueConstr(Inequality):
   cdef c_qp.GripperTorqueConstr * impl
@@ -242,5 +242,5 @@ cdef class ImageConstr(Inequality):
 cdef class QPSolver(object):
   cdef c_qp.QPSolver * impl
   cdef cppbool __own_impl
-  @staticmethod
-  cdef QPSolver fromPtr(c_qp.QPSolver *)
+
+cdef QPSolver QPSolverFromPtr(c_qp.QPSolver *)

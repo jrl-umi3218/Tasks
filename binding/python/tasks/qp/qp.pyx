@@ -773,8 +773,8 @@ cdef class PostureTask(Task):
     self.impl.ptUpdate(deref(mbs.v), deref(mbcs.v), data.impl)
   def eval(self):
     return VectorXdFromC(self.impl.ptEval())
-  @staticmethod
-  cdef PostureTask fromPtr(c_qp.PostureTask * p):
+
+cdef PostureTask PostureTaskFromPtr(c_qp.PostureTask * p):
     cdef PostureTask ret = PostureTask(None, 0, None, 0, 0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.base = p
@@ -1655,8 +1655,8 @@ cdef class MotionConstr(GenInequality):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef MotionConstr fromPtr(c_qp.MotionConstr * p):
+
+cdef MotionConstr MotionConstrFromPtr(c_qp.MotionConstr * p):
     cdef MotionConstr ret = MotionConstr(None, 0, None, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.genineq_base = ret.constraint_base = p
@@ -1694,8 +1694,8 @@ cdef class MotionPolyConstr(GenInequality):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef MotionPolyConstr fromPtr(c_qp.MotionPolyConstr * p):
+
+cdef MotionPolyConstr MotionPolyConstrFromPtr(c_qp.MotionPolyConstr * p):
     cdef MotionPolyConstr ret = MotionPolyConstr(None, None, None, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.genineq_base = ret.constraint_base = p
@@ -1733,8 +1733,8 @@ cdef class MotionSpringConstr(GenInequality):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef MotionSpringConstr fromPtr(c_qp.MotionSpringConstr * p):
+
+cdef MotionSpringConstr MotionSpringConstrFromPtr(c_qp.MotionSpringConstr * p):
     cdef MotionSpringConstr ret = MotionSpringConstr(None, None, None, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.genineq_base = ret.constraint_base = p
@@ -1759,8 +1759,8 @@ cdef class PositiveLambda(Bound):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef PositiveLambda fromPtr(c_qp.PositiveLambda * p):
+
+cdef PositiveLambda PositiveLambdaFromPtr(c_qp.PositiveLambda * p):
     cdef PositiveLambda ret = PositiveLambda(skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.bound_base = ret.constraint_base = p
@@ -1805,8 +1805,8 @@ cdef class ContactAccConstr(ContactConstrCommon):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef ContactAccConstr fromPtr(c_qp.ContactAccConstr * p):
+
+cdef ContactAccConstr ContactAccConstrFromPtr(c_qp.ContactAccConstr * p):
     cdef ContactAccConstr ret = ContactAccConstr(skip_alloc = True)
     ret.__own_impl = False
     ret.impl = p
@@ -1840,8 +1840,8 @@ cdef class ContactSpeedConstr(ContactConstrCommon):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef ContactSpeedConstr fromPtr(c_qp.ContactSpeedConstr * p):
+
+cdef ContactSpeedConstr ContactSpeedConstrFromPtr(c_qp.ContactSpeedConstr * p):
     cdef ContactSpeedConstr ret = ContactSpeedConstr(0.0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = p
@@ -1875,8 +1875,8 @@ cdef class ContactPosConstr(ContactConstrCommon):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef ContactPosConstr fromPtr(c_qp.ContactPosConstr * p):
+
+cdef ContactPosConstr ContactPosConstrFromPtr(c_qp.ContactPosConstr * p):
     cdef ContactPosConstr ret = ContactPosConstr(0.0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = p
@@ -1921,8 +1921,8 @@ cdef class CollisionConstr(Inequality):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef CollisionConstr fromPtr(c_qp.CollisionConstr * p):
+
+cdef CollisionConstr CollisionConstrFromPtr(c_qp.CollisionConstr * p):
     cdef CollisionConstr ret = CollisionConstr(None, 0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.ineq_base = ret.constraint_base = p
@@ -1980,8 +1980,8 @@ cdef class JointLimitsConstr(Bound):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef JointLimitsConstr fromPtr(c_qp.JointLimitsConstr * p):
+
+cdef JointLimitsConstr JointLimitsConstrFromPtr(c_qp.JointLimitsConstr * p):
     cdef JointLimitsConstr ret = JointLimitsConstr(None, 0, None, 0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.bound_base = ret.constraint_base = p
@@ -2009,8 +2009,8 @@ cdef class DamperJointLimitsConstr(Bound):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
-  @staticmethod
-  cdef DamperJointLimitsConstr fromPtr(c_qp.DamperJointLimitsConstr * p):
+
+cdef DamperJointLimitsConstr DamperJointLimitsConstrFromPtr(c_qp.DamperJointLimitsConstr * p):
     cdef DamperJointLimitsConstr ret = DamperJointLimitsConstr(None, 0, None, None, 0, 0, 0, 0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.bound_base = ret.constraint_base = p
@@ -2243,8 +2243,8 @@ cdef class QPSolver(object):
     return tasks.cpu_timesFromC(self.impl.solveTime())
   def solveAndBuildTime(self):
     return tasks.cpu_timesFromC(self.impl.solveAndBuildTime())
-  @staticmethod
-  cdef QPSolver fromPtr(c_qp.QPSolver * p):
+
+cdef QPSolver QPSolverFromPtr(c_qp.QPSolver * p):
     cdef QPSolver ret = QPSolver(skip_alloc = True)
     ret.__own_impl = False
     ret.impl = p
