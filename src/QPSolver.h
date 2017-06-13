@@ -99,6 +99,8 @@ public:
 	/// call updateNrVars on all tasks and constraints
 	void updateNrVars(const std::vector<rbd::MultiBody>& mbs) const;
 
+        bool hasConstraint(Constraint* co);
+
 	void addEqualityConstraint(Equality* co);
 	void removeEqualityConstraint(Equality* co);
 	int nrEqualityConstraints() const;
