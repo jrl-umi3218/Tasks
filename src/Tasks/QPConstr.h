@@ -20,6 +20,7 @@
 // includes
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/StdVector>
 
 // RBDyn
 #include <RBDyn/Jacobian.h>
@@ -30,6 +31,9 @@
 
 // Tasks
 #include "QPSolver.h"
+
+// unique_ptr
+#include <memory>
 
 // forward declaration
 // sch
@@ -198,8 +202,6 @@ private:
 	double step_;
 	double damperOff_;
 };
-
-
 
 /**
 	* Avoid that too robot links enter into collision based on a velocity damper.
@@ -656,7 +658,7 @@ private:
 	* or an Occlusion avoidance constraint. Both with damping
 	* Note that the point must start within the feasible boundary.
 	*/
-class ImageConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI ImageConstr : public ConstraintFunction<Inequality>
 {
 public:
 	/**
@@ -671,6 +673,18 @@ public:
 		*/
 	ImageConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string &bName,
 		const sva::PTransformd& X_b_gaze, double step, double constrDirection=1.);
+
+	/** Copy constructor */
+	ImageConstr(const ImageConstr& rhs);
+
+	/** Move constructor */
+	ImageConstr(ImageConstr&&) = default;
+
+	/** Copy assignment operator */
+	ImageConstr& operator=(const ImageConstr& rhs);
+
+	/** Move assignment operator */
+	ImageConstr& operator=(ImageConstr&&) = default;
 
 	/**
 	 * @brief setLimits
@@ -730,6 +744,7 @@ public:
 private:
 	struct PointData
 	{
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 		PointData(const Eigen::Vector2d& pt, const double d);
 		Eigen::Vector2d point2d;
 		double depthEstimate;
@@ -737,13 +752,13 @@ private:
 	struct RobotPointData
 	{
 		RobotPointData(const std::string &bName, const sva::PTransformd& X, const rbd::Jacobian& j);
-		const std::string& bName;
+		std::string bName;
 		sva::PTransformd X_b_p;
 		rbd::Jacobian jac;
 	};
 
 private:
-	std::vector<PointData> dataVec_;
+	std::vector<PointData, Eigen::aligned_allocator<PointData>> dataVec_;
 	std::vector<RobotPointData> dataVecRob_;
 	int robotIndex_, bodyIndex_, alphaDBegin_;
 	int nrVars_;
@@ -752,14 +767,14 @@ private:
 
 	rbd::Jacobian jac_;
 	sva::PTransformd X_b_gaze_;
-	Eigen::Matrix<double, 2, 6> L_img_;
-	Eigen::Matrix<double, 6, 1> surfaceVelocity_;
-	Eigen::Matrix<double, 1, 6> L_Z_dot_;
-	Eigen::Matrix<double, 2, 6> L_img_dot_;
-	Eigen::Vector2d speed_;
-	Eigen::Vector2d normalAcc_;
+	std::unique_ptr<Eigen::Matrix<double, 2, 6>> L_img_;
+	std::unique_ptr<Eigen::Matrix<double, 6, 1>> surfaceVelocity_;
+	std::unique_ptr<Eigen::Matrix<double, 1, 6>> L_Z_dot_;
+	std::unique_ptr<Eigen::Matrix<double, 2, 6>> L_img_dot_;
+	std::unique_ptr<Eigen::Vector2d> speed_;
+	std::unique_ptr<Eigen::Vector2d> normalAcc_;
 	Eigen::MatrixXd jacMat_;
-	Eigen::Vector2d iDistMin_, iDistMax_, sDistMin_, sDistMax_;
+	std::unique_ptr<Eigen::Vector2d> iDistMin_, iDistMax_, sDistMin_, sDistMax_;
 	double damping_, dampingOffset_, ineqInversion_, constrDirection_;
 	Eigen::MatrixXd AInEq_;
 	Eigen::VectorXd bInEq_;

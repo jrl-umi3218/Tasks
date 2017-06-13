@@ -1,4 +1,4 @@
-# Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+# Copyright 2012-2017 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 # This file is part of Tasks.
 #
@@ -15,5 +15,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
-from _tasks import *
+from rbdyn.c_rbdyn cimport *
+from c_qp cimport *
+from libcpp.string cimport string
+from libcpp.vector cimport vector
 
+cdef extern from "qp_wrapper.hpp" namespace "tasks::qp":
+    JointsSelector* ActiveJoints2Ptr(const vector[MultiBody]&, int, HighLevelTask*, const vector[string])
+    JointsSelector* UnactiveJoints2Ptr(const vector[MultiBody]&, int, HighLevelTask*, const vector[string])

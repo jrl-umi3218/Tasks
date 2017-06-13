@@ -17,7 +17,7 @@
 
 
 // associated header
-#include "Tasks.h"
+#include "Tasks/Tasks.h"
 
 // includes
 // std
@@ -683,16 +683,16 @@ const Eigen::MatrixXd& SurfaceOrientationTask::jacDot() const
 GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 	const Eigen::Vector2d& point2d, double depthEstimate, const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
-	point2d_(point2d),
-	point2d_ref_(point2d_ref),
+	point2d_(new Eigen::Vector2d(point2d)),
+	point2d_ref_(new Eigen::Vector2d(point2d_ref)),
 	depthEstimate_(depthEstimate),
 	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	jac_(mb, bodyName),
 	X_b_gaze_(X_b_gaze),
-	L_img_(Eigen::Matrix<double, 2, 6>::Zero()),
-	surfaceVelocity_(Eigen::Matrix<double,6,1>::Zero()),
-	L_Z_dot_(Eigen::Matrix<double,1,6> ::Zero()),
-	L_img_dot_(Eigen::Matrix<double,2,6>::Zero()),
+	L_img_(new Eigen::Matrix<double, 2, 6>(Eigen::Matrix<double, 2, 6>::Zero())),
+	surfaceVelocity_(new Eigen::Matrix<double,6,1>(Eigen::Matrix<double,6,1>::Zero())),
+	L_Z_dot_(new Eigen::Matrix<double,1,6>(Eigen::Matrix<double,1,6>::Zero())),
+	L_img_dot_(new Eigen::Matrix<double,2,6>(Eigen::Matrix<double,2,6>::Zero())),
 	eval_(2),
 	speed_(2),
 	normalAcc_(2),
@@ -705,37 +705,77 @@ GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 GazeTask::GazeTask(const rbd::MultiBody &mb, const std::string& bodyName,
 	const Eigen::Vector3d &point3d, const sva::PTransformd& X_b_gaze,
 	const Eigen::Vector2d& point2d_ref):
-	point2d_ref_(point2d_ref),
+	point2d_(new Eigen::Vector2d()),
+	point2d_ref_(new Eigen::Vector2d(point2d_ref)),
 	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	jac_(mb, bodyName),
 	X_b_gaze_(X_b_gaze),
-	L_img_(Eigen::Matrix<double, 2, 6>::Zero()),
-	surfaceVelocity_(Eigen::Matrix<double,6,1>::Zero()),
-	L_Z_dot_(Eigen::Matrix<double,1,6> ::Zero()),
-	L_img_dot_(Eigen::Matrix<double,2,6>::Zero()),
+	L_img_(new Eigen::Matrix<double, 2, 6>(Eigen::Matrix<double, 2, 6>::Zero())),
+	surfaceVelocity_(new Eigen::Matrix<double,6,1>(Eigen::Matrix<double,6,1>::Zero())),
+	L_Z_dot_(new Eigen::Matrix<double,1,6>(Eigen::Matrix<double,1,6>::Zero())),
+	L_img_dot_(new Eigen::Matrix<double,2,6>(Eigen::Matrix<double,2,6>::Zero())),
 	eval_(2),
 	speed_(2),
 	normalAcc_(2),
 	jacMat_(2, mb.nrDof()),
 	jacDotMat_(2, mb.nrDof())
 {
-	point2d_ << point3d[0]/point3d[2], point3d[1]/point3d[2];
+	*point2d_ << point3d[0]/point3d[2], point3d[1]/point3d[2];
 	depthEstimate_ = point3d[2];
 }
 
+GazeTask::GazeTask(const GazeTask& rhs):
+	point2d_(new Eigen::Vector2d(*rhs.point2d_)),
+	point2d_ref_(new Eigen::Vector2d(*rhs.point2d_ref_)),
+	depthEstimate_(rhs.depthEstimate_),
+	bodyIndex_(rhs.bodyIndex_),
+	jac_(rhs.jac_),
+	X_b_gaze_(rhs.X_b_gaze_),
+	L_img_(new Eigen::Matrix<double, 2, 6>(*rhs.L_img_)),
+	surfaceVelocity_(new Eigen::Matrix<double, 6, 1>(*rhs.surfaceVelocity_)),
+	L_Z_dot_(new Eigen::Matrix<double, 1, 6>(*rhs.L_Z_dot_)),
+	L_img_dot_(new Eigen::Matrix<double, 2, 6>(*rhs.L_img_dot_)),
+	eval_(rhs.eval_), speed_(rhs.speed_),
+	normalAcc_(rhs.normalAcc_), jacMat_(rhs.jacMat_),
+	jacDotMat_(rhs.jacDotMat_)
+{
+}
+
+GazeTask& GazeTask::operator=(const GazeTask& rhs)
+{
+	if(&rhs != this)
+	{
+		*point2d_ = *rhs.point2d_;
+		*point2d_ref_ = *rhs.point2d_ref_;
+		depthEstimate_ = rhs.depthEstimate_;
+		bodyIndex_ = rhs.bodyIndex_;
+		jac_ = rhs.jac_;
+		X_b_gaze_ = rhs.X_b_gaze_;
+		*L_img_ = *rhs.L_img_;
+		*surfaceVelocity_ = *rhs.surfaceVelocity_;
+		*L_Z_dot_ = *rhs.L_Z_dot_;
+		*L_img_dot_ = *rhs.L_img_dot_;
+		eval_ = rhs.eval_;
+		speed_ = rhs.speed_;
+		normalAcc_ = rhs.normalAcc_;
+		jacMat_ = rhs.jacMat_;
+		jacDotMat_ = rhs.jacDotMat_;
+	}
+	return *this;
+}
 
 void GazeTask::error(const Eigen::Vector2d& point2d, const Eigen::Vector2d& point2d_ref)
 {
-	point2d_ = point2d;
-	point2d_ref_ = point2d_ref;
+	*point2d_ = point2d;
+	*point2d_ref_ = point2d_ref;
 }
 
 
 void GazeTask::error(const Eigen::Vector3d& point3d, const Eigen::Vector2d& point2d_ref)
 {
-	point2d_ << point3d[0]/point3d[2], point3d[1]/point3d[2];
+	*point2d_ << point3d[0]/point3d[2], point3d[1]/point3d[2];
 	depthEstimate_ = point3d[2];
-	point2d_ref_ = point2d_ref;
+	*point2d_ref_ = point2d_ref;
 }
 
 
@@ -743,21 +783,21 @@ void GazeTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc,
 	const std::vector<sva::MotionVecd>& normalAccB)
 {
 	// compute eval term
-	eval_ = point2d_ref_ - point2d_;
+	eval_ = *point2d_ref_ - *point2d_;
 
 	// compute speed term
-	rbd::imagePointJacobian(point2d_, depthEstimate_, L_img_);
-	surfaceVelocity_ = (jac_.velocity(mb, mbc, X_b_gaze_)).vector();
-	speed_ = L_img_*surfaceVelocity_;
+	rbd::imagePointJacobian(*point2d_, depthEstimate_, *L_img_);
+	*surfaceVelocity_ = (jac_.velocity(mb, mbc, X_b_gaze_)).vector();
+	speed_ = (*L_img_)*(*surfaceVelocity_);
 
 	// compute norm accel term
-	rbd::depthDotJacobian(speed_, depthEstimate_, L_Z_dot_);
-	rbd::imagePointJacobianDot(point2d_, speed_, depthEstimate_, L_Z_dot_*surfaceVelocity_, L_img_dot_);
-	normalAcc_ = L_img_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_gaze_,
-		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + L_img_dot_*surfaceVelocity_;
+	rbd::depthDotJacobian(speed_, depthEstimate_, *L_Z_dot_);
+	rbd::imagePointJacobianDot(*point2d_, speed_, depthEstimate_, (*L_Z_dot_)*(*surfaceVelocity_), *L_img_dot_);
+	normalAcc_ = (*L_img_)*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_gaze_,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + (*L_img_dot_)*(*surfaceVelocity_);
 
 	// compute the task Jacobian
-	Eigen::MatrixXd shortJacMat = L_img_*jac_.jacobian(mb, mbc, X_b_gaze_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 6, jac_.dof());
+	Eigen::MatrixXd shortJacMat = (*L_img_)*jac_.jacobian(mb, mbc, X_b_gaze_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 6, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 
@@ -806,10 +846,10 @@ PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb,
 	axis_(Eigen::Vector3d::Zero()),
 	bodyIndex_(mb.bodyIndexByName(bodyName)),
 	jac_(mb, bodyName),
-	L_pbvs_(Eigen::Matrix<double, 6, 6>::Zero()),
-	surfaceVelocity_(Eigen::Matrix<double, 6, 1>::Zero()),
+	L_pbvs_(new Eigen::Matrix<double, 6, 6>(Eigen::Matrix<double, 6, 6>::Zero())),
+	surfaceVelocity_(new Eigen::Matrix<double, 6, 1>(Eigen::Matrix<double, 6, 1>::Zero())),
 	omegaSkew_(Eigen::Matrix3d::Zero()),
-	L_pbvs_dot_(Eigen::Matrix<double, 6, 6>::Zero()),
+	L_pbvs_dot_(new Eigen::Matrix<double, 6, 6>(Eigen::Matrix<double, 6, 6>::Zero())),
 	eval_(6),
 	speed_(6),
 	normalAcc_(6),
@@ -818,6 +858,44 @@ PositionBasedVisServoTask::PositionBasedVisServoTask(const rbd::MultiBody &mb,
 {
 }
 
+PositionBasedVisServoTask::PositionBasedVisServoTask(const PositionBasedVisServoTask& rhs):
+	X_t_s_(rhs.X_t_s_),
+	X_b_s_(rhs.X_b_s_),
+	angle_(rhs.angle_),
+	axis_(rhs.axis_),
+	bodyIndex_(rhs.bodyIndex_),
+	jac_(rhs.jac_),
+	L_pbvs_(new Eigen::Matrix<double, 6, 6>(*rhs.L_pbvs_)),
+	surfaceVelocity_(new Eigen::Matrix<double, 6, 1>(*rhs.surfaceVelocity_)),
+	omegaSkew_(rhs.omegaSkew_),
+	L_pbvs_dot_(new Eigen::Matrix<double, 6, 6>(*rhs.L_pbvs_dot_)),
+	eval_(rhs.eval_), speed_(rhs.speed_), normalAcc_(rhs.normalAcc_),
+	jacMat_(rhs.jacMat_), jacDotMat_(rhs.jacDotMat_)
+{
+}
+
+PositionBasedVisServoTask& PositionBasedVisServoTask::operator=(const PositionBasedVisServoTask& rhs)
+{
+	if(&rhs != this)
+	{
+		X_t_s_ = rhs.X_t_s_;
+		X_b_s_ = rhs.X_b_s_;
+		angle_ = rhs.angle_;
+		axis_ = rhs.axis_;
+		bodyIndex_ = rhs.bodyIndex_;
+		jac_ = rhs.jac_;
+		*L_pbvs_ = *rhs.L_pbvs_;
+		*surfaceVelocity_ = *rhs.surfaceVelocity_;
+		omegaSkew_ = rhs.omegaSkew_;
+		*L_pbvs_dot_ = *rhs.L_pbvs_dot_;
+		eval_ = rhs.eval_;
+		speed_ = rhs.speed_;
+		normalAcc_ = rhs.normalAcc_;
+		jacMat_ = rhs.jacMat_;
+		jacDotMat_ = rhs.jacDotMat_;
+	}
+	return *this;
+}
 
 void PositionBasedVisServoTask::error(const sva::PTransformd& X_t_s)
 {
@@ -833,19 +911,19 @@ void PositionBasedVisServoTask::update(const rbd::MultiBody& mb, const rbd::Mult
 	eval_.head(3) = angle_*axis_;
 
 	// compute speed term
-	rbd::poseJacobian(X_t_s_.rotation(), L_pbvs_);
-	surfaceVelocity_ = (jac_.velocity(mb, mbc, X_b_s_)).vector();
-	speed_ = L_pbvs_*surfaceVelocity_;
+	rbd::poseJacobian(X_t_s_.rotation(), *L_pbvs_);
+	*surfaceVelocity_ = (jac_.velocity(mb, mbc, X_b_s_)).vector();
+	speed_ = (*L_pbvs_)*(*surfaceVelocity_);
 
 	// compute norm accel term
-	rbd::getSkewSym(surfaceVelocity_.head(3), omegaSkew_);
-	L_pbvs_dot_ << Eigen::Matrix3d::Zero(), Eigen::Matrix3d::Zero(),
+	rbd::getSkewSym(surfaceVelocity_->head(3), omegaSkew_);
+	*L_pbvs_dot_ << Eigen::Matrix3d::Zero(), Eigen::Matrix3d::Zero(),
 								 Eigen::Matrix3d::Zero(), -X_t_s_.rotation().transpose()*omegaSkew_;
-	normalAcc_ = L_pbvs_*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_s_,
-		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + L_pbvs_dot_*surfaceVelocity_;
+	normalAcc_ = (*L_pbvs_)*(jac_.normalAcceleration(mb, mbc, normalAccB, X_b_s_,
+		sva::MotionVecd(Eigen::Vector6d::Zero()))).vector() + (*L_pbvs_dot_)*(*surfaceVelocity_);
 
 	// compute the task Jacobian
-	Eigen::MatrixXd shortJacMat = L_pbvs_*jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 6, jac_.dof());
+	Eigen::MatrixXd shortJacMat = (*L_pbvs_)*jac_.jacobian(mb, mbc, X_b_s_*mbc.bodyPosW[bodyIndex_]).block(0, 0, 6, jac_.dof());
 	jac_.fullJacobian(mb, shortJacMat, jacMat_);
 }
 

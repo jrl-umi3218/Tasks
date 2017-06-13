@@ -43,12 +43,12 @@
 #include <sch/CD/CD_Pair.h>
 
 // Tasks
-#include "Bounds.h"
-#include "QPConstr.h"
-#include "QPContactConstr.h"
-#include "QPMotionConstr.h"
-#include "QPSolver.h"
-#include "QPTasks.h"
+#include "Tasks/Bounds.h"
+#include "Tasks/QPConstr.h"
+#include "Tasks/QPContactConstr.h"
+#include "Tasks/QPMotionConstr.h"
+#include "Tasks/QPSolver.h"
+#include "Tasks/QPTasks.h"
 
 // Arms
 #include "arms.h"
@@ -75,8 +75,8 @@ BOOST_AUTO_TEST_CASE(FrictionConeTest)
 
 	Matrix3d rep;
 	rep << 0., 1., 0.,
-				 0., 0., 1.,
-				 1., 0., 0.;
+					0., 0., 1.,
+					1., 0., 0.;
 	qp::FrictionCone cone2(rep, 4, mu);
 	for(Vector3d v: cone2.generators)
 	{
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
 	std::vector<qp::UnilateralContact> contVec =
 		{qp::UnilateralContact(0, 1, "b3", "b0", {Vector3d::Zero()}, Matrix3d::Identity(),
-		 sva::PTransformd::Identity(), 3, std::tan(cst::pi<double>()/4.))};
+			sva::PTransformd::Identity(), 3, std::tan(cst::pi<double>()/4.))};
 
 	Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
 	qp::PositionTask posTask(mbs, 0, "b3", posD);
@@ -430,7 +430,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 	mbcs[0] = mbcInit;
 	contVec =
 		{qp::UnilateralContact(0, 1, "b3", "b0", {Vector3d::Zero()}, Matrix3d::Identity(),
-		 sva::PTransformd::Identity(), 3, std::tan(cst::pi<double>()/4.))};
+			sva::PTransformd::Identity(), 3, std::tan(cst::pi<double>()/4.))};
 
 	solver.addGenInequalityConstraint(&motionCstr);
 	BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
@@ -634,6 +634,103 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
 	BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
 
+BOOST_AUTO_TEST_CASE(QPMimicJointTest)
+{
+	using namespace Eigen;
+	using namespace sva;
+	using namespace rbd;
+	using namespace tasks;
+	namespace cst = boost::math::constants;
+
+	/* Make a very simple gripper */
+	MultiBodyGraph mbg;
+
+	double mass = 1.;
+	Matrix3d I = Matrix3d::Identity();
+	Vector3d h = Vector3d::Zero();
+
+	RBInertiad rbi(mass, h, I);
+
+	Body b0(rbi, "b0");
+	Body b1(rbi, "b1");
+	Body b2(rbi, "b2");
+	Body b3(rbi, "b3");
+
+	mbg.addBody(b0);
+	mbg.addBody(b1);
+	mbg.addBody(b2);
+	mbg.addBody(b3);
+
+	Joint j0(Joint::RevZ, true, "j0");
+	Joint j1(Joint::RevZ, true, "j1");
+	j1.makeMimic("j0", -1.0, 0.0);
+	Joint j2(Joint::RevZ, true, "j2");
+	j2.makeMimic("j0", 0.0, 0.5);
+
+	mbg.addJoint(j0);
+	mbg.addJoint(j1);
+	mbg.addJoint(j2);
+
+	PTransformd from = sva::PTransformd::Identity();
+
+	mbg.linkBodies("b0", from, "b1", from, "j0");
+	mbg.linkBodies("b1", from, "b2", from, "j1");
+	mbg.linkBodies("b2", from, "b3", from, "j2");
+
+	MultiBody mb = mbg.makeMultiBody("b0", true, from);
+
+	MultiBodyConfig mbcInit(mb);
+	mbcInit.zero(mb);
+	BOOST_CHECK_EQUAL(mbcInit.q[3][0], 0.5);
+
+	forwardKinematics(mb, mbcInit);
+	forwardVelocity(mb, mbcInit);
+
+	std::vector<rbd::MultiBody> mbs = {mb};
+	std::vector<rbd::MultiBodyConfig> mbcs = {mbcInit};
+
+	qp::QPSolver solver;
+
+	tasks::qp::PostureTask pt(mbs, 0, mbcInit.q, 100.0, 10.0);
+
+	solver.nrVars(mbs, {}, {});
+	solver.updateConstrSize();
+
+	solver.addTask(&pt);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
+
+
+	// Test mimic joint in mbc
+	mbcs[0] = mbcInit;
+	for(int i = 0; i < 1000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		BOOST_REQUIRE(mbcs[0].q[1][0] == -mbcs[0].q[2][0]);
+		BOOST_REQUIRE(mbcs[0].q[3][0] == 0.5);
+	}
+	BOOST_CHECK_SMALL(mbcs[0].q[1][0], 1e-4);
+
+	mbcs[0] = mbcInit;
+	pt.posture({{}, {0.2}, {-0.2}, {0.5}});
+	for(int i = 0; i < 2000; ++i)
+	{
+		BOOST_REQUIRE(solver.solve(mbs, mbcs));
+		eulerIntegration(mbs[0], mbcs[0], 0.001);
+
+		forwardKinematics(mbs[0], mbcs[0]);
+		forwardVelocity(mbs[0], mbcs[0]);
+		BOOST_REQUIRE(mbcs[0].q[1][0] == -mbcs[0].q[2][0]);
+		BOOST_REQUIRE(mbcs[0].q[3][0] == 0.5);
+	}
+	BOOST_CHECK_SMALL(mbcs[0].q[1][0] - 0.2, 1e-4);
+
+	solver.removeTask(&pt);
+	BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
+}
 
 
 BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
@@ -1074,7 +1171,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 	std::vector<Eigen::Vector3d> points =
 		{
 			Vector3d(0.1, 0.1, 0.),
-			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, 0.1, 0.),
 			Vector3d(-0.1, -0.1, 0.),
 			Vector3d(0.1, -0.1, 0.)
 		};
@@ -1213,7 +1310,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 	std::vector<Eigen::Vector3d> points =
 		{
 			Vector3d(0.1, 0.1, 0.),
-			 Vector3d(-0.1, 0.1, 0.),
+			Vector3d(-0.1, 0.1, 0.),
 			Vector3d(-0.1, -0.1, 0.),
 			Vector3d(0.1, -0.1, 0.)
 		};

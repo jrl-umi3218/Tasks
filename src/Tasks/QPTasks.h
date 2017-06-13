@@ -971,7 +971,7 @@ public:
 
 	void dimWeight(const Eigen::Vector6d& dim);
 
-	const Eigen::Vector6d& dimWeight() const
+	const Eigen::VectorXd& dimWeight() const
 	{
 		return dimWeight_;
 	}
@@ -996,12 +996,12 @@ public:
 private:
 	int alphaDBegin_;
 	double stiffness_, stiffnessSqrt_;
-	Eigen::Vector6d dimWeight_;
+	Eigen::VectorXd dimWeight_;
 	std::vector<int> posInQ_, robotIndexes_;
 	tasks::MultiRobotTransformTask mrtt_;
 	Eigen::MatrixXd Q_;
 	Eigen::VectorXd C_;
-	Eigen::Vector6d CSum_;
+	Eigen::VectorXd CSum_;
 	// cache
 	Eigen::MatrixXd preQ_;
 };

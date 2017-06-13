@@ -82,6 +82,13 @@ public:
 	virtual void updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq) = 0;
 
 	/**
+	* Setup dependent variables, only linear dependencies are supported
+	* @param nrVars Variable number.
+	* @param dependencies List of tuple {primary, replica, factor}
+	*/
+	virtual void setDependencies(int nrVars, std::vector<std::tuple<int, int, double>> dependencies);
+
+	/**
 		* Construct the QP matrices.
 		* @param tasks Build \f$ Q \f$ and \f$ c \f$.
 		* @param eqConstr Build \f$ A x = b \f$ constraints.
@@ -112,6 +119,16 @@ public:
 		const std::vector<GenInequality*>& genInEqConstr,
 		const std::vector<Bound*>& boundConstr,
 		std::ostream& out) const = 0;
+protected:
+	/** Correspondence between full variable indices and reduced variables */
+	std::vector<int> fullToReduced_;
+	/** Correspondence between reduced variable indices and full variable indices */
+	std::vector<int> reducedToFull_;
+
+	/** Variable dependencies, each tuple gives the primary variable index in the
+	 * full variable, replica variable index in the full variable and the factor
+	 * in the dependency equation: replica = factor * primary */
+	std::vector<std::tuple<int, int, double>> dependencies_;
 };
 
 

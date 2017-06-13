@@ -1,4 +1,4 @@
-# Copyright 2012-2016 CNRS-UM LIRMM, CNRS-AIST JRL
+# Copyright 2012-2017 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 # This file is part of Tasks.
 #
@@ -15,46 +15,54 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
-INCLUDE(../../cmake/python.cmake)
+MACRO(GET_TASKS_PROPERTY PROPERTY)
+  GET_TARGET_PROPERTY(TASKS_${PROPERTY} Tasks ${PROPERTY})
+  IF(NOT TASKS_${PROPERTY})
+    SET(TASKS_${PROPERTY} "")
+  ENDIF()
+ENDMACRO()
+GET_TASKS_PROPERTY(COMPILE_FLAGS)
+GET_TASKS_PROPERTY(INCLUDE_DIRECTORIES)
+GET_TASKS_PROPERTY(LINK_FLAGS)
+GET_TASKS_PROPERTY(LINK_LIBRARIES)
+GET_TASKS_PROPERTY(LOCATION)
+CONFIGURE_FILE(setup.in.py ${CMAKE_CURRENT_SOURCE_DIR}/setup.py)
 
-# Look for Python 2.7
-SET(Python_ADDITIONAL_VERSIONS 2.7)
-FINDPYTHON()
-
-# Create the package in build dir for testing purpose
-SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/tasks)
-CONFIGURE_FILE(__init__.py ${CMAKE_CURRENT_BINARY_DIR}/tasks/__init__.py COPYONLY)
-SET(OUTPUT_BINDING ${CMAKE_CURRENT_BINARY_DIR}/tasks.cpp)
-
-# Generate Python binding code
-ADD_CUSTOM_TARGET(generate_python_bindings
-  COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/generate.py ${OUTPUT_BINDING}
-  DEPENDS generate.py
+# Build the bindings locally at build time for test purposes
+ADD_CUSTOM_TARGET(tasks-python-bindings ALL
+  COMMAND python setup.py build_ext --inplace
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  COMMENT "Generating local Tasks Python bindings"
+  DEPENDS include/qp_wrapper.hpp tasks/c_tasks.pxd tasks/tasks.pxd tasks/tasks.pyx
+          tasks/qp/c_qp.pxd tasks/qp/qp.pxd tasks/qp/qp.pyx
 )
+ADD_DEPENDENCIES(tasks-python-bindings Tasks)
 
-SET_SOURCE_FILES_PROPERTIES(${OUTPUT_BINDING} PROPERTIES GENERATED 1)
-
-# Build the library
-SET(SOURCES ${OUTPUT_BINDING})
-
-INCLUDE_DIRECTORIES(SYSTEM ${PYTHON_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(.)
-INCLUDE_DIRECTORIES(../../src)
-
-ADD_LIBRARY(_tasks SHARED ${SOURCES})
-ADD_DEPENDENCIES(_tasks generate_python_bindings)
-
-PKG_CONFIG_USE_DEPENDENCY(_tasks sch-core)
-PKG_CONFIG_USE_DEPENDENCY(_tasks SpaceVecAlg)
-PKG_CONFIG_USE_DEPENDENCY(_tasks RBDyn)
-PKG_CONFIG_USE_DEPENDENCY(_tasks eigen-qld)
-if(${EIGEN_LSSOL_FOUND})
-  PKG_CONFIG_USE_DEPENDENCY(_tasks eigen-lssol)
+if(NOT ${DISABLE_TESTS})
+  if(NOT DEFINED PYTHON_DEB_ROOT)
+    ADD_TEST(NAME PythonBindingsTest
+      COMMAND nosetests
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+  endif()
 endif()
 
-TARGET_LINK_LIBRARIES(_tasks Tasks)
-SET_TARGET_PROPERTIES(_tasks PROPERTIES PREFIX "")
-
-# Install rules
-INSTALL(TARGETS _tasks DESTINATION "${PYTHON_SITELIB}/tasks")
-PYTHON_INSTALL_BUILD(tasks __init__.py "${PYTHON_SITELIB}")
+SET(PIP_EXTRA_OPTIONS "")
+IF(${PYTHON_BINDING_USER_INSTALL})
+  SET(PIP_EXTRA_OPTIONS "--user")
+ENDIF()
+# Install the bindings
+IF(DEFINED PYTHON_DEB_ROOT)
+  ADD_CUSTOM_TARGET(install-tasks-python-bindings
+    COMMAND python setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb && python3 setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Install Tasks Python bindings (Debian package)"
+  )
+ELSE()
+  ADD_CUSTOM_TARGET(install-tasks-python-bindings
+    COMMAND pip install . ${PIP_EXTRA_OPTIONS}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Install Tasks Python bindings"
+  )
+ENDIF()
+INSTALL(CODE "EXECUTE_PROCESS(COMMAND ${CMAKE_MAKE_PROGRAM} install-tasks-python-bindings)")
