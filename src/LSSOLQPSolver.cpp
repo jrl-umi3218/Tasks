@@ -161,7 +161,20 @@ std::ostream& LSSOLQPSolver::errorMsg(
 {
 	const int nrVars = int(Q_.rows());
 
-	out << "lssol output: " << lssol_.fail() << std::endl;
+	out << "lssol output: " << lssol_.fail();
+	switch(lssol_.fail())
+	{
+	case 0: out << " (X is a strong local minimum)"; break;
+	case 1: out << " (X is a weak local minimum)"; break;
+	case 2: out << " (The solution appears to be unbound.)"; break;
+	case 3: out << " (No feasible point was found)"; break;
+	case 4: out << " (Number of iterations reached)"; break;
+	case 5: out << " (50 changes to working set without altering x (algorithm could be cycling))"; break;
+	case 6: out << " (An input parameter is invalid)"; break;
+	default: out << " (unknown error code)"; break;
+	}
+	out << std::endl;
+
 	const Eigen::VectorXi& istate = lssol_.istate();
 	// check bound constraint
 	for(int i = 0; i < nrVars; ++i)
