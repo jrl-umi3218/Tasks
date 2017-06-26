@@ -162,8 +162,8 @@ std::ostream& LSSOLQPSolver::errorMsg(
 	const int nrVars = int(Q_.rows());
 
 	out << "lssol output (" << lssol_.fail() << "): ";
-	lssol_.inform(out);
 	out << std::endl;
+	lssol_.inform(out);
 
 	const Eigen::VectorXi& istate = lssol_.istate();
 	// check bound constraint
