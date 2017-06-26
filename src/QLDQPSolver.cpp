@@ -137,7 +137,7 @@ bool QLDQPSolver::solve()
 		success = qld_.solve(Q_, C_,
 			Aeq_.block(0, 0, nrAeqLines_, int(Aeq_.cols())), beq_.segment(0, nrAeqLines_),
 			Aineq_.block(0, 0, nrAineqLines_, int(Aineq_.cols())), bineq_.segment(0, nrAineqLines_),
-			XL_, XU_, 1e-6);
+			XL_, XU_, false, 1e-6);
 		expandResult(qld_.result(), XFull_,
 								 reducedToFull_,
 								 dependencies_);
@@ -147,7 +147,7 @@ bool QLDQPSolver::solve()
 		success = qld_.solve(QFull_, CFull_,
 			AeqFull_.block(0, 0, nrAeqLines_, int(AeqFull_.cols())), beq_.segment(0, nrAeqLines_),
 			AineqFull_.block(0, 0, nrAineqLines_, int(AineqFull_.cols())), bineq_.segment(0, nrAineqLines_),
-			XLFull_, XUFull_, 1e-6);
+			XLFull_, XUFull_, false, 1e-6);
 	}
 	return success;
 }
