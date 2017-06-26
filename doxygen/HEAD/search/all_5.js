@@ -2,9 +2,9 @@ var searchData=
 [
   ['e',['e',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00028.html#a42eccc7ffaf2ebe6e748b7cc515e9ca2',1,'boost::archive::detail::pointer_oserializer']]],
   ['e_5f0_5fc',['E_0_c',['../a00090.html#ae260b35ffe9afa1c939261a76a219982',1,'tasks::qp::TransformTask::E_0_c(const Eigen::Matrix3d &amp;E_0_c)'],['../a00090.html#a589e21d4a88fadf8c6f3c0c78a628a22',1,'tasks::qp::TransformTask::E_0_c() const '],['../a00089.html#af28399b8910027ff33d9230fdf5611b8',1,'tasks::TransformTask::E_0_c(const Eigen::Matrix3d &amp;E_0_c)'],['../a00089.html#a6d7fe6363bd841a1c1e96b5e834b4ada',1,'tasks::TransformTask::E_0_c() const ']]],
-  ['eigen',['Eigen',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00016.html',1,'']]],
-  ['eigentypedef_2eh',['EigenTypedef.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00007.html',1,'']]],
-  ['eigenutility_2eh',['EigenUtility.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00008.html',1,'']]],
+  ['eigen',['Eigen',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00017.html',1,'']]],
+  ['eigentypedef_2eh',['EigenTypedef.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00008.html',1,'']]],
+  ['eigenutility_2eh',['EigenUtility.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00009.html',1,'']]],
   ['end_5fpreamble',['end_preamble',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00053.html#a2faef6576eb396f5456b777631b1a5ed',1,'boost::archive::save_access']]],
   ['envpoint',['envPoint',['../a00071.html#a39c737ceec7d5b3242df364d6df79815',1,'tasks::qp::RelativeDistTask::envPoint()'],['../a00072.html#a2ac26562c72ef4f9c697e027ccc7e0e6',1,'tasks::RelativeDistTask::envPoint()']]],
   ['epsilon1_5f',['epsilon1_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00050.html#ad572f1d4f46883d14f1ebc690d3061fd',1,'sch::S_Superellipsoid']]],

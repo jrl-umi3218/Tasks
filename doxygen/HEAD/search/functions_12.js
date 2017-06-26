@@ -78,7 +78,7 @@ var searchData=
   ['sfulljacobian',['sFullJacobian',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00012.html#acb9f42dd134d5cc0c72a2ec46044eb1a',1,'rbd::Jacobian']]],
   ['silhouette',['silhouette',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00016.html#a1a3675c10e94120787593c5b27329a5f',1,'sch::Depth_Edge::silhouette()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00017.html#ae26bafdc2b13293178eefe9bdbae18ff',1,'sch::Depth_Triangle::silhouette()']]],
   ['simplestparsing',['SimplestParsing',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00062.html#a5e12530267e2b116fabd7aee7e108950',1,'FileParsing::SimplestParsing']]],
-  ['sinc_5finv',['sinc_inv',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00018.html#a3cad8a4ff91f4aace786395eaaef6834',1,'sva']]],
+  ['sinc_5finv',['sinc_inv',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a3cad8a4ff91f4aace786395eaaef6834',1,'sva']]],
   ['sinversedynamics',['sInverseDynamics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00009.html#a46dcfb8735a7b54039d3190f3c653a35',1,'rbd::InverseDynamics']]],
   ['sinversekinematics',['sInverseKinematics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00010.html#a007d635fbd464139be26fa9470ee81bd',1,'rbd::InverseKinematics']]],
   ['sinversestatics',['sInverseStatics',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00011.html#a3ca5175516c017b4dccd7dd2740ec435',1,'rbd::InverseStatics']]],

@@ -17,7 +17,8 @@ var indexSectionsWithContent =
   7: "acgost",
   8: "bcflprst",
   9: "hlopq",
-  10: "d"
+  10: "c",
+  11: "d"
 };
 
 var indexSectionNames =
@@ -32,7 +33,8 @@ var indexSectionNames =
   7: "enums",
   8: "enumvalues",
   9: "related",
-  10: "pages"
+  10: "groups",
+  11: "pages"
 };
 
 function convertToId(search)
