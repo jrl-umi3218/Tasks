@@ -80,7 +80,7 @@ To compile you need the following tools:
 
 For Python bindings:
  * [Cython](http://cython.org/) = 0.25
- * [Eigen3ToPython](https://github.com/jorisv/Eigen3ToPython) (to use the python binding)
+ * [Eigen3ToPython](https://github.com/jrl-umi3218/Eigen3ToPython)
  * [sch-core-python](https://github.com/jrl-umi3218/sch-core-python)
 
 #### Building
