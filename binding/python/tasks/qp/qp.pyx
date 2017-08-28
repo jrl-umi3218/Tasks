@@ -1094,7 +1094,7 @@ cdef class TrackingTask(Task):
       self.__SurfaceOrientationTaskctor__(mbs, robotIndex, task, gainPos, gainVel, weight, dimWeight)
     elif isinstance(task, GazeTask):
       self.__GazeTaskctor__(mbs, robotIndex, task, gainPos, gainVel, weight, dimWeight)
-    elif isinstance(task, GazeTask):
+    elif isinstance(task, PositionBasedVisServoTask):
       self.__PositionBasedVisServoTaskctor__(mbs, robotIndex, task, gainPos, gainVel, weight, dimWeight)
     elif isinstance(task, CoMTask):
       self.__CoMTaskctor__(mbs, robotIndex, task, gainPos, gainVel, weight, dimWeight)
