@@ -79,8 +79,9 @@ To compile you need the following tools:
  * [sch-core](https://github.com/jrl-umi3218/sch-core)
 
 For Python bindings:
- * [PyBindGen](https://launchpad.net/pybindgen) = 0.16
- * [Eigen3ToPython](https://github.com/jorisv/Eigen3ToPython) (to use the python binding)
+ * [Cython](http://cython.org/) = 0.25
+ * [Eigen3ToPython](https://github.com/jrl-umi3218/Eigen3ToPython)
+ * [sch-core-python](https://github.com/jrl-umi3218/sch-core-python)
 
 #### Building
 
