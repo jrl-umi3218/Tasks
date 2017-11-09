@@ -223,6 +223,43 @@ protected:
 };
 
 
+class TASKS_DLLAPI PassiveMotionConstr : public MotionConstr
+{
+public:
+
+	enum VelGainType
+	{
+	  Diagonal = 0,
+	  MassMatrix = 1
+	};
+
+        PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
+			    int robotIndex, const TorqueBound& tb,
+			    const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
+			    double lambda, VelGainType velGainType);
+
+	void computeTorque(const Eigen::VectorXd& alphaD,
+			   const Eigen::VectorXd& lambda);
+	
+	// Constraint
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+			    const std::vector<rbd::MultiBodyConfig>& mbcs,
+			    const SolverData& data);
+
+private:
+	// Compute the passification term...
+	void computeP(const rbd::MultiBody& mb,
+		      const rbd::MultiBodyConfig& mbc_real,
+		      const rbd::MultiBodyConfig& mbc_calc);
+
+	double lambda_;
+	VelGainType velGainType_;
+
+	const std::vector<rbd::MultiBodyConfig>& mbcs_calc_;
+	Eigen::MatrixXd P_;
+};
+
+
 } // namespace qp
 
 } // namespace tasks

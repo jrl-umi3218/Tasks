@@ -442,6 +442,73 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody>& mbs,
 }
 
 
+/**
+	*															PassiveMotionConstr
+	*/
+
+
+PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
+					 int robotIndex, const TorqueBound& tb,
+					 const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
+					 double lambda, VelGainType velGainType) :
+  MotionConstr(mbs, robotIndex, tb),
+  mbcs_calc_(mbcs_calc),
+  lambda_(lambda),
+  velGainType_(velGainType),
+  P_(nrDof_, nrDof_)
+{
+}
+
+void PassiveMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+					  const Eigen::VectorXd& lambda)
+{
+        MotionConstr::computeTorque(alphaD, lambda);
+        curTorque_ -= P_;
+}
+
+void PassiveMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
+				 const std::vector<rbd::MultiBodyConfig>& mbcs,
+				 const SolverData& data)
+{
+        MotionConstr::update(mbs, mbcs, data);
+        
+        const rbd::MultiBody& mb = mbs[robotIndex_];
+        const rbd::MultiBodyConfig& mbc_real = mbcs[robotIndex_];
+        const rbd::MultiBodyConfig& mbc_calc = mbcs_calc_[robotIndex_];
+        
+        computeP(mb, mbc_real, mbc_calc);
+        
+        AL_ -= P_;
+        AU_ -= P_;
+}
+
+void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
+				   const rbd::MultiBodyConfig& mbc_real,
+				   const rbd::MultiBodyConfig& mbc_calc)
+{
+        fd_.computeCoriolisMat(mb, mbc_real);
+	Eigen::MatrixXd C = fd_.CoriolisMat();
+	Eigen::MatrixXd K;
+
+	if (velGainType_ == MassMatrix)
+	{
+                K = lambda_ * fd_.H();
+	}
+	else
+	{
+	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrParams(), mb.nrParams()); 
+	}
+	
+	Eigen::VectorXd alphaVec_ref(mb.nrParams());
+	Eigen::VectorXd alphaVec_hat(mb.nrParams());
+	
+	rbd::paramToVector(mbc_calc.alpha, alphaVec_ref);
+	rbd::paramToVector(mbc_real.alpha, alphaVec_hat);
+
+	P_ = (C + K) * (alphaVec_ref - alphaVec_hat);
+}
+
+
 } // namespace qp
 
 } // namespace tasks
