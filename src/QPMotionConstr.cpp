@@ -147,7 +147,7 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody& mb,
 
 
 MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex):
+				       int robotIndex):
 	robotIndex_(robotIndex),
 	alphaDBegin_(-1),
 	nrDof_(mbs[robotIndex_].nrDof()),
@@ -326,8 +326,8 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody>& m
 
 
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, const TorqueBound& tb):
-	MotionConstrCommon(mbs, robotIndex),
+			   int robotIndex, const TorqueBound& tb):
+        MotionConstrCommon(mbs, robotIndex),
 	torqueL_(mbs[robotIndex].nrDof()),
 	torqueU_(mbs[robotIndex].nrDof())
 {
@@ -364,7 +364,7 @@ const rbd::ForwardDynamics MotionConstr::fd() const
 MotionSpringConstr::MotionSpringConstr(
 	const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 	const TorqueBound& tb, const std::vector<SpringJoint>& springs):
-	MotionConstr(mbs, robotIndex, tb),
+        MotionConstr(mbs, robotIndex, tb),
 	springs_()
 {
 	const rbd::MultiBody& mb = mbs[robotIndex_];
@@ -403,8 +403,8 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 
 MotionPolyConstr::MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, const PolyTorqueBound& ptb):
-	MotionConstrCommon(mbs, robotIndex),
+				   int robotIndex, const PolyTorqueBound& ptb):
+        MotionConstrCommon(mbs, robotIndex),
 	torqueL_(),
 	torqueU_(),
 	jointIndex_()

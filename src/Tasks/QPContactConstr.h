@@ -207,7 +207,6 @@ public:
 };
 
 
-
 /**
 	* Contact constraint by targeting a null velocity.
 	* \f[ v + a \Delta_{dt} = 0 \f]
@@ -229,6 +228,35 @@ private:
 	double timeStep_;
 };
 
+
+class TASKS_DLLAPI PassiveContactSpeedConstr : public ContactSpeedConstr
+{
+public:
+
+	enum VelGainType
+	{
+	  Diagonal = 0,
+	  MassMatrix = 1
+	};
+
+        PassiveContactSpeedConstr(double timeStep, int robotIndex,
+				  const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
+				  double lambda, VelGainType velGainType);
+
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual std::string nameEq() const;
+
+private:
+
+	int robotIndex_;
+	double lambda_;
+	VelGainType velGainType_;
+
+	const std::vector<rbd::MultiBodyConfig>& mbcs_calc_;
+};
 
 
 /**

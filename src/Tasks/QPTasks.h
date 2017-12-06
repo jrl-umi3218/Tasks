@@ -382,11 +382,11 @@ public:
 
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                    const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
-                   double weight);
+		   double weight);
 
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                    const TorqueBound& tb, const std::string& efName,
-                   double weight);
+		   double weight);
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 		const SolverData& data);

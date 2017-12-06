@@ -127,7 +127,7 @@ private:
 	* the distance \f$ \underline{d} \f$ or \f$ \overline{d} \f$ go below
 	* the interactive distance \f$ d_i \f$ with
 	* the following formula:
-	* \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
+	* \f[ \xi = \left| \frac{d_i - d_s}{d - d_s}\alpha \right| + \xi_{\text{off}} \f]
 	*
 	* This behavior give the better stability and we usually use
 	* the following values:

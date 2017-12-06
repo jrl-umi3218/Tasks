@@ -661,8 +661,8 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 }
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-                       const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
-                       double weight):
+		       const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
+		       double weight):
   Task(weight),
   robotIndex_(robotIndex),
   alphaDBegin_(-1),
@@ -676,7 +676,7 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                        const TorqueBound& tb, const std::string& efName,
-                       double weight):
+		       double weight):
   Task(weight),
   robotIndex_(robotIndex),
   alphaDBegin_(-1),

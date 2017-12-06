@@ -80,7 +80,7 @@ private:
 class TASKS_DLLAPI MotionConstrCommon : public ConstraintFunction<GenInequality>
 {
 public:
-	MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
+        MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
 
 	void computeTorque(const Eigen::VectorXd& alphaD,
 		const Eigen::VectorXd& lambda);
@@ -142,7 +142,7 @@ class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
 	MotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		const TorqueBound& tb);
+		     const TorqueBound& tb);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -179,8 +179,8 @@ class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 {
 public:
 	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
-		int robotIndex, const TorqueBound& tb,
-		const std::vector<SpringJoint>& springs);
+			   int robotIndex, const TorqueBound& tb,
+			   const std::vector<SpringJoint>& springs);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -210,7 +210,7 @@ class TASKS_DLLAPI MotionPolyConstr : public MotionConstrCommon
 {
 public:
 	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
-		int robotIndex, const PolyTorqueBound& ptb);
+			 int robotIndex, const PolyTorqueBound& ptb);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -256,7 +256,7 @@ private:
 	VelGainType velGainType_;
 
 	const std::vector<rbd::MultiBodyConfig>& mbcs_calc_;
-	Eigen::MatrixXd P_;
+	Eigen::VectorXd P_;
 };
 
 

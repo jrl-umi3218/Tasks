@@ -362,6 +362,38 @@ std::string ContactSpeedConstr::nameEq() const
 
 
 /**
+	*															PassiveContactSpeedConstr
+	*/
+
+
+PassiveContactSpeedConstr::PassiveContactSpeedConstr(double timeStep, int robotIndex,
+						     const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
+						     double lambda, VelGainType velGainType):
+	ContactSpeedConstr(timeStep),
+	robotIndex_(robotIndex),
+	mbcs_calc_(mbcs_calc),
+	lambda_(lambda),
+	velGainType_(velGainType)
+{}
+
+
+void PassiveContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
+				       const std::vector<rbd::MultiBodyConfig>& mbcs,
+				       const SolverData& data)
+{
+  ContactSpeedConstr::update(mbs, mbcs, data);
+  
+  // Rafa, not finished yet
+}
+
+
+std::string PassiveContactSpeedConstr::nameEq() const
+{
+	return "PassiveContactSpeedConstr";
+}
+
+
+/**
 	*															ContactPosConstr
 	*/
 

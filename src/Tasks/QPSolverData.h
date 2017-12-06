@@ -159,6 +159,8 @@ private:
 	std::vector<int> mobileRobotIndex_; //< robot index with dof > 0
 	/// normal acceleration of each body of each robot
 	std::vector<std::vector<sva::MotionVecd>> normalAccB_;
+
+	Eigen::VectorXd passiveTorque_;
 };
 
 
