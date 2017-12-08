@@ -21,7 +21,8 @@ var searchData=
   ['getclosestpoint',['getClosestPoint',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00017.html#afdb3fd7b2e07b5dde6a067b4a22d4946',1,'sch::Depth_Triangle']]],
   ['getclosestpoints',['getClosestPoints',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#adc3e58868da3f623f42e1c74b2ca47a9',1,'sch::CD_Pair']]],
   ['getclosestsubsimplexgjk',['getClosestSubSimplexGJK',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00013.html#a10bbe7ba8ad7ff6dd817270f0128ce93',1,'sch::CD_SimplexEnhanced']]],
-  ['getcordinates',['getCordinates',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00042.html#accd994722cbc5eb930f4f7ab88bbb136',1,'sch::S_PolyhedronVertex']]],
+  ['getcoordinates',['getCoordinates',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00042.html#aec48c3f2cc7127fc7b7841edbfd8e14f',1,'sch::S_PolyhedronVertex']]],
+  ['getcordinates',['getCordinates',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00042.html#ad352d05bd26c099250a7db09fe628e66',1,'sch::S_PolyhedronVertex']]],
   ['getdisplayradius',['getDisplayRadius',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00039.html#a987f078c009e4416cb565678350035c7',1,'sch::S_Point']]],
   ['getdist2',['getDist2',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00017.html#ad605deb9127a5a04fb0b34f33b49149a',1,'sch::Depth_Triangle']]],
   ['getdistance',['getDistance',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#a393c0bafa00d23201c8b03e683835b15',1,'sch::CD_Pair::getDistance()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00049.html#a0deb8e490c76e40141377c1152203e5a',1,'sch::s_STP_VVR::getDistance()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00046.html#ae2fb714e09355075d86cec22450fd023',1,'sch::s_STN_VVR::getDistance()']]],
@@ -55,8 +56,8 @@ var searchData=
   ['gjk',['GJK',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00020.html',1,'GJK'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00020.html#a65c29054e9f3ec5cbeead6a75a419d2c',1,'GJK::GJK()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#a2ddeeded589eba6c0b8814f258a04488',1,'sch::CD_Pair::GJK()']]],
   ['gjk_2eh',['GJK.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00080.html',1,'']]],
   ['gravity',['gravity',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html#a0f275f9fe70453bfd32a67b113850e3e',1,'rbd::MultiBodyConfig']]],
-  ['grippertorqueconstr',['GripperTorqueConstr',['../a00033.html#a158480db320f0d977606763c0ca30320',1,'tasks::qp::GripperTorqueConstr']]],
   ['grippertorqueconstr',['GripperTorqueConstr',['../a00033.html',1,'tasks::qp']]],
-  ['grippertorquetask',['GripperTorqueTask',['../a00034.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask']]],
-  ['grippertorquetask',['GripperTorqueTask',['../a00034.html',1,'tasks::qp']]]
+  ['grippertorqueconstr',['GripperTorqueConstr',['../a00033.html#a158480db320f0d977606763c0ca30320',1,'tasks::qp::GripperTorqueConstr']]],
+  ['grippertorquetask',['GripperTorqueTask',['../a00034.html',1,'tasks::qp']]],
+  ['grippertorquetask',['GripperTorqueTask',['../a00034.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask']]]
 ];
