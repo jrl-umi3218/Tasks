@@ -449,7 +449,7 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
 					 int robotIndex, const TorqueBound& tb,
-					 const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
+					 const std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc,
 					 double lambda, VelGainType velGainType) :
   MotionConstr(mbs, robotIndex, tb),
   mbcs_calc_(mbcs_calc),
@@ -460,7 +460,7 @@ PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
 }
 
 void PassiveMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
-					  const Eigen::VectorXd& lambda)
+					const Eigen::VectorXd& lambda)
 {
         MotionConstr::computeTorque(alphaD, lambda);
         curTorque_ -= P_;
@@ -474,7 +474,7 @@ void PassiveMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
         
         const rbd::MultiBody& mb = mbs[robotIndex_];
         const rbd::MultiBodyConfig& mbc_real = mbcs[robotIndex_];
-        const rbd::MultiBodyConfig& mbc_calc = mbcs_calc_[robotIndex_];
+        const rbd::MultiBodyConfig& mbc_calc = (*mbcs_calc_)[robotIndex_];
         
         computeP(mb, mbc_real, mbc_calc);
         
