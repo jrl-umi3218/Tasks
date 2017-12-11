@@ -455,7 +455,7 @@ PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
   mbcs_calc_(mbcs_calc),
   lambda_(lambda),
   velGainType_(velGainType),
-  P_(nrDof_, nrDof_)
+  P_(nrDof_)
 {
 }
 
@@ -499,8 +499,8 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrParams(), mb.nrParams()); 
 	}
 	
-	Eigen::VectorXd alphaVec_ref(mb.nrParams());
-	Eigen::VectorXd alphaVec_hat(mb.nrParams());
+	Eigen::VectorXd alphaVec_ref(mb.nrDof());
+	Eigen::VectorXd alphaVec_hat(mb.nrDof());
 	
 	rbd::paramToVector(mbc_calc.alpha, alphaVec_ref);
 	rbd::paramToVector(mbc_real.alpha, alphaVec_hat);
