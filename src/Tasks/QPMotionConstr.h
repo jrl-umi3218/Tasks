@@ -235,7 +235,7 @@ public:
 
         PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
 			    int robotIndex, const TorqueBound& tb,
-			    const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
+			    const std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc,
 			    double lambda, VelGainType velGainType);
 
 	void computeTorque(const Eigen::VectorXd& alphaD,
@@ -255,7 +255,7 @@ private:
 	double lambda_;
 	VelGainType velGainType_;
 
-	const std::vector<rbd::MultiBodyConfig>& mbcs_calc_;
+	const std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc_;
 	Eigen::VectorXd P_;
 };
 
