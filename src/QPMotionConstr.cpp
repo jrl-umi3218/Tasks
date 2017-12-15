@@ -25,6 +25,7 @@
 // RBDyn
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
+#include <RBDyn/Coriolis.h>
 
 // Tasks
 #include "Tasks/Bounds.h"
@@ -455,7 +456,8 @@ PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
   mbcs_calc_(mbcs_calc),
   lambda_(lambda),
   velGainType_(velGainType),
-  P_(nrDof_)
+  P_(nrDof_),
+  H_old_(nrDof_, nrDof_)
 {
 }
 
@@ -463,13 +465,16 @@ void PassiveMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
 					const Eigen::VectorXd& lambda)
 {
         MotionConstr::computeTorque(alphaD, lambda);
-        curTorque_ -= P_;
+        curTorque_ += P_;
+	// std::cout << "Rafa, used P_ = " << std::endl << P_.transpose() << std::endl;
 }
 
 void PassiveMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 				 const std::vector<rbd::MultiBodyConfig>& mbcs,
 				 const SolverData& data)
 {
+        H_old_ = fd_.H();
+  
         MotionConstr::update(mbs, mbcs, data);
         
         const rbd::MultiBody& mb = mbs[robotIndex_];
@@ -486,9 +491,18 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 				   const rbd::MultiBodyConfig& mbc_real,
 				   const rbd::MultiBodyConfig& mbc_calc)
 {
-        fd_.computeCoriolisMat(mb, mbc_real);
-	Eigen::MatrixXd C = fd_.CoriolisMat();
+        coriolis::Coriolis coriolis(mb);
+	Eigen::MatrixXd C = coriolis.coriolis(mb, mbc_real);
+        //fd_.computeCoriolisMat(mb, mbc_real);
+	//Eigen::MatrixXd C = fd_.CoriolisMat();
 	Eigen::MatrixXd K;
+
+	double timeStep = 0.005;
+
+	Eigen::MatrixXd Mdot = (fd_.H() - H_old_) / timeStep;
+	Eigen::MatrixXd diff = Mdot - C - C.transpose();
+
+	//std::cout << "Rafa, max(diff) = " << diff.array().abs().maxCoeff() << std::endl;
 
 	if (velGainType_ == MassMatrix)
 	{
@@ -496,7 +510,7 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	}
 	else
 	{
-	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrParams(), mb.nrParams()); 
+	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrDof(), mb.nrDof()); 
 	}
 	
 	Eigen::VectorXd alphaVec_ref(mb.nrDof());
@@ -505,7 +519,21 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	rbd::paramToVector(mbc_calc.alpha, alphaVec_ref);
 	rbd::paramToVector(mbc_real.alpha, alphaVec_hat);
 
-	P_ = (C + K) * (alphaVec_ref - alphaVec_hat);
+	Eigen::VectorXd s = -alphaVec_hat;  // alphaVec_ref - alphaVec_hat;
+
+	/*
+	if (s.norm() > 0) {
+	  std::cout << "alphaVec_ref:" << std::endl << alphaVec_ref.transpose() << std::endl;
+	  std::cout << "alphaVec_hat:" << std::endl << alphaVec_hat.transpose() << std::endl;
+	  std::cout << "s:" << std::endl << s.transpose() << std::endl;
+	  std::cout << "---" << std::endl;
+	}
+	*/
+	
+	P_ = (C + K) * s;
+	// P_ = K * s;
+
+	// std::cout << "Rafa, calculated P_ = " << std::endl << P_.transpose() << std::endl;
 }
 
 
