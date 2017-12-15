@@ -513,13 +513,11 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrDof(), mb.nrDof()); 
 	}
 	
-	Eigen::VectorXd alphaVec_ref(mb.nrDof());
-	Eigen::VectorXd alphaVec_hat(mb.nrDof());
-	
-	rbd::paramToVector(mbc_calc.alpha, alphaVec_ref);
-	rbd::paramToVector(mbc_real.alpha, alphaVec_hat);
+	Eigen::VectorXd alphaVec_ref = rbd::dofToVector(mb, mbc_calc.alpha);
+	Eigen::VectorXd alphaVec_hat = rbd::dofToVector(mb, mbc_real.alpha);
 
-	Eigen::VectorXd s = -alphaVec_hat;  // alphaVec_ref - alphaVec_hat;
+	Eigen::VectorXd s = alphaVec_ref - alphaVec_hat;
+	// -alphaVec_hat;
 
 	/*
 	if (s.norm() > 0) {
