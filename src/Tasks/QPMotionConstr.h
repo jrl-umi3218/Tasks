@@ -82,7 +82,7 @@ class TASKS_DLLAPI MotionConstrCommon : public ConstraintFunction<GenInequality>
 public:
         MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
 
-	void computeTorque(const Eigen::VectorXd& alphaD,
+	virtual void computeTorque(const Eigen::VectorXd& alphaD,
 		const Eigen::VectorXd& lambda);
 	const Eigen::VectorXd& torque() const;
 	void torque(const std::vector<rbd::MultiBody>& mbs,
@@ -239,7 +239,7 @@ public:
 			    double lambda, VelGainType velGainType);
 
 	void computeTorque(const Eigen::VectorXd& alphaD,
-			   const Eigen::VectorXd& lambda);
+			   const Eigen::VectorXd& lambda) override;
 	
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -255,8 +255,9 @@ private:
 	double lambda_;
 	VelGainType velGainType_;
 
-	const std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc_;
+	std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc_;
 	Eigen::VectorXd P_;
+	Eigen::MatrixXd H_old_;
 };
 
 
