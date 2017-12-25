@@ -517,19 +517,19 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	Eigen::VectorXd alphaVec_hat = rbd::dofToVector(mb, mbc_real.alpha);
 
 	Eigen::VectorXd s = alphaVec_ref - alphaVec_hat;
-	// -alphaVec_hat;
+	// Eigen::VectorXd s = -alphaVec_hat;
 
-	/*
 	if (s.norm() > 0) {
+	  std::cout << std::endl;
+	  std::cout << "Rafa, inside of computeP:" << std::endl;
 	  std::cout << "alphaVec_ref:" << std::endl << alphaVec_ref.transpose() << std::endl;
 	  std::cout << "alphaVec_hat:" << std::endl << alphaVec_hat.transpose() << std::endl;
 	  std::cout << "s:" << std::endl << s.transpose() << std::endl;
 	  std::cout << "---" << std::endl;
 	}
-	*/
 	
-	P_ = (C + K) * s;
-	// P_ = K * s;
+	// P_ = (C + K) * s;
+	P_ = K * s;
 
 	// std::cout << "Rafa, calculated P_ = " << std::endl << P_.transpose() << std::endl;
 }
