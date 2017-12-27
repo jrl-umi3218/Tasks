@@ -257,7 +257,6 @@ private:
 
 	std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc_;
 	Eigen::VectorXd P_;
-	Eigen::MatrixXd H_old_;
 };
 
 

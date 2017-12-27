@@ -456,8 +456,7 @@ PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
   mbcs_calc_(mbcs_calc),
   lambda_(lambda),
   velGainType_(velGainType),
-  P_(nrDof_),
-  H_old_(nrDof_, nrDof_)
+  P_(nrDof_)
 {
 }
 
@@ -465,18 +464,13 @@ void PassiveMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
 					const Eigen::VectorXd& lambda)
 {
         MotionConstr::computeTorque(alphaD, lambda);
-	//std::cout << "Rafa, before adding P_, curTorque_(18:22) = " << curTorque_.segment(18,5).transpose() << std::endl;
-	//std::cout << "Rafa, used P_(18:22) = " << P_.segment(18,5).transpose() << std::endl;
         curTorque_ += P_;
-	//std::cout << "Rafa, after adding P_, curTorque_(18:22) = " << curTorque_.segment(18,5).transpose() << std::endl;
 }
 
 void PassiveMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 				 const std::vector<rbd::MultiBodyConfig>& mbcs,
 				 const SolverData& data)
 {
-        H_old_ = fd_.H();
-  
         MotionConstr::update(mbs, mbcs, data);
         
         const rbd::MultiBody& mb = mbs[robotIndex_];
@@ -495,16 +489,7 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 {
         coriolis::Coriolis coriolis(mb);
 	Eigen::MatrixXd C = coriolis.coriolis(mb, mbc_real);
-        //fd_.computeCoriolisMat(mb, mbc_real);
-	//Eigen::MatrixXd C = fd_.CoriolisMat();
 	Eigen::MatrixXd K;
-
-	double timeStep = 0.005;
-
-	Eigen::MatrixXd Mdot = (fd_.H() - H_old_) / timeStep;
-	Eigen::MatrixXd diff = Mdot - C - C.transpose();
-
-	//std::cout << "Rafa, max(diff) = " << diff.array().abs().maxCoeff() << std::endl;
 
 	if (velGainType_ == MassMatrix)
 	{
@@ -513,28 +498,14 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	else
 	{
 	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrDof(), mb.nrDof());
-		//K(16 + 5, 16 + 5) = 0;
-		//K(17 + 5, 17 + 5) = 0;
 	}
-
-	//std::cout << "Rafa, K = " << std::endl << K << std::endl;
 	
 	Eigen::VectorXd alphaVec_ref = rbd::dofToVector(mb, mbc_calc.alpha);
 	Eigen::VectorXd alphaVec_hat = rbd::dofToVector(mb, mbc_real.alpha);
 
 	Eigen::VectorXd s = alphaVec_ref - alphaVec_hat;
-	//Eigen::VectorXd s = -alphaVec_hat;
-
-	//std::cout << "Rafa, inside of computeP:" << std::endl;
-	//std::cout << "alphaVec_ref(18:22) = " << alphaVec_ref.segment(18,5).transpose() << std::endl;
-	//std::cout << "alphaVec_hat(18:22) = " << alphaVec_hat.segment(18,5).transpose() << std::endl;
-	//std::cout << "s(18:22) = " << s.segment(18,5).transpose() << std::endl;
 	
 	P_ = (C + K) * s;
-	// P_ = K * s;
-
-	//std::cout << "Rafa, calculated P_(18:22) = " << P_.segment(18, 5).transpose() << std::endl;
-	//std::cout << std::endl;
 }
 
 

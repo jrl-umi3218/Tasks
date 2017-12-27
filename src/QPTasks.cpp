@@ -807,8 +807,6 @@ void PostureTask::update(const std::vector<rbd::MultiBody>& mbs,
 	pt_.update(mb, mbc);
 	rbd::paramToVector(mbc.alpha, alphaVec_);
 
-	//std::cout << "Rafa, pt's alphaVec_hat(18:22) = " << alphaVec_.segment(18, 5).transpose() << std::endl;
-
 	Q_ = pt_.jac();
 	C_.setZero();
 
@@ -824,8 +822,6 @@ void PostureTask::update(const std::vector<rbd::MultiBody>& mbs,
 				-pjd.stiffness*pt_.eval().segment(pjd.start, pjd.size) +
 				pjd.damping*alphaVec_.segment(pjd.start, pjd.size);
 	}
-
-	//std::cout << "Rafa, C_(18:22) = " << C_.segment(18, 5).transpose() << std::endl << std::endl;
 }
 
 const Eigen::MatrixXd& PostureTask::Q() const
