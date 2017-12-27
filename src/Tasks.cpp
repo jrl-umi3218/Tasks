@@ -23,6 +23,7 @@
 // std
 #include <numeric>
 #include <set>
+#include <iostream> // Rafa added this
 
 // rbd
 #include <RBDyn/MultiBody.h>
@@ -1010,6 +1011,8 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 		if(mb.joint(i).dof() == 1)
 		{
 			eval_(pos) = q_[i][0] - mbc.q[i][0];
+			//if (i == 16 || i == 17)
+			//  std::cout << "Rafa, for i = " << i << ",\t q_[i][0] = " << q_[i][0] << "\t and mbc.q[i][0] = " << mbc.q[i][0] << std::endl;
 			++pos;
 		}
 		else if(mb.joint(i).dof() == 4)
@@ -1023,6 +1026,8 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 			pos += 3;
 		}
 	}
+	
+	//std::cout << "Rafa, eval_(18:22) = " << eval_.segment(18, 5).transpose() << std::endl;
 }
 
 

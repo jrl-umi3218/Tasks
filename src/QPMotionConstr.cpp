@@ -465,8 +465,10 @@ void PassiveMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
 					const Eigen::VectorXd& lambda)
 {
         MotionConstr::computeTorque(alphaD, lambda);
+	//std::cout << "Rafa, before adding P_, curTorque_(18:22) = " << curTorque_.segment(18,5).transpose() << std::endl;
+	//std::cout << "Rafa, used P_(18:22) = " << P_.segment(18,5).transpose() << std::endl;
         curTorque_ += P_;
-	// std::cout << "Rafa, used P_ = " << std::endl << P_.transpose() << std::endl;
+	//std::cout << "Rafa, after adding P_, curTorque_(18:22) = " << curTorque_.segment(18,5).transpose() << std::endl;
 }
 
 void PassiveMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
@@ -510,28 +512,29 @@ void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
 	}
 	else
 	{
-	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrDof(), mb.nrDof()); 
+	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrDof(), mb.nrDof());
+		//K(16 + 5, 16 + 5) = 0;
+		//K(17 + 5, 17 + 5) = 0;
 	}
+
+	//std::cout << "Rafa, K = " << std::endl << K << std::endl;
 	
 	Eigen::VectorXd alphaVec_ref = rbd::dofToVector(mb, mbc_calc.alpha);
 	Eigen::VectorXd alphaVec_hat = rbd::dofToVector(mb, mbc_real.alpha);
 
 	Eigen::VectorXd s = alphaVec_ref - alphaVec_hat;
-	// Eigen::VectorXd s = -alphaVec_hat;
+	//Eigen::VectorXd s = -alphaVec_hat;
 
-	if (s.norm() > 0) {
-	  std::cout << std::endl;
-	  std::cout << "Rafa, inside of computeP:" << std::endl;
-	  std::cout << "alphaVec_ref:" << std::endl << alphaVec_ref.transpose() << std::endl;
-	  std::cout << "alphaVec_hat:" << std::endl << alphaVec_hat.transpose() << std::endl;
-	  std::cout << "s:" << std::endl << s.transpose() << std::endl;
-	  std::cout << "---" << std::endl;
-	}
+	//std::cout << "Rafa, inside of computeP:" << std::endl;
+	//std::cout << "alphaVec_ref(18:22) = " << alphaVec_ref.segment(18,5).transpose() << std::endl;
+	//std::cout << "alphaVec_hat(18:22) = " << alphaVec_hat.segment(18,5).transpose() << std::endl;
+	//std::cout << "s(18:22) = " << s.segment(18,5).transpose() << std::endl;
 	
-	// P_ = (C + K) * s;
-	P_ = K * s;
+	P_ = (C + K) * s;
+	// P_ = K * s;
 
-	// std::cout << "Rafa, calculated P_ = " << std::endl << P_.transpose() << std::endl;
+	//std::cout << "Rafa, calculated P_(18:22) = " << P_.segment(18, 5).transpose() << std::endl;
+	//std::cout << std::endl;
 }
 
 
