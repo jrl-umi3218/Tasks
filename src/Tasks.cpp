@@ -1873,6 +1873,16 @@ void VectorOrientationTask::target(const Eigen::Vector3d &vector)
 	targetVector_ = vector;
 }
 
+const Eigen::Vector3d& VectorOrientationTask::target() const
+{
+	return targetVector_;
+}
+
+const Eigen::Vector3d& VectorOrientationTask::actual() const
+{
+	return actualVector_;
+}
+
 const Eigen::VectorXd& VectorOrientationTask::eval() const
 {
 	return eval_;
