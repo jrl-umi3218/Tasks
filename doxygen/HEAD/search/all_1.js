@@ -12,6 +12,7 @@ var searchData=
   ['ac',['AC',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#a50b6229cb113604692cd44977cc84350',1,'sch::CD_Simplex']]],
   ['ac_5f',['ac_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#a87959d3125ac180fd2d8210d3a360a1d',1,'sch::CD_Simplex']]],
   ['activejoints',['ActiveJoints',['../a00040.html#a1a77d026c1fe5211b95cae74910da98b',1,'tasks::qp::JointsSelector']]],
+  ['actual',['actual',['../a00095.html#a4e0cc220c74d4c3a4c1fc9733e0981f3',1,'tasks::qp::VectorOrientationTask::actual()'],['../a00094.html#acd3256756ea5c896dc67f141c2e5e6d4',1,'tasks::VectorOrientationTask::actual()']]],
   ['ad',['AD',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#abf137e4854d2804028361ec2086a4c0f',1,'sch::CD_Simplex']]],
   ['ad_5f',['ad_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#a5531ca341d4038bbf8b8fd02914f5f58',1,'sch::CD_Simplex']]],
   ['addbody',['addBody',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html#a6c3c7fa80770ae6d0eea6f4f0a294f03',1,'rbd::MultiBodyGraph']]],
@@ -56,8 +57,8 @@ var searchData=
   ['angular',['angular',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00003.html#a0b55525aa11296c8c2a4340af9e16826',1,'sva::MotionVec::angular() const '],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00003.html#a257ae7a4157d2e3bfa857787e069f224',1,'sva::MotionVec::angular()']]],
   ['angularinvmul',['angularInvMul',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a6c095822e0bb06039723071093289b63',1,'sva::PTransform']]],
   ['angularmul',['angularMul',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a0b6cbb2d0d4b11a3f4f61a33e74c3773',1,'sva::PTransform']]],
-  ['arc',['Arc',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00001.html#a255894e301bfdb9e660bbb2b5a75fe7d',1,'rbd::MultiBodyGraph::Arc::Arc()'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00001.html#a644383e1d0afd18757c6daa8a0fc7dd3',1,'rbd::MultiBodyGraph::Arc::Arc(sva::PTransformd X0, const Joint &amp;j, bool forward, std::shared_ptr&lt; Node &gt; n)']]],
   ['arc',['Arc',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00001.html',1,'rbd::MultiBodyGraph']]],
+  ['arc',['Arc',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00001.html#a255894e301bfdb9e660bbb2b5a75fe7d',1,'rbd::MultiBodyGraph::Arc::Arc()'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00001.html#a644383e1d0afd18757c6daa8a0fc7dd3',1,'rbd::MultiBodyGraph::Arc::Arc(sva::PTransformd X0, const Joint &amp;j, bool forward, std::shared_ptr&lt; Node &gt; n)']]],
   ['archivetype',['ArchiveType',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00118.html#aec0f4168a7c3d90bebc8db0c1f6c8fa9',1,'sch']]],
   ['arcs',['arcs',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html#aacec197bdf6de9edf6de089253ffb583',1,'rbd::MultiBodyGraph::Node']]],
   ['au_5f',['AU_',['../a00048.html#a8541b39617273f08843bc213c60baaf9',1,'tasks::qp::MotionConstrCommon']]]

@@ -6,6 +6,6 @@ var searchData=
   ['zero4_5f',['zero4_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#ab208fdb381cd710f93012e0ecf6ac98f',1,'sch::CD_Simplex']]],
   ['zero_5f',['zero_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#ab85fd3268df0acdff39224d3807fbdc8',1,'sch::CD_Simplex']]],
   ['zerodof',['zeroDof',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#aa0e3c2d09ab69939888a685d5a2012ff',1,'rbd::Joint::zeroDof() const '],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#a81bbf2ec038ee24dec892858c36263d4',1,'rbd::Joint::ZeroDof(Type type)']]],
-  ['zeroparam',['zeroParam',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#a7137b078b1afb1477b5647f08d600279',1,'rbd::Joint::zeroParam() const '],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#a73c50449329d34fdedaeb0684cf6b45e',1,'rbd::Joint::ZeroParam(Type type)']]],
+  ['zeroparam',['ZeroParam',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#a73c50449329d34fdedaeb0684cf6b45e',1,'rbd::Joint::ZeroParam(Type type)'],['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00013.html#a7137b078b1afb1477b5647f08d600279',1,'rbd::Joint::zeroParam() const ']]],
   ['zmp_2eh',['ZMP.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00037.html',1,'']]]
 ];

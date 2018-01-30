@@ -1,6 +1,7 @@
 var a00095 =
 [
     [ "VectorOrientationTask", "a00095.html#aa9d49889bd49416cbf821f8ee7607eca", null ],
+    [ "actual", "a00095.html#a4e0cc220c74d4c3a4c1fc9733e0981f3", null ],
     [ "bodyVector", "a00095.html#a5f917e9e709ebe8dc6a6d4e0837c20a2", null ],
     [ "bodyVector", "a00095.html#aa4c762f5c0723c763b50e3c4ddd65627", null ],
     [ "dim", "a00095.html#a0f596a516f5e674b98104ed98ec2fe15", null ],
@@ -9,6 +10,7 @@ var a00095 =
     [ "normalAcc", "a00095.html#a17c0246efc6e08063ac1a5cf3b607f8c", null ],
     [ "speed", "a00095.html#aebe3ba136ec7d47f5cc2bca199c4460e", null ],
     [ "target", "a00095.html#a8cf2cae94d6f8db4c231927b0db6bfd5", null ],
+    [ "target", "a00095.html#a57eb7e17f339e5849c844d9d6252ac44", null ],
     [ "task", "a00095.html#ac91165ba88b511181eabd515fb813c52", null ],
     [ "update", "a00095.html#a0df7b04283e1af87a96bc52bf6ba5e10", null ]
 ];

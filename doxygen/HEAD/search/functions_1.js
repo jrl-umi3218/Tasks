@@ -4,6 +4,7 @@ var searchData=
   ['abinertia',['ABInertia',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00001.html#ae51502bdba3992faf5663ed87e4f6a35',1,'sva::ABInertia::ABInertia()'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00001.html#a4be54cecaa1b47061f230fc5ba58e963',1,'sva::ABInertia::ABInertia(const matrix3_t &amp;M, const matrix3_t &amp;H, const matrix3_t &amp;I)'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00001.html#a26f1d88a24d807c3c3e499194ade2428',1,'sva::ABInertia::ABInertia(const TriangularView&lt; matrix3_t, Lower &gt; &amp;ltM, const matrix3_t &amp;H, const TriangularView&lt; matrix3_t, Lower &gt; &amp;ltI)']]],
   ['ac',['AC',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#a50b6229cb113604692cd44977cc84350',1,'sch::CD_Simplex']]],
   ['activejoints',['ActiveJoints',['../a00040.html#a1a77d026c1fe5211b95cae74910da98b',1,'tasks::qp::JointsSelector']]],
+  ['actual',['actual',['../a00095.html#a4e0cc220c74d4c3a4c1fc9733e0981f3',1,'tasks::qp::VectorOrientationTask::actual()'],['../a00094.html#acd3256756ea5c896dc67f141c2e5e6d4',1,'tasks::VectorOrientationTask::actual()']]],
   ['ad',['AD',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00012.html#abf137e4854d2804028361ec2086a4c0f',1,'sch::CD_Simplex']]],
   ['addbody',['addBody',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html#a6c3c7fa80770ae6d0eea6f4f0a294f03',1,'rbd::MultiBodyGraph']]],
   ['addboundconstraint',['addBoundConstraint',['../a00070.html#aea99c8e6fb55de731fdb1717994c0c4d',1,'tasks::qp::QPSolver']]],
