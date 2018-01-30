@@ -1880,7 +1880,7 @@ const Eigen::Vector3d& VectorOrientationTask::target() const
 
 const Eigen::Vector3d& VectorOrientationTask::actual() const
 {
-  return actualVector_;
+	return actualVector_;
 }
 
 const Eigen::VectorXd& VectorOrientationTask::eval() const
