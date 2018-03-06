@@ -647,12 +647,13 @@ const Eigen::VectorXd& JointsSelector::normalAcc()
 
 /** Torque Task **/
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
                        const TorqueBound& tb, double weight):
   Task(weight),
   robotIndex_(robotIndex),
   alphaDBegin_(-1),
   lambdaBegin_(-1),
-  motionConstr(mbs, robotIndex, tb),
+  motionConstr(mbs, robotIndex, fd, tb),
   jointSelector_(mbs[robotIndex].nrDof()),
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
   C_(mbs[robotIndex].nrDof())
@@ -661,13 +662,14 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 }
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
 		       const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
 		       double weight):
   Task(weight),
   robotIndex_(robotIndex),
   alphaDBegin_(-1),
   lambdaBegin_(-1),
-  motionConstr(mbs, robotIndex, tb),
+  motionConstr(mbs, robotIndex, fd, tb),
   jointSelector_(jointSelect),
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
   C_(mbs[robotIndex].nrDof())
@@ -675,13 +677,14 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 }
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
                        const TorqueBound& tb, const std::string& efName,
 		       double weight):
   Task(weight),
   robotIndex_(robotIndex),
   alphaDBegin_(-1),
   lambdaBegin_(-1),
-  motionConstr(mbs, robotIndex, tb),
+  motionConstr(mbs, robotIndex, fd, tb),
   jointSelector_(mbs[robotIndex].nrDof()),
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
   C_(mbs[robotIndex].nrDof())
@@ -715,7 +718,7 @@ void TorqueTask::update(const std::vector<rbd::MultiBody>& mbs,
 {
   motionConstr.update(mbs, mbcs, data);
   Q_.noalias() = motionConstr.matrix().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
-  C_.noalias() = motionConstr.fd().C().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
+  C_.noalias() = motionConstr.fd()->C().transpose()*jointSelector_.asDiagonal()*motionConstr.matrix();
   //C_.setZero();
 }
 

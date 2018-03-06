@@ -378,13 +378,16 @@ class TASKS_DLLAPI TorqueTask : public Task
 {
 public:
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const std::shared_ptr<rbd::ForwardDynamics> fd,
                    const TorqueBound& tb, double weight);
 
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const std::shared_ptr<rbd::ForwardDynamics> fd,
                    const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
 		   double weight);
 
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const std::shared_ptr<rbd::ForwardDynamics> fd,
                    const TorqueBound& tb, const std::string& efName,
 		   double weight);
 
