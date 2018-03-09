@@ -362,38 +362,6 @@ std::string ContactSpeedConstr::nameEq() const
 
 
 /**
-	*															PassiveContactSpeedConstr
-	*/
-
-
-PassiveContactSpeedConstr::PassiveContactSpeedConstr(double timeStep, int robotIndex,
-						     const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
-						     double lambda, VelGainType velGainType):
-	ContactSpeedConstr(timeStep),
-	robotIndex_(robotIndex),
-	mbcs_calc_(mbcs_calc),
-	lambda_(lambda),
-	velGainType_(velGainType)
-{}
-
-
-void PassiveContactSpeedConstr::update(const std::vector<rbd::MultiBody>& mbs,
-				       const std::vector<rbd::MultiBodyConfig>& mbcs,
-				       const SolverData& data)
-{
-  ContactSpeedConstr::update(mbs, mbcs, data);
-  
-  // Rafa, not finished yet
-}
-
-
-std::string PassiveContactSpeedConstr::nameEq() const
-{
-	return "PassiveContactSpeedConstr";
-}
-
-
-/**
 	*															ContactPosConstr
 	*/
 
@@ -466,6 +434,91 @@ std::string ContactPosConstr::nameEq() const
 {
 	return "ContactPosConstr";
 }
+
+
+/**
+	*															IntglTermContactPDConstr
+	*/
+
+
+IntglTermContactPDConstr::IntglTermContactPDConstr(Eigen::Vector6d stiffness,
+                                                   Eigen::Vector6d damping,
+                                                   int mainRobotIndex,
+                                                   const std::shared_ptr<integral::IntegralTerm> intglTerm)
+  : ContactConstr(),
+    stiffness_(stiffness),
+    damping_(damping),
+    mainRobotIndex_(mainRobotIndex),
+    intglTerm_(intglTerm)
+{}
+
+
+void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                      const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                      const SolverData& data)
+{
+        using namespace Eigen;
+  
+        A_.block(0, 0, nrEq_, totalAlphaD_).setZero();
+	b_.head(nrEq_).setZero();
+
+        int index = 0;
+        for(std::size_t i = 0; i < cont_.size(); ++i)
+        {
+                ContactData& cd = cont_[i];
+                int rows = int(cd.dof.rows());
+
+                for(std::size_t j = 0; j < cd.contacts.size(); ++j)
+                {
+                        ContactSideData& csd = cd.contacts[j];
+                        const rbd::MultiBody& mb = mbs[csd.robotIndex];
+                        const rbd::MultiBodyConfig& mbc = mbcs[csd.robotIndex];
+
+                        // AEq = J_i
+                        sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.bodyIndex];
+                        const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
+                        dofJac_.block(0, 0, rows, csd.jac.dof()).noalias() =
+                                csd.sign*cd.dof*jacMat;
+                        csd.jac.fullJacobian(mb, dofJac_.block(0, 0, rows, csd.jac.dof()),
+                                fullJac_);
+                        A_.block(index, csd.alphaDBegin, rows, mb.nrDof()).noalias() +=
+                                fullJac_.block(0, 0, rows, mb.nrDof());
+
+                        // BEq = dVSurf_obj - JD_i*alpha - J_i*gammaD
+                        Vector6d normalAcc = csd.jac.normalAcceleration(
+                                mb, mbc, data.normalAccB(csd.robotIndex), csd.X_b_p,
+                                sva::MotionVecd(Vector6d::Zero())).vector();
+                        Vector6d velocity = csd.jac.velocity(mb, mbc, csd.X_b_p).vector();
+                        b_.segment(index, rows).noalias() -=
+                          csd.sign*cd.dof*(normalAcc + damping_.asDiagonal() * velocity);
+                        if (csd.robotIndex == mainRobotIndex_)
+                        {
+                                b_.segment(index, rows).noalias() -=
+                                        fullJac_.block(0, 0, rows, mb.nrDof()) * intglTerm_->gammaD();
+                        }
+                }
+
+                sva::PTransformd X_0_b1cf =
+                        cd.X_b1_cf*mbcs[cd.contactId.r1Index].bodyPosW[cd.b1Index];
+                sva::PTransformd X_0_b2cf =
+                        cd.X_b1_cf*cd.X_b1_b2.inv()*mbcs[cd.contactId.r2Index].bodyPosW[cd.b2Index];
+
+                sva::PTransformd X_b1cf_b2cf = X_0_b2cf*X_0_b1cf.inv();
+                Eigen::Vector6d error;
+                error.head<3>() = sva::rotationVelocity(X_b1cf_b2cf.rotation());
+                error.tail<3>() = X_b1cf_b2cf.translation();
+                b_.segment(index, rows) += cd.dof * stiffness_.asDiagonal() * error;
+
+                index += rows;
+        }
+}
+
+
+std::string IntglTermContactPDConstr::nameEq() const
+{
+	return "IntglTermContactPDConstr";
+}
+
 
 } // qp
 

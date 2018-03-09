@@ -453,89 +453,35 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	*/
 
 
-/*
-PassiveMotionConstr::PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-                                         const std::shared_ptr<rbd::ForwardDynamics> fd,
-                                         const TorqueBound& tb,
-					 const std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc,
-					 double lambda, VelGainType velGainType) :
+IntglTermMotionConstr::IntglTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                                             const std::shared_ptr<rbd::ForwardDynamics> fd,
+                                             const std::shared_ptr<integral::IntegralTerm> intglTerm,
+                                             const TorqueBound& tb) :
   MotionConstr(mbs, robotIndex, fd, tb),
-  mbcs_calc_(mbcs_calc),
-  lambda_(lambda),
-  velGainType_(velGainType),
-  P_(nrDof_)
-{
-}
-*/
-
-IntTermMotionConstr::IntTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-                                         const std::shared_ptr<rbd::ForwardDynamics> fd,
-                                         const std::shared_ptr<integral::IntegralTerm> intTerm,
-                                         const TorqueBound& tb) :
-  MotionConstr(mbs, robotIndex, fd, tb),
-  intTerm_(intTerm)
+  intglTerm_(intglTerm)
 {
 }
 
-//void PassiveMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
-//					const Eigen::VectorXd& lambda)
-void IntTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
-					const Eigen::VectorXd& lambda)
+void IntglTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+                                          const Eigen::VectorXd& lambda)
 {
         MotionConstr::computeTorque(alphaD, lambda);
-        //curTorque_ += P_;
-        curTorque_ += intTerm_->P();
+        curTorque_ += intglTerm_->P();
+
+        std::cout << "Rafa, inside of IntglTermMotionConstr::computeTorque, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
 }
 
-//void PassiveMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
-//				 const std::vector<rbd::MultiBodyConfig>& mbcs,
-//				 const SolverData& data)
-void IntTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
-				 const std::vector<rbd::MultiBodyConfig>& mbcs,
-				 const SolverData& data)
+void IntglTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                   const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                   const SolverData& data)
 {
         MotionConstr::update(mbs, mbcs, data);
 
-        /*
-        const rbd::MultiBody& mb = mbs[robotIndex_];
-        const rbd::MultiBodyConfig& mbc_real = mbcs[robotIndex_];
-        const rbd::MultiBodyConfig& mbc_calc = (*mbcs_calc_)[robotIndex_];
-        */        
+        AL_ -= intglTerm_->P();
+        AU_ -= intglTerm_->P();
 
-        //computeP(mb, mbc_real, mbc_calc);
-        
-        //AL_ -= P_;
-        AL_ -= intTerm_->P();
-        //AU_ -= P_;
-        AU_ -= intTerm_->P();
+        std::cout << "Rafa, inside of IntglTermMotionConstr::update, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
 }
-
-/*
-void PassiveMotionConstr::computeP(const rbd::MultiBody& mb,
-				   const rbd::MultiBodyConfig& mbc_real,
-				   const rbd::MultiBodyConfig& mbc_calc)
-{
-        coriolis::Coriolis coriolis(mb);
-	Eigen::MatrixXd C = coriolis.coriolis(mb, mbc_real);
-	Eigen::MatrixXd K;
-
-	if (velGainType_ == MassMatrix)
-	{
-                K = lambda_ * fd_->H();
-	}
-	else
-	{
-	        K = lambda_ * Eigen::MatrixXd::Identity(mb.nrDof(), mb.nrDof());
-	}
-	
-	Eigen::VectorXd alphaVec_ref = rbd::dofToVector(mb, mbc_calc.alpha);
-	Eigen::VectorXd alphaVec_hat = rbd::dofToVector(mb, mbc_real.alpha);
-
-	Eigen::VectorXd s = alphaVec_ref - alphaVec_hat;
-	
-	P_ = (C + K) * s;
-}
-*/
 
 
 } // namespace qp
