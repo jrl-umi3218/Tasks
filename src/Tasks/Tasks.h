@@ -675,6 +675,8 @@ public:
 	void bodyVector(const Eigen::Vector3d& vector);
 	const Eigen::Vector3d& bodyVector() const;
 	void target(const Eigen::Vector3d& vector);
+	const Eigen::Vector3d& target() const;
+	const Eigen::Vector3d& actual() const;
 
 	const Eigen::VectorXd& eval() const;
 	const Eigen::VectorXd& speed() const;

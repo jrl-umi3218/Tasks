@@ -1313,6 +1313,14 @@ public:
 	{
 		vot_.target(vector);
 	}
+	const Eigen::Vector3d& target() const
+	{
+		return vot_.target();
+	}
+	const Eigen::Vector3d& actual() const
+	{
+		return vot_.actual();
+	}
 
 	virtual int dim();
 	virtual void update(const std::vector<rbd::MultiBody> &mbs,
