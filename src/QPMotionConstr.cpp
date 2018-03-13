@@ -468,7 +468,7 @@ void IntglTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
         MotionConstr::computeTorque(alphaD, lambda);
         curTorque_ += intglTerm_->P();
 
-        std::cout << "Rafa, inside of IntglTermMotionConstr::computeTorque, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
+        // std::cout << "Rafa, inside of IntglTermMotionConstr::computeTorque, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
 }
 
 void IntglTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
@@ -480,7 +480,7 @@ void IntglTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
         AL_ -= intglTerm_->P();
         AU_ -= intglTerm_->P();
 
-        std::cout << "Rafa, inside of IntglTermMotionConstr::update, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
+        // std::cout << "Rafa, inside of IntglTermMotionConstr::update, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
 }
 
 

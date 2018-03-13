@@ -154,6 +154,16 @@ public:
 	void refVel(const Eigen::VectorXd& refVel);
 	void refAccel(const Eigen::VectorXd& refAccel);
 
+        const Eigen::VectorXd& refVel()
+        {
+          return refVel_;
+        }
+
+        const Eigen::VectorXd& refAccel()
+        {
+          return refAccel_;
+        }
+
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
