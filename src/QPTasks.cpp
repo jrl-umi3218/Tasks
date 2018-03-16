@@ -273,12 +273,20 @@ void TrajectoryTask::refVel(const Eigen::VectorXd& refVel)
 	refVel_ = refVel;
 }
 
+Eigen::VectorXd TrajectoryTask::refVel() const
+{
+  return refVel_;
+}
 
 void TrajectoryTask::refAccel(const Eigen::VectorXd& refAccel)
 {
 	refAccel_ = refAccel;
 }
 
+Eigen::VectorXd TrajectoryTask::refAccel() const
+{
+  return refAccel_;
+}
 
 void TrajectoryTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,

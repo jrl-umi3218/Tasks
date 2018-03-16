@@ -152,7 +152,9 @@ public:
 	void setGains(double gainPos, double gainVel);
 
 	void refVel(const Eigen::VectorXd& refVel);
+  Eigen::VectorXd refVel() const;
 	void refAccel(const Eigen::VectorXd& refAccel);
+  Eigen::VectorXd refAccel() const;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
