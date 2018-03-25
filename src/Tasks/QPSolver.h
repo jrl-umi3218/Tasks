@@ -187,7 +187,7 @@ template<typename... Fun>
 class ConstraintFunction : public Constraint, public Fun...
 {
 public:
-	virtual ~ConstraintFunction() {}
+	virtual ~ConstraintFunction() override {}
 
 	void addToSolver(QPSolver& sol)
 	{

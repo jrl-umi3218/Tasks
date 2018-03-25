@@ -50,7 +50,7 @@ public:
 		HighLevelTask* hlTask, const Eigen::VectorXd& dimWeight,
 		double weight);
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
@@ -63,10 +63,10 @@ public:
 	}
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 protected:
 	void computeQC(Eigen::VectorXd& error);
@@ -106,7 +106,7 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 private:
 	double stiffness_, stiffnessSqrt_;
@@ -131,7 +131,7 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 private:
 	double gainPos_, gainVel_;
@@ -156,7 +156,7 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 private:
 	double gainPos_, gainVel_;
@@ -188,7 +188,7 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 private:
 	double P_, I_, D_;
@@ -258,19 +258,19 @@ public:
 	}
 
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 private:
 	HighLevelTask* hlTask_;
@@ -317,15 +317,15 @@ public:
 		return selectedJoints_;
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	Eigen::MatrixXd jac_;
@@ -389,22 +389,22 @@ public:
                    double weight);
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return std::make_pair(0, 0);
 	}
 
-	virtual const Eigen::MatrixXd& Q() const
+	virtual const Eigen::MatrixXd& Q() const override
         {
           return Q_;
         }
 
-	virtual const Eigen::VectorXd& C() const
+	virtual const Eigen::VectorXd& C() const override
         {
           return C_;
         }
@@ -465,19 +465,19 @@ public:
 	void jointsGains(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<JointGains>& jgv);
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return std::make_pair(alphaDBegin_, alphaDBegin_);
 	}
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 	const Eigen::VectorXd& eval() const;
 
@@ -536,15 +536,15 @@ public:
 		return pt_.bodyPoint();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::PositionTask pt_;
@@ -581,15 +581,15 @@ public:
 		return ot_.orientation();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::OrientationTask ot_;
@@ -635,27 +635,27 @@ public:
 		return tt_.X_b_p();
 	}
 
-	virtual int dim()
+	virtual int dim() override
 	{
 	  return 6;
 	}
 
-	virtual const Eigen::MatrixXd& jac()
+	virtual const Eigen::MatrixXd& jac() override
 	{
 	  return tt_.jac();
 	}
 
-	virtual const Eigen::VectorXd& eval()
+	virtual const Eigen::VectorXd& eval() override
 	{
 	  return tt_.eval();
 	}
 
-	virtual const Eigen::VectorXd& speed()
+	virtual const Eigen::VectorXd& speed() override
 	{
 	  return tt_.speed();
 	}
 
-	virtual const Eigen::VectorXd& normalAcc()
+	virtual const Eigen::VectorXd& normalAcc() override
 	{
 	  return tt_.normalAcc();
 	}
@@ -677,7 +677,7 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 };
 
 
@@ -696,7 +696,7 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 };
 
 
@@ -731,15 +731,15 @@ public:
 			return ot_.orientation();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 			const std::vector<rbd::MultiBodyConfig>& mbcs,
-			const SolverData& data);
+			const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::SurfaceOrientationTask ot_;
@@ -777,14 +777,14 @@ public:
 			gazet_.error(point3d, point2d_ref);
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
-			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data);
+			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::GazeTask gazet_;
@@ -810,14 +810,14 @@ public:
 			pbvst_.error(X_t_s);
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
-			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data);
+			const std::vector<rbd::MultiBodyConfig>& mbcs, const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::PositionBasedVisServoTask pbvst_;
@@ -851,15 +851,15 @@ public:
 
 	void updateInertialParameters(const std::vector<rbd::MultiBody>& mbs);
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::CoMTask ct_;
@@ -908,19 +908,19 @@ public:
 		return dimWeight_;
 	}
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return {alphaDBegin_, alphaDBegin_};
 	}
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 	const Eigen::VectorXd& eval() const;
 	const Eigen::VectorXd& speed() const;
@@ -976,19 +976,19 @@ public:
 		return dimWeight_;
 	}
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return {alphaDBegin_, alphaDBegin_};
 	}
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 	const Eigen::VectorXd& eval() const;
 	const Eigen::VectorXd& speed() const;
@@ -1028,15 +1028,15 @@ public:
 		return momt_.momentum();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::MomentumTask momt_;
@@ -1060,7 +1060,7 @@ public:
 		C_()
 	{}
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return std::make_pair(begin_, begin_);
 	}
@@ -1069,13 +1069,13 @@ public:
 	void errorD(const Eigen::Vector3d& errorD);
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 private:
 	ContactId contactId_;
@@ -1105,19 +1105,19 @@ public:
 		C_()
 	{}
 
-	virtual std::pair<int, int> begin() const
+	virtual std::pair<int, int> begin() const override
 	{
 		return std::make_pair(begin_, begin_);
 	}
 
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& Q() const;
-	virtual const Eigen::VectorXd& C() const;
+	virtual const Eigen::MatrixXd& Q() const override;
+	virtual const Eigen::VectorXd& C() const override;
 
 private:
 	ContactId contactId_;
@@ -1163,15 +1163,15 @@ public:
 		return pt_.bodyPoint();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	tasks::LinVelocityTask pt_;
@@ -1224,15 +1224,15 @@ public:
 		return ott_.bodyAxis();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	int robotIndex_;
@@ -1274,15 +1274,15 @@ public:
 		rdt_.vector(bIndex, u);
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 
 private:
 	int rIndex_;
@@ -1322,15 +1322,15 @@ public:
 		return vot_.actual();
 	}
 
-	virtual int dim();
+	virtual int dim() override;
 	virtual void update(const std::vector<rbd::MultiBody> &mbs,
 		const std::vector<rbd::MultiBodyConfig> &mbcs,
-		const SolverData &data);
+		const SolverData &data) override;
 
-	virtual const Eigen::MatrixXd& jac();
-	virtual const Eigen::VectorXd& eval();
-	virtual const Eigen::VectorXd& speed();
-	virtual const Eigen::VectorXd& normalAcc();
+	virtual const Eigen::MatrixXd& jac() override;
+	virtual const Eigen::VectorXd& eval() override;
+	virtual const Eigen::VectorXd& speed() override;
+	virtual const Eigen::VectorXd& normalAcc() override;
 private:
 	tasks::VectorOrientationTask vot_;
 	int robotIndex_;
