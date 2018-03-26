@@ -1,14 +1,14 @@
 var a00071 =
 [
     [ "RelativeDistTask", "a00071.html#aee57978784aaab94d4f038f06afecb63", null ],
-    [ "dim", "a00071.html#a7a10c1e28470f8f76f30f7a574fe05bf", null ],
+    [ "dim", "a00071.html#a2a076d883ae2ae9148125a1cf90290d5", null ],
     [ "envPoint", "a00071.html#a39c737ceec7d5b3242df364d6df79815", null ],
-    [ "eval", "a00071.html#a1dadbd15c432b77273e6b40bdaa5999b", null ],
-    [ "jac", "a00071.html#a1b0820a82fc2f488ca5dcea41bb314ad", null ],
-    [ "normalAcc", "a00071.html#a6bfcbc5f3b2bce4d2da019dca6450d0b", null ],
+    [ "eval", "a00071.html#a11b62b9864965a33f2b1798fa98645d2", null ],
+    [ "jac", "a00071.html#ac23fc19d200f31f7c482f256256fd71f", null ],
+    [ "normalAcc", "a00071.html#a961b26cc8f41478be73ae6d3ce5467e2", null ],
     [ "robotPoint", "a00071.html#ad3c8ae8598019167f9097a0ed3563747", null ],
-    [ "speed", "a00071.html#aca76ddee633628ab4ffbb639c81190b5", null ],
+    [ "speed", "a00071.html#a48fa7152b7ad02469cfc5a4d6288222b", null ],
     [ "task", "a00071.html#a585bc9c8c947501a9a551de98c199157", null ],
-    [ "update", "a00071.html#a081ddb05a7c4d1c7fe1f741bc55d27a8", null ],
+    [ "update", "a00071.html#a2ae0402d3775be02c26639fdbce5fd9f", null ],
     [ "vector", "a00071.html#ab195e00cfebc156a2e62be8f5ca0ff8f", null ]
 ];

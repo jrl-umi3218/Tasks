@@ -6,5 +6,5 @@ var a00087 =
     [ "errorVel", "a00087.html#aa7e75dcb2e63cfa39b0fa49226d7a575", null ],
     [ "refAccel", "a00087.html#a20e5c060814329fd2aef628b3c439234", null ],
     [ "setGains", "a00087.html#adacea85596258631196cdc1dc5a50ae1", null ],
-    [ "update", "a00087.html#a9644d26234f5244b2f13ba2e8540adc5", null ]
+    [ "update", "a00087.html#a4f3c9c7072cd548599133bff6375043f", null ]
 ];
