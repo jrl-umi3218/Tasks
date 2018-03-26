@@ -8,3 +8,7 @@ binding/python/tasks/qp/qp.cpp
 binding/python/tasks/qp/qp.so
 binding/python/tasks/qp/__init__.py
 binding/python/setup.py
+*.swp
+CMakeLists.txt.user*
+*.autosave
+build/
