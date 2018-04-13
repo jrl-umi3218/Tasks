@@ -267,6 +267,26 @@ void TrajectoryTask::setGains(double gainPos, double gainVel)
 	gainVel_ = gainVel;
 }
 
+void TrajectoryTask::stiffness(const double gainPos)
+{
+  gainPos_ = gainPos;
+}
+
+double TrajectoryTask::stiffness() const
+{
+  return gainPos_;
+}
+
+void TrajectoryTask::damping(const double gainVel)
+{
+  gainVel_ = gainVel;
+}
+
+double TrajectoryTask::damping() const
+{
+  return gainVel_;
+}
+
 
 void TrajectoryTask::refVel(const Eigen::VectorXd& refVel)
 {

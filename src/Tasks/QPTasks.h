@@ -150,6 +150,11 @@ public:
 		const Eigen::VectorXd& dimWeight, double weight);
 
 	void setGains(double gainPos, double gainVel);
+  void stiffness(const double gainPos);
+  double stiffness() const;
+  void damping(const double gainVel);
+  double damping() const;
+
 
 	void refVel(const Eigen::VectorXd& refVel);
   Eigen::VectorXd refVel() const;
