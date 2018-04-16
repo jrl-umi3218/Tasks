@@ -150,9 +150,16 @@ public:
 		const Eigen::VectorXd& dimWeight, double weight);
 
 	void setGains(double gainPos, double gainVel);
+	void stiffness(double gainPos);
+	double stiffness() const;
+	void damping(double gainVel);
+	double damping() const;
+
 
 	void refVel(const Eigen::VectorXd& refVel);
+	const Eigen::VectorXd & refVel() const;
 	void refAccel(const Eigen::VectorXd& refAccel);
+	const Eigen::VectorXd & refAccel() const;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
