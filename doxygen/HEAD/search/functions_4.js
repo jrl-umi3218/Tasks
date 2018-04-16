@@ -2,7 +2,7 @@ var searchData=
 [
   ['d',['D',['../a00059.html#a3d381faac78840c75f0a1089bd21d423',1,'tasks::qp::PIDTask::D() const '],['../a00059.html#ac77eb878ae008a6368bc21a14179d7b7',1,'tasks::qp::PIDTask::D(double d)']]],
   ['damperjointlimitsconstr',['DamperJointLimitsConstr',['../a00026.html#ab0e3959cb5a9a6e07fce811e23ec308d',1,'tasks::qp::DamperJointLimitsConstr']]],
-  ['damping',['damping',['../a00067.html#ae508abc11e90ab603a1c35f1315bb45d',1,'tasks::qp::PostureTask']]],
+  ['damping',['damping',['../a00088.html#aabcbb795c8bfe90f08b0b76406d68827',1,'tasks::qp::TrajectoryTask::damping(double gainVel)'],['../a00088.html#a0a90eb3e6a83f8b4d229b98c4ce4fdcf',1,'tasks::qp::TrajectoryTask::damping() const '],['../a00067.html#ae508abc11e90ab603a1c35f1315bb45d',1,'tasks::qp::PostureTask::damping()']]],
   ['data',['data',['../a00070.html#a6f86a9e6c939b33b46bca4484df70024',1,'tasks::qp::QPSolver::data() const '],['../a00070.html#a8a1acf24ccb416ecd607eb1169499387',1,'tasks::qp::QPSolver::data()']]],
   ['deletevertexeswithoutneighbors',['deleteVertexesWithoutNeighbors',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00029.html#a2685831d7556365b4ad0466bdead90a1',1,'sch::Polyhedron_algorithms::deleteVertexesWithoutNeighbors()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00041.html#ab3aadd37543713ebdba4aa9215d74e6f',1,'sch::S_Polyhedron::deleteVertexesWithoutNeighbors()']]],
   ['depth_5fedge',['Depth_Edge',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00016.html#a46d756b607da05a42db46554a83005fd',1,'sch::Depth_Edge::Depth_Edge()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00016.html#a893d2d4a3f536b72141f6985c1e20cb5',1,'sch::Depth_Edge::Depth_Edge(Depth_Triangle *triangle, int index)']]],
