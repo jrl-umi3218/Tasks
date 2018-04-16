@@ -157,9 +157,9 @@ public:
 
 
 	void refVel(const Eigen::VectorXd& refVel);
-	Eigen::VectorXd refVel() const;
+	const Eigen::VectorXd & refVel() const;
 	void refAccel(const Eigen::VectorXd& refAccel);
-	Eigen::VectorXd refAccel() const;
+	const Eigen::VectorXd & refAccel() const;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,

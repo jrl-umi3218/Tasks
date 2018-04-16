@@ -293,7 +293,7 @@ void TrajectoryTask::refVel(const Eigen::VectorXd& refVel)
 	refVel_ = refVel;
 }
 
-Eigen::VectorXd TrajectoryTask::refVel() const
+const Eigen::VectorXd & TrajectoryTask::refVel() const
 {
 	return refVel_;
 }
@@ -303,7 +303,7 @@ void TrajectoryTask::refAccel(const Eigen::VectorXd& refAccel)
 	refAccel_ = refAccel;
 }
 
-Eigen::VectorXd TrajectoryTask::refAccel() const
+const Eigen::VectorXd & TrajectoryTask::refAccel() const
 {
 	return refAccel_;
 }
