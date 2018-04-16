@@ -267,24 +267,24 @@ void TrajectoryTask::setGains(double gainPos, double gainVel)
 	gainVel_ = gainVel;
 }
 
-void TrajectoryTask::stiffness(const double gainPos)
+void TrajectoryTask::stiffness(double gainPos)
 {
-  gainPos_ = gainPos;
+	gainPos_ = gainPos;
 }
 
 double TrajectoryTask::stiffness() const
 {
-  return gainPos_;
+	return gainPos_;
 }
 
-void TrajectoryTask::damping(const double gainVel)
+void TrajectoryTask::damping(double gainVel)
 {
-  gainVel_ = gainVel;
+	gainVel_ = gainVel;
 }
 
 double TrajectoryTask::damping() const
 {
-  return gainVel_;
+	return gainVel_;
 }
 
 
@@ -295,7 +295,7 @@ void TrajectoryTask::refVel(const Eigen::VectorXd& refVel)
 
 Eigen::VectorXd TrajectoryTask::refVel() const
 {
-  return refVel_;
+	return refVel_;
 }
 
 void TrajectoryTask::refAccel(const Eigen::VectorXd& refAccel)
@@ -305,7 +305,7 @@ void TrajectoryTask::refAccel(const Eigen::VectorXd& refAccel)
 
 Eigen::VectorXd TrajectoryTask::refAccel() const
 {
-  return refAccel_;
+	return refAccel_;
 }
 
 void TrajectoryTask::update(const std::vector<rbd::MultiBody>& mbs,
