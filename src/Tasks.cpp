@@ -335,16 +335,16 @@ void SurfaceTransformTask::update(const rbd::MultiBody& mb,
 	sva::PTransformd X_p_t = X_0_t_*X_0_p.inv();
 
 	sva::MotionVecd err_p = sva::transformVelocity(X_p_t, 1e-7);
-	sva::MotionVecd V_0_p = jac_.velocity(mb, mbc, X_b_p_);
-	sva::MotionVecd w_0_p = sva::MotionVecd(V_0_p.angular(), Eigen::Vector3d::Zero());
-	sva::MotionVecd AN_0_p = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_,
+	sva::MotionVecd V_p_p = jac_.velocity(mb, mbc, X_b_p_);
+	sva::MotionVecd w_p_p = sva::MotionVecd(V_p_p.angular(), Eigen::Vector3d::Zero());
+	sva::MotionVecd AN_p_p = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_,
 		sva::MotionVecd(Eigen::Vector6d::Zero()));
-	sva::MotionVecd wAN_0_p = sva::MotionVecd(AN_0_p.angular(), Eigen::Vector3d::Zero());
-	sva::MotionVecd V_err_p = err_p.cross(w_0_p) - V_0_p;
+	sva::MotionVecd wAN_p_p = sva::MotionVecd(AN_p_p.angular(), Eigen::Vector3d::Zero());
+	sva::MotionVecd V_err_p = err_p.cross(w_p_p) - V_p_p;
 
 	eval_ = err_p.vector();
 	speed_ = -V_err_p.vector();
-	normalAcc_ = -(V_err_p.cross(w_0_p) + err_p.cross(wAN_0_p) - AN_0_p).vector();
+	normalAcc_ = -(V_err_p.cross(w_p_p) + err_p.cross(wAN_p_p) - AN_p_p).vector();
 
 	jacMatTmp_ = jac_.jacobian(mb, mbc, X_0_p);
 
