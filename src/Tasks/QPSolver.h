@@ -372,6 +372,9 @@ public:
 	virtual const Eigen::MatrixXd& Q() const = 0;
 	virtual const Eigen::VectorXd& C() const = 0;
 
+	/// override and add to data.variableVars() if want additional variables
+	virtual void addNrVariableVars( SolverData& data )  { }
+
 private:
 	double weight_;
 };
