@@ -228,6 +228,57 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 
+	
+void QPSolver::updateVariableVars( const std::vector<rbd::MultiBody>& mbs )
+{
+	for(int& nrVariableVars : data_.variableVars_)
+	{
+		nrVariableVars = 0;
+	}
+	
+	for(Task* t: tasks_)
+	{
+		t->addNrVariableVars( data_ );
+	}
+	
+	data_.totalVariableVars_ = 0;
+	for(const int& nrVariableVars : data_.variableVars_)
+	{
+		data_.totalVariableVars_ += nrVariableVars;
+	}
+	
+	std::vector<std::tuple<int, int, double>> dependencies;
+	int cumAlphaD = 0;
+	for(std::size_t r = 0; r < mbs.size(); ++r)
+	{
+		const rbd::MultiBody& mb = mbs[r];
+		data_.alphaDBegin_[r] = cumAlphaD;
+		data_.variableVarsBegin_[r] = cumAlphaD + data_.alphaD_[r];
+		cumAlphaD += data_.alphaD_[r] + data_.variableVars_[r];
+		
+		if(mb.nrDof() > 0)
+		{
+			for(const auto & j : mb.joints())
+			{
+                if(j.isMimic())
+                {
+                    dependencies.emplace_back(data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimicName())),
+                                              data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())),
+                                              j.mimicMultiplier());
+                }
+            }
+        }
+    }
+    
+    data_.nrVars_ = data_.totalAlphaD_ + data_.totalVariableVars_ + data_.totalLambda_;
+	solver_->setDependencies(data_.nrVars_, dependencies);
+	solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
+    
+	updateNrVars(mbs);
+    
+	// will break QPSolver::alphaDVec() since (alphaD variableVars | alphaD variableVars | ... )
+}
+
 
 int QPSolver::nrVars() const
 {
@@ -453,7 +504,14 @@ Eigen::VectorXd QPSolver::alphaDVec(int rIndex) const
 		data_.alphaD_[rIndex]);
 }
 
+	
+Eigen::VectorXd QPSolver::variableVarsVec(int rIndex) const
+{
+    return solver_->result().segment(data_.variableVarsBegin_[rIndex],
+                                     data_.variableVars_[rIndex]);
+}
 
+	
 Eigen::VectorXd QPSolver::lambdaVec() const
 {
 	return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_);
