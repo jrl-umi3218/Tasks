@@ -92,6 +92,9 @@ public:
 		std::vector<BilateralContact> bi);
 	int nrVars() const;
 
+	/// call if before solve if using variable vars
+	void updateVariableVars( const std::vector<rbd::MultiBody>& mbs );
+
 	/// call updateNrVars on all tasks
 	void updateTasksNrVars(const std::vector<rbd::MultiBody>& mbs) const;
 	/// call updateNrVars on all constraints
@@ -134,6 +137,8 @@ public:
 	const Eigen::VectorXd& result() const;
 	Eigen::VectorXd alphaDVec() const;
 	Eigen::VectorXd alphaDVec(int rIndex) const;
+
+	Eigen::VectorXd variableVarsVec(int rIndex) const;
 
 	Eigen::VectorXd lambdaVec() const;
 	Eigen::VectorXd lambdaVec(int cIndex) const;
