@@ -143,9 +143,21 @@ public:
 		return normalAccB_[robotIndex];
 	}
 
+	std::vector<int>& variableVars()
+	{
+		return variableVars_;
+	}
+	
+	int variableVarsBegin(int robotIndex) const
+	{
+		return variableVarsBegin_[robotIndex];
+	}
+
 private:
 	std::vector<int> alphaD_; //< each robot alphaD vector size
 	std::vector<int> alphaDBegin_; //< each robot alphaD vector begin in x
+	std::vector<int> variableVars_; //< each robot variables vars size
+	std::vector<int> variableVarsBegin_; //< each robot variables vars begin in x
 	std::vector<int> lambda_; //< each contact lambda
 	std::vector<int> lambdaBegin_; //< each contact lambda vector begin in x
 	int totalAlphaD_, totalLambda_;
