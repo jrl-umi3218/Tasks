@@ -1004,15 +1004,15 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 	// we drop the first joint (fixed or free flyier).
 	for(int i = 1; i < mb.nrJoints(); ++i)
 	{
-		// if dof == 1 is a prismatic/revolute joint
-		// else if dof == 4 is a spherical one
+		// if params == 1 is a prismatic/revolute joint
+		// else if params == 4 is a spherical one
 		// else is a fixed one
-		if(mb.joint(i).dof() == 1)
+		if(mb.joint(i).params() == 1)
 		{
 			eval_(pos) = q_[i][0] - mbc.q[i][0];
 			++pos;
 		}
-		else if(mb.joint(i).dof() == 4)
+		else if(mb.joint(i).params() == 4)
 		{
 			Matrix3d orid(
 				Quaterniond(q_[i][0], q_[i][1], q_[i][2], q_[i][3]).matrix());
@@ -1020,10 +1020,12 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 			Vector3d err = sva::rotationError(mbc.jointConfig[i].rotation(), orid);
 
 			eval_.segment(pos, 3) = err;
+            
 			pos += 3;
 		}
 	}
 }
+
 
 
 void PostureTask::updateDot(const rbd::MultiBody& /* mb */, const rbd::MultiBodyConfig& /* mbc */)
