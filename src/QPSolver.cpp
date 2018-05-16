@@ -138,6 +138,9 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 	data_.alphaD_.resize(mbs.size());
 	data_.alphaDBegin_.resize(mbs.size());
 
+	data_.variableVars_.resize(mbs.size(), 0);
+	data_.variableVarsBegin_.resize(mbs.size(), 0);
+
 	data_.uniCont_ = std::move(uni);
 	data_.biCont_ = std::move(bi);
 
