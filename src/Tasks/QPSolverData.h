@@ -160,7 +160,7 @@ private:
 	std::vector<int> variableVarsBegin_; //< each robot variables vars begin in x
 	std::vector<int> lambda_; //< each contact lambda
 	std::vector<int> lambdaBegin_; //< each contact lambda vector begin in x
-	int totalAlphaD_, totalLambda_;
+	int totalAlphaD_, totalLambda_, totalVariableVars_;
 	int nrUniLambda_, nrBiLambda_;
 	int nrVars_; //< total number of var
 
