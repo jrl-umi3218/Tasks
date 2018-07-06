@@ -242,8 +242,8 @@ TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
 	HighLevelTask* hlTask,
 	double gainPos, double gainVel, double weight):
 	SetPointTaskCommon(mbs, rI, hlTask, weight),
-	gainPos_(gainPos),
-	gainVel_(gainVel),
+	stiffness_(gainPos*Eigen::VectorXd::Ones(hlTask->dim())),
+	damping_(gainVel*Eigen::VectorXd::Ones(hlTask->dim())),
 	refVel_(Eigen::VectorXd::Zero(hlTask->dim())),
 	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
@@ -254,8 +254,8 @@ TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
 	HighLevelTask* hlTask,
 	double gainPos, double gainVel, const Eigen::VectorXd& dimWeight, double weight):
 	SetPointTaskCommon(mbs, rI, hlTask, dimWeight, weight),
-	gainPos_(gainPos),
-	gainVel_(gainVel),
+	stiffness_(gainPos*Eigen::VectorXd::Ones(hlTask->dim())),
+	damping_(gainVel*Eigen::VectorXd::Ones(hlTask->dim())),
 	refVel_(Eigen::VectorXd::Zero(hlTask->dim())),
 	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
@@ -263,28 +263,50 @@ TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
 
 void TrajectoryTask::setGains(double gainPos, double gainVel)
 {
-	gainPos_ = gainPos;
-	gainVel_ = gainVel;
+	stiffness_ = gainPos * Eigen::VectorXd::Ones(hlTask_->dim());
+	damping_ = gainVel * Eigen::VectorXd::Ones(hlTask_->dim());
+}
+
+void TrajectoryTask::setGains(const Eigen::VectorXd & stiffness,
+															const Eigen::VectorXd & damping)
+{
+	assert(stiffness.size() == stiffness_.size());
+	assert(damping.size() == damping_.size());
+	stiffness_ = stiffness;
+	damping_ = damping;
 }
 
 void TrajectoryTask::stiffness(double gainPos)
 {
-	gainPos_ = gainPos;
+	stiffness_ = gainPos * Eigen::VectorXd::Ones(hlTask_->dim());
 }
 
-double TrajectoryTask::stiffness() const
+void TrajectoryTask::stiffness(const Eigen::VectorXd & stiffness)
 {
-	return gainPos_;
+	assert(stiffness.size() == stiffness_.size());
+	stiffness_ = stiffness;
+}
+
+const Eigen::VectorXd & TrajectoryTask::stiffness() const
+{
+	return stiffness_;
 }
 
 void TrajectoryTask::damping(double gainVel)
 {
-	gainVel_ = gainVel;
+	damping_ = gainVel * Eigen::VectorXd::Ones(hlTask_->dim());
 }
 
-double TrajectoryTask::damping() const
+void TrajectoryTask::damping(const Eigen::VectorXd & damping)
 {
-	return gainVel_;
+	assert(damping.size() == damping_.size());
+	damping_ = damping;
+}
+
+
+const Eigen::VectorXd & TrajectoryTask::damping() const
+{
+	return damping_;
 }
 
 
@@ -317,8 +339,8 @@ void TrajectoryTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const Eigen::VectorXd& err = hlTask_->eval();
 	const Eigen::VectorXd& speed = hlTask_->speed();
 
-	error_.noalias() = gainPos_*err;
-	error_.noalias() += gainVel_*(refVel_ - speed);
+	error_.noalias() = stiffness_.asDiagonal()*err;
+	error_.noalias() += damping_.asDiagonal()*(refVel_ - speed);
 	error_.noalias() += refAccel_;
 	computeQC(error_);
 }
