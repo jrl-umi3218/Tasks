@@ -43,8 +43,8 @@ var searchData=
   ['stp_5fsmallsphere',['STP_SmallSphere',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00068.html',1,'']]],
   ['stp_5fsmallsphere',['STP_SmallSphere',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00067.html',1,'sch']]],
   ['stp_5ftorus',['STP_Torus',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00069.html',1,'sch']]],
-  ['surfaceorientationtask',['SurfaceOrientationTask',['../a00079.html',1,'tasks']]],
-  ['surfaceorientationtask',['SurfaceOrientationTask',['../a00080.html',1,'tasks::qp']]],
-  ['surfacetransformtask',['SurfaceTransformTask',['../a00082.html',1,'tasks']]],
-  ['surfacetransformtask',['SurfaceTransformTask',['../a00081.html',1,'tasks::qp']]]
+  ['surfaceorientationtask',['SurfaceOrientationTask',['../a00079.html',1,'tasks::qp']]],
+  ['surfaceorientationtask',['SurfaceOrientationTask',['../a00080.html',1,'tasks']]],
+  ['surfacetransformtask',['SurfaceTransformTask',['../a00082.html',1,'tasks::qp']]],
+  ['surfacetransformtask',['SurfaceTransformTask',['../a00081.html',1,'tasks']]]
 ];

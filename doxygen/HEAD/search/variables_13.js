@@ -16,5 +16,7 @@ var searchData=
   ['stamp1_5f',['stamp1_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#af56c4fdd5cbad9e64292a0065a5a8417',1,'sch::CD_Pair']]],
   ['stamp2_5f',['stamp2_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#a708d70a7e7afbe7c149833afff6916a4',1,'sch::CD_Pair']]],
   ['stamp_5f',['stamp_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00035.html#a8d30232a8b5c3f93dceba05b9642bf8d',1,'sch::S_Box']]],
+  ['startdof',['startDof',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00002.html#a3558d01bb1176d7cf135ce8c43da0548',1,'rbd::Block']]],
+  ['startjac',['startJac',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00002.html#a0bcf0a267fe729a2bee80a4fd92acb2b',1,'rbd::Block']]],
   ['stiffness',['stiffness',['../a00041.html#ad533f855fbb99ea34bad2832042c973e',1,'tasks::qp::JointStiffness::stiffness()'],['../a00038.html#ab0a41a5153da3a170bafea2c4453a7a5',1,'tasks::qp::JointGains::stiffness()']]]
 ];

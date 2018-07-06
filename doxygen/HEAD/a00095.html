@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::VectorOrientationTask Class Reference</title>
+<title>tasks::VectorOrientationTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -97,71 +97,49 @@ $(document).ready(function(){initNavTree('a00095.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00208.html">List of all members</a>  </div>
+<a href="a00135.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::VectorOrientationTask Class Reference</div>  </div>
+<div class="title">tasks::VectorOrientationTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for tasks::qp::VectorOrientationTask:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="a00095.png" usemap="#tasks::qp::VectorOrientationTask_map" alt=""/>
-  <map id="tasks::qp::VectorOrientationTask_map" name="tasks::qp::VectorOrientationTask_map">
-<area href="a00035.html" alt="tasks::qp::HighLevelTask" shape="rect" coords="0,0,191,24"/>
-</map>
- </div></div>
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa9d49889bd49416cbf821f8ee7607eca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#aa9d49889bd49416cbf821f8ee7607eca">VectorOrientationTask</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;<a class="el" href="a00095.html#a5f917e9e709ebe8dc6a6d4e0837c20a2">bodyVector</a>, const Eigen::Vector3d &amp;targetVector)</td></tr>
-<tr class="separator:aa9d49889bd49416cbf821f8ee7607eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac91165ba88b511181eabd515fb813c52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00094.html">tasks::VectorOrientationTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#ac91165ba88b511181eabd515fb813c52">task</a> ()</td></tr>
-<tr class="separator:ac91165ba88b511181eabd515fb813c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f917e9e709ebe8dc6a6d4e0837c20a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a5f917e9e709ebe8dc6a6d4e0837c20a2">bodyVector</a> (const Eigen::Vector3d &amp;vector)</td></tr>
-<tr class="separator:a5f917e9e709ebe8dc6a6d4e0837c20a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4c762f5c0723c763b50e3c4ddd65627"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#aa4c762f5c0723c763b50e3c4ddd65627">bodyVector</a> () const </td></tr>
-<tr class="separator:aa4c762f5c0723c763b50e3c4ddd65627"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cf2cae94d6f8db4c231927b0db6bfd5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a8cf2cae94d6f8db4c231927b0db6bfd5">target</a> (const Eigen::Vector3d &amp;vector)</td></tr>
-<tr class="separator:a8cf2cae94d6f8db4c231927b0db6bfd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57eb7e17f339e5849c844d9d6252ac44"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a57eb7e17f339e5849c844d9d6252ac44">target</a> () const </td></tr>
-<tr class="separator:a57eb7e17f339e5849c844d9d6252ac44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e0cc220c74d4c3a4c1fc9733e0981f3"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a4e0cc220c74d4c3a4c1fc9733e0981f3">actual</a> () const </td></tr>
-<tr class="separator:a4e0cc220c74d4c3a4c1fc9733e0981f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac22cc9ca1841e86405910df138d9003a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#ac22cc9ca1841e86405910df138d9003a">dim</a> () override</td></tr>
-<tr class="separator:ac22cc9ca1841e86405910df138d9003a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa28325bddf2f915dfe0b43d43cf984b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#aaa28325bddf2f915dfe0b43d43cf984b">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00076.html">SolverData</a> &amp;data) override</td></tr>
-<tr class="separator:aaa28325bddf2f915dfe0b43d43cf984b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb936a10ae6d35b7301e3b58ae08b2ba"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#acb936a10ae6d35b7301e3b58ae08b2ba">jac</a> () override</td></tr>
-<tr class="separator:acb936a10ae6d35b7301e3b58ae08b2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa923919c9cfbe200ef415eba2debd320"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#aa923919c9cfbe200ef415eba2debd320">eval</a> () override</td></tr>
-<tr class="separator:aa923919c9cfbe200ef415eba2debd320"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c4842e7b627a65bb82fa3d7ce94fefe"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a4c4842e7b627a65bb82fa3d7ce94fefe">speed</a> () override</td></tr>
-<tr class="separator:a4c4842e7b627a65bb82fa3d7ce94fefe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab895a101eb88ac215b2ec1c83123939b"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#ab895a101eb88ac215b2ec1c83123939b">normalAcc</a> () override</td></tr>
-<tr class="separator:ab895a101eb88ac215b2ec1c83123939b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00035"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00035')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00035.html">tasks::qp::HighLevelTask</a></td></tr>
-<tr class="memitem:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00035"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00035.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a> ()</td></tr>
-<tr class="separator:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00035"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a915b78ec72edfd554234c61c883dc99b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a915b78ec72edfd554234c61c883dc99b">VectorOrientationTask</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;<a class="el" href="a00095.html#a0122d38e08243f8d504435e793fd0088">bodyVector</a>, const Eigen::Vector3d &amp;targetVector)</td></tr>
+<tr class="separator:a915b78ec72edfd554234c61c883dc99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f73567b135c586035253002b91fa65f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a0f73567b135c586035253002b91fa65f">update</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a0f73567b135c586035253002b91fa65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0122d38e08243f8d504435e793fd0088"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a0122d38e08243f8d504435e793fd0088">bodyVector</a> (const Eigen::Vector3d &amp;vector)</td></tr>
+<tr class="separator:a0122d38e08243f8d504435e793fd0088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b0dfb05be0369ee760cd80c0d840e18"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a1b0dfb05be0369ee760cd80c0d840e18">bodyVector</a> () const </td></tr>
+<tr class="separator:a1b0dfb05be0369ee760cd80c0d840e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9688f4adf664318c90a22c3a82353a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#ac9688f4adf664318c90a22c3a82353a8">target</a> (const Eigen::Vector3d &amp;vector)</td></tr>
+<tr class="separator:ac9688f4adf664318c90a22c3a82353a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a17e9401e40d7c7c037fba32d9aa2db"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a6a17e9401e40d7c7c037fba32d9aa2db">target</a> () const </td></tr>
+<tr class="separator:a6a17e9401e40d7c7c037fba32d9aa2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd3256756ea5c896dc67f141c2e5e6d4"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#acd3256756ea5c896dc67f141c2e5e6d4">actual</a> () const </td></tr>
+<tr class="separator:acd3256756ea5c896dc67f141c2e5e6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1abe0cd397bb1cfb4165c18d89fa4a5"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#ab1abe0cd397bb1cfb4165c18d89fa4a5">eval</a> () const </td></tr>
+<tr class="separator:ab1abe0cd397bb1cfb4165c18d89fa4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a660e11dcd8fe9e1deccc87931d4342e7"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a660e11dcd8fe9e1deccc87931d4342e7">speed</a> () const </td></tr>
+<tr class="separator:a660e11dcd8fe9e1deccc87931d4342e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ffca08768f1677c31942798199d74a"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#af7ffca08768f1677c31942798199d74a">normalAcc</a> () const </td></tr>
+<tr class="separator:af7ffca08768f1677c31942798199d74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a041cd4f9f56bf71abd471adfa2a69872"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00095.html#a041cd4f9f56bf71abd471adfa2a69872">jac</a> () const </td></tr>
+<tr class="separator:a041cd4f9f56bf71abd471adfa2a69872"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa9d49889bd49416cbf821f8ee7607eca"></a>
+<a class="anchor" id="a915b78ec72edfd554234c61c883dc99b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::VectorOrientationTask::VectorOrientationTask </td>
+          <td class="memname">tasks::VectorOrientationTask::VectorOrientationTask </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotIndex</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -192,295 +170,164 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4e0cc220c74d4c3a4c1fc9733e0981f3"></a>
+<a class="anchor" id="acd3256756ea5c896dc67f141c2e5e6d4"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Eigen::Vector3d&amp; tasks::qp::VectorOrientationTask::actual </td>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::VectorOrientationTask::actual </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a5f917e9e709ebe8dc6a6d4e0837c20a2"></a>
+<a class="anchor" id="a0122d38e08243f8d504435e793fd0088"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void tasks::qp::VectorOrientationTask::bodyVector </td>
+          <td class="memname">void tasks::VectorOrientationTask::bodyVector </td>
           <td>(</td>
           <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
           <td class="paramname"><em>vector</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aa4c762f5c0723c763b50e3c4ddd65627"></a>
+<a class="anchor" id="a1b0dfb05be0369ee760cd80c0d840e18"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Eigen::Vector3d tasks::qp::VectorOrientationTask::bodyVector </td>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::VectorOrientationTask::bodyVector </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ac22cc9ca1841e86405910df138d9003a"></a>
+<a class="anchor" id="ab1abe0cd397bb1cfb4165c18d89fa4a5"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int tasks::qp::VectorOrientationTask::dim </td>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::VectorOrientationTask::eval </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00035.html#aed24cd07ba6490a8508c2fcbc52e33f6">tasks::qp::HighLevelTask</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="aa923919c9cfbe200ef415eba2debd320"></a>
+<a class="anchor" id="a041cd4f9f56bf71abd471adfa2a69872"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::VectorOrientationTask::eval </td>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::VectorOrientationTask::jac </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00035.html#af7a1c4c56697a44df3e692e76a42dc49">tasks::qp::HighLevelTask</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="acb936a10ae6d35b7301e3b58ae08b2ba"></a>
+<a class="anchor" id="af7ffca08768f1677c31942798199d74a"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::VectorOrientationTask::jac </td>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::VectorOrientationTask::normalAcc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00035.html#a843ba46006369277b515a6a22cbe08f9">tasks::qp::HighLevelTask</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="ab895a101eb88ac215b2ec1c83123939b"></a>
+<a class="anchor" id="a660e11dcd8fe9e1deccc87931d4342e7"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::VectorOrientationTask::normalAcc </td>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::VectorOrientationTask::speed </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="a00035.html#ad5b4b5ca67ce2b059cb44b4e00918b38">tasks::qp::HighLevelTask</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a4c4842e7b627a65bb82fa3d7ce94fefe"></a>
+<a class="anchor" id="ac9688f4adf664318c90a22c3a82353a8"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::VectorOrientationTask::speed </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#a39cc67617b7d74386e638f1e5b0da083">tasks::qp::HighLevelTask</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a8cf2cae94d6f8db4c231927b0db6bfd5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void tasks::qp::VectorOrientationTask::target </td>
+          <td class="memname">void tasks::VectorOrientationTask::target </td>
           <td>(</td>
           <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
           <td class="paramname"><em>vector</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a57eb7e17f339e5849c844d9d6252ac44"></a>
+<a class="anchor" id="a6a17e9401e40d7c7c037fba32d9aa2db"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Eigen::Vector3d&amp; tasks::qp::VectorOrientationTask::target </td>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::VectorOrientationTask::target </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ac91165ba88b511181eabd515fb813c52"></a>
+<a class="anchor" id="a0f73567b135c586035253002b91fa65f"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00094.html">tasks::VectorOrientationTask</a>&amp; tasks::qp::VectorOrientationTask::task </td>
+          <td class="memname">void tasks::VectorOrientationTask::update </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aaa28325bddf2f915dfe0b43d43cf984b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void tasks::qp::VectorOrientationTask::update </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00015.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbcs</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -488,14 +335,7 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#a6af9649e3cd0adc1643a029333897d02">tasks::qp::HighLevelTask</a>.</p>
 
 </div>
 </div>
@@ -505,8 +345,8 @@ Public Member Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00095.html">VectorOrientationTask</a></li>
-    <li class="footer">Generated on Mon Apr 16 2018 07:01:51 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00095.html">VectorOrientationTask</a></li>
+    <li class="footer">Generated on Fri Jul 6 2018 06:57:17 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

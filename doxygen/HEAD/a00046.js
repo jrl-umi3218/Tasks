@@ -1,14 +1,13 @@
 var a00046 =
 [
-    [ "MomentumTask", "a00046.html#a7f72fc82102c98e12fb7c05a88576943", null ],
-    [ "eval", "a00046.html#a7269a359475bbe931b2b2262aefb5cfa", null ],
-    [ "jac", "a00046.html#ab4a22b81eb59f47e29b81eb107ced331", null ],
-    [ "jacDot", "a00046.html#a54966b2c170616b1a09b8a968101b1ad", null ],
-    [ "momentum", "a00046.html#ada28df5a2923384ea391fe592c776b64", null ],
-    [ "momentum", "a00046.html#a3dda8977ad22f59024f37da5b252e700", null ],
-    [ "normalAcc", "a00046.html#a2b5fd4bbce5a9841957209cd58b42a25", null ],
-    [ "speed", "a00046.html#a75f397e34e4eb220428ce9b4e28a2b87", null ],
-    [ "update", "a00046.html#af27f19f834631cb7b9e06128b8dbb00c", null ],
-    [ "update", "a00046.html#a22c6f63e7a56e20bf9293955781f3a95", null ],
-    [ "updateDot", "a00046.html#a0093f5739a9c2078d7ea883e7f477f7b", null ]
+    [ "MomentumTask", "a00046.html#af2696f6c37fc2fe6b4976cae7f3ad882", null ],
+    [ "dim", "a00046.html#a8f9105b9b2559bc7fcd204f2ef0afe52", null ],
+    [ "eval", "a00046.html#a4f6da2c23acf5f08250af1b809694cef", null ],
+    [ "jac", "a00046.html#a8b47874a1fdb619cc61204cce078ae8c", null ],
+    [ "momentum", "a00046.html#ab00abc708b5628eb27e36146dea5064e", null ],
+    [ "momentum", "a00046.html#aacfe57e9e9670bcd71e6b259d5741568", null ],
+    [ "normalAcc", "a00046.html#a0b9bbec02ea88c9319ba283bd0be2974", null ],
+    [ "speed", "a00046.html#a679fd754b18658c33e50f6a6ba7f6411", null ],
+    [ "task", "a00046.html#aa09068452fc37a606b39bfbd125773a0", null ],
+    [ "update", "a00046.html#ad3cb9bd1bb45ac8eefab0403507bf681", null ]
 ];
