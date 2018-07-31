@@ -149,6 +149,8 @@ void ContactConstr::updateDofContacts()
 void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
 	const SolverData& data)
 {
+        std::cout << "Rafa, ContactConstr::updateNrVars is called" << std::endl;
+  
 	cont_.clear();
 	totalAlphaD_ = data.totalAlphaD();
 
@@ -463,6 +465,7 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	b_.head(nrEq_).setZero();
 
         int index = 0;
+        
         for(std::size_t i = 0; i < cont_.size(); ++i)
         {
                 ContactData& cd = cont_[i];
@@ -494,7 +497,11 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
                         if (csd.robotIndex == mainRobotIndex_)
                         {
                                 b_.segment(index, rows).noalias() -=
-                                        fullJac_.block(0, 0, rows, mb.nrDof()) * intglTerm_->gammaD();
+                                        csd.sign * cd.dof * fullJac_.block(0, 0, rows, mb.nrDof()) * intglTerm_->gammaD();
+                                // Eigen::VectorXd temp = csd.sign * fullJac_.block(0, 0, rows, mb.nrDof()) * intglTerm_->gammaD();
+                                // std::cout << "Rafa, tauP = " << intglTerm_->P().transpose() << std::endl;
+                                // std::cout << "Rafa, gammaD = " << intglTerm_->gammaD().transpose() << std::endl;
+                                // std::cout << "Rafa, J*gammaD = " << temp.transpose() << std::endl << std::endl;
                         }
                 }
 
@@ -511,6 +518,8 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
                 index += rows;
         }
+
+        std::cout << "Rafa, in IntglTermContactPDConstr::update, b_ = " << b_.transpose() << std::endl;
 }
 
 
