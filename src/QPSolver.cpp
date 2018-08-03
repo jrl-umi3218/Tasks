@@ -260,7 +260,7 @@ void QPSolver::updateNrVars(const std::vector<rbd::MultiBody>& mbs) const
 }
 
 
-bool QPSolver::hasConstraint(Constraint* co)
+bool QPSolver::hasConstraint(const Constraint* co)
 {
         return std::find(constr_.begin(), constr_.end(), co) != constr_.end(); 
 }
