@@ -173,7 +173,7 @@ void MotionConstrCommon::computeTorque(const Eigen::VectorXd& alphaD, const Eige
         std::cout << "Rafa, entered to computeTorque" << std::endl;
   
         std::cout << "Rafa, in MotionConstrCommon::computeTorque, alphaD = " << alphaD.transpose() << std::endl;
-        std::cout << "Rafa, in MotionConstrCommon::computeTorque, lambda = " << alphaD.transpose() << std::endl;
+        std::cout << "Rafa, in MotionConstrCommon::computeTorque, lambda = " << lambda.transpose() << std::endl;
   
 	curTorque_ = fd_->H()*alphaD.segment(alphaDBegin_, nrDof_);
 	curTorque_ += fd_->C();
