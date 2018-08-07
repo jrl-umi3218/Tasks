@@ -27,6 +27,7 @@
 
 // RBDyn
 #include <RBDyn/Jacobian.h>
+#include <RBDyn/IntegralTerm.h>
 
 // Tasks
 #include "QPSolver.h"
@@ -229,36 +230,6 @@ private:
 };
 
 
-class TASKS_DLLAPI PassiveContactSpeedConstr : public ContactSpeedConstr
-{
-public:
-
-	enum VelGainType
-	{
-	  Diagonal = 0,
-	  MassMatrix = 1
-	};
-
-        PassiveContactSpeedConstr(double timeStep, int robotIndex,
-				  const std::vector<rbd::MultiBodyConfig>& mbcs_calc,
-				  double lambda, VelGainType velGainType);
-
-	virtual void update(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
-
-	virtual std::string nameEq() const;
-
-private:
-
-	int robotIndex_;
-	double lambda_;
-	VelGainType velGainType_;
-
-	const std::vector<rbd::MultiBodyConfig>& mbcs_calc_;
-};
-
-
 /**
 	* Contact constraint by targeting a constant frame.
 	* \f[ v + a \Delta_{dt} = \frac{\epsilon(q)}{\Delta_{dt}} \f]
@@ -280,6 +251,32 @@ public:
 	virtual std::string nameEq() const;
 private:
 	double timeStep_;
+};
+
+
+/**
+	* Contact constraint by tracking a frame with a PD,
+        * and including the integral term.
+        *
+	*/
+class TASKS_DLLAPI IntglTermContactPDConstr : public ContactConstr
+{
+public:
+        IntglTermContactPDConstr(Eigen::Vector6d stiffness,
+                                 Eigen::Vector6d damping,
+                                 int mainRobotIndex,
+                                 const std::shared_ptr<integral::IntegralTerm> intglTerm);
+
+	virtual void update(const std::vector<rbd::MultiBody>& mbs,
+		const std::vector<rbd::MultiBodyConfig>& mbcs,
+		const SolverData& data);
+
+	virtual std::string nameEq() const;
+
+private:
+        Eigen::Vector6d stiffness_, damping_;
+        int mainRobotIndex_;
+        std::shared_ptr<integral::IntegralTerm> intglTerm_;
 };
 
 

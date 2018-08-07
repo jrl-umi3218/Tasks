@@ -167,6 +167,9 @@ class TestQPConstr(unittest.TestCase):
     rbdyn.forwardVelocity(mb, self.mbcInit)
     rbdyn.forwardKinematics(mbEnv, mbcEnv)
     rbdyn.forwardVelocity(mbEnv, mbcEnv)
+    self.fd = rbdyn.ForwardDynamics(mb)
+    self.fd.computeH(mb, self.mbcInit)
+    self.fd.computeC(mb, self.mbcInit)
 
     if not LEGACY:
       self.mbcs = rbdyn.MultiBodyConfigVector([self.mbcInit, mbcEnv])
@@ -197,6 +200,8 @@ class TestQPConstr(unittest.TestCase):
       rbdyn.eulerIntegration(self.mbs[0], self.mbcs[0], 0.001)
       rbdyn.forwardKinematics(self.mbs[0], self.mbcs[0])
       rbdyn.forwardVelocity(self.mbs[0], self.mbcs[0])
+      self.fd.computeH(self.mbs[0], self.mbcs[0])
+      self.fd.computeC(self.mbs[0], self.mbcs[0])
 
   def check_equality_constr(self, ConstrClass, *args):
     self.contVec = [tasks.qp.UnilateralContact(0, 1, "b3", "b0", [eigen.Vector3d.Zero()], eigen.Matrix3d.Identity(), sva.PTransformd.Identity(), 3, math.tan(math.pi/4))]
@@ -251,7 +256,7 @@ class TestQPConstr(unittest.TestCase):
     Inf = float("inf")
     torqueMin = [[], [-Inf], [-Inf], [-Inf]]
     torqueMax = [[], [Inf], [Inf], [Inf]]
-    motionCstr = tasks.qp.MotionConstr(self.mbs, 0, tasks.TorqueBound(torqueMin, torqueMax))
+    motionCstr = tasks.qp.MotionConstr(self.mbs, 0, self.fd, tasks.TorqueBound(torqueMin, torqueMax))
     plCstr = tasks.qp.PositiveLambda()
 
     motionCstr.addToSolver(self.solver)
@@ -297,7 +302,7 @@ class TestQPConstr(unittest.TestCase):
     Inf = float("inf")
     torqueMin = [[], [-Inf], [-Inf], [-Inf]]
     torqueMax = [[], [Inf], [Inf], [Inf]]
-    motionCstr = tasks.qp.MotionConstr(self.mbs, 0, tasks.TorqueBound(torqueMin, torqueMax))
+    motionCstr = tasks.qp.MotionConstr(self.mbs, 0, self.fd, tasks.TorqueBound(torqueMin, torqueMax))
     plCstr = tasks.qp.PositiveLambda()
 
     motionCstr.addToSolver(self.solver)
@@ -469,6 +474,9 @@ class TestQPTorqueLimits(unittest.TestCase):
 
     rbdyn.forwardKinematics(mb, self.mbcInit)
     rbdyn.forwardVelocity(mb, self.mbcInit)
+    self.fd = rbdyn.ForwardDynamics(mb)
+    self.fd.computeH(mb, self.mbcInit)
+    self.fd.computeC(mb, self.mbcInit)
 
     if not LEGACY:
       self.mbcs = rbdyn.MultiBodyConfigVector([self.mbcInit])
@@ -495,7 +503,7 @@ class TestQPTorqueLimits(unittest.TestCase):
   def test_motion_constr(self):
     lBound = [[], [-30], [-30], [-30]]
     uBound = [[], [30], [30], [30]]
-    motionCstr = tasks.qp.MotionConstr(self.mbs, 0, tasks.TorqueBound(lBound, uBound))
+    motionCstr = tasks.qp.MotionConstr(self.mbs, 0, self.fd, tasks.TorqueBound(lBound, uBound))
 
     self.solver.addGenInequalityConstraint(motionCstr)
     self.assertEqual(self.solver.nrGenInequalityConstraints(), 1)
@@ -518,6 +526,8 @@ class TestQPTorqueLimits(unittest.TestCase):
       rbdyn.eulerIntegration(self.mbs[0], self.mbcs[0], 0.001)
       rbdyn.forwardKinematics(self.mbs[0], self.mbcs[0])
       rbdyn.forwardVelocity(self.mbs[0], self.mbcs[0])
+      self.fd.computeH(self.mbs[0], self.mbcs[0])
+      self.fd.computeC(self.mbs[0], self.mbcs[0])
       motionCstr.computeTorque(self.solver.alphaDVec(), self.solver.lambdaVec())
       motionCstr.torque(self.mbs, self.mbcs)
       if not LEGACY:
@@ -575,7 +585,7 @@ class TestQPTorqueLimits(unittest.TestCase):
     null = eigen.VectorXd()
     lBoundPoly = [[null], [lpoly], [lpoly], [lpoly]]
     uBoundPoly = [[null], [upoly], [upoly], [upoly]]
-    motionPolyCstr = tasks.qp.MotionPolyConstr(self.mbs, 0, tasks.PolyTorqueBound(lBoundPoly, uBoundPoly))
+    motionPolyCstr = tasks.qp.MotionPolyConstr(self.mbs, 0, self.fd, tasks.PolyTorqueBound(lBoundPoly, uBoundPoly))
 
     motionPolyCstr.addToSolver(self.solver)
     self.assertEqual(self.solver.nrGenInequalityConstraints(), 1)
@@ -799,6 +809,9 @@ class TestQPBilatContact(unittest.TestCase):
     rbdyn.forwardVelocity(mb, mbcInit)
     rbdyn.forwardKinematics(mbEnv, mbcEnv)
     rbdyn.forwardVelocity(mbEnv, mbcEnv)
+    self.fd = rbdyn.ForwardDynamics(mb)
+    self.fd.computeH(mb, mbcInit)
+    self.fd.computeC(mb, mbcInit)
 
     if not LEGACY:
       mbs = rbdyn.MultiBodyVector([mb, mbEnv])
@@ -812,7 +825,7 @@ class TestQPBilatContact(unittest.TestCase):
     Inf = float("inf")
     torqueMin = [[0, 0, 0, 0, 0, 0], [-Inf], [-Inf], [-Inf]]
     torqueMax = [[0, 0, 0, 0, 0, 0], [Inf], [Inf], [Inf]]
-    motionCstr = tasks.qp.MotionConstr(mbs, 0, tasks.TorqueBound(torqueMin, torqueMax))
+    motionCstr = tasks.qp.MotionConstr(mbs, 0, self.fd, tasks.TorqueBound(torqueMin, torqueMax))
     plCstr = tasks.qp.PositiveLambda()
     contCstrAcc = tasks.qp.ContactAccConstr()
 
@@ -854,6 +867,8 @@ class TestQPBilatContact(unittest.TestCase):
       rbdyn.eulerIntegration(mbs[0], mbcs[0], 0.001)
       rbdyn.forwardKinematics(mbs[0], mbcs[0])
       rbdyn.forwardVelocity(mbs[0], mbcs[0])
+      self.fd.computeH(mbs[0], mbcs[0])
+      self.fd.computeC(mbs[0], mbcs[0])
 
     plCstr.removeFromSolver(solver)
     contCstrAcc.removeFromSolver(solver)

@@ -27,6 +27,7 @@
 // RBDyn
 #include <RBDyn/FD.h>
 #include <RBDyn/Jacobian.h>
+#include <RBDyn/IntegralTerm.h>
 
 // Tasks
 #include "QPSolver.h"
@@ -80,7 +81,8 @@ private:
 class TASKS_DLLAPI MotionConstrCommon : public ConstraintFunction<GenInequality>
 {
 public:
-        MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex);
+  MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                     const std::shared_ptr<rbd::ForwardDynamics> fd);
 
 	virtual void computeTorque(const Eigen::VectorXd& alphaD,
 		const Eigen::VectorXd& lambda);
@@ -127,7 +129,8 @@ protected:
 
 protected:
 	int robotIndex_, alphaDBegin_, nrDof_, lambdaBegin_;
-	rbd::ForwardDynamics fd_;
+	//rbd::ForwardDynamics fd_;
+        std::shared_ptr<rbd::ForwardDynamics> fd_;
 	Eigen::MatrixXd fullJacLambda_, jacTrans_, jacLambda_;
 	std::vector<ContactData> cont_;
 
@@ -142,12 +145,13 @@ class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
 	MotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                     const std::shared_ptr<rbd::ForwardDynamics> fd,
 		     const TorqueBound& tb);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+                            const std::vector<rbd::MultiBodyConfig>& mbcs,
+                            const SolverData& data);
         //Matrix
         const Eigen::MatrixXd matrix() const
         {
@@ -156,7 +160,7 @@ public:
 	//Contact torque
 	Eigen::MatrixXd contactMatrix() const;
 	//Access fd...
-	const rbd::ForwardDynamics fd() const;
+	const std::shared_ptr<rbd::ForwardDynamics> fd() const;
 
 protected:
 	Eigen::VectorXd torqueL_, torqueU_;
@@ -178,9 +182,9 @@ struct SpringJoint
 class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 {
 public:
-	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs,
-			   int robotIndex, const TorqueBound& tb,
-			   const std::vector<SpringJoint>& springs);
+	MotionSpringConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                           const std::shared_ptr<rbd::ForwardDynamics> fd,
+                           const TorqueBound& tb, const std::vector<SpringJoint>& springs);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -209,8 +213,9 @@ protected:
 class TASKS_DLLAPI MotionPolyConstr : public MotionConstrCommon
 {
 public:
-	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs,
-			 int robotIndex, const PolyTorqueBound& ptb);
+	MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                         const std::shared_ptr<rbd::ForwardDynamics> fd,
+                         const PolyTorqueBound& ptb);
 
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
@@ -223,20 +228,14 @@ protected:
 };
 
 
-class TASKS_DLLAPI PassiveMotionConstr : public MotionConstr
+class TASKS_DLLAPI IntglTermMotionConstr : public MotionConstr
 {
 public:
 
-	enum VelGainType
-	{
-	  Diagonal = 0,
-	  MassMatrix = 1
-	};
-
-        PassiveMotionConstr(const std::vector<rbd::MultiBody>& mbs,
-			    int robotIndex, const TorqueBound& tb,
-			    const std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc,
-			    double lambda, VelGainType velGainType);
+        IntglTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                              const std::shared_ptr<rbd::ForwardDynamics> fd,
+                              const std::shared_ptr<integral::IntegralTerm> intglTerm,
+                              const TorqueBound& tb);  
 
 	void computeTorque(const Eigen::VectorXd& alphaD,
 			   const Eigen::VectorXd& lambda) override;
@@ -247,16 +246,8 @@ public:
 			    const SolverData& data);
 
 private:
-	// Compute the passification term...
-	void computeP(const rbd::MultiBody& mb,
-		      const rbd::MultiBodyConfig& mbc_real,
-		      const rbd::MultiBodyConfig& mbc_calc);
 
-	double lambda_;
-	VelGainType velGainType_;
-
-	std::shared_ptr<std::vector<rbd::MultiBodyConfig>> mbcs_calc_;
-	Eigen::VectorXd P_;
+        std::shared_ptr<integral::IntegralTerm> intglTerm_;
 };
 
 

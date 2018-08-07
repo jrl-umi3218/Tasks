@@ -371,8 +371,8 @@ void CollisionConstr::addCollision(const std::vector<rbd::MultiBody>& mbs, int c
 	sch::S_Object* body2, const sva::PTransformd& X_op2_o2,
 	double di, double ds, double damping, double dampingOff)
 {
-	const rbd::MultiBody mb1 = mbs[r1Index];
-	const rbd::MultiBody mb2 = mbs[r2Index];
+	const rbd::MultiBody & mb1 = mbs[r1Index];
+	const rbd::MultiBody & mb2 = mbs[r2Index];
 	std::vector<BodyCollData> bodies;
 	if(mb1.nrDof() > 0)
 	{

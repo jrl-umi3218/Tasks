@@ -154,6 +154,16 @@ public:
 	void refVel(const Eigen::VectorXd& refVel);
 	void refAccel(const Eigen::VectorXd& refAccel);
 
+        const Eigen::VectorXd& refVel()
+        {
+          return refVel_;
+        }
+
+        const Eigen::VectorXd& refAccel()
+        {
+          return refAccel_;
+        }
+
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
@@ -378,13 +388,16 @@ class TASKS_DLLAPI TorqueTask : public Task
 {
 public:
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const std::shared_ptr<rbd::ForwardDynamics> fd,
                    const TorqueBound& tb, double weight);
 
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const std::shared_ptr<rbd::ForwardDynamics> fd,
                    const TorqueBound& tb, const Eigen::VectorXd& jointSelect,
 		   double weight);
 
         TorqueTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                   const std::shared_ptr<rbd::ForwardDynamics> fd,
                    const TorqueBound& tb, const std::string& efName,
 		   double weight);
 

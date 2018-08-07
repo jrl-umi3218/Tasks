@@ -1627,10 +1627,12 @@ cdef class MotionConstr(GenInequality):
   def __dealloc__(self):
     if self.__own_impl:
       del self.impl
-  def __cinit__(self, MultiBodyVector mbs, int robotIndex, tasks.TorqueBound tb, skip_alloc = False):
+  def __cinit__(self, MultiBodyVector mbs, int robotIndex, ForwardDynamics fd, tasks.TorqueBound tb, skip_alloc = False):
     self.__own_impl = True
     if not skip_alloc:
-      self.impl = new c_qp.MotionConstr(deref(mbs.v), robotIndex, tb.impl)
+      # Keep FD alive
+      self.fd_instance = fd
+      self.impl = new c_qp.MotionConstr(deref(mbs.v), robotIndex, c_qp_private.FD2ShPtr(fd.impl), tb.impl)
       self.cf_base = self.impl
       self.genineq_base = self.impl
       self.constraint_base = self.impl
@@ -1666,10 +1668,11 @@ cdef class MotionPolyConstr(GenInequality):
   def __dealloc__(self):
     if self.__own_impl:
       del self.impl
-  def __cinit__(self, MultiBodyVector mbs, int robotIndex, tasks.PolyTorqueBound tb, skip_alloc = False):
+  def __cinit__(self, MultiBodyVector mbs, int robotIndex, ForwardDynamics fd, tasks.PolyTorqueBound tb, skip_alloc = False):
     self.__own_impl = True
     if not skip_alloc:
-      self.impl = new c_qp.MotionPolyConstr(deref(mbs.v), robotIndex, tb.impl)
+      self.fd_instance = fd
+      self.impl = new c_qp.MotionPolyConstr(deref(mbs.v), robotIndex, c_qp_private.FD2ShPtr(fd.impl), tb.impl)
       self.cf_base = self.impl
       self.genineq_base = self.impl
       self.constraint_base = self.impl
@@ -1705,10 +1708,11 @@ cdef class MotionSpringConstr(GenInequality):
   def __dealloc__(self):
     if self.__own_impl:
       del self.impl
-  def __cinit__(self, MultiBodyVector mbs, int robotIndex, tasks.TorqueBound tb, sjs, skip_alloc = False):
+  def __cinit__(self, MultiBodyVector mbs, int robotIndex, ForwardDynamics fd, tasks.TorqueBound tb, sjs, skip_alloc = False):
     self.__own_impl = True
     if not skip_alloc:
-      self.impl = new c_qp.MotionSpringConstr(deref(mbs.v), robotIndex, tb.impl, SpringJointVector(sjs).v)
+      self.fd_instance = fd
+      self.impl = new c_qp.MotionSpringConstr(deref(mbs.v), robotIndex, c_qp_private.FD2ShPtr(fd.impl), tb.impl, SpringJointVector(sjs).v)
       self.cf_base = self.impl
       self.genineq_base = self.impl
       self.constraint_base = self.impl

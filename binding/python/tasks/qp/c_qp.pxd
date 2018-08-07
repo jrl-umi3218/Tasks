@@ -20,6 +20,7 @@ from sva.c_sva cimport *
 from rbdyn.c_rbdyn cimport *
 from sch.c_sch cimport *
 cimport tasks.c_tasks as c_tasks
+from libcpp.memory cimport shared_ptr
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libcpp cimport bool
@@ -507,7 +508,7 @@ cdef extern from "<Tasks/QPTasks.h>" namespace "tasks::qp":
 
 cdef extern from "<Tasks/QPMotionConstr.h>" namespace "tasks::qp":
   cdef cppclass MotionPolyConstr(ConstraintFunction[GenInequality], GenInequality, Constraint):
-    MotionPolyConstr(const vector[MultiBody]&, int, const c_tasks.PolyTorqueBound&)
+    MotionPolyConstr(const vector[MultiBody]&, int, const shared_ptr[ForwardDynamics], const c_tasks.PolyTorqueBound&)
     # Motion default
     void computeTorque(const VectorXd&, const VectorXd&)
     VectorXd torque() const
@@ -517,7 +518,7 @@ cdef extern from "<Tasks/QPMotionConstr.h>" namespace "tasks::qp":
     void removeFromSolver(QPSolver &)
 
   cdef cppclass MotionConstr(ConstraintFunction[GenInequality], GenInequality, Constraint):
-    MotionConstr(const vector[MultiBody]&, int, const c_tasks.TorqueBound&)
+    MotionConstr(const vector[MultiBody]&, int, const shared_ptr[ForwardDynamics], const c_tasks.TorqueBound&)
     # Motion default
     void computeTorque(const VectorXd&, const VectorXd&)
     VectorXd torque() const
@@ -527,7 +528,7 @@ cdef extern from "<Tasks/QPMotionConstr.h>" namespace "tasks::qp":
     void removeFromSolver(QPSolver &)
 
   cdef cppclass MotionSpringConstr(ConstraintFunction[GenInequality], GenInequality, Constraint):
-    MotionSpringConstr(const vector[MultiBody]&, int, const c_tasks.TorqueBound&, const vector[SpringJoint]&)
+    MotionSpringConstr(const vector[MultiBody]&, int, const shared_ptr[ForwardDynamics], const c_tasks.TorqueBound&, const vector[SpringJoint]&)
     # Motion default
     void computeTorque(const VectorXd&, const VectorXd&)
     VectorXd torque() const
