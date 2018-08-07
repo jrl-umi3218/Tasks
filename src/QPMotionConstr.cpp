@@ -170,11 +170,6 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, i
 
 void MotionConstrCommon::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
 {
-        std::cout << "Rafa, entered to computeTorque" << std::endl;
-  
-        std::cout << "Rafa, in MotionConstrCommon::computeTorque, alphaD = " << alphaD.transpose() << std::endl;
-        std::cout << "Rafa, in MotionConstrCommon::computeTorque, lambda = " << lambda.transpose() << std::endl;
-  
 	curTorque_ = fd_->H()*alphaD.segment(alphaDBegin_, nrDof_);
 	curTorque_ += fd_->C();
 	curTorque_ += A_.block(0, lambdaBegin_, nrDof_, A_.cols() - lambdaBegin_)*lambda;
@@ -472,8 +467,6 @@ void IntglTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
 {
         MotionConstr::computeTorque(alphaD, lambda);
         curTorque_ += intglTerm_->P();
-
-        // std::cout << "Rafa, inside of IntglTermMotionConstr::computeTorque, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
 }
 
 void IntglTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
@@ -484,8 +477,6 @@ void IntglTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
         AL_ -= intglTerm_->P();
         AU_ -= intglTerm_->P();
-
-        // std::cout << "Rafa, inside of IntglTermMotionConstr::update, intglTerm_->P() = " << intglTerm_->P().transpose() << std::endl << std::endl;
 }
 
 
