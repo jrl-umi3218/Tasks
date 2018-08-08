@@ -457,8 +457,8 @@ IntglTermMotionConstr::IntglTermMotionConstr(const std::vector<rbd::MultiBody>& 
                                              const std::shared_ptr<rbd::ForwardDynamics> fd,
                                              const std::shared_ptr<integral::IntegralTerm> intglTerm,
                                              const TorqueBound& tb) :
-  MotionConstr(mbs, robotIndex, fd, tb),
-  intglTerm_(intglTerm)
+        MotionConstr(mbs, robotIndex, fd, tb),
+	intglTerm_(intglTerm)
 {
 }
 
