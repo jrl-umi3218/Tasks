@@ -274,7 +274,34 @@ public:
 	virtual std::string nameEq() const;
 
 private:
-        Eigen::Vector6d stiffness_, damping_;
+
+        struct ContactData
+	{
+		ContactData(std::vector<ContactSideData> csds,
+                            const Eigen::MatrixXd& d, const Eigen::Vector6d& stiff, const Eigen::Vector6d& damp
+                            int b1, int b2, const sva::PTransformd& X_bb,
+                            const sva::PTransformd& X_bcf, const ContactId& cId):
+                              contacts(std::move(csds)),
+                              dof(d),
+                              stiffness(stiff),
+                              damping(damp),
+                              b1Index(b1),
+                              b2Index(b2),
+                              X_b1_b2(X_bb),
+                              X_b1_cf(X_bcf),
+                              contactId(cId)
+		{}
+
+		std::vector<ContactSideData> contacts;
+		Eigen::MatrixXd dof;
+                Eigen::Vector6d stiffness, damping;
+		int b1Index, b2Index;
+		sva::PTransformd X_b1_b2;
+		sva::PTransformd X_b1_cf;
+		ContactId contactId;
+	};
+        
+        //Eigen::Vector6d stiffness_, damping_;
         int mainRobotIndex_;
         std::shared_ptr<integral::IntegralTerm> intglTerm_;
 };

@@ -446,8 +446,8 @@ IntglTermContactPDConstr::IntglTermContactPDConstr(Eigen::Vector6d stiffness,
                                                    int mainRobotIndex,
                                                    const std::shared_ptr<integral::IntegralTerm> intglTerm)
   : ContactConstr(),
-    stiffness_(stiffness),
-    damping_(damping),
+    //stiffness_(stiffness),
+    //damping_(damping),
     mainRobotIndex_(mainRobotIndex),
     intglTerm_(intglTerm)
 {}
