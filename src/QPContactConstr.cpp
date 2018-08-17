@@ -444,13 +444,23 @@ std::string ContactPosConstr::nameEq() const
 IntglTermContactPDConstr::IntglTermContactPDConstr(Eigen::Vector6d stiffness,
                                                    Eigen::Vector6d damping,
                                                    int mainRobotIndex,
-                                                   const std::shared_ptr<integral::IntegralTerm> intglTerm)
-  : ContactConstr(),
-    //stiffness_(stiffness),
-    //damping_(damping),
-    mainRobotIndex_(mainRobotIndex),
-    intglTerm_(intglTerm)
+                                                   const std::shared_ptr<integral::IntegralTerm> intglTerm):
+        ContactConstr(),
+        stiffness_default_(stiffness),
+        damping_default_(damping),
+        mainRobotIndex_(mainRobotIndex),
+        intglTerm_(intglTerm)
 {}
+
+
+void IntglTermContactPDConstr::setPDgainsForContact(const ContactId& cId, const Eigen::Vector6d& stiff,
+                                                    const Eigen::Vector6d& damp)
+{
+        if (contPD_.find(cId) == contPD_.end())
+                contPD_.insert(std::make_pair(cId, PDgains(stiff, damp)));
+        else
+                contPD_.at(cId) = PDgains(stiff, damp);
+}
 
 
 void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
@@ -468,6 +478,19 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
         {
                 ContactData& cd = cont_[i];
                 int rows = int(cd.dof.rows());
+
+                Vector6d stiffness, damping;
+
+                if (contPD_.find(cd.contactId) != contPD_.end())
+                {
+                        stiffness = contPD_.at(cd.contactId).stiffness;
+                        damping = contPD_.at(cd.contactId).damping;
+                }
+                else
+                {
+                        stiffness = stiffness_default_;
+                        damping = damping_default_;
+                }
 
                 for(std::size_t j = 0; j < cd.contacts.size(); ++j)
                 {
@@ -491,7 +514,7 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
                                 sva::MotionVecd(Vector6d::Zero())).vector();
                         Vector6d velocity = csd.jac.velocity(mb, mbc, csd.X_b_p).vector();
                         b_.segment(index, rows).noalias() -=
-                          csd.sign*cd.dof*(normalAcc + damping_.asDiagonal() * velocity);
+                          csd.sign*cd.dof*(normalAcc + damping.asDiagonal() * velocity);
                         if (csd.robotIndex == mainRobotIndex_)
                         {
                                 b_.segment(index, rows).noalias() -=
@@ -508,7 +531,7 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
                 Eigen::Vector6d error;
                 error.head<3>() = sva::rotationVelocity(X_b1cf_b2cf.rotation());
                 error.tail<3>() = X_b1cf_b2cf.translation();
-                b_.segment(index, rows) += cd.dof * stiffness_.asDiagonal() * error;
+                b_.segment(index, rows) += cd.dof * stiffness.asDiagonal() * error;
 
                 index += rows;
         }

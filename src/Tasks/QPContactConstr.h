@@ -267,6 +267,9 @@ public:
                                  int mainRobotIndex,
                                  const std::shared_ptr<integral::IntegralTerm> intglTerm);
 
+        void setPDgainsForContact(const ContactId& cId, const Eigen::Vector6d& stiff,
+                                  const Eigen::Vector6d& damp);
+        
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
 		const SolverData& data);
@@ -274,34 +277,19 @@ public:
 	virtual std::string nameEq() const;
 
 private:
-
-        struct ContactData
+        
+        struct PDgains
 	{
-		ContactData(std::vector<ContactSideData> csds,
-                            const Eigen::MatrixXd& d, const Eigen::Vector6d& stiff, const Eigen::Vector6d& damp
-                            int b1, int b2, const sva::PTransformd& X_bb,
-                            const sva::PTransformd& X_bcf, const ContactId& cId):
-                              contacts(std::move(csds)),
-                              dof(d),
-                              stiffness(stiff),
-                              damping(damp),
-                              b1Index(b1),
-                              b2Index(b2),
-                              X_b1_b2(X_bb),
-                              X_b1_cf(X_bcf),
-                              contactId(cId)
+                PDgains(const Eigen::Vector6d& stiff, const Eigen::Vector6d& damp):
+                                 stiffness(stiff), damping(damp)
 		{}
 
-		std::vector<ContactSideData> contacts;
-		Eigen::MatrixXd dof;
                 Eigen::Vector6d stiffness, damping;
-		int b1Index, b2Index;
-		sva::PTransformd X_b1_b2;
-		sva::PTransformd X_b1_cf;
-		ContactId contactId;
 	};
         
-        //Eigen::Vector6d stiffness_, damping_;
+        std::map<ContactId, PDgains> contPD_;
+        
+        Eigen::Vector6d stiffness_default_, damping_default_;
         int mainRobotIndex_;
         std::shared_ptr<integral::IntegralTerm> intglTerm_;
 };
