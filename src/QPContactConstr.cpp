@@ -533,6 +533,11 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
                 error.tail<3>() = X_b1cf_b2cf.translation();
                 b_.segment(index, rows) += cd.dof * stiffness.asDiagonal() * error;
 
+                // std::cout << "Rafa, in IntglTermContactPDConstr::update, for contact i = " << i << " ( " << cd.contactId.r1BodyName << " / " << cd.contactId.r2BodyName << " ) the error is " << error.transpose() << std::endl;
+
+                // std::cout << "Rafa, X_0_b1cf.translation() = " << X_0_b1cf.translation().transpose() << std::endl;
+                // std::cout << "Rafa, X_0_b2cf.translation() = " << X_0_b2cf.translation().transpose() << std::endl;
+                
                 index += rows;
         }
 }
