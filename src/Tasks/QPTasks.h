@@ -1360,7 +1360,7 @@ public:
 
         virtual void update(const std::vector<rbd::MultiBody>& mbs,
                             const std::vector<rbd::MultiBodyConfig>& mbcs,
-                            const SolverDat& data);
+                            const SolverData& data);
 
         virtual const Eigen::MatrixXd& Q() const
         {
@@ -1373,9 +1373,12 @@ public:
         }
 
 private:
+	// std::vector<ContactData> cont_;
+
         Eigen::MatrixXd Q_;
         Eigen::MatrixXd C_;
 };
+
 
 } // namespace qp
 

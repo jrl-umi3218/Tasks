@@ -1961,26 +1961,33 @@ const Eigen::VectorXd& VectorOrientationTask::normalAcc()
 
 
   /**
-	*											VectorOrientationTask
+	*											WrenchTask
 	*/
 
 WrenchTask::WrenchTask(double weight):
         Task(weight)
-{
-}
+	// cont()
+{}
 
-void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
                   const SolverData& data)
 {
+        // cont_.clear();
+	
+	
 }
 
-void update(const std::vector<rbd::MultiBody>& mbs,
-            const std::vector<rbd::MultiBodyConfig>& mbcs,
-            const SolverDat& data)
+void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
+			const std::vector<rbd::MultiBodyConfig>& mbcs,
+			const SolverDat& data)
 {
-  for (std::size_t i = 0; i < cont_.size(); ++i)
-    {
-    }
+        for (std::size_t i = 0; i < cont_.size(); ++i)
+	{
+	        const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
+		
+		// ContactData& cd = cont_[i];
+		// int lambdaOffset = 0;
+	}
 }
 
 
