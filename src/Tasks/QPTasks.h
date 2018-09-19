@@ -1349,6 +1349,34 @@ private:
 	int robotIndex_;
 };
 
+
+class TASKS_DLLAPI WrenchTask : public Task
+{
+public:
+        WrenchTask(double weight);
+
+        virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                                  const SolverData& data);
+
+        virtual void update(const std::vector<rbd::MultiBody>& mbs,
+                            const std::vector<rbd::MultiBodyConfig>& mbcs,
+                            const SolverDat& data);
+
+        virtual const Eigen::MatrixXd& Q() const
+        {
+          return Q_;
+        }
+
+        virtual const Eigen::MatrixXd& C() const
+        {
+          return C_;
+        }
+
+private:
+        Eigen::MatrixXd Q_;
+        Eigen::MatrixXd C_;
+};
+
 } // namespace qp
 
 } // namespace tasks

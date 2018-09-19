@@ -1959,6 +1959,31 @@ const Eigen::VectorXd& VectorOrientationTask::normalAcc()
 	return vot_.normalAcc();
 }
 
+
+  /**
+	*											VectorOrientationTask
+	*/
+
+WrenchTask::WrenchTask(double weight):
+        Task(weight)
+{
+}
+
+void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                  const SolverData& data)
+{
+}
+
+void update(const std::vector<rbd::MultiBody>& mbs,
+            const std::vector<rbd::MultiBodyConfig>& mbcs,
+            const SolverDat& data)
+{
+  for (std::size_t i = 0; i < cont_.size(); ++i)
+    {
+    }
+}
+
+
 } // namespace qp
 
 } // namespace tasks
