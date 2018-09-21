@@ -1964,23 +1964,34 @@ const Eigen::VectorXd& VectorOrientationTask::normalAcc()
 	*											WrenchTask
 	*/
 
-WrenchTask::WrenchTask(double weight):
-        Task(weight)
-	// cont()
+WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double weight):
+        Task(weight),
+        bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
+        robotIndex_(robotIndex),
+        begin_(),
+        Q_(),
+        C_()
 {}
 
-void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-                  const SolverData& data)
+void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+        const SolverData& data)
 {
-        // cont_.clear();
-	
-	
+        begin_ = data.lambdaBegin();
+        std::vector<FrictionCone> cones;
+
+        int nrLambda;
+        int curLambda = 0;
+
+        for (const BilateralContact & c : data.allContacts())
+        {
+        }
 }
 
 void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
 			const std::vector<rbd::MultiBodyConfig>& mbcs,
-			const SolverDat& data)
+			const SolverData& data)
 {
+  /*
         for (std::size_t i = 0; i < cont_.size(); ++i)
 	{
 	        const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
@@ -1988,6 +1999,7 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
 		// ContactData& cd = cont_[i];
 		// int lambdaOffset = 0;
 	}
+  */
 }
 
 

@@ -1353,7 +1353,12 @@ private:
 class TASKS_DLLAPI WrenchTask : public Task
 {
 public:
-        WrenchTask(double weight);
+        WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double weight);
+
+        virtual std::pair<int, int> begin() const
+        {
+                return std::make_pair(begin_, begin_);
+        }
 
         virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
                                   const SolverData& data);
@@ -1364,19 +1369,21 @@ public:
 
         virtual const Eigen::MatrixXd& Q() const
         {
-          return Q_;
+                return Q_;
         }
 
-        virtual const Eigen::MatrixXd& C() const
+        virtual const Eigen::VectorXd& C() const
         {
-          return C_;
+                return C_;
         }
 
 private:
-	// std::vector<ContactData> cont_;
-
+	int bodyIndex_;
+        int robotIndex_;
+        int begin_;
+        
         Eigen::MatrixXd Q_;
-        Eigen::MatrixXd C_;
+        Eigen::VectorXd C_;
 };
 
 
