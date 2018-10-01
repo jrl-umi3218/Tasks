@@ -15,25 +15,26 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Tasks.  If not, see <http://www.gnu.org/licenses/>.
 
-MACRO(GET_TASKS_PROPERTY PROPERTY)
-  GET_TARGET_PROPERTY(TASKS_${PROPERTY} Tasks ${PROPERTY})
-  IF(NOT TASKS_${PROPERTY})
-    SET(TASKS_${PROPERTY} "")
-  ENDIF()
-ENDMACRO()
-GET_TASKS_PROPERTY(COMPILE_FLAGS)
-GET_TASKS_PROPERTY(INCLUDE_DIRECTORIES)
-GET_TASKS_PROPERTY(LINK_FLAGS)
-GET_TASKS_PROPERTY(LINK_LIBRARIES)
-GET_TASKS_PROPERTY(LOCATION)
-CONFIGURE_FILE(setup.in.py ${CMAKE_CURRENT_SOURCE_DIR}/setup.py)
+SET(SETUP_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIGURATION>/")
+IF(DEFINED CMAKE_BUILD_TYPE)
+  FILE(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+ELSE()
+  FOREACH(CFG ${CMAKE_CONFIGURATION_TYPES})
+    FILE(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${CFG}")
+  ENDFOREACH()
+ENDIF()
+CONFIGURE_FILE(setup.in.py "${CMAKE_CURRENT_BINARY_DIR}/setup.in.py")
+FILE(GENERATE
+      OUTPUT "${SETUP_LOCATION}/setup.py"
+      INPUT  "${CMAKE_CURRENT_BINARY_DIR}/setup.in.py")
 
 # Build the bindings locally at build time for test purposes
 ADD_CUSTOM_TARGET(tasks-python-bindings ALL
-  COMMAND python setup.py build_ext --inplace
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  COMMAND ${CMAKE_COMMAND} -E chdir "${SETUP_LOCATION}" python setup.py build_ext --inplace
   COMMENT "Generating local Tasks Python bindings"
   DEPENDS include/qp_wrapper.hpp tasks/c_tasks.pxd tasks/tasks.pxd tasks/tasks.pyx
+          tasks/qp/c_qp.pxd tasks/qp/qp.pxd tasks/qp/qp.pyx
+  SOURCES include/qp_wrapper.hpp tasks/c_tasks.pxd tasks/tasks.pxd tasks/tasks.pyx
           tasks/qp/c_qp.pxd tasks/qp/qp.pxd tasks/qp/qp.pyx
 )
 ADD_DEPENDENCIES(tasks-python-bindings Tasks)
@@ -54,15 +55,14 @@ ENDIF()
 # Install the bindings
 IF(DEFINED PYTHON_DEB_ROOT)
   ADD_CUSTOM_TARGET(install-tasks-python-bindings
-    COMMAND python setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb && python3 setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} -E chdir "${SETUP_LOCATION}" python setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb && python3 setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb
     COMMENT "Install Tasks Python bindings (Debian package)"
   )
 ELSE()
   ADD_CUSTOM_TARGET(install-tasks-python-bindings
-    COMMAND pip install . ${PIP_EXTRA_OPTIONS}
+    COMMAND ${CMAKE_COMMAND} -E chdir "${SETUP_LOCATION}" pip install . ${PIP_EXTRA_OPTIONS}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Install Tasks Python bindings"
   )
 ENDIF()
-INSTALL(CODE "EXECUTE_PROCESS(COMMAND ${CMAKE_MAKE_PROGRAM} install-tasks-python-bindings)")
+INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"${CMAKE_COMMAND}\" --build \"${CMAKE_BINARY_DIR}\" --config \${CMAKE_INSTALL_CONFIG_NAME} --target install-tasks-python-bindings)")
