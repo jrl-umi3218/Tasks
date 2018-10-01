@@ -42,8 +42,7 @@ ADD_DEPENDENCIES(tasks-python-bindings Tasks)
 if(NOT ${DISABLE_TESTS})
   if(NOT DEFINED PYTHON_DEB_ROOT)
     ADD_TEST(NAME PythonBindingsTest
-      COMMAND nosetests
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      COMMAND ${CMAKE_COMMAND} -E chdir "$<TARGET_FILE_DIR:Tasks>" nosetests ${SETUP_LOCATION}
     )
   endif()
 endif()
