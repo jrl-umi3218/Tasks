@@ -33,8 +33,10 @@ env:
   - GH_REPO=jrl-umi3218/Tasks
   - secure: sGswEcmMXNjod4m7F2ISsOsW8lM5EJckRp/SqkzdpAKDZl9W2zBoitMi/8FR3KGbpMsHHVP5SCa3+x3djDh3YXqZwxQm/+upqKWDFVXusdR+W/Xy0IncnRO2ADyCtfvb3Phc9TAvKey7GNP2bWTFC0/W0gQcrvT2feDlgWDXm6c=
   matrix:
-    - USE_PYTHON34=false
-    - USE_PYTHON34=true
+    - USE_PYTHON34=false CMAKE_BUILD_TYPE=RelWithDebInfo
+    - USE_PYTHON34=false CMAKE_BUILD_TYPE=Debug
+    - USE_PYTHON34=true CMAKE_BUILD_TYPE=RelWithDebInfo
+    - USE_PYTHON34=true CMAKE_BUILD_TYPE=Debug
 notifications:
   slack:
     secure: kjUy0ltOahScMXln4/rjXG7fg/7G3l9D2M8Nd1b2GDsAfGvf8xhSFTwlXwlI4sr/Kr/9aP7/c1fjEucnR2bP4Z00G6ywRLhC7XPGAYNJ7AOGN9asX/fQZ/NXs9ADs6mTuGExvBaT/Xb6HYKi+4OIqtUhAtGK/HafVacVHlfl8RM=
@@ -44,8 +46,6 @@ after_failure: ./.travis/run after_failure
 before_install:
 - if [ $USE_PYTHON34 = true ]; then pushd .; pip install virtualenv; mkdir -p /tmp/_ci/virtualenv; virtualenv -p python3.4 3.4; source 3.4/bin/activate; popd; fi
 - if [ $USE_PYTHON34 = false ]; then export CMAKE_ADDITIONAL_OPTIONS="-DPYTHON_BINDING_USER_INSTALL:BOOL=ON"; fi
+- export CMAKE_ADDITIONAL_OPTIONS="${CMAKE_ADDITIONAL_OPTIONS} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
 - ./.travis/dependencies/eigen-3.2
 - ./.travis/run  before_install
-matrix:
-  allow_failures:
-  - compiler: clang
