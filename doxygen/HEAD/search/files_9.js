@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lssolqpsolver_2eh',['LSSOLQPSolver.h',['../a00099.html',1,'']]]
+  ['operators_2eh',['Operators.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00017.html',1,'']]]
 ];
