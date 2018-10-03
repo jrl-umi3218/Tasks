@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# OMNIIDL_INCLUDE_DIRECTORIES
-# ---------------------------
+#.rst:
+# .. command:: OMNIIDL_INCLUDE_DIRECTORIES (DIRECTORIES)
 #
-# Set include directories for omniidl
+#   Set include directories for omniidl
 #
-# DIRECTORIES: a list of directories to search for idl files.
+#   :param DIRECTORIES: a list of directories to search for idl files.
 #
 MACRO (OMNIIDL_INCLUDE_DIRECTORIES)
   SET (_OMNIIDL_INCLUDE_FLAG "")
@@ -30,24 +30,32 @@ MACRO (OMNIIDL_INCLUDE_DIRECTORIES)
   STRING (REGEX REPLACE " " ";" _OMNIIDL_INCLUDE_FLAG ${_OMNIIDL_INCLUDE_FLAG})
 ENDMACRO ()
 
-# GENERATE_IDL_CPP FILENAME DIRECTORY
-# ------------------------------------
+#.rst:
+# .. command:: GENERATE_IDL_CPP (FILENAME DIRECTORY)
 #
-# Generate C++ stubs from an idl file.
-# An include directory can also be specified.
+#   Generate C++ stubs from an idl file.
+#   An include directory can also be specified.
+#   The filename of the generated file is appended to ``ALL_IDL_CPP_STUBS``.
 #
-# In CMake, "source file properties are visible only to targets added in the
-# same directory (CMakeLists.txt)". As a result, we cannot provide a single
-# macro that takes care of generating the files and ensures a proper build
-# dependency graph.
+#   In CMake, *source file properties are visible only to targets added in the
+#   same directory (CMakeLists.txt)*. As a result, we cannot provide a single
+#   macro that takes care of generating the files and ensures a proper build
+#   dependency graph.
 #
-# For more information:
-# http://www.cmake.org/Wiki/CMake_FAQ#How_can_I_add_a_dependency_to_a_source_file_which_is_generated_in_a_subdirectory.3F
+#   .. warning::
+#     It is your responsibility to make sure the target dependency tree
+#     is correct. For instance with::
+#    
+#       ADD_CUSTOM_TARGET(generate_idl_cpp DEPENDS ${ALL_IDL_CPP_STUBS})
+#       ADD_DEPENDENCIES (my-library generate_idl_cpp)
 #
-# FILENAME : IDL filename without the extension
-#            Can be prefixed by a path: _path/_filename
-# DIRECTORY : IDL directory
-#             The idl file being search for is: ${DIRECTORY}/${_filename}.idl
+#   For more information:
+#   http://www.cmake.org/Wiki/CMake_FAQ#How_can_I_add_a_dependency_to_a_source_file_which_is_generated_in_a_subdirectory.3F
+#
+#   :param FILENAME:  IDL filename without the extension.
+#                     Can be prefixed by a path: _path/_filename
+#   :param DIRECTORY: IDL directory.
+#                     The idl file being search for is: ``${DIRECTORY}/${_filename}.idl``
 #
 MACRO(GENERATE_IDL_CPP FILENAME DIRECTORY)
   GET_FILENAME_COMPONENT (_PATH ${FILENAME} PATH)
@@ -78,28 +86,39 @@ MACRO(GENERATE_IDL_CPP FILENAME DIRECTORY)
     ADDITIONAL_MAKE_CLEAN_FILES
     ${IDL_COMPILED_FILES}
     )
+  SET_PROPERTY(SOURCE ${IDL_COMPILED_FILES}
+    APPEND_STRING PROPERTY
+    COMPILE_FLAGS "-Wno-conversion -Wno-cast-qual -Wno-unused-variable -Wno-unused-parameter")
 
   LIST(APPEND LOGGING_WATCHED_VARIABLES OMNIIDL ALL_IDL_CPP_STUBS)
 ENDMACRO(GENERATE_IDL_CPP FILENAME DIRECTORY)
 
-# GENERATE_IDL_PYTHON FILENAME DIRECTORY
-# ------------------------------------
+#.rst:
+# .. command:: GENERATE_IDL_PYTHON (FILENAME DIRECTORY)
 #
-# Generate Python stubs from an idl file.
-# An include directory can also be specified.
+#   Generate Python stubs from an idl file.
+#   An include directory can also be specified.
+#   The filename of the generated file is appended to ``ALL_IDL_PYTHON_STUBS``.
 #
-# In CMake, "source file properties are visible only to targets added in the
-# same directory (CMakeLists.txt)". As a result, we cannot provide a single
-# macro that takes care of generating the files and ensures a proper build
-# dependency graph.
+#   In CMake, *source file properties are visible only to targets added in the
+#   same directory (CMakeLists.txt)*. As a result, we cannot provide a single
+#   macro that takes care of generating the files and ensures a proper build
+#   dependency graph.
 #
-# For more information:
-# http://www.cmake.org/Wiki/CMake_FAQ#How_can_I_add_a_dependency_to_a_source_file_which_is_generated_in_a_subdirectory.3F
+#   .. warning::
+#     It is your responsibility to make sure the target dependency tree
+#     is correct. For instance with::
+#    
+#       ADD_CUSTOM_TARGET(generate_idl_python DEPENDS ${ALL_IDL_PYTHON_STUBS})
+#       ADD_DEPENDENCIES (my-library generate_idl_python)
 #
-# FILENAME : IDL filename without the extension
-#            Can be prefixed by a path: _path/_filename
-# DIRECTORY : IDL directory
-#             The idl file being search for is: ${DIRECTORY}/${_filename}.idl
+#   For more information:
+#   http://www.cmake.org/Wiki/CMake_FAQ#How_can_I_add_a_dependency_to_a_source_file_which_is_generated_in_a_subdirectory.3F
+#
+#   :param FILENAME: IDL filename without the extension.
+#                    Can be prefixed by a path: _path/_filename
+#   :param DIRECTORY: IDL directory.
+#                     The idl file being search for is: ``${DIRECTORY}/${_filename}.idl``
 #
 MACRO(GENERATE_IDL_PYTHON FILENAME DIRECTORY)
   GET_FILENAME_COMPONENT (_PATH ${FILENAME} PATH)

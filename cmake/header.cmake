@@ -13,44 +13,55 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# _SETUP_PROJECT_HEADER
-# ---------------------
+#.rst:
+# .. ifmode:: user
 #
-# This setup CMake to handle headers properly.
+#   .. variable:: ${PROJECT_NAME}_HEADERS
 #
-# 1. The `include` directory in the build and source trees is added
-#    to the include search path (see INCLUDE_DIRECTORIES).
-#    As always, the build directory has the priority over the source
-#    directory in case of conflict.
+#     List of C++ header filenames. They will be installed automatically
+#     using :command:`HEADER_INSTALL`
 #
-#    However you *should not* have conflicting names
-#    for files which are both in the build and source trees.
-#    Conflicting names are filenames which differ only by a prefix:
+
+#.rst:
+# .. ifmode:: internal
 #
-#    include/a.h vs _build/include/a.h
-#    src/a.h     vs src/foo/a.h
+#   .. command:: _SETUP_PROJECT_HEADER
 #
-#    ...this files makes a project very fragile as the -I ordering
-#    will have a lot of importance and may break easily when using
-#    tools which may reorder the pre-processor flags such as pkg-config.
+#     This setup CMake to handle headers properly.
+#
+#     1. The `include` directory in the build and source trees is added
+#        to the include search path (see INCLUDE_DIRECTORIES).
+#        As always, the build directory has the priority over the source
+#        directory in case of conflict.
+#
+#        However you *should not* have conflicting names
+#        for files which are both in the build and source trees.
+#        Conflicting names are filenames which differ only by a prefix:
+#
+#        include/a.h vs _build/include/a.h
+#        src/a.h     vs src/foo/a.h
+#
+#        ...this files makes a project very fragile as the -I ordering
+#        will have a lot of importance and may break easily when using
+#        tools which may reorder the pre-processor flags such as pkg-config.
 #
 #
-# 2. The headers are installed in the prefix
-#    in a way which preserves the directory structure.
+#     2. The headers are installed in the prefix
+#        in a way which preserves the directory structure.
 #
-#    The directory name for header follows the rule:
-#    each non alpha-numeric character is replaced by a slash (`/`).
-#    In practice, it means that hpp-util will put its header in:
-#    ${CMAKE_INSTALL_PREFIX}/include/hpp/util
+#        The directory name for header follows the rule:
+#        each non alpha-numeric character is replaced by a slash (`/`).
+#        In practice, it means that hpp-util will put its header in:
+#        ${CMAKE_INSTALL_PREFIX}/include/hpp/util
 #
-#    This rule has been decided to homogenize headers location, however
-#    some packages do not follow this rule (dg-middleware for instance).
+#        This rule has been decided to homogenize headers location, however
+#        some packages do not follow this rule (dg-middleware for instance).
 #
-#    In that case, CUSTOM_HEADER_DIR can be set to override this policy.
+#        In that case, CUSTOM_HEADER_DIR can be set to override this policy.
 #
-#    Reminder: breaking the JRL/LAAS policies shoud be done after
-#              discussing the issue. You should at least open a ticket
-#              or send an e-mail to notify this behavior.
+#        Reminder: breaking the JRL/LAAS policies shoud be done after
+#                  discussing the issue. You should at least open a ticket
+#                  or send an e-mail to notify this behavior.
 #
 MACRO(_SETUP_PROJECT_HEADER)
   # Install project headers.
@@ -159,10 +170,12 @@ MACRO(_SETUP_PROJECT_HEADER_FINAlIZE)
 ENDMACRO(_SETUP_PROJECT_HEADER_FINAlIZE)
 
 
-# HEADER_INSTALL(FILES)
-# -------------------------------
+#.rst:
+# .. ifmode:: internal
 #
-# Install a list of headers.
+#   .. command:: HEADER_INSTALL (FILES)
+#
+#     Install a list of headers.
 #
 MACRO(HEADER_INSTALL FILES)
   FOREACH(FILE ${FILES})
