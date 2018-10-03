@@ -1,4 +1,4 @@
-var a00112 =
+var a00114 =
 [
     [ "LSSOLQPSolver", "a00044.html", "a00044" ],
     [ "QLDQPSolver", "a00069.html", "a00069" ],
@@ -49,7 +49,7 @@ var a00112 =
     [ "JointStiffness", "a00041.html", "a00041" ],
     [ "JointGains", "a00038.html", "a00038" ],
     [ "TorqueTask", "a00086.html", "a00086" ],
-    [ "PostureTask", "a00067.html", "a00067" ],
+    [ "PostureTask", "a00066.html", "a00066" ],
     [ "PositionTask", "a00063.html", "a00063" ],
     [ "OrientationTask", "a00055.html", "a00055" ],
     [ "TransformTaskCommon", "a00091.html", "a00091" ],
