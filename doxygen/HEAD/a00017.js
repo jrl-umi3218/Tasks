@@ -1,6 +1,6 @@
 var a00017 =
 [
-    [ "ContactData", "a00020.html", "a00020" ],
+    [ "ContactData", "a00019.html", "a00019" ],
     [ "ContactSideData", "a00023.html", "a00023" ],
     [ "ContactConstr", "a00017.html#a75afc5afe626485023d9fd8a009b0bc9", null ],
     [ "AEq", "a00017.html#a4d41e244d51f984e4e454b034ad99b78", null ],

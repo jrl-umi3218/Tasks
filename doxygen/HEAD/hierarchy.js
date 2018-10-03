@@ -42,8 +42,8 @@ var hierarchy =
     [ "tasks::qp::ContactConstrCommon", "a00018.html", [
       [ "tasks::qp::ContactConstr", "a00017.html", null ]
     ] ],
-    [ "tasks::qp::MotionConstrCommon::ContactData", "a00019.html", null ],
-    [ "tasks::qp::ContactConstr::ContactData", "a00020.html", null ],
+    [ "tasks::qp::ContactConstr::ContactData", "a00019.html", null ],
+    [ "tasks::qp::MotionConstrCommon::ContactData", "a00020.html", null ],
     [ "tasks::qp::ContactId", "a00021.html", null ],
     [ "tasks::qp::ContactConstr::ContactSideData", "a00023.html", null ],
     [ "tasks::qp::Equality", "a00027.html", null ],
@@ -94,7 +94,7 @@ var hierarchy =
     [ "tasks::PolyTorqueBound", "a00060.html", null ],
     [ "tasks::PositionBasedVisServoTask", "a00062.html", null ],
     [ "tasks::PositionTask", "a00064.html", null ],
-    [ "tasks::PostureTask", "a00066.html", null ],
+    [ "tasks::PostureTask", "a00067.html", null ],
     [ "tasks::QBound", "a00068.html", null ],
     [ "tasks::qp::QPSolver", "a00070.html", null ],
     [ "tasks::RelativeDistTask", "a00071.html", null ],
@@ -108,7 +108,7 @@ var hierarchy =
       [ "tasks::qp::GripperTorqueTask", "a00034.html", null ],
       [ "tasks::qp::MultiCoMTask", "a00051.html", null ],
       [ "tasks::qp::MultiRobotTransformTask", "a00053.html", null ],
-      [ "tasks::qp::PostureTask", "a00067.html", null ],
+      [ "tasks::qp::PostureTask", "a00066.html", null ],
       [ "tasks::qp::SetPointTaskCommon", "a00075.html", [
         [ "tasks::qp::PIDTask", "a00059.html", null ],
         [ "tasks::qp::SetPointTask", "a00074.html", null ],
