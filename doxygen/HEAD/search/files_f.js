@@ -21,7 +21,7 @@ var searchData=
   ['smallmatrix4x4t_2eh',['SmallMatrix4x4T.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00102.html',1,'']]],
   ['smallvector3t_2eh',['SmallVector3T.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00103.html',1,'']]],
   ['smallvector4t_2eh',['SmallVector4T.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00104.html',1,'']]],
-  ['spacevecalg',['SpaceVecAlg',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00016.html',1,'']]],
+  ['spacevecalg',['SpaceVecAlg',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00020.html',1,'']]],
   ['stp_5fbigsphere_2eh',['STP_BigSphere.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00105.html',1,'']]],
   ['stp_5fbv_2eh',['STP_BV.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00106.html',1,'']]],
   ['stp_5fbv_5fp_2eh',['STP_BV_P.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00107.html',1,'']]],

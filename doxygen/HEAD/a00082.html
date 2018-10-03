@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::SurfaceTransformTask Class Reference</title>
+<title>tasks::SurfaceTransformTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -97,86 +97,83 @@ $(document).ready(function(){initNavTree('a00082.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00194.html">List of all members</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="a00122.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::SurfaceTransformTask Class Reference</div>  </div>
+<div class="title">tasks::SurfaceTransformTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="a00089.html" title="TransformTask in world or user frame. ">TransformTask</a> in surface frame.  
- <a href="a00082.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for tasks::qp::SurfaceTransformTask:</div>
+Inheritance diagram for tasks::SurfaceTransformTask:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="a00082.png" usemap="#tasks::qp::SurfaceTransformTask_map" alt=""/>
-  <map id="tasks::qp::SurfaceTransformTask_map" name="tasks::qp::SurfaceTransformTask_map">
-<area href="a00092.html" alt="tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;" shape="rect" coords="0,56,382,80"/>
-<area href="a00035.html" alt="tasks::qp::HighLevelTask" shape="rect" coords="0,0,382,24"/>
+  <img src="a00082.png" usemap="#tasks::SurfaceTransformTask_map" alt=""/>
+  <map id="tasks::SurfaceTransformTask_map" name="tasks::SurfaceTransformTask_map">
+<area href="a00092.html" alt="tasks::TransformTaskCommon" shape="rect" coords="0,0,177,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad080188983a173ad99bdbd63208eb189"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00082.html#ad080188983a173ad99bdbd63208eb189">SurfaceTransformTask</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00092.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a>=<a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
-<tr class="separator:ad080188983a173ad99bdbd63208eb189"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c81d6e4c1eeb30c2866b789b3c79c40"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00082.html#a5c81d6e4c1eeb30c2866b789b3c79c40">update</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &gt; &amp;mb, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html">rbd::MultiBodyConfig</a> &gt; &amp;mbc, const <a class="el" href="a00076.html">SolverData</a> &amp;data) override</td></tr>
-<tr class="separator:a5c81d6e4c1eeb30c2866b789b3c79c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00092"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00092')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td></tr>
-<tr class="memitem:ad80e311e700791109d84fa22c954cb84 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#ad80e311e700791109d84fa22c954cb84">TransformTaskCommon</a> (const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00092.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a>=<a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
-<tr class="separator:ad80e311e700791109d84fa22c954cb84 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14760ffdbe08973b70e3d2eea0e6aa40 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00081.html">tasks::SurfaceTransformTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a14760ffdbe08973b70e3d2eea0e6aa40">task</a> ()</td></tr>
-<tr class="separator:a14760ffdbe08973b70e3d2eea0e6aa40 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0b3178505a2872ceb38462bcce08f29 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#af0b3178505a2872ceb38462bcce08f29">target</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t)</td></tr>
-<tr class="separator:af0b3178505a2872ceb38462bcce08f29 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a642d181e09939e3a86bb110e276a6e27 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a642d181e09939e3a86bb110e276a6e27">target</a> () const</td></tr>
-<tr class="separator:a642d181e09939e3a86bb110e276a6e27 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a50df788c61e0303e09ead4409eddfb inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_p)</td></tr>
-<tr class="separator:a7a50df788c61e0303e09ead4409eddfb inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad41559d4366daf41c713e4f7c0f85681 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#ad41559d4366daf41c713e4f7c0f85681">X_b_p</a> () const</td></tr>
-<tr class="separator:ad41559d4366daf41c713e4f7c0f85681 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3254048c52d4893b3fcda182cb33c86 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#ad3254048c52d4893b3fcda182cb33c86">dim</a> () override</td></tr>
-<tr class="separator:ad3254048c52d4893b3fcda182cb33c86 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a710c0f4a9c71e97dee0c9059b175f5bb inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a710c0f4a9c71e97dee0c9059b175f5bb">jac</a> () override</td></tr>
-<tr class="separator:a710c0f4a9c71e97dee0c9059b175f5bb inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a644f20089b0dfd81f94b7e9cdcc7e6a0 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a644f20089b0dfd81f94b7e9cdcc7e6a0">eval</a> () override</td></tr>
-<tr class="separator:a644f20089b0dfd81f94b7e9cdcc7e6a0 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb449578f2ee544bb28cf05373f096f inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a4bb449578f2ee544bb28cf05373f096f">speed</a> () override</td></tr>
-<tr class="separator:a4bb449578f2ee544bb28cf05373f096f inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18d02bd366acdd7a68b540fddf17919 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#ae18d02bd366acdd7a68b540fddf17919">normalAcc</a> () override</td></tr>
-<tr class="separator:ae18d02bd366acdd7a68b540fddf17919 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00035"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00035')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00035.html">tasks::qp::HighLevelTask</a></td></tr>
-<tr class="memitem:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00035"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00035.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a> ()</td></tr>
-<tr class="separator:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00035"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ad5b122dfa8716abb481ed2e0679c6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00082.html#a9ad5b122dfa8716abb481ed2e0679c6e">SurfaceTransformTask</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00092.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a>=<a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00006.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
+<tr class="memdesc:a9ad5b122dfa8716abb481ed2e0679c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute eval, speed, normalAcc and jac in moving 'p' frame.  <a href="#a9ad5b122dfa8716abb481ed2e0679c6e">More...</a><br/></td></tr>
+<tr class="separator:a9ad5b122dfa8716abb481ed2e0679c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bce03f4d99d2ba3a40254a54269a002"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00082.html#a5bce03f4d99d2ba3a40254a54269a002">update</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a5bce03f4d99d2ba3a40254a54269a002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00092"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00092')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00092.html">tasks::TransformTaskCommon</a></td></tr>
+<tr class="memitem:a480794408729e99dea19ae53fa51fa2a inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a480794408729e99dea19ae53fa51fa2a">TransformTaskCommon</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00092.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a>)</td></tr>
+<tr class="separator:a480794408729e99dea19ae53fa51fa2a inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075f661f10fb49cfaed9a2694b6763d3 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a075f661f10fb49cfaed9a2694b6763d3">target</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t)</td></tr>
+<tr class="separator:a075f661f10fb49cfaed9a2694b6763d3 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e9dd2e3323360f57b68f4eeffd4d82 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#af6e9dd2e3323360f57b68f4eeffd4d82">target</a> () const </td></tr>
+<tr class="separator:af6e9dd2e3323360f57b68f4eeffd4d82 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6b4586c641fa3a22ce68ebe9f76d36 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a> (const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_p)</td></tr>
+<tr class="separator:a9c6b4586c641fa3a22ce68ebe9f76d36 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93729929225dc9cd1f7c32a2f423a103 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a93729929225dc9cd1f7c32a2f423a103">X_b_p</a> () const </td></tr>
+<tr class="separator:a93729929225dc9cd1f7c32a2f423a103 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e3dcc7755bff2e7277f2e79a6f3a37d inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a5e3dcc7755bff2e7277f2e79a6f3a37d">eval</a> () const </td></tr>
+<tr class="separator:a5e3dcc7755bff2e7277f2e79a6f3a37d inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01e89269648b1c796264e041d803b965 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a01e89269648b1c796264e041d803b965">speed</a> () const </td></tr>
+<tr class="separator:a01e89269648b1c796264e041d803b965 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33694c4067e14376d6fd9e6eb8a4781 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#af33694c4067e14376d6fd9e6eb8a4781">normalAcc</a> () const </td></tr>
+<tr class="separator:af33694c4067e14376d6fd9e6eb8a4781 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06c61480fcf0dd74ea8489fa945dd797 inherit pub_methods_a00092"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a06c61480fcf0dd74ea8489fa945dd797">jac</a> () const </td></tr>
+<tr class="separator:a06c61480fcf0dd74ea8489fa945dd797 inherit pub_methods_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_a00092"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00092')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td></tr>
-<tr class="memitem:a20b38faf7c45ad433e793b5bf375f61d inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00081.html">tasks::SurfaceTransformTask</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a20b38faf7c45ad433e793b5bf375f61d">tt_</a></td></tr>
-<tr class="separator:a20b38faf7c45ad433e793b5bf375f61d inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c311d3cda616f83de11d836c6f3d18 inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a55c311d3cda616f83de11d836c6f3d18">robotIndex_</a></td></tr>
-<tr class="separator:a55c311d3cda616f83de11d836c6f3d18 inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:af8655a5233d9b0d4f278b9f2fb1029fd"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00082.html#af8655a5233d9b0d4f278b9f2fb1029fd">jacMatTmp_</a></td></tr>
+<tr class="separator:af8655a5233d9b0d4f278b9f2fb1029fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_a00092"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00092')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00092.html">tasks::TransformTaskCommon</a></td></tr>
+<tr class="memitem:a65b337e6e48ec7e93b8137364374752f inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a65b337e6e48ec7e93b8137364374752f">X_0_t_</a></td></tr>
+<tr class="separator:a65b337e6e48ec7e93b8137364374752f inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c5c7d4e3e282c76d28c09563e6650d inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#af3c5c7d4e3e282c76d28c09563e6650d">X_b_p_</a></td></tr>
+<tr class="separator:af3c5c7d4e3e282c76d28c09563e6650d inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a298e38439bbefa80e02f53ffbda17771 inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a298e38439bbefa80e02f53ffbda17771">bodyIndex_</a></td></tr>
+<tr class="separator:a298e38439bbefa80e02f53ffbda17771 inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd5ce12eb9762527a8d6933b1b23e90 inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00014.html">rbd::Jacobian</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a5dd5ce12eb9762527a8d6933b1b23e90">jac_</a></td></tr>
+<tr class="separator:a5dd5ce12eb9762527a8d6933b1b23e90 inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f71e9037d4cd93cc297e0c0b54c0d9c inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a1f71e9037d4cd93cc297e0c0b54c0d9c">eval_</a></td></tr>
+<tr class="separator:a1f71e9037d4cd93cc297e0c0b54c0d9c inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9faadfe66b2d0903cc393756277abe2 inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#aa9faadfe66b2d0903cc393756277abe2">speed_</a></td></tr>
+<tr class="separator:aa9faadfe66b2d0903cc393756277abe2 inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81993fa44af379d32b94a6c3388390af inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#a81993fa44af379d32b94a6c3388390af">normalAcc_</a></td></tr>
+<tr class="separator:a81993fa44af379d32b94a6c3388390af inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6fc32df4b5ed9cf52e94a95db598708 inherit pro_attribs_a00092"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00092.html#ae6fc32df4b5ed9cf52e94a95db598708">jacMat_</a></td></tr>
+<tr class="separator:ae6fc32df4b5ed9cf52e94a95db598708 inherit pro_attribs_a00092"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="a00089.html" title="TransformTask in world or user frame. ">TransformTask</a> in surface frame. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ad080188983a173ad99bdbd63208eb189"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a9ad5b122dfa8716abb481ed2e0679c6e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::SurfaceTransformTask::SurfaceTransformTask </td>
+          <td class="memname">tasks::SurfaceTransformTask::SurfaceTransformTask </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotIndex</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -187,14 +184,49 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
           <td class="paramname"><em>X_0_t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b_p</em> = <code><a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>()</code>&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_b_p</em> = <code><a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00006.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute eval, speed, normalAcc and jac in moving 'p' frame. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5bce03f4d99d2ba3a40254a54269a002"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::SurfaceTransformTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag:/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/" href="/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -206,8 +238,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5c81d6e4c1eeb30c2866b789b3c79c40"></a>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="af8655a5233d9b0d4f278b9f2fb1029fd"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -215,37 +247,15 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::SurfaceTransformTask::update </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00016.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/RBDyn.doxytag:/tmp/_ci/install/share/doc/RBDyn/doxygen-html/" href="/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00017.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00076.html">SolverData</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">Eigen::MatrixXd tasks::SurfaceTransformTask::jacMatTmp_</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00035.html#a6af9649e3cd0adc1643a029333897d02">tasks::qp::HighLevelTask</a>.</p>
 
 </div>
 </div>
@@ -255,8 +265,8 @@ Additional Inherited Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00112.html">qp</a></li><li class="navelem"><a class="el" href="a00082.html">SurfaceTransformTask</a></li>
-    <li class="footer">Generated on Fri Jul 6 2018 07:00:48 for Tasks by
+    <li class="navelem"><a class="el" href="a00111.html">tasks</a></li><li class="navelem"><a class="el" href="a00082.html">SurfaceTransformTask</a></li>
+    <li class="footer">Generated on Wed Oct 3 2018 01:22:33 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['r1index',['r1Index',['../a00053.html#a92ad69a29fcd1752fb915d3e37eaf915',1,'tasks::MultiRobotTransformTask']]],
-  ['r2index',['r2Index',['../a00053.html#afef4204b0b8d64fdd4277aa53f6a5a88',1,'tasks::MultiRobotTransformTask']]],
+  ['r1index',['r1Index',['../a00054.html#a92ad69a29fcd1752fb915d3e37eaf915',1,'tasks::MultiRobotTransformTask']]],
+  ['r2index',['r2Index',['../a00054.html#afef4204b0b8d64fdd4277aa53f6a5a88',1,'tasks::MultiRobotTransformTask']]],
   ['ray_5fcast',['ray_cast',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00063.html#acdcd5bfb85a05ba604cd11bff6eee140',1,'sch::STP_BigSphere::ray_cast()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00064.html#aab9856b577cb67ef1bbd75e73fadeaf2',1,'sch::STP_BV::ray_cast()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00067.html#aa99f0ac5dc6f5fc91b1c586ab9116c0e',1,'sch::STP_SmallSphere::ray_cast()']]],
-  ['rbinertia',['RBInertia',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00005.html#a73b8ab1ffe411e38ed377d703fecc9c4',1,'sva::RBInertia::RBInertia()'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00005.html#a9c14050634eced8cf16c86bfff66a9e2',1,'sva::RBInertia::RBInertia(T m, const vector3_t &amp;h, const matrix3_t &amp;I)'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00005.html#a56a14051627e5e89bf06a8d8c979d56f',1,'sva::RBInertia::RBInertia(T m, const vector3_t &amp;h, const TriangularView&lt; matrix3_t, Lower &gt; &amp;ltI)']]],
+  ['rbinertia',['RBInertia',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00007.html#a73b8ab1ffe411e38ed377d703fecc9c4',1,'sva::RBInertia::RBInertia()'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00007.html#a9c14050634eced8cf16c86bfff66a9e2',1,'sva::RBInertia::RBInertia(T m, const vector3_t &amp;h, const matrix3_t &amp;I)'],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00007.html#a56a14051627e5e89bf06a8d8c979d56f',1,'sva::RBInertia::RBInertia(T m, const vector3_t &amp;h, const TriangularView&lt; matrix3_t, Lower &gt; &amp;ltI)']]],
   ['recomputeclosestpoints',['reComputeClosestPoints',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#ae4df31d3c1959d7a952aae8fdccad5d9',1,'sch::CD_Pair']]],
   ['reducea',['reduceA',['../a00112.html#a5c7c5651f0a5ab680fa7f34d4b98f6c3',1,'tasks::qp']]],
   ['reducebound',['reduceBound',['../a00112.html#a741de9b14e9fe6a5b4ec675703215210',1,'tasks::qp']]],
@@ -11,7 +11,7 @@ var searchData=
   ['refaccel',['refAccel',['../a00087.html#a20e5c060814329fd2aef628b3c439234',1,'tasks::qp::TrackingTask::refAccel()'],['../a00088.html#ab205f45b28c0df29e37c3906b4caa4c1',1,'tasks::qp::TrajectoryTask::refAccel(const Eigen::VectorXd &amp;refAccel)'],['../a00088.html#a2cfc0fac8788a3826b8633eceb0bc4b1',1,'tasks::qp::TrajectoryTask::refAccel() const ']]],
   ['refvel',['refVel',['../a00088.html#acb1ed22d8d4325d27016ba86d807b4f3',1,'tasks::qp::TrajectoryTask::refVel(const Eigen::VectorXd &amp;refVel)'],['../a00088.html#a8dc0292153d09b0f8c8d6344f3d3fa11',1,'tasks::qp::TrajectoryTask::refVel() const ']]],
   ['register_5ftype',['register_type',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00059.html#a76f28c573bed6aa99a0053cf889c71f1',1,'boost::archive::detail::save_pointer_type::register_type()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00008.html#a2c8600cf3118e78496d2ece0d65d510b',1,'boost::archive::detail::save_pointer_type::abstract::register_type()'],['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00023.html#a28ea1d7cec31095aa7b171174ea5377a',1,'boost::archive::detail::save_pointer_type::non_abstract::register_type()']]],
-  ['relativedisttask',['RelativeDistTask',['../a00071.html#aee57978784aaab94d4f038f06afecb63',1,'tasks::qp::RelativeDistTask::RelativeDistTask()'],['../a00072.html#ae61d9885b5904b203d0290b0de489cd0',1,'tasks::RelativeDistTask::RelativeDistTask()']]],
+  ['relativedisttask',['RelativeDistTask',['../a00072.html#aee57978784aaab94d4f038f06afecb63',1,'tasks::qp::RelativeDistTask::RelativeDistTask()'],['../a00071.html#ae61d9885b5904b203d0290b0de489cd0',1,'tasks::RelativeDistTask::RelativeDistTask()']]],
   ['removeboundconstraint',['removeBoundConstraint',['../a00070.html#a98be3e0e5961c0417dc0bbcb13c4d7a9',1,'tasks::qp::QPSolver']]],
   ['removeboundedspeed',['removeBoundedSpeed',['../a00004.html#aef0f41ce8156689fe319357df8b8a467',1,'tasks::qp::BoundedSpeedConstr']]],
   ['removeconstraint',['removeConstraint',['../a00070.html#a28bac3dae8cd554eda5f29615ae4b19a',1,'tasks::qp::QPSolver']]],
@@ -34,12 +34,12 @@ var searchData=
   ['rmcollision',['rmCollision',['../a00005.html#a378178fcd1de3da1e6a0472c0f04f42e',1,'tasks::qp::CollisionConstr']]],
   ['rmgripper',['rmGripper',['../a00033.html#a7bcbd18c45c3b8492e53a9a03cf954a4',1,'tasks::qp::GripperTorqueConstr']]],
   ['rmplane',['rmPlane',['../a00006.html#ac6a9eb3a427aefd92dde43a9cad9f2af',1,'tasks::qp::CoMIncPlaneConstr']]],
-  ['robotindexes',['robotIndexes',['../a00051.html#a2b7bf71e59826b6042615237e83a802b',1,'tasks::MultiCoMTask']]],
-  ['robotpoint',['robotPoint',['../a00071.html#ad3c8ae8598019167f9097a0ed3563747',1,'tasks::qp::RelativeDistTask::robotPoint()'],['../a00072.html#a3ea4a20a552a873d090c584477f58c4f',1,'tasks::RelativeDistTask::robotPoint()']]],
-  ['rotation',['rotation',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#ad8cf0f4f145b55c063d5a527a6c33b76',1,'sva::PTransform::rotation() const '],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00004.html#a6c66d2b5851aa5092b6645b88c2978aa',1,'sva::PTransform::rotation()']]],
-  ['rotationerror',['rotationError',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a19fbf7e2be8a0b0f4549fa9055c442b2',1,'sva']]],
-  ['rotationvelocity',['rotationVelocity',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a69e918e3dc71b93c3f4a2136c525f2a0',1,'sva']]],
-  ['rotx',['RotX',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a3d8592bd972b6bdd69677f5a620daa73',1,'sva']]],
-  ['roty',['RotY',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a72dd05ef42d5f3f01e76aecd3c769658',1,'sva']]],
-  ['rotz',['RotZ',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00019.html#a945b27220fb3db512a24939c8cc1b5ee',1,'sva']]]
+  ['robotindexes',['robotIndexes',['../a00052.html#a2b7bf71e59826b6042615237e83a802b',1,'tasks::MultiCoMTask']]],
+  ['robotpoint',['robotPoint',['../a00072.html#ad3c8ae8598019167f9097a0ed3563747',1,'tasks::qp::RelativeDistTask::robotPoint()'],['../a00071.html#a3ea4a20a552a873d090c584477f58c4f',1,'tasks::RelativeDistTask::robotPoint()']]],
+  ['rotation',['rotation',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00006.html#ad8cf0f4f145b55c063d5a527a6c33b76',1,'sva::PTransform::rotation() const '],['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00006.html#a6c66d2b5851aa5092b6645b88c2978aa',1,'sva::PTransform::rotation()']]],
+  ['rotationerror',['rotationError',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a19fbf7e2be8a0b0f4549fa9055c442b2',1,'sva']]],
+  ['rotationvelocity',['rotationVelocity',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a69e918e3dc71b93c3f4a2136c525f2a0',1,'sva']]],
+  ['rotx',['RotX',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a3d8592bd972b6bdd69677f5a620daa73',1,'sva']]],
+  ['roty',['RotY',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a72dd05ef42d5f3f01e76aecd3c769658',1,'sva']]],
+  ['rotz',['RotZ',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00023.html#a945b27220fb3db512a24939c8cc1b5ee',1,'sva']]]
 ];

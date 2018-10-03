@@ -8,6 +8,6 @@ var searchData=
   ['cd_5fsimplexenhanced_2eh',['CD_SimplexEnhanced.h',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00077.html',1,'']]],
   ['cd_5fsimplexenhanced_2ehxx',['CD_SimplexEnhanced.hxx',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00078.html',1,'']]],
   ['com_2eh',['CoM.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00021.html',1,'']]],
-  ['conversions_2eh',['Conversions.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00007.html',1,'']]],
+  ['conversions_2eh',['Conversions.h',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00010.html',1,'']]],
   ['coriolis_2eh',['Coriolis.h',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00022.html',1,'']]]
 ];

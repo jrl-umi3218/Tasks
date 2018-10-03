@@ -12,7 +12,7 @@ var searchData=
   ['lastfeature1_5f',['lastFeature1_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#a27ae34a166f6a9d02979d339799d4ce6',1,'sch::CD_Pair']]],
   ['lastfeature2_5f',['lastFeature2_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00010.html#aeb44935c3aecd6b54ea5f788a6601d70',1,'sch::CD_Pair']]],
   ['lastvertexes_5f',['lastVertexes_',['/tmp/_ci/install/share/doc/sch-core/doxygen-html/a00029.html#a893b3ab22cad4db324f0a3d6e6a89377',1,'sch::Polyhedron_algorithms']]],
-  ['lefthanded',['LeftHanded',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00020.html#a6bf64591c3e46c0a00767a33150595d5',1,'sva::conversions']]],
+  ['lefthanded',['LeftHanded',['/tmp/_ci/install/share/doc/SpaceVecAlg/doxygen-html/a00024.html#a6bf64591c3e46c0a00767a33150595d5',1,'sva::conversions']]],
   ['length',['length',['/tmp/_ci/install/share/doc/RBDyn/doxygen-html/a00002.html#a7ae0e545608e9ad0e0ef5b37bfca9b88',1,'rbd::Block']]],
   ['lpolytorquebound',['lPolyTorqueBound',['../a00060.html#a2940edde14b86bf399b4122861178b42',1,'tasks::PolyTorqueBound']]],
   ['lqbound',['lQBound',['../a00068.html#a8b98c406f6daa08af4a7883ba00cf844',1,'tasks::QBound']]],
