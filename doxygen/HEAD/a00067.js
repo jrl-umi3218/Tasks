@@ -1,11 +1,20 @@
 var a00067 =
 [
-    [ "PostureTask", "a00067.html#a092d48b0db5013fdbc33d724ba0c35cc", null ],
-    [ "eval", "a00067.html#af8518db13277737b5670b045f146a161", null ],
-    [ "jac", "a00067.html#aeeae9bc2fa976c395ad5311f8ebf9077", null ],
-    [ "jacDot", "a00067.html#aae1245b67b9e039c675888e698375d7c", null ],
-    [ "posture", "a00067.html#acc70d1cb44181f2e385250b91d80ea91", null ],
-    [ "posture", "a00067.html#acd0b3b2e3a5bfcd9dd2ffc21d9983133", null ],
-    [ "update", "a00067.html#a2aa0643bd9456d8b976136327f491d59", null ],
-    [ "updateDot", "a00067.html#a62ea6be0a8a5abfd3481c0650d330674", null ]
+    [ "PostureTask", "a00067.html#ac9dfdb13cd506fa1adb7d2c43d9d5e1a", null ],
+    [ "begin", "a00067.html#a955f3aed6aaf15463327d39ef7061a3c", null ],
+    [ "C", "a00067.html#a69ac4441b510a24116dd7324868bca35", null ],
+    [ "damping", "a00067.html#ae508abc11e90ab603a1c35f1315bb45d", null ],
+    [ "eval", "a00067.html#a73af5c8447d1bed9f8467e3802a6446c", null ],
+    [ "gains", "a00067.html#a739a5d0d760ba01113ea18aa3160c0da", null ],
+    [ "gains", "a00067.html#a0d16ea5b77758fe575667d0f43f319f9", null ],
+    [ "jointsGains", "a00067.html#a23e6411a9dda29177e1e1fef921a1ff8", null ],
+    [ "jointsStiffness", "a00067.html#ad19b1e4174a86647c7b20ec5f8044b33", null ],
+    [ "posture", "a00067.html#ab8f144fb1be81c5f810825b0bab3f390", null ],
+    [ "posture", "a00067.html#a89dac80f14a316d871cfd6a3cc7c1bff", null ],
+    [ "Q", "a00067.html#a27b7014036c1c1c01961b35a2c9c241c", null ],
+    [ "stiffness", "a00067.html#abb4a54cf33e890233cc4df311f3caa09", null ],
+    [ "stiffness", "a00067.html#a1b101f6bb5ffca9134a1988f622076a5", null ],
+    [ "task", "a00067.html#a55df27b6efa8444d80f0d462d9349539", null ],
+    [ "update", "a00067.html#a25bc0c029d3ef0bc0fb1f5efba2e629f", null ],
+    [ "updateNrVars", "a00067.html#a88f6a1718f19bd9cd6abb54b03e42f09", null ]
 ];
