@@ -1968,7 +1968,7 @@ WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, c
         Task(weight),
         bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
         robotIndex_(robotIndex),
-        begin_(),
+        lambdaBegin_(-1),
         Q_(),
         C_()
 {}
@@ -1976,15 +1976,18 @@ WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, c
 void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
         const SolverData& data)
 {
-        begin_ = data.lambdaBegin();
-        std::vector<FrictionCone> cones;
+        lambdaBegin_ = data.lambdaBegin();
 
-        int nrLambda;
-        int curLambda = 0;
+        int nrLambda = 0;
 
-        for (const BilateralContact & c : data.allContacts())
+        for (const BilateralContact& c : data.allContacts())
         {
+          nrLambda += c.nrLambda;
         }
+
+        Q_.resize(nrLambda, nrLambda);
+        Q_.noalias() = conesJac_.transpose() * conesJac_;
+        C_.setZero(nrLambda);
 }
 
 void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,

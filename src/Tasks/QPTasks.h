@@ -1357,7 +1357,7 @@ public:
 
         virtual std::pair<int, int> begin() const
         {
-                return std::make_pair(begin_, begin_);
+                return std::make_pair(lambdaBegin_, lambdaBegin_);
         }
 
         virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -1378,9 +1378,7 @@ public:
         }
 
 private:
-	int bodyIndex_;
-        int robotIndex_;
-        int begin_;
+	int bodyIndex_, robotIndex_, lambdaBegin_;
         
         Eigen::MatrixXd Q_;
         Eigen::VectorXd C_;
