@@ -1360,6 +1360,16 @@ public:
                 return std::make_pair(lambdaBegin_, lambdaBegin_);
         }
 
+        void force(const Eigen::Vector3d& force)
+        {
+                force_ = force;
+        }
+        
+        void moment(const Eigen::Vector3d& moment)
+        {
+                moment_ = moment;
+        }
+
         virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
                                   const SolverData& data);
 
@@ -1379,6 +1389,8 @@ public:
 
 private:
 	int bodyIndex_, robotIndex_, lambdaBegin_;
+        Eigen::MatrixXd W_;
+        Eigen::Vector3d force_, moment_;
         
         Eigen::MatrixXd Q_;
         Eigen::VectorXd C_;
