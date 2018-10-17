@@ -1360,14 +1360,35 @@ public:
                 return std::make_pair(lambdaBegin_, lambdaBegin_);
         }
 
-        void force(const Eigen::Vector3d& force)
+        void treatDesWrenchAsLocal(bool local)
         {
-                force_ = force;
+                local_ = local;
+        }
+
+        bool treatDesWrenchAsLocal()
+        {
+                return local_;
         }
         
-        void moment(const Eigen::Vector3d& moment)
+        void force(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector3d& force);
+
+        const Eigen::Vector3d& force() const
         {
-                moment_ = moment;
+                return force_;
+        }
+        
+        void moment(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector3d& moment);
+
+        const Eigen::Vector3d& moment() const
+        {
+                return moment_;
+        }
+
+        void dimWeight(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector6d& dim);
+
+        const Eigen::Vector6d& dimWeight() const
+        {
+                return dimWeight_;
         }
 
         virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
@@ -1391,9 +1412,16 @@ private:
 	int bodyIndex_, robotIndex_, lambdaBegin_;
         Eigen::MatrixXd W_;
         Eigen::Vector3d force_, moment_;
+        Eigen::Vector6d dimWeight_;
+
+        // the following flag indicates if the desired values are expressed or not in the local frame
+        bool local_;
         
         Eigen::MatrixXd Q_;
         Eigen::VectorXd C_;
+        // cache
+        Eigen::MatrixXd preQ_;
+        Eigen::MatrixXd preC_;
 };
 
 

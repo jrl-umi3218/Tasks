@@ -1970,10 +1970,53 @@ WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, c
         bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
         robotIndex_(robotIndex),
         lambdaBegin_(-1),
+        local_(true),
         Q_(),
         C_()
 {}
 
+
+void WrenchTask::force(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector3d& force)
+{
+        if (local_)
+        {
+                force_.noalias() = mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * force;
+        }
+        else
+        {
+                force_ = force;
+        }
+}
+
+void WrenchTask::moment(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector3d& moment)
+{
+        if (local_)
+        {
+                moment_.noalias() = mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * moment;
+        }
+        else
+        {
+                moment_ = moment;
+        }
+}
+
+void WrenchTask::dimWeight(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector6d& dim)
+{
+        if (local_)
+        {
+                Eigen::Matrix3d RBody = mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose();
+
+                Eigen::MatrixXd ExtRBody = Eigen::MatrixXd::Zero(6, 6);
+                ExtRBody.block(0, 0, 3, 3) = RBody;
+                ExtRBody.block(3, 3, 3, 3) = RBody;
+                
+                dimWeight_.noalias() = ExtRBody * dim;
+        }
+        else
+        {
+                dimWeight_ = dim;
+        }
+}
 
 void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
         const SolverData& data)
@@ -2007,7 +2050,7 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
                                 for (const Eigen::Vector3d& gen : cone.generators)
                                 {
                                         W_.col(index).head(3) = gen;
-                                        W_.col(index).tail(3) = (mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * contact.r1Points[i]).cross(gen);
+                                        W_.col(index).tail(3).noalias() = (mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * contact.r1Points[i]).cross(gen);
                                         index++;
                                 }
                         }
@@ -2020,9 +2063,12 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
 
         Eigen::Vector6d wrench;
         wrench << force_, moment_;
-        
-        Q_.noalias() = W_.transpose() * W_;
-        C_.noalias() = -W_.transpose() * wrench;
+
+        preQ_.noalias() = dimWeight_.asDiagonal() * W_;
+        Q_.noalias() = W_.transpose() * preQ_;
+
+        preC_.noalias() = dimWeight_.asDiagonal() * wrench;
+        C_.noalias() = -W_.transpose() * preC_;
 }
 
 
