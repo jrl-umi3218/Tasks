@@ -79,6 +79,9 @@ private:
 	Eigen::VectorXd XFull_;
 
 	int nrALines_;
+	Eigen::VectorXd bl_;
+	Eigen::VectorXd bu_;
+	Eigen::VectorXd tmpb_;
 };
 
 } // namespace qp

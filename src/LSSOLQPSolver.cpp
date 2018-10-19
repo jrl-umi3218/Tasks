@@ -44,6 +44,8 @@ LSSOLQPSolver::LSSOLQPSolver():
 {
 	lssol_.warm(true);
 	lssol_.feasibilityTol(1e-6);
+	lssol_.persistance(true);
+	lssol_.forceMinSize(false);
 }
 
 
@@ -72,11 +74,15 @@ void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 		XU_.resize(nrReducedVars);
 		XFull_.resize(nrVars);
 
-		lssol_.problem(nrReducedVars, maxALines);
+		lssol_.resize(nrReducedVars, maxALines, Eigen::lssol::QP2);
+		bl_.resize(maxALines + nrReducedVars);
+		bu_.resize(maxALines + nrReducedVars);
 	}
 	else
 	{
-		lssol_.problem(nrVars, maxALines);
+		lssol_.resize(nrVars, maxALines, Eigen::lssol::QP2);
+		bl_.resize(maxALines + nrVars);
+		bu_.resize(maxALines + nrVars);
 	}
 }
 
@@ -120,18 +126,30 @@ bool LSSOLQPSolver::solve()
 	bool success = false;
 	if(dependencies_.size())
 	{
-		success = lssol_.solve(Q_, C_,
-			A_.block(0, 0, nrALines_, int(A_.cols())), int(A_.rows()),
-			AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XL_, XU_);
+		int nrvar = int(A_.cols());
+
+		bl_.segment(0, nrvar) = XL_;
+		bl_.segment(nrvar, nrALines_) = AL_.segment(0, nrALines_);
+
+		bu_.segment(0, nrvar) = XU_;
+		bu_.segment(nrvar, nrALines_) = AU_.segment(0, nrALines_);
+
+		success = lssol_.solve(Eigen::lssol::QP2, A_.block(0, 0, nrALines_, A_.cols()), bl_.segment(0, nrvar + nrALines_), bu_.segment(0, nrvar + nrALines_), C_, Q_, tmpb_);
 		expandResult(lssol_.result(), XFull_,
 									reducedToFull_,
 									dependencies_);
 	}
 	else
 	{
-		success = lssol_.solve(QFull_, CFull_,
-			AFull_.block(0, 0, nrALines_, int(AFull_.cols())), int(AFull_.rows()),
-			AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XLFull_, XUFull_);
+		int nrvar = int(AFull_.cols());
+
+		bl_.segment(0, nrvar) = XLFull_;
+		bl_.segment(nrvar, nrALines_) = AL_.segment(0, nrALines_);
+
+		bu_.segment(0, nrvar) = XUFull_;
+		bu_.segment(nrvar, nrALines_) = AU_.segment(0, nrALines_);
+
+		success = lssol_.solve(Eigen::lssol::QP2, AFull_.block(0, 0, nrALines_, AFull_.cols()), bl_.segment(0, nrvar + nrALines_), bu_.segment(0, nrvar + nrALines_), CFull_, QFull_, tmpb_);
 	}
 	return success;
 }
@@ -161,9 +179,9 @@ std::ostream& LSSOLQPSolver::errorMsg(
 {
 	const int nrVars = int(Q_.rows());
 
-	out << "lssol output (" << lssol_.fail() << "): ";
+	out << "lssol output (" << lssol_.inform() << "): ";
 	out << std::endl;
-	lssol_.inform(out);
+	lssol_.print_inform();
 
 	const Eigen::VectorXi& istate = lssol_.istate();
 	// check bound constraint
