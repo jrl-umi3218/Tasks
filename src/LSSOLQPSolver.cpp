@@ -46,6 +46,8 @@ LSSOLQPSolver::LSSOLQPSolver():
 	lssol_.feasibilityTol(1e-6);
 	lssol_.persistance(true);
 	lssol_.forceMinSize(false);
+	lssol_.feasibilityMaxIter(4*lssol_.feasibilityMaxIter());
+	lssol_.optimalityMaxIter(4*lssol_.optimalityMaxIter());
 }
 
 
@@ -75,14 +77,10 @@ void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 		XFull_.resize(nrVars);
 
 		lssol_.resize(nrReducedVars, maxALines, Eigen::lssol::QP2);
-		bl_.resize(maxALines + nrReducedVars);
-		bu_.resize(maxALines + nrReducedVars);
 	}
 	else
 	{
 		lssol_.resize(nrVars, maxALines, Eigen::lssol::QP2);
-		bl_.resize(maxALines + nrVars);
-		bu_.resize(maxALines + nrVars);
 	}
 }
 
@@ -126,30 +124,18 @@ bool LSSOLQPSolver::solve()
 	bool success = false;
 	if(dependencies_.size())
 	{
-		int nrvar = int(A_.cols());
-
-		bl_.segment(0, nrvar) = XL_;
-		bl_.segment(nrvar, nrALines_) = AL_.segment(0, nrALines_);
-
-		bu_.segment(0, nrvar) = XU_;
-		bu_.segment(nrvar, nrALines_) = AU_.segment(0, nrALines_);
-
-		success = lssol_.solve(Eigen::lssol::QP2, A_.block(0, 0, nrALines_, A_.cols()), bl_.segment(0, nrvar + nrALines_), bu_.segment(0, nrvar + nrALines_), C_, Q_, tmpb_);
+		success = lssol_.solve(XL_, XU_, Q_, C_,
+													 A_.block(0, 0, nrALines_, A_.cols()),
+													 AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
 		expandResult(lssol_.result(), XFull_,
 									reducedToFull_,
 									dependencies_);
 	}
 	else
 	{
-		int nrvar = int(AFull_.cols());
-
-		bl_.segment(0, nrvar) = XLFull_;
-		bl_.segment(nrvar, nrALines_) = AL_.segment(0, nrALines_);
-
-		bu_.segment(0, nrvar) = XUFull_;
-		bu_.segment(nrvar, nrALines_) = AU_.segment(0, nrALines_);
-
-		success = lssol_.solve(Eigen::lssol::QP2, AFull_.block(0, 0, nrALines_, AFull_.cols()), bl_.segment(0, nrvar + nrALines_), bu_.segment(0, nrvar + nrALines_), CFull_, QFull_, tmpb_);
+		success = lssol_.solve(XLFull_, XUFull_, QFull_, CFull_,
+													 AFull_.block(0, 0, nrALines_, AFull_.cols()),
+													 AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
 	}
 	return success;
 }
@@ -181,7 +167,7 @@ std::ostream& LSSOLQPSolver::errorMsg(
 
 	out << "lssol output (" << lssol_.inform() << "): ";
 	out << std::endl;
-	lssol_.print_inform();
+	lssol_.inform(out);
 
 	const Eigen::VectorXi& istate = lssol_.istate();
 	// check bound constraint
