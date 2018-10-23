@@ -334,17 +334,18 @@ void SurfaceTransformTask::update(const rbd::MultiBody& mb,
 	sva::PTransformd X_0_p = X_b_p_*mbc.bodyPosW[bodyIndex_];
 	sva::PTransformd X_p_t = X_0_t_*X_0_p.inv();
 
+	// see Section 4.2.6 of Joris Vaillant's PhD thesis (French) for details
 	sva::MotionVecd err_p = sva::transformVelocity(X_p_t, 1e-7);
-	sva::MotionVecd V_0_p = jac_.velocity(mb, mbc, X_b_p_);
-	sva::MotionVecd w_0_p = sva::MotionVecd(V_0_p.angular(), Eigen::Vector3d::Zero());
-	sva::MotionVecd AN_0_p = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_,
+	sva::MotionVecd V_p_p = jac_.velocity(mb, mbc, X_b_p_);
+	sva::MotionVecd w_p_p = sva::MotionVecd(V_p_p.angular(), Eigen::Vector3d::Zero());
+	sva::MotionVecd AN_p_p = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_,
 		sva::MotionVecd(Eigen::Vector6d::Zero()));
-	sva::MotionVecd wAN_0_p = sva::MotionVecd(AN_0_p.angular(), Eigen::Vector3d::Zero());
-	sva::MotionVecd V_err_p = err_p.cross(w_0_p) - V_0_p;
+	sva::MotionVecd wAN_p_p = sva::MotionVecd(AN_p_p.angular(), Eigen::Vector3d::Zero());
+	sva::MotionVecd V_err_p = err_p.cross(w_p_p) - V_p_p;
 
 	eval_ = err_p.vector();
 	speed_ = -V_err_p.vector();
-	normalAcc_ = -(V_err_p.cross(w_0_p) + err_p.cross(wAN_0_p) - AN_0_p).vector();
+	normalAcc_ = -(V_err_p.cross(w_p_p) + err_p.cross(wAN_p_p) - AN_p_p).vector();
 
 	jacMatTmp_ = jac_.jacobian(mb, mbc, X_0_p);
 
@@ -488,6 +489,7 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 	sva::PTransformd E_r2s_r1s(Matrix3d(X_r1s_r2s.rotation().transpose()));
 	sva::PTransformd X_r2b_r2s_r1s(E_r2s_r1s*X_r2b_r2s_);
 
+	// see Section 4.2.6 of Joris Vaillant's PhD thesis (French) for details
 	sva::MotionVecd err_r1s(sva::transformVelocity(X_r1s_r2s, 1e-7));
 
 	sva::MotionVecd V_r1s_r1s = jacR1B_.velocity(mb1, mbc1, X_r1b_r1s_);

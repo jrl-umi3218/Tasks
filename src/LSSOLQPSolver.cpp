@@ -44,6 +44,10 @@ LSSOLQPSolver::LSSOLQPSolver():
 {
 	lssol_.warm(true);
 	lssol_.feasibilityTol(1e-6);
+	lssol_.persistance(true);
+	lssol_.forceMinSize(false);
+	lssol_.feasibilityMaxIter(4*lssol_.feasibilityMaxIter());
+	lssol_.optimalityMaxIter(4*lssol_.optimalityMaxIter());
 }
 
 
@@ -72,11 +76,11 @@ void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 		XU_.resize(nrReducedVars);
 		XFull_.resize(nrVars);
 
-		lssol_.problem(nrReducedVars, maxALines);
+		lssol_.resize(nrReducedVars, maxALines, Eigen::lssol::QP2);
 	}
 	else
 	{
-		lssol_.problem(nrVars, maxALines);
+		lssol_.resize(nrVars, maxALines, Eigen::lssol::QP2);
 	}
 }
 
@@ -120,18 +124,18 @@ bool LSSOLQPSolver::solve()
 	bool success = false;
 	if(dependencies_.size())
 	{
-		success = lssol_.solve(Q_, C_,
-			A_.block(0, 0, nrALines_, int(A_.cols())), int(A_.rows()),
-			AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XL_, XU_);
+		success = lssol_.solve(XL_, XU_, Q_, C_,
+													 A_.block(0, 0, nrALines_, A_.cols()),
+													 AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
 		expandResult(lssol_.result(), XFull_,
 									reducedToFull_,
 									dependencies_);
 	}
 	else
 	{
-		success = lssol_.solve(QFull_, CFull_,
-			AFull_.block(0, 0, nrALines_, int(AFull_.cols())), int(AFull_.rows()),
-			AL_.segment(0, nrALines_), AU_.segment(0, nrALines_), XLFull_, XUFull_);
+		success = lssol_.solve(XLFull_, XUFull_, QFull_, CFull_,
+													 AFull_.block(0, 0, nrALines_, AFull_.cols()),
+													 AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
 	}
 	return success;
 }
@@ -161,7 +165,7 @@ std::ostream& LSSOLQPSolver::errorMsg(
 {
 	const int nrVars = int(Q_.rows());
 
-	out << "lssol output (" << lssol_.fail() << "): ";
+	out << "lssol output (" << lssol_.inform() << "): ";
 	out << std::endl;
 	lssol_.inform(out);
 
