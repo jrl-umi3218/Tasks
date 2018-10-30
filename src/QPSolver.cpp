@@ -214,6 +214,11 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 	data_.totalLambda_ = data_.nrUniLambda_ + data_.nrBiLambda_;
 	data_.nrVars_ = data_.totalAlphaD_ + data_.totalLambda_;
 
+        // std::cout << "Rafa, in QPSolver::nrVars, data_.nrBiLambda_ = " << data_.nrBiLambda_ << std::endl;
+        // std::cout << "Rafa, in QPSolver::nrVars, data_.totalLambda_ = " << data_.totalLambda_ << std::endl;
+
+        // std::cout << "Rafa, in QPSolver::nrVars, before calling each Task's updateNrVars" << std::endl;
+
 	for(Task* t: tasks_)
 	{
 		t->updateNrVars(mbs, data_);

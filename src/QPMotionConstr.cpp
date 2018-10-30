@@ -250,7 +250,7 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 	// fill inertia matrix part
 	A_.block(0, alphaDBegin_, nrDof_, nrDof_) = fd_->H();
 
-	std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cont_.size() = " << cont_.size() << std::endl;
+	//std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cont_.size() = " << cont_.size() << std::endl;
 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
@@ -259,7 +259,7 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 		ContactData& cd = cont_[i];
 		int lambdaOffset = 0;
 
-		std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cd.lambdaBegin = " << cd.lambdaBegin << std::endl;
+		//std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cd.lambdaBegin = " << cd.lambdaBegin << std::endl;
 
 		for(std::size_t j = 0; j < cd.points.size(); ++j)
 		{
@@ -272,7 +272,7 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 			jacLambda_.block(0, 0, nrLambda, cd.jac.dof()).noalias() =
 				(cd.minusGenerators[j].transpose()*jacTrans_.block(3, 0, 3, cd.jac.dof()));
 
-			std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cd.minusGenerators[j] = " << std::endl << cd.minusGenerators[j] << std::endl;
+			//std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cd.minusGenerators[j] = " << std::endl << cd.minusGenerators[j] << std::endl;
 
 			cd.jac.fullJacobian(mb,
 				jacLambda_.block(0, 0, nrLambda, cd.jac.dof()),

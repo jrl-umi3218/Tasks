@@ -60,9 +60,8 @@ bool ContactConstrCommon::addVirtualContact(const ContactId& cId)
 
 bool ContactConstrCommon::removeVirtualContact(const ContactId& cId)
 {
-	return virtualContacts_.erase(cId) == 1;
+        return virtualContacts_.erase(cId) == 1;
 }
-
 
 void ContactConstrCommon::resetVirtualContacts()
 {
@@ -79,7 +78,7 @@ bool ContactConstrCommon::addDofContact(const ContactId& cId,
 
 bool ContactConstrCommon::removeDofContact(const ContactId& cId)
 {
-	return dofContacts_.erase(cId) == 1;
+        return dofContacts_.erase(cId) == 1;
 }
 
 

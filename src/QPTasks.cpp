@@ -1971,6 +1971,9 @@ WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, c
         robotIndex_(robotIndex),
         lambdaBegin_(-1),
         local_(true),
+        force_(Eigen::Vector3d::Zero()),
+        moment_(Eigen::Vector3d::Zero()),
+        dimWeight_(Eigen::Vector6d::Ones()),
         Q_(),
         C_()
 {}
@@ -2022,11 +2025,11 @@ void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
         const SolverData& data)
 {
         lambdaBegin_ = data.lambdaBegin();
-        int nrLambda = data.nrBiLambda();
+        int nrLambda = data.totalLambda();
 
-        W_.resize(6, nrLambda);
+        W_.setZero(6, nrLambda);
         
-        Q_.resize(nrLambda, nrLambda);
+        Q_.setZero(nrLambda, nrLambda);
         C_.setZero(nrLambda);
 }
 
