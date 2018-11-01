@@ -1806,6 +1806,7 @@ const Eigen::MatrixXd& RelativeDistTask::jac() const
 	return jacMat_;
 }
 
+
 /**
 	*													VectorOrientationTask
 	*/
@@ -1905,5 +1906,6 @@ const Eigen::MatrixXd& VectorOrientationTask::jac() const
 {
 	return jacMat_;
 }
+
 
 } // namespace tasks

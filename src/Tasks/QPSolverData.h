@@ -143,6 +143,12 @@ public:
 		return normalAccB_[robotIndex];
 	}
 
+        const Eigen::VectorXd& lambdaVecPrev() const
+        {
+                return lambdaVecPrev_;
+        }
+        
+
 private:
 	std::vector<int> alphaD_; //< each robot alphaD vector size
 	std::vector<int> alphaDBegin_; //< each robot alphaD vector begin in x
@@ -161,6 +167,7 @@ private:
 	std::vector<std::vector<sva::MotionVecd>> normalAccB_;
 
 	Eigen::VectorXd passiveTorque_;
+        Eigen::VectorXd lambdaVecPrev_;
 };
 
 

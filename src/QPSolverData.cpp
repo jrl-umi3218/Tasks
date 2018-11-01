@@ -43,7 +43,8 @@ SolverData::SolverData():
 	biCont_(),
 	allCont_(),
 	mobileRobotIndex_(),
-	normalAccB_()
+	normalAccB_(),
+        lambdaVecPrev_()
 {}
 
 

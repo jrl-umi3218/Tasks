@@ -1369,21 +1369,14 @@ public:
         {
                 return local_;
         }
-        
-        void force(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector3d& force);
 
-        const Eigen::Vector3d& force() const
+        void wrench(const std::vector<rbd::MultiBodyConfig>& mbcs, const sva::ForceVecd wrench);
+
+        const sva::ForceVecd& wrench() const
         {
-                return force_;
+                return wrench_;
         }
         
-        void moment(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector3d& moment);
-
-        const Eigen::Vector3d& moment() const
-        {
-                return moment_;
-        }
-
         void dimWeight(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector6d& dim);
 
         const Eigen::Vector6d& dimWeight() const
@@ -1409,11 +1402,14 @@ public:
         }
 
 private:
+        
 	int bodyIndex_, robotIndex_, lambdaBegin_;
-        Eigen::MatrixXd W_;
-        Eigen::Vector3d force_, moment_;
-        Eigen::Vector6d dimWeight_;
+        
+        sva::ForceVecd wrench_;
 
+        Eigen::MatrixXd W_;
+        Eigen::Vector6d dimWeight_;
+        
         // the following flag indicates if the desired values are expressed or not in the local frame
         bool local_;
         
@@ -1425,6 +1421,94 @@ private:
 };
 
 
+class TASKS_DLLAPI AdmittanceTask : public Task
+{
+public:
+        AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainP, double gainD, double weight);
+
+        virtual std::pair<int, int> begin() const
+        {
+                return std::make_pair(alphaDBegin_, alphaDBegin_);
+        }
+
+        void treatDimWeightAsLocal(bool local)
+        {
+                local_ = local;
+        }
+
+        void measuredWrench(const std::vector<rbd::MultiBodyConfig>& mbcs, const sva::ForceVecd wrench)
+        {
+                measuredWrench_ = wrench;
+        }
+
+        const sva::ForceVecd& measuredWrench() const
+        {
+                return measuredWrench_;
+        }
+        
+        void measuredWrenchDot(const std::vector<rbd::MultiBodyConfig>& mbcs, const sva::ForceVecd wrenchDot)
+        {
+                measuredWrenchDot_ = wrenchDot;
+        }
+
+        const sva::ForceVecd& measuredWrenchDot() const
+        {
+                return measuredWrenchDot_;
+        }
+        
+        void dimWeight(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector6d& dim);
+
+        const Eigen::Vector6d& dimWeight() const
+        {
+                return dimWeight_;
+        }
+        
+        virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                                  const SolverData& data);
+
+        virtual void update(const std::vector<rbd::MultiBody>& mbs,
+                            const std::vector<rbd::MultiBodyConfig>& mbcs,
+                            const SolverData& data);
+
+        virtual const Eigen::MatrixXd& Q() const
+        {
+                return Q_;
+        }
+
+        virtual const Eigen::VectorXd& C() const
+        {
+                return C_;
+        }
+
+private:
+
+        sva::ForceVecd computeWrench(const rbd::MultiBodyConfig& mbc,
+                                     const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos);
+
+        int bodyIndex_, robotIndex_, alphaDBegin_;
+        double dt_;
+        double gainP_, gainD_;
+        
+        sva::ForceVecd measuredWrench_, measuredWrenchDot_;
+        sva::ForceVecd calculatedWrenchPrev_;
+        
+        rbd::Jacobian jac_;
+        Eigen::MatrixXd jacMat_;
+        Eigen::Vector6d error_;
+        Eigen::Vector6d normalAcc_;
+        Eigen::Vector6d dimWeight_;
+        
+        // the following flag indicates if dimWeight values are related or not to the local frame
+        bool local_;
+
+        Eigen::MatrixXd Q_;
+        Eigen::VectorXd C_;
+        // cache
+        Eigen::MatrixXd preQ_;
+        Eigen::Vector6d preC_;
+};
+ 
+ 
 } // namespace qp
 
 } // namespace tasks
