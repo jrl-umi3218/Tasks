@@ -1365,7 +1365,7 @@ public:
                 local_ = local;
         }
 
-        bool treatDesWrenchAsLocal()
+        bool treatSettingsAsLocal()
         {
                 return local_;
         }
@@ -1424,14 +1424,14 @@ private:
 class TASKS_DLLAPI AdmittanceTask : public Task
 {
 public:
-        AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainP, double gainD, double weight);
+        AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight);
 
         virtual std::pair<int, int> begin() const
         {
                 return std::make_pair(alphaDBegin_, alphaDBegin_);
         }
 
-        void treatDimWeightAsLocal(bool local)
+        void treatSettingsAsLocal(bool local)
         {
                 local_ = local;
         }
@@ -1487,7 +1487,8 @@ private:
 
         int bodyIndex_, robotIndex_, alphaDBegin_;
         double dt_;
-        double gainP_, gainD_;
+        double gainForceP_, gainForceD_;
+        double gainCoupleP_, gainCoupleD_;
         
         sva::ForceVecd measuredWrench_, measuredWrenchDot_;
         sva::ForceVecd calculatedWrenchPrev_;

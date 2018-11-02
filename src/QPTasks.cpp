@@ -2068,13 +2068,15 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
 	*/
 
 
-AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainP, double gainD, double weight):
+AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight):
         Task(weight),
         robotIndex_(robotIndex),
         bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
         dt_(timeStep),
-        gainP_(gainP),
-        gainD_(gainD),
+        gainForceP_(gainForceP),
+        gainForceD_(gainForceD),
+        gainCoupleP_(gainCoupleP),
+        gainCoupleD_(gainCoupleD),
         alphaDBegin_(0),
         local_(true),
         measuredWrench_(Eigen::Vector6d::Zero()),
@@ -2144,9 +2146,17 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
 
         sva::ForceVecd calculatedWrenchDot = (calculatedWrench - calculatedWrenchPrev_) / dt_;
         calculatedWrenchPrev_ = calculatedWrench;
+
+        Eigen::Matrix6d gainP = Eigen::Matrix6d::Zero();
+        gainP.block(0, 0, 3, 3) = gainForceP_ * Eigen::Matrix3d::Identity();
+        gainP.block(3, 3, 3, 3) = gainCoupleP_ * Eigen::Matrix3d::Identity();
+
+        Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
+        gainD.block(0, 0, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
+        gainD.block(3, 3, 3, 3) = gainCoupleD_ * Eigen::Matrix3d::Identity();
         
-        error_.noalias() = gainP_ * (calculatedWrench.vector() - measuredWrench_.vector());
-        error_.noalias() += gainD_ * (calculatedWrenchDot.vector() - measuredWrenchDot_.vector());
+        error_.noalias() = gainP * (calculatedWrench.vector() - measuredWrench_.vector());
+        error_.noalias() += gainD * (calculatedWrenchDot.vector() - measuredWrenchDot_.vector());
         
         error_.noalias() -= normalAcc_;
         preC_.noalias() = dimWeight_.asDiagonal() * error_;
