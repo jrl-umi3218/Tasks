@@ -862,7 +862,7 @@ class TestQPBilatContact(unittest.TestCase):
 def compute6dError(b1, b2):
   assert(isinstance(b1, sva.PTransformd) and isinstance(b2, sva.PTransformd))
   error = eigen.Vector6d.Zero()
-  rError = sva.rotationError(b1.rotation(), b2.rotation(), 1e-7)
+  rError = sva.rotationError(b1.rotation(), b2.rotation())
   tError = b1.translation() - b2.translation()
   for i in range(3):
     error[i] = rError[i]
@@ -871,7 +871,7 @@ def compute6dError(b1, b2):
 
 def compute6dErrorInB1(b1, b2):
   assert(isinstance(b1, sva.PTransformd) and isinstance(b2, sva.PTransformd))
-  error = sva.MotionVecd(sva.rotationError(b1.rotation(), b2.rotation(), 1e-7), b1.translation() - b2.translation())
+  error = sva.MotionVecd(sva.rotationError(b1.rotation(), b2.rotation()), b1.translation() - b2.translation())
   return (sva.PTransformd(b1.rotation())*error).vector()
 
 def computeDofError(b1, b2, dof):
