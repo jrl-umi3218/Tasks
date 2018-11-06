@@ -1234,7 +1234,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 Eigen::Vector6d compute6dError(const sva::PTransformd& b1, const sva::PTransformd& b2)
 {
 	Eigen::Vector6d error;
-	error.head<3>() = sva::rotationError(b1.rotation(), b2.rotation(), 1e-7);
+	error.head<3>() = sva::rotationError(b1.rotation(), b2.rotation());
 	error.tail<3>() = b1.translation() - b2.translation();
 	return error;
 }
@@ -1243,7 +1243,7 @@ Eigen::Vector6d compute6dError(const sva::PTransformd& b1, const sva::PTransform
 Eigen::Vector6d compute6dErrorInB1(const sva::PTransformd& b1, const sva::PTransformd& b2)
 {
 	sva::MotionVecd error;
-	error.angular() = sva::rotationError(b1.rotation(), b2.rotation(), 1e-7);
+	error.angular() = sva::rotationError(b1.rotation(), b2.rotation());
 	error.linear() = b1.translation() - b2.translation();
 	return (sva::PTransformd(b1.rotation())*error).vector();
 }

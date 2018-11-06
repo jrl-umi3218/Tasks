@@ -421,7 +421,7 @@ void ContactPosConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 		sva::PTransformd X_b1cf_b2cf = X_0_b2cf*X_0_b1cf.inv();
 		Eigen::Vector6d error;
-		error.head<3>() = sva::rotationVelocity(X_b1cf_b2cf.rotation(), 1e-7);
+		error.head<3>() = sva::rotationVelocity(X_b1cf_b2cf.rotation());
 		error.tail<3>() = X_b1cf_b2cf.translation();
 		b_.segment(index, rows) += cd.dof*(error/timeStep_);
 

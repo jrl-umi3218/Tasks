@@ -190,7 +190,7 @@ const Eigen::Matrix3d& OrientationTask::orientation() const
 
 void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& mbc)
 {
-	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_, 1e-7);
+	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_);
 	speed_ = jac_.velocity(mb, mbc).angular();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc).angular();
 
@@ -202,7 +202,7 @@ void OrientationTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfi
 void OrientationTask::update(const rbd::MultiBody& mb,
 	const rbd::MultiBodyConfig& mbc, const std::vector<sva::MotionVecd>& normalAccB)
 {
-	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_, 1e-7);
+	eval_ = sva::rotationError(mbc.bodyPosW[bodyIndex_].rotation(), ori_);
 	speed_ = jac_.velocity(mb, mbc).angular();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB).angular();
 
@@ -335,7 +335,7 @@ void SurfaceTransformTask::update(const rbd::MultiBody& mb,
 	sva::PTransformd X_p_t = X_0_t_*X_0_p.inv();
 
 	// see Section 4.2.6 of Joris Vaillant's PhD thesis (French) for details
-	sva::MotionVecd err_p = sva::transformVelocity(X_p_t, 1e-7);
+	sva::MotionVecd err_p = sva::transformVelocity(X_p_t);
 	sva::MotionVecd V_p_p = jac_.velocity(mb, mbc, X_b_p_);
 	sva::MotionVecd w_p_p = sva::MotionVecd(V_p_p.angular(), Eigen::Vector3d::Zero());
 	sva::MotionVecd AN_p_p = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_,
@@ -394,7 +394,7 @@ void TransformTask::update(const rbd::MultiBody& mb,
 	sva::MotionVecd V_p_c(jac_.velocity(mb, mbc, X_b_p_c));
 	sva::MotionVecd w_p_c(V_p_c.angular(), Eigen::Vector3d::Zero());
 
-	eval_ = (sva::PTransformd(E_0_c_)*sva::transformError(X_0_p, X_0_t_, 1e-7)).vector();
+	eval_ = (sva::PTransformd(E_0_c_)*sva::transformError(X_0_p, X_0_t_)).vector();
 	speed_ = V_p_c.vector();
 	normalAcc_ = jac_.normalAcceleration(mb, mbc, normalAccB, X_b_p_c, w_p_c).vector();
 	const auto& shortJacMat = jac_.jacobian(mb, mbc, E_p_c*X_0_p);
@@ -490,7 +490,7 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody>& mbs,
 	sva::PTransformd X_r2b_r2s_r1s(E_r2s_r1s*X_r2b_r2s_);
 
 	// see Section 4.2.6 of Joris Vaillant's PhD thesis (French) for details
-	sva::MotionVecd err_r1s(sva::transformVelocity(X_r1s_r2s, 1e-7));
+	sva::MotionVecd err_r1s(sva::transformVelocity(X_r1s_r2s));
 
 	sva::MotionVecd V_r1s_r1s = jacR1B_.velocity(mb1, mbc1, X_r1b_r1s_);
 	sva::MotionVecd V_r2s_r1s = jacR2B_.velocity(mb2, mbc2, X_r2b_r2s_r1s);
@@ -608,7 +608,7 @@ void SurfaceOrientationTask::update(const rbd::MultiBody& mb,
 																	const rbd::MultiBodyConfig& mbc)
 {
 	eval_ = sva::rotationVelocity<double>
-		(ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose(), 1e-7);
+		(ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose());
 	speed_ = jac_.velocity(mb, mbc, X_b_s_).angular();
 	// since X_b_s is constant, the X_b_s velocity
 	// (last argument of normalAccelation) is a 0 velocity vector
@@ -626,7 +626,7 @@ void SurfaceOrientationTask::update(const rbd::MultiBody& mb,
 																	const std::vector<sva::MotionVecd>& normalAccB)
 {
 	eval_ = sva::rotationVelocity<double>
-		(ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose(), 1e-7);
+		(ori_*mbc.bodyPosW[bodyIndex_].rotation().transpose()*X_b_s_.rotation().transpose());
 	speed_ = jac_.velocity(mb, mbc, X_b_s_).angular();
 	// since X_b_s is constant, the X_b_s velocity
 	// (third argument of normalAccelation) is a 0 velocity vector
@@ -1622,7 +1622,7 @@ void OrientationTrackingTask::update(const rbd::MultiBody& mb,
 		Quaterniond::FromTwoVectors(curDir, desDir).inverse().matrix());
 
 	eval_ = sva::rotationError<double>(mbc.bodyPosW[bodyIndex_].rotation(),
-														targetOri*mbc.bodyPosW[bodyIndex_].rotation(), 1e-7);
+														targetOri*mbc.bodyPosW[bodyIndex_].rotation());
 
 	shortJacMat_ = jac_.jacobian(mb, mbc).block(0, 0, 3, shortJacMat_.cols());
 	zeroJacobian(shortJacMat_);
