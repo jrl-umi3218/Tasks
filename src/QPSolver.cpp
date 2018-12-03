@@ -94,9 +94,9 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
 	if(!success)
 	{
 		solver_->errorMsg(mbs,
-											tasks_, eqConstr_, inEqConstr_,
-											genInEqConstr_, boundConstr_,
-											std::cerr) << std::endl;
+                                  tasks_, eqConstr_, inEqConstr_,
+                                  genInEqConstr_, boundConstr_,
+                                  std::cerr) << std::endl;
 	}
 	solverAndBuildTimer_.stop();
 
@@ -168,8 +168,8 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody>& mbs,
 				if(j.isMimic())
 				{
 					dependencies.emplace_back(data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimicName())),
-																		data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())),
-																		j.mimicMultiplier());
+                                                                  data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())),
+                                                                  j.mimicMultiplier());
 				}
 			}
 		}
@@ -509,7 +509,7 @@ boost::timer::cpu_times QPSolver::solveAndBuildTime() const
 
 
 void QPSolver::preUpdate(const std::vector<rbd::MultiBody>& mbs,
-												const std::vector<rbd::MultiBodyConfig>& mbcs)
+                         const std::vector<rbd::MultiBodyConfig>& mbcs)
 {
 	data_.computeNormalAccB(mbs, mbcs);
 	for(std::size_t i = 0; i < constr_.size(); ++i)
@@ -523,7 +523,7 @@ void QPSolver::preUpdate(const std::vector<rbd::MultiBody>& mbs,
 	}
 
 	solver_->updateMatrix(tasks_, eqConstr_, inEqConstr_, genInEqConstr_,
-		boundConstr_);
+                              boundConstr_);
 }
 
 
@@ -541,6 +541,80 @@ void QPSolver::postUpdate(const std::vector<rbd::MultiBody>& /* mbs */,
 		// to compute C vector.
 	}
 }
+
+
+
+  /**
+	*													PassivityPIDTerm_QPSolver
+	*/
+
+
+
+PassivityPIDTerm_QPSolver::PassivityPIDTerm_QPSolver():
+        QPSolver()
+{
+}
+
+
+bool PassivityPIDTerm_QPSolver::solve(const std::vector<rbd::MultiBody>& mbs,
+                                      std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                                      std::vector<rbd::MultiBodyConfig>& mbcs_calc)
+{
+        bool success = solveNoMbcUpdate(mbs, mbcs_real, mbcs_calc);
+
+	postUpdate(mbs, mbcs_real, success);
+        postUpdate(mbs, mbcs_calc, success);
+
+	return success;
+}
+
+
+bool PassivityPIDTerm_QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
+                                                 const std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                                                 const std::vector<rbd::MultiBodyConfig>& mbcs_calc)
+{
+  	solverAndBuildTimer_.start();
+	preUpdate(mbs, mbcs_real, mbcs_calc);
+
+	solverTimer_.start();
+	bool success = solver_->solve();
+	solverTimer_.stop();
+
+        data_.lambdaVecPrev_ = lambdaVec();
+        
+	if(!success)
+	{
+		solver_->errorMsg(mbs,
+                                  tasks_, eqConstr_, inEqConstr_,
+                                  genInEqConstr_, boundConstr_,
+                                  std::cerr) << std::endl;
+	}
+	solverAndBuildTimer_.stop();
+
+	return success;
+}
+
+
+void PassivityPIDTerm_QPSolver::preUpdate(const std::vector<rbd::MultiBody>& mbs,
+                                          const std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                                          const std::vector<rbd::MultiBodyConfig>& mbcs_calc)
+{
+	data_.computeNormalAccB(mbs, mbcs_real);
+	for(std::size_t i = 0; i < constr_.size(); ++i)
+	{
+		constr_[i]->update(mbs, mbcs_real, data_);
+	}
+
+        data_.computeNormalAccB(mbs, mbcs_calc);
+	for(std::size_t i = 0; i < tasks_.size(); ++i)
+	{
+                tasks_[i]->update(mbs, mbcs_calc, data_);
+	}
+
+	solver_->updateMatrix(tasks_, eqConstr_, inEqConstr_, genInEqConstr_,
+                              boundConstr_);
+}
+
 
 
 } // namespace qp

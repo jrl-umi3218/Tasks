@@ -42,6 +42,7 @@ class TASKS_DLLAPI SolverData
 {
 public:
 	friend class QPSolver;
+        friend class PassivityPIDTerm_QPSolver;
 
 	SolverData();
 
@@ -149,7 +150,7 @@ public:
         }
         
 
-private:
+protected:
 	std::vector<int> alphaD_; //< each robot alphaD vector size
 	std::vector<int> alphaDBegin_; //< each robot alphaD vector begin in x
 	std::vector<int> lambda_; //< each contact lambda

@@ -456,34 +456,36 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 
 /**
-	*															IntTermMotionConstr
+	*															TorqueFeedbackTermMotionConstr
 	*/
 
 
-IntglTermMotionConstr::IntglTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-                                             const std::shared_ptr<rbd::ForwardDynamics> fd,
-                                             const std::shared_ptr<integral::IntegralTerm> intglTerm,
-                                             const TorqueBound& tb) :
+TorqueFbTermMotionConstr::TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                                                   const std::shared_ptr<rbd::ForwardDynamics> fd,
+                                                   const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
+                                                   const TorqueBound& tb) :
         MotionConstr(mbs, robotIndex, fd, tb),
-	intglTerm_(intglTerm)
+	fbTerm_(fbTerm)
 {
 }
 
-void IntglTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
-                                          const Eigen::VectorXd& lambda)
+void TorqueFbTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+                                             const Eigen::VectorXd& lambda)
 {
         MotionConstr::computeTorque(alphaD, lambda);
-        curTorque_ += intglTerm_->P();
+        curTorque_ += fbTerm_->P();
+
+        // std::cout << "Rafa, in TorqueFeedbackTermMotionConstr::computeTorque, fbTerm_->P() = " << fbTerm_->P().transpose() << std::endl;
 }
 
-void IntglTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
-                                   const std::vector<rbd::MultiBodyConfig>& mbcs,
-                                   const SolverData& data)
+void TorqueFbTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                      const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                      const SolverData& data)
 {
         MotionConstr::update(mbs, mbcs, data);
 
-        AL_ -= intglTerm_->P();
-        AU_ -= intglTerm_->P();
+        AL_ -= fbTerm_->P();
+        AU_ -= fbTerm_->P();
 }
 
 

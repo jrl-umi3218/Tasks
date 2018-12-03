@@ -62,7 +62,7 @@ class TASKS_DLLAPI QPSolver
 {
 public:
 	QPSolver();
-	~QPSolver();
+	virtual ~QPSolver(); // declared as virtual for QPSolver to be polymorphic
 
 	/** solve the problem
 		*  \param mbs current multibody
@@ -77,7 +77,7 @@ public:
 		*  \param mbc current state of the multibody
 		*/
 	bool solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
-		const std::vector<rbd::MultiBodyConfig>& mbcs);
+                const std::vector<rbd::MultiBodyConfig>& mbcs);
 
 	/** \brief fill mbc with the solution of the problem
 		* \param mbc reslut of the solved problem
@@ -153,6 +153,9 @@ protected:
 		bool success);
 
 private:
+	int maxEqLines_, maxInEqLines_, maxGenInEqLines_;
+
+protected:     
 	std::vector<Constraint*> constr_;
 	std::vector<Equality*> eqConstr_;
 	std::vector<Inequality*> inEqConstr_;
@@ -161,9 +164,7 @@ private:
 
 	std::vector<Task*> tasks_;
 
-	SolverData data_;
-
-	int maxEqLines_, maxInEqLines_, maxGenInEqLines_;
+        SolverData data_;
 
 	std::unique_ptr<GenQPSolver> solver_;
 
@@ -171,6 +172,27 @@ private:
 };
 
 
+ 
+class TASKS_DLLAPI PassivityPIDTerm_QPSolver : public QPSolver
+{
+public:
+        PassivityPIDTerm_QPSolver();
+  
+  	bool solve(const std::vector<rbd::MultiBody>& mbs,
+                   std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                   std::vector<rbd::MultiBodyConfig>& mbcs_calc);
+        
+  	bool solveNoMbcUpdate(const std::vector<rbd::MultiBody>& mbs,
+                              const std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                              const std::vector<rbd::MultiBodyConfig>& mbcs_calc);
+
+ protected:
+        void preUpdate(const std::vector<rbd::MultiBody>& mbs,
+                       const std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                       const std::vector<rbd::MultiBodyConfig>& mbcs_calc);
+};
+
+ 
 
 class TASKS_DLLAPI Constraint
 {

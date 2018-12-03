@@ -27,7 +27,7 @@
 // RBDyn
 #include <RBDyn/FD.h>
 #include <RBDyn/Jacobian.h>
-#include <RBDyn/IntegralTerm.h>
+#include <RBDyn/TorqueFeedbackTerm.h>
 
 // Tasks
 #include "QPSolver.h"
@@ -228,14 +228,14 @@ protected:
 };
 
 
-class TASKS_DLLAPI IntglTermMotionConstr : public MotionConstr
+class TASKS_DLLAPI TorqueFbTermMotionConstr : public MotionConstr
 {
 public:
 
-        IntglTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-                              const std::shared_ptr<rbd::ForwardDynamics> fd,
-                              const std::shared_ptr<integral::IntegralTerm> intglTerm,
-                              const TorqueBound& tb);  
+        TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                                 const std::shared_ptr<rbd::ForwardDynamics> fd,
+                                 const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
+                                 const TorqueBound& tb);  
 
 	void computeTorque(const Eigen::VectorXd& alphaD,
 			   const Eigen::VectorXd& lambda) override;
@@ -247,7 +247,7 @@ public:
 
 private:
 
-        std::shared_ptr<integral::IntegralTerm> intglTerm_;
+        std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
 };
 
 

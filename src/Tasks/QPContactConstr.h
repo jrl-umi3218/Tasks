@@ -27,7 +27,7 @@
 
 // RBDyn
 #include <RBDyn/Jacobian.h>
-#include <RBDyn/IntegralTerm.h>
+#include <RBDyn/TorqueFeedbackTerm.h>
 
 // Tasks
 #include "QPSolver.h"
@@ -259,13 +259,13 @@ private:
         * and including the integral term.
         *
 	*/
-class TASKS_DLLAPI IntglTermContactPDConstr : public ContactConstr
+class TASKS_DLLAPI TorqueFbTermContactPDConstr : public ContactConstr
 {
 public:
-        IntglTermContactPDConstr(Eigen::Vector6d stiffness,
-                                 Eigen::Vector6d damping,
-                                 int mainRobotIndex,
-                                 const std::shared_ptr<integral::IntegralTerm> intglTerm);
+        TorqueFbTermContactPDConstr(Eigen::Vector6d stiffness,
+                                    Eigen::Vector6d damping,
+                                    int mainRobotIndex,
+                                    const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm);
 
         void setPDgainsForContact(const ContactId& cId, const Eigen::Vector6d& stiff,
                                   const Eigen::Vector6d& damp);
@@ -291,7 +291,7 @@ private:
         
         Eigen::Vector6d stiffness_default_, damping_default_;
         int mainRobotIndex_;
-        std::shared_ptr<integral::IntegralTerm> intglTerm_;
+        std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
 };
 
 

@@ -436,24 +436,24 @@ std::string ContactPosConstr::nameEq() const
 
 
 /**
-	*															IntglTermContactPDConstr
+	*															TorqueFbTermContactPDConstr
 	*/
 
 
-IntglTermContactPDConstr::IntglTermContactPDConstr(Eigen::Vector6d stiffness,
-                                                   Eigen::Vector6d damping,
-                                                   int mainRobotIndex,
-                                                   const std::shared_ptr<integral::IntegralTerm> intglTerm):
+TorqueFbTermContactPDConstr::TorqueFbTermContactPDConstr(Eigen::Vector6d stiffness,
+                                                         Eigen::Vector6d damping,
+                                                         int mainRobotIndex,
+                                                         const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm):
         ContactConstr(),
         stiffness_default_(stiffness),
         damping_default_(damping),
         mainRobotIndex_(mainRobotIndex),
-        intglTerm_(intglTerm)
+        fbTerm_(fbTerm)
 {}
 
 
-void IntglTermContactPDConstr::setPDgainsForContact(const ContactId& cId, const Eigen::Vector6d& stiff,
-                                                    const Eigen::Vector6d& damp)
+void TorqueFbTermContactPDConstr::setPDgainsForContact(const ContactId& cId, const Eigen::Vector6d& stiff,
+                                                       const Eigen::Vector6d& damp)
 {
         if (contPD_.find(cId) == contPD_.end())
                 contPD_.insert(std::make_pair(cId, PDgains(stiff, damp)));
@@ -462,9 +462,9 @@ void IntglTermContactPDConstr::setPDgainsForContact(const ContactId& cId, const 
 }
 
 
-void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
-                                      const std::vector<rbd::MultiBodyConfig>& mbcs,
-                                      const SolverData& data)
+void TorqueFbTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                         const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                         const SolverData& data)
 {
         using namespace Eigen;
   
@@ -517,7 +517,7 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
                         if (csd.robotIndex == mainRobotIndex_)
                         {
                                 b_.segment(index, rows).noalias() -=
-                                        csd.sign * cd.dof * fullJac_.block(0, 0, rows, mb.nrDof()) * intglTerm_->gammaD();
+                                        csd.sign * cd.dof * fullJac_.block(0, 0, rows, mb.nrDof()) * fbTerm_->gammaD();
                         }
                 }
 
@@ -531,20 +531,15 @@ void IntglTermContactPDConstr::update(const std::vector<rbd::MultiBody>& mbs,
                 error.head<3>() = sva::rotationVelocity(X_b1cf_b2cf.rotation());
                 error.tail<3>() = X_b1cf_b2cf.translation();
                 b_.segment(index, rows) += cd.dof * stiffness.asDiagonal() * error;
-
-                // std::cout << "Rafa, in IntglTermContactPDConstr::update, for contact i = " << i << " ( " << cd.contactId.r1BodyName << " / " << cd.contactId.r2BodyName << " ) the error is " << error.transpose() << std::endl;
-
-                // std::cout << "Rafa, X_0_b1cf.translation() = " << X_0_b1cf.translation().transpose() << std::endl;
-                // std::cout << "Rafa, X_0_b2cf.translation() = " << X_0_b2cf.translation().transpose() << std::endl;
                 
                 index += rows;
         }
 }
 
 
-std::string IntglTermContactPDConstr::nameEq() const
+std::string TorqueFbTermContactPDConstr::nameEq() const
 {
-	return "IntglTermContactPDConstr";
+	return "TorqueFbTermContactPDConstr";
 }
 
 

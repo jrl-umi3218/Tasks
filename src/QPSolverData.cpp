@@ -75,6 +75,7 @@ void SolverData::computeNormalAccB(const std::vector<rbd::MultiBody>& mbs,
 	}
 }
 
+  
 } // namespace qp
 
 } // namespace tasks
