@@ -153,7 +153,6 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, i
 	alphaDBegin_(-1),
 	nrDof_(mbs[robotIndex_].nrDof()),
 	lambdaBegin_(-1),
-	//fd_(mbs[robotIndex_]),
         fd_(fd),
 	fullJacLambda_(),
 	jacTrans_(6, nrDof_),
@@ -242,15 +241,10 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 	const rbd::MultiBody& mb = mbs[robotIndex_];
 	const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
 
-	// fd_.computeH(mb, mbc);
-	// fd_.computeC(mb, mbc);
-
 	// tauMin - C <= H*alphaD - J^t G lambda <= tauMax - C
 
 	// fill inertia matrix part
 	A_.block(0, alphaDBegin_, nrDof_, nrDof_) = fd_->H();
-
-	//std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cont_.size() = " << cont_.size() << std::endl;
 
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
@@ -258,8 +252,6 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 
 		ContactData& cd = cont_[i];
 		int lambdaOffset = 0;
-
-		//std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cd.lambdaBegin = " << cd.lambdaBegin << std::endl;
 
 		for(std::size_t j = 0; j < cd.points.size(); ++j)
 		{
@@ -271,8 +263,6 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 			cd.jac.translateBodyJacobian(jac, mbc, cd.points[j], jacTrans_);
 			jacLambda_.block(0, 0, nrLambda, cd.jac.dof()).noalias() =
 				(cd.minusGenerators[j].transpose()*jacTrans_.block(3, 0, 3, cd.jac.dof()));
-
-			//std::cout << "Rafa, in MotionConstrCommon::computeMatrix, cd.minusGenerators[j] = " << std::endl << cd.minusGenerators[j] << std::endl;
 
 			cd.jac.fullJacobian(mb,
 				jacLambda_.block(0, 0, nrLambda, cd.jac.dof()),
@@ -474,8 +464,6 @@ void TorqueFbTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD,
 {
         MotionConstr::computeTorque(alphaD, lambda);
         curTorque_ += fbTerm_->P();
-
-        // std::cout << "Rafa, in TorqueFeedbackTermMotionConstr::computeTorque, fbTerm_->P() = " << fbTerm_->P().transpose() << std::endl;
 }
 
 void TorqueFbTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
