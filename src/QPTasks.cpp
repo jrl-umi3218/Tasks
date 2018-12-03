@@ -1965,10 +1965,12 @@ const Eigen::VectorXd& VectorOrientationTask::normalAcc()
 	*/
 
 
-WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double weight):
+WrenchTask::WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName,
+                       const Eigen::Vector3d& bodyPoint, double weight):
         Task(weight),
         robotIndex_(robotIndex),
         bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
+        bodyPoint_(bodyPoint),
         lambdaBegin_(-1),
         local_(true),
         wrench_(Eigen::Vector6d::Zero()),
@@ -2043,7 +2045,7 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
                           
                                 for (const Eigen::Vector3d& gen : cone.generators)
                                 {
-                                        W_.col(index).head(3).noalias() = (mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * contact.r1Points[i]).cross(gen);
+                                        W_.col(index).head(3).noalias() = (mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * (contact.r1Points[i] - bodyPoint_)).cross(gen);
                                         W_.col(index).tail(3) = gen;
                                         index++;
                                 }
@@ -2080,7 +2082,8 @@ AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robot
         alphaDBegin_(0),
         local_(true),
         measuredWrench_(Eigen::Vector6d::Zero()),
-        measuredWrenchDot_(Eigen::Vector6d::Zero()),
+        measuredWrenchPrev_(Eigen::Vector6d::Zero()),
+        calculatedWrench_(Eigen::Vector6d::Zero()),
         calculatedWrenchPrev_(Eigen::Vector6d::Zero()),
         jac_(mbs[robotIndex], bodyName, Eigen::Vector3d::Zero()),
         jacMat_(6, mbs[robotIndex].nrDof()),
@@ -2130,7 +2133,7 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
         
         jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
 
-        sva::ForceVecd calculatedWrench(Eigen::Vector6d::Zero());
+        calculatedWrench_ = sva::ForceVecd(Eigen::Vector6d::Zero());
 
         for (size_t ci = 0; ci < data.allContacts().size(); ci++)
         {
@@ -2140,13 +2143,16 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
 
                 if (contact.contactId.r1Index == robotIndex_ && r1BodyIndex == bodyIndex_)
                 {                        
-                        calculatedWrench += computeWrench(mbc, contact, data.lambdaVecPrev(), data.lambdaBegin(ci));
+                        calculatedWrench_ += computeWrench(mbc, contact, data.lambdaVecPrev(), data.lambdaBegin(ci));
                 }
         }
 
-        sva::ForceVecd calculatedWrenchDot = (calculatedWrench - calculatedWrenchPrev_) / dt_;
-        calculatedWrenchPrev_ = calculatedWrench;
+        sva::ForceVecd calculatedWrenchDot = (calculatedWrench_ - calculatedWrenchPrev_) / dt_;
+        calculatedWrenchPrev_ = calculatedWrench_;
 
+        sva::ForceVecd measuredWrenchDot = (measuredWrench_ - measuredWrenchPrev_) / dt_;
+        measuredWrenchPrev_ = measuredWrench_;
+        
         Eigen::Matrix6d gainP = Eigen::Matrix6d::Zero();
         gainP.block(0, 0, 3, 3) = gainForceP_ * Eigen::Matrix3d::Identity();
         gainP.block(3, 3, 3, 3) = gainCoupleP_ * Eigen::Matrix3d::Identity();
@@ -2155,8 +2161,8 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
         gainD.block(0, 0, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
         gainD.block(3, 3, 3, 3) = gainCoupleD_ * Eigen::Matrix3d::Identity();
         
-        error_.noalias() = gainP * (calculatedWrench.vector() - measuredWrench_.vector());
-        error_.noalias() += gainD * (calculatedWrenchDot.vector() - measuredWrenchDot_.vector());
+        error_.noalias() = gainP * (calculatedWrench_.vector() - measuredWrench_.vector());
+        error_.noalias() += gainD * (calculatedWrenchDot.vector() - measuredWrenchDot.vector());
         
         error_.noalias() -= normalAcc_;
         preC_.noalias() = dimWeight_.asDiagonal() * error_;

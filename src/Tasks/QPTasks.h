@@ -1353,11 +1353,22 @@ private:
 class TASKS_DLLAPI WrenchTask : public Task
 {
 public:
-        WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double weight);
+        WrenchTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName,
+                   const Eigen::Vector3d& bodyPoint, double weight);
 
         virtual std::pair<int, int> begin() const
         {
                 return std::make_pair(lambdaBegin_, lambdaBegin_);
+        }
+
+        void bodyPoint(const Eigen::Vector3d& point)
+        {
+                bodyPoint_ = point;
+        }
+
+        const Eigen::Vector3d& bodyPoint() const
+        {
+                return bodyPoint_;
         }
 
         void treatDesWrenchAsLocal(bool local)
@@ -1404,6 +1415,7 @@ public:
 private:
         
 	int bodyIndex_, robotIndex_, lambdaBegin_;
+        Eigen::Vector3d bodyPoint_;
         
         sva::ForceVecd wrench_;
 
@@ -1436,7 +1448,7 @@ public:
                 local_ = local;
         }
 
-        void measuredWrench(const std::vector<rbd::MultiBodyConfig>& mbcs, const sva::ForceVecd wrench)
+        void measuredWrench(const sva::ForceVecd wrench)
         {
                 measuredWrench_ = wrench;
         }
@@ -1446,14 +1458,9 @@ public:
                 return measuredWrench_;
         }
         
-        void measuredWrenchDot(const std::vector<rbd::MultiBodyConfig>& mbcs, const sva::ForceVecd wrenchDot)
+        const sva::ForceVecd& calculatedWrench() const
         {
-                measuredWrenchDot_ = wrenchDot;
-        }
-
-        const sva::ForceVecd& measuredWrenchDot() const
-        {
-                return measuredWrenchDot_;
+                return calculatedWrench_;
         }
         
         void dimWeight(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector6d& dim);
@@ -1490,8 +1497,8 @@ private:
         double gainForceP_, gainForceD_;
         double gainCoupleP_, gainCoupleD_;
         
-        sva::ForceVecd measuredWrench_, measuredWrenchDot_;
-        sva::ForceVecd calculatedWrenchPrev_;
+        sva::ForceVecd measuredWrench_, measuredWrenchPrev_;
+        sva::ForceVecd calculatedWrench_, calculatedWrenchPrev_;
         
         rbd::Jacobian jac_;
         Eigen::MatrixXd jacMat_;
