@@ -306,10 +306,12 @@ class TASKS_DLLAPI JointsSelector : public HighLevelTask
 public:
 	static JointsSelector ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
 		int robotIndex, HighLevelTask* hl,
-		const std::vector<std::string>& activeJointsName);
+		const std::vector<std::string>& activeJointsName,
+		const std::map<std::string, std::vector<std::array<int, 2>>>& activeDofs = {});
 	static JointsSelector UnactiveJoints(const std::vector<rbd::MultiBody>& mbs,
 		int robotIndex, HighLevelTask* hl,
-		const std::vector<std::string>& unactiveJointsName);
+		const std::vector<std::string>& unactiveJointsName,
+		const std::map<std::string, std::vector<std::array<int, 2>>>& unactiveDofs = {});
 
 public:
 	struct SelectedData
@@ -319,7 +321,8 @@ public:
 
 public:
 	JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-		HighLevelTask* hl, const std::vector<std::string>& selectedJointsName);
+		HighLevelTask* hl, const std::vector<std::string>& selectedJointsName,
+		const std::map<std::string, std::vector<std::array<int, 2>>>& activeDofs = {});
 
 	const std::vector<SelectedData> selectedJoints() const
 	{
