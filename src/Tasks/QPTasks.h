@@ -18,6 +18,9 @@
 #pragma once
 
 // includes
+//
+#include <array>
+
 // Eigen
 #include <Eigen/Core>
 
