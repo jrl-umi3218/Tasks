@@ -54,7 +54,8 @@ ENDIF()
 # Install the bindings
 IF(DEFINED PYTHON_DEB_ROOT)
   ADD_CUSTOM_TARGET(install-tasks-python-bindings
-    COMMAND ${CMAKE_COMMAND} -E chdir "${SETUP_LOCATION}" python setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb && python3 setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb
+    COMMAND ${CMAKE_COMMAND} -E chdir "${SETUP_LOCATION}" python setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb
+    COMMAND ${CMAKE_COMMAND} -E chdir "${SETUP_LOCATION}" python3 setup.py install --root=${PYTHON_DEB_ROOT} --install-layout=deb
     COMMENT "Install Tasks Python bindings (Debian package)"
   )
 ELSE()
