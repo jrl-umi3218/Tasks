@@ -1867,7 +1867,7 @@ void VectorOrientationTask::bodyVector(const Eigen::Vector3d &vector)
 
 const Eigen::Vector3d &VectorOrientationTask::bodyVector() const
 {
-	return actualVector_;
+	return bodyVector_;
 }
 
 void VectorOrientationTask::target(const Eigen::Vector3d &vector)
