@@ -1320,7 +1320,7 @@ public:
 	{
 		vot_.bodyVector(vector);
 	}
-	const Eigen::Vector3d bodyVector() const
+	const Eigen::Vector3d& bodyVector() const
 	{
 		return vot_.bodyVector();
 	}
