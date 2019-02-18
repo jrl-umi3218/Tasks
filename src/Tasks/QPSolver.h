@@ -56,7 +56,8 @@ class Bound;
 class Task;
 class GenQPSolver;
 
-
+class MotionConstr;
+  
 
 class TASKS_DLLAPI QPSolver
 {
@@ -100,6 +101,7 @@ public:
 	void updateNrVars(const std::vector<rbd::MultiBody>& mbs) const;
 
         bool hasConstraint(const Constraint* co);
+        // std::shared_ptr<tasks::qp::MotionConstr> getMotionConstr();
 
 	void addEqualityConstraint(Equality* co);
 	void removeEqualityConstraint(Equality* co);

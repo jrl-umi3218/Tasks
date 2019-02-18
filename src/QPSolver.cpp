@@ -32,7 +32,7 @@
 
 // Tasks
 #include "Tasks/GenQPSolver.h"
-
+#include "Tasks/QPMotionConstr.h"
 
 namespace tasks
 {
@@ -266,7 +266,24 @@ bool QPSolver::hasConstraint(const Constraint* co)
 {
         return std::find(constr_.begin(), constr_.end(), co) != constr_.end(); 
 }
+
+/*
+std::shared_ptr<tasks::qp::MotionConstr> QPSolver::getMotionConstr()
+{
+        std::shared_ptr<MotionConstr> motionConstr = NULL;
   
+        for(Constraint* c: constr_)
+        {
+                std::shared_ptr<Constraint> c_prime = std::make_shared<Constraint>().reset(c);
+                motionConstr = std::dynamic_pointer_cast<MotionConstr>(c_prime);
+
+                if (motionConstr)
+                {
+                        break;
+                }
+        }
+}
+*/
 
 void QPSolver::addEqualityConstraint(Equality* co)
 {
@@ -330,7 +347,7 @@ void QPSolver::addBoundConstraint(Bound* co)
 
 void QPSolver::removeBoundConstraint(Bound* co)
 {
-	boundConstr_.erase(std::find(boundConstr_.begin(), boundConstr_.end(), co));
+        boundConstr_.erase(std::find(boundConstr_.begin(), boundConstr_.end(), co));
 }
 
 
