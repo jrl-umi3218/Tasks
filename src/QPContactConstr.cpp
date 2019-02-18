@@ -543,6 +543,109 @@ std::string TorqueFbTermContactPDConstr::nameEq() const
 }
 
 
+/**
+	*															TorqueFbTermContactHybridConstr
+	*/
+
+
+TorqueFbTermContactHybridConstr::TorqueFbTermContactHybridConstr(Eigen::Vector6d proportional,
+                                                                 Eigen::Vector6d derivative,
+                                                                 Eigen::Vector6d damping,
+                                                                 int mainRobotIndex,
+                                                                 const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm):
+        ContactConstr(),
+        proportional_default_(proportional),
+        derivative_default_(derivative),
+        damping_default_(damping),
+        mainRobotIndex_(mainRobotIndex),
+        fbTerm_(fbTerm)
+{}
+  
+
+void TorqueFbTermContactHybridConstr::setGainsForContact(const ContactId& cId, const Eigen::Vector6d& prop,
+                                                         const Eigen::Vector6d& deriv, const Eigen::Vector6d& damp)
+{
+        if (contGains_.find(cId) == contGains_.end())
+                contGains_.insert(std::make_pair(cId, Gains(prop, deriv, damp)));
+        else
+                contGains_.at(cId) = Gains(prop, deriv, damp);
+}
+
+
+void TorqueFbTermContactHybridConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                             const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                             const SolverData& data)
+{
+        using namespace Eigen;
+  
+        A_.block(0, 0, nrEq_, totalAlphaD_).setZero();
+	b_.head(nrEq_).setZero();
+
+        int index = 0;
+        
+        for(std::size_t i = 0; i < cont_.size(); ++i)
+        {
+                ContactData& cd = cont_[i];
+                int rows = int(cd.dof.rows());
+
+                Vector6d proportional, derivative, damping;
+
+                if (contGains_.find(cd.contactId) != contGains_.end())
+                {
+                        proportional = contGains_.at(cd.contactId).proportional;
+                        derivative = contGains_.at(cd.contactId).derivative;
+                        damping = contGains_.at(cd.contactId).damping;
+                }
+                else
+                {
+                        proportional = proportional_default_;
+                        derivative = derivative_default_;
+                        damping = damping_default_;
+                }
+
+                for(std::size_t j = 0; j < cd.contacts.size(); ++j)
+                {
+                        ContactSideData& csd = cd.contacts[j];
+                        const rbd::MultiBody& mb = mbs[csd.robotIndex];
+                        const rbd::MultiBodyConfig& mbc = mbcs[csd.robotIndex];
+
+                        // AEq = J_i
+                        sva::PTransformd X_0_p = csd.X_b_p*mbc.bodyPosW[csd.bodyIndex];
+                        const MatrixXd& jacMat = csd.jac.jacobian(mb, mbc, X_0_p);
+                        dofJac_.block(0, 0, rows, csd.jac.dof()).noalias() =
+                                csd.sign*cd.dof*jacMat;
+                        csd.jac.fullJacobian(mb, dofJac_.block(0, 0, rows, csd.jac.dof()),
+                                fullJac_);
+                        A_.block(index, csd.alphaDBegin, rows, mb.nrDof()).noalias() +=
+                                fullJac_.block(0, 0, rows, mb.nrDof());
+
+                        // BEq = dVSurf_obj - JD_i*alpha - J_i*gammaD
+                        Vector6d normalAcc = csd.jac.normalAcceleration(
+                                mb, mbc, data.normalAccB(csd.robotIndex), csd.X_b_p,
+                                sva::MotionVecd(Vector6d::Zero())).vector();
+                        Vector6d velocity = csd.jac.velocity(mb, mbc, csd.X_b_p).vector();
+                        b_.segment(index, rows).noalias() -=
+                          csd.sign*cd.dof*(normalAcc + damping.asDiagonal() * velocity);
+                        if (csd.robotIndex == mainRobotIndex_)
+                        {
+                                b_.segment(index, rows).noalias() -=
+                                        csd.sign * cd.dof * fullJac_.block(0, 0, rows, mb.nrDof()) * fbTerm_->gammaD();
+                        }
+                }
+
+                // Pending to add the admittance component
+
+                index += rows;
+        }
+}
+
+
+std::string TorqueFbTermContactHybridConstr::nameEq() const
+{
+	return "TorqueFbTermContactHybridConstr";
+}
+
+
 } // qp
 
 } // tasks

@@ -281,7 +281,7 @@ private:
         struct PDgains
 	{
                 PDgains(const Eigen::Vector6d& stiff, const Eigen::Vector6d& damp):
-                                 stiffness(stiff), damping(damp)
+                        stiffness(stiff), damping(damp)
 		{}
 
                 Eigen::Vector6d stiffness, damping;
@@ -294,6 +294,48 @@ private:
         std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
 };
 
+ 
+/**
+	* Contact constraint by using admittance control and damping,
+        * and including the integral term.
+        *
+	*/
+class TASKS_DLLAPI TorqueFbTermContactHybridConstr : public ContactConstr
+{
+public:
+        TorqueFbTermContactHybridConstr(Eigen::Vector6d proportional,
+                                        Eigen::Vector6d derivative,
+                                        Eigen::Vector6d damping,
+                                        int mainRobotIndex,
+                                        const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm);
+
+        void setGainsForContact(const ContactId& cId, const Eigen::Vector6d& prop,
+                                const Eigen::Vector6d& deriv, const Eigen::Vector6d& damp);
+
+        virtual void update(const std::vector<rbd::MultiBody>& mbs,
+                const std::vector<rbd::MultiBodyConfig>& mbcs,
+                const SolverData& data);
+
+        virtual std::string nameEq() const;
+
+private:
+
+        struct Gains
+        {
+                Gains(const Eigen::Vector6d& prop, const Eigen::Vector6d& deriv,
+                      const Eigen::Vector6d& damp) :
+                      proportional(prop), derivative(deriv), damping(damp)
+                {}
+
+                Eigen::Vector6d proportional, derivative, damping;
+        };
+
+        std::map<ContactId, Gains> contGains_;
+
+        Eigen::Vector6d proportional_default_, derivative_default_, damping_default_;
+        int mainRobotIndex_;
+        std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;      
+};
 
 } // qp
 
