@@ -28,7 +28,7 @@ MACRO(_SETUP_PROJECT_DOCUMENTATION)
   FIND_PACKAGE(Doxygen)
 
   IF(NOT DOXYGEN_FOUND)
-    MESSAGE("Failed to find Doxygen, documentation will not be generated.")
+    MESSAGE(WARNING "Failed to find Doxygen, documentation will not be generated.")
   ELSE(NOT DOXYGEN_FOUND)
     # Generate variable to be substitued in Doxyfile.in
     # for dot use.
@@ -87,6 +87,13 @@ MACRO(_SETUP_PROJECT_DOCUMENTATION)
         WORKING_DIRECTORY doc
         COMMENT "Generating Doxygen template files"
         )
+      ADD_CUSTOM_TARGET(generate-template-css
+        DEPENDS
+        ${CMAKE_CURRENT_BINARY_DIR}/doc/header.html
+        ${CMAKE_CURRENT_BINARY_DIR}/doc/footer.html
+        ${CMAKE_CURRENT_BINARY_DIR}/doc/doxygen.css
+        )
+      ADD_DEPENDENCIES(doc generate-template-css)
     ELSE (DOXYGEN_USE_TEMPLATE_CSS)
       FILE (COPY
         ${PROJECT_SOURCE_DIR}/cmake/doxygen/doxygen.css
@@ -164,17 +171,34 @@ MACRO(_SETUP_PROJECT_DOCUMENTATION_FINALIZE)
       FIND_PROGRAM(GS gs DOC "GhostScript interpreter")
 
       IF(NOT (LATEX AND GS AND DVIPS))
-        MESSAGE("Failed to find latex/dvips/gs, will use MathJax backend.")
+        MESSAGE(STATUS "Failed to find latex/dvips/gs, will use MathJax backend.")
         SET(DOXYGEN_USE_MATHJAX "YES")
       ENDIF()
     ENDIF()
 
     IF(${DOXYGEN_USE_MATHJAX} STREQUAL "YES")
-      MESSAGE("-- Doxygen rendering: using MathJax backend")
+      MESSAGE(STATUS "Doxygen rendering: using MathJax backend")
       SET(DOXYGEN_HEADER_NAME "header-mathjax.html")
     ELSE()
-      MESSAGE("-- Doxygen rendering: using LaTeX backend")
+      MESSAGE(STATUS "Doxygen rendering: using LaTeX backend")
       SET(DOXYGEN_HEADER_NAME "header.html")
+    ENDIF()
+
+    IF(_INSTALL_DOC)
+      # Find doxytag files
+      # To ignore this list of tag files, add to doc/Doxyfile.extra.in
+      # TAGFILES =
+      STRING(REPLACE "," ";" PKG_REQUIRES "${_PKG_CONFIG_REQUIRES}")
+      FOREACH(PKG_CONFIG_STRING ${PKG_REQUIRES})
+        _PARSE_PKG_CONFIG_STRING(${PKG_CONFIG_STRING} LIBRARY_NAME PREFIX)
+        # If DOXYGENDOCDIR is specified, add a doc path.
+        IF( DEFINED ${PREFIX}_DOXYGENDOCDIR
+            AND EXISTS ${${PREFIX}_DOXYGENDOCDIR}/${LIBRARY_NAME}.doxytag)
+          FILE(RELATIVE_PATH DEP_DOCDIR ${_PKG_CONFIG_DOXYGENDOCDIR} ${${PREFIX}_DOXYGENDOCDIR})
+
+          SET(DOXYTAG_ENTRIES "${DOXYTAG_ENTRIES} \"${${PREFIX}_DOXYGENDOCDIR}/${LIBRARY_NAME}.doxytag\"=\"${DEP_DOCDIR}\"")
+        ENDIF()
+      ENDFOREACH()
     ENDIF()
 
     # Generate Doxyfile.extra.

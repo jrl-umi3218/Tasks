@@ -122,16 +122,16 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string descEq(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual std::string descEq(const std::vector<rbd::MultiBody>& mbs, int line) override;
 
 	// Inequality Constraint
-	virtual int nrEq() const;
-	virtual int maxEq() const;
+	virtual int nrEq() const override;
+	virtual int maxEq() const override;
 
-	virtual const Eigen::MatrixXd& AEq() const;
-	virtual const Eigen::VectorXd& bEq() const;
+	virtual const Eigen::MatrixXd& AEq() const override;
+	virtual const Eigen::VectorXd& bEq() const override;
 
 protected:
 	struct ContactSideData
@@ -202,9 +202,9 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameEq() const;
+	virtual std::string nameEq() const override;
 };
 
 
@@ -222,9 +222,9 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameEq() const;
+	virtual std::string nameEq() const override;
 private:
 	double timeStep_;
 };
@@ -246,9 +246,9 @@ public:
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameEq() const;
+	virtual std::string nameEq() const override;
 private:
 	double timeStep_;
 };

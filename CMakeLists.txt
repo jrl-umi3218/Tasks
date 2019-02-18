@@ -35,7 +35,12 @@ SETUP_PROJECT(FALSE)
 add_definitions(-mfpmath=sse -msse2)
 
 option(PYTHON_BINDING "Generate python binding." ON)
-option(PYTHON_BINDING_USER_INSTALL "Install the Python bindings in user space" OFF)
+if(WIN32)
+  set(PYTHON_BINDING_USER_INSTALL_DEFAULT ON)
+else()
+  set(PYTHON_BINDING_USER_INSTALL_DEFAULT OFF)
+endif()
+option(PYTHON_BINDING_USER_INSTALL "Install the Python bindings in user space" ${PYTHON_BINDING_USER_INSTALL_DEFAULT})
 option(DISABLE_TESTS "Disable unit tests." OFF)
 
 if(NOT WIN32)

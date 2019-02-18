@@ -242,8 +242,8 @@ TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
 	HighLevelTask* hlTask,
 	double gainPos, double gainVel, double weight):
 	SetPointTaskCommon(mbs, rI, hlTask, weight),
-	gainPos_(gainPos),
-	gainVel_(gainVel),
+	stiffness_(gainPos*Eigen::VectorXd::Ones(hlTask->dim())),
+	damping_(gainVel*Eigen::VectorXd::Ones(hlTask->dim())),
 	refVel_(Eigen::VectorXd::Zero(hlTask->dim())),
 	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
@@ -254,8 +254,8 @@ TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
 	HighLevelTask* hlTask,
 	double gainPos, double gainVel, const Eigen::VectorXd& dimWeight, double weight):
 	SetPointTaskCommon(mbs, rI, hlTask, dimWeight, weight),
-	gainPos_(gainPos),
-	gainVel_(gainVel),
+	stiffness_(gainPos*Eigen::VectorXd::Ones(hlTask->dim())),
+	damping_(gainVel*Eigen::VectorXd::Ones(hlTask->dim())),
 	refVel_(Eigen::VectorXd::Zero(hlTask->dim())),
 	refAccel_(Eigen::VectorXd::Zero(hlTask->dim()))
 {}
@@ -263,8 +263,50 @@ TrajectoryTask::TrajectoryTask(const std::vector<rbd::MultiBody>& mbs,
 
 void TrajectoryTask::setGains(double gainPos, double gainVel)
 {
-	gainPos_ = gainPos;
-	gainVel_ = gainVel;
+	stiffness_ = gainPos * Eigen::VectorXd::Ones(hlTask_->dim());
+	damping_ = gainVel * Eigen::VectorXd::Ones(hlTask_->dim());
+}
+
+void TrajectoryTask::setGains(const Eigen::VectorXd & stiffness,
+															const Eigen::VectorXd & damping)
+{
+	assert(stiffness.size() == stiffness_.size());
+	assert(damping.size() == damping_.size());
+	stiffness_ = stiffness;
+	damping_ = damping;
+}
+
+void TrajectoryTask::stiffness(double gainPos)
+{
+	stiffness_ = gainPos * Eigen::VectorXd::Ones(hlTask_->dim());
+}
+
+void TrajectoryTask::stiffness(const Eigen::VectorXd & stiffness)
+{
+	assert(stiffness.size() == stiffness_.size());
+	stiffness_ = stiffness;
+}
+
+const Eigen::VectorXd & TrajectoryTask::stiffness() const
+{
+	return stiffness_;
+}
+
+void TrajectoryTask::damping(double gainVel)
+{
+	damping_ = gainVel * Eigen::VectorXd::Ones(hlTask_->dim());
+}
+
+void TrajectoryTask::damping(const Eigen::VectorXd & damping)
+{
+	assert(damping.size() == damping_.size());
+	damping_ = damping;
+}
+
+
+const Eigen::VectorXd & TrajectoryTask::damping() const
+{
+	return damping_;
 }
 
 
@@ -273,12 +315,20 @@ void TrajectoryTask::refVel(const Eigen::VectorXd& refVel)
 	refVel_ = refVel;
 }
 
+const Eigen::VectorXd & TrajectoryTask::refVel() const
+{
+	return refVel_;
+}
 
 void TrajectoryTask::refAccel(const Eigen::VectorXd& refAccel)
 {
 	refAccel_ = refAccel;
 }
 
+const Eigen::VectorXd & TrajectoryTask::refAccel() const
+{
+	return refAccel_;
+}
 
 void TrajectoryTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const std::vector<rbd::MultiBodyConfig>& mbcs,
@@ -289,8 +339,8 @@ void TrajectoryTask::update(const std::vector<rbd::MultiBody>& mbs,
 	const Eigen::VectorXd& err = hlTask_->eval();
 	const Eigen::VectorXd& speed = hlTask_->speed();
 
-	error_.noalias() = gainPos_*err;
-	error_.noalias() += gainVel_*(refVel_ - speed);
+	error_.noalias() = stiffness_.asDiagonal()*err;
+	error_.noalias() += damping_.asDiagonal()*(refVel_ - speed);
 	error_.noalias() += refAccel_;
 	computeQC(error_);
 }
@@ -551,19 +601,22 @@ const Eigen::VectorXd& TargetObjectiveTask::C() const
 
 
 JointsSelector JointsSelector::ActiveJoints(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, HighLevelTask* hl, const std::vector<std::string>& activeJointsName)
+	int robotIndex, HighLevelTask* hl, const std::vector<std::string>& activeJointsName,
+	const std::map<std::string, std::vector<std::array<int, 2>>>& activeDofs)
 {
-	return JointsSelector(mbs, robotIndex, hl, activeJointsName);
+	return JointsSelector(mbs, robotIndex, hl, activeJointsName, activeDofs);
 }
 
 
 JointsSelector JointsSelector::UnactiveJoints(const std::vector<rbd::MultiBody>& mbs,
-	int robotIndex, HighLevelTask* hl, const std::vector<std::string>& unactiveJointsName)
+	int robotIndex, HighLevelTask* hl, const std::vector<std::string>& unactiveJointsName,
+	const std::map<std::string, std::vector<std::array<int, 2>>>& unactiveDofs)
 {
 	using namespace std::placeholders;
 	const rbd::MultiBody& mb = mbs[robotIndex];
 
 	std::vector<std::string> activeJointsName;
+	std::map<std::string, std::vector<std::array<int, 2>>> activeDofs;
 	// sort unactiveJointsName by puting them into a set
 	std::set<std::string> unactiveJointsNameSet(unactiveJointsName.begin(),
 		unactiveJointsName.end());
@@ -578,12 +631,36 @@ JointsSelector JointsSelector::UnactiveJoints(const std::vector<rbd::MultiBody>&
 		unactiveJointsNameSet.begin(), unactiveJointsNameSet.end(),
 		std::inserter(activeJointsName, activeJointsName.begin()));
 
+	// Transform unactive dofs into active dofs
+	for(const auto & uad : unactiveDofs)
+	{
+		const auto & jN = uad.first;
+		const auto & jDofs = uad.second;
+		const auto & j = mb.joint(mb.jointIndexByName(jN));
+		int ji = 0;
+		for(int i = 0; i < jDofs.size(); ++i)
+		{
+			auto dofStart = jDofs[i][0];
+			if(dofStart > ji)
+			{
+				activeDofs[jN].push_back({{ji, dofStart - ji}});
+			}
+			ji = dofStart + jDofs[i][1];
+		}
+		auto finalDof = jDofs.back()[0] + jDofs.back()[1];
+		if(finalDof < j.dof())
+		{
+			activeDofs[jN].push_back({{finalDof, j.dof() - finalDof}});
+		}
+	}
+
 	return JointsSelector(mbs, robotIndex, hl, activeJointsName);
 }
 
 
 JointsSelector::JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-	HighLevelTask* hl, const std::vector<std::string>& selectedJointsName):
+	HighLevelTask* hl, const std::vector<std::string>& selectedJointsName,
+	const std::map<std::string, std::vector<std::array<int, 2>>>& activeDofs):
 	jac_(Eigen::MatrixXd::Zero(hl->dim(), mbs[robotIndex].nrDof())),
 	selectedJoints_(),
 	hl_(hl)
@@ -593,7 +670,19 @@ JointsSelector::JointsSelector(const std::vector<rbd::MultiBody>& mbs, int robot
 	for(const std::string& jName: selectedJointsName)
 	{
 		int index = mb.jointIndexByName(jName);
-		selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()});
+		if(activeDofs.count(jName))
+		{
+			auto pInDof = mb.jointPosInDof(index);
+			for(const auto & jdof : activeDofs.at(jName))
+			{
+				assert(jdof[0] + jdof[1] < mb.joint(index).dof());
+				selectedJoints_.push_back({pInDof + jdof[0], jdof[1]});
+			}
+		}
+		else
+		{
+			selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()});
+		}
 	}
 	// sort data in posInDof order
 	std::sort(selectedJoints_.begin(), selectedJoints_.end(),

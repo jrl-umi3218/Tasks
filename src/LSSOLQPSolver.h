@@ -19,7 +19,7 @@
 
 // includes
 // eigen-lssol
-#include <eigen-lssol/LSSOL.h>
+#include <eigen-lssol/LSSOL_QP.h>
 
 // Tasks
 #include "Tasks/GenQPSolver.h"
@@ -57,7 +57,7 @@ public:
 		std::ostream& out) const override;
 
 private:
-	Eigen::LSSOL lssol_;
+	Eigen::LSSOL_QP lssol_;
 
 	Eigen::MatrixXd A_;
 	Eigen::VectorXd AL_, AU_;

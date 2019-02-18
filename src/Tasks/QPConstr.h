@@ -81,20 +81,20 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameBound() const;
-	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual std::string nameBound() const override;
+	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line) override;
 
 	// Bound Constraint
-	virtual int beginVar() const;
+	virtual int beginVar() const override;
 
-	virtual const Eigen::VectorXd& Lower() const;
-	virtual const Eigen::VectorXd& Upper() const;
+	virtual const Eigen::VectorXd& Lower() const override;
+	virtual const Eigen::VectorXd& Upper() const override;
 
 private:
 	int robotIndex_, alphaDBegin_, alphaDOffset_;
@@ -154,21 +154,21 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameBound() const;
+	virtual std::string nameBound() const override;
 	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs,
-		int line);
+		int line) override;
 
 	// Bound Constraint
-	virtual int beginVar() const;
+	virtual int beginVar() const override;
 
-	virtual const Eigen::VectorXd& Lower() const;
-	virtual const Eigen::VectorXd& Upper() const;
+	virtual const Eigen::VectorXd& Lower() const override;
+	virtual const Eigen::VectorXd& Upper() const override;
 
 	/// compute damping that avoid speed jump
 	double computeDamping(double alpha, double dist, double iDist, double sDist);
@@ -277,21 +277,21 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual std::string nameInEq() const override;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line) override;
 
 	// In Inequality Constraint
-	virtual int nrInEq() const;
-	virtual int maxInEq() const;
+	virtual int nrInEq() const override;
+	virtual int maxInEq() const override;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& bInEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const override;
+	virtual const Eigen::VectorXd& bInEq() const override;
 
 private:
 	struct BodyCollData
@@ -417,21 +417,21 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual std::string nameInEq() const override;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line) override;
 
 	// In Inequality Constraint
-	virtual int nrInEq() const;
-	virtual int maxInEq() const;
+	virtual int nrInEq() const override;
+	virtual int maxInEq() const override;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& bInEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const override;
+	virtual const Eigen::VectorXd& bInEq() const override;
 
 private:
 	struct PlaneData
@@ -481,20 +481,20 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mb,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mb, int line);
+	virtual std::string nameInEq() const override;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mb, int line) override;
 
 	// In Inequality Constraint
-	virtual int maxInEq() const;
+	virtual int maxInEq() const override;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& bInEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const override;
+	virtual const Eigen::VectorXd& bInEq() const override;
 
 private:
 	struct GripperData
@@ -595,21 +595,21 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 
-	virtual std::string nameGenInEq() const;
-	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mb, int line);
+	virtual std::string nameGenInEq() const override;
+	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mb, int line) override;
 
 	// Inequality Constraint
-	virtual int maxGenInEq() const;
+	virtual int maxGenInEq() const override;
 
-	virtual const Eigen::MatrixXd& AGenInEq() const;
-	virtual const Eigen::VectorXd& LowerGenInEq() const;
-	virtual const Eigen::VectorXd& UpperGenInEq() const;
+	virtual const Eigen::MatrixXd& AGenInEq() const override;
+	virtual const Eigen::VectorXd& LowerGenInEq() const override;
+	virtual const Eigen::VectorXd& UpperGenInEq() const override;
 
 private:
 	struct BoundedSpeedData
@@ -726,20 +726,20 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	// In Inequality Constraint
-	virtual std::string nameInEq() const;
-	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line);
-	virtual int nrInEq() const;
-	virtual int maxInEq() const;
+	virtual std::string nameInEq() const override;
+	virtual std::string descInEq(const std::vector<rbd::MultiBody>& mbs, int line) override;
+	virtual int nrInEq() const override;
+	virtual int maxInEq() const override;
 
-	virtual const Eigen::MatrixXd& AInEq() const;
-	virtual const Eigen::VectorXd& bInEq() const;
+	virtual const Eigen::MatrixXd& AInEq() const override;
+	virtual const Eigen::VectorXd& bInEq() const override;
 
 private:
 	struct PointData

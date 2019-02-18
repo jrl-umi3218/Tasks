@@ -48,20 +48,20 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	// Description
-	virtual std::string nameBound() const;
-	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual std::string nameBound() const override;
+	virtual std::string descBound(const std::vector<rbd::MultiBody>& mbs, int line) override;
 
 	// Bound Constraint
-	virtual int beginVar() const;
+	virtual int beginVar() const override;
 
-	virtual const Eigen::VectorXd& Lower() const;
-	virtual const Eigen::VectorXd& Upper() const;
+	virtual const Eigen::VectorXd& Lower() const override;
+	virtual const Eigen::VectorXd& Upper() const override;
 
 private:
 	struct ContactData
@@ -92,21 +92,21 @@ public:
 
 	// Constraint
 	virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 	void computeMatrix(const std::vector<rbd::MultiBody>& mb,
 		const std::vector<rbd::MultiBodyConfig>& mbcs);
 
 	// Description
-	virtual std::string nameGenInEq() const;
-	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mbs, int line);
+	virtual std::string nameGenInEq() const override;
+	virtual std::string descGenInEq(const std::vector<rbd::MultiBody>& mbs, int line) override;
 
 	// Inequality Constraint
-	virtual int maxGenInEq() const;
+	virtual int maxGenInEq() const override;
 
-	virtual const Eigen::MatrixXd& AGenInEq() const;
-	virtual const Eigen::VectorXd& LowerGenInEq() const;
-	virtual const Eigen::VectorXd& UpperGenInEq() const;
+	virtual const Eigen::MatrixXd& AGenInEq() const override;
+	virtual const Eigen::VectorXd& LowerGenInEq() const override;
+	virtual const Eigen::VectorXd& UpperGenInEq() const override;
 
 protected:
 	struct ContactData
@@ -151,7 +151,7 @@ public:
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
                             const std::vector<rbd::MultiBodyConfig>& mbcs,
-                            const SolverData& data);
+                            const SolverData& data) override;
         //Matrix
         const Eigen::MatrixXd matrix() const
         {
@@ -189,7 +189,7 @@ public:
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbc,
-		const SolverData& data);
+		const SolverData& data) override;
 
 protected:
 	struct SpringJointData
@@ -220,7 +220,7 @@ public:
 	// Constraint
 	virtual void update(const std::vector<rbd::MultiBody>& mbs,
 		const std::vector<rbd::MultiBodyConfig>& mbcs,
-		const SolverData& data);
+		const SolverData& data) override;
 
 protected:
 	std::vector<Eigen::VectorXd> torqueL_, torqueU_;
