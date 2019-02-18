@@ -55,7 +55,7 @@ void PositiveLambda::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 {
 	lambdaBegin_ = data.lambdaBegin();
 
-	XL_.setConstant(data.totalLambda(), 0.);
+	XL_.setConstant(data.totalLambda(), 1e-6);
 	XU_.setConstant(data.totalLambda(), std::numeric_limits<double>::infinity());
 
 	cont_.clear();

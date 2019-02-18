@@ -2070,7 +2070,8 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
 	*/
 
 
-AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight):
+AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, const Eigen::Vector3d& bodyPoint,
+                               double timeStep, double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight):
         Task(weight),
         robotIndex_(robotIndex),
         bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
@@ -2085,7 +2086,7 @@ AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robot
         measuredWrenchPrev_(Eigen::Vector6d::Zero()),
         calculatedWrench_(Eigen::Vector6d::Zero()),
         calculatedWrenchPrev_(Eigen::Vector6d::Zero()),
-        jac_(mbs[robotIndex], bodyName, Eigen::Vector3d::Zero()),
+        jac_(mbs[robotIndex], bodyName, bodyPoint),
         jacMat_(6, mbs[robotIndex].nrDof()),
         error_(Eigen::Vector6d::Zero()),
         normalAcc_(Eigen::Vector6d::Zero()),
@@ -2142,10 +2143,17 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
                 int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
 
                 if (contact.contactId.r1Index == robotIndex_ && r1BodyIndex == bodyIndex_)
-                {                        
-                        calculatedWrench_ += computeWrench(mbc, contact, data.lambdaVecPrev(), data.lambdaBegin(ci));
+                {
+                        // std::cout << "Rafa, in AdmittanceTask::update, contact.contactId.r1BodyName = " << contact.contactId.r1BodyName << std::endl;
+                        // std::cout << "Rafa, in AdmittanceTask::update, data.lambdaVecPrev() = " << data.lambdaVecPrev().transpose() << std::endl;
+                        // std::cout << "Rafa, in AdmittanceTask::update, data.lambdaVecPrev().size() = " << data.lambdaVecPrev().size() << std::endl;
+                        // std::cout << "Rafa, in AdmittanceTask::update, ci = " << ci << std::endl;
+                  
+                        calculatedWrench_ += computeWrench(mbc, contact, data.lambdaVecPrev(), data.lambdaBegin(ci) - data.lambdaBegin());
                 }
         }
+
+        // calculatedWrench_.couple()[1] = 0;
 
         sva::ForceVecd calculatedWrenchDot = (calculatedWrench_ - calculatedWrenchPrev_) / dt_;
         calculatedWrenchPrev_ = calculatedWrench_;
@@ -2154,19 +2162,31 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
         measuredWrenchPrev_ = measuredWrench_;
         
         Eigen::Matrix6d gainP = Eigen::Matrix6d::Zero();
-        gainP.block(0, 0, 3, 3) = gainForceP_ * Eigen::Matrix3d::Identity();
-        gainP.block(3, 3, 3, 3) = gainCoupleP_ * Eigen::Matrix3d::Identity();
+        gainP.block(0, 0, 3, 3) = gainCoupleP_ * Eigen::Matrix3d::Identity();
+        gainP.block(3, 3, 3, 3) = gainForceP_ * Eigen::Matrix3d::Identity();
 
         Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
-        gainD.block(0, 0, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
-        gainD.block(3, 3, 3, 3) = gainCoupleD_ * Eigen::Matrix3d::Identity();
+        gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
+        gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
+
+        // std::cout << "Rafa, in AdmittanceTask::update, calculatedWrench_.vector() = " << calculatedWrench_.vector().transpose() << std::endl;
+        // std::cout << "Rafa, in AdmittanceTask::update, measuredWrench_.vector() = " << measuredWrench_.vector().transpose() << std::endl;
         
-        error_.noalias() = gainP * (calculatedWrench_.vector() - measuredWrench_.vector());
-        error_.noalias() += gainD * (calculatedWrenchDot.vector() - measuredWrenchDot.vector());
+        error_.noalias() = -gainP * (calculatedWrench_.vector() - measuredWrench_.vector());
+        error_.noalias() += -gainD * (calculatedWrenchDot.vector() - measuredWrenchDot.vector());
+        // The minus sign multiplying the gains is set to get the wrench applied to the environment (important)
+
+        // std::cout << "Rafa, in AdmittanceTask::update, calculatedWrench_.vector().segment(0, 3) - measuredWrench_.vector().segment(0, 3) = " << (calculatedWrench_.vector().segment(0, 3) - measuredWrench_.vector().segment(0, 3)).transpose() << std::endl;
+        // std::cout << "Rafa, in AdmittanceTask::update, calculatedWrench_.vector().segment(3, 3) - measuredWrench_.vector().segment(3, 3) = " << (calculatedWrench_.vector().segment(3, 3) - measuredWrench_.vector().segment(3, 3)).transpose() << std::endl;
+        
+        // std::cout << "Rafa, in AdmittanceTask::update before using normalAcc_, error_ = " << error_.transpose() << std::endl << std::endl;
         
         error_.noalias() -= normalAcc_;
+
+        // std::cout << "Rafa, in AdmittanceTask::update after using normalAcc_, error_ = " << error_.transpose() << std::endl << std::endl;
+        
         preC_.noalias() = dimWeight_.asDiagonal() * error_;
-        preC_.noalias() = -jacMat_.transpose() * preC_;
+        C_.noalias() = -jacMat_.transpose() * preC_;
         
         preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
         Q_.noalias() = jacMat_.transpose() * preQ_;
@@ -2176,13 +2196,25 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody>& mbs,
 sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig& mbc,
                                              const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos)
 {
-        sva::ForceVecd wrench;
+        sva::ForceVecd wrench(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+
+        // std::cout << "Rafa, in AdmittanceTask::computeWrench, pos = " << pos << std::endl;
 
         for (size_t i = 0; i < contact.r1Points.size(); i++)
         {
-                Eigen::VectorXd lambda = lambdaVec.segment(pos, contact.nrLambda(i));
+                Eigen::VectorXd lambda = Eigen::VectorXd::Zero(contact.nrLambda(i));
+          
+                if (lambdaVec.size() > 0 && pos < lambdaVec.size())
+                {
+                        lambda = lambdaVec.segment(pos, contact.nrLambda(i));
+                }
+                
                 Eigen::Matrix3d RBody = mbc.bodyPosW[bodyIndex_].rotation().transpose();
 
+                // std::cout << "Rafa, in AdmittanceTask::computeWrench, lambda = " << lambda.transpose() << std::endl;
+                // std::cout << "Rafa, in AdmittanceTask::computeWrench, i = " << i << std::endl;
+                // std::cout << "Rafa, in AdmittanceTask::computeWrench, contact.r1Cones[i].generators[0] = " << contact.r1Cones[i].generators[0].transpose() << std::endl;
+                
                 wrench.force() += contact.force(lambda, i, contact.r1Cones);
                 wrench.couple() += (RBody * contact.r1Points[i]).cross(contact.force(lambda, i, contact.r1Cones));
 

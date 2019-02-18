@@ -28,6 +28,8 @@
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 
+// #include <iostream>  // Added by Rafa
+
 namespace tasks
 {
 
@@ -1000,6 +1002,7 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 	using namespace Eigen;
 
 	int pos = mb.jointPosInDof(1);
+        // std::cout << "Rafa, in tasks::PostureTask::update, pos = " << pos << std::endl;
 
 	// we drop the first joint (fixed or free flyier).
 	for(int i = 1; i < mb.nrJoints(); ++i)
@@ -1023,6 +1026,11 @@ void PostureTask::update(const rbd::MultiBody& mb, const rbd::MultiBodyConfig& m
 			pos += 3;
 		}
 	}
+
+        // std::cout << "Rafa, in tasks::PostureTask::update, q_[1][0] = " << q_[1][0] << ", mbc.q[1][0] = " << mbc.q[1][0]
+        //           << "q_[1][0] - mbc.q[1][0] = " << q_[1][0] - mbc.q[1][0] << ", eval_(6) = " << eval_(6) << std::endl;
+        // std::cout << "Rafa, in tasks::PostureTask::update, q_[7][0] = " << q_[7][0] << ", mbc.q[7][0] = " << mbc.q[7][0]
+        //           << "q_[7][0] - mbc.q[7][0] = " << q_[7][0] - mbc.q[7][0] << ", eval_(12) = " << eval_(12) << std::endl << std::endl;
 }
 
 

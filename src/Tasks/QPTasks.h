@@ -1436,13 +1436,24 @@ private:
 class TASKS_DLLAPI AdmittanceTask : public Task
 {
 public:
-        AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, double timeStep, double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight);
+        AdmittanceTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, const std::string& bodyName, const Eigen::Vector3d& bodyPoint,
+                       double timeStep, double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight);
 
         virtual std::pair<int, int> begin() const
         {
                 return std::make_pair(alphaDBegin_, alphaDBegin_);
         }
 
+        void bodyPoint(const Eigen::Vector3d& point)
+        {
+                jac_.point(point);
+        }
+
+        const Eigen::Vector3d& bodyPoint() const
+        {
+                return jac_.point();
+        }
+        
         void treatSettingsAsLocal(bool local)
         {
                 local_ = local;
@@ -1461,6 +1472,18 @@ public:
         const sva::ForceVecd& calculatedWrench() const
         {
                 return calculatedWrench_;
+        }
+
+        void setForceGains(double gainP, double gainD)
+        {
+                gainForceP_ = gainP;
+                gainForceD_ = gainD;
+        }
+
+        void setCoupleGains(double gainP, double gainD)
+        {
+                gainCoupleP_ = gainP;
+                gainCoupleD_ = gainD;
         }
         
         void dimWeight(const std::vector<rbd::MultiBodyConfig>& mbcs, const Eigen::Vector6d& dim);
@@ -1493,6 +1516,7 @@ private:
                                      const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos);
 
         int bodyIndex_, robotIndex_, alphaDBegin_;
+        
         double dt_;
         double gainForceP_, gainForceD_;
         double gainCoupleP_, gainCoupleD_;
