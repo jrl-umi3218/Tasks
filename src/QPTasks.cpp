@@ -2119,12 +2119,14 @@ void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
 void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
 			const std::vector<rbd::MultiBodyConfig>& mbcs,
 			const SolverData& data)
-{
+{  
         int index = 0;
         
         for (const BilateralContact& contact : data.allContacts())
         {
                 int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
+
+                // std::cout << "Rafa, in WrenchTask::update, contact.contactId.r1BodyName = " << contact.contactId.r1BodyName << std::endl;
 
                 if (contact.contactId.r1Index == robotIndex_ && r1BodyIndex == bodyIndex_)
                 {
@@ -2146,6 +2148,9 @@ void WrenchTask::update(const std::vector<rbd::MultiBody>& mbs,
                 }
         }
 
+        // std::cout << "Rafa, in WrenchTask::update, wrench_.vector() = " << wrench_.vector().transpose() << std::endl;
+        // std::cout << "Rafa, in WrenchTask::update, W_ = " << std::endl << W_ << std::endl;
+        
         preC_.noalias() = dimWeight_.asDiagonal() * wrench_.vector();
         C_.noalias() = -W_.transpose() * preC_;
 
