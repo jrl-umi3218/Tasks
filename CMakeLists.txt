@@ -24,7 +24,7 @@ INCLUDE(cmake/msvc-specific.cmake)
 
 SET(PROJECT_NAME Tasks)
 SET(PROJECT_DESCRIPTION "...")
-SET(PROJECT_URL "https://github.com/jorisv//Tasks")
+SET(PROJECT_URL "https://github.com/jrl-umi3218/Tasks")
 SET(PROJECT_DEBUG_POSTFIX "_d")
 
 # Disable -Werror on Unix for now.
