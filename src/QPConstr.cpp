@@ -385,8 +385,6 @@ void CollisionConstr::addCollision(const std::vector<rbd::MultiBody>& mbs, int c
 
 	dataVec_.emplace_back(std::move(bodies), collId, body1, body2,
 		di, ds, damping, dampingOff);
-
-        // std::cout << "Rafa, at the end of CollisionConstr::addCollision" << std::endl;
 }
 
 
@@ -441,8 +439,6 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 	const SolverData& data)
 {
 	using namespace Eigen;
-
-        // std::cout << "Rafa, at the beginning of CollisionConstr::update" << std::endl;
         
 	Vector3d nearestPoint[2];
 
@@ -536,10 +532,6 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 		d.normVecDist = normVecDist;
 	}
-
-        // std::cout << "Rafa, at the end of CollisionConstr::update, AInEq_ = " << std::endl << AInEq_ << std::endl;
-        // std::cout << "Rafa, at the end of CollisionConstr::update, AInEq_.rows() = " << AInEq_.rows() << ", AInEq_.cols() = " << AInEq_.cols() << std::endl;
-        // std::cout << "Rafa, at the end of CollisionConstr::update, bInEq_ = " << bInEq_.transpose() << std::endl;
 }
 
 
