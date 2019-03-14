@@ -2318,6 +2318,136 @@ sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig& mbc,
         return wrench;
 }
 
+
+  /**
+	*											YawMomentCompensationTask
+	*/
+
+  YawMomentCompensationTask::YawMomentCompensationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, double timeStep,
+                                                       double gainKp, double gainKd, double gainKi, double gainKii, double weight):
+        Task(weight),
+        robotIndex_(robotIndex),
+        dt_(timeStep),
+        gainKp_(gainKp),
+        gainKd_(gainKd),
+        gainKi_(gainKi),
+        gainKii_(gainKii),
+        alphaDBegin_(0),
+        com_prev_(Eigen::Vector3d::Zero()),
+        zmp_(Eigen::Vector3d::Zero()),
+        zmp_prev_(Eigen::Vector3d::Zero()),
+        delta_tau_p_(0),
+        delta_tau_p_prev_(0),
+        Lpz_(0),
+        iLpz_(0),
+        centroidalMomentumMatrix_(mbs[robotIndex]),
+        jacMat_(3, mbs[robotIndex].nrDof()),
+        Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+	C_(mbs[robotIndex].nrDof())
+{}
+
+
+void YawMomentCompensationTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+                                             const SolverData& data)
+{
+        alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+
+void YawMomentCompensationTask::update(const std::vector<rbd::MultiBody>& mbs,
+                                       const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                       const SolverData& data)
+{
+        const rbd::MultiBody& mb = mbs[robotIndex_];
+        const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
+        
+        Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+        Eigen::Vector3d dcom = (com - com_prev_) / dt_;
+        com_prev_ = com;
+
+        Eigen::Vector3d dzmp = (zmp_ - zmp_prev_) / dt_;
+        zmp_prev_ = zmp_;
+        
+        centroidalMomentumMatrix_.computeMatrixAndMatrixDot(mb, mbc, com, dcom);
+
+        Eigen::MatrixXd zmpMomentumMatrix = centroidalMomentumMatrix_.matrix();
+        zmpMomentumMatrix.topRows<3>().noalias() = skewMatrix(com - zmp_) * zmpMomentumMatrix.bottomRows<3>() + zmpMomentumMatrix.topRows<3>();
+        
+        Eigen::MatrixXd zmpMomentumMatrixDot = centroidalMomentumMatrix_.matrixDot();
+        zmpMomentumMatrixDot.topRows<3>().noalias() = skewMatrix(com - zmp_) * zmpMomentumMatrixDot.bottomRows<3>() +
+                                                      skewMatrix(dcom - dzmp) * zmpMomentumMatrix.bottomRows<3>() + zmpMomentumMatrixDot.topRows<3>();
+
+        
+        
+        double delta_dtau_p = (delta_tau_p_ - delta_tau_p_prev_) / dt_;
+        delta_tau_p_prev_ = delta_tau_p_;
+
+        double dLpz = gainKp_ * delta_tau_p_ + gainKd_ * delta_dtau_p - gainKi_ * Lpz_ - gainKii_ * iLpz_;
+        double error = dLpz - zmpMomentumMatrixDot.row(2) * rbd::dofToVector(mb, mbc.alpha);
+
+        iLpz_ += Lpz_ * dt_ + dLpz * dt_ * dt_ / 2;
+        Lpz_ += dLpz * dt_;
+        
+        jacMat_ = zmpMomentumMatrix.row(2);
+        
+        C_.noalias() = -jacMat_.transpose() * error;
+        Q_.noalias() =  jacMat_.transpose() * jacMat_;
+}
+
+double YawMomentCompensationTask::computeTauP()
+{
+        /*
+        calculatedWrench_ = sva::ForceVecd(Eigen::Vector6d::Zero());
+
+        for (size_t ci = 0; ci < data.allContacts().size(); ci++)
+        {
+                const tasks::qp::BilateralContact& contact = data.allContacts()[ci];
+          
+                int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
+
+                if (contact.contactId.r1Index == robotIndex_ && r1BodyIndex == bodyIndex_)
+                {
+                        calculatedWrench_ += computeWrench(mbc, contact, data.lambdaVecPrev(), data.lambdaBegin(ci) - data.lambdaBegin());
+                }
+        }
+        */
+}
+  
+sva::ForceVecd YawMomentCompensationTask::computeWrench(const rbd::MultiBodyConfig& mbc,
+                                                        const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos)
+{
+        sva::ForceVecd wrench(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+        /*
+        for (size_t i = 0; i < contact.r1Points.size(); i++)
+        {
+                Eigen::VectorXd lambda = Eigen::VectorXd::Zero(contact.nrLambda(i));
+          
+                if (lambdaVec.size() > 0 && pos < lambdaVec.size())
+                {
+                        lambda = lambdaVec.segment(pos, contact.nrLambda(i));
+                }
+                
+                Eigen::Matrix3d RBody = mbc.bodyPosW[bodyIndex_].rotation().transpose();
+                
+                wrench.force() += contact.force(lambda, i, contact.r1Cones);
+                wrench.couple() += (RBody * contact.r1Points[i]).cross(contact.force(lambda, i, contact.r1Cones));
+
+                pos += contact.nrLambda(i);
+        }
+        */
+        return wrench;
+}
+
+
+Eigen::Matrix3d YawMomentCompensationTask::skewMatrix(const Eigen::Vector3d &v)
+{
+	Eigen::Matrix3d m;
+	m << 0., -v[2], v[1],
+             v[2], 0., -v[0],
+            -v[1], v[0], 0.;
+	return m;
+}  
+  
         
 } // namespace qp
 
