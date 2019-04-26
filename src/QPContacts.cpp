@@ -423,8 +423,10 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd& lambda,
 
                 if (std::isnan(F[0]))
                 {
-                  std::cout << "Rafa, in BilateralContact::force, cones[point].generators[i] = " << cones[point].generators[i] << std::endl;
+                  std::cout << "Rafa, in BilateralContact::force, cones[point].generators[i] = " << cones[point].generators[i].transpose() << std::endl;
+                  std::cout << "Rafa, in BilateralContact::force, lambda = " << lambda.transpose() << std::endl;
                   std::cout << "Rafa, in BilateralContact::force, lambda(i) = " << lambda(i) << std::endl;
+                  //*(int*)0 = 0;
                 }
                 
                 // std::cout << "Rafa, in BilateralContact::force, at i = " << i << ", F += cones[point].generators[i]*lambda(i) = " << F.transpose() << std::endl;

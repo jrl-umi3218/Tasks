@@ -56,7 +56,8 @@ public:
 		const std::vector<Bound*>& boundConstr,
 		std::ostream& out) const override;
 
-private:
+public:  // Changed by Rafa as a test
+//private:
 	Eigen::LSSOL_QP lssol_;
 
 	Eigen::MatrixXd A_;

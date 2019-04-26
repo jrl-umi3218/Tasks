@@ -34,6 +34,9 @@
 #include "Tasks/GenQPSolver.h"
 #include "Tasks/QPMotionConstr.h"
 
+// included by Rafa as a test
+#include "LSSOLQPSolver.h"
+
 namespace tasks
 {
 
@@ -481,6 +484,34 @@ Eigen::VectorXd QPSolver::alphaDVec(int rIndex) const
 
 Eigen::VectorXd QPSolver::lambdaVec() const
 {
+        // Rafa added this
+        bool nantest = false;
+        for (int i = 0; i < solver_->result().size(); i++) {
+          nantest |= std::isnan(solver_->result()[i]);
+        }
+        if (nantest) {
+          
+          std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
+
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->A_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->A_.size() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XL_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->XL_.size() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XU_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->XU_.size() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->Q_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->Q_.size() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->C_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->C_.size() << std::endl;
+          
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->A_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->A_ << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AL_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->AL_.transpose() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AU_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->AU_.transpose() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XL_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XL_.transpose() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XU_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XU_.transpose() << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->Q_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->Q_ << std::endl;
+          std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->C_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->C_ << std::endl;
+          
+          *(int*)0 = 0;
+        }
+  
 	return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_);
 }
 
