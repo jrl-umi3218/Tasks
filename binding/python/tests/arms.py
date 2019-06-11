@@ -1,3 +1,7 @@
+#
+# Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
+#
+
 try:
   import eigen
 except ImportError:
