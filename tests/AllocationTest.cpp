@@ -2,11 +2,10 @@
  * Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
  */
 
-
 // boost
 #define BOOST_TEST_MODULE AllocationTest
-#include <boost/test/unit_test.hpp>
 #include <boost/math/constants/constants.hpp>
+#include <boost/test/unit_test.hpp>
 
 // Tasks
 #include "Tasks/QPConstr.h"
@@ -28,8 +27,8 @@ std::string class_name(const std::string & fn_name)
   return fn_name.substr(eq_pos, c_pos - eq_pos);
 }
 
-template<typename T, typename ... Args>
-void test_raw_ptr_creation(Args ... args)
+template<typename T, typename... Args>
+void test_raw_ptr_creation(Args... args)
 {
 #ifdef __GNUG__
   std::string T_name = class_name(__PRETTY_FUNCTION__);
@@ -42,8 +41,8 @@ void test_raw_ptr_creation(Args ... args)
   }
 }
 
-template<typename T, typename ... Args>
-void test_shared_ptr_creation(Args ... args)
+template<typename T, typename... Args>
+void test_shared_ptr_creation(Args... args)
 {
 #ifdef __GNUG__
   std::string T_name = class_name(__PRETTY_FUNCTION__);
@@ -58,25 +57,25 @@ void test_shared_ptr_creation(Args ... args)
 
 BOOST_AUTO_TEST_CASE(AllocationTest)
 {
-	rbd::MultiBody mb1, mb2;
-	rbd::MultiBodyConfig mbc1Init, mbc2Init;
+  rbd::MultiBody mb1, mb2;
+  rbd::MultiBodyConfig mbc1Init, mbc2Init;
 
-	std::tie(mb1, mbc1Init) = makeZXZArm();
-	std::tie(mb2, mbc2Init) = makeZXZArm();
+  std::tie(mb1, mbc1Init) = makeZXZArm();
+  std::tie(mb2, mbc2Init) = makeZXZArm();
 
-	std::vector<rbd::MultiBody> mbs = {mb1, mb2};
-	Eigen::Vector2d pt2d = Eigen::Vector2d::Zero();
-	sva::PTransformd pt = sva::PTransformd::Identity();
-	test_raw_ptr_creation<tasks::qp::ImageConstr>(mbs, 0, "b3", pt, 1.0);
-	test_raw_ptr_creation<tasks::GazeTask>(mbs[0], "b3", pt2d, 1.0, pt);
-	test_raw_ptr_creation<tasks::PositionBasedVisServoTask>(mbs[0], "b3", pt, pt);
-	test_raw_ptr_creation<tasks::qp::GazeTask>(mbs, 0, "b3", pt2d, 1.0, pt);
-	test_raw_ptr_creation<tasks::qp::PositionBasedVisServoTask>(mbs, 0, "b3", pt, pt);
-	test_raw_ptr_creation<tasks::qp::MultiRobotTransformTask>(mbs, 0, 1, "b3", "b3", pt, pt, 1.0, 1.0);
-	test_shared_ptr_creation<tasks::qp::ImageConstr>(mbs, 0, "b3", pt, 1.0);
-	test_shared_ptr_creation<tasks::GazeTask>(mbs[0], "b3", pt2d, 1.0, pt);
-	test_shared_ptr_creation<tasks::PositionBasedVisServoTask>(mbs[0], "b3", pt, pt);
-	test_shared_ptr_creation<tasks::qp::GazeTask>(mbs, 0, "b3", pt2d, 1.0, pt);
-	test_shared_ptr_creation<tasks::qp::PositionBasedVisServoTask>(mbs, 0, "b3", pt, pt);
-	test_shared_ptr_creation<tasks::qp::MultiRobotTransformTask>(mbs, 0, 1, "b3", "b3", pt, pt, 1.0, 1.0);
+  std::vector<rbd::MultiBody> mbs = {mb1, mb2};
+  Eigen::Vector2d pt2d = Eigen::Vector2d::Zero();
+  sva::PTransformd pt = sva::PTransformd::Identity();
+  test_raw_ptr_creation<tasks::qp::ImageConstr>(mbs, 0, "b3", pt, 1.0);
+  test_raw_ptr_creation<tasks::GazeTask>(mbs[0], "b3", pt2d, 1.0, pt);
+  test_raw_ptr_creation<tasks::PositionBasedVisServoTask>(mbs[0], "b3", pt, pt);
+  test_raw_ptr_creation<tasks::qp::GazeTask>(mbs, 0, "b3", pt2d, 1.0, pt);
+  test_raw_ptr_creation<tasks::qp::PositionBasedVisServoTask>(mbs, 0, "b3", pt, pt);
+  test_raw_ptr_creation<tasks::qp::MultiRobotTransformTask>(mbs, 0, 1, "b3", "b3", pt, pt, 1.0, 1.0);
+  test_shared_ptr_creation<tasks::qp::ImageConstr>(mbs, 0, "b3", pt, 1.0);
+  test_shared_ptr_creation<tasks::GazeTask>(mbs[0], "b3", pt2d, 1.0, pt);
+  test_shared_ptr_creation<tasks::PositionBasedVisServoTask>(mbs[0], "b3", pt, pt);
+  test_shared_ptr_creation<tasks::qp::GazeTask>(mbs, 0, "b3", pt2d, 1.0, pt);
+  test_shared_ptr_creation<tasks::qp::PositionBasedVisServoTask>(mbs, 0, "b3", pt, pt);
+  test_shared_ptr_creation<tasks::qp::MultiRobotTransformTask>(mbs, 0, 1, "b3", "b3", pt, pt, 1.0, 1.0);
 }
