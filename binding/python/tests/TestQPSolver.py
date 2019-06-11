@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#
+# Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
+#
+
 from __future__ import print_function
 
 LEGACY = False
