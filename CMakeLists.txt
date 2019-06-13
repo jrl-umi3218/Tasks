@@ -29,7 +29,7 @@ endif()
 add_project_dependency(RBDyn REQUIRED)
 add_project_dependency(sch-core REQUIRED)
 add_project_dependency(eigen-qld REQUIRED)
-add_project_dependency(eigen-lssol)
+add_project_dependency(eigen-lssol QUIET)
 
 # For MSVC, set local environment variable to enable finding the built dll
 # of the main library when launching ctest with RUN_TESTS
