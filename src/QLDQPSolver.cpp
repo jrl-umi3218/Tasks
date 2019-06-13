@@ -144,6 +144,11 @@ std::ostream & QLDQPSolver::errorMsg(const std::vector<rbd::MultiBody> & /* mbs 
   return out;
 }
 
+std::string QLDQPSolver::name() const
+{
+  return "QLD";
+}
+
 } // namespace qp
 
 } // namespace tasks

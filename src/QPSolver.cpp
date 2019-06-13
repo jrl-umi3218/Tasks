@@ -346,6 +346,11 @@ void QPSolver::solver(const std::string & name)
   solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 
+std::string QPSolver::solver() const
+{
+  return solver_->name();
+}
+
 void QPSolver::resetTasks()
 {
   tasks_.clear();
