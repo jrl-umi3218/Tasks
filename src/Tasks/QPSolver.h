@@ -109,6 +109,7 @@ public:
   int nrTasks() const;
 
   void solver(const std::string & name);
+  std::string solver() const;
 
   const SolverData & data() const;
   SolverData & data();

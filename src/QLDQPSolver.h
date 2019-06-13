@@ -40,6 +40,7 @@ public:
                                   const std::vector<GenInequality *> & genInEqConstr,
                                   const std::vector<Bound *> & boundConstr,
                                   std::ostream & out) const override;
+  std::string name() const override;
 
 private:
   Eigen::QLD qld_;
