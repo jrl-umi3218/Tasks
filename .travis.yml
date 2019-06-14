@@ -32,7 +32,7 @@ compiler:
 env:
   global:
   - APT_DEPENDENCIES=""
-  - GIT_DEPENDENCIES="jrl-umi3218/Eigen3ToPython jrl-umi3218/SpaceVecAlg jrl-umi3218/RBDyn jrl-umi3218/eigen-qld jrl-umi3218/sch-core#topic/modern-cmake jrl-umi3218/sch-core-python#topic/modern-cmake"
+  - GIT_DEPENDENCIES="jrl-umi3218/Eigen3ToPython jrl-umi3218/SpaceVecAlg jrl-umi3218/RBDyn jrl-umi3218/eigen-qld jrl-umi3218/sch-core jrl-umi3218/sch-core-python"
   - DEBSIGN_KEYID=5AE5CD75
   - GH_USERNAME=gergondet
   - GH_REPO=jrl-umi3218/Tasks

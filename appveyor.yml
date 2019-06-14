@@ -11,7 +11,7 @@ environment:
   CI_OS_NAME: win32
   CI_TOOL: appveyor
   CHOCO_DEPENDENCIES: "doxygen.install"
-  GIT_DEPENDENCIES: "jrl-umi3218/Eigen3ToPython jrl-umi3218/SpaceVecAlg jrl-umi3218/RBDyn jrl-umi3218/eigen-qld jrl-umi3218/sch-core#topic/modern-cmake jrl-umi3218/sch-core-python#topic/modern-cmake"
+  GIT_DEPENDENCIES: "jrl-umi3218/Eigen3ToPython jrl-umi3218/SpaceVecAlg jrl-umi3218/RBDyn jrl-umi3218/eigen-qld jrl-umi3218/sch-core jrl-umi3218/sch-core-python"
 # Should be the same as clone_folder
   PROJECT_SOURCE_DIR: C:/devel-src/Tasks
 # Do not tinker with the variables below unless you know what you are doing
