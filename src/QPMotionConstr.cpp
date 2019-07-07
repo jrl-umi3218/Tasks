@@ -246,6 +246,8 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody>& mbs,
 	// fill inertia matrix part
 	A_.block(0, alphaDBegin_, nrDof_, nrDof_) = fd_->H();
 
+	// std::cout << "Rafa, in MotionConstrCommon::computeMatrix, fd_->H() is " << fd_->H().rows() << " x " << fd_->H().cols() << std::endl;
+
 	for(std::size_t i = 0; i < cont_.size(); ++i)
 	{
 		const MatrixXd& jac = cont_[i].jac.bodyJacobian(mb, mbc);
