@@ -486,9 +486,12 @@ Eigen::VectorXd QPSolver::lambdaVec() const
 {
         // Rafa added this
         bool nantest = false;
-        for (int i = 0; i < solver_->result().size(); i++) {
-          nantest |= std::isnan(solver_->result()[i]);
-        }
+        //for (int i = 0; i < solver_->result().size(); i++) {
+        //  nantest |= std::isnan(solver_->result()[i]);
+        //}
+
+	nantest = (isnan(solver_->result().array())).count() > 0;
+	
         if (nantest) {
           
           std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
