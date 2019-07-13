@@ -1,13 +1,16 @@
-# Tasks
+Tasks
+=====
 
-[![License LGPL 3](https://img.shields.io/badge/license-LGPLv3-green.svg)](http://www.gnu.org/licenses/lgpl-3.0.txt)
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-green.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
 [![AppVeyor status](https://ci.appveyor.com/api/projects/status/kteqpch13y0ac3wq/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
+[ ![Download](https://api.bintray.com/packages/gergondet/multi-contact/Tasks%3Agergondet/images/download.svg) ](https://bintray.com/gergondet/multi-contact/Tasks%3Agergondet/_latestVersion)
 
 Tasks is library for real time control of robots and kinematic trees using constrained optimization.
 It has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.
 
-## Documentation
+Documentation
+-------------
 
 Features:
  * Support Kinematics Tree with Revolute/Prismatic/Spherical/Free/Planar/Cylindrical joints
@@ -31,18 +34,19 @@ The [SpaceVecAlg and RBDyn tutorial](https://github.com/jorisv/sva_rbdyn_tutoria
 
 An online documentation can be found [online](https://jrl-umi3218.github.io/Tasks).
 
-## Installing
+Installing
+----------
 
-### Ubuntu 14.04 and 16.04 binary ppa install
+## Ubuntu LITS (14.04, 16.04, 18.04): PPA
 
 Use the [multi-contact-unstable](https://launchpad.net/~pierre-gergondet+ppa/+archive/ubuntu/multi-contact-unstable) ppa:
 ```bash
 sudo add-apt-repository ppa:pierre-gergondet+ppa/multi-contact-unstable
 sudo apt-get update
-sudo apt-get install libtasks-dev libtasks-qld-doc
+sudo apt-get install libtasks-dev libtasks-qld-doc python-tasks-qld python3-tasks-qld
 ```
 
-### Homebrew OS X install
+## Homebrew OS X install
 
 Install from the command line using [Homebrew](brew.sh):
 
@@ -59,11 +63,11 @@ brew tap ahundt/robotics
 brew install tasks
 ```
 
-### Manually build from source
+## Manually build from source
 
-#### Dependencies
+### Dependencies
 
-To compile you need the following tools:
+To compile you need the following tools and libraries:
 
  * [Git]()
  * [CMake]() >= 2.8
@@ -79,11 +83,11 @@ To compile you need the following tools:
  * [sch-core](https://github.com/jrl-umi3218/sch-core)
 
 For Python bindings:
- * [Cython](http://cython.org/) = 0.25
+ * [Cython](http://cython.org/) >= 0.2
  * [Eigen3ToPython](https://github.com/jrl-umi3218/Eigen3ToPython)
  * [sch-core-python](https://github.com/jrl-umi3218/sch-core-python)
 
-#### Building
+### Building
 
 ```sh
 git clone --recursive https://github.com/jrl-umi3218/Tasks
@@ -94,23 +98,12 @@ cmake [options] ..
 make && make intall
 ```
 
-Where the main options are:
+#### CMake options
 
- * `-DCMAKE_BUIlD_TYPE=Release` Build in Release mode
- * `-DCMAKE_INSTALL_PREFIX=some/path/to/install` default is `/usr/local`
- * `-DPYTHON_BINDING=ON` Build the python binding
- * `-DUNIT_TESTS=ON` Build unit tests.
- * `-DPYTHON_DEB_LAYOUT=OFF` install python library in `site-packages` (ON will install in `dist-packages`)
+By default, the build will use the `python` and `pip` command to install the bindings for the default system version (this behaviour can be used to build the bindings in a given virtualenv). The following options allow to control this behaviour:
 
-
-## Pulling git subtree
-
-To update cmake or .travis directory with their upstream git repository:
-
-```
-git fetch git://github.com/jrl-umi3218/jrl-cmakemodules.git master
-git subtree pull --prefix cmake git://github.com/jrl-umi3218/jrl-cmakemodules.git master --squash
-
-git fetch git://github.com/jrl-umi3218/jrl-travis.git master
-git subtree pull --prefix .travis git://github.com/jrl-umi3218/jrl-travis.git master --squash
-```
+ * `PYTHON_BINDING` Build the python binding (ON/OFF, default: ON)
+ * `PYTHON_BINDING_FORCE_PYTHON2`: use `python2` and `pip2` instead of `python` and `pip`
+ * `PYTHON_BINDING_FORCE_PYTHON3`: use `python3` and `pip3` instead of `python` and `pip`
+ * `PYTHON_BINDING_BUILD_PYTHON2_AND_PYTHON3`: builds two sets of bindings one with `python2` and `pip2`, the other with `python3` and `pip3`
+ * `DISABLE_TESTS` Disable unit tests building (ON/OFF, default: OFF)

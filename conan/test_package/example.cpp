@@ -2,20 +2,43 @@
  * Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
  */
 
-#pragma once
-
 // includes
 // std
+#include <fstream>
 #include <tuple>
 
+// Eigen
+#include <unsupported/Eigen/Polynomials>
+
+// SpaceVecAlg
+#include <SpaceVecAlg/SpaceVecAlg>
+
 // RBDyn
+#include <RBDyn/EulerIntegration.h>
+#include <RBDyn/FK.h>
+#include <RBDyn/FV.h>
+#include <RBDyn/ID.h>
 #include <RBDyn/Body.h>
 #include <RBDyn/Joint.h>
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 #include <RBDyn/MultiBodyGraph.h>
 
-/// @return An simple ZXZ arm with Y as up axis.
+
+// sch
+#include <sch/CD/CD_Pair.h>
+#include <sch/S_Object/S_Box.h>
+#include <sch/S_Object/S_Sphere.h>
+
+// Tasks
+#include <Tasks/Bounds.h>
+#include <Tasks/QPConstr.h>
+#include <Tasks/QPContactConstr.h>
+#include <Tasks/QPMotionConstr.h>
+#include <Tasks/QPSolver.h>
+#include <Tasks/QPTasks.h>
+
+// arms.h
 std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed = true,
                                                             const sva::PTransformd X_base = sva::PTransformd::Identity())
 {
@@ -68,29 +91,47 @@ std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeZXZArm(bool isFixed = true,
   return std::make_tuple(mb, mbc);
 }
 
-/// @return A one body robot for the environnment.
-std::tuple<rbd::MultiBody, rbd::MultiBodyConfig> makeEnv()
+int main()
 {
   using namespace Eigen;
   using namespace sva;
   using namespace rbd;
+  using namespace tasks;
 
-  MultiBodyGraph mbg;
+  MultiBody mb;
+  MultiBodyConfig mbcInit;
 
-  double mass = 1.;
-  Matrix3d I = Matrix3d::Identity();
-  Vector3d h = Vector3d::Zero();
+  std::tie(mb, mbcInit) = makeZXZArm();
 
-  RBInertiad rbi(mass, h, I);
+  std::vector<MultiBody> mbs = {mb};
+  std::vector<MultiBodyConfig> mbcs(1);
 
-  Body b0(rbi, "b0");
+  forwardKinematics(mb, mbcInit);
+  forwardVelocity(mb, mbcInit);
 
-  mbg.addBody(b0);
+  qp::QPSolver solver;
 
-  MultiBody mb = mbg.makeMultiBody("b0", true);
+  solver.nrVars(mbs, {}, {});
 
-  MultiBodyConfig mbc(mb);
-  mbc.zero(mb);
+  solver.updateConstrSize();
 
-  return std::make_tuple(mb, mbc);
+  Vector3d posD = Vector3d(0.707106, 0.707106, 0.);
+  qp::PositionTask posTask(mbs, 0, "b3", posD);
+  qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
+
+  // Test addTask
+  solver.addTask(&posTaskSp);
+
+  // Test PositionTask
+  mbcs[0] = mbcInit;
+  for(int i = 0; i < 10000; ++i)
+  {
+    eulerIntegration(mb, mbcs[0], 0.001);
+
+    forwardKinematics(mb, mbcs[0]);
+    forwardVelocity(mb, mbcs[0]);
+  }
+
+  std::cout << "(C++) Final norm of position task: " << posTask.eval().norm() << "\n";
+  return 0;
 }

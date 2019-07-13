@@ -1,16 +1,18 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #
 # Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 
-try:
-  import eigen
-except ImportError:
-  import eigen3 as eigen
-try:
-  import sva
-except ImportError:
-  import spacevecalg as sva
+from __future__ import print_function
+
+import math
+import eigen
+import sva
 import rbdyn
+import tasks
+import sch
 
 def makeZXZArm(isFixed = True, X_base = sva.PTransformd.Identity()):
   mbg = rbdyn.MultiBodyGraph()
@@ -53,22 +55,32 @@ def makeZXZArm(isFixed = True, X_base = sva.PTransformd.Identity()):
 
   return mb,mbc
 
-def makeEnv():
-  mbg = rbdyn.MultiBodyGraph()
+if __name__ == "__main__":
+    nrIter = 10000
+    mb, mbcInit = makeZXZArm()
 
-  mass = 1.0
-  I = eigen.Matrix3d.Identity()
-  h = eigen.Vector3d.Zero()
+    rbdyn.forwardKinematics(mb, mbcInit)
+    rbdyn.forwardVelocity(mb, mbcInit)
 
-  rbi = sva.RBInertiad(mass, h, I)
+    mbs = rbdyn.MultiBodyVector([mb])
+    mbcs = rbdyn.MultiBodyConfigVector([mbcInit])
 
-  b0 = rbdyn.Body(rbi, "b0")
+    solver = tasks.qp.QPSolver()
 
-  mbg.addBody(b0)
+    solver.nrVars(mbs, [], [])
 
-  mb = mbg.makeMultiBody("b0", True)
+    solver.updateConstrSize()
 
-  mbc = rbdyn.MultiBodyConfig(mb)
-  mbc.zero(mb)
+    posD = eigen.Vector3d(0.707106, 0.707106, 0.0)
+    posTask = tasks.qp.PositionTask(mbs, 0, "b3", posD)
+    posTaskSp = tasks.qp.SetPointTask(mbs, 0, posTask, 10, 1)
 
-  return mb,mbc
+    solver.addTask(posTaskSp)
+
+    for i in range(nrIter):
+        solver.solve(mbs, mbcs)
+        rbdyn.eulerIntegration(mbs[0], mbcs[0], 0.001)
+        rbdyn.forwardKinematics(mbs[0], mbcs[0])
+        rbdyn.forwardVelocity(mbs[0], mbcs[0])
+
+    print("(Python) Final norm of position task: {}".format(posTask.eval().norm()))
