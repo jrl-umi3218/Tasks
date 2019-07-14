@@ -250,8 +250,8 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
   std::vector<std::vector<double>> torqueMax1 = {{}, {Inf}, {Inf}, {Inf}};
   std::vector<std::vector<double>> torqueMin2 = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax2 = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motion1(mbs, 0, {torqueMin1, torqueMax1});
-  qp::MotionConstr motion2(mbs, 1, {torqueMin2, torqueMax2});
+  qp::MotionConstr motion1(mbs, 0, fd1, {torqueMin1, torqueMax1});
+  qp::MotionConstr motion2(mbs, 1, fd2, {torqueMin2, torqueMax2});
   qp::PositiveLambda plCstr;
 
   motion1.addToSolver(solver);
@@ -548,7 +548,7 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
 
   qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
   qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
-  qp::TorqueTask tt(mbs, 0, tb, 1);
+  qp::TorqueTask tt(mbs, 0, fd1, tb, 1);
 
   solver.addTask(&posture1Task);
   solver.addTask(&posture2Task);

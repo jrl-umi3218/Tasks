@@ -68,7 +68,7 @@ public:
   MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
                      const std::shared_ptr<rbd::ForwardDynamics> fd);
 
-  void computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda);
+  virtual void computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda);
   const Eigen::VectorXd & torque() const;
   void torque(const std::vector<rbd::MultiBody> & mbs, std::vector<rbd::MultiBodyConfig> & mbcs) const;
 

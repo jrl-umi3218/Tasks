@@ -48,7 +48,7 @@ class TASKS_DLLAPI QPSolver
 {
 public:
   QPSolver();
-  ~QPSolver();  // virtual ~QPSolver(); // declared as virtual for QPSolver to be polymorphic
+  virtual ~QPSolver();  // declared as virtual for QPSolver to be polymorphic
 
   /** solve the problem
    *  \param mbs current multibody

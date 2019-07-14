@@ -352,7 +352,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   double Inf = std::numeric_limits<double>::infinity();
   std::vector<std::vector<double>> torqueMin = {{}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax = {{}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax});
+  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax});
   qp::PositiveLambda plCstr;
 
   motionCstr.addToSolver(solver);
@@ -731,7 +731,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   std::vector<std::vector<double>> lBound = {{}, {-30.}, {-30.}, {-30.}};
   std::vector<std::vector<double>> uBound = {{}, {30.}, {30.}, {30.}};
 
-  qp::MotionConstr motionCstr(mbs, 0, {lBound, uBound});
+  qp::MotionConstr motionCstr(mbs, 0, fd, {lBound, uBound});
   qp::PositiveLambda plCstr;
 
   // Test add*Constraint
@@ -800,7 +800,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   upoly << 30, 1.;
   std::vector<std::vector<Eigen::VectorXd>> lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
   std::vector<std::vector<Eigen::VectorXd>> uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
-  qp::MotionPolyConstr motionPolyCstr(mbs, 0, {lBoundPoly, uBoundPoly});
+  qp::MotionPolyConstr motionPolyCstr(mbs, 0, fd, {lBoundPoly, uBoundPoly});
 
   motionPolyCstr.addToSolver(solver);
   BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
@@ -1114,7 +1114,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
   double Inf = std::numeric_limits<double>::infinity();
   std::vector<std::vector<double>> torqueMin = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax});
+  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax});
   qp::PositiveLambda plCstr;
   qp::ContactAccConstr contCstrAcc;
 
