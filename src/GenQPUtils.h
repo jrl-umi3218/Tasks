@@ -112,6 +112,8 @@ inline int fillEq(const std::vector<Equality *> & eq,
                   Eigen::VectorXd & AL,
                   Eigen::VectorXd & AU)
 {
+  // std::cout << "Rafa, in GenQPUtils::fillEq, nrALines = ";
+  
   for(std::size_t i = 0; i < eq.size(); ++i)
   {
     // ineq constraint can return a matrix with more line
@@ -120,12 +122,18 @@ inline int fillEq(const std::vector<Equality *> & eq,
     const Eigen::MatrixXd & Ai = eq[i]->AEq();
     const Eigen::VectorXd & bi = eq[i]->bEq();
 
+    // std::cout << "(" << eq[i]->nameEq() << ") ";  // Added by Rafa
+
     A.block(nrALines, 0, nrConstr, nrVars) = Ai.block(0, 0, nrConstr, nrVars);
     AL.segment(nrALines, nrConstr) = bi.head(nrConstr);
     AU.segment(nrALines, nrConstr) = bi.head(nrConstr);
 
     nrALines += nrConstr;
+
+    // std::cout << nrALines << " ";  // Added by Rafa
   }
+
+  // std::cout << std::endl;  // Added by Rafa
 
   return nrALines;
 }
@@ -141,6 +149,8 @@ inline int fillInEq(const std::vector<Inequality *> & inEq,
                     Eigen::VectorXd & AL,
                     Eigen::VectorXd & AU)
 {
+  // std::cout << "Rafa, in GenQPUtils::fillInEq, nrALines = ";
+  
   for(std::size_t i = 0; i < inEq.size(); ++i)
   {
     // ineq constraint can return a matrix with more line
@@ -149,12 +159,18 @@ inline int fillInEq(const std::vector<Inequality *> & inEq,
     const Eigen::MatrixXd & Ai = inEq[i]->AInEq();
     const Eigen::VectorXd & bi = inEq[i]->bInEq();
 
+    // std::cout << "(" << inEq[i]->nameInEq() << ") ";  // Added by Rafa
+
     A.block(nrALines, 0, nrConstr, nrVars) = Ai.block(0, 0, nrConstr, nrVars);
     AL.segment(nrALines, nrConstr).fill(-std::numeric_limits<double>::infinity());
     AU.segment(nrALines, nrConstr) = bi.head(nrConstr);
 
     nrALines += nrConstr;
+
+    // std::cout << nrALines << " ";  // Added by Rafa
   }
+
+  // std::cout << std::endl;  // Added by Rafa
 
   return nrALines;
 }
@@ -170,6 +186,8 @@ inline int fillGenInEq(const std::vector<GenInequality *> & genInEq,
                        Eigen::VectorXd & AL,
                        Eigen::VectorXd & AU)
 {
+  // std::cout << "Rafa, in GenQPUtils::fillGenInEq, nrALines = ";
+  
   for(std::size_t i = 0; i < genInEq.size(); ++i)
   {
     // ineq constraint can return a matrix with more line
@@ -179,13 +197,19 @@ inline int fillGenInEq(const std::vector<GenInequality *> & genInEq,
     const Eigen::VectorXd & ALi = genInEq[i]->LowerGenInEq();
     const Eigen::VectorXd & AUi = genInEq[i]->UpperGenInEq();
 
+    // std::cout << "(" << genInEq[i]->nameGenInEq() << ") ";  // Added by Rafa
+
     A.block(nrALines, 0, nrConstr, nrVars) = Ai.block(0, 0, nrConstr, nrVars);
     AL.segment(nrALines, nrConstr) = ALi.head(nrConstr);
     AU.segment(nrALines, nrConstr) = AUi.head(nrConstr);
 
     nrALines += nrConstr;
-  }
 
+    // std::cout << nrALines << " ";  // Added by Rafa
+  }
+  
+  // std::cout << std::endl;  // Added by Rafa
+  
   return nrALines;
 }
 

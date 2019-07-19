@@ -89,6 +89,8 @@ void QPSolver::updateConstrSize()
   maxInEqLines_ = std::accumulate(inEqConstr_.begin(), inEqConstr_.end(), 0, accumMaxLines<Inequality>);
   maxGenInEqLines_ = std::accumulate(genInEqConstr_.begin(), genInEqConstr_.end(), 0, accumMaxLines<GenInequality>);
 
+  std::cout << "Rafa, in tasks::qp::QPSolver::updateConstrSize, maxEqLines_ = " << maxEqLines_ << ", maxInEqLines_ = " << maxInEqLines_ << ", maxGenInEqLines_ = " << maxGenInEqLines_ << std::endl;
+
   solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
 
@@ -424,7 +426,7 @@ Eigen::VectorXd QPSolver::lambdaVec() const
   {
     
     std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
-    
+    /*    
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->A_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->A_.size() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() << std::endl;
@@ -440,7 +442,7 @@ Eigen::VectorXd QPSolver::lambdaVec() const
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XU_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XU_.transpose() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->Q_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->Q_ << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->C_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->C_ << std::endl;
-    
+    */
     *(int*)0 = 0;
   }
   

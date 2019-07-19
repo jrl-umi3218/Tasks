@@ -31,6 +31,7 @@ LSSOLQPSolver::LSSOLQPSolver()
 void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 {
   int maxALines = nrEq + nrInEq + nrGenInEq;
+  // std::cout << "Rafa, in LSSOLQPSolver::updateSize, maxALines = " << maxALines << std::endl;
   AFull_.resize(maxALines, nrVars);
   AL_.resize(maxALines);
   AU_.resize(maxALines);
@@ -82,6 +83,12 @@ void LSSOLQPSolver::updateMatrix(const std::vector<Task *> & tasks,
   nrALines_ = fillInEq(inEqConstr, nrVars, nrALines_, AFull_, AL_, AU_);
   nrALines_ = fillGenInEq(genInEqConstr, nrVars, nrALines_, AFull_, AL_, AU_);
 
+  // std::cout << "Rafa, in LSSOLQPSolver::updateMatrix, nrALines_ = " << nrALines_ << std::endl;
+
+  // The following check was added temporarily by Rafa
+  //if (nrALines_ >= 40)
+  //  *(int*)0 = 0;
+  
   fillBound(boundConstr, XLFull_, XUFull_);
   fillQC(tasks, nrVars, QFull_, CFull_);
 
@@ -104,6 +111,8 @@ bool LSSOLQPSolver::solve()
   }
   else
   {
+    // std::cout << "Rafa, in LSSOLQPSolver::solve, AFull_.rows() = " << AFull_.rows() << std::endl;
+    
     success = lssol_.solve(XLFull_, XUFull_, QFull_, CFull_, AFull_.block(0, 0, nrALines_, AFull_.cols()),
                            AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
   }
