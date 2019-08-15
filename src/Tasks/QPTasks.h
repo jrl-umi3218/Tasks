@@ -1541,85 +1541,138 @@ private:
         Eigen::Vector6d preC_;
 };
 
+class TASKS_DLLAPI CentroidalAngularMomentumTask : public Task
+{
+public:
+  CentroidalAngularMomentumTask(const std::vector<rbd::MultiBody>& mbs,
+                                int robotIndex, const sva::ForceVecd mom, double weight);
+
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+  
+  void momentum(const sva::ForceVecd & mom)
+  {
+    mt_.momentum(mom);
+  }
+
+  const sva::ForceVecd momentum() const
+  {
+    return mt_.momentum();
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                            const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody>& mbs,
+                      const std::vector<rbd::MultiBodyConfig>& mbcs,
+                      const SolverData& data);
+  
+  virtual const Eigen::MatrixXd& Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd& C() const
+  {
+    return C_;
+  }
+
+  const Eigen::VectorXd & eval() const
+  {
+    return mt_.eval();
+  }
+  
+private:
+  tasks::MomentumTask mt_;
+  int robotIndex_, alphaDBegin_;
+
+  Eigen::MatrixXd jacMat_;
+  Eigen::MatrixXd preQ_;
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  Eigen::Vector3d CSum_;
+};
 
 class TASKS_DLLAPI YawMomentCompensationTask : public Task
 {
 public:
-        YawMomentCompensationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, double timeStep,
-                                  double gainKp, double gainKd, double gainKi, double gainKii, double weight);
+  YawMomentCompensationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, double timeStep,
+                            double gainKp, double gainKd, double gainKi, double gainKii, double weight);
 
-        virtual std::pair<int, int> begin() const
-        {
-                return std::make_pair(alphaDBegin_, alphaDBegin_);
-        }
-
-        void deltaTauP(const double delta_tau_p)
-        {
-                delta_tau_p_ = delta_tau_p;
-        }
-
-        double deltaTauP()
-        {
-                return delta_tau_p_;
-        }
-
-        void zmp(const Eigen::Vector3d p)
-        {
-                zmp_ = p;
-        }
-
-        const Eigen::Vector3d zmp() const
-        {
-                return zmp_;
-        }
-        
-        void setGains(double gainKp, double gainKd, double gainKi, double gainKii)
-        {
-                gainKp_  = gainKp;
-                gainKd_  = gainKd;
-                gainKi_  = gainKi;
-                gainKii_ = gainKii;
-        }
-
-        virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
-                                  const SolverData& data);
-
-        virtual void update(const std::vector<rbd::MultiBody>& mbs,
-                            const std::vector<rbd::MultiBodyConfig>& mbcs,
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+  
+  void deltaTauP(const double delta_tau_p)
+  {
+    delta_tau_p_ = delta_tau_p;
+  }
+  
+  double deltaTauP()
+  {
+    return delta_tau_p_;
+  }
+  
+  void zmp(const Eigen::Vector3d p)
+  {
+    zmp_ = p;
+  }
+  
+  const Eigen::Vector3d zmp() const
+  {
+    return zmp_;
+  }
+  
+  void setGains(double gainKp, double gainKd, double gainKi, double gainKii)
+  {
+    gainKp_  = gainKp;
+    gainKd_  = gainKd;
+    gainKi_  = gainKi;
+    gainKii_ = gainKii;
+  }
+  
+  virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
                             const SolverData& data);
-
-        virtual const Eigen::MatrixXd& Q() const
-        {
-                return Q_;
-        }
-
-        virtual const Eigen::VectorXd& C() const
-        {
-                return C_;
-        }
-
+  
+  virtual void update(const std::vector<rbd::MultiBody>& mbs,
+                      const std::vector<rbd::MultiBodyConfig>& mbcs,
+                      const SolverData& data);
+  
+  virtual const Eigen::MatrixXd& Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd& C() const
+  {
+    return C_;
+  }
+  
 private:
 
-        double computeTauP();
-        sva::ForceVecd computeWrench(const rbd::MultiBodyConfig& mbc,
-                                     const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos);
-	Eigen::Matrix3d skewMatrix(const Eigen::Vector3d& v);
+  double computeTauP();
+  sva::ForceVecd computeWrench(const rbd::MultiBodyConfig& mbc,
+                               const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos);
+  Eigen::Matrix3d skewMatrix(const Eigen::Vector3d& v);
         
-        int robotIndex_, alphaDBegin_;
-
-        double dt_;
-        double gainKp_, gainKd_, gainKi_, gainKii_;
-
-        Eigen::Vector3d com_prev_;
-        Eigen::Vector3d zmp_, zmp_prev_;
-        double delta_tau_p_, delta_tau_p_prev_;
-        double Lpz_, iLpz_;
-
-        rbd::CentroidalMomentumMatrix centroidalMomentumMatrix_;
-        Eigen::MatrixXd jacMat_;
-
-        Eigen::MatrixXd Q_;
-        Eigen::VectorXd C_;
+  int robotIndex_, alphaDBegin_;
+  
+  double dt_;
+  double gainKp_, gainKd_, gainKi_, gainKii_;
+        
+  Eigen::Vector3d com_prev_;
+  Eigen::Vector3d zmp_, zmp_prev_;
+  double delta_tau_p_, delta_tau_p_prev_;
+  double Lpz_, iLpz_;
+  
+  rbd::CentroidalMomentumMatrix centroidalMomentumMatrix_;
+  Eigen::MatrixXd jacMat_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
 };
  
 } // namespace qp

@@ -1999,12 +1999,51 @@ sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc, c
 }
 
 /**
+ *											CentroidalMomentumTask
+ */
+
+CentroidalMomentumTask::CentroidalMomentumTask(const std::vector<rbd::MultiBody>& mbs,
+                                                 int robotIndex, const sva::ForceVecd mom, double weight)
+: Task(weight), mt_(mbs[robotIndex], mom), robotIndex_(robotIndex),
+  alphaDBegin_(0), jacMat_(3, mbs[robotIndex].nrDof()), preQ_(3, mbs[robotIndex].nrDof()),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
+  CSum_(Vector3::Zero())
+{
+}
+
+void YawMomentCompensationTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */, const SolverData& data)
+{
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+void CentroidalMomentumTask::update(const std::vector<rbd::MultiBody>& mbs,
+                                    const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                    const SolverData& data)
+{
+  mt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
+  mt_.updateDot(mbs[robotIndex_], mbcs[robotIndex_]);
+
+  CSum_  = gainKp_ * mt_.eval();
+  CSum_ -= mt_.normalAcc();
+
+  jacMat_ = mt_.jac();
+  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
+
+  Q_.noalias() =  jacMat_.transpose() * preQ_;
+  C_.noalias() = -jacMat_.transpose() * dimWeight_.asDiagonal() * CSum_;
+  
+  // Right now the momentum computed in tasks::MomentumTask is 6D
+  // Need to think on how to use only the angular part
+  // Do this later...
+}
+  
+/**
  *											YawMomentCompensationTask
  */
 
 YawMomentCompensationTask::YawMomentCompensationTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, double timeStep,
-                                                     double gainKp, double gainKd, double gainKi, double gainKii, double weight):
-  Task(weight), robotIndex_(robotIndex), dt_(timeStep), gainKp_(gainKp), gainKd_(gainKd), gainKi_(gainKi), gainKii_(gainKii),
+                                                     double gainKp, double gainKd, double gainKi, double gainKii, double weight)
+: Task(weight), robotIndex_(robotIndex), dt_(timeStep), gainKp_(gainKp), gainKd_(gainKd), gainKi_(gainKi), gainKii_(gainKii),
   alphaDBegin_(0), com_prev_(Eigen::Vector3d::Zero()), zmp_(Eigen::Vector3d::Zero()), zmp_prev_(Eigen::Vector3d::Zero()),
   delta_tau_p_(0), delta_tau_p_prev_(0), Lpz_(0), iLpz_(0), centroidalMomentumMatrix_(mbs[robotIndex]), jacMat_(3, mbs[robotIndex].nrDof()),
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof())
