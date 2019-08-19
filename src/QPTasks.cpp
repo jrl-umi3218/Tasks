@@ -1780,7 +1780,7 @@ const Eigen::VectorXd & VectorOrientationTask::normalAcc()
 WrenchTask::WrenchTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string & bodyName,
                        const Eigen::Vector3d& bodyPoint, double weight)
 : Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), bodyPoint_(bodyPoint),
-  lambdaBegin_(-1), local_(true), wrench_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), Q_(), C_(),
+  lambdaBegin_(-1), local_(true), wrench_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), W_(), Q_(), C_(),
   preQ_(), preC_(Eigen::Vector6d::Zero())
 {}
 
@@ -1851,7 +1851,7 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
     }
     else
     {
-      index = index + contact.nrLambda();
+      index += contact.nrLambda();
     }
   }
   
@@ -1871,8 +1871,8 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
 
 ZMPTask::ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 		 const Eigen::Vector3d & zmp, double weight)
-: Task(weight), robotIndex_(robotIndex), zmp_(zmp), lambdaBegin_(-1), dimWeight_(Eigen::Vector3d::One()),
-  Q_(), C_(), preQ_(), preC_(Eigen::Vector3d::Zero())
+: Task(weight), robotIndex_(robotIndex), zmp_(zmp), lambdaBegin_(-1), dimWeight_(Eigen::Vector3d::Ones()),
+  pW_(), Q_(), C_(), preQ_()
 {}
 
 void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
@@ -1880,12 +1880,7 @@ void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const 
   lambdaBegin_ = data.lambdaBegin();
   int nrLambda = data.totalLambda();
 
-  int nrCones = 0;
-  for (const Bilateral & contact : data.allContacts())
-    if (contact.contactId.r1Index == robotIndex_)
-      nrCones += contact.r1Cones.size();
-  
-  W_.setZero(3*nrCones, nrLambda);
+  pW_.setZero(3, nrLambda);
   
   Q_.setZero(nrLambda, nrLambda);
   C_.setZero(nrLambda);
@@ -1895,35 +1890,36 @@ void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const 
 
 void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs, const SolverData & data)
 {
-  // Not finished... I still have to consider the ZMP
-  
-  int col = 0;
-  int row = 0;
+  int index = 0;
   
   for (const BilateralContact & contact : data.allContacts())
   {
-    int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
-
     if (contact.contactId.r1Index == robotIndex_)
     {
+      int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
+      
       for (size_t i = 0; i < contact.r1Cones.size(); i++)
       {
+        const sva::PTransformd & bodyPosW = mbcs[robotIndex_].bodyPosW[r1BodyIndex];
+        Eigen::Vector3d contactPosW = bodyPosW.translation() + bodyPosW.rotation().transpose() * contact.r1Points[i];
+        
 	const FrictionCone & cone = contact.r1Cones[i];
 	
 	for (const Eigen::Vector3d & gen : cone.generators)
 	{
-	  W_.col(col).segment<3>(row).noalias() = gen;
-	  col++;
+	  pW_.col(index).noalias() = (contactPosW - zmp_).cross(gen);
+	  index++;
 	}
-
-	row += 3;
       }
     }
     else
     {
-      col = col + contact.nrLambda();
+      index += contact.nrLambda();
     }
   }
+  
+  preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
+  Q_.noalias() = pW_.transpose() * preQ_;
 }
 
 /**

@@ -1477,7 +1477,7 @@ class TASKS_DLLAPI ZMPTask : public Task
 
   virtual const Eigen::VectorXd & C() const
   {
-    return c_;
+    return C_;
   }
 
 private:
@@ -1486,13 +1486,13 @@ private:
 
   Eigen::Vector3d zmp_;
 
-  Eigen::MatrixXd W_;
+  Eigen::MatrixXd pW_;
+  Eigen::Vector3d dimWeight_;
 
   Eigen::MatrixXd Q_;
   Eigen::VectorXd C_;
   // cache
   Eigen::MatrixXd preQ_;
-  Eigen::MatrixXd preC_;
 };
 
 class TASKS_DLLAPI AdmittanceTask : public Task
