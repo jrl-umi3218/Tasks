@@ -1435,6 +1435,7 @@ private:
 
 class TASKS_DLLAPI ZMPTask : public Task
 {
+public:
   ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 	  const Eigen::Vector3d & zmp, double weight);
 
