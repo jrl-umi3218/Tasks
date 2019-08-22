@@ -209,6 +209,11 @@ public:
                            const TorqueBound& tb);  
 
   void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda) override;
+
+  const Eigen::VectorXd& compTorque() const
+  {
+    return compTorque_;
+  }
   
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -218,6 +223,7 @@ public:
 private:
 
   std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
+  Eigen::VectorXd compTorque_;
 };
 
 } // namespace qp

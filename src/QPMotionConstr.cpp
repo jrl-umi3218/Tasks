@@ -369,13 +369,14 @@ TorqueFbTermMotionConstr::TorqueFbTermMotionConstr(const std::vector<rbd::MultiB
                                                    const std::shared_ptr<rbd::ForwardDynamics> fd,
                                                    const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
                                                    const TorqueBound& tb)
-: MotionConstr(mbs, robotIndex, fd, tb), fbTerm_(fbTerm)
+  : MotionConstr(mbs, robotIndex, fd, tb), fbTerm_(fbTerm), compTorque_(nrDof_)
 {
 }
 
 void TorqueFbTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
 {
   MotionConstr::computeTorque(alphaD, lambda);
+  compTorque_ = curTorque_;
   curTorque_ += fbTerm_->P();
 }
 
