@@ -206,7 +206,8 @@ public:
   MotionFrictionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
                        const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb);
 
-  void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda,
+  void computeTorque(const Eigen::VectorXd& alphaD,
+                     const Eigen::VectorXd& lambda,
                      const std::vector<rbd::MultiBody> & mbs,
                      const std::vector<rbd::MultiBodyConfig> & mbcs);
 
