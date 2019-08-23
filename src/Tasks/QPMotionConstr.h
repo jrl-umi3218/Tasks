@@ -14,6 +14,7 @@
 // RBDyn
 #include <RBDyn/FD.h>
 #include <RBDyn/Jacobian.h>
+#include <RBDyn/Friction.h>
 #include <RBDyn/TorqueFeedbackTerm.h>
 
 // Tasks
@@ -199,10 +200,28 @@ protected:
   std::vector<int> jointIndex_;
 };
 
+class TASKS_DLLAPI MotionFrictionConstr : public MotionConstr
+{
+public:
+  MotionFrictionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb);
+
+  void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda,
+                     const std::vector<rbd::MultiBody> & mbs,
+                     const std::vector<rbd::MultiBodyConfig> & mbcs);
+
+  // Constraint
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+                      const std::vector<rbd::MultiBodyConfig> & mbcs,
+                      const SolverData & data);
+
+private:
+  rbd::Friction friction_;
+};
+ 
 class TASKS_DLLAPI TorqueFbTermMotionConstr : public MotionConstr
 {
 public:
-
   TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                            const std::shared_ptr<rbd::ForwardDynamics> fd,
                            const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
@@ -221,7 +240,6 @@ public:
                       const SolverData & data);
 
 private:
-
   std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
   Eigen::VectorXd compTorque_;
 };

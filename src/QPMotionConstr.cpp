@@ -12,7 +12,6 @@
 // RBDyn
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
-#include <RBDyn/Coriolis.h>
 
 // Tasks
 #include "Tasks/Bounds.h"
@@ -362,6 +361,36 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 /**
+ *															MotionFrictionConstr
+ */
+
+MotionFrictionConstr::MotionFrictionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                                           const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb)
+  : MotionConstr(mbs, robotIndex, fd, tb), friction_(mbs[robotIndex_])
+{
+}
+
+void MotionFrictionConstr::computeTorque(const Eigen::VectorXd& alphaD,
+                                         const Eigen::VectorXd& lambda,
+                                         const std::vector<rbd::MultiBody>& mbs,
+                                         const std::vector<rbd::MultiBodyConfig>& mbcs)
+{
+  MotionConstr::computeTorque(alphaD, lambda);
+  curTorque_ += friction_.friction(mbs[robotIndex_], mbcs[robotIndex_]);
+}
+
+void MotionFrictionConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                  const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                  const SolverData& data)
+{
+  MotionConstr::update(mbs, mbcs, data);
+  const Eigen::VectorXd & Fr = friction_.friction(mbs[robotIndex_], mbcs[robotIndex_]);
+  AL_ -= Fr;
+  AU_ -= Fr;
+}
+
+  
+/**
  *															TorqueFeedbackTermMotionConstr
  */
 
@@ -369,7 +398,7 @@ TorqueFbTermMotionConstr::TorqueFbTermMotionConstr(const std::vector<rbd::MultiB
                                                    const std::shared_ptr<rbd::ForwardDynamics> fd,
                                                    const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
                                                    const TorqueBound& tb)
-  : MotionConstr(mbs, robotIndex, fd, tb), fbTerm_(fbTerm), compTorque_(nrDof_)
+: MotionConstr(mbs, robotIndex, fd, tb), fbTerm_(fbTerm), compTorque_(nrDof_)
 {
 }
 
