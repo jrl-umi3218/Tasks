@@ -1158,6 +1158,49 @@ const Eigen::VectorXd & CoMTask::normalAcc()
 }
 
 /**
+ *													ZMPBasedCoMTask
+ */
+
+ZMPBasedCoMTask::ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+				 const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
+				 double weight)
+: Task(weight), robotIndex_(robotIndex), com_(com), ddcom_(Eigen::Vector3d::Zero()), zmp_(zmp),
+  gAcc_(9.80665), alphaDBegin_(0), dimWeight_(Eigen::Vector3d::Ones()), jac_(mbs[robotIndex_]),
+  Q_(mbs[robotIndex_].nrDof(), mbs[robotIndex_].nrDof()), C_(mbs[robotIndex_].nrDof()),
+  jacMat_(3, mbs[robotIndex_].nrDof()), preQ_(3, mbs[robotIndex_].nrDof()),
+  CSum_(Eigen::Vector3d::Zero()), normalAcc_(Eigen::Vector3d::Zero())
+{
+}
+
+void ZMPBasedCoMTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+				   const SolverData& data)
+{
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
+			     const std::vector<rbd::MultiBodyConfig> & mbcs,
+			     const SolverData & data)
+{
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
+
+  normalAcc_ = jac_.normalAcceleration(mb, mbc);
+  
+  CSum_ <<
+    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
+    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
+    ddcom_.z();
+  CSum_ -= normalAcc_;
+  
+  jacMat_ = jac_.jacobian(mb, mbc);
+  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
+  
+  Q_.noalias() =  jacMat_.transpose() * preQ_;
+  C_.noalias() = -jacMat_.transpose() * dimWeight_.asDiagonal() * CSum_;
+}
+    
+/**
  *													MultiCoMTask
  */
 
@@ -1439,6 +1482,50 @@ const Eigen::VectorXd & MomentumTask::speed()
 const Eigen::VectorXd & MomentumTask::normalAcc()
 {
   return momt_.normalAcc();
+}
+
+/**
+ *  CentroidalMomentumTask
+ */
+
+CentroidalAngularMomentumTask::CentroidalAngularMomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+							     double gain, const Eigen::Vector3d angMomentum, double weight)
+: Task(weight), robotIndex_(robotIndex), gain_(gain), alphaDBegin_(-1), dimWeight_(Eigen::Vector3d::Ones()),
+  centroidalMomentumMatrix_(mbs[robotIndex]), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
+  C_(mbs[robotIndex].nrDof()), jacMat_(3, mbs[robotIndex].nrDof()), preQ_(3, mbs[robotIndex].nrDof()),
+  CSum_(Eigen::Vector3d::Zero()), normalAcc_(Eigen::Vector3d::Zero())
+{
+}
+
+void CentroidalAngularMomentumTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+						 const SolverData& data)
+{
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+void CentroidalAngularMomentumTask::update(const std::vector<rbd::MultiBody>& mbs,
+					   const std::vector<rbd::MultiBodyConfig>& mbcs,
+					   const SolverData& data)
+{
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
+  
+  Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
+  Eigen::Vector3d dcom = rbd::computeCoMVelocity(mb, mbc);
+  
+  centroidalMomentumMatrix_.computeMatrix(mb, mbc, com);
+  normalAcc_ = centroidalMomentumMatrix_.normalMomentumDot(mb, mbc, com, dcom).couple();
+
+  CSum_  = Eigen::Vector3d::Zero();
+  if (gain_)
+  CSum_ += gain_ * (angMomentum_ - rbd::computeCentroidalMomentum(mb, mbc, com).couple());
+  CSum_ -= normalAcc_;
+
+  jacMat_ = centroidalMomentumMatrix_.matrix().topRows<3>();
+  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
+
+  Q_.noalias() =  jacMat_.transpose() * preQ_;
+  C_.noalias() = -jacMat_.transpose() * dimWeight_.asDiagonal() * CSum_;
 }
 
 /**
@@ -1779,12 +1866,12 @@ const Eigen::VectorXd & VectorOrientationTask::normalAcc()
 
 WrenchTask::WrenchTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string & bodyName,
                        const Eigen::Vector3d& bodyPoint, double weight)
-: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), bodyPoint_(bodyPoint),
-  lambdaBegin_(-1), local_(true), wrench_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), W_(), Q_(), C_(),
-  preQ_(), preC_(Eigen::Vector6d::Zero())
+: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), lambdaBegin_(-1),
+  dimWeight_(Eigen::Vector6d::Ones()), bodyPoint_(bodyPoint), wrench_(Eigen::Vector6d::Zero()), local_(true),
+  preC_(Eigen::Vector6d::Zero())
 {}
 
-void WrenchTask::wrench(const std::vector<rbd::MultiBodyConfig> & mbcs, const sva::ForceVecd wrench)
+void WrenchTask::wrench(const std::vector<rbd::MultiBodyConfig> & mbcs, const sva::ForceVecd & wrench)
 {
   if (local_)
   {
@@ -1866,13 +1953,133 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
 }
 
 /**
+ *											ForceDistributionTask
+ */
+
+ForceDistributionTask::ForceDistributionTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+					     double weight)
+: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), nrBodies_(-1), gAcc_(9.80665),
+  comjac_(mbs[robotIndex_]), comjacMat_(3, mbs[robotIndex_].nrDof()),
+  normalAcc_(Eigen::Vector3d::Zero())
+{
+}
+
+void ForceDistributionTask::fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
+{
+  std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(bodyName);
+  if (it != fdistRatios_.end())
+  {
+    fdistRatios_[bodyName] = ratio;
+  }
+}
+  
+void ForceDistributionTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
+{
+  for (const std::pair<std::string, Eigen::Vector3d> & fdistRatio : fdistRatios_)
+  {
+    std::map<std::string, Eigen::Vector3d>::iterator it = ratios.find(fdistRatio.first);
+    if (it != ratios.end())
+    {
+      fdistRatio.second = ratios[fdistRatio.first];
+    }
+  }
+}
+
+void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+					 const SolverData& data)
+{
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+  
+  int nrLambda = data.totalLambda();
+
+  std::map<std::string, Eigen::Vector3d> fdistRatio_tmp;
+  
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      const std::string & r1BodyName = contact.contactId.r1BodyName;
+      
+      std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatio_.find(r1BodyName);
+      if (it != fdistRatio_.end())
+      {
+	fdistRatio_tmp[r1BodyName] = fdistRatio_[BodyName];
+      }
+      else
+      {
+	fdistRatio_tmp[r1BodyName] = Eigen::Vector3d::Zero();
+      }
+    }
+  }
+  
+  fdistRatio_ = fdistRatio_tmp;
+  
+  nrBodies_ = fdistRatio_.size();
+  
+  fdistRatioMat_.setZero(3 * nrBodies_, 3);
+  W_.setZero(3 * nrBodies_, nrLambda);
+  A_.setZero(3 * nrBodies_, data.nrVars);
+
+  Q_.setZero(data.nrVars(), data.nrVars());
+  C_.setZero(data.nrVars());
+
+  CSum_.setZero(3 * nrBodies_);
+}
+  
+void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
+				   const std::vector<rbd::MultiBodyConfig> & mbcs,
+				   const SolverData & data)
+{
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
+
+  comjacMat_ = comjac_.jacobian(mb, mbc);
+
+  int row = 0;
+  int column = 0;
+
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      fdistRatioMat_.block<3, 3>(row, 0) = fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
+      
+      for (size_t i = 0; i < contact.r1Cones.size(); i++)
+      {
+	for (const Eigen::Vector3d & gen : cone.generators)
+	{
+	  W_.block<3, 1>(row, column) = -gen;  // Instead of -Wc
+	  column++;
+	}
+      }
+      row += 3;
+    }
+    else
+    {
+      column += contact.nrLambda();
+    }
+  }
+
+  Eigen::Vector3d gVec = [0 0 -gAcc_];
+  normalAcc_ = jac_.normalAcceleration(mb, mbc);
+
+  Eigen::Vector3d preCSum = m * (gVec - normalAcc);
+  CSum_ = m * fdistRatioMat_ * preCSum;
+  
+  A_.block<3 * nrBodies_, mb.nrDof()>(0, alphaDBegin_) = m * fdistRatioMat_ * comJacMat_;
+  A_.block<3 * nrBodies_, data.totalLambda()>(0, 0) = W_;
+  
+  Q_.noalias() =  A_.transpose() * A_;
+  C_.noalias() = -A_.transpose() * CSum_;
+}
+ 
+/**
  *											ZMPTask
  */
 
 ZMPTask::ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 		 const Eigen::Vector3d & zmp, double weight)
-: Task(weight), robotIndex_(robotIndex), zmp_(zmp), lambdaBegin_(-1), dimWeight_(Eigen::Vector3d::Ones()),
-  pW_(), Q_(), C_(), preQ_()
+: Task(weight), robotIndex_(robotIndex), zmp_(zmp), lambdaBegin_(-1), dimWeight_(Eigen::Vector3d::Ones())
 {}
 
 void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
@@ -2055,49 +2262,7 @@ sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc, c
   return wrench;
 }
 
-/**
- *											CentroidalMomentumTask
- */
-
-  CentroidalAngularMomentumTask::CentroidalAngularMomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-							       double gain, const Eigen::Vector3d angMomentum, double weight)
-: Task(weight), robotIndex_(robotIndex), gain_(gain), alphaDBegin_(0), dimWeight_(Eigen::Vector3d::Ones()),
-  centroidalMomentumMatrix_(mbs[robotIndex]), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
-  C_(mbs[robotIndex].nrDof()), jacMat_(3, mbs[robotIndex].nrDof()), preQ_(3, mbs[robotIndex].nrDof()),
-  CSum_(Eigen::Vector3d::Zero()), normalAcc_(Eigen::Vector3d::Zero())
-{
-}
-
-void CentroidalAngularMomentumTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
-						 const SolverData& data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
-
-void CentroidalAngularMomentumTask::update(const std::vector<rbd::MultiBody>& mbs,
-					   const std::vector<rbd::MultiBodyConfig>& mbcs,
-					   const SolverData& data)
-{
-  const rbd::MultiBody & mb = mbs[robotIndex_];
-  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
-  
-  Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
-  Eigen::Vector3d dcom = rbd::computeCoMVelocity(mb, mbc);
-  
-  centroidalMomentumMatrix_.computeMatrix(mb, mbc, com);
-  normalAcc_ = centroidalMomentumMatrix_.normalMomentumDot(mb, mbc, com, dcom).couple();
-
-  CSum_  = Eigen::Vector3d::Zero();
-  if (gain_)
-  CSum_ += gain_ * (angMomentum_ - rbd::computeCentroidalMomentum(mb, mbc, com).couple());
-  CSum_ -= normalAcc_;
-
-  jacMat_ = centroidalMomentumMatrix_.matrix().topRows<3>();
-  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
-
-  Q_.noalias() =  jacMat_.transpose() * preQ_;
-  C_.noalias() = -jacMat_.transpose() * dimWeight_.asDiagonal() * CSum_;
-}
+// Pending to finish...
   
 /**
  *											YawMomentCompensationTask
