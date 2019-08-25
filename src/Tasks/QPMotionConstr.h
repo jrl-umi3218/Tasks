@@ -204,12 +204,11 @@ class TASKS_DLLAPI MotionFrictionConstr : public MotionConstr
 {
 public:
   MotionFrictionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-                       const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb);
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+		       const std::shared_ptr<rbd::Friction> friction,
+		       const TorqueBound & tb);
 
-  void computeTorque(const Eigen::VectorXd& alphaD,
-                     const Eigen::VectorXd& lambda,
-                     const std::vector<rbd::MultiBody> & mbs,
-                     const std::vector<rbd::MultiBodyConfig> & mbcs);
+  void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda) override;
 
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -217,14 +216,15 @@ public:
                       const SolverData & data);
 
 private:
-  rbd::Friction friction_;
+  std::shared_ptr<rbd::Friction> friction_;
 };
  
-class TASKS_DLLAPI TorqueFbTermMotionConstr : public MotionConstr
+class TASKS_DLLAPI TorqueFbTermMotionConstr : public MotionFrictionConstr
 {
 public:
   TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                            const std::shared_ptr<rbd::ForwardDynamics> fd,
+			   const std::shared_ptr<rbd::Friction> friction,
                            const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
                            const TorqueBound& tb);  
 
