@@ -1631,13 +1631,14 @@ public:
   
 private:
 
-  int robotIndex_, alphaDBegin_, nrBodies_;
+  int robotIndex_, alphaDBegin_, lambdaBegin_, nrBodies_;
   
   double gAcc_;
+  double totalMass_;
   
   std::map<std::string, Eigen::Vector3d> fdistRatios_;
   
-  rbd::CoMJacobian comjac_;
+  rbd::CoMJacobian comJac_;
   Eigen::MatrixXd W_;
   Eigen::MatrixXd A_;
 
@@ -1645,7 +1646,7 @@ private:
   Eigen::VectorXd C_;
   // cache
   Eigen::MatrixXd fdistRatioMat_;
-  Eigen::MatrixXd comjacMat_;
+  Eigen::MatrixXd comJacMat_;
   Eigen::VectorXd CSum_;
   Eigen::Vector3d normalAcc_;
 };

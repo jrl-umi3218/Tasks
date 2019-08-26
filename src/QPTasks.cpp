@@ -1958,10 +1958,16 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
 
 ForceDistributionTask::ForceDistributionTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 					     double weight)
-: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), nrBodies_(-1), gAcc_(9.80665),
-  comjac_(mbs[robotIndex_]), comjacMat_(3, mbs[robotIndex_].nrDof()),
+: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), nrBodies_(-1),
+  gAcc_(9.80665), totalMass_(0), comJac_(mbs[robotIndex_]), comJacMat_(3, mbs[robotIndex_].nrDof()),
   normalAcc_(Eigen::Vector3d::Zero())
 {
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  
+  for (int i = 0; i < mb.nrBodies(); i++)
+  {
+    totalMass_ += mb.body(i).inertia().mass();
+  }
 }
 
 void ForceDistributionTask::fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
@@ -1975,12 +1981,12 @@ void ForceDistributionTask::fdistRatio(const std::string & bodyName, const Eigen
   
 void ForceDistributionTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
 {
-  for (const std::pair<std::string, Eigen::Vector3d> & fdistRatio : fdistRatios_)
+  for (std::pair<const std::string, Eigen::Vector3d> & fdistRatio : fdistRatios_)
   {
-    std::map<std::string, Eigen::Vector3d>::iterator it = ratios.find(fdistRatio.first);
+    std::map<std::string, Eigen::Vector3d>::const_iterator it = ratios.find(fdistRatio.first);
     if (it != ratios.end())
     {
-      fdistRatio.second = ratios[fdistRatio.first];
+      fdistRatio.second = ratios.at(fdistRatio.first);
     }
   }
 }
@@ -1989,10 +1995,12 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
 					 const SolverData& data)
 {
   alphaDBegin_ = data.alphaDBegin(robotIndex_);
+  lambdaBegin_ = data.lambdaBegin();
   
   int nrLambda = data.totalLambda();
+  int nrVars = data.nrVars();
 
-  std::map<std::string, Eigen::Vector3d> fdistRatio_tmp;
+  std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
   
   for (const BilateralContact & contact : data.allContacts())
   {
@@ -2000,28 +2008,28 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
       
-      std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatio_.find(r1BodyName);
-      if (it != fdistRatio_.end())
+      std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(r1BodyName);
+      if (it != fdistRatios_.end())
       {
-	fdistRatio_tmp[r1BodyName] = fdistRatio_[BodyName];
+	fdistRatios_tmp[r1BodyName] = fdistRatios_[r1BodyName];
       }
       else
       {
-	fdistRatio_tmp[r1BodyName] = Eigen::Vector3d::Zero();
+	fdistRatios_tmp[r1BodyName] = Eigen::Vector3d::Zero();
       }
     }
   }
   
-  fdistRatio_ = fdistRatio_tmp;
+  fdistRatios_ = fdistRatios_tmp;
   
-  nrBodies_ = fdistRatio_.size();
+  nrBodies_ = fdistRatios_.size();
   
   fdistRatioMat_.setZero(3 * nrBodies_, 3);
   W_.setZero(3 * nrBodies_, nrLambda);
-  A_.setZero(3 * nrBodies_, data.nrVars);
+  A_.setZero(3 * nrBodies_, nrVars);
 
-  Q_.setZero(data.nrVars(), data.nrVars());
-  C_.setZero(data.nrVars());
+  Q_.setZero(nrVars, nrVars);
+  C_.setZero(nrVars);
 
   CSum_.setZero(3 * nrBodies_);
 }
@@ -2033,7 +2041,7 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
   const rbd::MultiBody & mb = mbs[robotIndex_];
   const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
 
-  comjacMat_ = comjac_.jacobian(mb, mbc);
+  comJacMat_ = comJac_.jacobian(mb, mbc);
 
   int row = 0;
   int column = 0;
@@ -2046,6 +2054,8 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
       
       for (size_t i = 0; i < contact.r1Cones.size(); i++)
       {
+        const FrictionCone & cone = contact.r1Cones[i];
+        
 	for (const Eigen::Vector3d & gen : cone.generators)
 	{
 	  W_.block<3, 1>(row, column) = -gen;  // Instead of -Wc
@@ -2060,14 +2070,14 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
     }
   }
 
-  Eigen::Vector3d gVec = [0 0 -gAcc_];
-  normalAcc_ = jac_.normalAcceleration(mb, mbc);
+  Eigen::Vector3d gVec(0, 0, -gAcc_);
+  normalAcc_ = comJac_.normalAcceleration(mb, mbc);
 
-  Eigen::Vector3d preCSum = m * (gVec - normalAcc);
-  CSum_ = m * fdistRatioMat_ * preCSum;
+  Eigen::Vector3d preCSum = totalMass_ * (gVec - normalAcc_);
+  CSum_ = fdistRatioMat_ * preCSum;
   
-  A_.block<3 * nrBodies_, mb.nrDof()>(0, alphaDBegin_) = m * fdistRatioMat_ * comJacMat_;
-  A_.block<3 * nrBodies_, data.totalLambda()>(0, 0) = W_;
+  A_.block(0, alphaDBegin_, 3 * nrBodies_, mb.nrDof()) = totalMass_ * fdistRatioMat_ * comJacMat_;
+  A_.block(0, lambdaBegin_, 3 * nrBodies_, data.totalLambda()) = W_;
   
   Q_.noalias() =  A_.transpose() * A_;
   C_.noalias() = -A_.transpose() * CSum_;
