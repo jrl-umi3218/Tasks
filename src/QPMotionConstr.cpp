@@ -24,7 +24,7 @@ namespace qp
 {
 
 /**
- *															PositiveLambda
+ *  PositiveLambda
  */
 
 PositiveLambda::PositiveLambda() : lambdaBegin_(-1), XL_(), XU_(), cont_() {}
@@ -90,7 +90,7 @@ const Eigen::VectorXd & PositiveLambda::Upper() const
 }
 
 /**
- *															MotionConstrCommon
+ *  MotionConstrCommon
  */
 
 MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody & mb,
@@ -253,10 +253,11 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & 
 }
 
 /**
- *															MotionConstr
+ *  MotionConstr
  */
 
-MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb)
+MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+			   const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb)
 : MotionConstrCommon(mbs, robotIndex, fd), computedTorque_(mbs[robotIndex].nrDof()),
   torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof())
 {
@@ -291,7 +292,7 @@ const std::shared_ptr<rbd::ForwardDynamics> MotionConstr::fd() const
 }
 
 /**
- *															MotionSpringConstr
+ *  MotionSpringConstr
  */
 
 MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
@@ -329,11 +330,12 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 /**
- *															MotionPolyConstr
+ *  MotionPolyConstr
  */
 
 MotionPolyConstr::MotionPolyConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
-                                   const std::shared_ptr<rbd::ForwardDynamics> fd, const PolyTorqueBound& ptb)
+                                   const std::shared_ptr<rbd::ForwardDynamics> fd,
+				   const PolyTorqueBound& ptb)
 : MotionConstrCommon(mbs, robotIndex, fd), torqueL_(), torqueU_(), jointIndex_()
 {
   const rbd::MultiBody & mb = mbs[robotIndex_];
@@ -368,14 +370,15 @@ void MotionPolyConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 /**
- *															MotionFrictionConstr
+ *  MotionFrictionConstr
  */
 
 MotionFrictionConstr::MotionFrictionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
                                            const std::shared_ptr<rbd::ForwardDynamics> fd,
 					   const std::shared_ptr<rbd::Friction> friction,
 					   const TorqueBound & tb)
-: MotionConstr(mbs, robotIndex, fd, tb), friction_(friction), frictionTorque_(mbs[robotIndex].nrDof())
+: MotionConstr(mbs, robotIndex, fd, tb), friction_(friction),
+  frictionTorque_(mbs[robotIndex].nrDof())
 {
 }
 
@@ -384,8 +387,6 @@ void MotionFrictionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Ei
   MotionConstr::computeTorque(alphaD, lambda);
   frictionTorque_ = friction_->friction();
   curTorque_ += frictionTorque_;
-
-  // std::cout << "Rafa, in MotionFrictionConstr::computeTorque, friction_->friction() = " << friction_->friction().transpose() << std::endl;
 }
 
 void MotionFrictionConstr::update(const std::vector<rbd::MultiBody>& mbs,
@@ -398,7 +399,7 @@ void MotionFrictionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 }
   
 /**
- *															TorqueFeedbackTermMotionConstr
+ *  TorqueFeedbackTermMotionConstr
  */
 
 TorqueFbTermMotionConstr::TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
@@ -425,7 +426,7 @@ void TorqueFbTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 }
 
 /**
- *															TorqueFeedbackTermMotionFrictionConstr
+ *  TorqueFeedbackTermMotionFrictionConstr
  */
 
 TorqueFbTermMotionFrictionConstr::TorqueFbTermMotionFrictionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,

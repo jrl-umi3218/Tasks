@@ -1596,8 +1596,8 @@ private:
 class TASKS_DLLAPI AdmittanceTask : public Task
 {
 public:
-  AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string& bodyName,
-		 const Eigen::Vector3d & bodyPoint, double timeStep,
+  AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+		 const std::string& bodyName, const Eigen::Vector3d & bodyPoint, double timeStep,
 		 double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD,
 		 double weight);
   
@@ -1648,7 +1648,8 @@ public:
     gainCoupleD_ = gainD;
   }
   
-  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector6d & dim);
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
+		 const Eigen::Vector6d & dim);
   
   const Eigen::Vector6d & dimWeight() const
   {
@@ -1675,7 +1676,8 @@ public:
 private:
   
   sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
-			       const tasks::qp::BilateralContact & contact, Eigen::VectorXd lambdaVec, int pos);
+			       const tasks::qp::BilateralContact & contact,
+			       Eigen::VectorXd lambdaVec, int pos);
   
   int bodyIndex_, robotIndex_, alphaDBegin_;
   
