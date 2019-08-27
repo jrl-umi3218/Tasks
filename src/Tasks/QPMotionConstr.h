@@ -127,6 +127,8 @@ public:
   MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
                const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb);
 
+  void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda) override;
+  
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -140,8 +142,14 @@ public:
   Eigen::MatrixXd contactMatrix() const;
   // Access fd...
   const std::shared_ptr<rbd::ForwardDynamics> fd() const;
+  
+  const Eigen::VectorXd & computedTorque() const
+  {
+    return computedTorque_;
+  }
 
 protected:
+  Eigen::VectorXd computedTorque_;
   Eigen::VectorXd torqueL_, torqueU_;
 };
 
@@ -215,26 +223,26 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data);
 
+  const Eigen::VectorXd& frictionTorque() const
+  {
+    return frictionTorque_;
+  }
+  
 private:
   std::shared_ptr<rbd::Friction> friction_;
+  Eigen::VectorXd frictionTorque_;
 };
  
-class TASKS_DLLAPI TorqueFbTermMotionConstr : public MotionFrictionConstr
+class TASKS_DLLAPI TorqueFbTermMotionConstr : public MotionConstr
 {
 public:
   TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                            const std::shared_ptr<rbd::ForwardDynamics> fd,
-			   const std::shared_ptr<rbd::Friction> friction,
                            const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
                            const TorqueBound& tb);  
 
   void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda) override;
 
-  const Eigen::VectorXd& compTorque() const
-  {
-    return compTorque_;
-  }
-  
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -242,7 +250,26 @@ public:
 
 private:
   std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
-  Eigen::VectorXd compTorque_;
+};
+
+class TASKS_DLLAPI TorqueFbTermMotionFrictionConstr : public MotionFrictionConstr
+{
+public:
+  TorqueFbTermMotionFrictionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                                   const std::shared_ptr<rbd::ForwardDynamics> fd,
+                                   const std::shared_ptr<rbd::Friction> friction,
+                                   const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
+                                   const TorqueBound& tb);  
+
+  void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda) override;
+
+  // Constraint
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+                      const std::vector<rbd::MultiBodyConfig> & mbcs,
+                      const SolverData & data);
+
+private:
+  std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
 };
 
 } // namespace qp

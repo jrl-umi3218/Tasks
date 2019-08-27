@@ -257,12 +257,19 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & 
  */
 
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb)
-: MotionConstrCommon(mbs, robotIndex, fd), torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof())
+: MotionConstrCommon(mbs, robotIndex, fd), computedTorque_(mbs[robotIndex].nrDof()),
+  torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof())
 {
   rbd::paramToVector(tb.lTorqueBound, torqueL_);
   rbd::paramToVector(tb.uTorqueBound, torqueU_);
 }
 
+void MotionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
+{
+  MotionConstrCommon::computeTorque(alphaD, lambda);
+  computedTorque_ = curTorque_;
+}
+  
 void MotionConstr::update(const std::vector<rbd::MultiBody> & mbs,
                           const std::vector<rbd::MultiBodyConfig> & mbcs,
                           const SolverData & /* data */)
@@ -368,14 +375,15 @@ MotionFrictionConstr::MotionFrictionConstr(const std::vector<rbd::MultiBody> & m
                                            const std::shared_ptr<rbd::ForwardDynamics> fd,
 					   const std::shared_ptr<rbd::Friction> friction,
 					   const TorqueBound & tb)
-  : MotionConstr(mbs, robotIndex, fd, tb), friction_(friction)
+: MotionConstr(mbs, robotIndex, fd, tb), friction_(friction), frictionTorque_(mbs[robotIndex].nrDof())
 {
 }
 
 void MotionFrictionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
 {
   MotionConstr::computeTorque(alphaD, lambda);
-  curTorque_ += friction_->friction();
+  frictionTorque_ = friction_->friction();
+  curTorque_ += frictionTorque_;
 
   // std::cout << "Rafa, in MotionFrictionConstr::computeTorque, friction_->friction() = " << friction_->friction().transpose() << std::endl;
 }
@@ -395,17 +403,15 @@ void MotionFrictionConstr::update(const std::vector<rbd::MultiBody>& mbs,
 
 TorqueFbTermMotionConstr::TorqueFbTermMotionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
                                                    const std::shared_ptr<rbd::ForwardDynamics> fd,
-						   const std::shared_ptr<rbd::Friction> friction,
                                                    const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
                                                    const TorqueBound& tb)
-: MotionFrictionConstr(mbs, robotIndex, fd, friction, tb), fbTerm_(fbTerm), compTorque_(nrDof_)
+: MotionConstr(mbs, robotIndex, fd, tb), fbTerm_(fbTerm)
 {
 }
 
 void TorqueFbTermMotionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
 {
-  MotionFrictionConstr::computeTorque(alphaD, lambda);
-  compTorque_ = curTorque_;
+  MotionConstr::computeTorque(alphaD, lambda);
   curTorque_ += fbTerm_->P();
 }
 
@@ -413,12 +419,39 @@ void TorqueFbTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
                                       const std::vector<rbd::MultiBodyConfig>& mbcs,
                                       const SolverData& data)
 {
-  MotionFrictionConstr::update(mbs, mbcs, data);
-  
+  MotionConstr::update(mbs, mbcs, data);
   AL_ -= fbTerm_->P();
   AU_ -= fbTerm_->P();
 }
 
+/**
+ *															TorqueFeedbackTermMotionFrictionConstr
+ */
+
+TorqueFbTermMotionFrictionConstr::TorqueFbTermMotionFrictionConstr(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+                                                                   const std::shared_ptr<rbd::ForwardDynamics> fd,
+                                                                   const std::shared_ptr<rbd::Friction> friction,
+                                                                   const std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm,
+                                                                   const TorqueBound& tb)
+: MotionFrictionConstr(mbs, robotIndex, fd, friction, tb), fbTerm_(fbTerm)
+{
+}
+
+void TorqueFbTermMotionFrictionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
+{
+  MotionFrictionConstr::computeTorque(alphaD, lambda);
+  curTorque_ += fbTerm_->P();
+}
+
+void TorqueFbTermMotionFrictionConstr::update(const std::vector<rbd::MultiBody>& mbs,
+                                              const std::vector<rbd::MultiBodyConfig>& mbcs,
+                                              const SolverData& data)
+{
+  MotionFrictionConstr::update(mbs, mbcs, data);
+  AL_ -= fbTerm_->P();
+  AU_ -= fbTerm_->P();
+}
+  
 } // namespace qp
 
 } // namespace tasks
