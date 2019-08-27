@@ -1605,8 +1605,11 @@ public:
   }
 
   void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio);
+  
   void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
 
+  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const;
+  
   const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
   {
     return fdistRatios_;
@@ -1619,6 +1622,13 @@ public:
 		      const std::vector<rbd::MultiBodyConfig> & mbcs,
 		      const SolverData & data);
 
+  const Eigen::Vector3d & refForce(const std::string & bodyName) const;
+  
+  const std::map<std::string, Eigen::Vector3d> & refForces() const
+  {
+    return refForces_;
+  }
+  
   virtual const Eigen::MatrixXd & Q() const
   {
     return Q_;
@@ -1637,6 +1647,7 @@ private:
   double totalMass_;
   
   std::map<std::string, Eigen::Vector3d> fdistRatios_;
+  std::map<std::string, Eigen::Vector3d> refForces_;
   
   rbd::CoMJacobian comJac_;
   Eigen::MatrixXd W_;

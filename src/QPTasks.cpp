@@ -1991,6 +1991,15 @@ void ForceDistributionTask::fdistRatios(const std::map<std::string, Eigen::Vecto
   }
 }
 
+const Eigen::Vector3d & ForceDistributionTask::fdistRatio(const std::string & bodyName) const
+{
+  std::map<std::string, Eigen::Vector3d>::const_iterator it = fdistRatios_.find(bodyName);
+  if (it != fdistRatios_.end())
+  {
+    return fdistRatios_.at(bodyName);
+  }
+}
+
 void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
 					 const SolverData& data)
 {
@@ -2001,6 +2010,7 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
   int nrVars = data.nrVars();
 
   std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
+  std::map<std::string, Eigen::Vector3d> refForces_tmp;
   
   for (const BilateralContact & contact : data.allContacts())
   {
@@ -2008,8 +2018,8 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
       
-      std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(r1BodyName);
-      if (it != fdistRatios_.end())
+      std::map<std::string, Eigen::Vector3d>::iterator fdistRatio = fdistRatios_.find(r1BodyName);
+      if (fdistRatio != fdistRatios_.end())
       {
 	fdistRatios_tmp[r1BodyName] = fdistRatios_[r1BodyName];
       }
@@ -2017,10 +2027,21 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
       {
 	fdistRatios_tmp[r1BodyName] = Eigen::Vector3d::Zero();
       }
+
+      std::map<std::string, Eigen::Vector3d>::iterator refForce = refForces_.find(r1BodyName);
+      if (refForce != refForces_.end())
+      {
+	refForces_tmp[r1BodyName] = refForces_[r1BodyName];
+      }
+      else
+      {
+	refForces_tmp[r1BodyName] = Eigen::Vector3d::Zero();
+      }      
     }
   }
   
   fdistRatios_ = fdistRatios_tmp;
+  refForces_ = refForces_tmp;
   
   nrBodies_ = fdistRatios_.size();
   
@@ -2046,11 +2067,14 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
   int row = 0;
   int column = 0;
 
+  std::map<std::string, int> refForceBegin;
+
   for (const BilateralContact & contact : data.allContacts())
   {
     if (contact.contactId.r1Index == robotIndex_)
     {
       fdistRatioMat_.block<3, 3>(row, 0) = fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
+      refForceBegin[contact.contactId.r1BodyName] = row;
       
       for (size_t i = 0; i < contact.r1Cones.size(); i++)
       {
@@ -2058,7 +2082,7 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
         
 	for (const Eigen::Vector3d & gen : cone.generators)
 	{
-	  W_.block<3, 1>(row, column) = -gen;  // Instead of -Wc
+	  W_.block<3, 1>(row, column) = gen;
 	  column++;
 	}
       }
@@ -2070,6 +2094,13 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
     }
   }
 
+  Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
+
+  std::map<std::string, Eigen::Vector3d>::iterator refForce;
+  
+  for (refForce = refForces_.begin(); refForce != refForces_.end(); refForce++)
+    refForce->second = refForcesVec.segment<3>(refForceBegin.at(refForce->first));
+  
   Eigen::Vector3d gVec(0, 0, -gAcc_);
   normalAcc_ = comJac_.normalAcceleration(mb, mbc);
 
@@ -2077,7 +2108,7 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
   CSum_ = fdistRatioMat_ * preCSum;
   
   A_.block(0, alphaDBegin_, 3 * nrBodies_, mb.nrDof()) = totalMass_ * fdistRatioMat_ * comJacMat_;
-  A_.block(0, lambdaBegin_, 3 * nrBodies_, data.totalLambda()) = W_;
+  A_.block(0, lambdaBegin_, 3 * nrBodies_, data.totalLambda()) = -W_;
   
   Q_.noalias() =  A_.transpose() * A_;
   C_.noalias() = -A_.transpose() * CSum_;
