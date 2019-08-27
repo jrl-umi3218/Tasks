@@ -1511,7 +1511,6 @@ private:
   int robotIndex_;
 };
 
-
 class TASKS_DLLAPI WrenchTask : public Task
 {
 public:
@@ -1594,6 +1593,115 @@ private:
   Eigen::MatrixXd preC_;
 };
 
+class TASKS_DLLAPI AdmittanceTask : public Task
+{
+public:
+  AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string& bodyName,
+		 const Eigen::Vector3d & bodyPoint, double timeStep,
+		 double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD,
+		 double weight);
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+  
+  void bodyPoint(const Eigen::Vector3d & point)
+  {
+    jac_.point(point);
+  }
+  
+  const Eigen::Vector3d & bodyPoint() const
+  {
+    return jac_.point();
+  }
+  
+  void treatSettingsAsLocal(bool local)
+  {
+    local_ = local;
+  }
+  
+  void measuredWrench(const sva::ForceVecd wrench)
+  {
+    measuredWrench_ = wrench;
+  }
+  
+  const sva::ForceVecd & measuredWrench() const
+  {
+    return measuredWrench_;
+  }
+  
+  const sva::ForceVecd & calculatedWrench() const
+  {
+    return calculatedWrench_;
+  }
+  
+  void setForceGains(double gainP, double gainD)
+  {
+    gainForceP_ = gainP;
+    gainForceD_ = gainD;
+  }
+  
+  void setCoupleGains(double gainP, double gainD)
+  {
+    gainCoupleP_ = gainP;
+    gainCoupleD_ = gainD;
+  }
+  
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector6d & dim);
+  
+  const Eigen::Vector6d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+  
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData & data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+  
+private:
+  
+  sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
+			       const tasks::qp::BilateralContact & contact, Eigen::VectorXd lambdaVec, int pos);
+  
+  int bodyIndex_, robotIndex_, alphaDBegin_;
+  
+  double dt_;
+  double gainForceP_, gainForceD_;
+  double gainCoupleP_, gainCoupleD_;
+  
+  sva::ForceVecd measuredWrench_, measuredWrenchPrev_;
+  sva::ForceVecd calculatedWrench_, calculatedWrenchPrev_;
+  
+  rbd::Jacobian jac_;
+  Eigen::MatrixXd jacMat_;
+  Eigen::Vector6d error_;
+  Eigen::Vector6d normalAcc_;
+  Eigen::Vector6d dimWeight_;
+  
+  // the following flag indicates if dimWeight values are related or not to the local frame
+  bool local_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd preQ_;
+  Eigen::Vector6d preC_;
+};
+ 
 class TASKS_DLLAPI ForceDistributionTask : public Task
 {
 public:
@@ -1723,115 +1831,6 @@ private:
   Eigen::VectorXd C_;
   // cache
   Eigen::MatrixXd preQ_;
-};
-
-class TASKS_DLLAPI AdmittanceTask : public Task
-{
-public:
-  AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string& bodyName,
-		 const Eigen::Vector3d & bodyPoint, double timeStep,
-		 double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD,
-		 double weight);
-  
-  virtual std::pair<int, int> begin() const
-  {
-    return std::make_pair(alphaDBegin_, alphaDBegin_);
-  }
-  
-  void bodyPoint(const Eigen::Vector3d & point)
-  {
-    jac_.point(point);
-  }
-  
-  const Eigen::Vector3d & bodyPoint() const
-  {
-    return jac_.point();
-  }
-  
-  void treatSettingsAsLocal(bool local)
-  {
-    local_ = local;
-  }
-  
-  void measuredWrench(const sva::ForceVecd wrench)
-  {
-    measuredWrench_ = wrench;
-  }
-  
-  const sva::ForceVecd & measuredWrench() const
-  {
-    return measuredWrench_;
-  }
-  
-  const sva::ForceVecd & calculatedWrench() const
-  {
-    return calculatedWrench_;
-  }
-  
-  void setForceGains(double gainP, double gainD)
-  {
-    gainForceP_ = gainP;
-    gainForceD_ = gainD;
-  }
-  
-  void setCoupleGains(double gainP, double gainD)
-  {
-    gainCoupleP_ = gainP;
-    gainCoupleD_ = gainD;
-  }
-  
-  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector6d & dim);
-  
-  const Eigen::Vector6d & dimWeight() const
-  {
-    return dimWeight_;
-  }
-  
-  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
-			    const SolverData & data);
-  
-  virtual void update(const std::vector<rbd::MultiBody> & mbs,
-		      const std::vector<rbd::MultiBodyConfig> & mbcs,
-		      const SolverData & data);
-  
-  virtual const Eigen::MatrixXd & Q() const
-  {
-    return Q_;
-  }
-  
-  virtual const Eigen::VectorXd & C() const
-  {
-    return C_;
-  }
-  
-private:
-  
-  sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
-			       const tasks::qp::BilateralContact & contact, Eigen::VectorXd lambdaVec, int pos);
-  
-  int bodyIndex_, robotIndex_, alphaDBegin_;
-  
-  double dt_;
-  double gainForceP_, gainForceD_;
-  double gainCoupleP_, gainCoupleD_;
-  
-  sva::ForceVecd measuredWrench_, measuredWrenchPrev_;
-  sva::ForceVecd calculatedWrench_, calculatedWrenchPrev_;
-  
-  rbd::Jacobian jac_;
-  Eigen::MatrixXd jacMat_;
-  Eigen::Vector6d error_;
-  Eigen::Vector6d normalAcc_;
-  Eigen::Vector6d dimWeight_;
-  
-  // the following flag indicates if dimWeight values are related or not to the local frame
-  bool local_;
-  
-  Eigen::MatrixXd Q_;
-  Eigen::VectorXd C_;
-  // cache
-  Eigen::MatrixXd preQ_;
-  Eigen::Vector6d preC_;
 };
 
 // Pending to finish...
