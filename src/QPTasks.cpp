@@ -1485,14 +1485,15 @@ const Eigen::VectorXd & MomentumTask::normalAcc()
 }
 
 /**
- *  CentroidalMomentumTask
+ *  CentroidalAngularMomentumTask
  */
 
 CentroidalAngularMomentumTask::CentroidalAngularMomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 							     double gain, const Eigen::Vector3d angMomentum, double weight)
-: Task(weight), robotIndex_(robotIndex), gain_(gain), alphaDBegin_(-1), dimWeight_(Eigen::Vector3d::Ones()),
-  centroidalMomentumMatrix_(mbs[robotIndex]), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
-  C_(mbs[robotIndex].nrDof()), jacMat_(3, mbs[robotIndex].nrDof()), preQ_(3, mbs[robotIndex].nrDof()),
+: Task(weight), robotIndex_(robotIndex), angMomentum_(angMomentum), gain_(gain), alphaDBegin_(-1),
+  dimWeight_(Eigen::Vector3d::Ones()), centroidalMomentumMatrix_(mbs[robotIndex]),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
+  jacMat_(3, mbs[robotIndex].nrDof()), preQ_(3, mbs[robotIndex].nrDof()),
   CSum_(Eigen::Vector3d::Zero()), normalAcc_(Eigen::Vector3d::Zero())
 {
 }
