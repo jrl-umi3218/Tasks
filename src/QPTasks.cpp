@@ -1519,7 +1519,7 @@ void CentroidalAngularMomentumTask::update(const std::vector<rbd::MultiBody>& mb
 
   CSum_  = Eigen::Vector3d::Zero();
   if (gain_)
-  CSum_ += gain_ * (angMomentum_ - rbd::computeCentroidalMomentum(mb, mbc, com).couple());
+    CSum_ += gain_ * (angMomentum_ - rbd::computeCentroidalMomentum(mb, mbc, com).couple());
   CSum_ -= normalAcc_;
 
   jacMat_ = centroidalMomentumMatrix_.matrix().topRows<3>();
