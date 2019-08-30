@@ -1186,14 +1186,32 @@ void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
   const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
 
   normalAcc_ = jac_.normalAcceleration(mb, mbc);
+
+  /*
+  std::cout << "Rafa, in ZMPBasedCoMTask::update, gAcc_ = " << gAcc_ << ", "
+            << "ddcom_.z() = " << ddcom_.z() << ", "
+            << "com_ = " << com_.transpose() << ", "
+            << "zmp_ = " << zmp_.transpose() << std::endl;
+  */
   
   CSum_ <<
     (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
     (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
     ddcom_.z();
+
+  // std::cout << "Rafa, in ZMPBasedCoMTask::update, before normalAcc_, CSum_ = "
+  //           << CSum_.transpose() << std::endl;
+  
   CSum_ -= normalAcc_;
+
+  // std::cout << "Rafa, in ZMPBasedCoMTask::update, after normalAcc_, CSum_ = "
+  //           << CSum_.transpose() << std::endl;
   
   jacMat_ = jac_.jacobian(mb, mbc);
+
+  // std::cout << "Rafa, in ZMPBasedCoMTask::update, jacMat_ = "
+  //           << std::endl << jacMat_ << std::endl;
+  
   preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
   
   Q_.noalias() =  jacMat_.transpose() * preQ_;
