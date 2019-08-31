@@ -893,95 +893,6 @@ private:
   tasks::CoMTask ct_;
   int robotIndex_;
 };
-
-class TASKS_DLLAPI ZMPBasedCoMTask : public Task
-{
-public:
-  ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-		  const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
-		  double weight);
-  
-  virtual std::pair<int, int> begin() const
-  {
-    return std::make_pair(alphaDBegin_, alphaDBegin_);
-  }
-
-  void com(const Eigen::Vector3d & com)
-  {
-    com_ = com;
-  }
-
-  const Eigen::Vector3d & com() const
-  {
-    return com_;
-  }
-  
-  void zmp(const Eigen::Vector3d & zmp)
-  {
-    zmp_ = zmp;
-  }
-
-  const Eigen::Vector3d & zmp() const
-  {
-    return zmp_;
-  }
-
-  void ddcom(const Eigen::Vector3d & ddcom)
-  {
-    ddcom_ = ddcom;
-  }
-
-  const Eigen::Vector3d & ddcom() const
-  {
-    return ddcom_;
-  }
-
-  void dimWeight(const Eigen::Vector3d & dim)
-  {
-    dimWeight_ = dim;
-  }
-
-  const Eigen::Vector3d & dimWeight() const
-  {
-    return dimWeight_;
-  }
-
-  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
-			    const SolverData& data);
-  
-  virtual void update(const std::vector<rbd::MultiBody> & mbs,
-		      const std::vector<rbd::MultiBodyConfig> & mbcs,
-		      const SolverData & data);
-  
-  virtual const Eigen::MatrixXd & Q() const
-  {
-    return Q_;
-  }
-
-  virtual const Eigen::VectorXd & C() const
-  {
-    return C_;
-  }
-
-private:
-
-  int robotIndex_, alphaDBegin_;
-
-  Eigen::Vector3d com_, ddcom_, zmp_;
-  double gAcc_;
-  
-  Eigen::Vector3d dimWeight_;
-
-  rbd::CoMJacobian jac_;
-  
-  Eigen::MatrixXd Q_;
-  Eigen::VectorXd C_;
-  // cache
-  Eigen::MatrixXd jacMat_;
-  Eigen::MatrixXd preQ_;
-  Eigen::Vector3d CSum_;
-  Eigen::Vector3d normalAcc_;
-};
  
 class TASKS_DLLAPI MultiCoMTask : public Task
 {
@@ -1769,6 +1680,95 @@ private:
   Eigen::MatrixXd fdistRatioMat_;
   Eigen::MatrixXd comJacMat_;
   Eigen::VectorXd CSum_;
+  Eigen::Vector3d normalAcc_;
+};
+
+class TASKS_DLLAPI ZMPBasedCoMTask : public Task
+{
+public:
+  ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+		  const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
+		  double weight);
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+
+  void com(const Eigen::Vector3d & com)
+  {
+    com_ = com;
+  }
+
+  const Eigen::Vector3d & com() const
+  {
+    return com_;
+  }
+  
+  void zmp(const Eigen::Vector3d & zmp)
+  {
+    zmp_ = zmp;
+  }
+
+  const Eigen::Vector3d & zmp() const
+  {
+    return zmp_;
+  }
+
+  void ddcom(const Eigen::Vector3d & ddcom)
+  {
+    ddcom_ = ddcom;
+  }
+
+  const Eigen::Vector3d & ddcom() const
+  {
+    return ddcom_;
+  }
+
+  void dimWeight(const Eigen::Vector3d & dim)
+  {
+    dimWeight_ = dim;
+  }
+
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+private:
+
+  int robotIndex_, alphaDBegin_;
+
+  Eigen::Vector3d com_, ddcom_, zmp_;
+  double gAcc_;
+  
+  Eigen::Vector3d dimWeight_;
+
+  rbd::CoMJacobian jac_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd jacMat_;
+  Eigen::MatrixXd preQ_;
+  Eigen::Vector3d CSum_;
   Eigen::Vector3d normalAcc_;
 };
 

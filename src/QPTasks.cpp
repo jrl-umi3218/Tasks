@@ -1156,67 +1156,6 @@ const Eigen::VectorXd & CoMTask::normalAcc()
 {
   return ct_.normalAcc();
 }
-
-/**
- *  ZMPBasedCoMTask
- */
-
-ZMPBasedCoMTask::ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-				 const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
-				 double weight)
-: Task(weight), robotIndex_(robotIndex), com_(com), ddcom_(Eigen::Vector3d::Zero()), zmp_(zmp),
-  gAcc_(9.80665), alphaDBegin_(0), dimWeight_(Eigen::Vector3d::Ones()), jac_(mbs[robotIndex_]),
-  Q_(mbs[robotIndex_].nrDof(), mbs[robotIndex_].nrDof()), C_(mbs[robotIndex_].nrDof()),
-  jacMat_(3, mbs[robotIndex_].nrDof()), preQ_(3, mbs[robotIndex_].nrDof()),
-  CSum_(Eigen::Vector3d::Zero()), normalAcc_(Eigen::Vector3d::Zero())
-{
-}
-
-void ZMPBasedCoMTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
-				   const SolverData& data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
-
-void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
-			     const std::vector<rbd::MultiBodyConfig> & mbcs,
-			     const SolverData & data)
-{
-  const rbd::MultiBody & mb = mbs[robotIndex_];
-  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
-
-  normalAcc_ = jac_.normalAcceleration(mb, mbc);
-
-  /*
-  std::cout << "Rafa, in ZMPBasedCoMTask::update, gAcc_ = " << gAcc_ << ", "
-            << "ddcom_.z() = " << ddcom_.z() << ", "
-            << "com_ = " << com_.transpose() << ", "
-            << "zmp_ = " << zmp_.transpose() << std::endl;
-  */
-  
-  CSum_ <<
-    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
-    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
-    ddcom_.z();
-
-  // std::cout << "Rafa, in ZMPBasedCoMTask::update, before normalAcc_, CSum_ = "
-  //           << CSum_.transpose() << std::endl;
-  
-  CSum_ -= normalAcc_;
-
-  // std::cout << "Rafa, in ZMPBasedCoMTask::update, after normalAcc_, CSum_ = "
-  //           << CSum_.transpose() << std::endl;
-  
-  jacMat_ = jac_.jacobian(mb, mbc);
-
-  // std::cout << "Rafa, in ZMPBasedCoMTask::update, jacMat_ = "
-  //           << std::endl << jacMat_ << std::endl;
-  
-  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
-  
-  Q_.noalias() =  jacMat_.transpose() * preQ_;
-  C_.noalias() = -jacMat_.transpose() * dimWeight_.asDiagonal() * CSum_;
-}
     
 /**
  *  MultiCoMTask
@@ -2095,7 +2034,7 @@ sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc,
 ForceDistributionTask::ForceDistributionTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 					     double weight)
 : Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), nrBodies_(-1),
-  gAcc_(9.80665), totalMass_(0), comJac_(mbs[robotIndex_]), comJacMat_(3, mbs[robotIndex_].nrDof()),
+  gAcc_(9.81), totalMass_(0), comJac_(mbs[robotIndex_]), comJacMat_(3, mbs[robotIndex_].nrDof()),
   normalAcc_(Eigen::Vector3d::Zero())
 {
   const rbd::MultiBody & mb = mbs[robotIndex_];
@@ -2249,7 +2188,68 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
   Q_.noalias() =  A_.transpose() * A_;
   C_.noalias() = -A_.transpose() * CSum_;
 }
- 
+
+/**
+ *  ZMPBasedCoMTask
+ */
+
+ZMPBasedCoMTask::ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+				 const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
+				 double weight)
+: Task(weight), robotIndex_(robotIndex), com_(com), ddcom_(Eigen::Vector3d::Zero()), zmp_(zmp),
+  gAcc_(9.81), alphaDBegin_(0), dimWeight_(Eigen::Vector3d::Ones()), jac_(mbs[robotIndex_]),
+  Q_(mbs[robotIndex_].nrDof(), mbs[robotIndex_].nrDof()), C_(mbs[robotIndex_].nrDof()),
+  jacMat_(3, mbs[robotIndex_].nrDof()), preQ_(3, mbs[robotIndex_].nrDof()),
+  CSum_(Eigen::Vector3d::Zero()), normalAcc_(Eigen::Vector3d::Zero())
+{
+}
+
+void ZMPBasedCoMTask::updateNrVars(const std::vector<rbd::MultiBody>& /* mbs */,
+				   const SolverData& data)
+{
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+}
+
+void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
+			     const std::vector<rbd::MultiBodyConfig> & mbcs,
+			     const SolverData & data)
+{
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
+
+  normalAcc_ = jac_.normalAcceleration(mb, mbc);
+
+  /*
+  std::cout << "Rafa, in ZMPBasedCoMTask::update, gAcc_ = " << gAcc_ << ", "
+            << "ddcom_.z() = " << ddcom_.z() << ", "
+            << "com_ = " << com_.transpose() << ", "
+            << "zmp_ = " << zmp_.transpose() << std::endl;
+  */
+  
+  CSum_ <<
+    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
+    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
+    ddcom_.z();
+
+  // std::cout << "Rafa, in ZMPBasedCoMTask::update, before normalAcc_, CSum_ = "
+  //           << CSum_.transpose() << std::endl;
+  
+  CSum_ -= normalAcc_;
+
+  // std::cout << "Rafa, in ZMPBasedCoMTask::update, after normalAcc_, CSum_ = "
+  //           << CSum_.transpose() << std::endl;
+  
+  jacMat_ = jac_.jacobian(mb, mbc);
+
+  // std::cout << "Rafa, in ZMPBasedCoMTask::update, jacMat_ = "
+  //           << std::endl << jacMat_ << std::endl;
+  
+  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
+  
+  Q_.noalias() =  jacMat_.transpose() * preQ_;
+  C_.noalias() = -jacMat_.transpose() * dimWeight_.asDiagonal() * CSum_;
+}
+  
 /**
  *  ZMPTask
  */
