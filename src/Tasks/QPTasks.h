@@ -1793,6 +1793,16 @@ public:
     return zmp_;
   }
 
+  const Eigen::Vector3d & totalForce() const
+  {
+    return totalForce_;
+  }
+
+  const Eigen::Vector3d & totalMomentZMP() const
+  {
+    return totalMomentZMP_;
+  }
+
   void dimWeight(const Eigen::Vector3d & dim)
   {
     dimWeight_ = dim;
@@ -1822,11 +1832,15 @@ public:
 
 private:
 
-  int robotIndex_, lambdaBegin_;
+  int robotIndex_, lambdaBegin_, nrBodies_;
   Eigen::Vector3d dimWeight_;
 
   Eigen::Vector3d zmp_;
 
+  Eigen::Vector3d totalForce_;
+  Eigen::Vector3d totalMomentZMP_;
+
+  Eigen::MatrixXd W_;
   Eigen::MatrixXd pW_;
 
   Eigen::MatrixXd Q_;

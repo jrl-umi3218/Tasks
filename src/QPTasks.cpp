@@ -2256,7 +2256,9 @@ void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
 
 ZMPTask::ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 		 const Eigen::Vector3d & zmp, double weight)
-: Task(weight), robotIndex_(robotIndex), zmp_(zmp), lambdaBegin_(-1), dimWeight_(Eigen::Vector3d::Ones())
+: Task(weight), robotIndex_(robotIndex), lambdaBegin_(-1), nrBodies_(-1),
+  zmp_(zmp), totalForce_(Eigen::Vector3d::Zero()), totalMomentZMP_(Eigen::Vector3d::Zero()),
+  dimWeight_(Eigen::Vector3d::Ones())
 {}
 
 void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
@@ -2264,6 +2266,19 @@ void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const 
   lambdaBegin_ = data.lambdaBegin();
   int nrLambda = data.totalLambda();
 
+  std::set<std::string> bodies;
+  
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      bodies.insert(contact.contactId.r1BodyName);
+    }
+  }
+
+  nrBodies_ = bodies.size();
+  
+  W_.setZero(3 * nrBodies_, nrLambda);
   pW_.setZero(3, nrLambda);
   
   Q_.setZero(nrLambda, nrLambda);
@@ -2274,7 +2289,8 @@ void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const 
 
 void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs, const SolverData & data)
 {
-  int index = 0;
+  int row = 0;
+  int column = 0;
   
   for (const BilateralContact & contact : data.allContacts())
   {
@@ -2291,16 +2307,25 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
 	
 	for (const Eigen::Vector3d & gen : cone.generators)
 	{
-	  pW_.col(index).noalias() = (contactPosW - zmp_).cross(gen);
-	  index++;
+	  W_.block<3, 1>(row, column) = gen;
+	  pW_.col(column).noalias() = (contactPosW - zmp_).cross(gen);
+	  column++;
 	}
       }
+      row += 3;
     }
     else
     {
-      index += contact.nrLambda();
+      column += contact.nrLambda();
     }
   }
+
+  totalForce_ = Eigen::Vector3d::Zero();
+  Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
+  for (size_t i = 0; i < nrBodies_; i++)
+    totalForce_ += refForcesVec.segment<3>(3 * i);
+
+  totalMomentZMP_ = pW_ * data.lambdaVecPrev();
   
   preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
   Q_.noalias() = pW_.transpose() * preQ_;
