@@ -2026,6 +2026,100 @@ sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc,
   
   return wrench;
 }
+
+/**
+ *  NullSpaceAdmittanceTask
+ */
+
+NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+						 const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
+						 double timeStep, double gainForceP, double gainForceD,
+						 double gainCoupleP, double gainCoupleD, double weight)
+: AdmittanceTask(mbs, robotIndex, bodyName, bodyPoint, timeStep,
+		 gainForceP, gainForceD, gainCoupleP, gainCoupleD,
+		 weight)
+{
+}
+
+void NullSpaceAdmittanceTask::fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
+{
+  std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(bodyName);
+  if (it != fdistRatios_.end())
+  {
+    fdistRatios_[bodyName] = ratio;
+  }
+}
+  
+void NullSpaceAdmittanceTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
+{
+  for (std::pair<const std::string, Eigen::Vector3d> & fdistRatio : fdistRatios_)
+  {
+    std::map<std::string, Eigen::Vector3d>::const_iterator it = ratios.find(fdistRatio.first);
+    if (it != ratios.end())
+    {
+      fdistRatio.second = ratios.at(fdistRatio.first);
+    }
+  }
+}
+
+const Eigen::Vector3d & NullSpaceAdmittanceTask::fdistRatio(const std::string & bodyName) const
+{
+  std::map<std::string, Eigen::Vector3d>::const_iterator it = fdistRatios_.find(bodyName);
+  if (it != fdistRatios_.end())
+  {
+    return fdistRatios_.at(bodyName);
+  }
+}
+
+void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+					   const SolverData& data)
+{
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+  
+  std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
+  
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      const std::string & r1BodyName = contact.contactId.r1BodyName;
+      
+      std::map<std::string, Eigen::Vector3d>::iterator fdistRatio = fdistRatios_.find(r1BodyName);
+      if (fdistRatio != fdistRatios_.end())
+      {
+	fdistRatios_tmp[r1BodyName] = fdistRatios_[r1BodyName];
+      }
+      else
+      {
+	fdistRatios_tmp[r1BodyName] = Eigen::Vector3d::Zero();
+      }
+    }
+  }
+  
+  fdistRatios_ = fdistRatios_tmp;
+  
+  nrBodies_ = fdistRatios_.size();
+  
+  fdistRatioMat_.setZero(3 * nrBodies_, 3);
+}
+
+void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
+				     const std::vector<rbd::MultiBodyConfig> & mbcs,
+				     const SolverData & data)
+{
+  int row = 0;
+  
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      fdistRatioMat_.block<3, 3>(row, 0) = fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
+      row += 3;
+    }
+  }
+
+  // Pending to implement the projection matrix
+}
   
 /**
  *  ForceDistributionTask

@@ -1508,9 +1508,9 @@ class TASKS_DLLAPI AdmittanceTask : public Task
 {
 public:
   AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-		 const std::string& bodyName, const Eigen::Vector3d & bodyPoint, double timeStep,
-		 double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD,
-		 double weight);
+		 const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
+		 double timeStep, double gainForceP, double gainForceD,
+		 double gainCoupleP, double gainCoupleD, double weight);
   
   virtual std::pair<int, int> begin() const
   {
@@ -1583,14 +1583,16 @@ public:
   {
     return C_;
   }
+
+protected:
+
+  int bodyIndex_, robotIndex_, alphaDBegin_;
   
 private:
   
   sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
 			       const tasks::qp::BilateralContact & contact,
 			       Eigen::VectorXd lambdaVec, int pos);
-  
-  int bodyIndex_, robotIndex_, alphaDBegin_;
   
   double dt_;
   double gainForceP_, gainForceD_;
@@ -1613,6 +1615,42 @@ private:
   // cache
   Eigen::MatrixXd preQ_;
   Eigen::Vector6d preC_;
+};
+
+class TASKS_DLLAPI NullSpaceAdmittanceTask : public AdmittanceTask
+{
+public:
+  NullSpaceAdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+			  const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
+			  double timeStep, double gainForceP, double gainForceD,
+			  double gainCoupleP, double gainCoupleD, double weight);
+
+  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio);
+  
+  void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
+
+  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const;
+  
+  const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
+  {
+    return fdistRatios_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData & data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) override;
+
+private:
+
+  int nrBodies_;
+  
+  std::map<std::string, Eigen::Vector3d> fdistRatios_;
+
+  // cache
+  Eigen::MatrixXd fdistRatioMat_;
 };
  
 class TASKS_DLLAPI ForceDistributionTask : public Task
