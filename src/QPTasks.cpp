@@ -2326,6 +2326,9 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
     totalForce_ += refForcesVec.segment<3>(3 * i);
 
   totalMomentZMP_ = pW_ * data.lambdaVecPrev();
+
+  std::cout << "Rafa, in ZMPTask::update, W_ = " << std::endl << W_ << std::endl;
+  std::cout << "Rafa, in ZMPTask::update, pW_ = " << std::endl << pW_ << std::endl;
   
   preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
   Q_.noalias() = pW_.transpose() * preQ_;
