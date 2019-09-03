@@ -1919,7 +1919,7 @@ AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robo
 			       double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight)
 : Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), dt_(timeStep),
   gainForceP_(gainForceP), gainForceD_(gainForceD), gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
-  alphaDBegin_(0), local_(true), measuredWrench_(Eigen::Vector6d::Zero()), measuredWrenchPrev_(Eigen::Vector6d::Zero()),
+  alphaDBegin_(-1), local_(true), measuredWrench_(Eigen::Vector6d::Zero()), measuredWrenchPrev_(Eigen::Vector6d::Zero()),
   calculatedWrench_(Eigen::Vector6d::Zero()), calculatedWrenchPrev_(Eigen::Vector6d::Zero()),
   jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
   error_(Eigen::Vector6d::Zero()), normalAcc_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()),
@@ -2035,12 +2035,33 @@ NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBod
 						 const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
 						 double timeStep, double gainForceP, double gainForceD,
 						 double gainCoupleP, double gainCoupleD, double weight)
-: AdmittanceTask(mbs, robotIndex, bodyName, bodyPoint, timeStep,
-		 gainForceP, gainForceD, gainCoupleP, gainCoupleD,
-		 weight)
+: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), dt_(timeStep),
+  gainForceP_(gainForceP), gainForceD_(gainForceD), gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
+  alphaDBegin_(-1) 
 {
 }
 
+void NullSpaceAdmittanceTask::measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench)
+{
+  std::map<std::string, sva::ForceVecd>::iterator it = measuredWrenches_.find(bodyName);
+  if (it != measuredWrenches_.end())
+  {
+    measuredWrenches_[bodyName] = wrench;
+  }
+}
+
+void NullSpaceAdmittanceTask::measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches)
+{
+  for (std::pair<const std::string, sva::ForceVecd> & measuredWrench : measuredWrenches_)
+  {
+    std::map<std::string, sva::ForceVecd>::const_iterator it = wrenches.find(measuredWrench.first);
+    if (it != wrenches.end())
+    {
+      measuredWrench.second = wrenches.at(measuredWrench.first);
+    }
+  }
+}
+  
 void NullSpaceAdmittanceTask::fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
 {
   std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(bodyName);

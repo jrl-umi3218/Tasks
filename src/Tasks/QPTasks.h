@@ -1584,16 +1584,13 @@ public:
     return C_;
   }
 
-protected:
-
-  int bodyIndex_, robotIndex_, alphaDBegin_;
-  
 private:
   
   sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
 			       const tasks::qp::BilateralContact & contact,
 			       Eigen::VectorXd lambdaVec, int pos);
-  
+
+  int bodyIndex_, robotIndex_, alphaDBegin_;
   double dt_;
   double gainForceP_, gainForceD_;
   double gainCoupleP_, gainCoupleD_;
@@ -1617,7 +1614,7 @@ private:
   Eigen::Vector6d preC_;
 };
 
-class TASKS_DLLAPI NullSpaceAdmittanceTask : public AdmittanceTask
+class TASKS_DLLAPI NullSpaceAdmittanceTask : public Task
 {
 public:
   NullSpaceAdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
@@ -1625,6 +1622,37 @@ public:
 			  double timeStep, double gainForceP, double gainForceD,
 			  double gainCoupleP, double gainCoupleD, double weight);
 
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+
+  void bodyPoint(const Eigen::Vector3d & point)
+  {
+    jac_.point(point);
+  }
+  
+  const Eigen::Vector3d & bodyPoint() const
+  {
+    return jac_.point();
+  }
+
+  void treatSettingsAsLocal(bool local)
+  {
+    local_ = local;
+  }
+
+  void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench);
+
+  void measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches);
+
+  const Eigen::Vector3d & measuredWrench(const std::string & bodyName) const;
+
+  const std::map<std::string, sva::ForceVecd> & wrenches() const
+  {
+    return measuredWrenches_;
+  }
+  
   void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio);
   
   void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
@@ -1637,16 +1665,27 @@ public:
   }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
-			    const SolverData & data) override;
+			    const SolverData & data);
   
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
 		      const std::vector<rbd::MultiBodyConfig> & mbcs,
-		      const SolverData & data) override;
+		      const SolverData & data);
 
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+  
 private:
 
-  int nrBodies_;
-  
+  int robotIndex_, alphaDBegin_, nrBodies_;
+
+  std::map<std::string, sva::ForceVecd> measuredWrenches_;
   std::map<std::string, Eigen::Vector3d> fdistRatios_;
 
   // cache
