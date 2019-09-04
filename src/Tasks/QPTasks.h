@@ -7,6 +7,7 @@
 // includes
 //
 #include <array>
+#include <set>
 
 // Eigen
 #include <Eigen/Core>
@@ -1504,6 +1505,15 @@ private:
   Eigen::MatrixXd preC_;
 };
 
+class TASKS_DLLAPI AdmittanceTaskCommon : public Task
+{
+public:
+  AdmittanceTaskCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+		       const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
+		       double timeStep, double gainForceP, double gainForceD,
+		       double gainCoupleP, double gainCoupleD, double weight);
+}
+ 
 class TASKS_DLLAPI AdmittanceTask : public Task
 {
 public:
@@ -1659,14 +1669,14 @@ public:
     return measuredWrenches_;
   }
 
-  const sva::ForceVecd & calculatedWrench(const std::string & bodyName) const
+  const Eigen::Vector3d & calculatedForce(const std::string & bodyName) const
   {
-    return calculatedWrenches_.at(bodyName);
+    return calculatedForces_.at(bodyName);
   }
 
-  const std::map<std::string, sva::ForceVecd> & calculatedWrenches() const
+  const std::map<std::string, Eigen::Vector3d> & calculatedForces() const
   {
-    return calculatedWrenches_;
+    return calculatedForces_;
   }
   
   void fdistRatio(const Eigen::Vector3d & ratio)
@@ -1740,6 +1750,7 @@ private:
 
   rbd::Jacobian jac_;
   Eigen::MatrixXd jacMat_;
+  Eigen::Vector3d projForceErr_;
   Eigen::Vector6d error_;
   Eigen::Vector6d normalAcc_;
   Eigen::Vector6d dimWeight_;

@@ -2046,7 +2046,7 @@ NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBod
   calculatedBodyWrenchPrev_(sva::ForceVecd::Zero()),
   fdistRatio_(Eigen::Vector3d::Zero()),
   jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
-  projForceError_(Eigen::Vector3d::Zero()), error_(Eigen::Vector6d::Zero()),
+  projForceErr_(Eigen::Vector3d::Zero()), error_(Eigen::Vector6d::Zero()),
   normalAcc_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), local_(true),
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
   preQ_(6, mbs[robotIndex].nrDof()), preC_(6)
@@ -2109,7 +2109,7 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
       }
       else
       {
-        calculatedForces_tmp[r1BodyName] = sva::ForceVecd::Zero();
+        calculatedForces_tmp[r1BodyName] = Eigen::Vector3d::Zero();
       }
     }
   }
@@ -2155,32 +2155,32 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   const std::string & bodyName = mb.body(bodyIndex_).name();
 
-  Eigen::Vector3d projForceErr(Eigen::Vector3d::Zero());
+  projForceErr_.setZero();
   
   for (const std::string & eachBody : bodies_)
   {
     Eigen::Vector3d forceErr = calculatedForces.at(eachBody) - measuredWrenches_.at(eachBody).force();
     if (eachBody == bodyName)
-      projForceErr.noalias() += (Eigen::Vector3d::Identity() - fdistRatio_.asDiagonal()) * forceErr;
-    else
-      projForceErr.noalias() -= fdistRatio_.asDiagonal() * forceErr;
+      projForceErr_.noalias() += forceErr;
+
+    projForceErr_.noalias() -= fdistRatio_.asDiagonal() * forceErr;
   }
   
   sva::ForceVecd calculatedBodyWrenchDot = (calculatedBodyWrench_ - calculatedBodyWrenchPrev_) / dt_;
   calculatedBodyWrenchPrev_ = calculatedBodyWrench_;
   
   sva::ForceVecd measuredBodyWrenchDot = (measuredWrenches_.at(bodyName) - measuredBodyWrenchPrev_) / dt_;
-  measuredBodyWrenchPrev_ = measuredBodyWrench_;
+  measuredBodyWrenchPrev_ = measuredWrenches_.at(bodyName);
   
   Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
   gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
   gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
 
   
-  error_.head<3>().noalias() = -gainCoupleP_ * Eigen::Matrix3d::Identity() * (calculatedWrench_.couple() - measuredWrench_.couple());
-  error_.tail<3>().noalias() = -gainForceP_  * Eigeb::Matrix3d::Identity() * projForceErr;
+  error_.head<3>().noalias() = -gainCoupleP_ * Eigen::Matrix3d::Identity() * (calculatedBodyWrench_.couple() - measuredWrenches_.at(bodyName).couple());
+  error_.tail<3>().noalias() = -gainForceP_  * Eigen::Matrix3d::Identity() * projForceErr_;
 
-  error_.noalias() += -gainD * (calculatedWrenchDot.vector() - measuredWrenchDot.vector());
+  error_.noalias() += -gainD * (calculatedBodyWrenchDot.vector() - measuredBodyWrenchDot.vector());
   // The minus sign multiplying the gains is set to get the wrench applied to the environment (important)
   
   error_.noalias() -= normalAcc_;
