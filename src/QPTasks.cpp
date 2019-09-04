@@ -1911,27 +1911,28 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
 }
 
 /**
- *  AdmittanceTask
+ *  AdmittanceTaskCommon
  */
-  
-AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-			       const std::string & bodyName, const Eigen::Vector3d & bodyPoint, double timeStep,
-			       double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight)
+
+AdmittanceTaskCommon::AdmittanceTaskCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+					   const std::string & bodyName,
+					   const Eigen::Vector3d & bodyPoint,
+					   double timeStep, double gainForceP, double gainForceD,
+					   double gainCoupleP, double gainCoupleD, double weight)
 : Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
   alphaDBegin_(-1), dt_(timeStep),
   gainForceP_(gainForceP), gainForceD_(gainForceD),
   gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
-  measuredWrench_(sva::ForceVecd::Zero()), measuredWrenchPrev_(sva::ForceVecd::Zero()),
-  calculatedWrench_(sva::ForceVecd::Zero()), calculatedWrenchPrev_(sva::ForceVecd::Zero()),
   jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
   error_(Eigen::Vector6d::Zero()), normalAcc_(Eigen::Vector6d::Zero()),
   dimWeight_(Eigen::Vector6d::Ones()), local_(true), 
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
   preQ_(6, mbs[robotIndex].nrDof()), preC_(6)
-{}
+{
+}
 
-void AdmittanceTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
-			       const Eigen::Vector6d & dim)
+void AdmittanceTaskCommon::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
+				     const Eigen::Vector6d & dim)
 {
   if (local_)
   {
@@ -1946,12 +1947,51 @@ void AdmittanceTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
   }
 }
 
-void AdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */,
-				  const SolverData & data)
+void AdmittanceTaskCommon::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */,
+					const SolverData & data)
 {
   alphaDBegin_ = data.alphaDBegin(robotIndex_);
 }
-
+  
+sva::ForceVecd AdmittanceTaskCommon::computeWrench(const rbd::MultiBodyConfig & mbc,
+						   const tasks::qp::BilateralContact & contact,
+						   Eigen::VectorXd lambdaVec, int pos)
+{
+  sva::ForceVecd wrench(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+  
+  for (size_t i = 0; i < contact.r1Points.size(); i++)
+  {
+    Eigen::VectorXd lambda = Eigen::VectorXd::Zero(contact.nrLambda(i));
+    
+    if (lambdaVec.size() > 0 && pos < lambdaVec.size())
+      lambda = lambdaVec.segment(pos, contact.nrLambda(i));
+    
+    Eigen::Matrix3d RBody = mbc.bodyPosW[bodyIndex_].rotation().transpose();
+    
+    wrench.force() += contact.force(lambda, i, contact.r1Cones);
+    wrench.couple() += (RBody * contact.r1Points[i]).cross(contact.force(lambda, i, contact.r1Cones));
+    
+    pos += contact.nrLambda(i);
+  }
+  
+  return wrench;
+}
+  
+/**
+ *  AdmittanceTask
+ */
+  
+AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+			       const std::string & bodyName,
+			       const Eigen::Vector3d & bodyPoint,
+			       double timeStep, double gainForceP, double gainForceD,
+			       double gainCoupleP, double gainCoupleD, double weight)
+: AdmittanceTaskCommon(mbs, robotIndex, bodyName, bodyPoint, timeStep,
+		       gainForceP, gainForceD, gainCoupleP, gainCoupleD, weight),
+  measuredWrench_(sva::ForceVecd::Zero()), measuredWrenchPrev_(sva::ForceVecd::Zero()),
+  calculatedWrench_(sva::ForceVecd::Zero()), calculatedWrenchPrev_(sva::ForceVecd::Zero())
+{
+}
 
 void AdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 			    const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -2006,50 +2046,23 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   Q_.noalias() = jacMat_.transpose() * preQ_;
 }
 
-sva::ForceVecd AdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc,
-					     const tasks::qp::BilateralContact & contact,
-					     Eigen::VectorXd lambdaVec, int pos)
-{
-  sva::ForceVecd wrench(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
-  
-  for (size_t i = 0; i < contact.r1Points.size(); i++)
-  {
-    Eigen::VectorXd lambda = Eigen::VectorXd::Zero(contact.nrLambda(i));
-    
-    if (lambdaVec.size() > 0 && pos < lambdaVec.size())
-      lambda = lambdaVec.segment(pos, contact.nrLambda(i));
-    
-    Eigen::Matrix3d RBody = mbc.bodyPosW[bodyIndex_].rotation().transpose();
-    
-    wrench.force() += contact.force(lambda, i, contact.r1Cones);
-    wrench.couple() += (RBody * contact.r1Points[i]).cross(contact.force(lambda, i, contact.r1Cones));
-    
-    pos += contact.nrLambda(i);
-  }
-  
-  return wrench;
-}
-
 /**
  *  NullSpaceAdmittanceTask
  */
 
 NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-						 const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
+						 const std::string & bodyName,
+						 const Eigen::Vector3d & bodyPoint,
 						 double timeStep, double gainForceP, double gainForceD,
 						 double gainCoupleP, double gainCoupleD, double weight)
-: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
-  alphaDBegin_(-1), nrBodies_(-1), dt_(timeStep),
-  gainForceP_(gainForceP), gainForceD_(gainForceD),
-  gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
+: AdmittanceTaskCommon(mbs, robotIndex, bodyName, bodyPoint, timeStep,
+		       gainForceP, gainForceD, gainCoupleP, gainCoupleD, weight),
+  nrBodies_(-1),
+  calculatedBodyWrench_(sva::ForceVecd::Zero()),
   measuredBodyWrenchPrev_(sva::ForceVecd::Zero()),
   calculatedBodyWrenchPrev_(sva::ForceVecd::Zero()),
   fdistRatio_(Eigen::Vector3d::Zero()),
-  jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
-  projForceErr_(Eigen::Vector3d::Zero()), error_(Eigen::Vector6d::Zero()),
-  normalAcc_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), local_(true),
-  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
-  preQ_(6, mbs[robotIndex].nrDof()), preC_(6)
+  projForceErr_(Eigen::Vector3d::Zero())
 {
 }
 
@@ -2061,27 +2074,11 @@ void NullSpaceAdmittanceTask::measuredWrenches(const std::map<std::string, sva::
   }
 }
   
-void NullSpaceAdmittanceTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
-                                        const Eigen::Vector6d & dim)
-{
-  if (local_)
-  {
-    Eigen::Matrix3d RBody = mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose();
-    
-    dimWeight_.head(3).noalias() = RBody * dim.head(3);
-    dimWeight_.tail(3).noalias() = RBody * dim.tail(3);
-  }
-  else
-  {
-    dimWeight_ = dim;
-  }
-}
-
 void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
 					   const SolverData& data)
 {
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-
+  AdmittanceTaskCommon::updateNrVars(mbs, data);
+  
   std::map<std::string, sva::ForceVecd> measuredWrenches_tmp;
   std::map<std::string, Eigen::Vector3d> calculatedForces_tmp;
   
@@ -2190,30 +2187,6 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   
   preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
   Q_.noalias() = jacMat_.transpose() * preQ_;
-}
-
-sva::ForceVecd NullSpaceAdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc,
-                                                      const tasks::qp::BilateralContact & contact,
-                                                      Eigen::VectorXd lambdaVec, int pos)
-{
-  sva::ForceVecd wrench(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
-  
-  for (size_t i = 0; i < contact.r1Points.size(); i++)
-  {
-    Eigen::VectorXd lambda = Eigen::VectorXd::Zero(contact.nrLambda(i));
-    
-    if (lambdaVec.size() > 0 && pos < lambdaVec.size())
-      lambda = lambdaVec.segment(pos, contact.nrLambda(i));
-    
-    Eigen::Matrix3d RBody = mbc.bodyPosW[bodyIndex_].rotation().transpose();
-    
-    wrench.force() += contact.force(lambda, i, contact.r1Cones);
-    wrench.couple() += (RBody * contact.r1Points[i]).cross(contact.force(lambda, i, contact.r1Cones));
-    
-    pos += contact.nrLambda(i);
-  }
-  
-  return wrench;
 }
   
 /**
