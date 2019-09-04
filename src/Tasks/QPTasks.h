@@ -1590,7 +1590,7 @@ private:
 			       const tasks::qp::BilateralContact & contact,
 			       Eigen::VectorXd lambdaVec, int pos);
 
-  int bodyIndex_, robotIndex_, alphaDBegin_;
+  int robotIndex_, bodyIndex_, alphaDBegin_;
   double dt_;
   double gainForceP_, gainForceD_;
   double gainCoupleP_, gainCoupleD_;
@@ -1642,28 +1642,70 @@ public:
     local_ = local;
   }
 
-  void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench);
+  void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench)
+  {
+    measuredWrenches_.at(bodyName) = wrench;
+  }
 
   void measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches);
 
-  const Eigen::Vector3d & measuredWrench(const std::string & bodyName) const;
+  const sva::ForceVecd & measuredWrench(const std::string & bodyName) const
+  {
+    return measuredWrenches_.at(bodyName);
+  }
 
-  const std::map<std::string, sva::ForceVecd> & wrenches() const
+  const std::map<std::string, sva::ForceVecd> & measuredWrenches() const
   {
     return measuredWrenches_;
   }
+
+  const sva::ForceVecd & calculatedWrench(const std::string & bodyName) const
+  {
+    return calculatedWrenches_.at(bodyName);
+  }
+
+  const std::map<std::string, sva::ForceVecd> & calculatedWrenches() const
+  {
+    return calculatedWrenches_;
+  }
   
-  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio);
+  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
+  {
+    fdistRatios_.at(bodyName) = ratio;
+  }
   
   void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
 
-  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const;
+  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const
+  {
+    return fdistRatios_.at(bodyName);
+  }
   
   const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
   {
     return fdistRatios_;
   }
 
+  void setForceGains(double gainP, double gainD)
+  {
+    gainForceP_ = gainP;
+    gainForceD_ = gainD;
+  }
+  
+  void setCoupleGains(double gainP, double gainD)
+  {
+    gainCoupleP_ = gainP;
+    gainCoupleD_ = gainD;
+  }
+  
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
+		 const Eigen::Vector6d & dim);
+  
+  const Eigen::Vector6d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+  
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
 			    const SolverData & data);
   
@@ -1683,13 +1725,39 @@ public:
   
 private:
 
-  int robotIndex_, alphaDBegin_, nrBodies_;
+  sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
+			       const tasks::qp::BilateralContact & contact,
+			       Eigen::VectorXd lambdaVec, int pos);
+  
+  int robotIndex_, bodyIndex_, alphaDBegin_, nrBodies_;
+  double dt_;
+  double gainForceP_, gainForceD_;
+  double gainCoupleP_, gainCoupleD_;  
 
   std::map<std::string, sva::ForceVecd> measuredWrenches_;
+  std::map<std::string, sva::ForceVecd> calculatedWrenches_;
+
+  sva::ForceVecd measuredBodyWrenchPrev_;
+  sva::ForceVecd calculatedBodyWrenchPrev_;
+  
   std::map<std::string, Eigen::Vector3d> fdistRatios_;
 
+  rbd::Jacobian jac_;
+  Eigen::MatrixXd jacMat_;
+  Eigen::MatrixXd projMat_;
+  Eigen::Vector3d projForceError_;
+  Eigen::Vector6d error_;
+  Eigen::Vector6d normalAcc_;
+  Eigen::Vector6d dimWeight_;
+  
+  // the following flag indicates if dimWeight values are related or not to the local frame
+  bool local_;
+
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
   // cache
-  Eigen::MatrixXd fdistRatioMat_;
+  Eigen::MatrixXd preQ_;
+  Eigen::Vector6d preC_;
 };
  
 class TASKS_DLLAPI ForceDistributionTask : public Task
@@ -1702,11 +1770,17 @@ public:
     return std::make_pair(0, 0);
   }
 
-  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio);
+  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
+  {
+    fdistRatios_.at(bodyName) = ratio;
+  }
   
   void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
 
-  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const;
+  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const
+  {
+    return fdistRatios_.at(bodyName);
+  }
   
   const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
   {
@@ -1751,13 +1825,14 @@ private:
   Eigen::MatrixXd W_;
   Eigen::MatrixXd A_;
 
+  Eigen::MatrixXd fdistRatioMat_;
+  Eigen::MatrixXd comJacMat_;
+  Eigen::Vector3d normalAcc_;
+  
   Eigen::MatrixXd Q_;
   Eigen::VectorXd C_;
   // cache
-  Eigen::MatrixXd fdistRatioMat_;
-  Eigen::MatrixXd comJacMat_;
   Eigen::VectorXd CSum_;
-  Eigen::Vector3d normalAcc_;
 };
 
 class TASKS_DLLAPI ZMPBasedCoMTask : public Task

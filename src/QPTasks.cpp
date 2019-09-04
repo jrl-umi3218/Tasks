@@ -1917,12 +1917,15 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
 AdmittanceTask::AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 			       const std::string & bodyName, const Eigen::Vector3d & bodyPoint, double timeStep,
 			       double gainForceP, double gainForceD, double gainCoupleP, double gainCoupleD, double weight)
-: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), dt_(timeStep),
-  gainForceP_(gainForceP), gainForceD_(gainForceD), gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
-  alphaDBegin_(-1), local_(true), measuredWrench_(Eigen::Vector6d::Zero()), measuredWrenchPrev_(Eigen::Vector6d::Zero()),
-  calculatedWrench_(Eigen::Vector6d::Zero()), calculatedWrenchPrev_(Eigen::Vector6d::Zero()),
+: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
+  alphaDBegin_(-1), dt_(timeStep),
+  gainForceP_(gainForceP), gainForceD_(gainForceD),
+  gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
+  measuredWrench_(sva::ForceVecd::Zero()), measuredWrenchPrev_(sva::ForceVecd::Zero()),
+  calculatedWrench_(sva::ForceVecd::Zero()), calculatedWrenchPrev_(sva::ForceVecd::Zero()),
   jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
-  error_(Eigen::Vector6d::Zero()), normalAcc_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()),
+  error_(Eigen::Vector6d::Zero()), normalAcc_(Eigen::Vector6d::Zero()),
+  dimWeight_(Eigen::Vector6d::Ones()), local_(true), 
   Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
   preQ_(6, mbs[robotIndex].nrDof()), preC_(6)
 {}
@@ -2035,60 +2038,49 @@ NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBod
 						 const std::string & bodyName, const Eigen::Vector3d & bodyPoint,
 						 double timeStep, double gainForceP, double gainForceD,
 						 double gainCoupleP, double gainCoupleD, double weight)
-: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), dt_(timeStep),
-  gainForceP_(gainForceP), gainForceD_(gainForceD), gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
-  alphaDBegin_(-1) 
+: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
+  alphaDBegin_(-1), nrBodies_(-1), dt_(timeStep),
+  gainForceP_(gainForceP), gainForceD_(gainForceD),
+  gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
+  measuredBodyWrenchPrev_(sva::ForceVecd::Zero()),
+  calculatedBodyWrenchPrev_(sva::ForceVecd::Zero()),
+  jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
+  projForceError_(Eigen::Vector3d::Zero()), error_(Eigen::Vector6d::Zero()),
+  normalAcc_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), local_(true),
+  Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof()),
+  preQ_(6, mbs[robotIndex].nrDof()), preC_(6)
 {
-}
-
-void NullSpaceAdmittanceTask::measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench)
-{
-  std::map<std::string, sva::ForceVecd>::iterator it = measuredWrenches_.find(bodyName);
-  if (it != measuredWrenches_.end())
-  {
-    measuredWrenches_[bodyName] = wrench;
-  }
 }
 
 void NullSpaceAdmittanceTask::measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches)
 {
-  for (std::pair<const std::string, sva::ForceVecd> & measuredWrench : measuredWrenches_)
+  for (const std::pair<std::string, sva::ForceVecd> & wrench : wrenches)
   {
-    std::map<std::string, sva::ForceVecd>::const_iterator it = wrenches.find(measuredWrench.first);
-    if (it != wrenches.end())
-    {
-      measuredWrench.second = wrenches.at(measuredWrench.first);
-    }
-  }
-}
-  
-void NullSpaceAdmittanceTask::fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
-{
-  std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(bodyName);
-  if (it != fdistRatios_.end())
-  {
-    fdistRatios_[bodyName] = ratio;
+    measuredWrenches_.at(wrench.first) = wrench.second;
   }
 }
   
 void NullSpaceAdmittanceTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
 {
-  for (std::pair<const std::string, Eigen::Vector3d> & fdistRatio : fdistRatios_)
+  for (const std::pair<std::string, Eigen::Vector3d> & ratio : ratios)
   {
-    std::map<std::string, Eigen::Vector3d>::const_iterator it = ratios.find(fdistRatio.first);
-    if (it != ratios.end())
-    {
-      fdistRatio.second = ratios.at(fdistRatio.first);
-    }
+    fdistRatios_.at(ratio.first) = ratio.second;
   }
 }
 
-const Eigen::Vector3d & NullSpaceAdmittanceTask::fdistRatio(const std::string & bodyName) const
+void NullSpaceAdmittanceTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
+                                        const Eigen::Vector6d & dim)
 {
-  std::map<std::string, Eigen::Vector3d>::const_iterator it = fdistRatios_.find(bodyName);
-  if (it != fdistRatios_.end())
+  if (local_)
   {
-    return fdistRatios_.at(bodyName);
+    Eigen::Matrix3d RBody = mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose();
+    
+    dimWeight_.head(3).noalias() = RBody * dim.head(3);
+    dimWeight_.tail(3).noalias() = RBody * dim.tail(3);
+  }
+  else
+  {
+    dimWeight_ = dim;
   }
 }
 
@@ -2096,7 +2088,8 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
 					   const SolverData& data)
 {
   alphaDBegin_ = data.alphaDBegin(robotIndex_);
-  
+
+  std::map<std::string, sva::ForceVecd> measuredWrenches_tmp;
   std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
   
   for (const BilateralContact & contact : data.allContacts())
@@ -2104,6 +2097,16 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
     if (contact.contactId.r1Index == robotIndex_)
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
+
+      std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(r1BodyName);
+      if (measuredWrench != measuredWrenches_.end())
+      {
+	measuredWrenches_tmp[r1BodyName] = measuredWrenches_[r1BodyName];
+      }
+      else
+      {
+        measuredWrenches_tmp[r1BodyName] = sva::ForceVecd::Zero();
+      }
       
       std::map<std::string, Eigen::Vector3d>::iterator fdistRatio = fdistRatios_.find(r1BodyName);
       if (fdistRatio != fdistRatios_.end())
@@ -2116,30 +2119,103 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
       }
     }
   }
-  
+
+  measuredWrenches_ = measuredWrenches_tmp;
   fdistRatios_ = fdistRatios_tmp;
   
   nrBodies_ = fdistRatios_.size();
   
-  fdistRatioMat_.setZero(3 * nrBodies_, 3);
+  projMat_.setZero(3 * nrBodies_, 3 * nrBodies_);
 }
 
 void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 				     const std::vector<rbd::MultiBodyConfig> & mbcs,
 				     const SolverData & data)
 {
-  int row = 0;
+  const rbd::MultiBody& mb = mbs[robotIndex_];
+  const rbd::MultiBodyConfig& mbc = mbcs[robotIndex_];
+  const std::vector<sva::MotionVecd>& normalAccB = data.normalAccB(robotIndex_);
   
-  for (const BilateralContact & contact : data.allContacts())
+  normalAcc_.head(3) = jac_.normalAcceleration(mb, mbc, normalAccB).angular();
+  normalAcc_.tail(3) = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
+  
+  jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
+  
+  int row = 0;
+
+  Eigen::VectorXd calculatedForceVec, measuredForceVec;
+  
+  for (std::pair<std::string, sva::ForceVecd> calculatedWrench : calculatedWrenches_)
+    calculatedWrench.second = sva::ForceVecd::Zero();
+    
+  for (size_t ci = 0; ci < data.allContacts().size(); ci++)
   {
+    const tasks::qp::BilateralContact& contact = data.allContacts()[ci];
+
     if (contact.contactId.r1Index == robotIndex_)
     {
-      fdistRatioMat_.block<3, 3>(row, 0) = fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
+      const std::string & r1BodyName = contact.contactId.r1BodyName;
+      
+      calculatedWrenches_.at(r1BodyName) += computeWrench(mbc, contact, data.lambdaVecPrev(),
+                                                          data.lambdaBegin(ci) - data.lambdaBegin());
+
+      calculatedForceVec.segment<3>(row)
+      
+      for (int i = 0; i < nrBodies_; i++)
+        projMat_.block<3, 3>(row, 3 * i) = -1 * fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
       row += 3;
     }
   }
+  
+  projMat_.noalias() += Eigen::MatrixXd::Identity(3 * nrBodies_, 3 * nrBodies_);
 
-  // Pending to implement the projection matrix
+  const std::string & bodyName = mb.body(bodyIndex_).name();
+  
+  sva::ForceVecd calculatedBodyWrenchDot = (calculatedWrenches_.at(bodyName) - calculatedBodyWrenchPrev_) / dt_;
+  calculatedBodyWrenchPrev_ = calculatedWrenches_.at(mb.body(bodyIndex).name);
+  
+  sva::ForceVecd measuredBodyWrenchDot = (measuredWrenches_.at(bodyName) - measuredBodyWrenchPrev_) / dt_;
+  measuredBodyWrenchPrev_ = measuredWrenches_.at(mb.body(bodyIndex).name);
+  
+  Eigen::Matrix6d gainP = Eigen::Matrix6d::Zero();
+  gainP.block(0, 0, 3, 3) = gainCoupleP_ * Eigen::Matrix3d::Identity();
+  gainP.block(3, 3, 3, 3) = gainForceP_ * Eigen::Matrix3d::Identity();
+  
+  Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
+  gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
+  gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
+
+  // projForceError_ = projMat_
+  
+  error_.head<3>().noalias() = -gainCoupleP_ * Eigen::Matrix3d::Identity() * (calculatedWrench_.couple() - measuredWrench_.couple());
+
+  error_.tail<3>().noalias() = -gainForceP_  * Eigeb::Matrix3d::Identity() * proj_
+  
+  // Pending to implement the projection
+}
+
+sva::ForceVecd NullSpaceAdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc,
+                                                      const tasks::qp::BilateralContact & contact,
+                                                      Eigen::VectorXd lambdaVec, int pos)
+{
+  sva::ForceVecd wrench(Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+  
+  for (size_t i = 0; i < contact.r1Points.size(); i++)
+  {
+    Eigen::VectorXd lambda = Eigen::VectorXd::Zero(contact.nrLambda(i));
+    
+    if (lambdaVec.size() > 0 && pos < lambdaVec.size())
+      lambda = lambdaVec.segment(pos, contact.nrLambda(i));
+    
+    Eigen::Matrix3d RBody = mbc.bodyPosW[bodyIndex_].rotation().transpose();
+    
+    wrench.force() += contact.force(lambda, i, contact.r1Cones);
+    wrench.couple() += (RBody * contact.r1Points[i]).cross(contact.force(lambda, i, contact.r1Cones));
+    
+    pos += contact.nrLambda(i);
+  }
+  
+  return wrench;
 }
   
 /**
@@ -2160,33 +2236,11 @@ ForceDistributionTask::ForceDistributionTask(const std::vector<rbd::MultiBody> &
   }
 }
 
-void ForceDistributionTask::fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
-{
-  std::map<std::string, Eigen::Vector3d>::iterator it = fdistRatios_.find(bodyName);
-  if (it != fdistRatios_.end())
-  {
-    fdistRatios_[bodyName] = ratio;
-  }
-}
-  
 void ForceDistributionTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
 {
-  for (std::pair<const std::string, Eigen::Vector3d> & fdistRatio : fdistRatios_)
+  for (const std::pair<std::string, Eigen::Vector3d> & ratio : ratios)
   {
-    std::map<std::string, Eigen::Vector3d>::const_iterator it = ratios.find(fdistRatio.first);
-    if (it != ratios.end())
-    {
-      fdistRatio.second = ratios.at(fdistRatio.first);
-    }
-  }
-}
-
-const Eigen::Vector3d & ForceDistributionTask::fdistRatio(const std::string & bodyName) const
-{
-  std::map<std::string, Eigen::Vector3d>::const_iterator it = fdistRatios_.find(bodyName);
-  if (it != fdistRatios_.end())
-  {
-    return fdistRatios_.at(bodyName);
+    fdistRatios_.at(ratio.first) = ratio.second;
   }
 }
 
