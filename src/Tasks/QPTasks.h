@@ -1669,23 +1669,16 @@ public:
     return calculatedWrenches_;
   }
   
-  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
+  void fdistRatio(const Eigen::Vector3d & ratio)
   {
-    fdistRatios_.at(bodyName) = ratio;
-  }
-  
-  void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
-
-  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const
-  {
-    return fdistRatios_.at(bodyName);
-  }
-  
-  const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
-  {
-    return fdistRatios_;
+    fdistRatio_ = ratio;
   }
 
+  const Eigen::Vector3d & fdistRatio() const
+  {
+    return fdistRatio_;
+  }
+  
   void setForceGains(double gainP, double gainD)
   {
     gainForceP_ = gainP;
@@ -1734,18 +1727,19 @@ private:
   double gainForceP_, gainForceD_;
   double gainCoupleP_, gainCoupleD_;  
 
+  std::set<std::string> bodies_;
+  
   std::map<std::string, sva::ForceVecd> measuredWrenches_;
-  std::map<std::string, sva::ForceVecd> calculatedWrenches_;
+  std::map<std::string, Eigen::Vector3d> calculatedForces_;
 
+  sva::ForceVecd calculatedBodyWrench_;
   sva::ForceVecd measuredBodyWrenchPrev_;
   sva::ForceVecd calculatedBodyWrenchPrev_;
   
-  std::map<std::string, Eigen::Vector3d> fdistRatios_;
+  Eigen::Vector3d fdistRatio_;
 
   rbd::Jacobian jac_;
   Eigen::MatrixXd jacMat_;
-  Eigen::MatrixXd projMat_;
-  Eigen::Vector3d projForceError_;
   Eigen::Vector6d error_;
   Eigen::Vector6d normalAcc_;
   Eigen::Vector6d dimWeight_;

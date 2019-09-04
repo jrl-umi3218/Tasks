@@ -2044,6 +2044,7 @@ NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBod
   gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
   measuredBodyWrenchPrev_(sva::ForceVecd::Zero()),
   calculatedBodyWrenchPrev_(sva::ForceVecd::Zero()),
+  fdistRatio_(Eigen::Vector3d::Zero()),
   jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
   projForceError_(Eigen::Vector3d::Zero()), error_(Eigen::Vector6d::Zero()),
   normalAcc_(Eigen::Vector6d::Zero()), dimWeight_(Eigen::Vector6d::Ones()), local_(true),
@@ -2060,14 +2061,6 @@ void NullSpaceAdmittanceTask::measuredWrenches(const std::map<std::string, sva::
   }
 }
   
-void NullSpaceAdmittanceTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
-{
-  for (const std::pair<std::string, Eigen::Vector3d> & ratio : ratios)
-  {
-    fdistRatios_.at(ratio.first) = ratio.second;
-  }
-}
-
 void NullSpaceAdmittanceTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
                                         const Eigen::Vector6d & dim)
 {
@@ -2090,13 +2083,14 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
   alphaDBegin_ = data.alphaDBegin(robotIndex_);
 
   std::map<std::string, sva::ForceVecd> measuredWrenches_tmp;
-  std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
+  std::map<std::string, Eigen::Vector3d> calculatedForces_tmp;
   
   for (const BilateralContact & contact : data.allContacts())
   {
     if (contact.contactId.r1Index == robotIndex_)
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
+      bodies_.insert(r1BodyName);
 
       std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(r1BodyName);
       if (measuredWrench != measuredWrenches_.end())
@@ -2107,25 +2101,21 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
       {
         measuredWrenches_tmp[r1BodyName] = sva::ForceVecd::Zero();
       }
-      
-      std::map<std::string, Eigen::Vector3d>::iterator fdistRatio = fdistRatios_.find(r1BodyName);
-      if (fdistRatio != fdistRatios_.end())
+
+      std::map<std::string, Eigen::Vector3d>::iterator calculatedForce = calculatedForces_.find(r1BodyName);
+      if (calculatedForce != calculatedForces_.end())
       {
-	fdistRatios_tmp[r1BodyName] = fdistRatios_[r1BodyName];
+	calculatedForces_tmp[r1BodyName] = calculatedForces_[r1BodyName];
       }
       else
       {
-	fdistRatios_tmp[r1BodyName] = Eigen::Vector3d::Zero();
+        calculatedForces_tmp[r1BodyName] = sva::ForceVecd::Zero();
       }
     }
   }
-
+  
   measuredWrenches_ = measuredWrenches_tmp;
-  fdistRatios_ = fdistRatios_tmp;
-  
-  nrBodies_ = fdistRatios_.size();
-  
-  projMat_.setZero(3 * nrBodies_, 3 * nrBodies_);
+  calculatedForces_ = calculatedForces_tmp;
 }
 
 void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
@@ -2140,14 +2130,10 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   normalAcc_.tail(3) = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
   
   jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
-  
-  int row = 0;
 
-  Eigen::VectorXd calculatedForceVec, measuredForceVec;
+  calculatedBodyWrench_ = sva::ForceVecd(Eigen::Vector6d::Zero());
+  std::map<std::string, Eigen::Vector3d> calculatedForces;
   
-  for (std::pair<std::string, sva::ForceVecd> calculatedWrench : calculatedWrenches_)
-    calculatedWrench.second = sva::ForceVecd::Zero();
-    
   for (size_t ci = 0; ci < data.allContacts().size(); ci++)
   {
     const tasks::qp::BilateralContact& contact = data.allContacts()[ci];
@@ -2155,43 +2141,55 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
     if (contact.contactId.r1Index == robotIndex_)
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
-      
-      calculatedWrenches_.at(r1BodyName) += computeWrench(mbc, contact, data.lambdaVecPrev(),
-                                                          data.lambdaBegin(ci) - data.lambdaBegin());
+      int r1BodyIndex = mbs[robotIndex_].bodyIndexByName(r1BodyName);
 
-      calculatedForceVec.segment<3>(row)
+      sva::ForceVecd wrench = computeWrench(mbc, contact, data.lambdaVecPrev(),
+                                            data.lambdaBegin(ci) - data.lambdaBegin());
       
-      for (int i = 0; i < nrBodies_; i++)
-        projMat_.block<3, 3>(row, 3 * i) = -1 * fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
-      row += 3;
+      if (r1BodyIndex == bodyIndex_)
+        calculatedBodyWrench_ += wrench;
+      
+      calculatedForces.at(r1BodyName) += wrench.force();
     }
   }
-  
-  projMat_.noalias() += Eigen::MatrixXd::Identity(3 * nrBodies_, 3 * nrBodies_);
 
   const std::string & bodyName = mb.body(bodyIndex_).name();
+
+  Eigen::Vector3d projForceErr(Eigen::Vector3d::Zero());
   
-  sva::ForceVecd calculatedBodyWrenchDot = (calculatedWrenches_.at(bodyName) - calculatedBodyWrenchPrev_) / dt_;
-  calculatedBodyWrenchPrev_ = calculatedWrenches_.at(mb.body(bodyIndex).name);
+  for (const std::string & eachBody : bodies_)
+  {
+    Eigen::Vector3d forceErr = calculatedForces.at(eachBody) - measuredWrenches_.at(eachBody).force();
+    if (eachBody == bodyName)
+      projForceErr.noalias() += (Eigen::Vector3d::Identity() - fdistRatio_.asDiagonal()) * forceErr;
+    else
+      projForceErr.noalias() -= fdistRatio_.asDiagonal() * forceErr;
+  }
+  
+  sva::ForceVecd calculatedBodyWrenchDot = (calculatedBodyWrench_ - calculatedBodyWrenchPrev_) / dt_;
+  calculatedBodyWrenchPrev_ = calculatedBodyWrench_;
   
   sva::ForceVecd measuredBodyWrenchDot = (measuredWrenches_.at(bodyName) - measuredBodyWrenchPrev_) / dt_;
-  measuredBodyWrenchPrev_ = measuredWrenches_.at(mb.body(bodyIndex).name);
-  
-  Eigen::Matrix6d gainP = Eigen::Matrix6d::Zero();
-  gainP.block(0, 0, 3, 3) = gainCoupleP_ * Eigen::Matrix3d::Identity();
-  gainP.block(3, 3, 3, 3) = gainForceP_ * Eigen::Matrix3d::Identity();
+  measuredBodyWrenchPrev_ = measuredBodyWrench_;
   
   Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
   gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
   gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
 
-  // projForceError_ = projMat_
   
   error_.head<3>().noalias() = -gainCoupleP_ * Eigen::Matrix3d::Identity() * (calculatedWrench_.couple() - measuredWrench_.couple());
+  error_.tail<3>().noalias() = -gainForceP_  * Eigeb::Matrix3d::Identity() * projForceErr;
 
-  error_.tail<3>().noalias() = -gainForceP_  * Eigeb::Matrix3d::Identity() * proj_
+  error_.noalias() += -gainD * (calculatedWrenchDot.vector() - measuredWrenchDot.vector());
+  // The minus sign multiplying the gains is set to get the wrench applied to the environment (important)
   
-  // Pending to implement the projection
+  error_.noalias() -= normalAcc_;
+  
+  preC_.noalias() = dimWeight_.asDiagonal() * error_;
+  C_.noalias() = -jacMat_.transpose() * preC_;
+  
+  preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
+  Q_.noalias() = jacMat_.transpose() * preQ_;
 }
 
 sva::ForceVecd NullSpaceAdmittanceTask::computeWrench(const rbd::MultiBodyConfig & mbc,
@@ -2435,17 +2433,17 @@ void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const 
   lambdaBegin_ = data.lambdaBegin();
   int nrLambda = data.totalLambda();
 
-  std::set<std::string> bodies;
+  std::set<std::string> contactBodies;
   
   for (const BilateralContact & contact : data.allContacts())
   {
     if (contact.contactId.r1Index == robotIndex_)
     {
-      bodies.insert(contact.contactId.r1BodyName);
+      contactBodies.insert(contact.contactId.r1BodyName);
     }
   }
 
-  nrBodies_ = bodies.size();
+  nrBodies_ = contactBodies.size();
   
   W_.setZero(3 * nrBodies_, nrLambda);
   pW_.setZero(3, nrLambda);
