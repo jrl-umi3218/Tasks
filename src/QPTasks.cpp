@@ -2424,7 +2424,7 @@ void ZMPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const 
   Q_.setZero(nrLambda, nrLambda);
   C_.setZero(nrLambda);
   
-  preQ_.setZero(6, nrLambda);
+  preQ_.setZero(3, nrLambda);
 }
 
 void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs, const SolverData & data)
@@ -2447,6 +2447,11 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
 	
 	for (const Eigen::Vector3d & gen : cone.generators)
 	{
+	  /*
+	  std::cout << "Rafa, in ZMPTask::update, for i = " << i << ", "
+		    << "gen = " << gen.transpose() << std::endl;
+	  */
+	  
 	  W_.block<3, 1>(row, column) = gen;
 	  pW_.col(column).noalias() = (contactPosW - zmp_).cross(gen);
 	  column++;
@@ -2466,16 +2471,18 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
     totalForce_ += refForcesVec.segment<3>(3 * i);
 
   totalMomentZMP_ = pW_ * data.lambdaVecPrev();
-
+  
   std::cout << "Rafa, in ZMPTask::update, refForcesVec = "
 	    << refForcesVec.transpose() << std::endl;
   std::cout << "Rafa, in ZMPTask::update, totalForce_ = "
 	    << totalForce_.transpose() << std::endl;
   std::cout << "Rafa, in ZMPTask::update, totalMomentZMP_ = "
 	    << totalMomentZMP_.transpose() << std::endl;
-  
-  // std::cout << "Rafa, in ZMPTask::update, W_ = " << std::endl << W_ << std::endl;
-  // std::cout << "Rafa, in ZMPTask::update, pW_ = " << std::endl << pW_ << std::endl;
+
+  /*
+  std::cout << "Rafa, in ZMPTask::update, W_ = " << std::endl << W_ << std::endl;
+  std::cout << "Rafa, in ZMPTask::update, pW_ = " << std::endl << pW_ << std::endl;
+  */
   
   preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
   Q_.noalias() = pW_.transpose() * preQ_;
