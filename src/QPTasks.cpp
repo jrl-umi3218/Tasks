@@ -2006,7 +2006,7 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   
   jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
   
-  calculatedWrench_ = sva::ForceVecd(Eigen::Vector6d::Zero());
+  calculatedWrench_ = sva::ForceVecd::Zero();
   
   for (size_t ci = 0; ci < data.allContacts().size(); ci++)
   {
@@ -2032,7 +2032,7 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
   gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
   gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
-  
+
   error_.noalias() = -gainP * (calculatedWrench_.vector() - measuredWrench_.vector());
   error_.noalias() += -gainD * (calculatedWrenchDot.vector() - measuredWrenchDot.vector());
   // The minus sign multiplying the gains is set to get the wrench applied to the environment (important)
@@ -2066,11 +2066,20 @@ NullSpaceAdmittanceTask::NullSpaceAdmittanceTask(const std::vector<rbd::MultiBod
 {
 }
 
+void NullSpaceAdmittanceTask::measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench)
+{
+  std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(bodyName);
+  if (measuredWrench != measuredWrenches_.end())
+    measuredWrenches_.at(bodyName) = wrench;
+}
+  
 void NullSpaceAdmittanceTask::measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches)
 {
   for (const std::pair<std::string, sva::ForceVecd> & wrench : wrenches)
   {
-    measuredWrenches_.at(wrench.first) = wrench.second;
+    std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(wrench.first);
+    if (measuredWrench != measuredWrenches_.end())
+      measuredWrenches_.at(wrench.first) = wrench.second;
   }
 }
   
@@ -2088,7 +2097,7 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
       bodies_.insert(r1BodyName);
-
+      
       std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(r1BodyName);
       if (measuredWrench != measuredWrenches_.end())
       {
@@ -2128,8 +2137,10 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   
   jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
 
-  calculatedBodyWrench_ = sva::ForceVecd(Eigen::Vector6d::Zero());
-  std::map<std::string, Eigen::Vector3d> calculatedForces;
+  calculatedBodyWrench_ = sva::ForceVecd::Zero();
+
+  for (const std::pair<std::string, Eigen::Vector3d> & calculatedForce : calculatedForces_)
+    calculatedForces_.at(calculatedForce.first) = Eigen::Vector3d::Zero();
   
   for (size_t ci = 0; ci < data.allContacts().size(); ci++)
   {
@@ -2146,17 +2157,18 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
       if (r1BodyIndex == bodyIndex_)
         calculatedBodyWrench_ += wrench;
       
-      calculatedForces.at(r1BodyName) += wrench.force();
+      calculatedForces_.at(r1BodyName) += wrench.force();
     }
   }
-
+  
   const std::string & bodyName = mb.body(bodyIndex_).name();
 
   projForceErr_.setZero();
   
   for (const std::string & eachBody : bodies_)
   {
-    Eigen::Vector3d forceErr = calculatedForces.at(eachBody) - measuredWrenches_.at(eachBody).force();
+    Eigen::Vector3d forceErr = calculatedForces_.at(eachBody) - measuredWrenches_.at(eachBody).force();
+
     if (eachBody == bodyName)
       projForceErr_.noalias() += forceErr;
 
@@ -2172,7 +2184,6 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
   gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
   gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
-
   
   error_.head<3>().noalias() = -gainCoupleP_ * Eigen::Matrix3d::Identity() * (calculatedBodyWrench_.couple() - measuredWrenches_.at(bodyName).couple());
   error_.tail<3>().noalias() = -gainForceP_  * Eigen::Matrix3d::Identity() * projForceErr_;
@@ -2359,31 +2370,15 @@ void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   normalAcc_ = jac_.normalAcceleration(mb, mbc);
 
-  /*
-  std::cout << "Rafa, in ZMPBasedCoMTask::update, gAcc_ = " << gAcc_ << ", "
-            << "ddcom_.z() = " << ddcom_.z() << ", "
-            << "com_ = " << com_.transpose() << ", "
-            << "zmp_ = " << zmp_.transpose() << std::endl;
-  */
-  
   CSum_ <<
     (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
     (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
     ddcom_.z();
 
-  // std::cout << "Rafa, in ZMPBasedCoMTask::update, before normalAcc_, CSum_ = "
-  //           << CSum_.transpose() << std::endl;
-  
   CSum_ -= normalAcc_;
 
-  // std::cout << "Rafa, in ZMPBasedCoMTask::update, after normalAcc_, CSum_ = "
-  //           << CSum_.transpose() << std::endl;
-  
   jacMat_ = jac_.jacobian(mb, mbc);
 
-  // std::cout << "Rafa, in ZMPBasedCoMTask::update, jacMat_ = "
-  //           << std::endl << jacMat_ << std::endl;
-  
   preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
   
   Q_.noalias() =  jacMat_.transpose() * preQ_;
@@ -2471,18 +2466,6 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
     totalForce_ += refForcesVec.segment<3>(3 * i);
 
   totalMomentZMP_ = pW_ * data.lambdaVecPrev();
-  
-  std::cout << "Rafa, in ZMPTask::update, refForcesVec = "
-	    << refForcesVec.transpose() << std::endl;
-  std::cout << "Rafa, in ZMPTask::update, totalForce_ = "
-	    << totalForce_.transpose() << std::endl;
-  std::cout << "Rafa, in ZMPTask::update, totalMomentZMP_ = "
-	    << totalMomentZMP_.transpose() << std::endl;
-
-  /*
-  std::cout << "Rafa, in ZMPTask::update, W_ = " << std::endl << W_ << std::endl;
-  std::cout << "Rafa, in ZMPTask::update, pW_ = " << std::endl << pW_ << std::endl;
-  */
   
   preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
   Q_.noalias() = pW_.transpose() * preQ_;

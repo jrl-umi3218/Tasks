@@ -1641,11 +1641,8 @@ public:
 			  double timeStep, double gainForceP, double gainForceD,
 			  double gainCoupleP, double gainCoupleD, double weight);
 
-  void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench)
-  {
-    measuredWrenches_.at(bodyName) = wrench;
-  }
-
+  void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench);
+  
   void measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches);
 
   const sva::ForceVecd & measuredWrench(const std::string & bodyName) const
