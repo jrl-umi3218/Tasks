@@ -113,6 +113,12 @@ public:
   void resetTasks();
   int nrTasks() const;
 
+  const std::vector<Task *> & getTasks() const { return tasks_; }
+  const std::vector<Equality *> & getEqConstr() const { return eqConstr_; }
+  const std::vector<Inequality *> & getInEqConstr() const { return inEqConstr_; }
+  const std::vector<GenInequality *> & getGenInEqConstr() const { return genInEqConstr_; }
+  const std::vector<Bound *> & getBoundConstr() const { return boundConstr_; }
+  
   void solver(const std::string & name);
   std::string solver() const;
 
