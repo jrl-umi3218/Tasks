@@ -2370,9 +2370,11 @@ void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   normalAcc_ = jac_.normalAcceleration(mb, mbc);
 
+  Eigen::Vector3d com_hat = rbd::computeCoM(mb, mbc);
+
   CSum_ <<
-    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
-    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
+    (gAcc_ + ddcom_.z()) / (com_hat.z() - zmp_.z()) * (com_.x() - zmp_.x()),
+    (gAcc_ + ddcom_.z()) / (com_hat.z() - zmp_.z()) * (com_.y() - zmp_.y()),
     ddcom_.z();
 
   CSum_ -= normalAcc_;
