@@ -7,6 +7,8 @@ image: Visual Studio 2017
 clone_folder: C:/devel-src/Tasks
 configuration:
   - RelWithDebInfo
+init:
+- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 environment:
   CI_OS_NAME: win32
   CI_TOOL: appveyor
@@ -17,7 +19,7 @@ environment:
 # Do not tinker with the variables below unless you know what you are doing
   SOURCE_FOLDER: C:\devel-src
   CMAKE_INSTALL_PREFIX: C:/devel
-  PATH: C:\msys64\mingw64\bin;C:\Python36-x64;C:\Python36-x64\Scripts;C:/devel/bin;C:\Libraries\boost_1_67_0\lib64-msvc-14.1;%PATH%
+  PATH: C:\Python36-x64;C:\Python36-x64\Scripts;C:/devel/bin;C:\Libraries\boost_1_67_0\lib64-msvc-14.1;C:\msys64\mingw64\bin;%PATH%
   PKG_CONFIG_PATH: C:/devel/lib/pkgconfig
   BOOST_ROOT: C:\Libraries\boost_1_67_0
   BOOST_LIBRARYDIR: C:\Libraries\boost_1_67_0\lib64-msvc-14.1

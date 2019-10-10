@@ -25,14 +25,11 @@ if(${eigen-lssol_FOUND})
 endif()
 target_include_directories(Tasks PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../include> $<INSTALL_INTERFACE:include>)
 set_target_properties(Tasks PROPERTIES COMPILE_FLAGS "-Dtasks_EXPORTS")
-set_target_properties(Tasks PROPERTIES SOVERSION 0 VERSION 0.9.0)
+set_target_properties(Tasks PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
 set_target_properties(Tasks PROPERTIES CXX_STANDARD 11)
 
-# Targets:
-#   * <prefix>/lib/libbar.a
-#   * <prefix>/lib/libbaz.a
-#   * header location after install: <prefix>/include/foo/Bar.hpp
-#   * headers can be included by C++ code `#include <foo/Bar.hpp>`
+pkg_config_append_libs(Tasks)
+
 install(
     TARGETS Tasks
     EXPORT "${TARGETS_EXPORT_NAME}"
