@@ -2206,7 +2206,9 @@ cdef class QPSolver(object):
     return self.impl.nrTasks()
   def resetTasks(self):
     self.impl.resetTasks()
-  def solver(self, name):
+  def solver(self, name = None):
+    if name is None:
+      return self.impl.solver()
     if isinstance(name, unicode):
       name = name.encode(u'ascii')
     self.impl.solver(name)
