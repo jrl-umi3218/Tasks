@@ -2467,6 +2467,12 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
   for (size_t i = 0; i < nrBodies_; i++)
     totalForce_ += refForcesVec.segment<3>(3 * i);
 
+  if (totalForce_.norm() == 0) {
+    std::cout << "Rafa, in ZMPTask::update, W_ = " << std::endl << W_ << std::endl;
+    std::cout << "Rafa, in ZMPTask::update, data.lambdaVecPrev() = " << data.lambdaVecPrev().transpose() << std::endl;
+    std::cout << "Rafa, in ZMPTask::update, refForcesVec = " << refForcesVec.transpose() << std::endl;
+  }
+  
   totalMomentZMP_ = pW_ * data.lambdaVecPrev();
   
   preQ_.noalias() = dimWeight_.asDiagonal() * pW_;

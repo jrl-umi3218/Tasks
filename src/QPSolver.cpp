@@ -426,7 +426,7 @@ Eigen::VectorXd QPSolver::lambdaVec() const
   {
     
     std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
-    /*    
+    
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->A_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->A_.size() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() << std::endl;
@@ -442,7 +442,7 @@ Eigen::VectorXd QPSolver::lambdaVec() const
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XU_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XU_.transpose() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->Q_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->Q_ << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->C_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->C_ << std::endl;
-    */
+    
     *(int*)0 = 0;
   }
   
