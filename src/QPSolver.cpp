@@ -62,7 +62,18 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody> & mbs, const s
   solverTimer_.stop();
 
   data_.lambdaVecPrev_ = lambdaVec();
-        
+
+  volatile bool check = data_.lambdaVecPrev_.isZero(0);
+  volatile int dummy = 0;
+
+  if (check) {
+    dummy = 1;
+    std::cout << "Rafa, in QPSolver::solveNoMbcUpdate, lambdaVec() = 0" << std::endl;
+  }
+  
+  // if (data_.lambdaVecPrev_.isZero(0))
+  //   *(int*)0 = 0;
+  
   if(!success)
   {
     solver_->errorMsg(mbs, tasks_, eqConstr_, inEqConstr_, genInEqConstr_, boundConstr_, std::cerr) << std::endl;
@@ -416,14 +427,20 @@ Eigen::VectorXd QPSolver::lambdaVec() const
 {
   // Rafa added this
   bool nantest = false;
+  bool zerotest = false;
   //for (int i = 0; i < solver_->result().size(); i++) {
   //  nantest |= std::isnan(solver_->result()[i]);
   //}
   
   nantest = (isnan(solver_->result().array())).count() > 0;
+  zerotest = solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_).isZero(0);
+
+  //std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
   
-  if (nantest)
+  if (nantest || zerotest)
   {
+    if (zerotest)
+      std::cout << "Rafa, in QPSolver::lambdaVec, zerotest" << std::endl;
     
     std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
     
@@ -442,8 +459,9 @@ Eigen::VectorXd QPSolver::lambdaVec() const
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XU_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XU_.transpose() << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->Q_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->Q_ << std::endl;
     std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->C_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->C_ << std::endl;
-    
-    *(int*)0 = 0;
+
+    if (nantest)
+      *(int*)0 = 0;
   }
   
   return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_);
