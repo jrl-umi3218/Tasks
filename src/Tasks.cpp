@@ -14,6 +14,7 @@
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 
+#include <iostream>  // Rafa added this
 
 namespace tasks
 {

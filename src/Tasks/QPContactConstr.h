@@ -247,7 +247,7 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data);
   
-  virtual std::string nameEq() const;
+  virtual std::string nameEq() const override;
 
 private:
   
@@ -287,7 +287,7 @@ public:
                       const std::vector<rbd::MultiBodyConfig>& mbcs,
                       const SolverData& data);
 
-  virtual std::string nameEq() const;
+  virtual std::string nameEq() const override;
 
 private:
 

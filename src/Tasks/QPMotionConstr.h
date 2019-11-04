@@ -227,6 +227,8 @@ public:
   {
     return frictionTorque_;
   }
+
+  virtual std::string nameGenInEq() const override;
   
 private:
   std::shared_ptr<rbd::Friction> friction_;
@@ -248,6 +250,8 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data);
 
+  virtual std::string nameGenInEq() const override;
+
 private:
   std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;
 };
@@ -267,6 +271,8 @@ public:
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data);
+
+  virtual std::string nameGenInEq() const override;
 
 private:
   std::shared_ptr<torque_control::TorqueFeedbackTerm> fbTerm_;

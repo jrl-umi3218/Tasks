@@ -45,6 +45,11 @@ public:
                      const Eigen::VectorXd & dimWeight,
                      double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return hlTask_->nameHighLevelTask();
+  }
+  
   virtual std::pair<int, int> begin() const override
   {
     return std::make_pair(alphaDBegin_, alphaDBegin_);
@@ -456,6 +461,11 @@ public:
               double stiffness,
               double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "PostureTask";
+  }
+
   tasks::PostureTask & task()
   {
     return pt_;
@@ -535,6 +545,11 @@ public:
                const Eigen::Vector3d & pos,
                const Eigen::Vector3d & bodyPoint = Eigen::Vector3d::Zero());
 
+  virtual std::string nameHighLevelTask() const override
+  {
+    return "PositionTask";
+  }
+
   tasks::PositionTask & task()
   {
     return pt_;
@@ -587,6 +602,11 @@ public:
                   const std::string & bodyName,
                   const Eigen::Matrix3d & ori);
 
+  virtual std::string nameHighLevelTask() const override
+  {
+    return "OrientationTask";
+  }
+  
   tasks::OrientationTask & task()
   {
     return ot_;
@@ -863,6 +883,11 @@ public:
           const Eigen::Vector3d & com,
           std::vector<double> weight);
 
+  virtual std::string nameHighLevelTask() const override
+  {
+    return "CoMTask";
+  }
+  
   tasks::CoMTask & task()
   {
     return ct_;
@@ -1081,6 +1106,11 @@ public:
   CentroidalAngularMomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
 				double gain, const Eigen::Vector3d angMomentum, double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "CentroidalAngularMomentumTask";
+  }
+  
   virtual std::pair<int, int> begin() const
   {
     return std::make_pair(alphaDBegin_, alphaDBegin_);
@@ -1429,6 +1459,11 @@ public:
   WrenchTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string & bodyName,
 	     const Eigen::Vector3d & bodyPoint, double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "WrenchTask";
+  }
+  
   virtual std::pair<int, int> begin() const
   {
     return std::make_pair(lambdaBegin_, lambdaBegin_);
@@ -1606,6 +1641,11 @@ public:
 		 const Eigen::Vector3d & bodyPoint,
 		 double timeStep, double gainForceP, double gainForceD,
 		 double gainCoupleP, double gainCoupleD, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "AdmittanceTask";
+  }
   
   void measuredWrench(const sva::ForceVecd wrench)
   {
@@ -1641,6 +1681,11 @@ public:
 			  double timeStep, double gainForceP, double gainForceD,
 			  double gainCoupleP, double gainCoupleD, double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "NullSpaceAdmittanceTask";
+  }
+  
   void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench);
   
   void measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches);
@@ -1705,6 +1750,11 @@ class TASKS_DLLAPI ForceDistributionTask : public Task
 public:
   ForceDistributionTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "ForceDistributionTask";
+  }
+  
   virtual std::pair<int, int> begin() const
   {
     return std::make_pair(0, 0);
@@ -1781,6 +1831,11 @@ public:
   ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 		  const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
 		  double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "ZMPBasedCoMTask";
+  }
   
   virtual std::pair<int, int> begin() const
   {
@@ -1870,6 +1925,11 @@ public:
   ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 	  const Eigen::Vector3d & zmp, double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "ZMPTask";
+  }
+  
   virtual std::pair<int, int> begin() const
   {
     return std::make_pair(lambdaBegin_, lambdaBegin_);
@@ -1949,6 +2009,11 @@ public:
   YawMomentCompensationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, double timeStep,
                             double gainKp, double gainKd, double gainKi, double gainKii, double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return "YawMomentCompensationTask";
+  }
+  
   virtual std::pair<int, int> begin() const
   {
     return std::make_pair(alphaDBegin_, alphaDBegin_);

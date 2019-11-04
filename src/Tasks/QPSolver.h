@@ -343,6 +343,11 @@ public:
   Task(double weight) : weight_(weight) {}
   virtual ~Task() {}
 
+  virtual std::string nameTask() const
+  {
+    return "Task";
+  }
+  
   virtual double weight() const
   {
     return weight_;
@@ -371,6 +376,11 @@ class TASKS_DLLAPI HighLevelTask
 {
 public:
   virtual ~HighLevelTask() {}
+
+  virtual std::string nameHighLevelTask() const
+  {
+    return "HighLevelTask";
+  }
 
   virtual int dim() = 0;
 

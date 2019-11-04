@@ -397,6 +397,11 @@ void MotionFrictionConstr::update(const std::vector<rbd::MultiBody>& mbs,
   AL_ -= friction_->friction();
   AU_ -= friction_->friction();
 }
+
+std::string MotionFrictionConstr::nameGenInEq() const
+{
+  return "MotionFrictionConstr";
+}
   
 /**
  *  TorqueFeedbackTermMotionConstr
@@ -425,6 +430,11 @@ void TorqueFbTermMotionConstr::update(const std::vector<rbd::MultiBody>& mbs,
   AU_ -= fbTerm_->P();
 }
 
+std::string TorqueFbTermMotionConstr::nameGenInEq() const
+{
+  return "TorqueFbTermMotionConstr";
+}
+
 /**
  *  TorqueFeedbackTermMotionFrictionConstr
  */
@@ -451,6 +461,11 @@ void TorqueFbTermMotionFrictionConstr::update(const std::vector<rbd::MultiBody>&
   MotionFrictionConstr::update(mbs, mbcs, data);
   AL_ -= fbTerm_->P();
   AU_ -= fbTerm_->P();
+}
+
+std::string TorqueFbTermMotionFrictionConstr::nameGenInEq() const
+{
+  return "TorqueFbTermMotionFrictionConstr";
 }
   
 } // namespace qp
