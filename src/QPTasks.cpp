@@ -2075,12 +2075,15 @@ void NullSpaceAdmittanceTask::measuredWrench(const std::string & bodyName, const
   
 void NullSpaceAdmittanceTask::measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches)
 {
+  /*
   for (const std::pair<std::string, sva::ForceVecd> & wrench : wrenches)
   {
     std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(wrench.first);
     if (measuredWrench != measuredWrenches_.end())
       measuredWrenches_.at(wrench.first) = wrench.second;
   }
+  */
+  measuredWrenches_ = wrenches;
 }
   
 void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
@@ -2097,7 +2100,8 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
       bodies_.insert(r1BodyName);
-      
+
+      /*
       std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(r1BodyName);
       if (measuredWrench != measuredWrenches_.end())
       {
@@ -2107,6 +2111,7 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
       {
         measuredWrenches_tmp[r1BodyName] = sva::ForceVecd::Zero();
       }
+      */
 
       std::map<std::string, Eigen::Vector3d>::iterator calculatedForce = calculatedForces_.find(r1BodyName);
       if (calculatedForce != calculatedForces_.end())
@@ -2120,7 +2125,7 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
     }
   }
   
-  measuredWrenches_ = measuredWrenches_tmp;
+  //measuredWrenches_ = measuredWrenches_tmp;
   calculatedForces_ = calculatedForces_tmp;
 }
 
@@ -2141,7 +2146,7 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   for (const std::pair<std::string, Eigen::Vector3d> & calculatedForce : calculatedForces_)
     calculatedForces_.at(calculatedForce.first) = Eigen::Vector3d::Zero();
-  
+
   for (size_t ci = 0; ci < data.allContacts().size(); ci++)
   {
     const tasks::qp::BilateralContact& contact = data.allContacts()[ci];
@@ -2160,7 +2165,7 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
       calculatedForces_.at(r1BodyName) += wrench.force();
     }
   }
-  
+
   const std::string & bodyName = mb.body(bodyIndex_).name();
 
   projForceErr_.setZero();
@@ -2174,17 +2179,20 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 
     projForceErr_.noalias() -= fdistRatio_.asDiagonal() * forceErr;
   }
-  
+
   sva::ForceVecd calculatedBodyWrenchDot = (calculatedBodyWrench_ - calculatedBodyWrenchPrev_) / dt_;
   calculatedBodyWrenchPrev_ = calculatedBodyWrench_;
+
+  std::cout << "Rafa, in NullSpaceAdmittanceTask::update, calculatedBodyWrench_.force() = "
+            << calculatedBodyWrench_.force().transpose() << std::endl;
   
   sva::ForceVecd measuredBodyWrenchDot = (measuredWrenches_.at(bodyName) - measuredBodyWrenchPrev_) / dt_;
   measuredBodyWrenchPrev_ = measuredWrenches_.at(bodyName);
-  
+
   Eigen::Matrix6d gainD = Eigen::Matrix6d::Zero();
   gainD.block(0, 0, 3, 3) = gainCoupleD_  * Eigen::Matrix3d::Identity();
   gainD.block(3, 3, 3, 3) = gainForceD_ * Eigen::Matrix3d::Identity();
-  
+
   error_.head<3>().noalias() = -gainCoupleP_ * Eigen::Matrix3d::Identity() * (calculatedBodyWrench_.couple() - measuredWrenches_.at(bodyName).couple());
   error_.tail<3>().noalias() = -gainForceP_  * Eigen::Matrix3d::Identity() * projForceErr_;
 
@@ -2192,7 +2200,7 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   // The minus sign multiplying the gains is set to get the wrench applied to the environment (important)
   
   error_.noalias() -= normalAcc_;
-  
+
   preC_.noalias() = dimWeight_.asDiagonal() * error_;
   C_.noalias() = -jacMat_.transpose() * preC_;
   
