@@ -1,20 +1,15 @@
 var a00055 =
 [
-    [ "MultiRobotTransformTask", "a00055.html#a438e347acb8969ab6a948c2e726bab66", null ],
-    [ "begin", "a00055.html#a62994de890fe6c6c007cb575793e5acf", null ],
-    [ "C", "a00055.html#aba4376ae9a56de8427bc8821cb91717d", null ],
-    [ "dimWeight", "a00055.html#a3da35f9a95d597d82e640729611166bf", null ],
-    [ "dimWeight", "a00055.html#aa6a600a8a3188db312096d916ccd991b", null ],
-    [ "eval", "a00055.html#aecffe00dd8523436b7715d1f2851cb28", null ],
-    [ "Q", "a00055.html#ac625104a79177da111e996e03cfe9255", null ],
-    [ "speed", "a00055.html#ac0fdbcfda446ac7024f7d660acdae823", null ],
-    [ "stiffness", "a00055.html#a4f5a72d97d5efac3d6b0f200f85a4480", null ],
-    [ "stiffness", "a00055.html#ab3e574aef688945a13ab3de0cda4924a", null ],
-    [ "task", "a00055.html#ad333f1aa17a31d472a9548d1823dc012", null ],
-    [ "update", "a00055.html#a6830876e0c5f20c8165a0868cb57398b", null ],
-    [ "updateNrVars", "a00055.html#a4572a60574c8a6aaf4aefc1c48d19f61", null ],
-    [ "X_r1b_r1s", "a00055.html#a3f042cc46b00c04c05133f2e319bc0e2", null ],
-    [ "X_r1b_r1s", "a00055.html#aa84b4a37c9f118222aba20d35fff8ada", null ],
-    [ "X_r2b_r2s", "a00055.html#a79b01da25b40a7c24c449976394da2eb", null ],
-    [ "X_r2b_r2s", "a00055.html#a4c8fdf86e544c1dec78dd09a92a09606", null ]
+    [ "MultiRobotTransformTask", "a00055.html#a8f6e1b8388384c5089b9297d65a848d8", null ],
+    [ "eval", "a00055.html#ad346c95ac6120aa4a01d21159c9f6396", null ],
+    [ "jac", "a00055.html#aaeafff73729c4dd087b68403e26fde5c", null ],
+    [ "normalAcc", "a00055.html#a27008f3c88e43325e1510e056204d67b", null ],
+    [ "r1Index", "a00055.html#a92ad69a29fcd1752fb915d3e37eaf915", null ],
+    [ "r2Index", "a00055.html#afef4204b0b8d64fdd4277aa53f6a5a88", null ],
+    [ "speed", "a00055.html#a7e11e3a9d61778b8ed90cb8a099d9084", null ],
+    [ "update", "a00055.html#a251727256873e2bd2df730be58bd9781", null ],
+    [ "X_r1b_r1s", "a00055.html#a1a9bbc561f3314f9eb435d94145c5567", null ],
+    [ "X_r1b_r1s", "a00055.html#a771426e1013d7df2c2637557244f320e", null ],
+    [ "X_r2b_r2s", "a00055.html#af7058dcac3a76234456ffc14d971c40c", null ],
+    [ "X_r2b_r2s", "a00055.html#ad165874fc245e2c9efcbe5e66500cee4", null ]
 ];

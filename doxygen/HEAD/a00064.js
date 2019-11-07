@@ -1,15 +1,12 @@
 var a00064 =
 [
-    [ "PositionTask", "a00064.html#a4e62387a66f8fcda315b09ccb5b7a61e", null ],
-    [ "bodyPoint", "a00064.html#a64ffb42b4665cbe52c05e8de5349f4bd", null ],
-    [ "bodyPoint", "a00064.html#a79515aa826d1860cdd6515ff56d6a10d", null ],
-    [ "dim", "a00064.html#aaaf4db680518858da754c91c98bd3ba9", null ],
-    [ "eval", "a00064.html#aaba31fc33092c896695a1fbe78b84cbb", null ],
-    [ "jac", "a00064.html#abc8dbb07aee56e235e1cb79482349b21", null ],
-    [ "normalAcc", "a00064.html#ae576afaada2105c12796957d07f3c1f2", null ],
-    [ "position", "a00064.html#ab87c8b5a100da4d6368c11564676267f", null ],
-    [ "position", "a00064.html#a500019988dc2896e10c4745fc6ea29ba", null ],
-    [ "speed", "a00064.html#ac2db6a2bda2262bf8bbc8f5887e81d79", null ],
-    [ "task", "a00064.html#a7f25f8900bd1f60713f457d644d7f475", null ],
-    [ "update", "a00064.html#a1200ea6f0088c6fbb4ee1eec4d873931", null ]
+    [ "PositionBasedVisServoTask", "a00064.html#a354e8653167d8351ace362339c4db9b0", null ],
+    [ "dim", "a00064.html#a944dae3728acf481d09607c2a54c9b53", null ],
+    [ "error", "a00064.html#a18f74604dedd9fab8d985bfde7f939af", null ],
+    [ "eval", "a00064.html#a488e929765d90b39ea4cd344ef131510", null ],
+    [ "jac", "a00064.html#a528e714c835748e5bcdda5ff231d9bad", null ],
+    [ "normalAcc", "a00064.html#a752b21fd54a6580e307c9c6d4587877a", null ],
+    [ "speed", "a00064.html#a68a85ee189d9d7dd01ea7816dab35186", null ],
+    [ "task", "a00064.html#a08e523b76b079de3ac9d0b4e36e0b7a2", null ],
+    [ "update", "a00064.html#ab4e6cdeb77ecbe9f4628247f3d73dfa9", null ]
 ];

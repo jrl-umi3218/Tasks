@@ -1,15 +1,17 @@
 var a00060 =
 [
-    [ "PIDTask", "a00060.html#a783c2670608cceb45f38b16401b0a26d", null ],
-    [ "PIDTask", "a00060.html#ac2fdc130fa9f635ac91a6481e7efbda9", null ],
-    [ "D", "a00060.html#a3d381faac78840c75f0a1089bd21d423", null ],
-    [ "D", "a00060.html#ac77eb878ae008a6368bc21a14179d7b7", null ],
-    [ "error", "a00060.html#a76f9bbf011664a28795196d792cab96a", null ],
-    [ "errorD", "a00060.html#ad6f5e4e28b24ab2675d397c0467c6191", null ],
-    [ "errorI", "a00060.html#a5fc5bd479b8df6b3394688a42281c49e", null ],
-    [ "I", "a00060.html#a962d3bffa22573570659791feeff39d1", null ],
-    [ "I", "a00060.html#acd5b82eea8b6aabdc79009794208ce9e", null ],
-    [ "P", "a00060.html#a7a972f4bcbfef6f9ed77973c3971790a", null ],
-    [ "P", "a00060.html#aa0c88004bc4ea75b740e9bc99c74cc47", null ],
-    [ "update", "a00060.html#af5d09c64a10a19ccc386e455828243cb", null ]
+    [ "OrientationTrackingTask", "a00060.html#a9093bee511f486da7ef68cbd8675fffe", null ],
+    [ "bodyAxis", "a00060.html#a96cd54d60050fbf75507938f666364e1", null ],
+    [ "bodyAxis", "a00060.html#a9cd22c4a1a126f356de08ec46ab4ab98", null ],
+    [ "bodyPoint", "a00060.html#ac00a77ee9ba777f8d4787d2de7b8d2d1", null ],
+    [ "bodyPoint", "a00060.html#a357dd9c669964202214ba792eb39bab0", null ],
+    [ "dim", "a00060.html#ae1091b454430ab6adffc179635ea04e1", null ],
+    [ "eval", "a00060.html#a8bee0d2f36a82e2588f94ccb9c903dfe", null ],
+    [ "jac", "a00060.html#adf8e3e3fa8643007bca85d468112144f", null ],
+    [ "normalAcc", "a00060.html#a74c28709b05b5d40e4b82f11ef8e2b84", null ],
+    [ "speed", "a00060.html#a9a7b0dcd72f3702596bea58c9c89af64", null ],
+    [ "task", "a00060.html#af19b576f25879b9372466010f75b45a0", null ],
+    [ "trackedPoint", "a00060.html#a5dad8875dc7ea013ca5642959e1fc590", null ],
+    [ "trackedPoint", "a00060.html#aad0af76625583405e5b79e0bab4eed70", null ],
+    [ "update", "a00060.html#ae5a6c523af2c1cc8eac1be06eefaa339", null ]
 ];

@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00028.html','');});
+$(document).ready(function(){initNavTree('a00027.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,28 +98,31 @@ $(document).ready(function(){initNavTree('a00028.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::Equality Member List</div>  </div>
+<div class="title">tasks::qp::ContactTask Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00028.html">tasks::qp::Equality</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00027.html">tasks::qp::ContactTask</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00028.html#a9b875aff84a6d42b7c56260af6da0541">addToSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00028.html#ae8a5859b8789be2ab522d2e9aa32ec20">AEq</a>() const =0</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00028.html#ada49ed453361019ecb1b22dfe48d4ae3">bEq</a>() const =0</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00028.html#a3a8b70096b0c432643b828bbdf39d536">descEq</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int i)=0</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00028.html#a16167f0876c15eea964a2444e7174f5a">maxEq</a>() const =0</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00028.html#a89a44401b4eda6d61119a9c10ddc8f15">nameEq</a>() const =0</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00028.html#a30e285ad2009e94077332d09f1a43324">nrEq</a>() const </td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00028.html#ae79bc2e4b409d910f70028a44a0d776c">removeFromSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00028.html#a3989011420947815653a39839aa306d4">~Equality</a>()</td><td class="entry"><a class="el" href="a00028.html">tasks::qp::Equality</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00027.html#aa57e803ab81c62fab4daaa6d2ec22493">begin</a>() const override</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00027.html#aa54ad1c8b418fc61d454f3fee15be9ab">C</a>() const override</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00027.html#a037148c6db1475dc6f36c42bc9e6317c">ContactTask</a>(ContactId contactId, double stiffness, double weight)</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00027.html#aad6d0b80121acdc77a7e5551eebeb92b">error</a>(const Eigen::Vector3d &amp;error)</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00027.html#a714afedfd93d1be2fc4baae72112b70e">errorD</a>(const Eigen::Vector3d &amp;errorD)</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00027.html#ae93808af2c2663ca31ae8f2f3c4cd984">Q</a>() const override</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00027.html#a90577acb68343fca1a43f2a04efb0297">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00027.html#a68bb42fab80a9d00569910598ee9fcfc">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00027.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00086.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>() const </td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00086.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:54:25 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

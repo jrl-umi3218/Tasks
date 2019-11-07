@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::FrictionCone Struct Reference</title>
+<title>tasks::qp::Equality Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,36 +99,37 @@ $(document).ready(function(){initNavTree('a00029.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00160.html">List of all members</a>  </div>
+<a href="a00161.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::FrictionCone Struct Reference</div>  </div>
+<div class="title">tasks::qp::Equality Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Linearized friction cone generator.  
- <a href="a00029.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/QPContacts.h&gt;</code></p>
+<p><code>#include &lt;Tasks/QPSolver.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6f26952821a8a90a13706f60fcde3678"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a6f26952821a8a90a13706f60fcde3678">FrictionCone</a> ()</td></tr>
-<tr class="separator:a6f26952821a8a90a13706f60fcde3678"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5e1ee09db9cad55aaa5e81f827724dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#ad5e1ee09db9cad55aaa5e81f827724dd">FrictionCone</a> (const Eigen::Matrix3d &amp;frame, int nrGen, double mu, double direction=1.)</td></tr>
-<tr class="separator:ad5e1ee09db9cad55aaa5e81f827724dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a21e18e3e28defbb740615260a07489c1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Vector3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a21e18e3e28defbb740615260a07489c1">generators</a></td></tr>
-<tr class="memdesc:a21e18e3e28defbb740615260a07489c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of generatrix.  <a href="#a21e18e3e28defbb740615260a07489c1">More...</a><br /></td></tr>
-<tr class="separator:a21e18e3e28defbb740615260a07489c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3989011420947815653a39839aa306d4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a3989011420947815653a39839aa306d4">~Equality</a> ()</td></tr>
+<tr class="separator:a3989011420947815653a39839aa306d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16167f0876c15eea964a2444e7174f5a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a16167f0876c15eea964a2444e7174f5a">maxEq</a> () const =0</td></tr>
+<tr class="separator:a16167f0876c15eea964a2444e7174f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30e285ad2009e94077332d09f1a43324"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a30e285ad2009e94077332d09f1a43324">nrEq</a> () const </td></tr>
+<tr class="separator:a30e285ad2009e94077332d09f1a43324"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8a5859b8789be2ab522d2e9aa32ec20"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#ae8a5859b8789be2ab522d2e9aa32ec20">AEq</a> () const =0</td></tr>
+<tr class="separator:ae8a5859b8789be2ab522d2e9aa32ec20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada49ed453361019ecb1b22dfe48d4ae3"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#ada49ed453361019ecb1b22dfe48d4ae3">bEq</a> () const =0</td></tr>
+<tr class="separator:ada49ed453361019ecb1b22dfe48d4ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89a44401b4eda6d61119a9c10ddc8f15"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a89a44401b4eda6d61119a9c10ddc8f15">nameEq</a> () const =0</td></tr>
+<tr class="separator:a89a44401b4eda6d61119a9c10ddc8f15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a8b70096b0c432643b828bbdf39d536"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a3a8b70096b0c432643b828bbdf39d536">descEq</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, int i)=0</td></tr>
+<tr class="separator:a3a8b70096b0c432643b828bbdf39d536"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b875aff84a6d42b7c56260af6da0541"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#a9b875aff84a6d42b7c56260af6da0541">addToSolver</a> (<a class="el" href="a00072.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a9b875aff84a6d42b7c56260af6da0541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae79bc2e4b409d910f70028a44a0d776c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00029.html#ae79bc2e4b409d910f70028a44a0d776c">removeFromSolver</a> (<a class="el" href="a00072.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:ae79bc2e4b409d910f70028a44a0d776c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Linearized friction cone generator. </p>
-<p>Compute the vector that linearize the friction cone (generatrix). </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a6f26952821a8a90a13706f60fcde3678"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a3989011420947815653a39839aa306d4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -136,9 +137,34 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::FrictionCone::FrictionCone </td>
+          <td class="memname">virtual tasks::qp::Equality::~Equality </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a9b875aff84a6d42b7c56260af6da0541"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::Equality::addToSolver </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00072.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -149,35 +175,78 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>References <a class="el" href="a00072.html#a33f936bcb429bdd74db4faba1607372e">tasks::qp::QPSolver::addEqualityConstraint()</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="ad5e1ee09db9cad55aaa5e81f827724dd"></a>
+<a class="anchor" id="ae8a5859b8789be2ab522d2e9aa32ec20"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::FrictionCone::FrictionCone </td>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::Equality::AEq </td>
           <td>(</td>
-          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
-          <td class="paramname"><em>frame</em>, </td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00117.html#a9694a15e3e5b744843aa6dae4fa134da">tasks::qp::printConstr()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ada49ed453361019ecb1b22dfe48d4ae3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::Equality::bEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00117.html#a9694a15e3e5b744843aa6dae4fa134da">tasks::qp::printConstr()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3a8b70096b0c432643b828bbdf39d536"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::Equality::descEq </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>mu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>direction</em> = <code>1.</code>&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -185,31 +254,115 @@ Public Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">frame</td><td>Friction cone frame. The friction cone is define along the frame normal axis (last line). </td></tr>
-    <tr><td class="paramname">nrGen</td><td>Number of generatrix. </td></tr>
-    <tr><td class="paramname">mu</td><td>Coefficient of friction. </td></tr>
-    <tr><td class="paramname">dir</td><td>Cone direction. </td></tr>
-  </table>
-  </dd>
-</dl>
+
+<p>Referenced by <a class="el" href="a00012.html#ab01de7dfb3bdce7a14c6dea9273dd149">tasks::qp::constr_traits&lt; Equality &gt;::desc()</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a21e18e3e28defbb740615260a07489c1"></a>
+<a class="anchor" id="a16167f0876c15eea964a2444e7174f5a"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;Eigen::Vector3d&gt; tasks::qp::FrictionCone::generators</td>
+          <td class="memname">virtual int tasks::qp::Equality::maxEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Vector of generatrix. </p>
+<p>Referenced by <a class="el" href="a00012.html#a1eea3c95ba23ce37db1faeb5af34677b">tasks::qp::constr_traits&lt; Equality &gt;::maxLines()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a89a44401b4eda6d61119a9c10ddc8f15"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::Equality::nameEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00012.html#a03a20222632a0ba476c07807de9aa1e9">tasks::qp::constr_traits&lt; Equality &gt;::name()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a30e285ad2009e94077332d09f1a43324"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::Equality::nrEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00012.html#a36380c882892eaf391510a7f5824b69f">tasks::qp::constr_traits&lt; Equality &gt;::nrLines()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae79bc2e4b409d910f70028a44a0d776c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::Equality::removeFromSolver </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00072.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>References <a class="el" href="a00072.html#a96b89e11b3af378cf9b061081bc26bdc">tasks::qp::QPSolver::removeEqualityConstraint()</a>.</p>
 
 </div>
 </div>
@@ -219,8 +372,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00115.html">qp</a></li><li class="navelem"><a class="el" href="a00029.html">FrictionCone</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 08:54:25 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00029.html">Equality</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,15 +1,20 @@
 var a00056 =
 [
-    [ "OrientationTask", "a00056.html#a9ca2da9ac942d356c2d15af3e6142c5f", null ],
-    [ "OrientationTask", "a00056.html#a0d09d04a207fbbc58c836a2a0a4eedc0", null ],
-    [ "dim", "a00056.html#a70a6227d9d82964c312e6247363f9469", null ],
-    [ "eval", "a00056.html#a7455d3547826bc76d2f37a284f1709c8", null ],
-    [ "jac", "a00056.html#a025b53a1391d508d9867cde537f4049b", null ],
-    [ "normalAcc", "a00056.html#a9226d23df243e49b42b8dbd742869392", null ],
-    [ "orientation", "a00056.html#a9de2c07ae093d84cc59539c10a71b4d8", null ],
-    [ "orientation", "a00056.html#abd0659080c43b461360e23482f8d5846", null ],
-    [ "orientation", "a00056.html#a4a655cf08ccdf7819ef33133bcfef32d", null ],
-    [ "speed", "a00056.html#a1474caf55aa1dcc86dfa3b6cac7f8103", null ],
-    [ "task", "a00056.html#adaebfcb08486fac0cd18b40199385ea6", null ],
-    [ "update", "a00056.html#a26a8d6f1f69268bf60e13fbdcd5b121c", null ]
+    [ "MultiRobotTransformTask", "a00056.html#a438e347acb8969ab6a948c2e726bab66", null ],
+    [ "begin", "a00056.html#a62994de890fe6c6c007cb575793e5acf", null ],
+    [ "C", "a00056.html#aba4376ae9a56de8427bc8821cb91717d", null ],
+    [ "dimWeight", "a00056.html#a3da35f9a95d597d82e640729611166bf", null ],
+    [ "dimWeight", "a00056.html#aa6a600a8a3188db312096d916ccd991b", null ],
+    [ "eval", "a00056.html#aecffe00dd8523436b7715d1f2851cb28", null ],
+    [ "Q", "a00056.html#ac625104a79177da111e996e03cfe9255", null ],
+    [ "speed", "a00056.html#ac0fdbcfda446ac7024f7d660acdae823", null ],
+    [ "stiffness", "a00056.html#a4f5a72d97d5efac3d6b0f200f85a4480", null ],
+    [ "stiffness", "a00056.html#ab3e574aef688945a13ab3de0cda4924a", null ],
+    [ "task", "a00056.html#ad333f1aa17a31d472a9548d1823dc012", null ],
+    [ "update", "a00056.html#a6830876e0c5f20c8165a0868cb57398b", null ],
+    [ "updateNrVars", "a00056.html#a4572a60574c8a6aaf4aefc1c48d19f61", null ],
+    [ "X_r1b_r1s", "a00056.html#a3f042cc46b00c04c05133f2e319bc0e2", null ],
+    [ "X_r1b_r1s", "a00056.html#aa84b4a37c9f118222aba20d35fff8ada", null ],
+    [ "X_r2b_r2s", "a00056.html#a79b01da25b40a7c24c449976394da2eb", null ],
+    [ "X_r2b_r2s", "a00056.html#a4c8fdf86e544c1dec78dd09a92a09606", null ]
 ];

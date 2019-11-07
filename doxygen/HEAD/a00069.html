@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::QBound Struct Reference</title>
+<title>tasks::PostureTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,78 +99,49 @@ $(document).ready(function(){initNavTree('a00069.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00129.html">List of all members</a>  </div>
+<a href="a00130.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::QBound Struct Reference</div>  </div>
+<div class="title">tasks::PostureTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>General position vector bounds \( \underline{q} \) and \( \overline{q} \).  
- <a href="a00069.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/Bounds.h&gt;</code></p>
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9adaf296f18e8d83bea065e232714633"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a9adaf296f18e8d83bea065e232714633">QBound</a> ()</td></tr>
-<tr class="separator:a9adaf296f18e8d83bea065e232714633"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb75555826261616bcfc52c56ec0a863"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#adb75555826261616bcfc52c56ec0a863">QBound</a> (std::vector&lt; std::vector&lt; double &gt;&gt; lQB, std::vector&lt; std::vector&lt; double &gt;&gt; uQB)</td></tr>
-<tr class="separator:adb75555826261616bcfc52c56ec0a863"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a8b98c406f6daa08af4a7883ba00cf844"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a8b98c406f6daa08af4a7883ba00cf844">lQBound</a></td></tr>
-<tr class="memdesc:a8b98c406f6daa08af4a7883ba00cf844"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \underline{q} \)  <a href="#a8b98c406f6daa08af4a7883ba00cf844">More...</a><br /></td></tr>
-<tr class="separator:a8b98c406f6daa08af4a7883ba00cf844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ed0fe5130f66d16efcb5af347c9f9be"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a5ed0fe5130f66d16efcb5af347c9f9be">uQBound</a></td></tr>
-<tr class="memdesc:a5ed0fe5130f66d16efcb5af347c9f9be"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \overline{q} \)  <a href="#a5ed0fe5130f66d16efcb5af347c9f9be">More...</a><br /></td></tr>
-<tr class="separator:a5ed0fe5130f66d16efcb5af347c9f9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9296575c5d97f7a29c6877ee39e5cd79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a9296575c5d97f7a29c6877ee39e5cd79">PostureTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, std::vector&lt; std::vector&lt; double &gt;&gt; q)</td></tr>
+<tr class="separator:a9296575c5d97f7a29c6877ee39e5cd79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f5611e197a54e421bce3f6c01a5edb6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a9f5611e197a54e421bce3f6c01a5edb6">posture</a> (std::vector&lt; std::vector&lt; double &gt;&gt; q)</td></tr>
+<tr class="separator:a9f5611e197a54e421bce3f6c01a5edb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd0b3b2e3a5bfcd9dd2ffc21d9983133"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#acd0b3b2e3a5bfcd9dd2ffc21d9983133">posture</a> () const </td></tr>
+<tr class="separator:acd0b3b2e3a5bfcd9dd2ffc21d9983133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2aa0643bd9456d8b976136327f491d59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a2aa0643bd9456d8b976136327f491d59">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc)</td></tr>
+<tr class="separator:a2aa0643bd9456d8b976136327f491d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ea6be0a8a5abfd3481c0650d330674"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#a62ea6be0a8a5abfd3481c0650d330674">updateDot</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc)</td></tr>
+<tr class="separator:a62ea6be0a8a5abfd3481c0650d330674"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8518db13277737b5670b045f146a161"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#af8518db13277737b5670b045f146a161">eval</a> () const </td></tr>
+<tr class="separator:af8518db13277737b5670b045f146a161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeae9bc2fa976c395ad5311f8ebf9077"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#aeeae9bc2fa976c395ad5311f8ebf9077">jac</a> () const </td></tr>
+<tr class="separator:aeeae9bc2fa976c395ad5311f8ebf9077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae1245b67b9e039c675888e698375d7c"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00069.html#aae1245b67b9e039c675888e698375d7c">jacDot</a> () const </td></tr>
+<tr class="separator:aae1245b67b9e039c675888e698375d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>General position vector bounds \( \underline{q} \) and \( \overline{q} \). </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a9adaf296f18e8d83bea065e232714633"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a9296575c5d97f7a29c6877ee39e5cd79"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::QBound::QBound </td>
+          <td class="memname">tasks::PostureTask::PostureTask </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adb75555826261616bcfc52c56ec0a863"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::QBound::QBound </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
-          <td class="paramname"><em>lQB</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
-          <td class="paramname"><em>uQB</em>&#160;</td>
+          <td class="paramname"><em>q</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -178,41 +149,136 @@ Public Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a8b98c406f6daa08af4a7883ba00cf844"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af8518db13277737b5670b045f146a161"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::QBound::lQBound</td>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::PostureTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>\( \underline{q} \) </p>
-
 </div>
 </div>
-<a class="anchor" id="a5ed0fe5130f66d16efcb5af347c9f9be"></a>
+<a class="anchor" id="aeeae9bc2fa976c395ad5311f8ebf9077"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::QBound::uQBound</td>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::PostureTask::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>\( \overline{q} \) </p>
+</div>
+</div>
+<a class="anchor" id="aae1245b67b9e039c675888e698375d7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::PostureTask::jacDot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9f5611e197a54e421bce3f6c01a5edb6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::PostureTask::posture </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>q</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="acd0b3b2e3a5bfcd9dd2ffc21d9983133"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt;std::vector&lt;double&gt; &gt; tasks::PostureTask::posture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2aa0643bd9456d8b976136327f491d59"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::PostureTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a62ea6be0a8a5abfd3481c0650d330674"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::PostureTask::updateDot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -222,8 +288,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00069.html">QBound</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 08:54:25 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00069.html">PostureTask</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

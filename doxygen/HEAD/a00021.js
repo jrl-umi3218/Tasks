@@ -1,11 +1,10 @@
 var a00021 =
 [
-    [ "ContactData", "a00021.html#a3ab1f7d913208fd934bf01bd7cffa8c5", null ],
-    [ "b1Index", "a00021.html#a060e74dde561d3e2b2b744c7e413b4bb", null ],
-    [ "b2Index", "a00021.html#a5b7a1d42371e09c6453d6fc09b29a395", null ],
-    [ "contactId", "a00021.html#a73463d49bc2a0f6e8e08b17c465278d9", null ],
-    [ "contacts", "a00021.html#a8eaacc04f628b6ef37f84e711153da3e", null ],
-    [ "dof", "a00021.html#a4d025b4a9ad0dc05a96b571d42fedb29", null ],
-    [ "X_b1_b2", "a00021.html#afa20a55cc3a2d0ee4726aea8d0e20af4", null ],
-    [ "X_b1_cf", "a00021.html#aec6ce54631e347b5845b6bb24cc206a9", null ]
+    [ "ContactData", "a00021.html#af86854939284b75c42d49cb3d55f080c", null ],
+    [ "ContactData", "a00021.html#ac29543610a2c5ffa91e625ee7eb61cd4", null ],
+    [ "bodyIndex", "a00021.html#abd85910b4e703019994cc83af67770ac", null ],
+    [ "jac", "a00021.html#ac649c8ba8ad31888ad6f95d3c2720793", null ],
+    [ "lambdaBegin", "a00021.html#a5fe6588a69311d8d5503c6d9be453745", null ],
+    [ "minusGenerators", "a00021.html#aa9db81d279ff9dcfc93c849301597ca8", null ],
+    [ "points", "a00021.html#a9ac2def7191a2deae13dec4b80fcdfbb", null ]
 ];

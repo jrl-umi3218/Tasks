@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00008.html','');});
+$(document).ready(function(){initNavTree('a00007.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,32 +98,38 @@ $(document).ready(function(){initNavTree('a00008.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::CoMTask Member List</div>  </div>
+<div class="title">tasks::qp::CollisionConstr Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00008.html">tasks::qp::CoMTask</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00007.html">tasks::qp::CollisionConstr</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00008.html#a01fd2792379cee017ed2a4091c3b8fe5">com</a>(const Eigen::Vector3d &amp;com)</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00008.html#a777ab0b95b530d442751037f6ba98e12">com</a>() const </td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00008.html#a405b0a71a500f45461809a6a834ce4ef">CoMTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const Eigen::Vector3d &amp;com)</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00008.html#a6639488dffbba63388705c3909f1e31b">CoMTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const Eigen::Vector3d &amp;com, std::vector&lt; double &gt; weight)</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00008.html#acf39ba9f4426acdd6dfc1fd7a9be4820">dim</a>() override</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00008.html#a08589b88a312c73d9a8941277f44658f">eval</a>() override</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00008.html#a9dfb1feeda72ecc8892ad0954f43b16a">jac</a>() override</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00008.html#a187d5abafe3350c7b9a4e2db15284bdf">normalAcc</a>() override</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00008.html#aca2035d05f7e974bdc09593a02751c85">speed</a>() override</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00008.html#a6ef18cded54fee2dc7337160a10f0c3b">task</a>()</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00008.html#a57b452d399ec19cc3bc7c0d8a75b8a3d">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00008.html#ab0ab49b7c66a39613e1765c13b841ddf">updateInertialParameters</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs)</td><td class="entry"><a class="el" href="a00008.html">tasks::qp::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00036.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a>()</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::HighLevelTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#a5219663aa6329f878b922596d1a2cbce">addCollision</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int collId, int r1Index, const std::string &amp;r1BodyName, sch::S_Object *body1, const sva::PTransformd &amp;X_op1_o1, int r2Index, const std::string &amp;r2BodyName, sch::S_Object *body2, const sva::PTransformd &amp;X_op2_o2, double di, double ds, double damping, double dampingOff=0.)</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00016.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00016.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00007.html#a33371ff73cdc9160464bf037940ca5de">AInEq</a>() const override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#a156d042206e1e319c9d4bb7dbfea0707">bInEq</a>() const override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00007.html#a6cbd77cac9be76d2b470ede58f805e6e">CollisionConstr</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, double step)</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#a20297f19f57623cee1ed62c8dfe43263">descInEq</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int line) override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00007.html#aa1fc9dd4ff261477926ef22d8415db65">maxInEq</a>() const override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#a77878f9a210e267e78f458e69a39596f">nameInEq</a>() const override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00007.html#aff1fcb20327d44f7f96efc141f9af007">nrCollisions</a>() const </td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#a1078021e3573239e2cae6700133fbea8">nrInEq</a>() const override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00016.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#a851836fff090ddb145583d0945be3d8b">reset</a>()</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00007.html#a378178fcd1de3da1e6a0472c0f04f42e">rmCollision</a>(int collId)</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#aad283323a7817f32ba5983d0b58454dd">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00007.html#a0f5c6818508abc7debd6f6d1673d7ede">updateNrCollisions</a>()</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00007.html#ad0c21cf42a3f36765645661d7ee32ddc">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00007.html">tasks::qp::CollisionConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00015.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a>()</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::Constraint</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00016.html#ad668fbb366458056c27a466578c26b94">~ConstraintFunction</a>() override</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:54:25 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

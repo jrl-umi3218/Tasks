@@ -1,13 +1,11 @@
 var a00022 =
 [
-    [ "ContactId", "a00022.html#aa7e0d2976319c9a3c7600c18d322090b", null ],
-    [ "ContactId", "a00022.html#a83b93d52de3ea6d4d0d4b370f126ae50", null ],
-    [ "operator!=", "a00022.html#a3f97aa2de47daa307478b84c8e045d11", null ],
-    [ "operator<", "a00022.html#a6df70365734228f2c4cc61f633bfda16", null ],
-    [ "operator==", "a00022.html#acc72a4179b93a84f48975acaa127257b", null ],
-    [ "ambiguityId", "a00022.html#a7777bc784fa6025d8f024e89f01193ca", null ],
-    [ "r1BodyName", "a00022.html#a47acc85ec19a848ec185d379dbd7c9ea", null ],
-    [ "r1Index", "a00022.html#aa0f853c4f1786b8a23a0252dcbf2678a", null ],
-    [ "r2BodyName", "a00022.html#aec152e04a89289523099fd8ebe816e8c", null ],
-    [ "r2Index", "a00022.html#a58515743f8024e51dc07e65a3f0447d6", null ]
+    [ "ContactData", "a00022.html#a3ab1f7d913208fd934bf01bd7cffa8c5", null ],
+    [ "b1Index", "a00022.html#a060e74dde561d3e2b2b744c7e413b4bb", null ],
+    [ "b2Index", "a00022.html#a5b7a1d42371e09c6453d6fc09b29a395", null ],
+    [ "contactId", "a00022.html#a73463d49bc2a0f6e8e08b17c465278d9", null ],
+    [ "contacts", "a00022.html#a8eaacc04f628b6ef37f84e711153da3e", null ],
+    [ "dof", "a00022.html#a4d025b4a9ad0dc05a96b571d42fedb29", null ],
+    [ "X_b1_b2", "a00022.html#afa20a55cc3a2d0ee4726aea8d0e20af4", null ],
+    [ "X_b1_cf", "a00022.html#aec6ce54631e347b5845b6bb24cc206a9", null ]
 ];

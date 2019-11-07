@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00061.html','');});
+$(document).ready(function(){initNavTree('a00058.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,23 +98,32 @@ $(document).ready(function(){initNavTree('a00061.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::PolyTorqueBound Member List</div>  </div>
+<div class="title">tasks::OrientationTask Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00061.html">tasks::PolyTorqueBound</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00058.html">tasks::OrientationTask</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00061.html#a2940edde14b86bf399b4122861178b42">lPolyTorqueBound</a></td><td class="entry"><a class="el" href="a00061.html">tasks::PolyTorqueBound</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00061.html#a3dd3f2707509e52e84f0d1ed3edc1072">PolyTorqueBound</a>()</td><td class="entry"><a class="el" href="a00061.html">tasks::PolyTorqueBound</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00061.html#a60ae0a607860c7b1eeb10c3eb1900d8d">PolyTorqueBound</a>(std::vector&lt; std::vector&lt; Eigen::VectorXd &gt;&gt; lPTB, std::vector&lt; std::vector&lt; Eigen::VectorXd &gt;&gt; uPTB)</td><td class="entry"><a class="el" href="a00061.html">tasks::PolyTorqueBound</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00061.html#a7f89616b892fe7142ff2159fbf3454b9">uPolyTorqueBound</a></td><td class="entry"><a class="el" href="a00061.html">tasks::PolyTorqueBound</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a3a9ff29a6efc9f53174e3561b815785c">eval</a>() const </td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00058.html#a78e2f043e8ba0e84dd85273f97c9ef05">jac</a>() const </td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a43b628e830d79d245bc7068c1c796a6a">jacDot</a>() const </td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00058.html#ac5df40591ba2a9524954ca3489fe2388">normalAcc</a>() const </td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a49c880820a1b5c8df79dd9e334be3659">orientation</a>(const Eigen::Quaterniond &amp;ori)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00058.html#a66fd057c7e3881acde06654fe7b78b3f">orientation</a>(const Eigen::Matrix3d &amp;ori)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a9e1bbffe42362b135318827388f04a1a">orientation</a>() const </td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00058.html#ad2446f810c20ba64897cd14ca9ac5111">OrientationTask</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Quaterniond &amp;ori)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a56ba8d07126797bb8979983637d148db">OrientationTask</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Matrix3d &amp;ori)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00058.html#a402881a288b881e3a4561f6670731407">speed</a>() const </td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a3742876c52257b6981ff0f3a1ba49187">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00058.html#a0a3f138249bb1e3a50b38d2d146ce9bd">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00058.html#a9eee6faa64e247fe82f8c7564fb4ef52">updateDot</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td><td class="entry"><a class="el" href="a00058.html">tasks::OrientationTask</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:54:25 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

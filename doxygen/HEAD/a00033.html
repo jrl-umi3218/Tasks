@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::GenQPSolver Class Reference</title>
+<title>tasks::qp::GenInequality Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,77 +99,39 @@ $(document).ready(function(){initNavTree('a00033.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="a00163.html">List of all members</a>  </div>
+<a href="a00164.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::GenQPSolver Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">tasks::qp::GenInequality Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Generic QP solver abstract interface.  
- <a href="a00033.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/GenQPSolver.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for tasks::qp::GenQPSolver:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="a00033.png" usemap="#tasks::qp::GenQPSolver_map" alt=""/>
-  <map id="tasks::qp::GenQPSolver_map" name="tasks::qp::GenQPSolver_map">
-<area href="a00045.html" title="GenQPSolver interface implementation with the LSSOL QP solver. " alt="tasks::qp::LSSOLQPSolver" shape="rect" coords="0,56,160,80"/>
-<area href="a00070.html" title="GenQPSolver interface implementation with the QLD QP solver. " alt="tasks::qp::QLDQPSolver" shape="rect" coords="170,56,330,80"/>
-</map>
- </div></div>
+<p><code>#include &lt;Tasks/QPSolver.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abc3b4a33780f8fe00fd5d3385dbaf808"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#abc3b4a33780f8fe00fd5d3385dbaf808">~GenQPSolver</a> ()</td></tr>
-<tr class="separator:abc3b4a33780f8fe00fd5d3385dbaf808"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf305726925f3693e24dd82b473817e3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#aaf305726925f3693e24dd82b473817e3">updateSize</a> (int nrVars, int nrEq, int nrInEq, int nrGenInEq)=0</td></tr>
-<tr class="memdesc:aaf305726925f3693e24dd82b473817e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the problem size.  <a href="#aaf305726925f3693e24dd82b473817e3">More...</a><br /></td></tr>
-<tr class="separator:aaf305726925f3693e24dd82b473817e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb590ac28fb2fa760304d276fd59e20c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#abb590ac28fb2fa760304d276fd59e20c">setDependencies</a> (int nrVars, std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; dependencies)</td></tr>
-<tr class="memdesc:abb590ac28fb2fa760304d276fd59e20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup dependent variables, only linear dependencies are supported.  <a href="#abb590ac28fb2fa760304d276fd59e20c">More...</a><br /></td></tr>
-<tr class="separator:abb590ac28fb2fa760304d276fd59e20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c72a60336439e940e2976d327dd98dd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a7c72a60336439e940e2976d327dd98dd">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00085.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00028.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00038.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00032.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00004.html">Bound</a> * &gt; &amp;boundConstr)=0</td></tr>
-<tr class="memdesc:a7c72a60336439e940e2976d327dd98dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the QP matrices.  <a href="#a7c72a60336439e940e2976d327dd98dd">More...</a><br /></td></tr>
-<tr class="separator:a7c72a60336439e940e2976d327dd98dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb9f3d99281925cd65cf1f9b29ce89ac"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#afb9f3d99281925cd65cf1f9b29ce89ac">solve</a> ()=0</td></tr>
-<tr class="memdesc:afb9f3d99281925cd65cf1f9b29ce89ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the quadratic program.  <a href="#afb9f3d99281925cd65cf1f9b29ce89ac">More...</a><br /></td></tr>
-<tr class="separator:afb9f3d99281925cd65cf1f9b29ce89ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b2bbb5cd5e65aeec71466a98bbc7d7e"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e">result</a> () const =0</td></tr>
-<tr class="separator:a5b2bbb5cd5e65aeec71466a98bbc7d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b51f336322baaca38f31c9b0f5df98"><td class="memItemLeft" align="right" valign="top">virtual std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a54b51f336322baaca38f31c9b0f5df98">errorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="el" href="a00085.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00028.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00038.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00032.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00004.html">Bound</a> * &gt; &amp;boundConstr, std::ostream &amp;out) const =0</td></tr>
-<tr class="separator:a54b51f336322baaca38f31c9b0f5df98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec603fc65e65ca4f3c38f94e50ed6790"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#aec603fc65e65ca4f3c38f94e50ed6790">name</a> () const =0</td></tr>
-<tr class="separator:aec603fc65e65ca4f3c38f94e50ed6790"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:ad8ee5e4fad141ae5f5e8b73e3842e847"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#ad8ee5e4fad141ae5f5e8b73e3842e847">default_qp_solver</a></td></tr>
-<tr class="memdesc:ad8ee5e4fad141ae5f5e8b73e3842e847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default QP solver.  <a href="#ad8ee5e4fad141ae5f5e8b73e3842e847">More...</a><br /></td></tr>
-<tr class="separator:ad8ee5e4fad141ae5f5e8b73e3842e847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:ad497fb681272aef64e78c7b3a775bfbf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#ad497fb681272aef64e78c7b3a775bfbf">fullToReduced_</a></td></tr>
-<tr class="memdesc:ad497fb681272aef64e78c7b3a775bfbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondence between full variable indices and reduced variables.  <a href="#ad497fb681272aef64e78c7b3a775bfbf">More...</a><br /></td></tr>
-<tr class="separator:ad497fb681272aef64e78c7b3a775bfbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7db3d83a10b1e0c60541ff1b0b226edd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a7db3d83a10b1e0c60541ff1b0b226edd">reducedToFull_</a></td></tr>
-<tr class="memdesc:a7db3d83a10b1e0c60541ff1b0b226edd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondence between reduced variable indices and full variable indices.  <a href="#a7db3d83a10b1e0c60541ff1b0b226edd">More...</a><br /></td></tr>
-<tr class="separator:a7db3d83a10b1e0c60541ff1b0b226edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab010e6097d3344cc671ecd6b8e2a120"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::tuple&lt; int, int, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#aab010e6097d3344cc671ecd6b8e2a120">dependencies_</a></td></tr>
-<tr class="memdesc:aab010e6097d3344cc671ecd6b8e2a120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable dependencies, each tuple gives the primary variable index in the full variable, replica variable index in the full variable and the factor in the dependency equation: replica = factor * primary.  <a href="#aab010e6097d3344cc671ecd6b8e2a120">More...</a><br /></td></tr>
-<tr class="separator:aab010e6097d3344cc671ecd6b8e2a120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc4aa2bbdb2392a856830b123cea0aae"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#acc4aa2bbdb2392a856830b123cea0aae">~GenInequality</a> ()</td></tr>
+<tr class="separator:acc4aa2bbdb2392a856830b123cea0aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb0ca1c17412db12a0b356cf49db1153"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#aeb0ca1c17412db12a0b356cf49db1153">maxGenInEq</a> () const =0</td></tr>
+<tr class="separator:aeb0ca1c17412db12a0b356cf49db1153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0824ef1fa7cca3bc979437b08c316dbe"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a0824ef1fa7cca3bc979437b08c316dbe">nrGenInEq</a> () const </td></tr>
+<tr class="separator:a0824ef1fa7cca3bc979437b08c316dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a325d9d056bb2f4384f2dd5d7782c7d67"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a325d9d056bb2f4384f2dd5d7782c7d67">AGenInEq</a> () const =0</td></tr>
+<tr class="separator:a325d9d056bb2f4384f2dd5d7782c7d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc386b920f098adbf97579136f7aafe"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#afbc386b920f098adbf97579136f7aafe">LowerGenInEq</a> () const =0</td></tr>
+<tr class="separator:afbc386b920f098adbf97579136f7aafe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9e1c4057da5a53adb8f42ab0a3de2c9"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#ab9e1c4057da5a53adb8f42ab0a3de2c9">UpperGenInEq</a> () const =0</td></tr>
+<tr class="separator:ab9e1c4057da5a53adb8f42ab0a3de2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b53c19e88c1e5b2dfe20f323406e4e"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#ab8b53c19e88c1e5b2dfe20f323406e4e">nameGenInEq</a> () const =0</td></tr>
+<tr class="separator:ab8b53c19e88c1e5b2dfe20f323406e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d2a100b0cac057ed8ab9551c313c258"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a9d2a100b0cac057ed8ab9551c313c258">descGenInEq</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, int i)=0</td></tr>
+<tr class="separator:a9d2a100b0cac057ed8ab9551c313c258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43a34f4730c9c55f8534d0f0b6a18a10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a43a34f4730c9c55f8534d0f0b6a18a10">addToSolver</a> (<a class="el" href="a00072.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a43a34f4730c9c55f8534d0f0b6a18a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb32ca9ea02aef63634de1e915ba1d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00033.html#a0cb32ca9ea02aef63634de1e915ba1d7">removeFromSolver</a> (<a class="el" href="a00072.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a0cb32ca9ea02aef63634de1e915ba1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Generic QP solver abstract interface. </p>
-<p>Solve the following problem: </p><p class="formulaDsp">
-\begin{align} \underset{x}{\text{minimize }} &amp; \frac{1}{2} x^T Q x + x^T c\\ \text{s.t. } &amp; L \leq \left\{ \begin{array}{c} x \\ A x \end{array} \right\} \leq U \end{align}
-</p>
- </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="abc3b4a33780f8fe00fd5d3385dbaf808"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="acc4aa2bbdb2392a856830b123cea0aae"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -177,7 +139,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual tasks::qp::GenQPSolver::~GenQPSolver </td>
+          <td class="memname">virtual tasks::qp::GenInequality::~GenInequality </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -193,7 +155,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a54b51f336322baaca38f31c9b0f5df98"></a>
+<a class="anchor" id="a43a34f4730c9c55f8534d0f0b6a18a10"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -201,7 +163,58 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::ostream&amp; tasks::qp::GenQPSolver::errorMsg </td>
+          <td class="memname">void tasks::qp::GenInequality::addToSolver </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00072.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>References <a class="el" href="a00072.html#af2ba5e078ecf042af01652575d4b5ce3">tasks::qp::QPSolver::addGenInequalityConstraint()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a325d9d056bb2f4384f2dd5d7782c7d67"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::GenInequality::AGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00117.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9d2a100b0cac057ed8ab9551c313c258"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::GenInequality::descGenInEq </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
@@ -209,43 +222,13 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00085.html">Task</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tasks</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00028.html">Equality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>eqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00038.html">Inequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00032.html">GenInequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>genInEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00004.html">Bound</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>boundConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>out</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -254,13 +237,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Error message if <a class="el" href="a00033.html#afb9f3d99281925cd65cf1f9b29ce89ac" title="Solve the quadratic program. ">GenQPSolver::solve</a> has returned false. </dd></dl>
 
-<p>Implemented in <a class="el" href="a00045.html#a710a1f1b2e91b05fac21228fad56f2e8">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00070.html#af3ce529f75e491c1cd60b91dd284eb80">tasks::qp::QLDQPSolver</a>.</p>
+<p>Referenced by <a class="el" href="a00013.html#a018ab4e248a49fb23efd8e8b6899baec">tasks::qp::constr_traits&lt; GenInequality &gt;::desc()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aec603fc65e65ca4f3c38f94e50ed6790"></a>
+<a class="anchor" id="afbc386b920f098adbf97579136f7aafe"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -268,7 +250,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::string tasks::qp::GenQPSolver::name </td>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::GenInequality::LowerGenInEq </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -280,13 +262,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Name of the solver </dd></dl>
 
-<p>Implemented in <a class="el" href="a00045.html#a2cb7152ce1bd97d8cb5d67d7e054cbac">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00070.html#aa1c9b49bd2a1055f5656d6061cb3f244">tasks::qp::QLDQPSolver</a>.</p>
+<p>Referenced by <a class="el" href="a00117.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5b2bbb5cd5e65aeec71466a98bbc7d7e"></a>
+<a class="anchor" id="aeb0ca1c17412db12a0b356cf49db1153"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -294,7 +275,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::GenQPSolver::result </td>
+          <td class="memname">virtual int tasks::qp::GenInequality::maxGenInEq </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -306,13 +287,12 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Optimal \( x \) vector. </dd></dl>
 
-<p>Implemented in <a class="el" href="a00045.html#ab3fd8e52ca0126799e3fdd05881d7cd7">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00070.html#a63cfa790fe87436d11657c6c3d5e1ee5">tasks::qp::QLDQPSolver</a>.</p>
+<p>Referenced by <a class="el" href="a00013.html#ab8952085364f79663c7f4ff4cee717e1">tasks::qp::constr_traits&lt; GenInequality &gt;::maxLines()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="abb590ac28fb2fa760304d276fd59e20c"></a>
+<a class="anchor" id="ab8b53c19e88c1e5b2dfe20f323406e4e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -320,53 +300,10 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::GenQPSolver::setDependencies </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrVars</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; std::tuple&lt; int, int, double &gt;&gt;&#160;</td>
-          <td class="paramname"><em>dependencies</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Setup dependent variables, only linear dependencies are supported. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nrVars</td><td>Variable number. </td></tr>
-    <tr><td class="paramname">dependencies</td><td>List of tuple {primary, replica, factor} </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="afb9f3d99281925cd65cf1f9b29ce89ac"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool tasks::qp::GenQPSolver::solve </td>
+          <td class="memname">virtual std::string tasks::qp::GenInequality::nameGenInEq </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -376,14 +313,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Solve the quadratic program. </p>
-<dl class="section return"><dt>Returns</dt><dd>true of success false on failure. </dd></dl>
-
-<p>Implemented in <a class="el" href="a00045.html#a754fa6e0109d3e024d26650ef12f1c64">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00070.html#a96cc2b5d90faaae84bac06d5d5acf6ea">tasks::qp::QLDQPSolver</a>.</p>
+<p>Referenced by <a class="el" href="a00013.html#a2dd694ea42f2356e22a4c2283ce829b0">tasks::qp::constr_traits&lt; GenInequality &gt;::name()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a7c72a60336439e940e2976d327dd98dd"></a>
+<a class="anchor" id="a0824ef1fa7cca3bc979437b08c316dbe"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -391,65 +325,24 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::GenQPSolver::updateMatrix </td>
+          <td class="memname">virtual int tasks::qp::GenInequality::nrGenInEq </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00085.html">Task</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tasks</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00028.html">Equality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>eqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00038.html">Inequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00032.html">GenInequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>genInEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00004.html">Bound</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>boundConstr</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Construct the QP matrices. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tasks</td><td>Build \( Q \) and \( c \). </td></tr>
-    <tr><td class="paramname">eqConstr</td><td>Build \( A x = b \) constraints. </td></tr>
-    <tr><td class="paramname">inEqConstr</td><td>Build \( A x \geq b \) constraints. </td></tr>
-    <tr><td class="paramname">genInEqConstr</td><td>Build \( L \leq A x \leq U \) constraints. </td></tr>
-    <tr><td class="paramname">boundConstr</td><td>Build \( L \leq x \leq U \) constraints. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="a00045.html#a12be106df27c06f12e438c7129422baf">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00070.html#a771aa5e02e50abc1603b08da7e7a649d">tasks::qp::QLDQPSolver</a>.</p>
+<p>Referenced by <a class="el" href="a00013.html#abbd8f0aeeb0557ecc7e9da467a0bff55">tasks::qp::constr_traits&lt; GenInequality &gt;::nrLines()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aaf305726925f3693e24dd82b473817e3"></a>
+<a class="anchor" id="a0cb32ca9ea02aef63634de1e915ba1d7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -457,33 +350,36 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::GenQPSolver::updateSize </td>
+          <td class="memname">void tasks::qp::GenInequality::removeFromSolver </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrVars</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="a00072.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrEq</em>, </td>
         </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>References <a class="el" href="a00072.html#ab99e8755f30071d58d724289d13da805">tasks::qp::QPSolver::removeGenInequalityConstraint()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9e1c4057da5a53adb8f42ab0a3de2c9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
         <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrInEq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGenInEq</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::GenInequality::UpperGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -493,107 +389,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Update the problem size. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nrVars</td><td>Variable number. </td></tr>
-    <tr><td class="paramname">nrEq</td><td>maximum number of equality. </td></tr>
-    <tr><td class="paramname">nrInEq</td><td>maximum number of inequality. </td></tr>
-    <tr><td class="paramname">nrGenInEq</td><td>maximum number of general inequality. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="a00045.html#a67156d6e5f1c418ee8b26f203606528a">tasks::qp::LSSOLQPSolver</a>, and <a class="el" href="a00070.html#ac39b5fa66ffe4aa42c22e3119981268e">tasks::qp::QLDQPSolver</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="ad8ee5e4fad141ae5f5e8b73e3842e847"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::string tasks::qp::GenQPSolver::default_qp_solver</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default QP solver. </p>
-
-</div>
-</div>
-<a class="anchor" id="aab010e6097d3344cc671ecd6b8e2a120"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::tuple&lt;int, int, double&gt; &gt; tasks::qp::GenQPSolver::dependencies_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Variable dependencies, each tuple gives the primary variable index in the full variable, replica variable index in the full variable and the factor in the dependency equation: replica = factor * primary. </p>
-
-</div>
-</div>
-<a class="anchor" id="ad497fb681272aef64e78c7b3a775bfbf"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;int&gt; tasks::qp::GenQPSolver::fullToReduced_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Correspondence between full variable indices and reduced variables. </p>
-
-</div>
-</div>
-<a class="anchor" id="a7db3d83a10b1e0c60541ff1b0b226edd"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;int&gt; tasks::qp::GenQPSolver::reducedToFull_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Correspondence between reduced variable indices and full variable indices. </p>
+<p>Referenced by <a class="el" href="a00117.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr()</a>.</p>
 
 </div>
 </div>
@@ -603,8 +399,8 @@ Protected Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00115.html">qp</a></li><li class="navelem"><a class="el" href="a00033.html">GenQPSolver</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 08:54:25 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00033.html">GenInequality</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

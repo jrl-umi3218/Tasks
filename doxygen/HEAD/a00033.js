@@ -1,15 +1,13 @@
 var a00033 =
 [
-    [ "~GenQPSolver", "a00033.html#abc3b4a33780f8fe00fd5d3385dbaf808", null ],
-    [ "errorMsg", "a00033.html#a54b51f336322baaca38f31c9b0f5df98", null ],
-    [ "name", "a00033.html#aec603fc65e65ca4f3c38f94e50ed6790", null ],
-    [ "result", "a00033.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e", null ],
-    [ "setDependencies", "a00033.html#abb590ac28fb2fa760304d276fd59e20c", null ],
-    [ "solve", "a00033.html#afb9f3d99281925cd65cf1f9b29ce89ac", null ],
-    [ "updateMatrix", "a00033.html#a7c72a60336439e940e2976d327dd98dd", null ],
-    [ "updateSize", "a00033.html#aaf305726925f3693e24dd82b473817e3", null ],
-    [ "default_qp_solver", "a00033.html#ad8ee5e4fad141ae5f5e8b73e3842e847", null ],
-    [ "dependencies_", "a00033.html#aab010e6097d3344cc671ecd6b8e2a120", null ],
-    [ "fullToReduced_", "a00033.html#ad497fb681272aef64e78c7b3a775bfbf", null ],
-    [ "reducedToFull_", "a00033.html#a7db3d83a10b1e0c60541ff1b0b226edd", null ]
+    [ "~GenInequality", "a00033.html#acc4aa2bbdb2392a856830b123cea0aae", null ],
+    [ "addToSolver", "a00033.html#a43a34f4730c9c55f8534d0f0b6a18a10", null ],
+    [ "AGenInEq", "a00033.html#a325d9d056bb2f4384f2dd5d7782c7d67", null ],
+    [ "descGenInEq", "a00033.html#a9d2a100b0cac057ed8ab9551c313c258", null ],
+    [ "LowerGenInEq", "a00033.html#afbc386b920f098adbf97579136f7aafe", null ],
+    [ "maxGenInEq", "a00033.html#aeb0ca1c17412db12a0b356cf49db1153", null ],
+    [ "nameGenInEq", "a00033.html#ab8b53c19e88c1e5b2dfe20f323406e4e", null ],
+    [ "nrGenInEq", "a00033.html#a0824ef1fa7cca3bc979437b08c316dbe", null ],
+    [ "removeFromSolver", "a00033.html#a0cb32ca9ea02aef63634de1e915ba1d7", null ],
+    [ "UpperGenInEq", "a00033.html#ab9e1c4057da5a53adb8f42ab0a3de2c9", null ]
 ];

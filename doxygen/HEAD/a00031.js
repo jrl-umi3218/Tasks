@@ -1,17 +1,14 @@
 var a00031 =
 [
-    [ "GazeTask", "a00031.html#aba1bfe65a758ea66b3861eb8f165c160", null ],
-    [ "GazeTask", "a00031.html#a12599ce7b03170f7b9d33e521cfc417d", null ],
-    [ "GazeTask", "a00031.html#a87332fab30a87c03822bf31efcda8aeb", null ],
-    [ "GazeTask", "a00031.html#a3c9dfcd5e71d7af7f8d94476fbe9bb72", null ],
-    [ "error", "a00031.html#a7a3a5341868b40b92cc1632695ec4ade", null ],
-    [ "error", "a00031.html#a6aaf67f35aab816daa37233c713583c6", null ],
-    [ "eval", "a00031.html#a6864e9981b298e8ab67645d5b1aa446c", null ],
-    [ "jac", "a00031.html#ad0b794dbb73ebb961c442608fee20571", null ],
-    [ "jacDot", "a00031.html#ad49801e0233810ac8226cec1ad39b175", null ],
-    [ "normalAcc", "a00031.html#a4be9152ff9a35babed966ba073e66be0", null ],
-    [ "operator=", "a00031.html#a6d434428030eeca446ced9a18d19c60c", null ],
-    [ "operator=", "a00031.html#a69d250bddb913512147c7850906402b8", null ],
-    [ "speed", "a00031.html#a7619fb259b6b791d16da8e2a32b462c1", null ],
-    [ "update", "a00031.html#a38f3201c5c73d5f8604deec4e5dca994", null ]
+    [ "GazeTask", "a00031.html#a37c7e3e10fc054e0435dc7656c141565", null ],
+    [ "GazeTask", "a00031.html#a538a7e6844f23921d4649f5169d8a4da", null ],
+    [ "dim", "a00031.html#a64684b045a4e6b90247a33f40370e14c", null ],
+    [ "error", "a00031.html#a66de6c7e95ddb0d5779460fc740dc09a", null ],
+    [ "error", "a00031.html#ac08fc99e6870186c4c5a745294051563", null ],
+    [ "eval", "a00031.html#a6fe7f49c10a266a968edda7f8883c7fd", null ],
+    [ "jac", "a00031.html#a9d5e15ff479818d6f42b9d79ba4f8628", null ],
+    [ "normalAcc", "a00031.html#a17c817fc556109e9054acab47562c40a", null ],
+    [ "speed", "a00031.html#af3ff59928c46be3f8ad18f56e235bc24", null ],
+    [ "task", "a00031.html#ae619a255082dbbb29eae5c8155751564", null ],
+    [ "update", "a00031.html#a9fd82b2acc7b7ed48635e4a6b5c9ef56", null ]
 ];
