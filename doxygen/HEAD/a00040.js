@@ -1,9 +1,11 @@
 var a00040 =
 [
-    [ "JointGains", "a00040.html#add0cd36307b044425a1175e82be95c8f", null ],
-    [ "JointGains", "a00040.html#a5518172f15ccd822adeb64786855a9cb", null ],
-    [ "JointGains", "a00040.html#a84e051a4f37a2a15de59b3d900953f87", null ],
-    [ "damping", "a00040.html#a590ae8fd57e2a1e708491f05f3262ad7", null ],
-    [ "jointName", "a00040.html#a08d3a7fa0479efaaa54f8e49301e280f", null ],
-    [ "stiffness", "a00040.html#ab0a41a5153da3a170bafea2c4453a7a5", null ]
+    [ "JointLimitsConstr", "a00040.html#a79767272482e70fc2f72c97458a7d752", null ],
+    [ "beginVar", "a00040.html#abae3c86c767903124a0f723d69474b51", null ],
+    [ "descBound", "a00040.html#a41bc40ccca62e878d41596926286a8bb", null ],
+    [ "Lower", "a00040.html#a98b0bf67cc7205182274f2359d9a6e8d", null ],
+    [ "nameBound", "a00040.html#ab8e6a55d29ff77f6f6f62e99b1bdb8c3", null ],
+    [ "update", "a00040.html#ad1bb25d2f65316dc645eda9db015e1ba", null ],
+    [ "updateNrVars", "a00040.html#a984be9df17be72329169928ea4e550e5", null ],
+    [ "Upper", "a00040.html#ad3aeca710610deccea5832e9b1c464f0", null ]
 ];

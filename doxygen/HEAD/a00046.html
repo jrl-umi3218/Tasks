@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::LSSOLQPSolver Class Reference</title>
+<title>tasks::MomentumTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,81 +99,60 @@ $(document).ready(function(){initNavTree('a00046.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00177.html">List of all members</a>  </div>
+<a href="a00120.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::LSSOLQPSolver Class Reference</div>  </div>
+<div class="title">tasks::MomentumTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="a00034.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the LSSOL QP solver.  
- <a href="a00046.html#details">More...</a></p>
-
-<p><code>#include &lt;LSSOLQPSolver.h&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for tasks::qp::LSSOLQPSolver:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="a00046.png" usemap="#tasks::qp::LSSOLQPSolver_map" alt=""/>
-  <map id="tasks::qp::LSSOLQPSolver_map" name="tasks::qp::LSSOLQPSolver_map">
-<area href="a00034.html" title="Generic QP solver abstract interface. " alt="tasks::qp::GenQPSolver" shape="rect" coords="0,0,160,24"/>
-</map>
- </div></div>
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa645ba408bf6eb66104caf2c95b2ea44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#aa645ba408bf6eb66104caf2c95b2ea44">LSSOLQPSolver</a> ()</td></tr>
-<tr class="separator:aa645ba408bf6eb66104caf2c95b2ea44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67156d6e5f1c418ee8b26f203606528a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a67156d6e5f1c418ee8b26f203606528a">updateSize</a> (int nrVars, int nrEq, int nrInEq, int nrGenInEq) override</td></tr>
-<tr class="memdesc:a67156d6e5f1c418ee8b26f203606528a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the problem size.  <a href="#a67156d6e5f1c418ee8b26f203606528a">More...</a><br /></td></tr>
-<tr class="separator:a67156d6e5f1c418ee8b26f203606528a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12be106df27c06f12e438c7129422baf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a12be106df27c06f12e438c7129422baf">updateMatrix</a> (const std::vector&lt; <a class="el" href="a00086.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00029.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00039.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00033.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00005.html">Bound</a> * &gt; &amp;boundConstr) override</td></tr>
-<tr class="memdesc:a12be106df27c06f12e438c7129422baf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the QP matrices.  <a href="#a12be106df27c06f12e438c7129422baf">More...</a><br /></td></tr>
-<tr class="separator:a12be106df27c06f12e438c7129422baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a754fa6e0109d3e024d26650ef12f1c64"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a754fa6e0109d3e024d26650ef12f1c64">solve</a> () override</td></tr>
-<tr class="memdesc:a754fa6e0109d3e024d26650ef12f1c64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the quadratic program.  <a href="#a754fa6e0109d3e024d26650ef12f1c64">More...</a><br /></td></tr>
-<tr class="separator:a754fa6e0109d3e024d26650ef12f1c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3fd8e52ca0126799e3fdd05881d7cd7"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#ab3fd8e52ca0126799e3fdd05881d7cd7">result</a> () const override</td></tr>
-<tr class="separator:ab3fd8e52ca0126799e3fdd05881d7cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a710a1f1b2e91b05fac21228fad56f2e8"><td class="memItemLeft" align="right" valign="top">virtual std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a710a1f1b2e91b05fac21228fad56f2e8">errorMsg</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="el" href="a00086.html">Task</a> * &gt; &amp;tasks, const std::vector&lt; <a class="el" href="a00029.html">Equality</a> * &gt; &amp;eqConstr, const std::vector&lt; <a class="el" href="a00039.html">Inequality</a> * &gt; &amp;inEqConstr, const std::vector&lt; <a class="el" href="a00033.html">GenInequality</a> * &gt; &amp;genInEqConstr, const std::vector&lt; <a class="el" href="a00005.html">Bound</a> * &gt; &amp;boundConstr, std::ostream &amp;out) const override</td></tr>
-<tr class="separator:a710a1f1b2e91b05fac21228fad56f2e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cb7152ce1bd97d8cb5d67d7e054cbac"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a2cb7152ce1bd97d8cb5d67d7e054cbac">name</a> () const override</td></tr>
-<tr class="separator:a2cb7152ce1bd97d8cb5d67d7e054cbac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00034"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00034')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td></tr>
-<tr class="memitem:abc3b4a33780f8fe00fd5d3385dbaf808 inherit pub_methods_a00034"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00034.html#abc3b4a33780f8fe00fd5d3385dbaf808">~GenQPSolver</a> ()</td></tr>
-<tr class="separator:abc3b4a33780f8fe00fd5d3385dbaf808 inherit pub_methods_a00034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb590ac28fb2fa760304d276fd59e20c inherit pub_methods_a00034"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00034.html#abb590ac28fb2fa760304d276fd59e20c">setDependencies</a> (int nrVars, std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; dependencies)</td></tr>
-<tr class="memdesc:abb590ac28fb2fa760304d276fd59e20c inherit pub_methods_a00034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup dependent variables, only linear dependencies are supported.  <a href="#abb590ac28fb2fa760304d276fd59e20c">More...</a><br /></td></tr>
-<tr class="separator:abb590ac28fb2fa760304d276fd59e20c inherit pub_methods_a00034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_static_attribs_a00034"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_a00034')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td></tr>
-<tr class="memitem:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00034"><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00034.html#ad8ee5e4fad141ae5f5e8b73e3842e847">default_qp_solver</a></td></tr>
-<tr class="memdesc:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default QP solver.  <a href="#ad8ee5e4fad141ae5f5e8b73e3842e847">More...</a><br /></td></tr>
-<tr class="separator:ad8ee5e4fad141ae5f5e8b73e3842e847 inherit pub_static_attribs_a00034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_a00034"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00034')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td></tr>
-<tr class="memitem:ad497fb681272aef64e78c7b3a775bfbf inherit pro_attribs_a00034"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00034.html#ad497fb681272aef64e78c7b3a775bfbf">fullToReduced_</a></td></tr>
-<tr class="memdesc:ad497fb681272aef64e78c7b3a775bfbf inherit pro_attribs_a00034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondence between full variable indices and reduced variables.  <a href="#ad497fb681272aef64e78c7b3a775bfbf">More...</a><br /></td></tr>
-<tr class="separator:ad497fb681272aef64e78c7b3a775bfbf inherit pro_attribs_a00034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7db3d83a10b1e0c60541ff1b0b226edd inherit pro_attribs_a00034"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00034.html#a7db3d83a10b1e0c60541ff1b0b226edd">reducedToFull_</a></td></tr>
-<tr class="memdesc:a7db3d83a10b1e0c60541ff1b0b226edd inherit pro_attribs_a00034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correspondence between reduced variable indices and full variable indices.  <a href="#a7db3d83a10b1e0c60541ff1b0b226edd">More...</a><br /></td></tr>
-<tr class="separator:a7db3d83a10b1e0c60541ff1b0b226edd inherit pro_attribs_a00034"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab010e6097d3344cc671ecd6b8e2a120 inherit pro_attribs_a00034"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::tuple&lt; int, int, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00034.html#aab010e6097d3344cc671ecd6b8e2a120">dependencies_</a></td></tr>
-<tr class="memdesc:aab010e6097d3344cc671ecd6b8e2a120 inherit pro_attribs_a00034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variable dependencies, each tuple gives the primary variable index in the full variable, replica variable index in the full variable and the factor in the dependency equation: replica = factor * primary.  <a href="#aab010e6097d3344cc671ecd6b8e2a120">More...</a><br /></td></tr>
-<tr class="separator:aab010e6097d3344cc671ecd6b8e2a120 inherit pro_attribs_a00034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f72fc82102c98e12fb7c05a88576943"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a7f72fc82102c98e12fb7c05a88576943">MomentumTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> mom)</td></tr>
+<tr class="separator:a7f72fc82102c98e12fb7c05a88576943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada28df5a2923384ea391fe592c776b64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#ada28df5a2923384ea391fe592c776b64">momentum</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> &amp;mom)</td></tr>
+<tr class="separator:ada28df5a2923384ea391fe592c776b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dda8977ad22f59024f37da5b252e700"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a3dda8977ad22f59024f37da5b252e700">momentum</a> () const </td></tr>
+<tr class="separator:a3dda8977ad22f59024f37da5b252e700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af27f19f834631cb7b9e06128b8dbb00c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#af27f19f834631cb7b9e06128b8dbb00c">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc)</td></tr>
+<tr class="separator:af27f19f834631cb7b9e06128b8dbb00c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22c6f63e7a56e20bf9293955781f3a95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a22c6f63e7a56e20bf9293955781f3a95">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a22c6f63e7a56e20bf9293955781f3a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0093f5739a9c2078d7ea883e7f477f7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a0093f5739a9c2078d7ea883e7f477f7b">updateDot</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc)</td></tr>
+<tr class="separator:a0093f5739a9c2078d7ea883e7f477f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7269a359475bbe931b2b2262aefb5cfa"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a7269a359475bbe931b2b2262aefb5cfa">eval</a> () const </td></tr>
+<tr class="separator:a7269a359475bbe931b2b2262aefb5cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75f397e34e4eb220428ce9b4e28a2b87"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a75f397e34e4eb220428ce9b4e28a2b87">speed</a> () const </td></tr>
+<tr class="separator:a75f397e34e4eb220428ce9b4e28a2b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5fd4bbce5a9841957209cd58b42a25"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a2b5fd4bbce5a9841957209cd58b42a25">normalAcc</a> () const </td></tr>
+<tr class="separator:a2b5fd4bbce5a9841957209cd58b42a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4a22b81eb59f47e29b81eb107ced331"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#ab4a22b81eb59f47e29b81eb107ced331">jac</a> () const </td></tr>
+<tr class="separator:ab4a22b81eb59f47e29b81eb107ced331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54966b2c170616b1a09b8a968101b1ad"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00046.html#a54966b2c170616b1a09b8a968101b1ad">jacDot</a> () const </td></tr>
+<tr class="separator:a54966b2c170616b1a09b8a968101b1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="a00034.html" title="Generic QP solver abstract interface. ">GenQPSolver</a> interface implementation with the LSSOL QP solver. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa645ba408bf6eb66104caf2c95b2ea44"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a7f72fc82102c98e12fb7c05a88576943"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::LSSOLQPSolver::LSSOLQPSolver </td>
+          <td class="memname">tasks::MomentumTask::MomentumTask </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a>&#160;</td>
+          <td class="paramname"><em>mom</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -181,189 +160,127 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a710a1f1b2e91b05fac21228fad56f2e8"></a>
+<a class="anchor" id="a7269a359475bbe931b2b2262aefb5cfa"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::ostream&amp; tasks::qp::LSSOLQPSolver::errorMsg </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00086.html">Task</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tasks</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00029.html">Equality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>eqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00039.html">Inequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00033.html">GenInequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>genInEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00005.html">Bound</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>boundConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>out</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Error message if <a class="el" href="a00034.html#afb9f3d99281925cd65cf1f9b29ce89ac" title="Solve the quadratic program. ">GenQPSolver::solve</a> has returned false. </dd></dl>
-
-<p>Implements <a class="el" href="a00034.html#a54b51f336322baaca38f31c9b0f5df98">tasks::qp::GenQPSolver</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2cb7152ce1bd97d8cb5d67d7e054cbac"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string tasks::qp::LSSOLQPSolver::name </td>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::MomentumTask::eval </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Name of the solver </dd></dl>
-
-<p>Implements <a class="el" href="a00034.html#aec603fc65e65ca4f3c38f94e50ed6790">tasks::qp::GenQPSolver</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab3fd8e52ca0126799e3fdd05881d7cd7"></a>
+<a class="anchor" id="ab4a22b81eb59f47e29b81eb107ced331"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::LSSOLQPSolver::result </td>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::MomentumTask::jac </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Optimal \( x \) vector. </dd></dl>
-
-<p>Implements <a class="el" href="a00034.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e">tasks::qp::GenQPSolver</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a754fa6e0109d3e024d26650ef12f1c64"></a>
+<a class="anchor" id="a54966b2c170616b1a09b8a968101b1ad"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool tasks::qp::LSSOLQPSolver::solve </td>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::MomentumTask::jacDot </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ada28df5a2923384ea391fe592c776b64"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::MomentumTask::momentum </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> &amp;&#160;</td>
+          <td class="paramname"><em>mom</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Solve the quadratic program. </p>
-<dl class="section return"><dt>Returns</dt><dd>true of success false on failure. </dd></dl>
-
-<p>Implements <a class="el" href="a00034.html#afb9f3d99281925cd65cf1f9b29ce89ac">tasks::qp::GenQPSolver</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a12be106df27c06f12e438c7129422baf"></a>
+<a class="anchor" id="a3dda8977ad22f59024f37da5b252e700"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::LSSOLQPSolver::updateMatrix </td>
+          <td class="memname">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> tasks::MomentumTask::momentum </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00086.html">Task</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tasks</em>, </td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2b5fd4bbce5a9841957209cd58b42a25"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::MomentumTask::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a75f397e34e4eb220428ce9b4e28a2b87"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::MomentumTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af27f19f834631cb7b9e06128b8dbb00c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::MomentumTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00029.html">Equality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>eqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00039.html">Inequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00033.html">GenInequality</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>genInEqConstr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="a00005.html">Bound</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>boundConstr</em>&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -371,59 +288,31 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Construct the QP matrices. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tasks</td><td>Build \( Q \) and \( c \). </td></tr>
-    <tr><td class="paramname">eqConstr</td><td>Build \( A x = b \) constraints. </td></tr>
-    <tr><td class="paramname">inEqConstr</td><td>Build \( A x \geq b \) constraints. </td></tr>
-    <tr><td class="paramname">genInEqConstr</td><td>Build \( L \leq A x \leq U \) constraints. </td></tr>
-    <tr><td class="paramname">boundConstr</td><td>Build \( L \leq x \leq U \) constraints. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="a00034.html#a7c72a60336439e940e2976d327dd98dd">tasks::qp::GenQPSolver</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a67156d6e5f1c418ee8b26f203606528a"></a>
+<a class="anchor" id="a22c6f63e7a56e20bf9293955781f3a95"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::LSSOLQPSolver::updateSize </td>
+          <td class="memname">void tasks::MomentumTask::update </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrVars</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrEq</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrInEq</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGenInEq</em>&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -431,25 +320,33 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Update the problem size. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nrVars</td><td>Variable number. </td></tr>
-    <tr><td class="paramname">nrEq</td><td>maximum number of equality. </td></tr>
-    <tr><td class="paramname">nrInEq</td><td>maximum number of inequality. </td></tr>
-    <tr><td class="paramname">nrGenInEq</td><td>maximum number of general inequality. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="a00034.html#aaf305726925f3693e24dd82b473817e3">tasks::qp::GenQPSolver</a>.</p>
+</div>
+</div>
+<a class="anchor" id="a0093f5739a9c2078d7ea883e7f477f7b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::MomentumTask::updateDot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -459,8 +356,8 @@ Additional Inherited Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00046.html">LSSOLQPSolver</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00046.html">MomentumTask</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

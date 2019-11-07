@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00079.html','');});
+$(document).ready(function(){initNavTree('a00083.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,25 +98,35 @@ $(document).ready(function(){initNavTree('a00079.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::SpringJoint Member List</div>  </div>
+<div class="title">tasks::qp::SurfaceTransformTask Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00079.html">tasks::qp::SpringJoint</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00083.html">tasks::qp::SurfaceTransformTask</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00079.html#a2b393d84a55fe348e6e5ce04deefd329">C</a></td><td class="entry"><a class="el" href="a00079.html">tasks::qp::SpringJoint</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00079.html#a029b134a876b568f05bc4ad280a48a69">jointName</a></td><td class="entry"><a class="el" href="a00079.html">tasks::qp::SpringJoint</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00079.html#a5466a16b77a204b340d93543a770cdd0">K</a></td><td class="entry"><a class="el" href="a00079.html">tasks::qp::SpringJoint</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00079.html#aa2bcaab07c4831dde713bbab4e360ade">O</a></td><td class="entry"><a class="el" href="a00079.html">tasks::qp::SpringJoint</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00079.html#ac25ad1f8efb3d7baa7c353a5e3f0aa89">SpringJoint</a>()</td><td class="entry"><a class="el" href="a00079.html">tasks::qp::SpringJoint</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00079.html#aa9645391a0b018abb077090fd55ceb3d">SpringJoint</a>(const std::string &amp;jName, double K, double C, double O)</td><td class="entry"><a class="el" href="a00079.html">tasks::qp::SpringJoint</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00092.html#ad3254048c52d4893b3fcda182cb33c86">dim</a>() override</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#a644f20089b0dfd81f94b7e9cdcc7e6a0">eval</a>() override</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00092.html#a710c0f4a9c71e97dee0c9059b175f5bb">jac</a>() override</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#ae18d02bd366acdd7a68b540fddf17919">normalAcc</a>() override</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00092.html#a55c311d3cda616f83de11d836c6f3d18">robotIndex_</a></td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#a4bb449578f2ee544bb28cf05373f096f">speed</a>() override</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00083.html#ad080188983a173ad99bdbd63208eb189">SurfaceTransformTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::SurfaceTransformTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#af0b3178505a2872ceb38462bcce08f29">target</a>(const sva::PTransformd &amp;X_0_t)</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00092.html#a642d181e09939e3a86bb110e276a6e27">target</a>() const</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#a14760ffdbe08973b70e3d2eea0e6aa40">task</a>()</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00092.html#ad80e311e700791109d84fa22c954cb84">TransformTaskCommon</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#a20b38faf7c45ad433e793b5bf375f61d">tt_</a></td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00083.html#a5c81d6e4c1eeb30c2866b789b3c79c40">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbc, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00083.html">tasks::qp::SurfaceTransformTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00092.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a>(const sva::PTransformd &amp;X_b_p)</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00092.html#ad41559d4366daf41c713e4f7c0f85681">X_b_p</a>() const</td><td class="entry"><a class="el" href="a00092.html">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00036.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a>()</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::HighLevelTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

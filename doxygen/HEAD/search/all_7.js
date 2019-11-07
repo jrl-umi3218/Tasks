@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['gains',['gains',['../a00068.html#a739a5d0d760ba01113ea18aa3160c0da',1,'tasks::qp::PostureTask::gains(double stiffness)'],['../a00068.html#a0d16ea5b77758fe575667d0f43f319f9',1,'tasks::qp::PostureTask::gains(double stiffness, double damping)']]],
-  ['gazetask',['GazeTask',['../a00032.html',1,'tasks']]],
-  ['gazetask',['GazeTask',['../a00031.html',1,'tasks::qp']]],
-  ['gazetask',['GazeTask',['../a00031.html#a37c7e3e10fc054e0435dc7656c141565',1,'tasks::qp::GazeTask::GazeTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00031.html#a538a7e6844f23921d4649f5169d8a4da',1,'tasks::qp::GazeTask::GazeTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00032.html#aba1bfe65a758ea66b3861eb8f165c160',1,'tasks::GazeTask::GazeTask(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00032.html#a12599ce7b03170f7b9d33e521cfc417d',1,'tasks::GazeTask::GazeTask(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00032.html#a87332fab30a87c03822bf31efcda8aeb',1,'tasks::GazeTask::GazeTask(const GazeTask &amp;rhs)'],['../a00032.html#a3c9dfcd5e71d7af7f8d94476fbe9bb72',1,'tasks::GazeTask::GazeTask(GazeTask &amp;&amp;)=default']]],
-  ['generators',['generators',['../a00030.html#a21e18e3e28defbb740615260a07489c1',1,'tasks::qp::FrictionCone']]],
-  ['geninequality',['GenInequality',['../a00033.html',1,'tasks::qp']]],
-  ['genqpsolver',['GenQPSolver',['../a00034.html',1,'tasks::qp']]],
-  ['genqpsolver_2eh',['GenQPSolver.h',['../a00099.html',1,'']]],
-  ['genqputils_2eh',['GenQPUtils.h',['../a00100.html',1,'']]],
+  ['gains',['gains',['../a00067.html#a739a5d0d760ba01113ea18aa3160c0da',1,'tasks::qp::PostureTask::gains(double stiffness)'],['../a00067.html#a0d16ea5b77758fe575667d0f43f319f9',1,'tasks::qp::PostureTask::gains(double stiffness, double damping)']]],
+  ['gazetask',['GazeTask',['../a00031.html',1,'tasks']]],
+  ['gazetask',['GazeTask',['../a00030.html',1,'tasks::qp']]],
+  ['gazetask',['GazeTask',['../a00030.html#a37c7e3e10fc054e0435dc7656c141565',1,'tasks::qp::GazeTask::GazeTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00030.html#a538a7e6844f23921d4649f5169d8a4da',1,'tasks::qp::GazeTask::GazeTask(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00031.html#aba1bfe65a758ea66b3861eb8f165c160',1,'tasks::GazeTask::GazeTask(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00031.html#a12599ce7b03170f7b9d33e521cfc417d',1,'tasks::GazeTask::GazeTask(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const sva::PTransformd &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())'],['../a00031.html#a87332fab30a87c03822bf31efcda8aeb',1,'tasks::GazeTask::GazeTask(const GazeTask &amp;rhs)'],['../a00031.html#a3c9dfcd5e71d7af7f8d94476fbe9bb72',1,'tasks::GazeTask::GazeTask(GazeTask &amp;&amp;)=default']]],
+  ['generators',['generators',['../a00029.html#a21e18e3e28defbb740615260a07489c1',1,'tasks::qp::FrictionCone']]],
+  ['geninequality',['GenInequality',['../a00032.html',1,'tasks::qp']]],
+  ['genqpsolver',['GenQPSolver',['../a00033.html',1,'tasks::qp']]],
+  ['genqpsolver_2eh',['GenQPSolver.h',['../a00098.html',1,'']]],
+  ['genqputils_2eh',['GenQPUtils.h',['../a00099.html',1,'']]],
   ['geometries_5f',['geometries_',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00062.html#aeee20aadf85e04b86790615c76c0e64f',1,'sch::STP_BV']]],
   ['geometry',['Geometry',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00017.html#a9f5137e8a1732a8f6c1ae2315260d87b',1,'sch::Geometry']]],
   ['geometry',['Geometry',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00017.html',1,'sch']]],
@@ -49,8 +49,8 @@ var searchData=
   ['gjk',['GJK',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00018.html',1,'GJK'],['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00011.html#a2ddeeded589eba6c0b8814f258a04488',1,'sch::CD_Pair::GJK()'],['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00018.html#a65c29054e9f3ec5cbeead6a75a419d2c',1,'GJK::GJK()']]],
   ['gjk_2eh',['GJK.h',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00077.html',1,'']]],
   ['gravity',['gravity',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html#a0f275f9fe70453bfd32a67b113850e3e',1,'rbd::MultiBodyConfig']]],
-  ['grippertorqueconstr',['GripperTorqueConstr',['../a00035.html',1,'tasks::qp']]],
-  ['grippertorqueconstr',['GripperTorqueConstr',['../a00035.html#a158480db320f0d977606763c0ca30320',1,'tasks::qp::GripperTorqueConstr']]],
-  ['grippertorquetask',['GripperTorqueTask',['../a00036.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask']]],
-  ['grippertorquetask',['GripperTorqueTask',['../a00036.html',1,'tasks::qp']]]
+  ['grippertorqueconstr',['GripperTorqueConstr',['../a00034.html',1,'tasks::qp']]],
+  ['grippertorqueconstr',['GripperTorqueConstr',['../a00034.html#a158480db320f0d977606763c0ca30320',1,'tasks::qp::GripperTorqueConstr']]],
+  ['grippertorquetask',['GripperTorqueTask',['../a00035.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask']]],
+  ['grippertorquetask',['GripperTorqueTask',['../a00035.html',1,'tasks::qp']]]
 ];

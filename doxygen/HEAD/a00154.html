@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00020.html','');});
+$(document).ready(function(){initNavTree('a00022.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,28 +98,29 @@ $(document).ready(function(){initNavTree('a00020.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::ContactConstrCommon Member List</div>  </div>
+<div class="title">tasks::qp::ContactId Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00022.html">tasks::qp::ContactId</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00020.html#ac5123de1300b7ecb492a82bdf4ff598a">addDofContact</a>(const ContactId &amp;contactId, const Eigen::MatrixXd &amp;dof)</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00020.html#a7c55dda527a78e05b4831360910bfd14">addVirtualContact</a>(const ContactId &amp;contactId)</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00020.html#a9ef854ece354fa70691e835d4b1b113f">contactCommonInContact</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data)</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00020.html#aff630a43bf34b2a1888d3935934eadd4">dofContacts_</a></td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00020.html#a31ac823a2b09a9e5da7a4b825f8377eb">removeDofContact</a>(const ContactId &amp;contactId)</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00020.html#aedef34aeec93e2935de172e1cea9b522">removeVirtualContact</a>(const ContactId &amp;contactId)</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00020.html#adecc38cbf40aa9b7b4ef2d91197bf816">resetDofContacts</a>()</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00020.html#a838f717847de788786039ae40d99939c">resetVirtualContacts</a>()</td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00020.html#a2f2a4442ff0cbee3b172ffbf89eb7ac7">virtualContacts_</a></td><td class="entry"><a class="el" href="a00020.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00022.html#a7777bc784fa6025d8f024e89f01193ca">ambiguityId</a></td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00022.html#aa7e0d2976319c9a3c7600c18d322090b">ContactId</a>()</td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00022.html#a83b93d52de3ea6d4d0d4b370f126ae50">ContactId</a>(int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, int ambiguityId=-1)</td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00022.html#a3f97aa2de47daa307478b84c8e045d11">operator!=</a>(const ContactId &amp;cId) const </td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00022.html#a6df70365734228f2c4cc61f633bfda16">operator&lt;</a>(const ContactId &amp;cId) const </td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00022.html#acc72a4179b93a84f48975acaa127257b">operator==</a>(const ContactId &amp;cId) const </td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00022.html#a47acc85ec19a848ec185d379dbd7c9ea">r1BodyName</a></td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00022.html#aa0f853c4f1786b8a23a0252dcbf2678a">r1Index</a></td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00022.html#aec152e04a89289523099fd8ebe816e8c">r2BodyName</a></td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00022.html#a58515743f8024e51dc07e65a3f0447d6">r2Index</a></td><td class="entry"><a class="el" href="a00022.html">tasks::qp::ContactId</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -1,15 +1,14 @@
 var a00034 =
 [
-    [ "~GenQPSolver", "a00034.html#abc3b4a33780f8fe00fd5d3385dbaf808", null ],
-    [ "errorMsg", "a00034.html#a54b51f336322baaca38f31c9b0f5df98", null ],
-    [ "name", "a00034.html#aec603fc65e65ca4f3c38f94e50ed6790", null ],
-    [ "result", "a00034.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e", null ],
-    [ "setDependencies", "a00034.html#abb590ac28fb2fa760304d276fd59e20c", null ],
-    [ "solve", "a00034.html#afb9f3d99281925cd65cf1f9b29ce89ac", null ],
-    [ "updateMatrix", "a00034.html#a7c72a60336439e940e2976d327dd98dd", null ],
-    [ "updateSize", "a00034.html#aaf305726925f3693e24dd82b473817e3", null ],
-    [ "default_qp_solver", "a00034.html#ad8ee5e4fad141ae5f5e8b73e3842e847", null ],
-    [ "dependencies_", "a00034.html#aab010e6097d3344cc671ecd6b8e2a120", null ],
-    [ "fullToReduced_", "a00034.html#ad497fb681272aef64e78c7b3a775bfbf", null ],
-    [ "reducedToFull_", "a00034.html#a7db3d83a10b1e0c60541ff1b0b226edd", null ]
+    [ "GripperTorqueConstr", "a00034.html#a158480db320f0d977606763c0ca30320", null ],
+    [ "addGripper", "a00034.html#a286eb4df1d89354be9b233791446cfab", null ],
+    [ "AInEq", "a00034.html#a268d53dd40ca7695dd3117620d4d7345", null ],
+    [ "bInEq", "a00034.html#a2db7871d226e816c98808dae67f4c99e", null ],
+    [ "descInEq", "a00034.html#a24e7d5d7e69ecc695c1ce3066be3393a", null ],
+    [ "maxInEq", "a00034.html#a8dff80d4452b0185cbbe1c79851bd474", null ],
+    [ "nameInEq", "a00034.html#a9913bb0bd64e18c32055db5b5c984e01", null ],
+    [ "reset", "a00034.html#a6e4afbeb7025bb621f9c88ce71a544fe", null ],
+    [ "rmGripper", "a00034.html#a7bcbd18c45c3b8492e53a9a03cf954a4", null ],
+    [ "update", "a00034.html#a42017c9a838cfb0dd9b189f10ad820a9", null ],
+    [ "updateNrVars", "a00034.html#abe6ec4a958f76661992909e5e78f9c27", null ]
 ];

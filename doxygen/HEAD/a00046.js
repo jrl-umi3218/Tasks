@@ -1,10 +1,14 @@
 var a00046 =
 [
-    [ "LSSOLQPSolver", "a00046.html#aa645ba408bf6eb66104caf2c95b2ea44", null ],
-    [ "errorMsg", "a00046.html#a710a1f1b2e91b05fac21228fad56f2e8", null ],
-    [ "name", "a00046.html#a2cb7152ce1bd97d8cb5d67d7e054cbac", null ],
-    [ "result", "a00046.html#ab3fd8e52ca0126799e3fdd05881d7cd7", null ],
-    [ "solve", "a00046.html#a754fa6e0109d3e024d26650ef12f1c64", null ],
-    [ "updateMatrix", "a00046.html#a12be106df27c06f12e438c7129422baf", null ],
-    [ "updateSize", "a00046.html#a67156d6e5f1c418ee8b26f203606528a", null ]
+    [ "MomentumTask", "a00046.html#a7f72fc82102c98e12fb7c05a88576943", null ],
+    [ "eval", "a00046.html#a7269a359475bbe931b2b2262aefb5cfa", null ],
+    [ "jac", "a00046.html#ab4a22b81eb59f47e29b81eb107ced331", null ],
+    [ "jacDot", "a00046.html#a54966b2c170616b1a09b8a968101b1ad", null ],
+    [ "momentum", "a00046.html#ada28df5a2923384ea391fe592c776b64", null ],
+    [ "momentum", "a00046.html#a3dda8977ad22f59024f37da5b252e700", null ],
+    [ "normalAcc", "a00046.html#a2b5fd4bbce5a9841957209cd58b42a25", null ],
+    [ "speed", "a00046.html#a75f397e34e4eb220428ce9b4e28a2b87", null ],
+    [ "update", "a00046.html#af27f19f834631cb7b9e06128b8dbb00c", null ],
+    [ "update", "a00046.html#a22c6f63e7a56e20bf9293955781f3a95", null ],
+    [ "updateDot", "a00046.html#a0093f5739a9c2078d7ea883e7f477f7b", null ]
 ];

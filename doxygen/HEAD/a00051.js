@@ -1,8 +1,7 @@
 var a00051 =
 [
-    [ "MotionPolyConstr", "a00051.html#a93f49c72d7b08577c529416df3a10587", null ],
-    [ "update", "a00051.html#a294bc8b3c50ce8ce6ba423a08df9d3d1", null ],
-    [ "jointIndex_", "a00051.html#a1cb6d383d1f32142b8215f626496fe63", null ],
-    [ "torqueL_", "a00051.html#a0c79e9d0ac757a2fa79c822cf2f72ab7", null ],
-    [ "torqueU_", "a00051.html#a1b6a5c6234adbd54efbbecca67bc9c4e", null ]
+    [ "SpringJointData", "a00079.html", "a00079" ],
+    [ "MotionSpringConstr", "a00051.html#aae4c8dbb6054294ea28eda06f032219a", null ],
+    [ "update", "a00051.html#abc6952a34aa867dad0e34cbf1497afa9", null ],
+    [ "springs_", "a00051.html#aad13ef10076249984674dec4c1798299", null ]
 ];

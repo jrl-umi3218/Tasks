@@ -1,18 +1,15 @@
 var a00008 =
 [
-    [ "CoMIncPlaneConstr", "a00008.html#a8d06d7750347b3548de72faae5394406", null ],
-    [ "addPlane", "a00008.html#ab4ff9ded4f0e0fcbbaf64bb7a9fc9d0a", null ],
-    [ "addPlane", "a00008.html#a842c6c78a0ebbc92999997d2cb74ebae", null ],
-    [ "AInEq", "a00008.html#a0a0d3bc6d47d20a4f8721dd973f6276d", null ],
-    [ "bInEq", "a00008.html#a71a8e9ef2b63d24f0f210799fe22e5b2", null ],
-    [ "descInEq", "a00008.html#a33875a675a759a588497158c1a3ee1d3", null ],
-    [ "maxInEq", "a00008.html#a2d7ceb3f7eaae8cbce850255c521579a", null ],
-    [ "nameInEq", "a00008.html#ad378d1cf2a235830720b8fefaba79fca", null ],
-    [ "nrInEq", "a00008.html#a4580e432d38a64f56abcfb32e6e7b264", null ],
-    [ "nrPlanes", "a00008.html#a389ac301cafd6945618abfddf6555f1f", null ],
-    [ "reset", "a00008.html#aa28f3741c6fb07f9c5d95967209bebb2", null ],
-    [ "rmPlane", "a00008.html#ac6a9eb3a427aefd92dde43a9cad9f2af", null ],
-    [ "update", "a00008.html#a1110af78967fdbf83c6ad56c4ae99280", null ],
-    [ "updateNrPlanes", "a00008.html#ad425d494b96f1aeaa34d3380ce8618df", null ],
-    [ "updateNrVars", "a00008.html#a9ea58938e66c71938ee2837293441da8", null ]
+    [ "CoMTask", "a00008.html#a405b0a71a500f45461809a6a834ce4ef", null ],
+    [ "CoMTask", "a00008.html#a6639488dffbba63388705c3909f1e31b", null ],
+    [ "com", "a00008.html#a01fd2792379cee017ed2a4091c3b8fe5", null ],
+    [ "com", "a00008.html#a777ab0b95b530d442751037f6ba98e12", null ],
+    [ "dim", "a00008.html#acf39ba9f4426acdd6dfc1fd7a9be4820", null ],
+    [ "eval", "a00008.html#a08589b88a312c73d9a8941277f44658f", null ],
+    [ "jac", "a00008.html#a9dfb1feeda72ecc8892ad0954f43b16a", null ],
+    [ "normalAcc", "a00008.html#a187d5abafe3350c7b9a4e2db15284bdf", null ],
+    [ "speed", "a00008.html#aca2035d05f7e974bdc09593a02751c85", null ],
+    [ "task", "a00008.html#a6ef18cded54fee2dc7337160a10f0c3b", null ],
+    [ "update", "a00008.html#a57b452d399ec19cc3bc7c0d8a75b8a3d", null ],
+    [ "updateInertialParameters", "a00008.html#ab0ab49b7c66a39613e1765c13b841ddf", null ]
 ];

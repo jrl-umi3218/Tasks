@@ -1,6 +1,7 @@
 var a00015 =
 [
-    [ "~Constraint", "a00015.html#ab0a2de8684c5cb2901578a345ec0c162", null ],
-    [ "update", "a00015.html#acaa7ba68e4d9fcbf627c048aef01dc43", null ],
-    [ "updateNrVars", "a00015.html#a1d20144cd73582d7f597f4806bfdc132", null ]
+    [ "~ConstraintFunction", "a00015.html#ad668fbb366458056c27a466578c26b94", null ],
+    [ "addToSolver", "a00015.html#aff67c3cdc38c098ddcd8a2b47bc55946", null ],
+    [ "addToSolver", "a00015.html#a1156de5e1b49d1d91319fd96cb936b7a", null ],
+    [ "removeFromSolver", "a00015.html#a454bf752ccf215aa991d036eaf1c3223", null ]
 ];

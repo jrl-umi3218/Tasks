@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00036.html','');});
+$(document).ready(function(){initNavTree('a00037.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,29 +98,46 @@ $(document).ready(function(){initNavTree('a00036.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::GripperTorqueTask Member List</div>  </div>
+<div class="title">tasks::qp::ImageConstr Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00037.html">tasks::qp::ImageConstr</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00036.html#a6b50d096faeecd89b8f5bf3cd3b50a7e">begin</a>() const override</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00036.html#a8a73fe2849753f704d56f4c25fa4b2cd">C</a>() const override</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00036.html#abd65c8e12ea38c8ca91a0caa344166f0">GripperTorqueTask</a>(ContactId contactId, const Eigen::Vector3d &amp;origin, const Eigen::Vector3d &amp;axis, double weight)</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00036.html#aa09896a257cc3fd8493649c24cd9c16b">Q</a>() const override</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00036.html#aa676ad46571e3eef31643d510a609906">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00036.html#abdf08c1a2db0a554763ee6bea6769e5c">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00036.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00086.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>() const </td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00086.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#ade42c4411d70987dd9d7cf815fd20636">addPoint</a>(const Eigen::Vector2d &amp;point2d, const double depthEstimate)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#adf5ee87ea11a6cab6f9effb1628c0d93">addPoint</a>(const Eigen::Vector3d &amp;point3d)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a5c8b1d26e4c8c970a8b02746913491aa">addPoint</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::string &amp;bName, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00015.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00015.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#afe846ebea6fac1d3ec07233437f77b17">AInEq</a>() const override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a110eeef19d93ee94d857af55793bf158">bInEq</a>() const override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a33ccfd992094d6c78eaf85f52daca6cb">computeComponents</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const SolverData &amp;data, const Eigen::Vector2d &amp;point2d, const double depth, rbd::Jacobian &amp;jac, const int bodyIndex, const sva::PTransformd &amp;X_b_p, Eigen::MatrixXd &amp;fullJacobian, Eigen::Vector2d &amp;bCommonTerm)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a761cc69677cb48c5a691257b1676e9e7">descInEq</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int line) override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a985c69282468b3d03abdd56b5306a7fc">ImageConstr</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bName, const sva::PTransformd &amp;X_b_gaze, double step, double constrDirection=1.)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a3b290ac691818ff86205030eafa730f2">ImageConstr</a>(const ImageConstr &amp;rhs)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#adf0dd8a09a53250bcda351cbfffb2dbf">ImageConstr</a>(ImageConstr &amp;&amp;)=default</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a7e5134fd0d18fe23b8816474a8221ccb">maxInEq</a>() const override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a46ab508ae974b7e6bb87f7c4394f1559">nameInEq</a>() const override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a8d48b45ff73d2cd041c6746cf9e942a9">nrInEq</a>() const override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a7221bfd17d45d7208a1d02fd74d4dcbf">operator=</a>(const ImageConstr &amp;rhs)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#ad28102162a710241e4bef0b6f7555ade">operator=</a>(ImageConstr &amp;&amp;)=default</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00015.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#af8e70d3cc1064425d610a60e6238352d">reset</a>()</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a165ccf87f8ee29b59718f9b9f26eb020">setLimits</a>(const Eigen::Vector2d &amp;min, const Eigen::Vector2d &amp;max, const double iPercent, const double sPercent, const double damping, const double dampingOffsetPercent)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a247edf4a8f16779ac316498e3e921a23">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a0fd49c0ccf725afd398d3448fd4bfa72">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#acdf39d5bf2e7f92f8e55a709d8af7cff">updatePoint</a>(const int pointId, const Eigen::Vector2d &amp;point2d)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00037.html#a68e323a8724a33f79e07de4052cb9629">updatePoint</a>(const int pointId, const Eigen::Vector2d &amp;point2d, const double depthEstimate)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#a6ce14c0643087decf45aeb77fd3bc0aa">updatePoint</a>(const int pointId, const Eigen::Vector3d &amp;point3d)</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::ImageConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00014.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a>()</td><td class="entry"><a class="el" href="a00014.html">tasks::qp::Constraint</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00015.html#ad668fbb366458056c27a466578c26b94">~ConstraintFunction</a>() override</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Inequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

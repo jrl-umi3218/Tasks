@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::GazeTask Class Reference</title>
+<title>tasks::qp::GenInequality Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,157 +99,39 @@ $(document).ready(function(){initNavTree('a00032.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00120.html">List of all members</a>  </div>
+<a href="a00162.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::GazeTask Class Reference</div>  </div>
+<div class="title">tasks::qp::GenInequality Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
+<p><code>#include &lt;Tasks/QPSolver.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aba1bfe65a758ea66b3861eb8f165c160"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#aba1bfe65a758ea66b3861eb8f165c160">GazeTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
-<tr class="separator:aba1bfe65a758ea66b3861eb8f165c160"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12599ce7b03170f7b9d33e521cfc417d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a12599ce7b03170f7b9d33e521cfc417d">GazeTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
-<tr class="separator:a12599ce7b03170f7b9d33e521cfc417d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87332fab30a87c03822bf31efcda8aeb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a87332fab30a87c03822bf31efcda8aeb">GazeTask</a> (const <a class="el" href="a00032.html">GazeTask</a> &amp;rhs)</td></tr>
-<tr class="separator:a87332fab30a87c03822bf31efcda8aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c9dfcd5e71d7af7f8d94476fbe9bb72"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a3c9dfcd5e71d7af7f8d94476fbe9bb72">GazeTask</a> (<a class="el" href="a00032.html">GazeTask</a> &amp;&amp;)=default</td></tr>
-<tr class="separator:a3c9dfcd5e71d7af7f8d94476fbe9bb72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d434428030eeca446ced9a18d19c60c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00032.html">GazeTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a6d434428030eeca446ced9a18d19c60c">operator=</a> (const <a class="el" href="a00032.html">GazeTask</a> &amp;rhs)</td></tr>
-<tr class="separator:a6d434428030eeca446ced9a18d19c60c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69d250bddb913512147c7850906402b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00032.html">GazeTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a69d250bddb913512147c7850906402b8">operator=</a> (<a class="el" href="a00032.html">GazeTask</a> &amp;&amp;)=default</td></tr>
-<tr class="separator:a69d250bddb913512147c7850906402b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a3a5341868b40b92cc1632695ec4ade"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a7a3a5341868b40b92cc1632695ec4ade">error</a> (const Eigen::Vector2d &amp;point2d, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
-<tr class="separator:a7a3a5341868b40b92cc1632695ec4ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aaf67f35aab816daa37233c713583c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a6aaf67f35aab816daa37233c713583c6">error</a> (const Eigen::Vector3d &amp;point3d, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
-<tr class="separator:a6aaf67f35aab816daa37233c713583c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38f3201c5c73d5f8604deec4e5dca994"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a38f3201c5c73d5f8604deec4e5dca994">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
-<tr class="separator:a38f3201c5c73d5f8604deec4e5dca994"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6864e9981b298e8ab67645d5b1aa446c"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a6864e9981b298e8ab67645d5b1aa446c">eval</a> () const </td></tr>
-<tr class="separator:a6864e9981b298e8ab67645d5b1aa446c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7619fb259b6b791d16da8e2a32b462c1"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a7619fb259b6b791d16da8e2a32b462c1">speed</a> () const </td></tr>
-<tr class="separator:a7619fb259b6b791d16da8e2a32b462c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4be9152ff9a35babed966ba073e66be0"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a4be9152ff9a35babed966ba073e66be0">normalAcc</a> () const </td></tr>
-<tr class="separator:a4be9152ff9a35babed966ba073e66be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0b794dbb73ebb961c442608fee20571"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ad0b794dbb73ebb961c442608fee20571">jac</a> () const </td></tr>
-<tr class="separator:ad0b794dbb73ebb961c442608fee20571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad49801e0233810ac8226cec1ad39b175"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ad49801e0233810ac8226cec1ad39b175">jacDot</a> () const </td></tr>
-<tr class="separator:ad49801e0233810ac8226cec1ad39b175"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc4aa2bbdb2392a856830b123cea0aae"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#acc4aa2bbdb2392a856830b123cea0aae">~GenInequality</a> ()</td></tr>
+<tr class="separator:acc4aa2bbdb2392a856830b123cea0aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb0ca1c17412db12a0b356cf49db1153"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#aeb0ca1c17412db12a0b356cf49db1153">maxGenInEq</a> () const =0</td></tr>
+<tr class="separator:aeb0ca1c17412db12a0b356cf49db1153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0824ef1fa7cca3bc979437b08c316dbe"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a0824ef1fa7cca3bc979437b08c316dbe">nrGenInEq</a> () const </td></tr>
+<tr class="separator:a0824ef1fa7cca3bc979437b08c316dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a325d9d056bb2f4384f2dd5d7782c7d67"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a325d9d056bb2f4384f2dd5d7782c7d67">AGenInEq</a> () const =0</td></tr>
+<tr class="separator:a325d9d056bb2f4384f2dd5d7782c7d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbc386b920f098adbf97579136f7aafe"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#afbc386b920f098adbf97579136f7aafe">LowerGenInEq</a> () const =0</td></tr>
+<tr class="separator:afbc386b920f098adbf97579136f7aafe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9e1c4057da5a53adb8f42ab0a3de2c9"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ab9e1c4057da5a53adb8f42ab0a3de2c9">UpperGenInEq</a> () const =0</td></tr>
+<tr class="separator:ab9e1c4057da5a53adb8f42ab0a3de2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b53c19e88c1e5b2dfe20f323406e4e"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#ab8b53c19e88c1e5b2dfe20f323406e4e">nameGenInEq</a> () const =0</td></tr>
+<tr class="separator:ab8b53c19e88c1e5b2dfe20f323406e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d2a100b0cac057ed8ab9551c313c258"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a9d2a100b0cac057ed8ab9551c313c258">descGenInEq</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, int i)=0</td></tr>
+<tr class="separator:a9d2a100b0cac057ed8ab9551c313c258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43a34f4730c9c55f8534d0f0b6a18a10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a43a34f4730c9c55f8534d0f0b6a18a10">addToSolver</a> (<a class="el" href="a00071.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a43a34f4730c9c55f8534d0f0b6a18a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb32ca9ea02aef63634de1e915ba1d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00032.html#a0cb32ca9ea02aef63634de1e915ba1d7">removeFromSolver</a> (<a class="el" href="a00071.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a0cb32ca9ea02aef63634de1e915ba1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aba1bfe65a758ea66b3861eb8f165c160"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::GazeTask::GazeTask </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
-          <td class="paramname"><em>mb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>bodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>point2d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>depthEstimate</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b_gaze</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a12599ce7b03170f7b9d33e521cfc417d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::GazeTask::GazeTask </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
-          <td class="paramname"><em>mb</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>bodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
-          <td class="paramname"><em>point3d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b_gaze</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a87332fab30a87c03822bf31efcda8aeb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::GazeTask::GazeTask </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00032.html">GazeTask</a> &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a3c9dfcd5e71d7af7f8d94476fbe9bb72"></a>
+<a class="anchor" id="acc4aa2bbdb2392a856830b123cea0aae"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -257,16 +139,15 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::GazeTask::GazeTask </td>
+          <td class="memname">virtual tasks::qp::GenInequality::~GenInequality </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00032.html">GazeTask</a> &amp;&amp;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -274,135 +155,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a7a3a5341868b40b92cc1632695ec4ade"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void tasks::GazeTask::error </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>point2d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6aaf67f35aab816daa37233c713583c6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void tasks::GazeTask::error </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
-          <td class="paramname"><em>point3d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
-          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6864e9981b298e8ab67645d5b1aa446c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Eigen::VectorXd&amp; tasks::GazeTask::eval </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ad0b794dbb73ebb961c442608fee20571"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Eigen::MatrixXd&amp; tasks::GazeTask::jac </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ad49801e0233810ac8226cec1ad39b175"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Eigen::MatrixXd&amp; tasks::GazeTask::jacDot </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4be9152ff9a35babed966ba073e66be0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const Eigen::VectorXd&amp; tasks::GazeTask::normalAcc </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6d434428030eeca446ced9a18d19c60c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00032.html">GazeTask</a>&amp; tasks::GazeTask::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00032.html">GazeTask</a> &amp;&#160;</td>
-          <td class="paramname"><em>rhs</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a69d250bddb913512147c7850906402b8"></a>
+<a class="anchor" id="a43a34f4730c9c55f8534d0f0b6a18a10"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -410,58 +163,67 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00032.html">GazeTask</a>&amp; tasks::GazeTask::operator= </td>
+          <td class="memname">void tasks::qp::GenInequality::addToSolver </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="a00032.html">GazeTask</a> &amp;&amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="a00071.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>References <a class="el" href="a00071.html#af2ba5e078ecf042af01652575d4b5ce3">tasks::qp::QPSolver::addGenInequalityConstraint()</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a7619fb259b6b791d16da8e2a32b462c1"></a>
+<a class="anchor" id="a325d9d056bb2f4384f2dd5d7782c7d67"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Eigen::VectorXd&amp; tasks::GazeTask::speed </td>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::GenInequality::AGenInEq </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00115.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a38f3201c5c73d5f8604deec4e5dca994"></a>
+<a class="anchor" id="a9d2a100b0cac057ed8ab9551c313c258"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void tasks::GazeTask::update </td>
+          <td class="memname">virtual std::string tasks::qp::GenInequality::descGenInEq </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
-          <td class="paramname"><em>mb</em>, </td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
-          <td class="paramname"><em>mbc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>normalAccB</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -469,7 +231,165 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00012.html#a018ab4e248a49fb23efd8e8b6899baec">tasks::qp::constr_traits&lt; GenInequality &gt;::desc()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afbc386b920f098adbf97579136f7aafe"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::GenInequality::LowerGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00115.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeb0ca1c17412db12a0b356cf49db1153"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::GenInequality::maxGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00012.html#ab8952085364f79663c7f4ff4cee717e1">tasks::qp::constr_traits&lt; GenInequality &gt;::maxLines()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8b53c19e88c1e5b2dfe20f323406e4e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::GenInequality::nameGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00012.html#a2dd694ea42f2356e22a4c2283ce829b0">tasks::qp::constr_traits&lt; GenInequality &gt;::name()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0824ef1fa7cca3bc979437b08c316dbe"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::GenInequality::nrGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00012.html#abbd8f0aeeb0557ecc7e9da467a0bff55">tasks::qp::constr_traits&lt; GenInequality &gt;::nrLines()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0cb32ca9ea02aef63634de1e915ba1d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::GenInequality::removeFromSolver </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00071.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>References <a class="el" href="a00071.html#ab99e8755f30071d58d724289d13da805">tasks::qp::QPSolver::removeGenInequalityConstraint()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9e1c4057da5a53adb8f42ab0a3de2c9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::GenInequality::UpperGenInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00115.html#a92dd7d7ce7ea80e3cf096e82061d0b66">tasks::qp::printConstr()</a>.</p>
 
 </div>
 </div>
@@ -479,8 +399,8 @@ Public Member Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00032.html">GazeTask</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00115.html">qp</a></li><li class="navelem"><a class="el" href="a00032.html">GenInequality</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

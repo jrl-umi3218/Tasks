@@ -1,12 +1,9 @@
 var a00039 =
 [
-    [ "~Inequality", "a00039.html#a8971f0b14e1d2ea3e5b126692ff6fcf8", null ],
-    [ "addToSolver", "a00039.html#ace2e121e878fea4264e37d5cb15dc868", null ],
-    [ "AInEq", "a00039.html#a7aa735890ecd53799b4a1604188b9b21", null ],
-    [ "bInEq", "a00039.html#ac3bdd0a2b50b6560f33b0e5fdd106bfa", null ],
-    [ "descInEq", "a00039.html#af5215e8d2075f290375e9e4342cfb801", null ],
-    [ "maxInEq", "a00039.html#a8881dfaffbeff43b333cf9d30675f67f", null ],
-    [ "nameInEq", "a00039.html#ae498b14de5f3bb6786e04828c74ea88b", null ],
-    [ "nrInEq", "a00039.html#a827636676790ab9fc84d6fe341f31b00", null ],
-    [ "removeFromSolver", "a00039.html#a6b76e75f578ae739fa31aecbddc937fc", null ]
+    [ "JointGains", "a00039.html#add0cd36307b044425a1175e82be95c8f", null ],
+    [ "JointGains", "a00039.html#a5518172f15ccd822adeb64786855a9cb", null ],
+    [ "JointGains", "a00039.html#a84e051a4f37a2a15de59b3d900953f87", null ],
+    [ "damping", "a00039.html#a590ae8fd57e2a1e708491f05f3262ad7", null ],
+    [ "jointName", "a00039.html#a08d3a7fa0479efaaa54f8e49301e280f", null ],
+    [ "stiffness", "a00039.html#ab0a41a5153da3a170bafea2c4453a7a5", null ]
 ];

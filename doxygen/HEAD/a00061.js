@@ -1,15 +1,7 @@
 var a00061 =
 [
-    [ "PIDTask", "a00061.html#a783c2670608cceb45f38b16401b0a26d", null ],
-    [ "PIDTask", "a00061.html#ac2fdc130fa9f635ac91a6481e7efbda9", null ],
-    [ "D", "a00061.html#a3d381faac78840c75f0a1089bd21d423", null ],
-    [ "D", "a00061.html#ac77eb878ae008a6368bc21a14179d7b7", null ],
-    [ "error", "a00061.html#a76f9bbf011664a28795196d792cab96a", null ],
-    [ "errorD", "a00061.html#ad6f5e4e28b24ab2675d397c0467c6191", null ],
-    [ "errorI", "a00061.html#a5fc5bd479b8df6b3394688a42281c49e", null ],
-    [ "I", "a00061.html#a962d3bffa22573570659791feeff39d1", null ],
-    [ "I", "a00061.html#acd5b82eea8b6aabdc79009794208ce9e", null ],
-    [ "P", "a00061.html#a7a972f4bcbfef6f9ed77973c3971790a", null ],
-    [ "P", "a00061.html#aa0c88004bc4ea75b740e9bc99c74cc47", null ],
-    [ "update", "a00061.html#af5d09c64a10a19ccc386e455828243cb", null ]
+    [ "PolyTorqueBound", "a00061.html#a3dd3f2707509e52e84f0d1ed3edc1072", null ],
+    [ "PolyTorqueBound", "a00061.html#a60ae0a607860c7b1eeb10c3eb1900d8d", null ],
+    [ "lPolyTorqueBound", "a00061.html#a2940edde14b86bf399b4122861178b42", null ],
+    [ "uPolyTorqueBound", "a00061.html#a7f89616b892fe7142ff2159fbf3454b9", null ]
 ];

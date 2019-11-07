@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00086.html','');});
+$(document).ready(function(){initNavTree('a00088.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,28 +98,41 @@ $(document).ready(function(){initNavTree('a00086.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::Task Member List</div>  </div>
+<div class="title">tasks::qp::TrackingTask Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00086.html">tasks::qp::Task</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00088.html">tasks::qp::TrackingTask</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a4fb40197774e65a243a371592fd48bbf">begin</a>() const =0</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00086.html#a83cf452e29dc09f6f1190a950497e4de">C</a>() const =0</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a1e36e39ffffe29c088d90b1c67ca2137">Q</a>() const =0</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00086.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#ae23731fb2968a088eab6a5298542437b">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data)=0</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00086.html#a5c5aceb3acc9164a75c73e3051b06577">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data)=0</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>() const </td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00086.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00086.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a00086.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00076.html#a13a46dd4aae9e60547c77986c7af6449">begin</a>() const override</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00076.html#aa19d29a81de18c52d0dd68a788e2bcd5">C</a>() const override</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00076.html#ae43173f7c7d010652d3d3fbf51efb63b">computeQC</a>(Eigen::VectorXd &amp;error)</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00076.html#a7a88e6b7780d0c64a3c524900d57dc6b">dimWeight</a>(const Eigen::VectorXd &amp;dim)</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00076.html#a3451be5213ef92cae4fc6262b2c36162">dimWeight</a>() const </td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00076.html#a693d49f655a124a1910ae42344230b17">error_</a></td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00088.html#a3239f7871cdab11b28e2f2e578e17912">errorPos</a>(const Eigen::VectorXd &amp;errorPos)</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00088.html#aa7e75dcb2e63cfa39b0fa49226d7a575">errorVel</a>(const Eigen::VectorXd &amp;errorVel)</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00076.html#ab1419cfba08d04f7d3937fcd173fcc2e">hlTask_</a></td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00076.html#a90db48843310ab61f32513789ad633a4">Q</a>() const override</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00088.html#a20e5c060814329fd2aef628b3c439234">refAccel</a>(const Eigen::VectorXd &amp;refAccel)</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00088.html#adacea85596258631196cdc1dc5a50ae1">setGains</a>(double gainPos, double gainVel)</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00076.html#ab4b4f7d6cbbd698ef3104ba4359cc438">SetPointTaskCommon</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, HighLevelTask *hlTask, double weight)</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00076.html#adb22d1e13f33aa6f200c11146b906808">SetPointTaskCommon</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, HighLevelTask *hlTask, const Eigen::VectorXd &amp;dimWeight, double weight)</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00085.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00088.html#ae2c35b8f257be870f3bc00d4e003718e">TrackingTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, HighLevelTask *hlTask, double gainPos, double gainVel, double weight)</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00088.html#ab4bf15311e7502060de127bcd48aaa11">TrackingTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, HighLevelTask *hlTask, double gainPos, double gainVel, const Eigen::VectorXd &amp;dimWeight, double weight)</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00088.html#a4f3c9c7072cd548599133bff6375043f">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00088.html">tasks::qp::TrackingTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00076.html#af1a4ce1fc6abeb0c0d9bf19a42f56f3a">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00076.html">tasks::qp::SetPointTaskCommon</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00085.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>() const </td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00085.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00085.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

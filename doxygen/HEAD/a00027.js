@@ -1,11 +1,13 @@
 var a00027 =
 [
-    [ "ContactTask", "a00027.html#a037148c6db1475dc6f36c42bc9e6317c", null ],
-    [ "begin", "a00027.html#aa57e803ab81c62fab4daaa6d2ec22493", null ],
-    [ "C", "a00027.html#aa54ad1c8b418fc61d454f3fee15be9ab", null ],
-    [ "error", "a00027.html#aad6d0b80121acdc77a7e5551eebeb92b", null ],
-    [ "errorD", "a00027.html#a714afedfd93d1be2fc4baae72112b70e", null ],
-    [ "Q", "a00027.html#ae93808af2c2663ca31ae8f2f3c4cd984", null ],
-    [ "update", "a00027.html#a90577acb68343fca1a43f2a04efb0297", null ],
-    [ "updateNrVars", "a00027.html#a68bb42fab80a9d00569910598ee9fcfc", null ]
+    [ "DamperJointLimitsConstr", "a00027.html#ab0e3959cb5a9a6e07fce811e23ec308d", null ],
+    [ "beginVar", "a00027.html#ac82451fdc69c6b8420e3c65556cedfd5", null ],
+    [ "computeDamper", "a00027.html#a32a63d6ca7eb4d04fba359574ec5bb73", null ],
+    [ "computeDamping", "a00027.html#a2a14b03bb1f27d332e2cb7b1c3c3d085", null ],
+    [ "descBound", "a00027.html#a66f98c62838d0b2f4a9812435eb0eda4", null ],
+    [ "Lower", "a00027.html#a868e385aa1e4cbfaee41e6705177c7fb", null ],
+    [ "nameBound", "a00027.html#a8d8484d2714ccb8e01d662f750b8dd78", null ],
+    [ "update", "a00027.html#a1d0a2b753ffc9366583f4b86ce909ab5", null ],
+    [ "updateNrVars", "a00027.html#aa6a111694fc46b4f2f19418975ca7fa1", null ],
+    [ "Upper", "a00027.html#a810c48602c6b10a59e91a58d8cf7b0cb", null ]
 ];

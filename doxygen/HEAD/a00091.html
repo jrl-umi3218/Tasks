@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::TransformTask Class Reference</title>
+<title>tasks::TransformTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,90 +99,84 @@ $(document).ready(function(){initNavTree('a00091.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00208.html">List of all members</a>  </div>
+<a href="a00134.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::TransformTask Class Reference</div>  </div>
+<div class="title">tasks::TransformTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="a00091.html" title="TransformTask in world or user frame. ">TransformTask</a> in world or user frame.  
- <a href="a00091.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for tasks::qp::TransformTask:</div>
+Inheritance diagram for tasks::TransformTask:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="a00091.png" usemap="#tasks::qp::TransformTask_map" alt=""/>
-  <map id="tasks::qp::TransformTask_map" name="tasks::qp::TransformTask_map">
-<area href="a00093.html" alt="tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;" shape="rect" coords="0,56,337,80"/>
-<area href="a00037.html" alt="tasks::qp::HighLevelTask" shape="rect" coords="0,0,337,24"/>
+  <img src="a00091.png" usemap="#tasks::TransformTask_map" alt=""/>
+  <map id="tasks::TransformTask_map" name="tasks::TransformTask_map">
+<area href="a00093.html" alt="tasks::TransformTaskCommon" shape="rect" coords="0,0,177,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aeb57ca8a78852a55a16881a3c170b7c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#aeb57ca8a78852a55a16881a3c170b7c5">TransformTask</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00093.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a>=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>(), const Eigen::Matrix3d &amp;<a class="el" href="a00091.html#ae260b35ffe9afa1c939261a76a219982">E_0_c</a>=Eigen::Matrix3d::Identity())</td></tr>
-<tr class="separator:aeb57ca8a78852a55a16881a3c170b7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae260b35ffe9afa1c939261a76a219982"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#ae260b35ffe9afa1c939261a76a219982">E_0_c</a> (const Eigen::Matrix3d &amp;E_0_c)</td></tr>
-<tr class="separator:ae260b35ffe9afa1c939261a76a219982"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a589e21d4a88fadf8c6f3c0c78a628a22"><td class="memItemLeft" align="right" valign="top">const Eigen::Matrix3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#a589e21d4a88fadf8c6f3c0c78a628a22">E_0_c</a> () const </td></tr>
-<tr class="separator:a589e21d4a88fadf8c6f3c0c78a628a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8882b864bde44ffa1fc142373fc85ce"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#ac8882b864bde44ffa1fc142373fc85ce">update</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mb, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &gt; &amp;mbc, const <a class="el" href="a00078.html">SolverData</a> &amp;data) override</td></tr>
-<tr class="separator:ac8882b864bde44ffa1fc142373fc85ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00093"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00093')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00093.html">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a></td></tr>
-<tr class="memitem:ad80e311e700791109d84fa22c954cb84 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#ad80e311e700791109d84fa22c954cb84">TransformTaskCommon</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00093.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a>=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
-<tr class="separator:ad80e311e700791109d84fa22c954cb84 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14760ffdbe08973b70e3d2eea0e6aa40 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00092.html">tasks::TransformTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a14760ffdbe08973b70e3d2eea0e6aa40">task</a> ()</td></tr>
-<tr class="separator:a14760ffdbe08973b70e3d2eea0e6aa40 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0b3178505a2872ceb38462bcce08f29 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#af0b3178505a2872ceb38462bcce08f29">target</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t)</td></tr>
-<tr class="separator:af0b3178505a2872ceb38462bcce08f29 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a642d181e09939e3a86bb110e276a6e27 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a642d181e09939e3a86bb110e276a6e27">target</a> () const</td></tr>
-<tr class="separator:a642d181e09939e3a86bb110e276a6e27 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a50df788c61e0303e09ead4409eddfb inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a7a50df788c61e0303e09ead4409eddfb">X_b_p</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_p)</td></tr>
-<tr class="separator:a7a50df788c61e0303e09ead4409eddfb inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad41559d4366daf41c713e4f7c0f85681 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#ad41559d4366daf41c713e4f7c0f85681">X_b_p</a> () const</td></tr>
-<tr class="separator:ad41559d4366daf41c713e4f7c0f85681 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3254048c52d4893b3fcda182cb33c86 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#ad3254048c52d4893b3fcda182cb33c86">dim</a> () override</td></tr>
-<tr class="separator:ad3254048c52d4893b3fcda182cb33c86 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a710c0f4a9c71e97dee0c9059b175f5bb inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a710c0f4a9c71e97dee0c9059b175f5bb">jac</a> () override</td></tr>
-<tr class="separator:a710c0f4a9c71e97dee0c9059b175f5bb inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a644f20089b0dfd81f94b7e9cdcc7e6a0 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a644f20089b0dfd81f94b7e9cdcc7e6a0">eval</a> () override</td></tr>
-<tr class="separator:a644f20089b0dfd81f94b7e9cdcc7e6a0 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb449578f2ee544bb28cf05373f096f inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a4bb449578f2ee544bb28cf05373f096f">speed</a> () override</td></tr>
-<tr class="separator:a4bb449578f2ee544bb28cf05373f096f inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18d02bd366acdd7a68b540fddf17919 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#ae18d02bd366acdd7a68b540fddf17919">normalAcc</a> () override</td></tr>
-<tr class="separator:ae18d02bd366acdd7a68b540fddf17919 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_a00037"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00037')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00037.html">tasks::qp::HighLevelTask</a></td></tr>
-<tr class="memitem:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00037"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00037.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a> ()</td></tr>
-<tr class="separator:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a00037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ef3ff9e94d1c029843cf2e8efd0e03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#a47ef3ff9e94d1c029843cf2e8efd0e03">TransformTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00093.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a>=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>(), const Eigen::Matrix3d &amp;<a class="el" href="a00091.html#af28399b8910027ff33d9230fdf5611b8">E_0_c</a>=Eigen::Matrix3d::Identity())</td></tr>
+<tr class="memdesc:a47ef3ff9e94d1c029843cf2e8efd0e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute eval, speed, normalAcc and jac in the world frame (0) or in the user defined static frame 'c'.  <a href="#a47ef3ff9e94d1c029843cf2e8efd0e03">More...</a><br /></td></tr>
+<tr class="separator:a47ef3ff9e94d1c029843cf2e8efd0e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af28399b8910027ff33d9230fdf5611b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#af28399b8910027ff33d9230fdf5611b8">E_0_c</a> (const Eigen::Matrix3d &amp;E_0_c)</td></tr>
+<tr class="separator:af28399b8910027ff33d9230fdf5611b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d7fe6363bd841a1c1e96b5e834b4ada"><td class="memItemLeft" align="right" valign="top">const Eigen::Matrix3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#a6d7fe6363bd841a1c1e96b5e834b4ada">E_0_c</a> () const </td></tr>
+<tr class="separator:a6d7fe6363bd841a1c1e96b5e834b4ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cdf770b2c150f752ff44c9a049f31b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00091.html#a2cdf770b2c150f752ff44c9a049f31b2">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a2cdf770b2c150f752ff44c9a049f31b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00093"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00093')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a00093.html">tasks::TransformTaskCommon</a></td></tr>
+<tr class="memitem:a480794408729e99dea19ae53fa51fa2a inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a480794408729e99dea19ae53fa51fa2a">TransformTaskCommon</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00093.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a>)</td></tr>
+<tr class="separator:a480794408729e99dea19ae53fa51fa2a inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075f661f10fb49cfaed9a2694b6763d3 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a075f661f10fb49cfaed9a2694b6763d3">target</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t)</td></tr>
+<tr class="separator:a075f661f10fb49cfaed9a2694b6763d3 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e9dd2e3323360f57b68f4eeffd4d82 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#af6e9dd2e3323360f57b68f4eeffd4d82">target</a> () const </td></tr>
+<tr class="separator:af6e9dd2e3323360f57b68f4eeffd4d82 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6b4586c641fa3a22ce68ebe9f76d36 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_p)</td></tr>
+<tr class="separator:a9c6b4586c641fa3a22ce68ebe9f76d36 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93729929225dc9cd1f7c32a2f423a103 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a93729929225dc9cd1f7c32a2f423a103">X_b_p</a> () const </td></tr>
+<tr class="separator:a93729929225dc9cd1f7c32a2f423a103 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e3dcc7755bff2e7277f2e79a6f3a37d inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a5e3dcc7755bff2e7277f2e79a6f3a37d">eval</a> () const </td></tr>
+<tr class="separator:a5e3dcc7755bff2e7277f2e79a6f3a37d inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01e89269648b1c796264e041d803b965 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a01e89269648b1c796264e041d803b965">speed</a> () const </td></tr>
+<tr class="separator:a01e89269648b1c796264e041d803b965 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33694c4067e14376d6fd9e6eb8a4781 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#af33694c4067e14376d6fd9e6eb8a4781">normalAcc</a> () const </td></tr>
+<tr class="separator:af33694c4067e14376d6fd9e6eb8a4781 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06c61480fcf0dd74ea8489fa945dd797 inherit pub_methods_a00093"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a06c61480fcf0dd74ea8489fa945dd797">jac</a> () const </td></tr>
+<tr class="separator:a06c61480fcf0dd74ea8489fa945dd797 inherit pub_methods_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_a00093"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00093')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00093.html">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a></td></tr>
-<tr class="memitem:a20b38faf7c45ad433e793b5bf375f61d inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00092.html">tasks::TransformTask</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a20b38faf7c45ad433e793b5bf375f61d">tt_</a></td></tr>
-<tr class="separator:a20b38faf7c45ad433e793b5bf375f61d inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c311d3cda616f83de11d836c6f3d18 inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a55c311d3cda616f83de11d836c6f3d18">robotIndex_</a></td></tr>
-<tr class="separator:a55c311d3cda616f83de11d836c6f3d18 inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_a00093"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00093')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="a00093.html">tasks::TransformTaskCommon</a></td></tr>
+<tr class="memitem:a65b337e6e48ec7e93b8137364374752f inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a65b337e6e48ec7e93b8137364374752f">X_0_t_</a></td></tr>
+<tr class="separator:a65b337e6e48ec7e93b8137364374752f inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c5c7d4e3e282c76d28c09563e6650d inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#af3c5c7d4e3e282c76d28c09563e6650d">X_b_p_</a></td></tr>
+<tr class="separator:af3c5c7d4e3e282c76d28c09563e6650d inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a298e38439bbefa80e02f53ffbda17771 inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a298e38439bbefa80e02f53ffbda17771">bodyIndex_</a></td></tr>
+<tr class="separator:a298e38439bbefa80e02f53ffbda17771 inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd5ce12eb9762527a8d6933b1b23e90 inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00015.html">rbd::Jacobian</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a5dd5ce12eb9762527a8d6933b1b23e90">jac_</a></td></tr>
+<tr class="separator:a5dd5ce12eb9762527a8d6933b1b23e90 inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f71e9037d4cd93cc297e0c0b54c0d9c inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a1f71e9037d4cd93cc297e0c0b54c0d9c">eval_</a></td></tr>
+<tr class="separator:a1f71e9037d4cd93cc297e0c0b54c0d9c inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9faadfe66b2d0903cc393756277abe2 inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#aa9faadfe66b2d0903cc393756277abe2">speed_</a></td></tr>
+<tr class="separator:aa9faadfe66b2d0903cc393756277abe2 inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81993fa44af379d32b94a6c3388390af inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#a81993fa44af379d32b94a6c3388390af">normalAcc_</a></td></tr>
+<tr class="separator:a81993fa44af379d32b94a6c3388390af inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6fc32df4b5ed9cf52e94a95db598708 inherit pro_attribs_a00093"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00093.html#ae6fc32df4b5ed9cf52e94a95db598708">jacMat_</a></td></tr>
+<tr class="separator:ae6fc32df4b5ed9cf52e94a95db598708 inherit pro_attribs_a00093"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="a00091.html" title="TransformTask in world or user frame. ">TransformTask</a> in world or user frame. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aeb57ca8a78852a55a16881a3c170b7c5"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a47ef3ff9e94d1c029843cf2e8efd0e03"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::TransformTask::TransformTask </td>
+          <td class="memname">tasks::TransformTask::TransformTask </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mbs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>robotIndex</em>, </td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -216,15 +210,23 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Compute eval, speed, normalAcc and jac in the world frame (0) or in the user defined static frame 'c'. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">E_0_c</td><td>Optional rotation between the world farme and a user defined frame 'c' to change the frame of the task. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae260b35ffe9afa1c939261a76a219982"></a>
+<a class="anchor" id="af28399b8910027ff33d9230fdf5611b8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void tasks::qp::TransformTask::E_0_c </td>
+          <td class="memname">void tasks::TransformTask::E_0_c </td>
           <td>(</td>
           <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
           <td class="paramname"><em>E_0_c</em></td><td>)</td>
@@ -235,12 +237,12 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a589e21d4a88fadf8c6f3c0c78a628a22"></a>
+<a class="anchor" id="a6d7fe6363bd841a1c1e96b5e834b4ada"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const Eigen::Matrix3d&amp; tasks::qp::TransformTask::E_0_c </td>
+          <td class="memname">const Eigen::Matrix3d&amp; tasks::TransformTask::E_0_c </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -250,30 +252,27 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac8882b864bde44ffa1fc142373fc85ce"></a>
+<a class="anchor" id="a2cdf770b2c150f752ff44c9a049f31b2"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void tasks::qp::TransformTask::update </td>
+          <td class="memname">void tasks::TransformTask::update </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
           <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>mbc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="a00078.html">SolverData</a> &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -281,14 +280,7 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>Implements <a class="el" href="a00037.html#a6af9649e3cd0adc1643a029333897d02">tasks::qp::HighLevelTask</a>.</p>
 
 </div>
 </div>
@@ -298,8 +290,8 @@ Additional Inherited Members</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00091.html">TransformTask</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00091.html">TransformTask</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

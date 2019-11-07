@@ -1,13 +1,12 @@
 var a00028 =
 [
-    [ "DamperJointLimitsConstr", "a00028.html#ab0e3959cb5a9a6e07fce811e23ec308d", null ],
-    [ "beginVar", "a00028.html#ac82451fdc69c6b8420e3c65556cedfd5", null ],
-    [ "computeDamper", "a00028.html#a32a63d6ca7eb4d04fba359574ec5bb73", null ],
-    [ "computeDamping", "a00028.html#a2a14b03bb1f27d332e2cb7b1c3c3d085", null ],
-    [ "descBound", "a00028.html#a66f98c62838d0b2f4a9812435eb0eda4", null ],
-    [ "Lower", "a00028.html#a868e385aa1e4cbfaee41e6705177c7fb", null ],
-    [ "nameBound", "a00028.html#a8d8484d2714ccb8e01d662f750b8dd78", null ],
-    [ "update", "a00028.html#a1d0a2b753ffc9366583f4b86ce909ab5", null ],
-    [ "updateNrVars", "a00028.html#aa6a111694fc46b4f2f19418975ca7fa1", null ],
-    [ "Upper", "a00028.html#a810c48602c6b10a59e91a58d8cf7b0cb", null ]
+    [ "~Equality", "a00028.html#a3989011420947815653a39839aa306d4", null ],
+    [ "addToSolver", "a00028.html#a9b875aff84a6d42b7c56260af6da0541", null ],
+    [ "AEq", "a00028.html#ae8a5859b8789be2ab522d2e9aa32ec20", null ],
+    [ "bEq", "a00028.html#ada49ed453361019ecb1b22dfe48d4ae3", null ],
+    [ "descEq", "a00028.html#a3a8b70096b0c432643b828bbdf39d536", null ],
+    [ "maxEq", "a00028.html#a16167f0876c15eea964a2444e7174f5a", null ],
+    [ "nameEq", "a00028.html#a89a44401b4eda6d61119a9c10ddc8f15", null ],
+    [ "nrEq", "a00028.html#a30e285ad2009e94077332d09f1a43324", null ],
+    [ "removeFromSolver", "a00028.html#ae79bc2e4b409d910f70028a44a0d776c", null ]
 ];

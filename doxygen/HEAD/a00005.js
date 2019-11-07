@@ -1,11 +1,18 @@
 var a00005 =
 [
-    [ "~Bound", "a00005.html#abb2191b36aa4861bbcc8b11d5f0981fe", null ],
-    [ "addToSolver", "a00005.html#a19d04f6b7e27be0083f199820b25f85a", null ],
-    [ "beginVar", "a00005.html#a33f4adaf796f3bf03434c17180964471", null ],
-    [ "descBound", "a00005.html#a96f8c46c1d310d925bb60f42e7832211", null ],
-    [ "Lower", "a00005.html#ab08d340c6b7f5dd7307364107d74d9e6", null ],
-    [ "nameBound", "a00005.html#a50430e962bb811543e95d3a370bf8765", null ],
-    [ "removeFromSolver", "a00005.html#aff1b28131a0e28f0b6396b084128858c", null ],
-    [ "Upper", "a00005.html#a746cb55b47bdd05c2340322775b24b00", null ]
+    [ "BoundedSpeedConstr", "a00005.html#a9e2c07951b0339b0dca31e7dfc65282e", null ],
+    [ "addBoundedSpeed", "a00005.html#a7743272ac4add00739a1f9f5ecb7f305", null ],
+    [ "addBoundedSpeed", "a00005.html#a3c1bded8210ad455e89a24a0ab1da223", null ],
+    [ "AGenInEq", "a00005.html#a39658f71e82022d9c4396f2cbd2ecc40", null ],
+    [ "descGenInEq", "a00005.html#ad0f08a24c117a7d4674996723b21124b", null ],
+    [ "LowerGenInEq", "a00005.html#a101bd01faf9121c0eb049ceb635f0d2a", null ],
+    [ "maxGenInEq", "a00005.html#afae4904e014ff1f9f341727bccdae0da", null ],
+    [ "nameGenInEq", "a00005.html#aa40bc13e95421a11c0afb2eb542fe0bc", null ],
+    [ "nrBoundedSpeeds", "a00005.html#a7abeafcc16eee56ba77dc7d50443ea3d", null ],
+    [ "removeBoundedSpeed", "a00005.html#aef0f41ce8156689fe319357df8b8a467", null ],
+    [ "resetBoundedSpeeds", "a00005.html#a10746908e9ca63745fd2e03660e876f3", null ],
+    [ "update", "a00005.html#aa85fbe1d319ff21386fc106b2979e621", null ],
+    [ "updateBoundedSpeeds", "a00005.html#a6cd62f18bdb9f5c4dbb747a37b9de443", null ],
+    [ "updateNrVars", "a00005.html#a0f7f98fca4b36a6c87b724fb598698b0", null ],
+    [ "UpperGenInEq", "a00005.html#adf303d1dc34ec27ba05365cf75c23b0d", null ]
 ];

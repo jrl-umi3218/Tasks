@@ -1,11 +1,14 @@
 var a00041 =
 [
-    [ "JointLimitsConstr", "a00041.html#a79767272482e70fc2f72c97458a7d752", null ],
-    [ "beginVar", "a00041.html#abae3c86c767903124a0f723d69474b51", null ],
-    [ "descBound", "a00041.html#a41bc40ccca62e878d41596926286a8bb", null ],
-    [ "Lower", "a00041.html#a98b0bf67cc7205182274f2359d9a6e8d", null ],
-    [ "nameBound", "a00041.html#ab8e6a55d29ff77f6f6f62e99b1bdb8c3", null ],
-    [ "update", "a00041.html#ad1bb25d2f65316dc645eda9db015e1ba", null ],
-    [ "updateNrVars", "a00041.html#a984be9df17be72329169928ea4e550e5", null ],
-    [ "Upper", "a00041.html#ad3aeca710610deccea5832e9b1c464f0", null ]
+    [ "SelectedData", "a00074.html", "a00074" ],
+    [ "JointsSelector", "a00041.html#ae88597e200f45fd7a8aac6ca6ead5498", null ],
+    [ "ActiveJoints", "a00041.html#afdc35a75ac5a8791ebccef9a784c6ad2", null ],
+    [ "dim", "a00041.html#afd92a00722939f678de4026a3bb023e5", null ],
+    [ "eval", "a00041.html#a518daaa014dea68ee70e58f95ad47dd0", null ],
+    [ "jac", "a00041.html#a9051e90e0997e7c1d8e92946640588c0", null ],
+    [ "normalAcc", "a00041.html#a248e05842463c3ce0276abfccaeea5b4", null ],
+    [ "selectedJoints", "a00041.html#a7d186469793e27a4ed7a54edcc7d8193", null ],
+    [ "speed", "a00041.html#a79f06ced3ab60284ccc1fbfc3e050939", null ],
+    [ "UnactiveJoints", "a00041.html#a6b4126966a9b47a8716498fe4cd55c8f", null ],
+    [ "update", "a00041.html#a6748d386aa6944d0fe18c535e9706220", null ]
 ];

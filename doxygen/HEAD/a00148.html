@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00015.html','');});
+$(document).ready(function(){initNavTree('a00016.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,22 +98,53 @@ $(document).ready(function(){initNavTree('a00015.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::Constraint Member List</div>  </div>
+<div class="title">tasks::qp::ContactAccConstr Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00015.html">tasks::qp::Constraint</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00016.html">tasks::qp::ContactAccConstr</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00015.html#acaa7ba68e4d9fcbf627c048aef01dc43">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data)=0</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::Constraint</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00015.html#a1d20144cd73582d7f597f4806bfdc132">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;msb, const SolverData &amp;data)=0</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::Constraint</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00015.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a>()</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::Constraint</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#ade743f34680958185eff28e9a982b7e3">A_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00019.html#ac5123de1300b7ecb492a82bdf4ff598a">addDofContact</a>(const ContactId &amp;contactId, const Eigen::MatrixXd &amp;dof)</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00015.html#aff67c3cdc38c098ddcd8a2b47bc55946">addToSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Equality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00015.html#a1156de5e1b49d1d91319fd96cb936b7a">addToSolver</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Equality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00019.html#a7c55dda527a78e05b4831360910bfd14">addVirtualContact</a>(const ContactId &amp;contactId)</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#a4d41e244d51f984e4e454b034ad99b78">AEq</a>() const override</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#aa375b908543d69711b1dd45ece31a865">b_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#a393cf3b258142e929dfe0b9c05431a81">bEq</a>() const override</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#a462e49a9b481e139b98cd4e9749cd6c6">cont_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00016.html#a8a06c411889b12ea13c7434ee8a6dfdf">ContactAccConstr</a>()</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ContactAccConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00019.html#a9ef854ece354fa70691e835d4b1b113f">contactCommonInContact</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data)</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#a75afc5afe626485023d9fd8a009b0bc9">ContactConstr</a>()</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#a084e1eeb7e588a9b4d968b0299e29ce3">descEq</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int line) override</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00019.html#aff630a43bf34b2a1888d3935934eadd4">dofContacts_</a></td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#a942694b22e0994fb66534f3bc2209d31">dofJac_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#abeee7362aae0d198aff26ac2b52f0dc0">fullJac_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#a491e3acbe2262d55e63abecad70e6522">maxEq</a>() const override</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00016.html#a86ccff21c29b0282eed183c8e2376858">nameEq</a>() const override</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ContactAccConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#a1bc44ea678ad94c18a47587852ce2987">nrEq</a>() const override</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#ac4cc65374a5649c54fade59e4a60de09">nrEq_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00019.html#a31ac823a2b09a9e5da7a4b825f8377eb">removeDofContact</a>(const ContactId &amp;contactId)</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00015.html#a454bf752ccf215aa991d036eaf1c3223">removeFromSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Equality &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00019.html#aedef34aeec93e2935de172e1cea9b522">removeVirtualContact</a>(const ContactId &amp;contactId)</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00019.html#adecc38cbf40aa9b7b4ef2d91197bf816">resetDofContacts</a>()</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00019.html#a838f717847de788786039ae40d99939c">resetVirtualContacts</a>()</td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#ae9e38fabd9625b3cbe4b592630cf3250">timeStep_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#aef4970931649dddbf92ec649e44ebd95">totalAlphaD_</a></td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00016.html#a998ceb1758f59060e35f79645d768081">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00016.html">tasks::qp::ContactAccConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#af0d84076bf6065d360bf5c6fe25f19d4">updateDofContacts</a>()</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00018.html#ab48ef13bdf935a36c4561e39340adc20">updateNrEq</a>()</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00018.html#a352528abbb9c6e56277ce59762644268">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00018.html">tasks::qp::ContactConstr</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00019.html#a2f2a4442ff0cbee3b172ffbf89eb7ac7">virtualContacts_</a></td><td class="entry"><a class="el" href="a00019.html">tasks::qp::ContactConstrCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00014.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a>()</td><td class="entry"><a class="el" href="a00014.html">tasks::qp::Constraint</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00015.html#ad668fbb366458056c27a466578c26b94">~ConstraintFunction</a>() override</td><td class="entry"><a class="el" href="a00015.html">tasks::qp::ConstraintFunction&lt; Equality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 08:55:41 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 08:56:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

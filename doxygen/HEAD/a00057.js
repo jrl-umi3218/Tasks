@@ -1,15 +1,16 @@
 var a00057 =
 [
-    [ "OrientationTask", "a00057.html#a9ca2da9ac942d356c2d15af3e6142c5f", null ],
-    [ "OrientationTask", "a00057.html#a0d09d04a207fbbc58c836a2a0a4eedc0", null ],
-    [ "dim", "a00057.html#a70a6227d9d82964c312e6247363f9469", null ],
-    [ "eval", "a00057.html#a7455d3547826bc76d2f37a284f1709c8", null ],
-    [ "jac", "a00057.html#a025b53a1391d508d9867cde537f4049b", null ],
-    [ "normalAcc", "a00057.html#a9226d23df243e49b42b8dbd742869392", null ],
-    [ "orientation", "a00057.html#a9de2c07ae093d84cc59539c10a71b4d8", null ],
-    [ "orientation", "a00057.html#abd0659080c43b461360e23482f8d5846", null ],
-    [ "orientation", "a00057.html#a4a655cf08ccdf7819ef33133bcfef32d", null ],
-    [ "speed", "a00057.html#a1474caf55aa1dcc86dfa3b6cac7f8103", null ],
-    [ "task", "a00057.html#adaebfcb08486fac0cd18b40199385ea6", null ],
-    [ "update", "a00057.html#a26a8d6f1f69268bf60e13fbdcd5b121c", null ]
+    [ "OrientationTask", "a00057.html#ad2446f810c20ba64897cd14ca9ac5111", null ],
+    [ "OrientationTask", "a00057.html#a56ba8d07126797bb8979983637d148db", null ],
+    [ "eval", "a00057.html#a3a9ff29a6efc9f53174e3561b815785c", null ],
+    [ "jac", "a00057.html#a78e2f043e8ba0e84dd85273f97c9ef05", null ],
+    [ "jacDot", "a00057.html#a43b628e830d79d245bc7068c1c796a6a", null ],
+    [ "normalAcc", "a00057.html#ac5df40591ba2a9524954ca3489fe2388", null ],
+    [ "orientation", "a00057.html#a49c880820a1b5c8df79dd9e334be3659", null ],
+    [ "orientation", "a00057.html#a66fd057c7e3881acde06654fe7b78b3f", null ],
+    [ "orientation", "a00057.html#a9e1bbffe42362b135318827388f04a1a", null ],
+    [ "speed", "a00057.html#a402881a288b881e3a4561f6670731407", null ],
+    [ "update", "a00057.html#a3742876c52257b6981ff0f3a1ba49187", null ],
+    [ "update", "a00057.html#a0a3f138249bb1e3a50b38d2d146ce9bd", null ],
+    [ "updateDot", "a00057.html#a9eee6faa64e247fe82f8c7564fb4ef52", null ]
 ];
