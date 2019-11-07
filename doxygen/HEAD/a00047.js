@@ -1,10 +1,13 @@
 var a00047 =
 [
-    [ "MotionConstr", "a00047.html#a5dc804e968c47791630468c06584d2d2", null ],
-    [ "contactMatrix", "a00047.html#a392675cb972c47829e8e2d8667589895", null ],
-    [ "fd", "a00047.html#ae0223199ac4f6da62bc5994cc612384d", null ],
-    [ "matrix", "a00047.html#a6d1987d41708ec4f54492a00df3a8879", null ],
-    [ "update", "a00047.html#a4ca88b49c206bd95963294c4fadff0a9", null ],
-    [ "torqueL_", "a00047.html#a2dc3ec557ec06e2e2937fe7157753977", null ],
-    [ "torqueU_", "a00047.html#a87385049d7441292c5250ec072e020d3", null ]
+    [ "MomentumTask", "a00047.html#af2696f6c37fc2fe6b4976cae7f3ad882", null ],
+    [ "dim", "a00047.html#a8f9105b9b2559bc7fcd204f2ef0afe52", null ],
+    [ "eval", "a00047.html#a4f6da2c23acf5f08250af1b809694cef", null ],
+    [ "jac", "a00047.html#a8b47874a1fdb619cc61204cce078ae8c", null ],
+    [ "momentum", "a00047.html#ab00abc708b5628eb27e36146dea5064e", null ],
+    [ "momentum", "a00047.html#aacfe57e9e9670bcd71e6b259d5741568", null ],
+    [ "normalAcc", "a00047.html#a0b9bbec02ea88c9319ba283bd0be2974", null ],
+    [ "speed", "a00047.html#a679fd754b18658c33e50f6a6ba7f6411", null ],
+    [ "task", "a00047.html#aa09068452fc37a606b39bfbd125773a0", null ],
+    [ "update", "a00047.html#ad3cb9bd1bb45ac8eefab0403507bf681", null ]
 ];

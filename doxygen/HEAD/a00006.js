@@ -1,18 +1,17 @@
 var a00006 =
 [
-    [ "CoMIncPlaneConstr", "a00006.html#a8d06d7750347b3548de72faae5394406", null ],
-    [ "addPlane", "a00006.html#ab4ff9ded4f0e0fcbbaf64bb7a9fc9d0a", null ],
-    [ "addPlane", "a00006.html#a842c6c78a0ebbc92999997d2cb74ebae", null ],
-    [ "AInEq", "a00006.html#a0a0d3bc6d47d20a4f8721dd973f6276d", null ],
-    [ "bInEq", "a00006.html#a71a8e9ef2b63d24f0f210799fe22e5b2", null ],
-    [ "descInEq", "a00006.html#a33875a675a759a588497158c1a3ee1d3", null ],
-    [ "maxInEq", "a00006.html#a2d7ceb3f7eaae8cbce850255c521579a", null ],
-    [ "nameInEq", "a00006.html#ad378d1cf2a235830720b8fefaba79fca", null ],
-    [ "nrInEq", "a00006.html#a4580e432d38a64f56abcfb32e6e7b264", null ],
-    [ "nrPlanes", "a00006.html#a389ac301cafd6945618abfddf6555f1f", null ],
-    [ "reset", "a00006.html#aa28f3741c6fb07f9c5d95967209bebb2", null ],
-    [ "rmPlane", "a00006.html#ac6a9eb3a427aefd92dde43a9cad9f2af", null ],
-    [ "update", "a00006.html#a1110af78967fdbf83c6ad56c4ae99280", null ],
-    [ "updateNrPlanes", "a00006.html#ad425d494b96f1aeaa34d3380ce8618df", null ],
-    [ "updateNrVars", "a00006.html#a9ea58938e66c71938ee2837293441da8", null ]
+    [ "CollisionConstr", "a00006.html#a6cbd77cac9be76d2b470ede58f805e6e", null ],
+    [ "addCollision", "a00006.html#a5219663aa6329f878b922596d1a2cbce", null ],
+    [ "AInEq", "a00006.html#a33371ff73cdc9160464bf037940ca5de", null ],
+    [ "bInEq", "a00006.html#a156d042206e1e319c9d4bb7dbfea0707", null ],
+    [ "descInEq", "a00006.html#a20297f19f57623cee1ed62c8dfe43263", null ],
+    [ "maxInEq", "a00006.html#aa1fc9dd4ff261477926ef22d8415db65", null ],
+    [ "nameInEq", "a00006.html#a77878f9a210e267e78f458e69a39596f", null ],
+    [ "nrCollisions", "a00006.html#aff1fcb20327d44f7f96efc141f9af007", null ],
+    [ "nrInEq", "a00006.html#a1078021e3573239e2cae6700133fbea8", null ],
+    [ "reset", "a00006.html#a851836fff090ddb145583d0945be3d8b", null ],
+    [ "rmCollision", "a00006.html#a378178fcd1de3da1e6a0472c0f04f42e", null ],
+    [ "update", "a00006.html#aad283323a7817f32ba5983d0b58454dd", null ],
+    [ "updateNrCollisions", "a00006.html#a0f5c6818508abc7debd6f6d1673d7ede", null ],
+    [ "updateNrVars", "a00006.html#ad0c21cf42a3f36765645661d7ee32ddc", null ]
 ];

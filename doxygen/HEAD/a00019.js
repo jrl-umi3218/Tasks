@@ -1,11 +1,13 @@
 var a00019 =
 [
-    [ "ContactData", "a00019.html#a3ab1f7d913208fd934bf01bd7cffa8c5", null ],
-    [ "b1Index", "a00019.html#a060e74dde561d3e2b2b744c7e413b4bb", null ],
-    [ "b2Index", "a00019.html#a5b7a1d42371e09c6453d6fc09b29a395", null ],
-    [ "contactId", "a00019.html#a73463d49bc2a0f6e8e08b17c465278d9", null ],
-    [ "contacts", "a00019.html#a8eaacc04f628b6ef37f84e711153da3e", null ],
-    [ "dof", "a00019.html#a4d025b4a9ad0dc05a96b571d42fedb29", null ],
-    [ "X_b1_b2", "a00019.html#afa20a55cc3a2d0ee4726aea8d0e20af4", null ],
-    [ "X_b1_cf", "a00019.html#aec6ce54631e347b5845b6bb24cc206a9", null ]
+    [ "ContactCommon", "a00017.html", "a00017" ],
+    [ "addDofContact", "a00019.html#ac5123de1300b7ecb492a82bdf4ff598a", null ],
+    [ "addVirtualContact", "a00019.html#a7c55dda527a78e05b4831360910bfd14", null ],
+    [ "contactCommonInContact", "a00019.html#a9ef854ece354fa70691e835d4b1b113f", null ],
+    [ "removeDofContact", "a00019.html#a31ac823a2b09a9e5da7a4b825f8377eb", null ],
+    [ "removeVirtualContact", "a00019.html#aedef34aeec93e2935de172e1cea9b522", null ],
+    [ "resetDofContacts", "a00019.html#adecc38cbf40aa9b7b4ef2d91197bf816", null ],
+    [ "resetVirtualContacts", "a00019.html#a838f717847de788786039ae40d99939c", null ],
+    [ "dofContacts_", "a00019.html#aff630a43bf34b2a1888d3935934eadd4", null ],
+    [ "virtualContacts_", "a00019.html#a2f2a4442ff0cbee3b172ffbf89eb7ac7", null ]
 ];

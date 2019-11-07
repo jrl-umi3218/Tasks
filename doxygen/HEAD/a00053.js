@@ -1,20 +1,15 @@
 var a00053 =
 [
-    [ "MultiRobotTransformTask", "a00053.html#a438e347acb8969ab6a948c2e726bab66", null ],
-    [ "begin", "a00053.html#a62994de890fe6c6c007cb575793e5acf", null ],
-    [ "C", "a00053.html#aba4376ae9a56de8427bc8821cb91717d", null ],
-    [ "dimWeight", "a00053.html#a3da35f9a95d597d82e640729611166bf", null ],
-    [ "dimWeight", "a00053.html#aa6a600a8a3188db312096d916ccd991b", null ],
-    [ "eval", "a00053.html#aecffe00dd8523436b7715d1f2851cb28", null ],
-    [ "Q", "a00053.html#ac625104a79177da111e996e03cfe9255", null ],
-    [ "speed", "a00053.html#ac0fdbcfda446ac7024f7d660acdae823", null ],
-    [ "stiffness", "a00053.html#a4f5a72d97d5efac3d6b0f200f85a4480", null ],
-    [ "stiffness", "a00053.html#ab3e574aef688945a13ab3de0cda4924a", null ],
-    [ "task", "a00053.html#ad333f1aa17a31d472a9548d1823dc012", null ],
-    [ "update", "a00053.html#a6830876e0c5f20c8165a0868cb57398b", null ],
-    [ "updateNrVars", "a00053.html#a4572a60574c8a6aaf4aefc1c48d19f61", null ],
-    [ "X_r1b_r1s", "a00053.html#a3f042cc46b00c04c05133f2e319bc0e2", null ],
-    [ "X_r1b_r1s", "a00053.html#aa84b4a37c9f118222aba20d35fff8ada", null ],
-    [ "X_r2b_r2s", "a00053.html#a79b01da25b40a7c24c449976394da2eb", null ],
-    [ "X_r2b_r2s", "a00053.html#a4c8fdf86e544c1dec78dd09a92a09606", null ]
+    [ "MultiCoMTask", "a00053.html#a481fe0d7f675e85e5bd9b867693dfa33", null ],
+    [ "com", "a00053.html#a22b45d38d8c2f4e9cd4dca94f0a03177", null ],
+    [ "com", "a00053.html#ae9e0ae8028a813d0b7222551b4d6f6f4", null ],
+    [ "eval", "a00053.html#a6566a87c95ee4f0bcca7fb23e15b2a05", null ],
+    [ "jac", "a00053.html#ad01b6fe4dcd14ae290e9342a7cd9d975", null ],
+    [ "normalAcc", "a00053.html#ade4415c7a2709524621e483168d35c51", null ],
+    [ "robotIndexes", "a00053.html#a2b7bf71e59826b6042615237e83a802b", null ],
+    [ "speed", "a00053.html#a630f6bf47d36154c2bdf17e57d67f207", null ],
+    [ "update", "a00053.html#a5ff62c598d20e5fcb3369c796b41b65b", null ],
+    [ "update", "a00053.html#a98822f979d05e4110cda215928c975b3", null ],
+    [ "update", "a00053.html#a12b29eecea86d5d97dd8ec8404c94a00", null ],
+    [ "updateInertialParameters", "a00053.html#a0eddb2f22c0eb8c99c82bb20091d5c1b", null ]
 ];

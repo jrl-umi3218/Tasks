@@ -1,17 +1,18 @@
 var a00005 =
 [
-    [ "CollisionConstr", "a00005.html#a6cbd77cac9be76d2b470ede58f805e6e", null ],
-    [ "addCollision", "a00005.html#a5219663aa6329f878b922596d1a2cbce", null ],
-    [ "AInEq", "a00005.html#a33371ff73cdc9160464bf037940ca5de", null ],
-    [ "bInEq", "a00005.html#a156d042206e1e319c9d4bb7dbfea0707", null ],
-    [ "descInEq", "a00005.html#a20297f19f57623cee1ed62c8dfe43263", null ],
-    [ "maxInEq", "a00005.html#aa1fc9dd4ff261477926ef22d8415db65", null ],
-    [ "nameInEq", "a00005.html#a77878f9a210e267e78f458e69a39596f", null ],
-    [ "nrCollisions", "a00005.html#aff1fcb20327d44f7f96efc141f9af007", null ],
-    [ "nrInEq", "a00005.html#a1078021e3573239e2cae6700133fbea8", null ],
-    [ "reset", "a00005.html#a851836fff090ddb145583d0945be3d8b", null ],
-    [ "rmCollision", "a00005.html#a378178fcd1de3da1e6a0472c0f04f42e", null ],
-    [ "update", "a00005.html#aad283323a7817f32ba5983d0b58454dd", null ],
-    [ "updateNrCollisions", "a00005.html#a0f5c6818508abc7debd6f6d1673d7ede", null ],
-    [ "updateNrVars", "a00005.html#ad0c21cf42a3f36765645661d7ee32ddc", null ]
+    [ "BoundedSpeedConstr", "a00005.html#a9e2c07951b0339b0dca31e7dfc65282e", null ],
+    [ "addBoundedSpeed", "a00005.html#a7743272ac4add00739a1f9f5ecb7f305", null ],
+    [ "addBoundedSpeed", "a00005.html#a3c1bded8210ad455e89a24a0ab1da223", null ],
+    [ "AGenInEq", "a00005.html#a39658f71e82022d9c4396f2cbd2ecc40", null ],
+    [ "descGenInEq", "a00005.html#ad0f08a24c117a7d4674996723b21124b", null ],
+    [ "LowerGenInEq", "a00005.html#a101bd01faf9121c0eb049ceb635f0d2a", null ],
+    [ "maxGenInEq", "a00005.html#afae4904e014ff1f9f341727bccdae0da", null ],
+    [ "nameGenInEq", "a00005.html#aa40bc13e95421a11c0afb2eb542fe0bc", null ],
+    [ "nrBoundedSpeeds", "a00005.html#a7abeafcc16eee56ba77dc7d50443ea3d", null ],
+    [ "removeBoundedSpeed", "a00005.html#aef0f41ce8156689fe319357df8b8a467", null ],
+    [ "resetBoundedSpeeds", "a00005.html#a10746908e9ca63745fd2e03660e876f3", null ],
+    [ "update", "a00005.html#aa85fbe1d319ff21386fc106b2979e621", null ],
+    [ "updateBoundedSpeeds", "a00005.html#a6cd62f18bdb9f5c4dbb747a37b9de443", null ],
+    [ "updateNrVars", "a00005.html#a0f7f98fca4b36a6c87b724fb598698b0", null ],
+    [ "UpperGenInEq", "a00005.html#adf303d1dc34ec27ba05365cf75c23b0d", null ]
 ];

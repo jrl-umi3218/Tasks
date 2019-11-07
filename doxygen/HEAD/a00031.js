@@ -1,13 +1,17 @@
 var a00031 =
 [
-    [ "~GenInequality", "a00031.html#acc4aa2bbdb2392a856830b123cea0aae", null ],
-    [ "addToSolver", "a00031.html#a43a34f4730c9c55f8534d0f0b6a18a10", null ],
-    [ "AGenInEq", "a00031.html#a325d9d056bb2f4384f2dd5d7782c7d67", null ],
-    [ "descGenInEq", "a00031.html#a9d2a100b0cac057ed8ab9551c313c258", null ],
-    [ "LowerGenInEq", "a00031.html#afbc386b920f098adbf97579136f7aafe", null ],
-    [ "maxGenInEq", "a00031.html#aeb0ca1c17412db12a0b356cf49db1153", null ],
-    [ "nameGenInEq", "a00031.html#ab8b53c19e88c1e5b2dfe20f323406e4e", null ],
-    [ "nrGenInEq", "a00031.html#a0824ef1fa7cca3bc979437b08c316dbe", null ],
-    [ "removeFromSolver", "a00031.html#a0cb32ca9ea02aef63634de1e915ba1d7", null ],
-    [ "UpperGenInEq", "a00031.html#ab9e1c4057da5a53adb8f42ab0a3de2c9", null ]
+    [ "GazeTask", "a00031.html#aba1bfe65a758ea66b3861eb8f165c160", null ],
+    [ "GazeTask", "a00031.html#a12599ce7b03170f7b9d33e521cfc417d", null ],
+    [ "GazeTask", "a00031.html#a87332fab30a87c03822bf31efcda8aeb", null ],
+    [ "GazeTask", "a00031.html#a3c9dfcd5e71d7af7f8d94476fbe9bb72", null ],
+    [ "error", "a00031.html#a7a3a5341868b40b92cc1632695ec4ade", null ],
+    [ "error", "a00031.html#a6aaf67f35aab816daa37233c713583c6", null ],
+    [ "eval", "a00031.html#a6864e9981b298e8ab67645d5b1aa446c", null ],
+    [ "jac", "a00031.html#ad0b794dbb73ebb961c442608fee20571", null ],
+    [ "jacDot", "a00031.html#ad49801e0233810ac8226cec1ad39b175", null ],
+    [ "normalAcc", "a00031.html#a4be9152ff9a35babed966ba073e66be0", null ],
+    [ "operator=", "a00031.html#a6d434428030eeca446ced9a18d19c60c", null ],
+    [ "operator=", "a00031.html#a69d250bddb913512147c7850906402b8", null ],
+    [ "speed", "a00031.html#a7619fb259b6b791d16da8e2a32b462c1", null ],
+    [ "update", "a00031.html#a38f3201c5c73d5f8604deec4e5dca994", null ]
 ];

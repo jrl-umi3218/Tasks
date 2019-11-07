@@ -1,13 +1,10 @@
 var a00045 =
 [
-    [ "MomentumTask", "a00045.html#af2696f6c37fc2fe6b4976cae7f3ad882", null ],
-    [ "dim", "a00045.html#a8f9105b9b2559bc7fcd204f2ef0afe52", null ],
-    [ "eval", "a00045.html#a4f6da2c23acf5f08250af1b809694cef", null ],
-    [ "jac", "a00045.html#a8b47874a1fdb619cc61204cce078ae8c", null ],
-    [ "momentum", "a00045.html#ab00abc708b5628eb27e36146dea5064e", null ],
-    [ "momentum", "a00045.html#aacfe57e9e9670bcd71e6b259d5741568", null ],
-    [ "normalAcc", "a00045.html#a0b9bbec02ea88c9319ba283bd0be2974", null ],
-    [ "speed", "a00045.html#a679fd754b18658c33e50f6a6ba7f6411", null ],
-    [ "task", "a00045.html#aa09068452fc37a606b39bfbd125773a0", null ],
-    [ "update", "a00045.html#ad3cb9bd1bb45ac8eefab0403507bf681", null ]
+    [ "LSSOLQPSolver", "a00045.html#aa645ba408bf6eb66104caf2c95b2ea44", null ],
+    [ "errorMsg", "a00045.html#a710a1f1b2e91b05fac21228fad56f2e8", null ],
+    [ "name", "a00045.html#a2cb7152ce1bd97d8cb5d67d7e054cbac", null ],
+    [ "result", "a00045.html#ab3fd8e52ca0126799e3fdd05881d7cd7", null ],
+    [ "solve", "a00045.html#a754fa6e0109d3e024d26650ef12f1c64", null ],
+    [ "updateMatrix", "a00045.html#a12be106df27c06f12e438c7129422baf", null ],
+    [ "updateSize", "a00045.html#a67156d6e5f1c418ee8b26f203606528a", null ]
 ];

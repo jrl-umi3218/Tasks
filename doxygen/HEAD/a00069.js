@@ -1,9 +1,7 @@
 var a00069 =
 [
-    [ "QLDQPSolver", "a00069.html#a23f91afba5699bb41d02a3081c1ab59e", null ],
-    [ "errorMsg", "a00069.html#af3ce529f75e491c1cd60b91dd284eb80", null ],
-    [ "result", "a00069.html#a63cfa790fe87436d11657c6c3d5e1ee5", null ],
-    [ "solve", "a00069.html#a96cc2b5d90faaae84bac06d5d5acf6ea", null ],
-    [ "updateMatrix", "a00069.html#a771aa5e02e50abc1603b08da7e7a649d", null ],
-    [ "updateSize", "a00069.html#ac39b5fa66ffe4aa42c22e3119981268e", null ]
+    [ "QBound", "a00069.html#a9adaf296f18e8d83bea065e232714633", null ],
+    [ "QBound", "a00069.html#adb75555826261616bcfc52c56ec0a863", null ],
+    [ "lQBound", "a00069.html#a8b98c406f6daa08af4a7883ba00cf844", null ],
+    [ "uQBound", "a00069.html#a5ed0fe5130f66d16efcb5af347c9f9be", null ]
 ];

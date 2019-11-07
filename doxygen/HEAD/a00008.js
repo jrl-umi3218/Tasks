@@ -1,16 +1,15 @@
 var a00008 =
 [
-    [ "CoMTask", "a00008.html#ad4b7c8e51cc745de698e3d6bd2a2339e", null ],
-    [ "CoMTask", "a00008.html#aecc4822eec67f013d9a8db414f019acb", null ],
-    [ "com", "a00008.html#abad06b1bf9cabf9863797b740c99d4d6", null ],
-    [ "com", "a00008.html#a2cad012e70767685b5597fe75b10cabd", null ],
-    [ "eval", "a00008.html#ad89a55e7995c90940617fdf4f341e6b8", null ],
-    [ "jac", "a00008.html#afab1b4651d6484944ad543da7eb4e5df", null ],
-    [ "jacDot", "a00008.html#a2cdc34378760c34d06e19c814f344de7", null ],
-    [ "normalAcc", "a00008.html#ab74c15a9923ad68f2a64c044f6fdcc20", null ],
-    [ "speed", "a00008.html#a73d3321cb85f85d9c18cb8738e70a506", null ],
-    [ "update", "a00008.html#a7f91a91ff834b70bdb04960ad215fabb", null ],
-    [ "update", "a00008.html#a289f61cc6113eeb7b8db231312f3872e", null ],
-    [ "updateDot", "a00008.html#afe3cc241625aad1536805f62c0e6aa76", null ],
-    [ "updateInertialParameters", "a00008.html#a68c6af543ca48f350185a2ea2b8062e3", null ]
+    [ "CoMTask", "a00008.html#a405b0a71a500f45461809a6a834ce4ef", null ],
+    [ "CoMTask", "a00008.html#a6639488dffbba63388705c3909f1e31b", null ],
+    [ "com", "a00008.html#a01fd2792379cee017ed2a4091c3b8fe5", null ],
+    [ "com", "a00008.html#a777ab0b95b530d442751037f6ba98e12", null ],
+    [ "dim", "a00008.html#acf39ba9f4426acdd6dfc1fd7a9be4820", null ],
+    [ "eval", "a00008.html#a08589b88a312c73d9a8941277f44658f", null ],
+    [ "jac", "a00008.html#a9dfb1feeda72ecc8892ad0954f43b16a", null ],
+    [ "normalAcc", "a00008.html#a187d5abafe3350c7b9a4e2db15284bdf", null ],
+    [ "speed", "a00008.html#aca2035d05f7e974bdc09593a02751c85", null ],
+    [ "task", "a00008.html#a6ef18cded54fee2dc7337160a10f0c3b", null ],
+    [ "update", "a00008.html#a57b452d399ec19cc3bc7c0d8a75b8a3d", null ],
+    [ "updateInertialParameters", "a00008.html#ab0ab49b7c66a39613e1765c13b841ddf", null ]
 ];

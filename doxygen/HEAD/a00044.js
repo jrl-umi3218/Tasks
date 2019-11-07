@@ -1,9 +1,16 @@
 var a00044 =
 [
-    [ "LSSOLQPSolver", "a00044.html#aa645ba408bf6eb66104caf2c95b2ea44", null ],
-    [ "errorMsg", "a00044.html#a710a1f1b2e91b05fac21228fad56f2e8", null ],
-    [ "result", "a00044.html#ab3fd8e52ca0126799e3fdd05881d7cd7", null ],
-    [ "solve", "a00044.html#a754fa6e0109d3e024d26650ef12f1c64", null ],
-    [ "updateMatrix", "a00044.html#a12be106df27c06f12e438c7129422baf", null ],
-    [ "updateSize", "a00044.html#a67156d6e5f1c418ee8b26f203606528a", null ]
+    [ "LinVelocityTask", "a00044.html#a5cd35cfbfb12de24095edf651e58700f", null ],
+    [ "bodyPoint", "a00044.html#aa27b5d80826e16b98918d7c80b31c769", null ],
+    [ "bodyPoint", "a00044.html#ae844424fb6d92b9bb4421e48ca2f8e6c", null ],
+    [ "eval", "a00044.html#afa9ce92a9b2b79be11b5a7c995010ec7", null ],
+    [ "jac", "a00044.html#af07871a32bee95d421c610945f02b370", null ],
+    [ "jacDot", "a00044.html#a84ae3c792d0b51bd1776536911efd9dc", null ],
+    [ "normalAcc", "a00044.html#ace56ca66a07831a2575ff281dd3fb8f4", null ],
+    [ "speed", "a00044.html#a4643bad99a755d2ca2ca73b2a80bf912", null ],
+    [ "update", "a00044.html#a01ac37878ebe04770a55233ef64e5c62", null ],
+    [ "update", "a00044.html#a8c8da46a5b3abe0893135fc40fcb3075", null ],
+    [ "updateDot", "a00044.html#a291555f05786d8fac07082085d0b6f36", null ],
+    [ "velocity", "a00044.html#a9ced043d1c378186715551e512a7574d", null ],
+    [ "velocity", "a00044.html#a97006348fc2e010083c70b874fd0123c", null ]
 ];

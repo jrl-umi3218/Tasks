@@ -1,7 +1,18 @@
 var a00089 =
 [
-    [ "TransformTask", "a00089.html#a47ef3ff9e94d1c029843cf2e8efd0e03", null ],
-    [ "E_0_c", "a00089.html#af28399b8910027ff33d9230fdf5611b8", null ],
-    [ "E_0_c", "a00089.html#a6d7fe6363bd841a1c1e96b5e834b4ada", null ],
-    [ "update", "a00089.html#a2cdf770b2c150f752ff44c9a049f31b2", null ]
+    [ "TrajectoryTask", "a00089.html#a59da3ed4a1c7e832ed3c0901f3733646", null ],
+    [ "TrajectoryTask", "a00089.html#ac5defd525f27953454f9dde50ee3c45d", null ],
+    [ "damping", "a00089.html#aabcbb795c8bfe90f08b0b76406d68827", null ],
+    [ "damping", "a00089.html#a16c986b2e39068d42c8ab69d40276875", null ],
+    [ "damping", "a00089.html#a232225f4419aff3444e71102e178fac2", null ],
+    [ "refAccel", "a00089.html#ab205f45b28c0df29e37c3906b4caa4c1", null ],
+    [ "refAccel", "a00089.html#a2cfc0fac8788a3826b8633eceb0bc4b1", null ],
+    [ "refVel", "a00089.html#acb1ed22d8d4325d27016ba86d807b4f3", null ],
+    [ "refVel", "a00089.html#a8dc0292153d09b0f8c8d6344f3d3fa11", null ],
+    [ "setGains", "a00089.html#a80b3bb11ef78052992b837fe43b545eb", null ],
+    [ "setGains", "a00089.html#a4227bab06fff7df1a7fb8ce833674f4c", null ],
+    [ "stiffness", "a00089.html#a287d5e7d528e025997f2f705c07a2d99", null ],
+    [ "stiffness", "a00089.html#a26e85c725c2a79a36ee79566ce1d226f", null ],
+    [ "stiffness", "a00089.html#ac9fcd18064d4c9b53262300798be35f2", null ],
+    [ "update", "a00089.html#ae0b4358be0d86c584536b4935b2811d7", null ]
 ];

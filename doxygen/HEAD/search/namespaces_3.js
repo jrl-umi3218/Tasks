@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['qp',['qp',['../a00114.html',1,'tasks']]],
-  ['tasks',['tasks',['../a00113.html',1,'']]]
+  ['fileparsing',['FileParsing',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00115.html',1,'']]]
 ];

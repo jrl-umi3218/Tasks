@@ -1,17 +1,16 @@
 var a00057 =
 [
-    [ "OrientationTrackingTask", "a00057.html#a9093bee511f486da7ef68cbd8675fffe", null ],
-    [ "bodyAxis", "a00057.html#a96cd54d60050fbf75507938f666364e1", null ],
-    [ "bodyAxis", "a00057.html#a9cd22c4a1a126f356de08ec46ab4ab98", null ],
-    [ "bodyPoint", "a00057.html#ac00a77ee9ba777f8d4787d2de7b8d2d1", null ],
-    [ "bodyPoint", "a00057.html#a357dd9c669964202214ba792eb39bab0", null ],
-    [ "dim", "a00057.html#ae1091b454430ab6adffc179635ea04e1", null ],
-    [ "eval", "a00057.html#a8bee0d2f36a82e2588f94ccb9c903dfe", null ],
-    [ "jac", "a00057.html#adf8e3e3fa8643007bca85d468112144f", null ],
-    [ "normalAcc", "a00057.html#a74c28709b05b5d40e4b82f11ef8e2b84", null ],
-    [ "speed", "a00057.html#a9a7b0dcd72f3702596bea58c9c89af64", null ],
-    [ "task", "a00057.html#af19b576f25879b9372466010f75b45a0", null ],
-    [ "trackedPoint", "a00057.html#a5dad8875dc7ea013ca5642959e1fc590", null ],
-    [ "trackedPoint", "a00057.html#aad0af76625583405e5b79e0bab4eed70", null ],
-    [ "update", "a00057.html#ae5a6c523af2c1cc8eac1be06eefaa339", null ]
+    [ "OrientationTask", "a00057.html#ad2446f810c20ba64897cd14ca9ac5111", null ],
+    [ "OrientationTask", "a00057.html#a56ba8d07126797bb8979983637d148db", null ],
+    [ "eval", "a00057.html#a3a9ff29a6efc9f53174e3561b815785c", null ],
+    [ "jac", "a00057.html#a78e2f043e8ba0e84dd85273f97c9ef05", null ],
+    [ "jacDot", "a00057.html#a43b628e830d79d245bc7068c1c796a6a", null ],
+    [ "normalAcc", "a00057.html#ac5df40591ba2a9524954ca3489fe2388", null ],
+    [ "orientation", "a00057.html#a49c880820a1b5c8df79dd9e334be3659", null ],
+    [ "orientation", "a00057.html#a66fd057c7e3881acde06654fe7b78b3f", null ],
+    [ "orientation", "a00057.html#a9e1bbffe42362b135318827388f04a1a", null ],
+    [ "speed", "a00057.html#a402881a288b881e3a4561f6670731407", null ],
+    [ "update", "a00057.html#a3742876c52257b6981ff0f3a1ba49187", null ],
+    [ "update", "a00057.html#a0a3f138249bb1e3a50b38d2d146ce9bd", null ],
+    [ "updateDot", "a00057.html#a9eee6faa64e247fe82f8c7564fb4ef52", null ]
 ];

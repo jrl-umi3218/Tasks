@@ -1,9 +1,25 @@
 var a00077 =
 [
-    [ "SpringJoint", "a00077.html#ac25ad1f8efb3d7baa7c353a5e3f0aa89", null ],
-    [ "SpringJoint", "a00077.html#aa9645391a0b018abb077090fd55ceb3d", null ],
-    [ "C", "a00077.html#a2b393d84a55fe348e6e5ce04deefd329", null ],
-    [ "jointName", "a00077.html#a029b134a876b568f05bc4ad280a48a69", null ],
-    [ "K", "a00077.html#a5466a16b77a204b340d93543a770cdd0", null ],
-    [ "O", "a00077.html#aa2bcaab07c4831dde713bbab4e360ade", null ]
+    [ "SolverData", "a00077.html#a807cfb7d85f3ba3f983572fdf9ad7899", null ],
+    [ "allContacts", "a00077.html#a0eb6821c6523565a85e0d3b3054ab2d6", null ],
+    [ "alphaD", "a00077.html#a4994d67943c883eba5673fb8d4ddeb4e", null ],
+    [ "alphaDBegin", "a00077.html#a222e53690b7f18a8d1e76a7ff82c1c2b", null ],
+    [ "alphaDBegin", "a00077.html#a7adc19a2e51222f0d73a3de8c1c28125", null ],
+    [ "bilateralBegin", "a00077.html#a7c3a05d1416a730a45fc818e4aa2315e", null ],
+    [ "bilateralContacts", "a00077.html#a6677197e78a8ec3d3650baa6632b8226", null ],
+    [ "computeNormalAccB", "a00077.html#aacb4416ef2b0ed5ea94a06780cbc2949", null ],
+    [ "lambda", "a00077.html#a638789087cf4b7f977549da458b166fd", null ],
+    [ "lambdaBegin", "a00077.html#ae23581554c4b05de02bce8f9147afe9c", null ],
+    [ "lambdaBegin", "a00077.html#af2788e770a5a0673fe692a48a60234b3", null ],
+    [ "normalAccB", "a00077.html#af05459ed8ddc588fc511f5bf9e068df1", null ],
+    [ "normalAccB", "a00077.html#aa98f966b37649de15f90298528994c02", null ],
+    [ "nrBiLambda", "a00077.html#a9a33a6e2c0dc3f5791f2bbcbf84eedac", null ],
+    [ "nrContacts", "a00077.html#a6ad8830ab9b4ad7e60ec66cb1fc2b930", null ],
+    [ "nrUniLambda", "a00077.html#a8102394a78531aa2c16aeddc811b54df", null ],
+    [ "nrVars", "a00077.html#a35372348ca3899aed211f9e31fd9cd4a", null ],
+    [ "totalAlphaD", "a00077.html#af36db1936325eb6edbe56443af562879", null ],
+    [ "totalLambda", "a00077.html#ab825d7dfbab4df7d84ac39a25d8a32f0", null ],
+    [ "unilateralBegin", "a00077.html#a511892f573417ad9d0102faf216dece8", null ],
+    [ "unilateralContacts", "a00077.html#a43c8d55600ccd46d8a895f378beaa33b", null ],
+    [ "QPSolver", "a00077.html#ab0c5d51bf80dcd62721abff05ce12961", null ]
 ];
