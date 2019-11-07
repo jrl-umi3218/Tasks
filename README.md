@@ -5,6 +5,7 @@ Tasks
 [![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
 [![AppVeyor status](https://ci.appveyor.com/api/projects/status/kteqpch13y0ac3wq/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
 [ ![Download](https://api.bintray.com/packages/gergondet/multi-contact/Tasks%3Agergondet/images/download.svg) ](https://bintray.com/gergondet/multi-contact/Tasks%3Agergondet/_latestVersion)
+[![Documentation](https://img.shields.io/badge/doxygen-online-brightgreen?logo=read-the-docs&style=flat)](http://jrl-umi3218.github.io/Tasks/doxygen/HEAD/index.html)
 
 Tasks is library for real time control of robots and kinematic trees using constrained optimization.
 It has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.
