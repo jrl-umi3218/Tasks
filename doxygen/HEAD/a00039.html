@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::JointGains Struct Reference</title>
+<title>tasks::qp::Inequality Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,35 +99,37 @@ $(document).ready(function(){initNavTree('a00039.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00169.html">List of all members</a>  </div>
+<a href="a00170.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::JointGains Struct Reference</div>  </div>
+<div class="title">tasks::qp::Inequality Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
+<p><code>#include &lt;Tasks/QPSolver.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:add0cd36307b044425a1175e82be95c8f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#add0cd36307b044425a1175e82be95c8f">JointGains</a> ()</td></tr>
-<tr class="separator:add0cd36307b044425a1175e82be95c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5518172f15ccd822adeb64786855a9cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a5518172f15ccd822adeb64786855a9cb">JointGains</a> (const std::string &amp;jName, double stif)</td></tr>
-<tr class="separator:a5518172f15ccd822adeb64786855a9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84e051a4f37a2a15de59b3d900953f87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a84e051a4f37a2a15de59b3d900953f87">JointGains</a> (const std::string &amp;jName, double stif, double damp)</td></tr>
-<tr class="separator:a84e051a4f37a2a15de59b3d900953f87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a08d3a7fa0479efaaa54f8e49301e280f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a08d3a7fa0479efaaa54f8e49301e280f">jointName</a></td></tr>
-<tr class="separator:a08d3a7fa0479efaaa54f8e49301e280f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0a41a5153da3a170bafea2c4453a7a5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ab0a41a5153da3a170bafea2c4453a7a5">stiffness</a></td></tr>
-<tr class="separator:ab0a41a5153da3a170bafea2c4453a7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a590ae8fd57e2a1e708491f05f3262ad7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a590ae8fd57e2a1e708491f05f3262ad7">damping</a></td></tr>
-<tr class="separator:a590ae8fd57e2a1e708491f05f3262ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8971f0b14e1d2ea3e5b126692ff6fcf8"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a8971f0b14e1d2ea3e5b126692ff6fcf8">~Inequality</a> ()</td></tr>
+<tr class="separator:a8971f0b14e1d2ea3e5b126692ff6fcf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8881dfaffbeff43b333cf9d30675f67f"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a8881dfaffbeff43b333cf9d30675f67f">maxInEq</a> () const =0</td></tr>
+<tr class="separator:a8881dfaffbeff43b333cf9d30675f67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a827636676790ab9fc84d6fe341f31b00"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a827636676790ab9fc84d6fe341f31b00">nrInEq</a> () const </td></tr>
+<tr class="separator:a827636676790ab9fc84d6fe341f31b00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aa735890ecd53799b4a1604188b9b21"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a7aa735890ecd53799b4a1604188b9b21">AInEq</a> () const =0</td></tr>
+<tr class="separator:a7aa735890ecd53799b4a1604188b9b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3bdd0a2b50b6560f33b0e5fdd106bfa"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ac3bdd0a2b50b6560f33b0e5fdd106bfa">bInEq</a> () const =0</td></tr>
+<tr class="separator:ac3bdd0a2b50b6560f33b0e5fdd106bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae498b14de5f3bb6786e04828c74ea88b"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ae498b14de5f3bb6786e04828c74ea88b">nameInEq</a> () const =0</td></tr>
+<tr class="separator:ae498b14de5f3bb6786e04828c74ea88b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5215e8d2075f290375e9e4342cfb801"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#af5215e8d2075f290375e9e4342cfb801">descInEq</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, int i)=0</td></tr>
+<tr class="separator:af5215e8d2075f290375e9e4342cfb801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2e121e878fea4264e37d5cb15dc868"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#ace2e121e878fea4264e37d5cb15dc868">addToSolver</a> (<a class="el" href="a00072.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:ace2e121e878fea4264e37d5cb15dc868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b76e75f578ae739fa31aecbddc937fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00039.html#a6b76e75f578ae739fa31aecbddc937fc">removeFromSolver</a> (<a class="el" href="a00072.html">QPSolver</a> &amp;sol)</td></tr>
+<tr class="separator:a6b76e75f578ae739fa31aecbddc937fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="add0cd36307b044425a1175e82be95c8f"></a>
+<a class="anchor" id="a8971f0b14e1d2ea3e5b126692ff6fcf8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -135,7 +137,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::JointGains::JointGains </td>
+          <td class="memname">virtual tasks::qp::Inequality::~Inequality </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -143,14 +145,15 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a5518172f15ccd822adeb64786855a9cb"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ace2e121e878fea4264e37d5cb15dc868"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -158,21 +161,11 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::JointGains::JointGains </td>
+          <td class="memname">void tasks::qp::Inequality::addToSolver </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>jName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="a00072.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>stif</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -182,9 +175,11 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>References <a class="el" href="a00072.html#ae6c099ec98ffff884dcd08a8c93db8de">tasks::qp::QPSolver::addInequalityConstraint()</a>.</p>
+
 </div>
 </div>
-<a class="anchor" id="a84e051a4f37a2a15de59b3d900953f87"></a>
+<a class="anchor" id="a7aa735890ecd53799b4a1604188b9b21"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -192,22 +187,66 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::JointGains::JointGains </td>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::Inequality::AInEq </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>jName</em>, </td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00117.html#abda68512c902b700787e7eea478cd71a">tasks::qp::printConstr()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac3bdd0a2b50b6560f33b0e5fdd106bfa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::Inequality::bInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00117.html#abda68512c902b700787e7eea478cd71a">tasks::qp::printConstr()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af5215e8d2075f290375e9e4342cfb801"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::Inequality::descInEq </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>stif</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>damp</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -217,47 +256,113 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00014.html#abb43b3d4896366aa9a8251f48336dab9">tasks::qp::constr_traits&lt; Inequality &gt;::desc()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8881dfaffbeff43b333cf9d30675f67f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::Inequality::maxInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00014.html#a5139859fb109800ff919d1d3fd820170">tasks::qp::constr_traits&lt; Inequality &gt;::maxLines()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae498b14de5f3bb6786e04828c74ea88b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string tasks::qp::Inequality::nameInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00014.html#a73b01543c02f1856d9435897337e38de">tasks::qp::constr_traits&lt; Inequality &gt;::name()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a827636676790ab9fc84d6fe341f31b00"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::Inequality::nrInEq </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Referenced by <a class="el" href="a00014.html#a3f3e45c0bc6602f14b42581e67cd1ae3">tasks::qp::constr_traits&lt; Inequality &gt;::nrLines()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6b76e75f578ae739fa31aecbddc937fc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::Inequality::removeFromSolver </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a00072.html">QPSolver</a> &amp;&#160;</td>
+          <td class="paramname"><em>sol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a590ae8fd57e2a1e708491f05f3262ad7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double tasks::qp::JointGains::damping</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a08d3a7fa0479efaaa54f8e49301e280f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string tasks::qp::JointGains::jointName</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab0a41a5153da3a170bafea2c4453a7a5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double tasks::qp::JointGains::stiffness</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>References <a class="el" href="a00072.html#aee00caa7486892ea0f803472efb4abc5">tasks::qp::QPSolver::removeInequalityConstraint()</a>.</p>
 
 </div>
 </div>
@@ -267,8 +372,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00115.html">qp</a></li><li class="navelem"><a class="el" href="a00039.html">JointGains</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00039.html">Inequality</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

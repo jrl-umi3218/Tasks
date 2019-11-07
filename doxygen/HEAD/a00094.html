@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::UnilateralContact Struct Reference</title>
+<title>tasks::TransformTaskCommon Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,74 +99,229 @@ $(document).ready(function(){initNavTree('a00094.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00208.html">List of all members</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="a00137.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::UnilateralContact Struct Reference</div>  </div>
+<div class="title">tasks::TransformTaskCommon Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Model of a planar contacts.  
- <a href="a00094.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/QPContacts.h&gt;</code></p>
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for tasks::TransformTaskCommon:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="a00094.png" usemap="#tasks::TransformTaskCommon_map" alt=""/>
+  <map id="tasks::TransformTaskCommon_map" name="tasks::TransformTaskCommon_map">
+<area href="a00083.html" alt="tasks::SurfaceTransformTask" shape="rect" coords="0,56,177,80"/>
+<area href="a00092.html" alt="tasks::TransformTask" shape="rect" coords="187,56,364,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0f7a6e457279bef9aa1113d13b8a8b56"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a0f7a6e457279bef9aa1113d13b8a8b56">UnilateralContact</a> ()</td></tr>
-<tr class="separator:a0f7a6e457279bef9aa1113d13b8a8b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4975439de18ef4c88fc9c491f6e5164f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a4975439de18ef4c88fc9c491f6e5164f">UnilateralContact</a> (int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, std::vector&lt; Eigen::Vector3d &gt; <a class="el" href="a00094.html#af7e3cbf6139f5f5b34dc5cc36e7ee9c5">r1Points</a>, const Eigen::Matrix3d &amp;r1Frame, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#a71abdba5f0d1df7cc91636b4385ee6e8">X_b1_b2</a>, int nrGen, double mu, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5">X_b1_cf</a>=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
-<tr class="separator:a4975439de18ef4c88fc9c491f6e5164f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d67ff07f42cac5b82fb035f99788afc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a7d67ff07f42cac5b82fb035f99788afc">UnilateralContact</a> (int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, int ambId, std::vector&lt; Eigen::Vector3d &gt; <a class="el" href="a00094.html#af7e3cbf6139f5f5b34dc5cc36e7ee9c5">r1Points</a>, const Eigen::Matrix3d &amp;r1Frame, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#a71abdba5f0d1df7cc91636b4385ee6e8">X_b1_b2</a>, int nrGen, double mu, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5">X_b1_cf</a>=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
-<tr class="separator:a7d67ff07f42cac5b82fb035f99788afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15966f21610db65d96b0cdb2153e8f9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a15966f21610db65d96b0cdb2153e8f9c">UnilateralContact</a> (const <a class="el" href="a00022.html">ContactId</a> &amp;cId, std::vector&lt; Eigen::Vector3d &gt; <a class="el" href="a00094.html#af7e3cbf6139f5f5b34dc5cc36e7ee9c5">r1Points</a>, const Eigen::Matrix3d &amp;r1Frame, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#a71abdba5f0d1df7cc91636b4385ee6e8">X_b1_b2</a>, int nrGen, double mu, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5">X_b1_cf</a>=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
-<tr class="separator:a15966f21610db65d96b0cdb2153e8f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78f7db8af64a7190f225b73ec0c024c0"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a78f7db8af64a7190f225b73ec0c024c0">force</a> (const Eigen::VectorXd &amp;lambda, int p, const <a class="el" href="a00029.html">FrictionCone</a> &amp;c) const </td></tr>
-<tr class="separator:a78f7db8af64a7190f225b73ec0c024c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae289cf9828301b6f5463cab64ec87afb"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#ae289cf9828301b6f5463cab64ec87afb">force</a> (const Eigen::VectorXd &amp;lambda, const <a class="el" href="a00029.html">FrictionCone</a> &amp;c) const </td></tr>
-<tr class="separator:ae289cf9828301b6f5463cab64ec87afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6398e78eaa1ba8d9bf1b341aa7e74daa"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a6398e78eaa1ba8d9bf1b341aa7e74daa">force</a> (const Eigen::VectorXd &amp;lambda, const std::vector&lt; Eigen::Vector3d &gt; &amp;r_b_pi, const <a class="el" href="a00029.html">FrictionCone</a> &amp;c_pi_b) const </td></tr>
-<tr class="memdesc:a6398e78eaa1ba8d9bf1b341aa7e74daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute force applied on the body origin in the body frame.  <a href="#a6398e78eaa1ba8d9bf1b341aa7e74daa">More...</a><br /></td></tr>
-<tr class="separator:a6398e78eaa1ba8d9bf1b341aa7e74daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78d5b1ee13e42f26189d72d328b07787"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a78d5b1ee13e42f26189d72d328b07787">nrLambda</a> (int point) const </td></tr>
-<tr class="separator:a78d5b1ee13e42f26189d72d328b07787"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75334a2ac91f3ad7925e17ff205f22e2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a75334a2ac91f3ad7925e17ff205f22e2">nrLambda</a> () const </td></tr>
-<tr class="separator:a75334a2ac91f3ad7925e17ff205f22e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77da1185b91a982df94c1338900bc061"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a77da1185b91a982df94c1338900bc061">sForce</a> (const Eigen::VectorXd &amp;lambda, int point, const <a class="el" href="a00029.html">FrictionCone</a> &amp;c) const </td></tr>
-<tr class="memdesc:a77da1185b91a982df94c1338900bc061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe version of.  <a href="#a77da1185b91a982df94c1338900bc061">More...</a><br /></td></tr>
-<tr class="separator:a77da1185b91a982df94c1338900bc061"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a379b7a117e0757ad522014bcf7f08ecc"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a379b7a117e0757ad522014bcf7f08ecc">sForce</a> (const Eigen::VectorXd &amp;lambda, const <a class="el" href="a00029.html">FrictionCone</a> &amp;c) const </td></tr>
-<tr class="memdesc:a379b7a117e0757ad522014bcf7f08ecc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe version of.  <a href="#a379b7a117e0757ad522014bcf7f08ecc">More...</a><br /></td></tr>
-<tr class="separator:a379b7a117e0757ad522014bcf7f08ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b711a4edce541a7a1e937358885a7d4"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a0b711a4edce541a7a1e937358885a7d4">sForce</a> (const Eigen::VectorXd &amp;lambda, const std::vector&lt; Eigen::Vector3d &gt; &amp;r_b_pi, const <a class="el" href="a00029.html">FrictionCone</a> &amp;c_pi_b) const </td></tr>
-<tr class="memdesc:a0b711a4edce541a7a1e937358885a7d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe version of.  <a href="#a0b711a4edce541a7a1e937358885a7d4">More...</a><br /></td></tr>
-<tr class="separator:a0b711a4edce541a7a1e937358885a7d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f4c62291fae2b2749e296694ce99edf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a5f4c62291fae2b2749e296694ce99edf">sNrLambda</a> (int point) const </td></tr>
-<tr class="memdesc:a5f4c62291fae2b2749e296694ce99edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Safe version of.  <a href="#a5f4c62291fae2b2749e296694ce99edf">More...</a><br /></td></tr>
-<tr class="separator:a5f4c62291fae2b2749e296694ce99edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a480794408729e99dea19ae53fa51fa2a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a480794408729e99dea19ae53fa51fa2a">TransformTaskCommon</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;<a class="el" href="a00094.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a>)</td></tr>
+<tr class="separator:a480794408729e99dea19ae53fa51fa2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075f661f10fb49cfaed9a2694b6763d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a075f661f10fb49cfaed9a2694b6763d3">target</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_0_t)</td></tr>
+<tr class="separator:a075f661f10fb49cfaed9a2694b6763d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e9dd2e3323360f57b68f4eeffd4d82"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#af6e9dd2e3323360f57b68f4eeffd4d82">target</a> () const </td></tr>
+<tr class="separator:af6e9dd2e3323360f57b68f4eeffd4d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c6b4586c641fa3a22ce68ebe9f76d36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_p)</td></tr>
+<tr class="separator:a9c6b4586c641fa3a22ce68ebe9f76d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93729929225dc9cd1f7c32a2f423a103"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a93729929225dc9cd1f7c32a2f423a103">X_b_p</a> () const </td></tr>
+<tr class="separator:a93729929225dc9cd1f7c32a2f423a103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e3dcc7755bff2e7277f2e79a6f3a37d"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a5e3dcc7755bff2e7277f2e79a6f3a37d">eval</a> () const </td></tr>
+<tr class="separator:a5e3dcc7755bff2e7277f2e79a6f3a37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01e89269648b1c796264e041d803b965"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a01e89269648b1c796264e041d803b965">speed</a> () const </td></tr>
+<tr class="separator:a01e89269648b1c796264e041d803b965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33694c4067e14376d6fd9e6eb8a4781"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#af33694c4067e14376d6fd9e6eb8a4781">normalAcc</a> () const </td></tr>
+<tr class="separator:af33694c4067e14376d6fd9e6eb8a4781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06c61480fcf0dd74ea8489fa945dd797"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a06c61480fcf0dd74ea8489fa945dd797">jac</a> () const </td></tr>
+<tr class="separator:a06c61480fcf0dd74ea8489fa945dd797"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a270f82eb683458249b864a73d3464021"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00022.html">ContactId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a270f82eb683458249b864a73d3464021">contactId</a></td></tr>
-<tr class="separator:a270f82eb683458249b864a73d3464021"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7e3cbf6139f5f5b34dc5cc36e7ee9c5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Vector3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#af7e3cbf6139f5f5b34dc5cc36e7ee9c5">r1Points</a></td></tr>
-<tr class="separator:af7e3cbf6139f5f5b34dc5cc36e7ee9c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ffa099f15791cc4efddb0f2bcea16b0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Vector3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a3ffa099f15791cc4efddb0f2bcea16b0">r2Points</a></td></tr>
-<tr class="separator:a3ffa099f15791cc4efddb0f2bcea16b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e166b10c87bccb10ff5b22559171623"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00029.html">FrictionCone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a3e166b10c87bccb10ff5b22559171623">r1Cone</a></td></tr>
-<tr class="separator:a3e166b10c87bccb10ff5b22559171623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73df9714f72365e74a0682317107b646"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00029.html">FrictionCone</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a73df9714f72365e74a0682317107b646">r2Cone</a></td></tr>
-<tr class="separator:a73df9714f72365e74a0682317107b646"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71abdba5f0d1df7cc91636b4385ee6e8"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a71abdba5f0d1df7cc91636b4385ee6e8">X_b1_b2</a></td></tr>
-<tr class="separator:a71abdba5f0d1df7cc91636b4385ee6e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5">X_b1_cf</a></td></tr>
-<tr class="separator:aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a65b337e6e48ec7e93b8137364374752f"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a65b337e6e48ec7e93b8137364374752f">X_0_t_</a></td></tr>
+<tr class="separator:a65b337e6e48ec7e93b8137364374752f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c5c7d4e3e282c76d28c09563e6650d"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#af3c5c7d4e3e282c76d28c09563e6650d">X_b_p_</a></td></tr>
+<tr class="separator:af3c5c7d4e3e282c76d28c09563e6650d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a298e38439bbefa80e02f53ffbda17771"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a298e38439bbefa80e02f53ffbda17771">bodyIndex_</a></td></tr>
+<tr class="separator:a298e38439bbefa80e02f53ffbda17771"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd5ce12eb9762527a8d6933b1b23e90"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00015.html">rbd::Jacobian</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a5dd5ce12eb9762527a8d6933b1b23e90">jac_</a></td></tr>
+<tr class="separator:a5dd5ce12eb9762527a8d6933b1b23e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f71e9037d4cd93cc297e0c0b54c0d9c"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a1f71e9037d4cd93cc297e0c0b54c0d9c">eval_</a></td></tr>
+<tr class="separator:a1f71e9037d4cd93cc297e0c0b54c0d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9faadfe66b2d0903cc393756277abe2"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#aa9faadfe66b2d0903cc393756277abe2">speed_</a></td></tr>
+<tr class="separator:aa9faadfe66b2d0903cc393756277abe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81993fa44af379d32b94a6c3388390af"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#a81993fa44af379d32b94a6c3388390af">normalAcc_</a></td></tr>
+<tr class="separator:a81993fa44af379d32b94a6c3388390af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6fc32df4b5ed9cf52e94a95db598708"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00094.html#ae6fc32df4b5ed9cf52e94a95db598708">jacMat_</a></td></tr>
+<tr class="separator:ae6fc32df4b5ed9cf52e94a95db598708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Model of a planar contacts. </p>
-<p>All friction cone are in the same direction. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a0f7a6e457279bef9aa1113d13b8a8b56"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a480794408729e99dea19ae53fa51fa2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::TransformTaskCommon::TransformTaskCommon </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_0_t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_b_p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5e3dcc7755bff2e7277f2e79a6f3a37d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::TransformTaskCommon::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a06c61480fcf0dd74ea8489fa945dd797"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::TransformTaskCommon::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af33694c4067e14376d6fd9e6eb8a4781"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::TransformTaskCommon::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a01e89269648b1c796264e041d803b965"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::TransformTaskCommon::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a075f661f10fb49cfaed9a2694b6763d3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::TransformTaskCommon::target </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_0_t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="af6e9dd2e3323360f57b68f4eeffd4d82"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&amp; tasks::TransformTaskCommon::target </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a9c6b4586c641fa3a22ce68ebe9f76d36"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::TransformTaskCommon::X_b_p </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_b_p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a93729929225dc9cd1f7c32a2f423a103"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&amp; tasks::TransformTaskCommon::X_b_p </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a298e38439bbefa80e02f53ffbda17771"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -174,641 +329,154 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::UnilateralContact::UnilateralContact </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="memname">int tasks::TransformTaskCommon::bodyIndex_</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>References <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransform&lt; T &gt;::Identity()</a>.</p>
-
 </div>
 </div>
-<a class="anchor" id="a4975439de18ef4c88fc9c491f6e5164f"></a>
+<a class="anchor" id="a1f71e9037d4cd93cc297e0c0b54c0d9c"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::UnilateralContact::UnilateralContact </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r1Index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r2Index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>r1BodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>r2BodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; Eigen::Vector3d &gt;&#160;</td>
-          <td class="paramname"><em>r1Points</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
-          <td class="paramname"><em>r1Frame</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b1_b2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>mu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b1_cf</em> = <code><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="memname">Eigen::VectorXd tasks::TransformTaskCommon::eval_</td>
         </tr>
       </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r1Index</td><td>First robot imply in the contact. </td></tr>
-    <tr><td class="paramname">r2Index</td><td>Second robot imply in the contact. </td></tr>
-    <tr><td class="paramname">r1BodyName</td><td>Body name of robot r1Index imply in the contact. </td></tr>
-    <tr><td class="paramname">r2BodyName</td><td>Body name of robot r2Index imply in the contact. </td></tr>
-    <tr><td class="paramname">r1Points</td><td>Contact points in r1BodyId frame. </td></tr>
-    <tr><td class="paramname">r1Frame</td><td>Friction cone frame in rbBodyId frame. </td></tr>
-    <tr><td class="paramname">X_b1_b2</td><td>Transformation between r1BodyId and r2BodyId frame. </td></tr>
-    <tr><td class="paramname">nrGen</td><td>Number of generatrix. </td></tr>
-    <tr><td class="paramname">mu</td><td>Coefficient of friction. </td></tr>
-    <tr><td class="paramname">X_b1_cf</td><td>Define the \( cf \) frame (common frame) used in the contact constraints. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00019.html#ac5123de1300b7ecb492a82bdf4ff598a" title="Free some degree of freedom of a contact like in the BoundedSpeedConstr. ">ContactConstrCommon::addDofContact</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7d67ff07f42cac5b82fb035f99788afc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::qp::UnilateralContact::UnilateralContact </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r1Index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r2Index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>r1BodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>r2BodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>ambId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; Eigen::Vector3d &gt;&#160;</td>
-          <td class="paramname"><em>r1Points</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
-          <td class="paramname"><em>r1Frame</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b1_b2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>mu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b1_cf</em> = <code><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r1Index</td><td>First robot imply in the contact. </td></tr>
-    <tr><td class="paramname">r2Index</td><td>Second robot imply in the contact. </td></tr>
-    <tr><td class="paramname">r1BodyName</td><td>Body name of robot r1Index imply in the contact. </td></tr>
-    <tr><td class="paramname">r2BodyName</td><td>Body name of robot r2Index imply in the contact. </td></tr>
-    <tr><td class="paramname">ambId</td><td>ambiguityId. </td></tr>
-    <tr><td class="paramname">r1Points</td><td>Contact points in r1BodyId frame. </td></tr>
-    <tr><td class="paramname">r1Frame</td><td>Friction cone frame in rbBodyId frame. </td></tr>
-    <tr><td class="paramname">X_b1_b2</td><td>Transformation between r1BodyId and r2BodyId frame. </td></tr>
-    <tr><td class="paramname">nrGen</td><td>Number of generatrix. </td></tr>
-    <tr><td class="paramname">mu</td><td>Coefficient of friction. </td></tr>
-    <tr><td class="paramname">X_b1_cf</td><td>Define the \( cf \) frame (common frame) used in the contact constraints. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00019.html#ac5123de1300b7ecb492a82bdf4ff598a" title="Free some degree of freedom of a contact like in the BoundedSpeedConstr. ">ContactConstrCommon::addDofContact</a> </dd>
-<dd>
-<a class="el" href="a00022.html#aa7e0d2976319c9a3c7600c18d322090b">ContactId::ContactId</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a15966f21610db65d96b0cdb2153e8f9c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">tasks::qp::UnilateralContact::UnilateralContact </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00022.html">ContactId</a> &amp;&#160;</td>
-          <td class="paramname"><em>cId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; Eigen::Vector3d &gt;&#160;</td>
-          <td class="paramname"><em>r1Points</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
-          <td class="paramname"><em>r1Frame</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b1_b2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nrGen</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>mu</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
-          <td class="paramname"><em>X_b1_cf</em> = <code><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cId</td><td>Contact id. </td></tr>
-    <tr><td class="paramname">r1Points</td><td>Contact points in r1BodyId frame. </td></tr>
-    <tr><td class="paramname">r1Frame</td><td>Friction cone frame in rbBodyId frame. </td></tr>
-    <tr><td class="paramname">X_b1_b2</td><td>Transformation between r1BodyId and r2BodyId frame. </td></tr>
-    <tr><td class="paramname">nrGen</td><td>Number of generatrix. </td></tr>
-    <tr><td class="paramname">mu</td><td>Coefficient of friction. </td></tr>
-    <tr><td class="paramname">X_b1_cf</td><td>Define the \( cf \) frame (common frame) used in the contact constraints. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00019.html#ac5123de1300b7ecb492a82bdf4ff598a" title="Free some degree of freedom of a contact like in the BoundedSpeedConstr. ">ContactConstrCommon::addDofContact</a> </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a78f7db8af64a7190f225b73ec0c024c0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Eigen::Vector3d tasks::qp::UnilateralContact::force </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00029.html">FrictionCone</a> &amp;&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Cone c, point p force vector in body coordinate. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae289cf9828301b6f5463cab64ec87afb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Eigen::Vector3d tasks::qp::UnilateralContact::force </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00029.html">FrictionCone</a> &amp;&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Cone c, force vector in body coordinate. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a6398e78eaa1ba8d9bf1b341aa7e74daa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> tasks::qp::UnilateralContact::force </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; Eigen::Vector3d &gt; &amp;&#160;</td>
-          <td class="paramname"><em>r_b_pi</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00029.html">FrictionCone</a> &amp;&#160;</td>
-          <td class="paramname"><em>c_pi_b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Compute force applied on the body origin in the body frame. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lambda</td><td>Linearized contact forces. </td></tr>
-    <tr><td class="paramname">r_b_pi</td><td>List of transformation r_b_pi (body origin to point i). </td></tr>
-    <tr><td class="paramname">c_pi_b</td><td>Friction cone associated with each point in body frame. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>F_b, the 6D force applied on the body origin at the body frame. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a78d5b1ee13e42f26189d72d328b07787"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int tasks::qp::UnilateralContact::nrLambda </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>point</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Number of lambda needed to compute the force vector of the contact point. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a75334a2ac91f3ad7925e17ff205f22e2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int tasks::qp::UnilateralContact::nrLambda </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Number of lambda needed to compute the force vector. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a77da1185b91a982df94c1338900bc061"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Eigen::Vector3d tasks::qp::UnilateralContact::sForce </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>point</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00029.html">FrictionCone</a> &amp;&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe version of. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00094.html#a78f7db8af64a7190f225b73ec0c024c0">force</a>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::domain_error</td><td>If lambda don't match the number of generator or if point is not a valid index. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a379b7a117e0757ad522014bcf7f08ecc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Eigen::Vector3d tasks::qp::UnilateralContact::sForce </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00029.html">FrictionCone</a> &amp;&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe version of. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00094.html#a78f7db8af64a7190f225b73ec0c024c0">force</a>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::domain_error</td><td>If lambda don't match the number of generator. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a0b711a4edce541a7a1e937358885a7d4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> tasks::qp::UnilateralContact::sForce </td>
-          <td>(</td>
-          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
-          <td class="paramname"><em>lambda</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; Eigen::Vector3d &gt; &amp;&#160;</td>
-          <td class="paramname"><em>r_b_pi</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="a00029.html">FrictionCone</a> &amp;&#160;</td>
-          <td class="paramname"><em>c_pi_b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe version of. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00094.html#a78f7db8af64a7190f225b73ec0c024c0">force</a>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::domain_error</td><td>If lambda don't match the number of generator. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a5f4c62291fae2b2749e296694ce99edf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int tasks::qp::UnilateralContact::sNrLambda </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>point</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Safe version of. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="a00094.html#a78d5b1ee13e42f26189d72d328b07787">nrLambda</a>. </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::domain_error</td><td>If point is not a valid index. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a270f82eb683458249b864a73d3464021"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00022.html">ContactId</a> tasks::qp::UnilateralContact::contactId</td>
-        </tr>
-      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a3e166b10c87bccb10ff5b22559171623"></a>
+<a class="anchor" id="a5dd5ce12eb9762527a8d6933b1b23e90"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00029.html">FrictionCone</a> tasks::qp::UnilateralContact::r1Cone</td>
+          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00015.html">rbd::Jacobian</a> tasks::TransformTaskCommon::jac_</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="af7e3cbf6139f5f5b34dc5cc36e7ee9c5"></a>
+<a class="anchor" id="ae6fc32df4b5ed9cf52e94a95db598708"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;Eigen::Vector3d&gt; tasks::qp::UnilateralContact::r1Points</td>
+          <td class="memname">Eigen::MatrixXd tasks::TransformTaskCommon::jacMat_</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a73df9714f72365e74a0682317107b646"></a>
+<a class="anchor" id="a81993fa44af379d32b94a6c3388390af"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00029.html">FrictionCone</a> tasks::qp::UnilateralContact::r2Cone</td>
+          <td class="memname">Eigen::VectorXd tasks::TransformTaskCommon::normalAcc_</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a3ffa099f15791cc4efddb0f2bcea16b0"></a>
+<a class="anchor" id="aa9faadfe66b2d0903cc393756277abe2"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;Eigen::Vector3d&gt; tasks::qp::UnilateralContact::r2Points</td>
+          <td class="memname">Eigen::VectorXd tasks::TransformTaskCommon::speed_</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a71abdba5f0d1df7cc91636b4385ee6e8"></a>
+<a class="anchor" id="a65b337e6e48ec7e93b8137364374752f"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> tasks::qp::UnilateralContact::X_b1_b2</td>
+          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> tasks::TransformTaskCommon::X_0_t_</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5"></a>
+<a class="anchor" id="af3c5c7d4e3e282c76d28c09563e6650d"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> tasks::qp::UnilateralContact::X_b1_cf</td>
+          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> tasks::TransformTaskCommon::X_b_p_</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -819,8 +487,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00115.html">qp</a></li><li class="navelem"><a class="el" href="a00094.html">UnilateralContact</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00094.html">TransformTaskCommon</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

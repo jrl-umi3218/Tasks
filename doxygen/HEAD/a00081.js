@@ -1,16 +1,15 @@
 var a00081 =
 [
-    [ "SurfaceOrientationTask", "a00081.html#acc4cabcbaaef984c547bf06bfd0ecf11", null ],
-    [ "SurfaceOrientationTask", "a00081.html#adc8e70a684132754e18195c2c878e61a", null ],
-    [ "eval", "a00081.html#a1312ba367db9200c56bf4194e6252e6f", null ],
-    [ "jac", "a00081.html#a72397355a64a09bc1d685517d362a361", null ],
-    [ "jacDot", "a00081.html#a93bcd6e89549ea224cd197c3568737ba", null ],
-    [ "normalAcc", "a00081.html#a1074ca01564dea7c487280311b66f4d3", null ],
-    [ "orientation", "a00081.html#a96b6c6298e5e267d78049f479c4dae75", null ],
-    [ "orientation", "a00081.html#abdc29c495fda3699fbd6e9698d315be2", null ],
-    [ "orientation", "a00081.html#a9fd619a08d1ab7def8f566f1ee803067", null ],
-    [ "speed", "a00081.html#a646bf7bc2928ec461ffc33733252c86b", null ],
-    [ "update", "a00081.html#abbb14c2ef47665eefc63c560a5597859", null ],
-    [ "update", "a00081.html#a79111bb3e3d585fb4dba52b9078ca68d", null ],
-    [ "updateDot", "a00081.html#a677f46baeb823dcfb9e2a9789145c059", null ]
+    [ "SurfaceOrientationTask", "a00081.html#a7e42a72cae5786c4c40ecab3441c3b54", null ],
+    [ "SurfaceOrientationTask", "a00081.html#a46c468d42d70acc880049ea545ebc2c6", null ],
+    [ "dim", "a00081.html#a201664b6468b79706ea3f5e626833bd4", null ],
+    [ "eval", "a00081.html#aff1a3f7c66110cfe1d54dccd4b69da2c", null ],
+    [ "jac", "a00081.html#a5d24b7b7e1916d545cd843ccd8405bdb", null ],
+    [ "normalAcc", "a00081.html#aad097c8d593df68d4f9e575f92f5af64", null ],
+    [ "orientation", "a00081.html#a692bf859d8491cdfafe89ed4a76d243e", null ],
+    [ "orientation", "a00081.html#ab8e5a867717a9883a655016c5f1c8ad0", null ],
+    [ "orientation", "a00081.html#a91983f77166a984f342b10c03074e4d4", null ],
+    [ "speed", "a00081.html#ab6eed915cd6046c49696d38dc067c5ef", null ],
+    [ "task", "a00081.html#aa5c981c373f19f76bd23e5c2fcff8cbb", null ],
+    [ "update", "a00081.html#aae99577a0b419e49c469e77c293b1bc2", null ]
 ];

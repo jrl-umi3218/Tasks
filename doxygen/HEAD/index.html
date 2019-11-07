@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Main Page</title>
+<title>Tasks</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -90,16 +90,76 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Tasks Documentation</div>  </div>
+<div class="title">Tasks </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p><a href="https://opensource.org/licenses/BSD-2-Clause"></a> <a href="https://travis-ci.org/jrl-umi3218/Tasks"></a> <a href="https://ci.appveyor.com/project/gergondet/tasks/branch/master"></a> <a href="https://bintray.com/gergondet/multi-contact/Tasks%3Agergondet/_latestVersion"></a> <a href="http://jrl-umi3218.github.io/Tasks/doxygen/HEAD/index.html"></a></p>
+<p>Tasks is library for real time control of robots and kinematic trees using constrained optimization. It has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.</p>
+<h2>Documentation </h2>
+<p>Features:</p><ul>
+<li>Support Kinematics Tree with Revolute/Prismatic/Spherical/Free/Planar/Cylindrical joints</li>
+<li>Dynamic motion (motion must fulfill the equation of motion)</li>
+<li>Contact forces in friction cones</li>
+<li>Static contacts</li>
+<li>Articular position, speed and torque limits</li>
+<li>Collision avoidance</li>
+<li>Multi-robot contact (can solve problems involving multiple robots in contact)</li>
+<li>Tasks:<ul>
+<li>Posture target (articular position target, mandatory if you want avoid singularity issues)</li>
+<li>Link Position/Orientation target</li>
+<li>Link Velocity target</li>
+<li>Center of Mass (CoM) target</li>
+<li>Momentum target</li>
+<li>Contact force target</li>
+</ul>
+</li>
+</ul>
+<p>To make sure that Tasks works as intended, unit tests are available for each algorithm.</p>
+<p>The <a href="https://github.com/jorisv/sva_rbdyn_tutorials">SpaceVecAlg and RBDyn tutorial</a> is also a big resources to understand how to use Tasks by providing a lot of IPython Notebook that will present real use case.</p>
+<p>An online documentation can be found <a href="https://jrl-umi3218.github.io/Tasks">online</a>.</p>
+<h2>Installing </h2>
+<h2>Ubuntu LITS (14.04, 16.04, 18.04): PPA</h2>
+<p>Use the <a href="https://launchpad.net/~pierre-gergondet+ppa/+archive/ubuntu/multi-contact-unstable">multi-contact-unstable</a> ppa: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;sudo add-apt-repository ppa:pierre-gergondet+ppa/multi-contact-unstable</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;sudo apt-get update</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;sudo apt-get install libtasks-dev libtasks-qld-doc python-tasks-qld python3-tasks-qld</div></div><!-- fragment --><h2>Homebrew OS X install</h2>
+<p>Install from the command line using <a href="brew.sh">Homebrew</a>:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;# install homebrew package manager</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;# install caskroom application manager</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;brew install caskroom/cask/brew-cask</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;# tap homebrew-science package repository</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;brew tap homebrew/science</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;# tap ahundt-robotics repository</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;brew tap ahundt/robotics</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;# install tasks and all its dependencies</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;brew install tasks</div></div><!-- fragment --><h2>Manually build from source</h2>
+<h3>Dependencies</h3>
+<p>To compile you need the following tools and libraries:</p>
+<ul>
+<li>[Git]()</li>
+<li>[CMake]() &gt;= 2.8</li>
+<li>[pkg-config]()</li>
+<li>[doxygen]()</li>
+<li>[g++]() &gt;= 4.7 (for C++11 support)</li>
+<li><a href="http://www.boost.org/doc/libs/1_58_0/more/getting_started/unix-variants.html">Boost</a> &gt;= 1.49</li>
+<li><a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> &gt;= 3.2</li>
+<li><a href="https://github.com/jrl-umi3218/SpaceVecAlg">SpaceVecAlg</a></li>
+<li><a href="https://github.com/jrl-umi3218/RBDyn">RBDyn</a></li>
+<li><a href="https://github.com/jrl-umi3218/eigen-qld">eigen-qld</a></li>
+<li>[eigen-lssol]() (Optional, if you have the LSSOL licence ask us this library)</li>
+<li><a href="https://github.com/jrl-umi3218/sch-core">sch-core</a></li>
+</ul>
+<p>For Python bindings:</p><ul>
+<li><a href="http://cython.org/">Cython</a> &gt;= 0.2</li>
+<li><a href="https://github.com/jrl-umi3218/Eigen3ToPython">Eigen3ToPython</a></li>
+<li><a href="https://github.com/jrl-umi3218/sch-core-python">sch-core-python</a></li>
+</ul>
+<h3>Building</h3>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;git clone --recursive https://github.com/jrl-umi3218/Tasks</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd Tasks</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;mkdir _build</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;cd _build</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;cmake [options] ..</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;make &amp;&amp; make intall</div></div><!-- fragment --><h4>CMake options</h4>
+<p>By default, the build will use the <code>python</code> and <code>pip</code> command to install the bindings for the default system version (this behaviour can be used to build the bindings in a given virtualenv). The following options allow to control this behaviour:</p>
+<ul>
+<li><code>PYTHON_BINDING</code> Build the python binding (ON/OFF, default: ON)</li>
+<li><code>PYTHON_BINDING_FORCE_PYTHON2</code>: use <code>python2</code> and <code>pip2</code> instead of <code>python</code> and <code>pip</code></li>
+<li><code>PYTHON_BINDING_FORCE_PYTHON3</code>: use <code>python3</code> and <code>pip3</code> instead of <code>python</code> and <code>pip</code></li>
+<li><code>PYTHON_BINDING_BUILD_PYTHON2_AND_PYTHON3</code>: builds two sets of bindings one with <code>python2</code> and <code>pip2</code>, the other with <code>python3</code> and <code>pip3</code></li>
+<li><code>BUILD_TESTING</code> Enable unit tests building (ON/OFF, default: ON) </li>
+</ul>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

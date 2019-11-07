@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::qp::ContactId Struct Reference</title>
+<title>tasks::qp::ContactConstr::ContactData Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -100,94 +100,85 @@ $(document).ready(function(){initNavTree('a00022.html','');});
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00154.html">List of all members</a>  </div>
+<a href="a00152.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::ContactId Struct Reference</div>  </div>
+<div class="title">tasks::qp::ContactConstr::ContactData Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Unique identifier for a contact.  
- <a href="a00022.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/QPContacts.h&gt;</code></p>
+<p><code>#include &lt;Tasks/QPContactConstr.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa7e0d2976319c9a3c7600c18d322090b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#aa7e0d2976319c9a3c7600c18d322090b">ContactId</a> ()</td></tr>
-<tr class="separator:aa7e0d2976319c9a3c7600c18d322090b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83b93d52de3ea6d4d0d4b370f126ae50"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a83b93d52de3ea6d4d0d4b370f126ae50">ContactId</a> (int <a class="el" href="a00022.html#aa0f853c4f1786b8a23a0252dcbf2678a">r1Index</a>, int <a class="el" href="a00022.html#a58515743f8024e51dc07e65a3f0447d6">r2Index</a>, const std::string &amp;<a class="el" href="a00022.html#a47acc85ec19a848ec185d379dbd7c9ea">r1BodyName</a>, const std::string &amp;<a class="el" href="a00022.html#aec152e04a89289523099fd8ebe816e8c">r2BodyName</a>, int <a class="el" href="a00022.html#a7777bc784fa6025d8f024e89f01193ca">ambiguityId</a>=-1)</td></tr>
-<tr class="separator:a83b93d52de3ea6d4d0d4b370f126ae50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc72a4179b93a84f48975acaa127257b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#acc72a4179b93a84f48975acaa127257b">operator==</a> (const <a class="el" href="a00022.html">ContactId</a> &amp;cId) const </td></tr>
-<tr class="separator:acc72a4179b93a84f48975acaa127257b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f97aa2de47daa307478b84c8e045d11"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a3f97aa2de47daa307478b84c8e045d11">operator!=</a> (const <a class="el" href="a00022.html">ContactId</a> &amp;cId) const </td></tr>
-<tr class="separator:a3f97aa2de47daa307478b84c8e045d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6df70365734228f2c4cc61f633bfda16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a6df70365734228f2c4cc61f633bfda16">operator&lt;</a> (const <a class="el" href="a00022.html">ContactId</a> &amp;cId) const </td></tr>
-<tr class="separator:a6df70365734228f2c4cc61f633bfda16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ab1f7d913208fd934bf01bd7cffa8c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a3ab1f7d913208fd934bf01bd7cffa8c5">ContactData</a> (std::vector&lt; <a class="el" href="a00025.html">ContactSideData</a> &gt; csds, const Eigen::MatrixXd &amp;d, int b1, int b2, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_bb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_bcf, const <a class="el" href="a00023.html">ContactId</a> &amp;cId)</td></tr>
+<tr class="separator:a3ab1f7d913208fd934bf01bd7cffa8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aa0f853c4f1786b8a23a0252dcbf2678a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#aa0f853c4f1786b8a23a0252dcbf2678a">r1Index</a></td></tr>
-<tr class="separator:aa0f853c4f1786b8a23a0252dcbf2678a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58515743f8024e51dc07e65a3f0447d6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a58515743f8024e51dc07e65a3f0447d6">r2Index</a></td></tr>
-<tr class="separator:a58515743f8024e51dc07e65a3f0447d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47acc85ec19a848ec185d379dbd7c9ea"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a47acc85ec19a848ec185d379dbd7c9ea">r1BodyName</a></td></tr>
-<tr class="separator:a47acc85ec19a848ec185d379dbd7c9ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec152e04a89289523099fd8ebe816e8c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#aec152e04a89289523099fd8ebe816e8c">r2BodyName</a></td></tr>
-<tr class="separator:aec152e04a89289523099fd8ebe816e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7777bc784fa6025d8f024e89f01193ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a7777bc784fa6025d8f024e89f01193ca">ambiguityId</a></td></tr>
-<tr class="separator:a7777bc784fa6025d8f024e89f01193ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eaacc04f628b6ef37f84e711153da3e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="a00025.html">ContactSideData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a8eaacc04f628b6ef37f84e711153da3e">contacts</a></td></tr>
+<tr class="separator:a8eaacc04f628b6ef37f84e711153da3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d025b4a9ad0dc05a96b571d42fedb29"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a4d025b4a9ad0dc05a96b571d42fedb29">dof</a></td></tr>
+<tr class="separator:a4d025b4a9ad0dc05a96b571d42fedb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a060e74dde561d3e2b2b744c7e413b4bb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a060e74dde561d3e2b2b744c7e413b4bb">b1Index</a></td></tr>
+<tr class="separator:a060e74dde561d3e2b2b744c7e413b4bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b7a1d42371e09c6453d6fc09b29a395"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a5b7a1d42371e09c6453d6fc09b29a395">b2Index</a></td></tr>
+<tr class="separator:a5b7a1d42371e09c6453d6fc09b29a395"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa20a55cc3a2d0ee4726aea8d0e20af4"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#afa20a55cc3a2d0ee4726aea8d0e20af4">X_b1_b2</a></td></tr>
+<tr class="separator:afa20a55cc3a2d0ee4726aea8d0e20af4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6ce54631e347b5845b6bb24cc206a9"><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#aec6ce54631e347b5845b6bb24cc206a9">X_b1_cf</a></td></tr>
+<tr class="separator:aec6ce54631e347b5845b6bb24cc206a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73463d49bc2a0f6e8e08b17c465278d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00023.html">ContactId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00022.html#a73463d49bc2a0f6e8e08b17c465278d9">contactId</a></td></tr>
+<tr class="separator:a73463d49bc2a0f6e8e08b17c465278d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Unique identifier for a contact. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa7e0d2976319c9a3c7600c18d322090b"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a3ab1f7d913208fd934bf01bd7cffa8c5"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::ContactId::ContactId </td>
+          <td class="memname">tasks::qp::ContactConstr::ContactData::ContactData </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="a00025.html">ContactSideData</a> &gt;&#160;</td>
+          <td class="paramname"><em>csds</em>, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a83b93d52de3ea6d4d0d4b370f126ae50"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">tasks::qp::ContactId::ContactId </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r1Index</em>, </td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>r2Index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>r1BodyName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>r2BodyName</em>, </td>
+          <td class="paramname"><em>b1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>ambiguityId</em> = <code>-1</code>&#160;</td>
+          <td class="paramname"><em>b2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_bb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_bcf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a00023.html">ContactId</a> &amp;&#160;</td>
+          <td class="paramname"><em>cId</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -195,124 +186,94 @@ Public Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">r1Index</td><td>First robot imply in the contact. </td></tr>
-    <tr><td class="paramname">r2Index</td><td>Second robot imply in the contact. </td></tr>
-    <tr><td class="paramname">r1BodyName</td><td>Body name of robot r1Index imply in the contact. </td></tr>
-    <tr><td class="paramname">r2BodyName</td><td>Body name of robot r2Index imply in the contact. </td></tr>
-    <tr><td class="paramname">ambiguityId</td><td>If two or more contacts have the same r1Index, r2Index, r1BodyId, r2BodyId the ambiguityId is used to dissociate them. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3f97aa2de47daa307478b84c8e045d11"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool tasks::qp::ContactId::operator!= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00022.html">ContactId</a> &amp;&#160;</td>
-          <td class="paramname"><em>cId</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a6df70365734228f2c4cc61f633bfda16"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool tasks::qp::ContactId::operator&lt; </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00022.html">ContactId</a> &amp;&#160;</td>
-          <td class="paramname"><em>cId</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="acc72a4179b93a84f48975acaa127257b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool tasks::qp::ContactId::operator== </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="a00022.html">ContactId</a> &amp;&#160;</td>
-          <td class="paramname"><em>cId</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a7777bc784fa6025d8f024e89f01193ca"></a>
+<a class="anchor" id="a060e74dde561d3e2b2b744c7e413b4bb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int tasks::qp::ContactId::ambiguityId</td>
+          <td class="memname">int tasks::qp::ContactConstr::ContactData::b1Index</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a47acc85ec19a848ec185d379dbd7c9ea"></a>
+<a class="anchor" id="a5b7a1d42371e09c6453d6fc09b29a395"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string tasks::qp::ContactId::r1BodyName</td>
+          <td class="memname">int tasks::qp::ContactConstr::ContactData::b2Index</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aa0f853c4f1786b8a23a0252dcbf2678a"></a>
+<a class="anchor" id="a73463d49bc2a0f6e8e08b17c465278d9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int tasks::qp::ContactId::r1Index</td>
+          <td class="memname"><a class="el" href="a00023.html">ContactId</a> tasks::qp::ContactConstr::ContactData::contactId</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="aec152e04a89289523099fd8ebe816e8c"></a>
+<a class="anchor" id="a8eaacc04f628b6ef37f84e711153da3e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string tasks::qp::ContactId::r2BodyName</td>
+          <td class="memname">std::vector&lt;<a class="el" href="a00025.html">ContactSideData</a>&gt; tasks::qp::ContactConstr::ContactData::contacts</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a58515743f8024e51dc07e65a3f0447d6"></a>
+<a class="anchor" id="a4d025b4a9ad0dc05a96b571d42fedb29"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int tasks::qp::ContactId::r2Index</td>
+          <td class="memname">Eigen::MatrixXd tasks::qp::ContactConstr::ContactData::dof</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="afa20a55cc3a2d0ee4726aea8d0e20af4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> tasks::qp::ContactConstr::ContactData::X_b1_b2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aec6ce54631e347b5845b6bb24cc206a9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> tasks::qp::ContactConstr::ContactData::X_b1_cf</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -325,8 +286,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00115.html">qp</a></li><li class="navelem"><a class="el" href="a00022.html">ContactId</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00019.html">ContactConstr</a></li><li class="navelem"><a class="el" href="a00022.html">ContactData</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

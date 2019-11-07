@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00035.html','');});
+$(document).ready(function(){initNavTree('a00034.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,29 +98,31 @@ $(document).ready(function(){initNavTree('a00035.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::GripperTorqueTask Member List</div>  </div>
+<div class="title">tasks::qp::GenQPSolver Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00034.html">tasks::qp::GenQPSolver</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00035.html#a6b50d096faeecd89b8f5bf3cd3b50a7e">begin</a>() const override</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00035.html#a8a73fe2849753f704d56f4c25fa4b2cd">C</a>() const override</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00035.html#abd65c8e12ea38c8ca91a0caa344166f0">GripperTorqueTask</a>(ContactId contactId, const Eigen::Vector3d &amp;origin, const Eigen::Vector3d &amp;axis, double weight)</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00035.html#aa09896a257cc3fd8493649c24cd9c16b">Q</a>() const override</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00085.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00035.html#aa676ad46571e3eef31643d510a609906">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00035.html#abdf08c1a2db0a554763ee6bea6769e5c">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00035.html">tasks::qp::GripperTorqueTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00085.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>() const </td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00085.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00085.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a00085.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00034.html#ad8ee5e4fad141ae5f5e8b73e3842e847">default_qp_solver</a></td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00034.html#aab010e6097d3344cc671ecd6b8e2a120">dependencies_</a></td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00034.html#a54b51f336322baaca38f31c9b0f5df98">errorMsg</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr, std::ostream &amp;out) const =0</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00034.html#ad497fb681272aef64e78c7b3a775bfbf">fullToReduced_</a></td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00034.html#aec603fc65e65ca4f3c38f94e50ed6790">name</a>() const =0</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00034.html#a7db3d83a10b1e0c60541ff1b0b226edd">reducedToFull_</a></td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00034.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e">result</a>() const =0</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00034.html#abb590ac28fb2fa760304d276fd59e20c">setDependencies</a>(int nrVars, std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; dependencies)</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00034.html#afb9f3d99281925cd65cf1f9b29ce89ac">solve</a>()=0</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00034.html#a7c72a60336439e940e2976d327dd98dd">updateMatrix</a>(const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr)=0</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00034.html#aaf305726925f3693e24dd82b473817e3">updateSize</a>(int nrVars, int nrEq, int nrInEq, int nrGenInEq)=0</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00034.html#abc3b4a33780f8fe00fd5d3385dbaf808">~GenQPSolver</a>()</td><td class="entry"><a class="el" href="a00034.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

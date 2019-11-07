@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['i',['I',['../a00060.html#a962d3bffa22573570659791feeff39d1',1,'tasks::qp::PIDTask::I() const '],['../a00060.html#acd5b82eea8b6aabdc79009794208ce9e',1,'tasks::qp::PIDTask::I(double i)']]],
+  ['i',['I',['../a00061.html#a962d3bffa22573570659791feeff39d1',1,'tasks::qp::PIDTask::I() const '],['../a00061.html#acd5b82eea8b6aabdc79009794208ce9e',1,'tasks::qp::PIDTask::I(double i)']]],
   ['id_2eh',['ID.h',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00029.html',1,'']]],
   ['identity',['Identity',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00007.html#a8f9781828ebc80b8c89a6e9bfba6ea4d',1,'sva::PTransform']]],
   ['idim',['IDIM',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00011.html',1,'rbd']]],
@@ -8,8 +8,8 @@ var searchData=
   ['idim_2eh',['IDIM.h',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00030.html',1,'']]],
   ['ignorepair',['ignorePair',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00012.html#a9fb17fb4127708212803d040dc4bf620',1,'sch::CD_Scene']]],
   ['ik_2eh',['IK.h',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00031.html',1,'']]],
-  ['imageconstr',['ImageConstr',['../a00037.html#a985c69282468b3d03abdd56b5306a7fc',1,'tasks::qp::ImageConstr::ImageConstr(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bName, const sva::PTransformd &amp;X_b_gaze, double step, double constrDirection=1.)'],['../a00037.html#a3b290ac691818ff86205030eafa730f2',1,'tasks::qp::ImageConstr::ImageConstr(const ImageConstr &amp;rhs)'],['../a00037.html#adf0dd8a09a53250bcda351cbfffb2dbf',1,'tasks::qp::ImageConstr::ImageConstr(ImageConstr &amp;&amp;)=default']]],
-  ['imageconstr',['ImageConstr',['../a00037.html',1,'tasks::qp']]],
+  ['imageconstr',['ImageConstr',['../a00038.html#a985c69282468b3d03abdd56b5306a7fc',1,'tasks::qp::ImageConstr::ImageConstr(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bName, const sva::PTransformd &amp;X_b_gaze, double step, double constrDirection=1.)'],['../a00038.html#a3b290ac691818ff86205030eafa730f2',1,'tasks::qp::ImageConstr::ImageConstr(const ImageConstr &amp;rhs)'],['../a00038.html#adf0dd8a09a53250bcda351cbfffb2dbf',1,'tasks::qp::ImageConstr::ImageConstr(ImageConstr &amp;&amp;)=default']]],
+  ['imageconstr',['ImageConstr',['../a00038.html',1,'tasks::qp']]],
   ['imagepointjacobian',['imagePointJacobian',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00042.html#a07491bc6c9c4efc66e979df49eec7a77',1,'rbd::imagePointJacobian(const Eigen::Vector2d &amp;point2d, const double depthEstimate, Eigen::Matrix&lt; double, 2, 6 &gt; &amp;jac)'],['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00042.html#a3f883d5b2cb2d74f03f930d7097aa91e',1,'rbd::imagePointJacobian(const Eigen::Vector3d &amp;point3d, Eigen::Matrix&lt; double, 2, 6 &gt; &amp;jac)']]],
   ['imagepointjacobiandot',['imagePointJacobianDot',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00042.html#af911cb4aaa8f45c453f0eb8af449e402',1,'rbd']]],
   ['impedancevec',['ImpedanceVec',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00005.html#a883d518b905e9f5713032106108b6f07',1,'sva::ImpedanceVec::ImpedanceVec()'],['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00005.html#a521286301a765cfe57cdc773bd6fdf96',1,'sva::ImpedanceVec::ImpedanceVec(const vector6_t &amp;vec)'],['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00005.html#abcdc938fd51bb1ce9c993a7587990b1a',1,'sva::ImpedanceVec::ImpedanceVec(const vector3_t &amp;angular, const vector3_t &amp;linear)'],['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00005.html#af3c5f6573c5551196f116f3f76f0c5d7',1,'sva::ImpedanceVec::ImpedanceVec(T angular, T linear)']]],
@@ -17,9 +17,9 @@ var searchData=
   ['impedancevec_2eh',['ImpedanceVec.h',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00015.html',1,'']]],
   ['impedancevecd',['ImpedanceVecd',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#aecdcfd928635da2bcaab0a4f363d0826',1,'sva']]],
   ['imphi',['IMPhi',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00042.html#a866fa89d4831928b912c77db84f30309',1,'rbd']]],
-  ['index',['index',['../a00079.html#a7430c237c03d5a757c7cb76efb439ec9',1,'tasks::qp::MotionSpringConstr::SpringJointData']]],
-  ['inequality',['Inequality',['../a00038.html',1,'tasks::qp']]],
-  ['inertia',['inertia',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00002.html#a9a91192039c5479fcea7f4eecb4e2f91',1,'sva::ABInertia::inertia()'],['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00008.html#a1f6b89e38eac55982d48d8ac9efa38fd',1,'sva::RBInertia::inertia()'],['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00004.html#a2e4908498efb9dbfb17a2d331806a267',1,'rbd::Body::inertia()']]],
+  ['index',['index',['../a00080.html#a7430c237c03d5a757c7cb76efb439ec9',1,'tasks::qp::MotionSpringConstr::SpringJointData']]],
+  ['inequality',['Inequality',['../a00039.html',1,'tasks::qp']]],
+  ['inertia',['inertia',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00004.html#a2e4908498efb9dbfb17a2d331806a267',1,'rbd::Body::inertia()'],['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00002.html#a9a91192039c5479fcea7f4eecb4e2f91',1,'sva::ABInertia::inertia()'],['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00008.html#a1f6b89e38eac55982d48d8ac9efa38fd',1,'sva::RBInertia::inertia()']]],
   ['inertiasubtree',['inertiaSubTree',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00010.html#ad83ae9dbf531799c3f0dce5587310ef4',1,'rbd::ForwardDynamics']]],
   ['inertiatoorigin',['inertiaToOrigin',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00025.html#a1a0a93626ba1bf5c436166e11da493a3',1,'sva']]],
   ['inertiatovector',['inertiaToVector',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00042.html#a6269a1cc3506d5512fbd8ec28fcedb84',1,'rbd']]],
@@ -55,5 +55,5 @@ var searchData=
   ['ismimic',['isMimic',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00016.html#a7b5a9107fcc0c81e23c6048f1aae1d52',1,'rbd::Joint']]],
   ['issamelimit',['isSameLimit',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00044.html#aaca353ab993f3d5d1df99ed7b04a0b34',1,'sch::s_STN_VVR::isSameLimit()'],['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00047.html#a94eddb23a17b4840b866b9238d943235',1,'sch::s_STP_VVR::isSameLimit()']]],
   ['iszero',['IsZero',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00068.html#a0d5c6da775c4b203c644561d73d3ef06',1,'CD_Matrix::Vector3T::IsZero()'],['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00068.html#a0d5c6da775c4b203c644561d73d3ef06',1,'Vector3T&lt; Scalar, false &gt;::IsZero()']]],
-  ['iter',['iter',['../a00084.html#a2a44c77f68894ce9212e9650a47e23a0',1,'tasks::qp::TargetObjectiveTask::iter() const '],['../a00084.html#a0bbd08184d765ede109a3bbf20b7daf7',1,'tasks::qp::TargetObjectiveTask::iter(int i)']]]
+  ['iter',['iter',['../a00085.html#a2a44c77f68894ce9212e9650a47e23a0',1,'tasks::qp::TargetObjectiveTask::iter() const '],['../a00085.html#a0bbd08184d765ede109a3bbf20b7daf7',1,'tasks::qp::TargetObjectiveTask::iter(int i)']]]
 ];

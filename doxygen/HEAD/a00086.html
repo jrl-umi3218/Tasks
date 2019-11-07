@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>tasks::TorqueBound Struct Reference</title>
+<title>tasks::qp::Task Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -99,38 +99,53 @@ $(document).ready(function(){initNavTree('a00086.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="a00133.html">List of all members</a>  </div>
+<a href="a00204.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::TorqueBound Struct Reference</div>  </div>
+<div class="title">tasks::qp::Task Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>General force vector bounds \( \underline{\tau} \) and \( \overline{\tau} \).  
- <a href="a00086.html#details">More...</a></p>
-
-<p><code>#include &lt;Tasks/Bounds.h&gt;</code></p>
+<p><code>#include &lt;Tasks/QPSolver.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for tasks::qp::Task:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="a00086.png" usemap="#tasks::qp::Task_map" alt=""/>
+  <map id="tasks::qp::Task_map" name="tasks::qp::Task_map">
+<area href="a00027.html" alt="tasks::qp::ContactTask" shape="rect" coords="217,56,424,80"/>
+<area href="a00036.html" alt="tasks::qp::GripperTorqueTask" shape="rect" coords="217,112,424,136"/>
+<area href="a00053.html" alt="tasks::qp::MultiCoMTask" shape="rect" coords="217,168,424,192"/>
+<area href="a00056.html" alt="tasks::qp::MultiRobotTransformTask" shape="rect" coords="217,224,424,248"/>
+<area href="a00068.html" alt="tasks::qp::PostureTask" shape="rect" coords="217,280,424,304"/>
+<area href="a00077.html" alt="tasks::qp::SetPointTaskCommon" shape="rect" coords="217,336,424,360"/>
+<area href="a00085.html" alt="tasks::qp::TargetObjectiveTask" shape="rect" coords="217,392,424,416"/>
+<area href="a00088.html" alt="tasks::qp::TorqueTask" shape="rect" coords="217,448,424,472"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4e445b27e858692e0df90b0f4bf2d4d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a4e445b27e858692e0df90b0f4bf2d4d2">TorqueBound</a> ()</td></tr>
-<tr class="separator:a4e445b27e858692e0df90b0f4bf2d4d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab77f06d82e34e6b2b877fe3c5215cd7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#ab77f06d82e34e6b2b877fe3c5215cd7d">TorqueBound</a> (std::vector&lt; std::vector&lt; double &gt;&gt; lTB, std::vector&lt; std::vector&lt; double &gt;&gt; uTB)</td></tr>
-<tr class="separator:ab77f06d82e34e6b2b877fe3c5215cd7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a72e03b00c59f045abad493697d45a6eb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a72e03b00c59f045abad493697d45a6eb">lTorqueBound</a></td></tr>
-<tr class="memdesc:a72e03b00c59f045abad493697d45a6eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \underline{\tau} \)  <a href="#a72e03b00c59f045abad493697d45a6eb">More...</a><br /></td></tr>
-<tr class="separator:a72e03b00c59f045abad493697d45a6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d06c4ad22a6fbce388e01ac4f14d6bd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a3d06c4ad22a6fbce388e01ac4f14d6bd">uTorqueBound</a></td></tr>
-<tr class="memdesc:a3d06c4ad22a6fbce388e01ac4f14d6bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \overline{\tau} \)  <a href="#a3d06c4ad22a6fbce388e01ac4f14d6bd">More...</a><br /></td></tr>
-<tr class="separator:a3d06c4ad22a6fbce388e01ac4f14d6bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a240a4829e60aa9f824d8145a46c9b004"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a240a4829e60aa9f824d8145a46c9b004">Task</a> (double <a class="el" href="a00086.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a>)</td></tr>
+<tr class="separator:a240a4829e60aa9f824d8145a46c9b004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac477f102c9a66128557f4800bfb3bb43"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a> ()</td></tr>
+<tr class="separator:ac477f102c9a66128557f4800bfb3bb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68f42852f1a759a1bdd6c2183c45ce0f"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a68f42852f1a759a1bdd6c2183c45ce0f">weight</a> () const </td></tr>
+<tr class="separator:a68f42852f1a759a1bdd6c2183c45ce0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22f65e49796726052dd54f4a393b0566"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a22f65e49796726052dd54f4a393b0566">weight</a> (double w)</td></tr>
+<tr class="separator:a22f65e49796726052dd54f4a393b0566"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fb40197774e65a243a371592fd48bbf"><td class="memItemLeft" align="right" valign="top">virtual std::pair&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a4fb40197774e65a243a371592fd48bbf">begin</a> () const =0</td></tr>
+<tr class="separator:a4fb40197774e65a243a371592fd48bbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c5aceb3acc9164a75c73e3051b06577"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a5c5aceb3acc9164a75c73e3051b06577">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, const <a class="el" href="a00078.html">SolverData</a> &amp;data)=0</td></tr>
+<tr class="separator:a5c5aceb3acc9164a75c73e3051b06577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae23731fb2968a088eab6a5298542437b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#ae23731fb2968a088eab6a5298542437b">update</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a00078.html">SolverData</a> &amp;data)=0</td></tr>
+<tr class="separator:ae23731fb2968a088eab6a5298542437b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e36e39ffffe29c088d90b1c67ca2137"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a1e36e39ffffe29c088d90b1c67ca2137">Q</a> () const =0</td></tr>
+<tr class="separator:a1e36e39ffffe29c088d90b1c67ca2137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83cf452e29dc09f6f1190a950497e4de"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00086.html#a83cf452e29dc09f6f1190a950497e4de">C</a> () const =0</td></tr>
+<tr class="separator:a83cf452e29dc09f6f1190a950497e4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>General force vector bounds \( \underline{\tau} \) and \( \overline{\tau} \). </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a4e445b27e858692e0df90b0f4bf2d4d2"></a>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a240a4829e60aa9f824d8145a46c9b004"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -138,9 +153,10 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::TorqueBound::TorqueBound </td>
+          <td class="memname">tasks::qp::Task::Task </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>weight</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -153,7 +169,7 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab77f06d82e34e6b2b877fe3c5215cd7d"></a>
+<a class="anchor" id="ac477f102c9a66128557f4800bfb3bb43"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -161,16 +177,121 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tasks::TorqueBound::TorqueBound </td>
+          <td class="memname">virtual tasks::qp::Task::~Task </td>
           <td>(</td>
-          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
-          <td class="paramname"><em>lTB</em>, </td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4fb40197774e65a243a371592fd48bbf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::pair&lt;int, int&gt; tasks::qp::Task::begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00036.html#a6b50d096faeecd89b8f5bf3cd3b50a7e">tasks::qp::GripperTorqueTask</a>, <a class="el" href="a00027.html#aa57e803ab81c62fab4daaa6d2ec22493">tasks::qp::ContactTask</a>, <a class="el" href="a00056.html#a62994de890fe6c6c007cb575793e5acf">tasks::qp::MultiRobotTransformTask</a>, <a class="el" href="a00053.html#a3667730ac23bf535009a8d7ec1d607f7">tasks::qp::MultiCoMTask</a>, <a class="el" href="a00068.html#a955f3aed6aaf15463327d39ef7061a3c">tasks::qp::PostureTask</a>, <a class="el" href="a00088.html#a4e27ab32689eead0836fbca558d58a11">tasks::qp::TorqueTask</a>, <a class="el" href="a00085.html#afd3fc3b8fc7faceece5aba0f031b7056">tasks::qp::TargetObjectiveTask</a>, and <a class="el" href="a00077.html#a13a46dd4aae9e60547c77986c7af6449">tasks::qp::SetPointTaskCommon</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83cf452e29dc09f6f1190a950497e4de"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::Task::C </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00036.html#a8a73fe2849753f704d56f4c25fa4b2cd">tasks::qp::GripperTorqueTask</a>, <a class="el" href="a00027.html#aa54ad1c8b418fc61d454f3fee15be9ab">tasks::qp::ContactTask</a>, <a class="el" href="a00056.html#aba4376ae9a56de8427bc8821cb91717d">tasks::qp::MultiRobotTransformTask</a>, <a class="el" href="a00053.html#abae95d285b06299534084057e72baca3">tasks::qp::MultiCoMTask</a>, <a class="el" href="a00068.html#a69ac4441b510a24116dd7324868bca35">tasks::qp::PostureTask</a>, <a class="el" href="a00088.html#ae0c39ec07b7d7be9c683b183200890cd">tasks::qp::TorqueTask</a>, <a class="el" href="a00085.html#a691902d9f7a4639575c3e9a47bc3253c">tasks::qp::TargetObjectiveTask</a>, and <a class="el" href="a00077.html#aa19d29a81de18c52d0dd68a788e2bcd5">tasks::qp::SetPointTaskCommon</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e36e39ffffe29c088d90b1c67ca2137"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::Task::Q </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00036.html#aa09896a257cc3fd8493649c24cd9c16b">tasks::qp::GripperTorqueTask</a>, <a class="el" href="a00027.html#ae93808af2c2663ca31ae8f2f3c4cd984">tasks::qp::ContactTask</a>, <a class="el" href="a00056.html#ac625104a79177da111e996e03cfe9255">tasks::qp::MultiRobotTransformTask</a>, <a class="el" href="a00053.html#a34ec8f1a9927d1593091f10c9dfa6085">tasks::qp::MultiCoMTask</a>, <a class="el" href="a00068.html#a27b7014036c1c1c01961b35a2c9c241c">tasks::qp::PostureTask</a>, <a class="el" href="a00088.html#a5d27471af0be353ba94406d308745946">tasks::qp::TorqueTask</a>, <a class="el" href="a00085.html#a9e97fa73f8b9c1808688281f4534d126">tasks::qp::TargetObjectiveTask</a>, and <a class="el" href="a00077.html#a90db48843310ab61f32513789ad633a4">tasks::qp::SetPointTaskCommon</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae23731fb2968a088eab6a5298542437b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::Task::update </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
-          <td class="paramname"><em>uTB</em>&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00018.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a00078.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -180,39 +301,95 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00036.html#aa676ad46571e3eef31643d510a609906">tasks::qp::GripperTorqueTask</a>, <a class="el" href="a00027.html#a90577acb68343fca1a43f2a04efb0297">tasks::qp::ContactTask</a>, <a class="el" href="a00056.html#a6830876e0c5f20c8165a0868cb57398b">tasks::qp::MultiRobotTransformTask</a>, <a class="el" href="a00053.html#a7bc3b436843016eb07f6b7fea3379227">tasks::qp::MultiCoMTask</a>, <a class="el" href="a00068.html#a25bc0c029d3ef0bc0fb1f5efba2e629f">tasks::qp::PostureTask</a>, <a class="el" href="a00088.html#aedf9dce201082afe90b6e8e0d1d1f7e8">tasks::qp::TorqueTask</a>, <a class="el" href="a00085.html#a3d19656c2352cd6eb9a496ffaa3cb9f8">tasks::qp::TargetObjectiveTask</a>, <a class="el" href="a00061.html#af5d09c64a10a19ccc386e455828243cb">tasks::qp::PIDTask</a>, <a class="el" href="a00090.html#ae0b4358be0d86c584536b4935b2811d7">tasks::qp::TrajectoryTask</a>, <a class="el" href="a00089.html#a4f3c9c7072cd548599133bff6375043f">tasks::qp::TrackingTask</a>, and <a class="el" href="a00076.html#a8f6c6b654860266c5d60aaa7e34407c2">tasks::qp::SetPointTask</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c5aceb3acc9164a75c73e3051b06577"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::Task::updateNrVars </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00017.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a00078.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00036.html#abdf08c1a2db0a554763ee6bea6769e5c">tasks::qp::GripperTorqueTask</a>, <a class="el" href="a00027.html#a68bb42fab80a9d00569910598ee9fcfc">tasks::qp::ContactTask</a>, <a class="el" href="a00056.html#a4572a60574c8a6aaf4aefc1c48d19f61">tasks::qp::MultiRobotTransformTask</a>, <a class="el" href="a00053.html#a5c934d8275e76cd3c59efe922d27b198">tasks::qp::MultiCoMTask</a>, <a class="el" href="a00068.html#a88f6a1718f19bd9cd6abb54b03e42f09">tasks::qp::PostureTask</a>, <a class="el" href="a00088.html#a1a6296b68fa7e55ee801a2bc36d56a18">tasks::qp::TorqueTask</a>, <a class="el" href="a00085.html#a014efe64e1cd539a0dccb857008bf0d8">tasks::qp::TargetObjectiveTask</a>, and <a class="el" href="a00077.html#af1a4ce1fc6abeb0c0d9bf19a42f56f3a">tasks::qp::SetPointTaskCommon</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a68f42852f1a759a1bdd6c2183c45ce0f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double tasks::qp::Task::weight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a72e03b00c59f045abad493697d45a6eb"></a>
+<a class="anchor" id="a22f65e49796726052dd54f4a393b0566"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::TorqueBound::lTorqueBound</td>
+          <td class="memname">virtual void tasks::qp::Task::weight </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>w</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>\( \underline{\tau} \) </p>
-
-</div>
-</div>
-<a class="anchor" id="a3d06c4ad22a6fbce388e01ac4f14d6bd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::TorqueBound::uTorqueBound</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>\( \overline{\tau} \) </p>
 
 </div>
 </div>
@@ -222,8 +399,8 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00114.html">tasks</a></li><li class="navelem"><a class="el" href="a00086.html">TorqueBound</a></li>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="navelem"><a class="el" href="a00116.html">tasks</a></li><li class="navelem"><a class="el" href="a00117.html">qp</a></li><li class="navelem"><a class="el" href="a00086.html">Task</a></li>
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -79,7 +79,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00012.html','');});
+$(document).ready(function(){initNavTree('a00009.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -98,23 +98,32 @@ $(document).ready(function(){initNavTree('a00012.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tasks::qp::constr_traits&lt; GenInequality &gt; Member List</div>  </div>
+<div class="title">tasks::qp::CoMTask Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00012.html">tasks::qp::constr_traits&lt; GenInequality &gt;</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="a00009.html">tasks::qp::CoMTask</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00012.html#a018ab4e248a49fb23efd8e8b6899baec">desc</a>(GenInequality *constr, const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int i)</td><td class="entry"><a class="el" href="a00012.html">tasks::qp::constr_traits&lt; GenInequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00012.html#ab8952085364f79663c7f4ff4cee717e1">maxLines</a>(const GenInequality *constr)</td><td class="entry"><a class="el" href="a00012.html">tasks::qp::constr_traits&lt; GenInequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00012.html#a2dd694ea42f2356e22a4c2283ce829b0">name</a>(const GenInequality *constr)</td><td class="entry"><a class="el" href="a00012.html">tasks::qp::constr_traits&lt; GenInequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00012.html#abbd8f0aeeb0557ecc7e9da467a0bff55">nrLines</a>(const GenInequality *constr)</td><td class="entry"><a class="el" href="a00012.html">tasks::qp::constr_traits&lt; GenInequality &gt;</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00009.html#a01fd2792379cee017ed2a4091c3b8fe5">com</a>(const Eigen::Vector3d &amp;com)</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00009.html#a777ab0b95b530d442751037f6ba98e12">com</a>() const </td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00009.html#a405b0a71a500f45461809a6a834ce4ef">CoMTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const Eigen::Vector3d &amp;com)</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00009.html#a6639488dffbba63388705c3909f1e31b">CoMTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const Eigen::Vector3d &amp;com, std::vector&lt; double &gt; weight)</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00009.html#acf39ba9f4426acdd6dfc1fd7a9be4820">dim</a>() override</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00009.html#a08589b88a312c73d9a8941277f44658f">eval</a>() override</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00009.html#a9dfb1feeda72ecc8892ad0954f43b16a">jac</a>() override</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00009.html#a187d5abafe3350c7b9a4e2db15284bdf">normalAcc</a>() override</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00009.html#aca2035d05f7e974bdc09593a02751c85">speed</a>() override</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00009.html#a6ef18cded54fee2dc7337160a10f0c3b">task</a>()</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00009.html#a57b452d399ec19cc3bc7c0d8a75b8a3d">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00009.html#ab0ab49b7c66a39613e1765c13b841ddf">updateInertialParameters</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs)</td><td class="entry"><a class="el" href="a00009.html">tasks::qp::CoMTask</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00037.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a>()</td><td class="entry"><a class="el" href="a00037.html">tasks::qp::HighLevelTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Nov 7 2019 09:00:55 for Tasks by
+    <li class="footer">Generated on Thu Nov 7 2019 09:08:05 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
