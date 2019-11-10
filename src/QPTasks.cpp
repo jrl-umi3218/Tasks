@@ -2183,8 +2183,8 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   sva::ForceVecd calculatedBodyWrenchDot = (calculatedBodyWrench_ - calculatedBodyWrenchPrev_) / dt_;
   calculatedBodyWrenchPrev_ = calculatedBodyWrench_;
 
-  std::cout << "Rafa, in NullSpaceAdmittanceTask::update, calculatedBodyWrench_.force() = "
-            << calculatedBodyWrench_.force().transpose() << std::endl;
+  //std::cout << "Rafa, in NullSpaceAdmittanceTask::update, calculatedBodyWrench_.force() = "
+  //          << calculatedBodyWrench_.force().transpose() << std::endl;
   
   sva::ForceVecd measuredBodyWrenchDot = (measuredWrenches_.at(bodyName) - measuredBodyWrenchPrev_) / dt_;
   measuredBodyWrenchPrev_ = measuredWrenches_.at(bodyName);
@@ -2207,43 +2207,53 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   preQ_.noalias() = dimWeight_.asDiagonal() * jacMat_;
   Q_.noalias() = jacMat_.transpose() * preQ_;
 }
-  
+
 /**
- *  ForceDistributionTask
+ *  ForceDistributionTaskCommon
  */
 
-ForceDistributionTask::ForceDistributionTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-					     double weight)
-: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), nrBodies_(-1),
-  gAcc_(9.81), totalMass_(0), comJac_(mbs[robotIndex_]), comJacMat_(3, mbs[robotIndex_].nrDof()),
-  normalAcc_(Eigen::Vector3d::Zero())
+ForceDistributionTaskCommon::ForceDistributionTaskCommon(const std::vector<rbd::MultiBody> & mbs,
+							 int robotIndex, double weight)
+: Task(weight), robotIndex_(robotIndex), lambdaBegin_(-1), nrBodies_(-1)
 {
-  const rbd::MultiBody & mb = mbs[robotIndex_];
-  
-  for (int i = 0; i < mb.nrBodies(); i++)
-  {
-    totalMass_ += mb.body(i).inertia().mass();
-  }
 }
 
-void ForceDistributionTask::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
+void ForceDistributionTaskCommon::fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios)
 {
+  /*
   for (const std::pair<std::string, Eigen::Vector3d> & ratio : ratios)
   {
     fdistRatios_.at(ratio.first) = ratio.second;
   }
+  */
+  fdistRatios_ = ratios;
 }
 
-void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
-					 const SolverData& data)
+Eigen::Vector3d ForceDistributionTaskCommon::fdistRatio(const std::string & bodyName) const
 {
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-  lambdaBegin_ = data.lambdaBegin();
-  
-  int nrLambda = data.totalLambda();
-  int nrVars = data.nrVars();
+  std::map<std::string, Eigen::Vector3d>::const_iterator fdistRatio = fdistRatios_.find(bodyName);
+  if (fdistRatio != fdistRatios_.end())
+    return fdistRatios_.at(bodyName);
+  else
+    return Eigen::Vector3d::Zero();
+}
 
-  std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
+Eigen::Vector3d ForceDistributionTaskCommon::refForce(const std::string & bodyName) const
+{
+  std::map<std::string, Eigen::Vector3d>::const_iterator refForce = refForces_.find(bodyName);
+  if (refForce != refForces_.end()) {
+    return refForces_.at(bodyName);
+  }
+  else
+    return Eigen::Vector3d::Zero();
+}
+
+void ForceDistributionTaskCommon::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+					       const SolverData& data)
+{
+  lambdaBegin_ = data.lambdaBegin();
+
+  //std::map<std::string, Eigen::Vector3d> fdistRatios_tmp;
   std::map<std::string, Eigen::Vector3d> refForces_tmp;
   
   for (const BilateralContact & contact : data.allContacts())
@@ -2251,7 +2261,8 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
     if (contact.contactId.r1Index == robotIndex_)
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
-      
+
+      /*
       std::map<std::string, Eigen::Vector3d>::iterator fdistRatio = fdistRatios_.find(r1BodyName);
       if (fdistRatio != fdistRatios_.end())
       {
@@ -2261,6 +2272,7 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
       {
 	fdistRatios_tmp[r1BodyName] = Eigen::Vector3d::Zero();
       }
+      */
 
       std::map<std::string, Eigen::Vector3d>::iterator refForce = refForces_.find(r1BodyName);
       if (refForce != refForces_.end())
@@ -2274,30 +2286,19 @@ void ForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs
     }
   }
   
-  fdistRatios_ = fdistRatios_tmp;
+  //fdistRatios_ = fdistRatios_tmp;
   refForces_ = refForces_tmp;
   
-  nrBodies_ = fdistRatios_.size();
+  //nrBodies_ = fdistRatios_.size();
+  nrBodies_ = refForces_.size();
   
   fdistRatioMat_.setZero(3 * nrBodies_, 3);
-  W_.setZero(3 * nrBodies_, nrLambda);
-  A_.setZero(3 * nrBodies_, nrVars);
-
-  Q_.setZero(nrVars, nrVars);
-  C_.setZero(nrVars);
-
-  CSum_.setZero(3 * nrBodies_);
 }
-  
-void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
-				   const std::vector<rbd::MultiBodyConfig> & mbcs,
-				   const SolverData & data)
+
+void ForceDistributionTaskCommon::update(const std::vector<rbd::MultiBody> & mbs,
+					 const std::vector<rbd::MultiBodyConfig> & mbcs,
+					 const SolverData & data)
 {
-  const rbd::MultiBody & mb = mbs[robotIndex_];
-  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
-
-  comJacMat_ = comJac_.jacobian(mb, mbc);
-
   int row = 0;
   int column = 0;
 
@@ -2327,13 +2328,62 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
       column += contact.nrLambda();
     }
   }
-
+  
   Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
 
   std::map<std::string, Eigen::Vector3d>::iterator refForce;
   
   for (refForce = refForces_.begin(); refForce != refForces_.end(); refForce++)
     refForce->second = refForcesVec.segment<3>(refForceBegin.at(refForce->first));
+}
+  
+/**
+ *  ForceDistributionTaskOriginal
+ */
+
+ForceDistributionTaskOriginal::ForceDistributionTaskOriginal(const std::vector<rbd::MultiBody> & mbs,
+							     int robotIndex, double weight)
+: ForceDistributionTaskCommon(mbs, robotIndex, weight), alphaDBegin_(-1), gAcc_(9.81),
+  totalMass_(0), comJac_(mbs[robotIndex_]), comJacMat_(3, mbs[robotIndex_].nrDof()),
+  normalAcc_(Eigen::Vector3d::Zero())
+{
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  
+  for (int i = 0; i < mb.nrBodies(); i++)
+  {
+    totalMass_ += mb.body(i).inertia().mass();
+  }
+}
+
+void ForceDistributionTaskOriginal::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+						 const SolverData& data)
+{
+  ForceDistributionTaskCommon::updateNrVars(mbs, data);
+  
+  alphaDBegin_ = data.alphaDBegin(robotIndex_);
+
+  int nrLambda = data.totalLambda();
+  int nrVars = data.nrVars();
+  
+  W_.setZero(3 * nrBodies_, nrLambda);
+  A_.setZero(3 * nrBodies_, nrVars);
+
+  Q_.setZero(nrVars, nrVars);
+  C_.setZero(nrVars);
+
+  CSum_.setZero(3 * nrBodies_);
+}
+  
+void ForceDistributionTaskOriginal::update(const std::vector<rbd::MultiBody> & mbs,
+					   const std::vector<rbd::MultiBodyConfig> & mbcs,
+					   const SolverData & data)
+{
+  ForceDistributionTaskCommon::update(mbs, mbcs, data);
+  
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
+
+  comJacMat_ = comJac_.jacobian(mb, mbc);
   
   Eigen::Vector3d gVec(0, 0, -gAcc_);
   normalAcc_ = comJac_.normalAcceleration(mb, mbc);
@@ -2341,13 +2391,56 @@ void ForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
   Eigen::Vector3d preCSum = totalMass_ * (gVec - normalAcc_);
   CSum_ = fdistRatioMat_ * preCSum;
   
-  A_.block(0, alphaDBegin_, 3 * nrBodies_, mb.nrDof()) = totalMass_ * fdistRatioMat_ * comJacMat_;
+  A_.block(0, alphaDBegin_, 3 * nrBodies_, mb.nrDof()).noalias() = totalMass_ * fdistRatioMat_ * comJacMat_;
   A_.block(0, lambdaBegin_, 3 * nrBodies_, data.totalLambda()) = -W_;
   
   Q_.noalias() =  A_.transpose() * A_;
   C_.noalias() = -A_.transpose() * CSum_;
 }
 
+/**
+ *  ForceDistributionTaskOptimized
+ */
+
+ForceDistributionTaskOptimized::ForceDistributionTaskOptimized(const std::vector<rbd::MultiBody> & mbs,
+							       int robotIndex, double weight)
+: ForceDistributionTaskCommon(mbs, robotIndex, weight)
+{
+}
+
+void ForceDistributionTaskOptimized::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+						  const SolverData& data)
+{
+  ForceDistributionTaskCommon::updateNrVars(mbs, data);
+
+  int nrLambda = data.totalLambda();
+  
+  W_.setZero(3 * nrBodies_, nrLambda);
+
+  preA_.setZero(3 * nrBodies_, nrLambda);
+  A_.setZero(3 * nrBodies_, nrLambda);
+
+  Q_.setZero(nrLambda, nrLambda);
+  C_.setZero(nrLambda);
+
+  SumMat_.setZero(3, 3 * nrBodies_);
+}
+
+void ForceDistributionTaskOptimized::update(const std::vector<rbd::MultiBody> & mbs,
+					    const std::vector<rbd::MultiBodyConfig> & mbcs,
+					    const SolverData & data)
+{
+  ForceDistributionTaskCommon::update(mbs, mbcs, data);
+  
+  for (int col = 0; col < nrBodies_; col++)
+    SumMat_.block<3, 3>(0, 3 * col) = Eigen::MatrixXd::Identity(3, 3);
+  
+  preA_.noalias() = Eigen::MatrixXd::Identity(3 * nrBodies_, 3 * nrBodies_) - fdistRatioMat_ * SumMat_;
+  A_.noalias() = preA_ * W_;
+  
+  Q_.noalias() = A_.transpose() * A_;
+}
+  
 /**
  *  ZMPBasedCoMTask
  */

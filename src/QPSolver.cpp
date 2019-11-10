@@ -63,8 +63,8 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody> & mbs, const s
 
   data_.lambdaVecPrev_ = lambdaVec();
 
-  std::cout << "Rafa, in QPSolver::solveNoMbcUpdate, lambdaVec() = "
-            << lambdaVec().transpose() << std::endl;
+  //std::cout << "Rafa, in QPSolver::solveNoMbcUpdate, lambdaVec() = "
+  //          << lambdaVec().transpose() << std::endl;
 
   //volatile bool check = data_.lambdaVecPrev_.isZero(0);
   //volatile int dummy = 0;

@@ -1744,37 +1744,35 @@ private:
 
   Eigen::Vector3d projForceErr_;
 };
- 
-class TASKS_DLLAPI ForceDistributionTask : public Task
-{
-public:
-  ForceDistributionTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, double weight);
 
-  virtual std::string nameTask() const override
-  {
-    return "ForceDistributionTask";
-  }
-  
-  virtual std::pair<int, int> begin() const
-  {
-    return std::make_pair(0, 0);
-  }
+class TASKS_DLLAPI ForceDistributionTaskCommon : public Task
+{
+ public:
+  ForceDistributionTaskCommon(const std::vector<rbd::MultiBody> & mbs,
+			      int robotIndex, double weight);
+
+  virtual std::pair<int, int> begin() const = 0;
 
   void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
   {
-    fdistRatios_.at(bodyName) = ratio;
+    //fdistRatios_.at(bodyName) = ratio;
+    fdistRatios_[bodyName] = ratio;
   }
   
   void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
 
-  const Eigen::Vector3d & fdistRatio(const std::string & bodyName) const
-  {
-    return fdistRatios_.at(bodyName);
-  }
+  Eigen::Vector3d fdistRatio(const std::string & bodyName) const;
   
   const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
   {
     return fdistRatios_;
+  }
+
+  Eigen::Vector3d refForce(const std::string & bodyName) const;
+  
+  const std::map<std::string, Eigen::Vector3d> & refForces() const
+  {
+    return refForces_;
   }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
@@ -1784,13 +1782,6 @@ public:
 		      const std::vector<rbd::MultiBodyConfig> & mbcs,
 		      const SolverData & data);
 
-  const Eigen::Vector3d & refForce(const std::string & bodyName) const;
-  
-  const std::map<std::string, Eigen::Vector3d> & refForces() const
-  {
-    return refForces_;
-  }
-  
   virtual const Eigen::MatrixXd & Q() const
   {
     return Q_;
@@ -1801,30 +1792,90 @@ public:
     return C_;
   }
   
+ protected:
+
+  int robotIndex_, lambdaBegin_, nrBodies_;
+
+  std::map<std::string, Eigen::Vector3d> fdistRatios_;
+  std::map<std::string, Eigen::Vector3d> refForces_;
+
+  Eigen::MatrixXd W_;
+  Eigen::MatrixXd fdistRatioMat_;
+  Eigen::MatrixXd A_;
+    
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+};
+ 
+class TASKS_DLLAPI ForceDistributionTaskOriginal : public ForceDistributionTaskCommon
+{
+public:
+  ForceDistributionTaskOriginal(const std::vector<rbd::MultiBody> & mbs,
+				int robotIndex, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "ForceDistributionTaskOriginal";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(0, 0);
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) override;
+  
 private:
 
-  int robotIndex_, alphaDBegin_, lambdaBegin_, nrBodies_;
+  int alphaDBegin_;
   
   double gAcc_;
   double totalMass_;
   
-  std::map<std::string, Eigen::Vector3d> fdistRatios_;
-  std::map<std::string, Eigen::Vector3d> refForces_;
-  
   rbd::CoMJacobian comJac_;
-  Eigen::MatrixXd W_;
-  Eigen::MatrixXd A_;
 
-  Eigen::MatrixXd fdistRatioMat_;
   Eigen::MatrixXd comJacMat_;
   Eigen::Vector3d normalAcc_;
-  
-  Eigen::MatrixXd Q_;
-  Eigen::VectorXd C_;
+
   // cache
   Eigen::VectorXd CSum_;
 };
 
+class TASKS_DLLAPI ForceDistributionTaskOptimized : public ForceDistributionTaskCommon
+{
+ public:
+  ForceDistributionTaskOptimized(const std::vector<rbd::MultiBody> & mbs,
+				 int robotIndex, double weight);
+  
+  virtual std::string nameTask() const override
+  {
+    return "ForceDistributionTaskOriginal";
+  }
+
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(lambdaBegin_, lambdaBegin_);
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) override;
+
+ private:
+
+  // cache
+  Eigen::MatrixXd SumMat_;
+  Eigen::MatrixXd preA_;
+};
+ 
 class TASKS_DLLAPI ZMPBasedCoMTask : public Task
 {
 public:
