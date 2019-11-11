@@ -1869,16 +1869,83 @@ class TASKS_DLLAPI ForceDistributionTaskOptimized : public ForceDistributionTask
 		      const std::vector<rbd::MultiBodyConfig> & mbcs,
 		      const SolverData & data) override;
 
- private:
+ protected:
 
   // cache
   Eigen::MatrixXd SumMat_;
   Eigen::MatrixXd preA_;
 };
- 
-class TASKS_DLLAPI ZMPBasedCoMTask : public Task
+
+class TASKS_DLLAPI ZMPWithForceDistributionTask : public ForceDistributionTaskOptimized
 {
 public:
+  ZMPWithForceDistributionTask(const std::vector<rbd::MultiBody> & mbs,
+			       const Eigen::Vector3d & zmp,
+			       int robotIndex, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "ZMPWithForceDistributionTask";
+  }
+
+  void zmp(const Eigen::Vector3d & zmp)
+  {
+    zmp_ = zmp;
+  }
+
+  const Eigen::Vector3d & zmp() const
+  {
+    return zmp_;
+  }
+
+  const Eigen::Vector3d & totalForce() const
+  {
+    return totalForce_;
+  }
+
+  const Eigen::Vector3d & totalMomentZMP() const
+  {
+    return totalMomentZMP_;
+  }
+
+  void dimWeight(const Eigen::Vector3d & dim)
+  {
+    dimWeight_ = dim;
+  }
+
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) override;
+  
+ private:
+
+  Eigen::Vector3d dimWeight_;
+
+  Eigen::Vector3d zmp_;
+
+  Eigen::Vector3d totalForce_;
+  Eigen::Vector3d totalMomentZMP_;
+
+  Eigen::MatrixXd pW_;
+
+  // cache
+  Eigen::MatrixXd inProj_;
+  Eigen::MatrixXd preProj_;
+  Eigen::MatrixXd Proj_;
+  Eigen::MatrixXd preQ_;
+}
+  
+class TASKS_DLLAPI ZMPBasedCoMTask : public Task
+{
+ public:
   ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 		  const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
 		  double weight);
@@ -1950,7 +2017,7 @@ public:
     return C_;
   }
 
-private:
+ private:
 
   int robotIndex_, alphaDBegin_;
 
@@ -1972,7 +2039,7 @@ private:
 
 class TASKS_DLLAPI ZMPTask : public Task
 {
-public:
+ public:
   ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 	  const Eigen::Vector3d & zmp, double weight);
 
@@ -2033,7 +2100,7 @@ public:
     return C_;
   }
 
-private:
+ private:
 
   int robotIndex_, lambdaBegin_, nrBodies_;
   Eigen::Vector3d dimWeight_;
@@ -2056,7 +2123,7 @@ private:
  
 class TASKS_DLLAPI YawMomentCompensationTask : public Task
 {
-public:
+ public:
   YawMomentCompensationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, double timeStep,
                             double gainKp, double gainKd, double gainKi, double gainKii, double weight);
 
@@ -2115,7 +2182,7 @@ public:
     return C_;
   }
   
-private:
+ private:
 
   double computeTauP();
   sva::ForceVecd computeWrench(const rbd::MultiBodyConfig& mbc,

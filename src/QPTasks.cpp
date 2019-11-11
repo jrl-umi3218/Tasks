@@ -2440,6 +2440,95 @@ void ForceDistributionTaskOptimized::update(const std::vector<rbd::MultiBody> & 
   
   Q_.noalias() = A_.transpose() * A_;
 }
+
+/**
+ *  ZMPWithForceDistributionTask
+ */
+  
+ZMPWithForceDistributionTask::ZMPWithForceDistributionTask(const std::vector<rbd::MultiBody> & mbs,
+							   const Eigen::Vector3d & zmp,
+							   int robotIndex, double weight)
+: ForceDistributionTaskCommon(mbs, robotIndex, weight), zmp_(zmp)
+{
+}
+
+void ZMPWithForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+						const SolverData& data)
+{
+  ForceDistributionTaskOptimized::updateNrVars(mbs, data);
+
+  int nrLambda = data.totalLambda();
+  
+  pW_.setZero(3, nrLambda);
+
+  inProj_.setZero(3, 3);
+  preProj_.setZero(3, nrLambda);
+  Proj_.setZero(nrLambda, nrLambda);
+
+  preQ_.setZero(3, nrLambda);
+}
+
+void ZMPWithForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
+					  const SolverData& data)
+{
+  int row = 0;
+  int column = 0;
+  int nrLambda = data.totalLambda();
+
+  std::map<std::string, int> refForceBegin;
+
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      fdistRatioMat_.block<3, 3>(row, 0) = fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
+      refForceBegin[contact.contactId.r1BodyName] = row;
+      
+      for (size_t i = 0; i < contact.r1Cones.size(); i++)
+      {
+        const FrictionCone & cone = contact.r1Cones[i];
+        
+	for (const Eigen::Vector3d & gen : cone.generators)
+	{
+	  W_.block<3, 1>(row, column) = gen;
+	  pW_.col(column).noalias() = (contactPosW - zmp_).cross(gen);
+	  column++;
+	}
+      }
+      row += 3;
+    }
+    else
+    {
+      column += contact.nrLambda();
+    }
+  }
+
+  totalForce_ = Eigen::Vector3d::Zero();
+  Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
+
+  std::map<std::string, Eigen::Vector3d>::iterator refForce;
+  
+  for (refForce = refForces_.begin(); refForce != refForces_.end(); refForce++) {
+    refForce->second = refForcesVec.segment<3>(refForceBegin.at(refForce->first));
+    totalForce_ += refForce->second;
+  }
+
+  totalMomentZMP_ = pW_ * data.lambdaVecPrev();
+
+  for (int col = 0; col < nrBodies_; col++)
+    SumMat_.block<3, 3>(0, 3 * col) = Eigen::MatrixXd::Identity(3, 3);
+
+  preA_.noalias() = Eigen::MatrixXd::Identity(3 * nrBodies_, 3 * nrBodies_) - fdistRatioMat_ * SumMat_;
+  A_.noalias() = preA_ * W_;
+
+  inProj_.noalias() = pW * pW.transpose();
+  preProj_ = inProj_.inverse() * pW_;
+  Proj_ = Eigen::MatrixXd::Identity(nrLambda, nrLambda) - pW_.transpose() * preProj_;
+  
+  preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
+
+  // Pending to be finished
+}
   
 /**
  *  ZMPBasedCoMTask
