@@ -1880,8 +1880,8 @@ class TASKS_DLLAPI ZMPWithForceDistributionTask : public ForceDistributionTaskOp
 {
 public:
   ZMPWithForceDistributionTask(const std::vector<rbd::MultiBody> & mbs,
-			       const Eigen::Vector3d & zmp,
-			       int robotIndex, double weight);
+                               int robotIndex, const Eigen::Vector3d & zmp,
+                               double weight);
 
   virtual std::string nameTask() const override
   {
@@ -1937,11 +1937,17 @@ public:
   Eigen::MatrixXd pW_;
 
   // cache
+
   Eigen::MatrixXd inProj_;
   Eigen::MatrixXd preProj_;
   Eigen::MatrixXd Proj_;
-  Eigen::MatrixXd preQ_;
-}
+  
+  Eigen::MatrixXd preQfd_;
+  Eigen::MatrixXd Qfd_;
+  
+  Eigen::MatrixXd preQzmp_;
+  Eigen::MatrixXd Qzmp_;
+};
   
 class TASKS_DLLAPI ZMPBasedCoMTask : public Task
 {

@@ -2446,9 +2446,9 @@ void ForceDistributionTaskOptimized::update(const std::vector<rbd::MultiBody> & 
  */
   
 ZMPWithForceDistributionTask::ZMPWithForceDistributionTask(const std::vector<rbd::MultiBody> & mbs,
-							   const Eigen::Vector3d & zmp,
-							   int robotIndex, double weight)
-: ForceDistributionTaskCommon(mbs, robotIndex, weight), zmp_(zmp)
+							   int robotIndex, const Eigen::Vector3d & zmp,
+							   double weight)
+: ForceDistributionTaskOptimized(mbs, robotIndex, weight), zmp_(zmp)
 {
 }
 
@@ -2461,15 +2461,20 @@ void ZMPWithForceDistributionTask::updateNrVars(const std::vector<rbd::MultiBody
   
   pW_.setZero(3, nrLambda);
 
-  inProj_.setZero(3, 3);
-  preProj_.setZero(3, nrLambda);
+  inProj_.setZero(2, 2);
+  preProj_.setZero(2, nrLambda);
   Proj_.setZero(nrLambda, nrLambda);
 
-  preQ_.setZero(3, nrLambda);
+  preQfd_.setZero(3 * nrBodies_, nrLambda);
+  Qfd_.setZero(nrLambda, nrLambda);
+  
+  preQzmp_.setZero(3, nrLambda);
+  Qzmp_.setZero(nrLambda, nrLambda);
 }
 
 void ZMPWithForceDistributionTask::update(const std::vector<rbd::MultiBody> & mbs,
-					  const SolverData& data)
+                                          const std::vector<rbd::MultiBodyConfig> & mbcs,
+                                          const SolverData & data)
 {
   int row = 0;
   int column = 0;
@@ -2481,11 +2486,16 @@ void ZMPWithForceDistributionTask::update(const std::vector<rbd::MultiBody> & mb
   {
     if (contact.contactId.r1Index == robotIndex_)
     {
+      int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
+      
       fdistRatioMat_.block<3, 3>(row, 0) = fdistRatios_[contact.contactId.r1BodyName].asDiagonal();
       refForceBegin[contact.contactId.r1BodyName] = row;
       
       for (size_t i = 0; i < contact.r1Cones.size(); i++)
       {
+        const sva::PTransformd & bodyPosW = mbcs[robotIndex_].bodyPosW[r1BodyIndex];
+        Eigen::Vector3d contactPosW = bodyPosW.translation() + bodyPosW.rotation().transpose() * contact.r1Points[i];
+        
         const FrictionCone & cone = contact.r1Cones[i];
         
 	for (const Eigen::Vector3d & gen : cone.generators)
@@ -2521,13 +2531,20 @@ void ZMPWithForceDistributionTask::update(const std::vector<rbd::MultiBody> & mb
   preA_.noalias() = Eigen::MatrixXd::Identity(3 * nrBodies_, 3 * nrBodies_) - fdistRatioMat_ * SumMat_;
   A_.noalias() = preA_ * W_;
 
-  inProj_.noalias() = pW * pW.transpose();
+  //inProj_.noalias() = pW_.topRows<2>() * pW_.topRows<2>().transpose();
+  //preProj_ = inProj_.inverse() * pW_.topRows<2>();
+  //Proj_ = Eigen::MatrixXd::Identity(nrLambda, nrLambda) - pW_.topRows<2>().transpose() * preProj_;
+  inProj_.noalias() = pW_ * pW_.transpose();
   preProj_ = inProj_.inverse() * pW_;
   Proj_ = Eigen::MatrixXd::Identity(nrLambda, nrLambda) - pW_.transpose() * preProj_;
-  
-  preQ_.noalias() = dimWeight_.asDiagonal() * pW_;
 
-  // Pending to be finished
+  preQfd_.noalias() = A_ * Proj_;
+  Qfd_.noalias() = preQfd_.transpose() * preQfd_;
+  
+  preQzmp_.noalias() = dimWeight_.asDiagonal() * pW_;
+  Qzmp_.noalias() = pW_.transpose() * preQzmp_;
+
+  Q_ = 0.0001 * Qfd_ + Qzmp_;
 }
   
 /**
