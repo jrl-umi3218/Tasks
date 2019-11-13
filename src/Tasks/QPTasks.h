@@ -1455,7 +1455,7 @@ private:
 
 class TASKS_DLLAPI WrenchTask : public Task
 {
-public:
+ public:
   WrenchTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string & bodyName,
 	     const Eigen::Vector3d & bodyPoint, double weight);
 
@@ -1520,7 +1520,7 @@ public:
     return C_;
   }
 
-private:
+ private:
   
   int robotIndex_, bodyIndex_, lambdaBegin_;
   Eigen::Vector6d dimWeight_;
@@ -1538,6 +1538,72 @@ private:
   // cache
   Eigen::MatrixXd preQ_;
   Eigen::MatrixXd preC_;
+};
+
+class TASKS_DLLAPI LocalCoPTask : public Task
+{
+ public:
+  LocalCoPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+               const std::string & bodyName, const Eigen::Vector3d & localCoP,
+               double weight);
+  
+  virtual std::string nameTask() const override
+  {
+    return "LocalCoPTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(lambdaBegin_, lambdaBegin_);
+  }
+
+  void localCoP(const Eigen::Vector3d & point)
+  {
+    localCoP_ = point;
+  }
+  
+  const Eigen::Vector3d & localCoP() const
+  {
+    return localCoP_;
+  }
+
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector3d & dim);
+  
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+ private:
+
+  int robotIndex_, bodyIndex_, lambdaBegin_;
+  Eigen::Vector3d dimWeight_;
+  
+  Eigen::Vector3d localCoP_;
+  
+  Eigen::MatrixXd W_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd preQ_;
 };
 
 class TASKS_DLLAPI AdmittanceTaskCommon : public Task

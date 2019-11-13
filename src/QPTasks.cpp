@@ -1823,7 +1823,7 @@ const Eigen::VectorXd & VectorOrientationTask::normalAcc()
  */
 
 WrenchTask::WrenchTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string & bodyName,
-                       const Eigen::Vector3d& bodyPoint, double weight)
+                       const Eigen::Vector3d & bodyPoint, double weight)
 : Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)), lambdaBegin_(-1),
   dimWeight_(Eigen::Vector6d::Ones()), bodyPoint_(bodyPoint), wrench_(Eigen::Vector6d::Zero()), local_(true),
   preC_(Eigen::Vector6d::Zero())
@@ -1857,7 +1857,8 @@ void WrenchTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const
   }
 }
 
-void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
+void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */,
+                              const SolverData & data)
 {
   lambdaBegin_ = data.lambdaBegin();
   int nrLambda = data.totalLambda();
@@ -1870,7 +1871,9 @@ void WrenchTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, con
   preQ_.setZero(6, nrLambda);
 }
 
-void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs, const SolverData & data)
+void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs,
+                        const std::vector<rbd::MultiBodyConfig> & mbcs,
+                        const SolverData & data)
 {
   int index = 0;
   
@@ -1910,6 +1913,72 @@ void WrenchTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vect
   Q_.noalias() = W_.transpose() * preQ_;
 }
 
+/**
+ *  LocalCoPTask
+ */
+
+LocalCoPTask::LocalCoPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                           const std::string & bodyName, const Eigen::Vector3d & localCoP,
+                           double weight)
+: Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
+  lambdaBegin_(-1), dimWeight_(Eigen::Vector3d::Ones()), localCoP_(localCoP)
+{}
+
+void LocalCoPTask::dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector3d & dim)
+{
+  Eigen::Matrix3d RBody = mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose();
+  dimWeight_.noalias() = RBody * dim;
+}
+  
+void LocalCoPTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */,
+                                const SolverData & data)
+{
+  lambdaBegin_ = data.lambdaBegin();
+  int nrLambda = data.totalLambda();
+  
+  W_.setZero(3, nrLambda);
+  
+  Q_.setZero(nrLambda, nrLambda);
+  C_.setZero(nrLambda);
+  
+  preQ_.setZero(3, nrLambda);
+}
+
+void LocalCoPTask::update(const std::vector<rbd::MultiBody> & mbs,
+                          const std::vector<rbd::MultiBodyConfig> & mbcs,
+                          const SolverData & data)
+{
+  int index = 0;
+  
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
+    
+    if (contact.contactId.r1Index == robotIndex_ && r1BodyIndex == bodyIndex_)
+    {
+      for (size_t i = 0; i < contact.r1Cones.size(); i++)
+      {
+        const FrictionCone & cone = contact.r1Cones[i];
+        
+        for (const Eigen::Vector3d & gen : cone.generators)
+        {
+          W_.col(index).noalias() = (mbcs[robotIndex_].bodyPosW[bodyIndex_].rotation().transpose() * (contact.r1Points[i] - localCoP_)).cross(gen);
+          index++;
+        }
+      }
+    }
+    else
+    {
+      index += contact.nrLambda();
+    }
+  }
+  
+  // std::cout << "Rafa, in LocalCoPTask::update, W_ = " << std::endl << W_ << std::endl;
+  
+  preQ_.noalias() = dimWeight_.asDiagonal() * W_;
+  Q_.noalias() = W_.transpose() * preQ_;
+}
+  
 /**
  *  AdmittanceTaskCommon
  */
@@ -2442,7 +2511,7 @@ void ForceDistributionTaskOptimized::update(const std::vector<rbd::MultiBody> & 
 }
 
 /**
- *  ZMPWithForceDistributionTask
+ *  ZMPWithForceDistributionTask - Not working
  */
   
 ZMPWithForceDistributionTask::ZMPWithForceDistributionTask(const std::vector<rbd::MultiBody> & mbs,
@@ -2686,10 +2755,8 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
   Q_.noalias() = pW_.transpose() * preQ_;
 }
 
-// Pending to finish...
-  
 /**
- *  YawMomentCompensationTask
+ *  YawMomentCompensationTask - Not used
  */
 
 YawMomentCompensationTask::YawMomentCompensationTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, double timeStep,
