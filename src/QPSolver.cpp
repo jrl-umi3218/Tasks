@@ -436,7 +436,7 @@ Eigen::VectorXd QPSolver::lambdaVec() const
   //}
   
   nantest = (isnan(solver_->result().array())).count() > 0;
-  zerotest = solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_).isZero(0);
+  //zerotest = solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_).isZero(0);
 
   // std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
   

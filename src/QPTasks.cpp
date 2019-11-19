@@ -2159,7 +2159,8 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
 					   const SolverData& data)
 {
   AdmittanceTaskCommon::updateNrVars(mbs, data);
-  
+
+  bodies_.clear();
   std::map<std::string, sva::ForceVecd> measuredWrenches_tmp;
   std::map<std::string, Eigen::Vector3d> calculatedForces_tmp;
   
@@ -2238,9 +2239,22 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   const std::string & bodyName = mb.body(bodyIndex_).name();
 
   projForceErr_.setZero();
+
+  // Rafa added this temporal debugging code:
+  /*
+  for (const std::pair<std::string, sva::ForceVecd> measWrench : measuredWrenches_)
+    std::cout << "Rafa, in NullSpaceAdmittanceTask::update, measWrench.first = "
+              << measWrench.first <<  std::endl;
+  for (const std::pair<std::string, Eigen::Vector3d> calcForce : calculatedForces_)
+    std::cout << "Rafa, in NullSpaceAdmittanceTask::update, calcForce.first = "
+              << calcForce.first << std::endl;
+  */
   
   for (const std::string & eachBody : bodies_)
   {
+    //std::cout << "Rafa, in NullSpaceAdmittanceTask::update, eachBody = "
+    //          << eachBody << std::endl;
+    
     Eigen::Vector3d forceErr = calculatedForces_.at(eachBody) - measuredWrenches_.at(eachBody).force();
 
     if (eachBody == bodyName)
@@ -2254,7 +2268,7 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   //std::cout << "Rafa, in NullSpaceAdmittanceTask::update, calculatedBodyWrench_.force() = "
   //          << calculatedBodyWrench_.force().transpose() << std::endl;
-  
+
   sva::ForceVecd measuredBodyWrenchDot = (measuredWrenches_.at(bodyName) - measuredBodyWrenchPrev_) / dt_;
   measuredBodyWrenchPrev_ = measuredWrenches_.at(bodyName);
 
@@ -2267,7 +2281,7 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   error_.noalias() += -gainD * (calculatedBodyWrenchDot.vector() - measuredBodyWrenchDot.vector());
   // The minus sign multiplying the gains is set to get the wrench applied to the environment (important)
-  
+
   error_.noalias() -= normalAcc_;
 
   preC_.noalias() = dimWeight_.asDiagonal() * error_;
