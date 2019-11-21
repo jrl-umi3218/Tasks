@@ -22,7 +22,7 @@ LSSOLQPSolver::LSSOLQPSolver()
 {
   lssol_.warm(true);
   lssol_.feasibilityTol(1e-6);
-  lssol_.persistance(true);
+  lssol_.persistence(true);
   lssol_.forceMinSize(false);
   lssol_.feasibilityMaxIter(4 * lssol_.feasibilityMaxIter());
   lssol_.optimalityMaxIter(4 * lssol_.optimalityMaxIter());
