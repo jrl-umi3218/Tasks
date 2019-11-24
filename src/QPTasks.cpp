@@ -2662,11 +2662,18 @@ void ZMPBasedCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
 
   Eigen::Vector3d com_hat = rbd::computeCoM(mb, mbc);
 
+  /*
   CSum_ <<
     (gAcc_ + ddcom_.z()) / (com_hat.z() - zmp_.z()) * (com_.x() - zmp_.x()),
     (gAcc_ + ddcom_.z()) / (com_hat.z() - zmp_.z()) * (com_.y() - zmp_.y()),
     ddcom_.z();
+  */
 
+  CSum_ <<
+    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.x() - zmp_.x()),
+    (gAcc_ + ddcom_.z()) / (com_.z() - zmp_.z()) * (com_.y() - zmp_.y()),
+    ddcom_.z();
+  
   CSum_ -= normalAcc_;
 
   jacMat_ = jac_.jacobian(mb, mbc);
