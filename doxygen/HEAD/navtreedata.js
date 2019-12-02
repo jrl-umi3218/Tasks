@@ -1,15 +1,13 @@
 var NAVTREE =
 [
   [ "Tasks", "index.html", [
-    [ "Deprecated List", "a00001.html", null ],
+    [ "Deprecated List", "a00068.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
         [ "Functions", "namespacemembers_func.html", null ],
-        [ "Variables", "namespacemembers_vars.html", null ],
-        [ "Typedefs", "namespacemembers_type.html", null ],
-        [ "Enumerations", "namespacemembers_enum.html", null ]
+        [ "Variables", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -32,11 +30,11 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"a00001.html",
-"a00030.html#a6f26952821a8a90a13706f60fcde3678",
-"a00053.html#a2ea0ea9b72d3645e9169ee8934c93784",
-"a00072.html#a7a11343b7f3f6c2188e363e8b988f5c6",
-"a00094.html#af33694c4067e14376d6fd9e6eb8a4781"
+"a00023.html",
+"a01000.html#a51ed201dd6eed598296a3e7cf0590b3e",
+"a01092.html#ad5b4b5ca67ce2b059cb44b4e00918b38",
+"a01196.html#a68a85ee189d9d7dd01ea7816dab35186",
+"a01276.html#a9f5611e197a54e421bce3f6c01a5edb6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

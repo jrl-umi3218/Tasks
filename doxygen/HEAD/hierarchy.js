@@ -1,128 +1,128 @@
 var hierarchy =
 [
-    [ "tasks::AlphaBound", "a00003.html", null ],
-    [ "tasks::qp::BilateralContact", "a00004.html", null ],
-    [ "tasks::qp::Bound", "a00005.html", null ],
-    [ "tasks::CoMTask", "a00010.html", null ],
-    [ "tasks::qp::constr_traits< T >", "a00011.html", null ],
-    [ "tasks::qp::constr_traits< Equality >", "a00012.html", null ],
-    [ "tasks::qp::constr_traits< GenInequality >", "a00013.html", null ],
-    [ "tasks::qp::constr_traits< Inequality >", "a00014.html", null ],
-    [ "tasks::qp::Constraint", "a00015.html", [
-      [ "tasks::qp::ConstraintFunction< Bound >", "a00016.html", [
-        [ "tasks::qp::DamperJointLimitsConstr", "a00028.html", null ],
-        [ "tasks::qp::JointLimitsConstr", "a00041.html", null ],
-        [ "tasks::qp::PositiveLambda", "a00067.html", null ]
+    [ "tasks::AlphaBound", "a00900.html", null ],
+    [ "tasks::qp::BilateralContact", "a01020.html", null ],
+    [ "tasks::qp::Bound", "a01084.html", null ],
+    [ "tasks::CoMTask", "a01280.html", null ],
+    [ "tasks::qp::constr_traits< T >", "a01096.html", null ],
+    [ "tasks::qp::constr_traits< Equality >", "a01100.html", null ],
+    [ "tasks::qp::constr_traits< GenInequality >", "a01108.html", null ],
+    [ "tasks::qp::constr_traits< Inequality >", "a01104.html", null ],
+    [ "tasks::qp::Constraint", "a01064.html", [
+      [ "tasks::qp::ConstraintFunction< Bound >", "a01068.html", [
+        [ "tasks::qp::DamperJointLimitsConstr", "a00920.html", null ],
+        [ "tasks::qp::JointLimitsConstr", "a00916.html", null ],
+        [ "tasks::qp::PositiveLambda", "a01024.html", null ]
       ] ],
-      [ "tasks::qp::ConstraintFunction< Equality >", "a00016.html", [
-        [ "tasks::qp::ContactConstr", "a00019.html", [
-          [ "tasks::qp::ContactAccConstr", "a00017.html", null ],
-          [ "tasks::qp::ContactPosConstr", "a00024.html", null ],
-          [ "tasks::qp::ContactSpeedConstr", "a00026.html", null ]
+      [ "tasks::qp::ConstraintFunction< Equality >", "a01068.html", [
+        [ "tasks::qp::ContactConstr", "a00984.html", [
+          [ "tasks::qp::ContactAccConstr", "a00996.html", null ],
+          [ "tasks::qp::ContactPosConstr", "a01004.html", null ],
+          [ "tasks::qp::ContactSpeedConstr", "a01000.html", null ]
         ] ]
       ] ],
-      [ "tasks::qp::ConstraintFunction< GenInequality >", "a00016.html", [
-        [ "tasks::qp::BoundedSpeedConstr", "a00006.html", null ],
-        [ "tasks::qp::MotionConstrCommon", "a00050.html", [
-          [ "tasks::qp::MotionConstr", "a00049.html", [
-            [ "tasks::qp::MotionSpringConstr", "a00052.html", null ]
+      [ "tasks::qp::ConstraintFunction< GenInequality >", "a01068.html", [
+        [ "tasks::qp::BoundedSpeedConstr", "a00956.html", null ],
+        [ "tasks::qp::MotionConstrCommon", "a01032.html", [
+          [ "tasks::qp::MotionConstr", "a01040.html", [
+            [ "tasks::qp::MotionSpringConstr", "a01048.html", null ]
           ] ],
-          [ "tasks::qp::MotionPolyConstr", "a00051.html", null ]
+          [ "tasks::qp::MotionPolyConstr", "a01056.html", null ]
         ] ]
       ] ],
-      [ "tasks::qp::ConstraintFunction< Inequality >", "a00016.html", [
-        [ "tasks::qp::CollisionConstr", "a00007.html", null ],
-        [ "tasks::qp::CoMIncPlaneConstr", "a00008.html", null ],
-        [ "tasks::qp::GripperTorqueConstr", "a00035.html", null ],
-        [ "tasks::qp::ImageConstr", "a00038.html", null ]
+      [ "tasks::qp::ConstraintFunction< Inequality >", "a01068.html", [
+        [ "tasks::qp::CollisionConstr", "a00928.html", null ],
+        [ "tasks::qp::CoMIncPlaneConstr", "a00940.html", null ],
+        [ "tasks::qp::GripperTorqueConstr", "a00948.html", null ],
+        [ "tasks::qp::ImageConstr", "a00964.html", null ]
       ] ],
-      [ "tasks::qp::ConstraintFunction< Fun >", "a00016.html", null ]
+      [ "tasks::qp::ConstraintFunction< Fun >", "a01068.html", null ]
     ] ],
-    [ "tasks::qp::ContactConstrCommon::ContactCommon", "a00018.html", null ],
-    [ "tasks::qp::ContactConstrCommon", "a00020.html", [
-      [ "tasks::qp::ContactConstr", "a00019.html", null ]
+    [ "tasks::qp::ContactConstrCommon::ContactCommon", "a00980.html", null ],
+    [ "tasks::qp::ContactConstrCommon", "a00976.html", [
+      [ "tasks::qp::ContactConstr", "a00984.html", null ]
     ] ],
-    [ "tasks::qp::MotionConstrCommon::ContactData", "a00021.html", null ],
-    [ "tasks::qp::ContactConstr::ContactData", "a00022.html", null ],
-    [ "tasks::qp::ContactId", "a00023.html", null ],
-    [ "tasks::qp::ContactConstr::ContactSideData", "a00025.html", null ],
-    [ "tasks::qp::Equality", "a00029.html", null ],
-    [ "tasks::qp::FrictionCone", "a00030.html", null ],
+    [ "tasks::qp::MotionConstrCommon::ContactData", "a01036.html", null ],
+    [ "tasks::qp::ContactConstr::ContactData", "a00992.html", null ],
+    [ "tasks::qp::ContactId", "a01012.html", null ],
+    [ "tasks::qp::ContactConstr::ContactSideData", "a00988.html", null ],
+    [ "tasks::qp::Equality", "a01072.html", null ],
+    [ "tasks::qp::FrictionCone", "a01008.html", null ],
     [ "Fun", null, [
-      [ "tasks::qp::ConstraintFunction< Bound >", "a00016.html", null ],
-      [ "tasks::qp::ConstraintFunction< Equality >", "a00016.html", null ],
-      [ "tasks::qp::ConstraintFunction< GenInequality >", "a00016.html", null ],
-      [ "tasks::qp::ConstraintFunction< Inequality >", "a00016.html", null ],
-      [ "tasks::qp::ConstraintFunction< Fun >", "a00016.html", null ]
+      [ "tasks::qp::ConstraintFunction< Bound >", "a01068.html", null ],
+      [ "tasks::qp::ConstraintFunction< Equality >", "a01068.html", null ],
+      [ "tasks::qp::ConstraintFunction< GenInequality >", "a01068.html", null ],
+      [ "tasks::qp::ConstraintFunction< Inequality >", "a01068.html", null ],
+      [ "tasks::qp::ConstraintFunction< Fun >", "a01068.html", null ]
     ] ],
-    [ "tasks::GazeTask", "a00032.html", null ],
-    [ "tasks::qp::GenInequality", "a00033.html", null ],
-    [ "tasks::qp::GenQPSolver", "a00034.html", [
-      [ "tasks::qp::LSSOLQPSolver", "a00046.html", null ],
-      [ "tasks::qp::QLDQPSolver", "a00071.html", null ]
+    [ "tasks::GazeTask", "a01268.html", null ],
+    [ "tasks::qp::GenInequality", "a01080.html", null ],
+    [ "tasks::qp::GenQPSolver", "a00912.html", [
+      [ "tasks::qp::LSSOLQPSolver", "a00888.html", null ],
+      [ "tasks::qp::QLDQPSolver", "a00892.html", null ]
     ] ],
-    [ "tasks::qp::HighLevelTask", "a00037.html", [
-      [ "tasks::qp::CoMTask", "a00009.html", null ],
-      [ "tasks::qp::GazeTask", "a00031.html", null ],
-      [ "tasks::qp::JointsSelector", "a00042.html", null ],
-      [ "tasks::qp::LinVelocityTask", "a00044.html", null ],
-      [ "tasks::qp::MomentumTask", "a00048.html", null ],
-      [ "tasks::qp::OrientationTask", "a00057.html", null ],
-      [ "tasks::qp::OrientationTrackingTask", "a00060.html", null ],
-      [ "tasks::qp::PositionBasedVisServoTask", "a00064.html", null ],
-      [ "tasks::qp::PositionTask", "a00065.html", null ],
-      [ "tasks::qp::RelativeDistTask", "a00074.html", null ],
-      [ "tasks::qp::SurfaceOrientationTask", "a00081.html", null ],
-      [ "tasks::qp::TransformTaskCommon< transform_task_t >", "a00093.html", null ],
-      [ "tasks::qp::VectorOrientationTask", "a00096.html", null ],
-      [ "tasks::qp::TransformTaskCommon< tasks::SurfaceTransformTask >", "a00093.html", [
-        [ "tasks::qp::SurfaceTransformTask", "a00084.html", null ]
+    [ "tasks::qp::HighLevelTask", "a01092.html", [
+      [ "tasks::qp::CoMTask", "a01200.html", null ],
+      [ "tasks::qp::GazeTask", "a01192.html", null ],
+      [ "tasks::qp::JointsSelector", "a01140.html", null ],
+      [ "tasks::qp::LinVelocityTask", "a01224.html", null ],
+      [ "tasks::qp::MomentumTask", "a01212.html", null ],
+      [ "tasks::qp::OrientationTask", "a01172.html", null ],
+      [ "tasks::qp::OrientationTrackingTask", "a01228.html", null ],
+      [ "tasks::qp::PositionBasedVisServoTask", "a01196.html", null ],
+      [ "tasks::qp::PositionTask", "a01168.html", null ],
+      [ "tasks::qp::RelativeDistTask", "a01232.html", null ],
+      [ "tasks::qp::SurfaceOrientationTask", "a01188.html", null ],
+      [ "tasks::qp::TransformTaskCommon< transform_task_t >", "a01176.html", null ],
+      [ "tasks::qp::VectorOrientationTask", "a01236.html", null ],
+      [ "tasks::qp::TransformTaskCommon< tasks::SurfaceTransformTask >", "a01176.html", [
+        [ "tasks::qp::SurfaceTransformTask", "a01180.html", null ]
       ] ],
-      [ "tasks::qp::TransformTaskCommon< tasks::TransformTask >", "a00093.html", [
-        [ "tasks::qp::TransformTask", "a00091.html", null ]
+      [ "tasks::qp::TransformTaskCommon< tasks::TransformTask >", "a01176.html", [
+        [ "tasks::qp::TransformTask", "a01184.html", null ]
       ] ]
     ] ],
-    [ "tasks::qp::Inequality", "a00039.html", null ],
-    [ "tasks::qp::JointGains", "a00040.html", null ],
-    [ "tasks::qp::JointStiffness", "a00043.html", null ],
-    [ "tasks::LinVelocityTask", "a00045.html", null ],
-    [ "tasks::MomentumTask", "a00047.html", null ],
-    [ "tasks::MultiCoMTask", "a00054.html", null ],
-    [ "tasks::MultiRobotTransformTask", "a00055.html", null ],
-    [ "tasks::OrientationTask", "a00058.html", null ],
-    [ "tasks::OrientationTrackingTask", "a00059.html", null ],
-    [ "tasks::PolyTorqueBound", "a00062.html", null ],
-    [ "tasks::PositionBasedVisServoTask", "a00063.html", null ],
-    [ "tasks::PositionTask", "a00066.html", null ],
-    [ "tasks::PostureTask", "a00069.html", null ],
-    [ "tasks::QBound", "a00070.html", null ],
-    [ "tasks::qp::QPSolver", "a00072.html", null ],
-    [ "tasks::RelativeDistTask", "a00073.html", null ],
-    [ "tasks::qp::JointsSelector::SelectedData", "a00075.html", null ],
-    [ "tasks::qp::SolverData", "a00078.html", null ],
-    [ "tasks::qp::SpringJoint", "a00079.html", null ],
-    [ "tasks::qp::MotionSpringConstr::SpringJointData", "a00080.html", null ],
-    [ "tasks::SurfaceOrientationTask", "a00082.html", null ],
-    [ "tasks::qp::Task", "a00086.html", [
-      [ "tasks::qp::ContactTask", "a00027.html", null ],
-      [ "tasks::qp::GripperTorqueTask", "a00036.html", null ],
-      [ "tasks::qp::MultiCoMTask", "a00053.html", null ],
-      [ "tasks::qp::MultiRobotTransformTask", "a00056.html", null ],
-      [ "tasks::qp::PostureTask", "a00068.html", null ],
-      [ "tasks::qp::SetPointTaskCommon", "a00077.html", [
-        [ "tasks::qp::PIDTask", "a00061.html", null ],
-        [ "tasks::qp::SetPointTask", "a00076.html", null ],
-        [ "tasks::qp::TrackingTask", "a00089.html", null ],
-        [ "tasks::qp::TrajectoryTask", "a00090.html", null ]
+    [ "tasks::qp::Inequality", "a01076.html", null ],
+    [ "tasks::qp::JointGains", "a01152.html", null ],
+    [ "tasks::qp::JointStiffness", "a01148.html", null ],
+    [ "tasks::LinVelocityTask", "a01292.html", null ],
+    [ "tasks::MomentumTask", "a01288.html", null ],
+    [ "tasks::MultiCoMTask", "a01284.html", null ],
+    [ "tasks::MultiRobotTransformTask", "a01260.html", null ],
+    [ "tasks::OrientationTask", "a01244.html", null ],
+    [ "tasks::OrientationTrackingTask", "a01296.html", null ],
+    [ "tasks::PolyTorqueBound", "a00908.html", null ],
+    [ "tasks::PositionBasedVisServoTask", "a01272.html", null ],
+    [ "tasks::PositionTask", "a01240.html", null ],
+    [ "tasks::PostureTask", "a01276.html", null ],
+    [ "tasks::QBound", "a00896.html", null ],
+    [ "tasks::qp::QPSolver", "a01060.html", null ],
+    [ "tasks::RelativeDistTask", "a01300.html", null ],
+    [ "tasks::qp::JointsSelector::SelectedData", "a01144.html", null ],
+    [ "tasks::qp::SolverData", "a01112.html", null ],
+    [ "tasks::qp::SpringJoint", "a01044.html", null ],
+    [ "tasks::qp::MotionSpringConstr::SpringJointData", "a01052.html", null ],
+    [ "tasks::SurfaceOrientationTask", "a01264.html", null ],
+    [ "tasks::qp::Task", "a01088.html", [
+      [ "tasks::qp::ContactTask", "a01216.html", null ],
+      [ "tasks::qp::GripperTorqueTask", "a01220.html", null ],
+      [ "tasks::qp::MultiCoMTask", "a01204.html", null ],
+      [ "tasks::qp::MultiRobotTransformTask", "a01208.html", null ],
+      [ "tasks::qp::PostureTask", "a01160.html", null ],
+      [ "tasks::qp::SetPointTaskCommon", "a01116.html", [
+        [ "tasks::qp::PIDTask", "a01132.html", null ],
+        [ "tasks::qp::SetPointTask", "a01120.html", null ],
+        [ "tasks::qp::TrackingTask", "a01124.html", null ],
+        [ "tasks::qp::TrajectoryTask", "a01128.html", null ]
       ] ],
-      [ "tasks::qp::TargetObjectiveTask", "a00085.html", null ],
-      [ "tasks::qp::TorqueTask", "a00088.html", null ]
+      [ "tasks::qp::TargetObjectiveTask", "a01136.html", null ],
+      [ "tasks::qp::TorqueTask", "a01156.html", null ]
     ] ],
-    [ "tasks::TorqueBound", "a00087.html", null ],
-    [ "tasks::TransformTaskCommon", "a00094.html", [
-      [ "tasks::SurfaceTransformTask", "a00083.html", null ],
-      [ "tasks::TransformTask", "a00092.html", null ]
+    [ "tasks::TorqueBound", "a00904.html", null ],
+    [ "tasks::TransformTaskCommon", "a01248.html", [
+      [ "tasks::SurfaceTransformTask", "a01252.html", null ],
+      [ "tasks::TransformTask", "a01256.html", null ]
     ] ],
-    [ "tasks::qp::UnilateralContact", "a00095.html", null ],
-    [ "tasks::VectorOrientationTask", "a00097.html", null ]
+    [ "tasks::qp::UnilateralContact", "a01016.html", null ],
+    [ "tasks::VectorOrientationTask", "a01308.html", null ]
 ];

@@ -1,114 +1,114 @@
 var files =
 [
-    [ "Bounds.h", "a00098.html", [
-      [ "QBound", "a00070.html", "a00070" ],
-      [ "AlphaBound", "a00003.html", "a00003" ],
-      [ "TorqueBound", "a00087.html", "a00087" ],
-      [ "PolyTorqueBound", "a00062.html", "a00062" ]
+    [ "Bounds.h", "a00032.html", [
+      [ "QBound", "a00896.html", "a00896" ],
+      [ "AlphaBound", "a00900.html", "a00900" ],
+      [ "TorqueBound", "a00904.html", "a00904" ],
+      [ "PolyTorqueBound", "a00908.html", "a00908" ]
     ] ],
-    [ "GenQPSolver.h", "a00099.html", "a00099" ],
-    [ "GenQPUtils.h", "a00100.html", "a00100" ],
-    [ "LSSOLQPSolver.h", "a00101.html", [
-      [ "LSSOLQPSolver", "a00046.html", "a00046" ]
+    [ "GenQPSolver.h", "a00035.html", "a00035" ],
+    [ "GenQPUtils.h", "a00023.html", "a00023" ],
+    [ "LSSOLQPSolver.h", "a00026.html", [
+      [ "LSSOLQPSolver", "a00888.html", "a00888" ]
     ] ],
-    [ "QLDQPSolver.h", "a00102.html", [
-      [ "QLDQPSolver", "a00071.html", "a00071" ]
+    [ "QLDQPSolver.h", "a00029.html", [
+      [ "QLDQPSolver", "a00892.html", "a00892" ]
     ] ],
-    [ "QPConstr.h", "a00103.html", "a00103" ],
-    [ "QPContactConstr.h", "a00104.html", [
-      [ "ContactConstrCommon", "a00020.html", "a00020" ],
-      [ "ContactCommon", "a00018.html", "a00018" ],
-      [ "ContactConstr", "a00019.html", "a00019" ],
-      [ "ContactSideData", "a00025.html", "a00025" ],
-      [ "ContactData", "a00022.html", "a00022" ],
-      [ "ContactAccConstr", "a00017.html", "a00017" ],
-      [ "ContactSpeedConstr", "a00026.html", "a00026" ],
-      [ "ContactPosConstr", "a00024.html", "a00024" ]
+    [ "QPConstr.h", "a00038.html", "a00038" ],
+    [ "QPContactConstr.h", "a00041.html", [
+      [ "ContactConstrCommon", "a00976.html", "a00976" ],
+      [ "ContactCommon", "a00980.html", "a00980" ],
+      [ "ContactConstr", "a00984.html", "a00984" ],
+      [ "ContactSideData", "a00988.html", "a00988" ],
+      [ "ContactData", "a00992.html", "a00992" ],
+      [ "ContactAccConstr", "a00996.html", "a00996" ],
+      [ "ContactSpeedConstr", "a01000.html", "a01000" ],
+      [ "ContactPosConstr", "a01004.html", "a01004" ]
     ] ],
-    [ "QPContacts.h", "a00105.html", [
-      [ "FrictionCone", "a00030.html", "a00030" ],
-      [ "ContactId", "a00023.html", "a00023" ],
-      [ "UnilateralContact", "a00095.html", "a00095" ],
-      [ "BilateralContact", "a00004.html", "a00004" ]
+    [ "QPContacts.h", "a00044.html", [
+      [ "FrictionCone", "a01008.html", "a01008" ],
+      [ "ContactId", "a01012.html", "a01012" ],
+      [ "UnilateralContact", "a01016.html", "a01016" ],
+      [ "BilateralContact", "a01020.html", "a01020" ]
     ] ],
-    [ "QPMotionConstr.h", "a00106.html", [
-      [ "PositiveLambda", "a00067.html", "a00067" ],
-      [ "MotionConstrCommon", "a00050.html", "a00050" ],
-      [ "ContactData", "a00021.html", "a00021" ],
-      [ "MotionConstr", "a00049.html", "a00049" ],
-      [ "SpringJoint", "a00079.html", "a00079" ],
-      [ "MotionSpringConstr", "a00052.html", "a00052" ],
-      [ "SpringJointData", "a00080.html", "a00080" ],
-      [ "MotionPolyConstr", "a00051.html", "a00051" ]
+    [ "QPMotionConstr.h", "a00047.html", [
+      [ "PositiveLambda", "a01024.html", "a01024" ],
+      [ "MotionConstrCommon", "a01032.html", "a01032" ],
+      [ "ContactData", "a01036.html", "a01036" ],
+      [ "MotionConstr", "a01040.html", "a01040" ],
+      [ "SpringJoint", "a01044.html", "a01044" ],
+      [ "MotionSpringConstr", "a01048.html", "a01048" ],
+      [ "SpringJointData", "a01052.html", "a01052" ],
+      [ "MotionPolyConstr", "a01056.html", "a01056" ]
     ] ],
-    [ "QPSolver.h", "a00107.html", [
-      [ "QPSolver", "a00072.html", "a00072" ],
-      [ "Constraint", "a00015.html", "a00015" ],
-      [ "ConstraintFunction", "a00016.html", "a00016" ],
-      [ "Equality", "a00029.html", "a00029" ],
-      [ "Inequality", "a00039.html", "a00039" ],
-      [ "GenInequality", "a00033.html", "a00033" ],
-      [ "Bound", "a00005.html", "a00005" ],
-      [ "Task", "a00086.html", "a00086" ],
-      [ "HighLevelTask", "a00037.html", "a00037" ],
-      [ "constr_traits", "a00011.html", null ],
-      [ "constr_traits< Equality >", "a00012.html", "a00012" ],
-      [ "constr_traits< Inequality >", "a00014.html", "a00014" ],
-      [ "constr_traits< GenInequality >", "a00013.html", "a00013" ]
+    [ "QPSolver.h", "a00050.html", [
+      [ "QPSolver", "a01060.html", "a01060" ],
+      [ "Constraint", "a01064.html", "a01064" ],
+      [ "ConstraintFunction", "a01068.html", "a01068" ],
+      [ "Equality", "a01072.html", "a01072" ],
+      [ "Inequality", "a01076.html", "a01076" ],
+      [ "GenInequality", "a01080.html", "a01080" ],
+      [ "Bound", "a01084.html", "a01084" ],
+      [ "Task", "a01088.html", "a01088" ],
+      [ "HighLevelTask", "a01092.html", "a01092" ],
+      [ "constr_traits", "a01096.html", null ],
+      [ "constr_traits< Equality >", "a01100.html", "a01100" ],
+      [ "constr_traits< Inequality >", "a01104.html", "a01104" ],
+      [ "constr_traits< GenInequality >", "a01108.html", "a01108" ]
     ] ],
-    [ "QPSolverData.h", "a00108.html", [
-      [ "SolverData", "a00078.html", "a00078" ]
+    [ "QPSolverData.h", "a00053.html", [
+      [ "SolverData", "a01112.html", "a01112" ]
     ] ],
-    [ "QPTasks.h", "a00109.html", [
-      [ "SetPointTaskCommon", "a00077.html", "a00077" ],
-      [ "SetPointTask", "a00076.html", "a00076" ],
-      [ "TrackingTask", "a00089.html", "a00089" ],
-      [ "TrajectoryTask", "a00090.html", "a00090" ],
-      [ "PIDTask", "a00061.html", "a00061" ],
-      [ "TargetObjectiveTask", "a00085.html", "a00085" ],
-      [ "JointsSelector", "a00042.html", "a00042" ],
-      [ "SelectedData", "a00075.html", "a00075" ],
-      [ "JointStiffness", "a00043.html", "a00043" ],
-      [ "JointGains", "a00040.html", "a00040" ],
-      [ "TorqueTask", "a00088.html", "a00088" ],
-      [ "PostureTask", "a00068.html", "a00068" ],
-      [ "PositionTask", "a00065.html", "a00065" ],
-      [ "OrientationTask", "a00057.html", "a00057" ],
-      [ "TransformTaskCommon", "a00093.html", "a00093" ],
-      [ "SurfaceTransformTask", "a00084.html", "a00084" ],
-      [ "TransformTask", "a00091.html", "a00091" ],
-      [ "SurfaceOrientationTask", "a00081.html", "a00081" ],
-      [ "GazeTask", "a00031.html", "a00031" ],
-      [ "PositionBasedVisServoTask", "a00064.html", "a00064" ],
-      [ "CoMTask", "a00009.html", "a00009" ],
-      [ "MultiCoMTask", "a00053.html", "a00053" ],
-      [ "MultiRobotTransformTask", "a00056.html", "a00056" ],
-      [ "MomentumTask", "a00048.html", "a00048" ],
-      [ "ContactTask", "a00027.html", "a00027" ],
-      [ "GripperTorqueTask", "a00036.html", "a00036" ],
-      [ "LinVelocityTask", "a00044.html", "a00044" ],
-      [ "OrientationTrackingTask", "a00060.html", "a00060" ],
-      [ "RelativeDistTask", "a00074.html", "a00074" ],
-      [ "VectorOrientationTask", "a00096.html", "a00096" ]
+    [ "QPTasks.h", "a00056.html", [
+      [ "SetPointTaskCommon", "a01116.html", "a01116" ],
+      [ "SetPointTask", "a01120.html", "a01120" ],
+      [ "TrackingTask", "a01124.html", "a01124" ],
+      [ "TrajectoryTask", "a01128.html", "a01128" ],
+      [ "PIDTask", "a01132.html", "a01132" ],
+      [ "TargetObjectiveTask", "a01136.html", "a01136" ],
+      [ "JointsSelector", "a01140.html", "a01140" ],
+      [ "SelectedData", "a01144.html", "a01144" ],
+      [ "JointStiffness", "a01148.html", "a01148" ],
+      [ "JointGains", "a01152.html", "a01152" ],
+      [ "TorqueTask", "a01156.html", "a01156" ],
+      [ "PostureTask", "a01160.html", "a01160" ],
+      [ "PositionTask", "a01168.html", "a01168" ],
+      [ "OrientationTask", "a01172.html", "a01172" ],
+      [ "TransformTaskCommon", "a01176.html", "a01176" ],
+      [ "SurfaceTransformTask", "a01180.html", "a01180" ],
+      [ "TransformTask", "a01184.html", "a01184" ],
+      [ "SurfaceOrientationTask", "a01188.html", "a01188" ],
+      [ "GazeTask", "a01192.html", "a01192" ],
+      [ "PositionBasedVisServoTask", "a01196.html", "a01196" ],
+      [ "CoMTask", "a01200.html", "a01200" ],
+      [ "MultiCoMTask", "a01204.html", "a01204" ],
+      [ "MultiRobotTransformTask", "a01208.html", "a01208" ],
+      [ "MomentumTask", "a01212.html", "a01212" ],
+      [ "ContactTask", "a01216.html", "a01216" ],
+      [ "GripperTorqueTask", "a01220.html", "a01220" ],
+      [ "LinVelocityTask", "a01224.html", "a01224" ],
+      [ "OrientationTrackingTask", "a01228.html", "a01228" ],
+      [ "RelativeDistTask", "a01232.html", "a01232" ],
+      [ "VectorOrientationTask", "a01236.html", "a01236" ]
     ] ],
-    [ "Tasks.h", "a00111.html", [
-      [ "PositionTask", "a00066.html", "a00066" ],
-      [ "OrientationTask", "a00058.html", "a00058" ],
-      [ "TransformTaskCommon", "a00094.html", "a00094" ],
-      [ "SurfaceTransformTask", "a00083.html", "a00083" ],
-      [ "TransformTask", "a00092.html", "a00092" ],
-      [ "MultiRobotTransformTask", "a00055.html", "a00055" ],
-      [ "SurfaceOrientationTask", "a00082.html", "a00082" ],
-      [ "GazeTask", "a00032.html", "a00032" ],
-      [ "PositionBasedVisServoTask", "a00063.html", "a00063" ],
-      [ "PostureTask", "a00069.html", "a00069" ],
-      [ "CoMTask", "a00010.html", "a00010" ],
-      [ "MultiCoMTask", "a00054.html", "a00054" ],
-      [ "MomentumTask", "a00047.html", "a00047" ],
-      [ "LinVelocityTask", "a00045.html", "a00045" ],
-      [ "OrientationTrackingTask", "a00059.html", "a00059" ],
-      [ "RelativeDistTask", "a00073.html", "a00073" ],
-      [ "VectorOrientationTask", "a00097.html", "a00097" ]
+    [ "Tasks.h", "a00059.html", [
+      [ "PositionTask", "a01240.html", "a01240" ],
+      [ "OrientationTask", "a01244.html", "a01244" ],
+      [ "TransformTaskCommon", "a01248.html", "a01248" ],
+      [ "SurfaceTransformTask", "a01252.html", "a01252" ],
+      [ "TransformTask", "a01256.html", "a01256" ],
+      [ "MultiRobotTransformTask", "a01260.html", "a01260" ],
+      [ "SurfaceOrientationTask", "a01264.html", "a01264" ],
+      [ "GazeTask", "a01268.html", "a01268" ],
+      [ "PositionBasedVisServoTask", "a01272.html", "a01272" ],
+      [ "PostureTask", "a01276.html", "a01276" ],
+      [ "CoMTask", "a01280.html", "a01280" ],
+      [ "MultiCoMTask", "a01284.html", "a01284" ],
+      [ "MomentumTask", "a01288.html", "a01288" ],
+      [ "LinVelocityTask", "a01292.html", "a01292" ],
+      [ "OrientationTrackingTask", "a01296.html", "a01296" ],
+      [ "RelativeDistTask", "a01300.html", "a01300" ],
+      [ "VectorOrientationTask", "a01308.html", "a01308" ]
     ] ],
-    [ "utils.h", "a00112.html", "a00112" ]
+    [ "utils.h", "a00062.html", "a00062" ]
 ];
