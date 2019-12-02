@@ -1,0 +1,8 @@
+Document: libtasks-documentation
+Title: API documentation for tasks
+Author: tasks authors
+Section: Programming/C++
+
+Format: HTML
+Index: /usr/share/doc/Tasks/doxygen-html/index.html
+Files: /usr/share/doc/Tasks/doxygen-html/*.html

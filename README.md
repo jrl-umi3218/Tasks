@@ -2,9 +2,8 @@ Tasks
 =====
 
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-green.svg)](https://opensource.org/licenses/BSD-2-Clause)
-[![Build Status](https://travis-ci.org/jrl-umi3218/Tasks.svg?branch=master)](https://travis-ci.org/jrl-umi3218/Tasks)
-[![AppVeyor status](https://ci.appveyor.com/api/projects/status/kteqpch13y0ac3wq/branch/master?svg=true)](https://ci.appveyor.com/project/gergondet/tasks/branch/master)
 [ ![Download](https://api.bintray.com/packages/gergondet/multi-contact/Tasks%3Agergondet/images/download.svg) ](https://bintray.com/gergondet/multi-contact/Tasks%3Agergondet/_latestVersion)
+[![CI](https://github.com/jrl-umi3218/Tasks/workflows/CI%20of%20Tasks/badge.svg?branch=master)](https://github.com/jrl-umi3218/Tasks/actions?query=workflow%3A%22CI+of+Tasks%22)
 [![Documentation](https://img.shields.io/badge/doxygen-online-brightgreen?logo=read-the-docs&style=flat)](http://jrl-umi3218.github.io/Tasks/doxygen/HEAD/index.html)
 
 Tasks is library for real time control of robots and kinematic trees using constrained optimization.
@@ -38,13 +37,21 @@ An online documentation can be found [online](https://jrl-umi3218.github.io/Task
 Installing
 ----------
 
-## Ubuntu LITS (14.04, 16.04, 18.04): PPA
+## Ubuntu LTS (16.04, 18.04, 20.04)
 
-Use the [multi-contact-unstable](https://launchpad.net/~pierre-gergondet+ppa/+archive/ubuntu/multi-contact-unstable) ppa:
 ```bash
-sudo add-apt-repository ppa:pierre-gergondet+ppa/multi-contact-unstable
-sudo apt-get update
-sudo apt-get install libtasks-dev libtasks-qld-doc python-tasks-qld python3-tasks-qld
+# Make sure you have required tools
+sudo apt install apt-transport-https lsb-release ca-certificates gnupg
+# Add our key
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key 892EA6EE273707C6495A6FB6220D644C64666806
+# Add our repository (stable versions)
+sudo sh -c 'echo "deb https://dl.bintray.com/gergondet/multi-contact-release $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/multi-contact.list'
+# Use this to setup the HEAD version
+# sudo sh -c 'echo "deb https://dl.bintray.com/gergondet/multi-contact-head $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/multi-contact.list'
+# Update packages list
+sudo apt update
+# Install packages
+sudo apt install libtasks-dev python-tasks python3-tasks
 ```
 
 ## Homebrew OS X install

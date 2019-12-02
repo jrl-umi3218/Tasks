@@ -1,0 +1,17 @@
+tasks (1.1.0-1ubuntu1) unstable; urgency=medium
+
+  * Update upstream version
+
+ -- Pierre Gergondet <pierre.gergondet+ppa@gmail.com>  Mon, 02 Dec 2019 14:14:26 +0800
+
+tasks (0.9.1-1ubuntu1) unstable; urgency=medium
+
+  * Add Python bindings
+
+ -- Pierre Gergondet <pierre.gergondet+ppa@gmail.com>  Fri, 09 Jun 2017 18:34:32 +0900
+
+tasks (0.9.0-1trusty1) trusty; urgency=medium
+
+  * Initial release.
+
+ -- Pierre Gergondet <pierre.gergondet+ppa@gmail.com>  Wed, 16 Mar 2016 15:02:45 +0900
