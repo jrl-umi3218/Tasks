@@ -673,6 +673,7 @@ cdef extern from "<Tasks/QPSolver.h>" namespace "tasks::qp":
     void resetTasks()
 
     void solver(const string&)
+    string solver()
     VectorXd result() const
     VectorXd alphaDVec() const
     VectorXd alphaDVec(int) const
