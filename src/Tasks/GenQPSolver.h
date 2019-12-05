@@ -106,6 +106,7 @@ public:
 
   /// @return Name of the solver
   virtual std::string name() const = 0;
+
 protected:
   /** Correspondence between full variable indices and reduced variables */
   std::vector<int> fullToReduced_;
