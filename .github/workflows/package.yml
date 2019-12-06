@@ -74,30 +74,28 @@ jobs:
       matrix:
         dist: [xenial, bionic, focal]
         arch: [i386, amd64]
+        exclude:
+          - dist: focal
+            arch: i386
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v1
-    - name: Prepare recipe
+      with:
+        submodules: recursive
+    - name: Choose extra mirror
       run: |
-        set -x
-        cp .github/workflows/Tasks.recipe /tmp/Tasks.recipe
         export REF=`echo ${{ github.ref }} | sed -e 's@refs/[a-z]*/@@'`
-        sed -i "s#@REF@#${REF}#" /tmp/Tasks.recipe
         if [ $REF == "master" ]
         then
           echo "::set-env name=EXTRA_MIRROR::https://dl.bintray.com/gergondet/multi-contact-head"
         else
           echo "::set-env name=EXTRA_MIRROR::https://dl.bintray.com/gergondet/multi-contact-release"
         fi
-        echo "Prepared recipe"
-        echo "###############"
-        cat /tmp/Tasks.recipe
     - name: Build package
-      uses: jrl-umi3218/github-actions/build-package@master
+      uses: jrl-umi3218/github-actions/build-package-native@master
       with:
         dist: ${{ matrix.dist }}
         arch: ${{ matrix.arch }}
-        recipe: /tmp/Tasks.recipe
         other-mirrors: ${{ env.EXTRA_MIRROR }}
         other-gpg-keys: "0x892EA6EE273707C6495A6FB6220D644C64666806"
     - uses: actions/upload-artifact@v1
@@ -113,6 +111,9 @@ jobs:
       matrix:
         dist: [xenial, bionic, focal]
         arch: [i386, amd64]
+        exclude:
+          - dist: focal
+            arch: i386
     runs-on: ubuntu-18.04
     steps:
     - name: Set upload parameters
