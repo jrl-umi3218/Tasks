@@ -1775,6 +1775,11 @@ public:
   {
     return calculatedForces_;
   }
+
+  const sva::ForceVecd & calculatedWrench() const
+  {
+    return calculatedBodyWrench_;
+  }
   
   void fdistRatio(const Eigen::Vector3d & ratio)
   {
