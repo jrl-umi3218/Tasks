@@ -2,6 +2,10 @@ name: CI of Tasks
 
 on:
   push:
+    paths-ignore:
+      # Changes to those files don't mandate running CI
+      - ".github/workflows/package.yml"
+      - "debian/**"
     branches:
       - '**'
   pull_request:
