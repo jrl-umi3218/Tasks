@@ -1947,6 +1947,8 @@ class TASKS_DLLAPI ForceDistributionTaskOptimized : public ForceDistributionTask
   Eigen::MatrixXd preA_;
 };
 
+/*
+ 
 class TASKS_DLLAPI ZMPWithForceDistributionTask : public ForceDistributionTaskOptimized
 {
 public:
@@ -2019,6 +2021,8 @@ public:
   Eigen::MatrixXd preQzmp_;
   Eigen::MatrixXd Qzmp_;
 };
+
+*/
   
 class TASKS_DLLAPI ZMPBasedCoMTask : public Task
 {

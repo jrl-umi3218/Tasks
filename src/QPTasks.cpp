@@ -2527,7 +2527,8 @@ void ForceDistributionTaskOptimized::update(const std::vector<rbd::MultiBody> & 
 /**
  *  ZMPWithForceDistributionTask - Not working
  */
-  
+
+/*
 ZMPWithForceDistributionTask::ZMPWithForceDistributionTask(const std::vector<rbd::MultiBody> & mbs,
 							   int robotIndex, const Eigen::Vector3d & zmp,
 							   double weight)
@@ -2629,6 +2630,8 @@ void ZMPWithForceDistributionTask::update(const std::vector<rbd::MultiBody> & mb
 
   Q_ = 0.0001 * Qfd_ + Qzmp_;
 }
+
+*/
   
 /**
  *  ZMPBasedCoMTask
