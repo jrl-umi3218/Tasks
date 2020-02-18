@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::qp::MultiCoMTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01216.html','');});
+$(document).ready(function(){initNavTree('a01213.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,32 +69,556 @@ $(document).ready(function(){initNavTree('a01216.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01210.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::ContactTask Member List</div>  </div>
+<div class="title">tasks::qp::MultiCoMTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01216.html">tasks::qp::ContactTask</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01216.html#aa57e803ab81c62fab4daaa6d2ec22493">begin</a>() const override</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01216.html#aa54ad1c8b418fc61d454f3fee15be9ab">C</a>() const override</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01216.html#a037148c6db1475dc6f36c42bc9e6317c">ContactTask</a>(ContactId contactId, double stiffness, double weight)</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01216.html#aad6d0b80121acdc77a7e5551eebeb92b">error</a>(const Eigen::Vector3d &amp;error)</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01216.html#a714afedfd93d1be2fc4baae72112b70e">errorD</a>(const Eigen::Vector3d &amp;errorD)</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01216.html#ae93808af2c2663ca31ae8f2f3c4cd984">Q</a>() const override</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01088.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01216.html#a90577acb68343fca1a43f2a04efb0297">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01216.html#a68bb42fab80a9d00569910598ee9fcfc">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a01216.html">tasks::qp::ContactTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01088.html#aa46b493ad3315c6fed56d294e387c2a4">weight</a>() const</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01088.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01088.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for tasks::qp::MultiCoMTask:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="a01213.png" usemap="#tasks::qp::MultiCoMTask_map" alt=""/>
+  <map id="tasks::qp::MultiCoMTask_map" name="tasks::qp::MultiCoMTask_map">
+<area href="a01097.html" alt="tasks::qp::Task" shape="rect" coords="0,0,145,24"/>
+</map>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a83d448ccdac0d5ea230e8434b45dcf5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a83d448ccdac0d5ea230e8434b45dcf5f">MultiCoMTask</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mb, std::vector&lt; int &gt; robotIndexes, const Eigen::Vector3d &amp;<a class="el" href="a01213.html#a24e9620f39cd1373795f289dee790358">com</a>, double <a class="el" href="a01213.html#aa513e4993ac530f3f726a9046bf61a8b">stiffness</a>, double <a class="el" href="a01097.html#aa46b493ad3315c6fed56d294e387c2a4">weight</a>)</td></tr>
+<tr class="separator:a83d448ccdac0d5ea230e8434b45dcf5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb784606cbeff3dd1f11242220b0a321"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#aeb784606cbeff3dd1f11242220b0a321">MultiCoMTask</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mb, std::vector&lt; int &gt; robotIndexes, const Eigen::Vector3d &amp;<a class="el" href="a01213.html#a24e9620f39cd1373795f289dee790358">com</a>, double <a class="el" href="a01213.html#aa513e4993ac530f3f726a9046bf61a8b">stiffness</a>, const Eigen::Vector3d &amp;<a class="el" href="a01213.html#ab6ab2c8b3a202e1a486917d670f16d90">dimWeight</a>, double <a class="el" href="a01097.html#aa46b493ad3315c6fed56d294e387c2a4">weight</a>)</td></tr>
+<tr class="separator:aeb784606cbeff3dd1f11242220b0a321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f73be76e6cfcb62ddce82f154531fc8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01293.html">tasks::MultiCoMTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a8f73be76e6cfcb62ddce82f154531fc8">task</a> ()</td></tr>
+<tr class="separator:a8f73be76e6cfcb62ddce82f154531fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24e9620f39cd1373795f289dee790358"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a24e9620f39cd1373795f289dee790358">com</a> (const Eigen::Vector3d &amp;com)</td></tr>
+<tr class="separator:a24e9620f39cd1373795f289dee790358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f212794a88f61914f1178c96b51b17c"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a9f212794a88f61914f1178c96b51b17c">com</a> () const</td></tr>
+<tr class="separator:a9f212794a88f61914f1178c96b51b17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a005cdfb54ff499a7dcae0a1844ec22b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a005cdfb54ff499a7dcae0a1844ec22b6">updateInertialParameters</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs)</td></tr>
+<tr class="separator:a005cdfb54ff499a7dcae0a1844ec22b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa513e4993ac530f3f726a9046bf61a8b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#aa513e4993ac530f3f726a9046bf61a8b">stiffness</a> () const</td></tr>
+<tr class="separator:aa513e4993ac530f3f726a9046bf61a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8221af719aa9467bc77dee576bb65150"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a8221af719aa9467bc77dee576bb65150">stiffness</a> (double stiffness)</td></tr>
+<tr class="separator:a8221af719aa9467bc77dee576bb65150"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6ab2c8b3a202e1a486917d670f16d90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#ab6ab2c8b3a202e1a486917d670f16d90">dimWeight</a> (const Eigen::Vector3d &amp;dim)</td></tr>
+<tr class="separator:ab6ab2c8b3a202e1a486917d670f16d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac398c1c957506a10ff723aa7242c0fe1"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#ac398c1c957506a10ff723aa7242c0fe1">dimWeight</a> () const</td></tr>
+<tr class="separator:ac398c1c957506a10ff723aa7242c0fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3667730ac23bf535009a8d7ec1d607f7"><td class="memItemLeft" align="right" valign="top">virtual std::pair&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a3667730ac23bf535009a8d7ec1d607f7">begin</a> () const override</td></tr>
+<tr class="separator:a3667730ac23bf535009a8d7ec1d607f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c934d8275e76cd3c59efe922d27b198"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a5c934d8275e76cd3c59efe922d27b198">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, const <a class="el" href="a01121.html">SolverData</a> &amp;data) override</td></tr>
+<tr class="separator:a5c934d8275e76cd3c59efe922d27b198"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc3b436843016eb07f6b7fea3379227"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a7bc3b436843016eb07f6b7fea3379227">update</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a01121.html">SolverData</a> &amp;data) override</td></tr>
+<tr class="separator:a7bc3b436843016eb07f6b7fea3379227"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34ec8f1a9927d1593091f10c9dfa6085"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#a34ec8f1a9927d1593091f10c9dfa6085">Q</a> () const override</td></tr>
+<tr class="separator:a34ec8f1a9927d1593091f10c9dfa6085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abae95d285b06299534084057e72baca3"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#abae95d285b06299534084057e72baca3">C</a> () const override</td></tr>
+<tr class="separator:abae95d285b06299534084057e72baca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa98046e882569c572c6366e7bca29707"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#aa98046e882569c572c6366e7bca29707">eval</a> () const</td></tr>
+<tr class="separator:aa98046e882569c572c6366e7bca29707"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ce542e9a84c743497aaf74ede80949"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01213.html#af7ce542e9a84c743497aaf74ede80949">speed</a> () const</td></tr>
+<tr class="separator:af7ce542e9a84c743497aaf74ede80949"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a01097"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a01097')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a01097.html">tasks::qp::Task</a></td></tr>
+<tr class="memitem:a240a4829e60aa9f824d8145a46c9b004 inherit pub_methods_a01097"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01097.html#a240a4829e60aa9f824d8145a46c9b004">Task</a> (double <a class="el" href="a01097.html#aa46b493ad3315c6fed56d294e387c2a4">weight</a>)</td></tr>
+<tr class="separator:a240a4829e60aa9f824d8145a46c9b004 inherit pub_methods_a01097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac477f102c9a66128557f4800bfb3bb43 inherit pub_methods_a01097"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01097.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a> ()</td></tr>
+<tr class="separator:ac477f102c9a66128557f4800bfb3bb43 inherit pub_methods_a01097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa46b493ad3315c6fed56d294e387c2a4 inherit pub_methods_a01097"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01097.html#aa46b493ad3315c6fed56d294e387c2a4">weight</a> () const</td></tr>
+<tr class="separator:aa46b493ad3315c6fed56d294e387c2a4 inherit pub_methods_a01097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22f65e49796726052dd54f4a393b0566 inherit pub_methods_a01097"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01097.html#a22f65e49796726052dd54f4a393b0566">weight</a> (double w)</td></tr>
+<tr class="separator:a22f65e49796726052dd54f4a393b0566 inherit pub_methods_a01097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a83d448ccdac0d5ea230e8434b45dcf5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83d448ccdac0d5ea230e8434b45dcf5f">&#9670;&nbsp;</a></span>MultiCoMTask() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::MultiCoMTask::MultiCoMTask </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>robotIndexes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>com</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>stiffness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>weight</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb784606cbeff3dd1f11242220b0a321"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb784606cbeff3dd1f11242220b0a321">&#9670;&nbsp;</a></span>MultiCoMTask() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::MultiCoMTask::MultiCoMTask </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>robotIndexes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>com</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>stiffness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>dimWeight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>weight</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3667730ac23bf535009a8d7ec1d607f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3667730ac23bf535009a8d7ec1d607f7">&#9670;&nbsp;</a></span>begin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::pair&lt;int, int&gt; tasks::qp::MultiCoMTask::begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01097.html#a4fb40197774e65a243a371592fd48bbf">tasks::qp::Task</a>.</p>
+
+</div>
+</div>
+<a id="abae95d285b06299534084057e72baca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abae95d285b06299534084057e72baca3">&#9670;&nbsp;</a></span>C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::MultiCoMTask::C </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01097.html#a83cf452e29dc09f6f1190a950497e4de">tasks::qp::Task</a>.</p>
+
+</div>
+</div>
+<a id="a24e9620f39cd1373795f289dee790358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24e9620f39cd1373795f289dee790358">&#9670;&nbsp;</a></span>com() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::MultiCoMTask::com </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>com</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f212794a88f61914f1178c96b51b17c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f212794a88f61914f1178c96b51b17c">&#9670;&nbsp;</a></span>com() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::Vector3d tasks::qp::MultiCoMTask::com </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab6ab2c8b3a202e1a486917d670f16d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6ab2c8b3a202e1a486917d670f16d90">&#9670;&nbsp;</a></span>dimWeight() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::MultiCoMTask::dimWeight </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>dim</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac398c1c957506a10ff723aa7242c0fe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac398c1c957506a10ff723aa7242c0fe1">&#9670;&nbsp;</a></span>dimWeight() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::qp::MultiCoMTask::dimWeight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa98046e882569c572c6366e7bca29707"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa98046e882569c572c6366e7bca29707">&#9670;&nbsp;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::qp::MultiCoMTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a34ec8f1a9927d1593091f10c9dfa6085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34ec8f1a9927d1593091f10c9dfa6085">&#9670;&nbsp;</a></span>Q()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::MultiCoMTask::Q </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01097.html#a1e36e39ffffe29c088d90b1c67ca2137">tasks::qp::Task</a>.</p>
+
+</div>
+</div>
+<a id="af7ce542e9a84c743497aaf74ede80949"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ce542e9a84c743497aaf74ede80949">&#9670;&nbsp;</a></span>speed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::qp::MultiCoMTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa513e4993ac530f3f726a9046bf61a8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa513e4993ac530f3f726a9046bf61a8b">&#9670;&nbsp;</a></span>stiffness() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double tasks::qp::MultiCoMTask::stiffness </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8221af719aa9467bc77dee576bb65150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8221af719aa9467bc77dee576bb65150">&#9670;&nbsp;</a></span>stiffness() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::MultiCoMTask::stiffness </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>stiffness</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f73be76e6cfcb62ddce82f154531fc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f73be76e6cfcb62ddce82f154531fc8">&#9670;&nbsp;</a></span>task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01293.html">tasks::MultiCoMTask</a>&amp; tasks::qp::MultiCoMTask::task </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bc3b436843016eb07f6b7fea3379227"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bc3b436843016eb07f6b7fea3379227">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::MultiCoMTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01121.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01097.html#ae23731fb2968a088eab6a5298542437b">tasks::qp::Task</a>.</p>
+
+</div>
+</div>
+<a id="a005cdfb54ff499a7dcae0a1844ec22b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a005cdfb54ff499a7dcae0a1844ec22b6">&#9670;&nbsp;</a></span>updateInertialParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::MultiCoMTask::updateInertialParameters </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c934d8275e76cd3c59efe922d27b198"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c934d8275e76cd3c59efe922d27b198">&#9670;&nbsp;</a></span>updateNrVars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::MultiCoMTask::updateNrVars </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01121.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01097.html#a5c5aceb3acc9164a75c73e3051b06577">tasks::qp::Task</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a00071.html">qp</a></li><li class="navelem"><a class="el" href="a01213.html">MultiCoMTask</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

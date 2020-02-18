@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::GazeTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01280.html','');});
+$(document).ready(function(){initNavTree('a01277.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,33 +69,418 @@ $(document).ready(function(){initNavTree('a01280.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01274.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::CoMTask Member List</div>  </div>
+<div class="title">tasks::GazeTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01280.html">tasks::CoMTask</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#abad06b1bf9cabf9863797b740c99d4d6">com</a>(const Eigen::Vector3d &amp;com)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01280.html#a15bb951f6dbbb12763efedadb78805cd">com</a>() const</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#ad4b7c8e51cc745de698e3d6bd2a2339e">CoMTask</a>(const rbd::MultiBody &amp;mb, const Eigen::Vector3d &amp;com)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01280.html#aecc4822eec67f013d9a8db414f019acb">CoMTask</a>(const rbd::MultiBody &amp;mb, const Eigen::Vector3d &amp;com, std::vector&lt; double &gt; weight)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#ae2b3c066b20e8fb0ca86c22da5963ea2">eval</a>() const</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01280.html#ab000f59398f9b8925b0fda45bbaa8ad3">jac</a>() const</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#a1ff73516dd579444bf719ac662562e54">jacDot</a>() const</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01280.html#a42ca3d08dc10de23fb2c7d18e3043a42">normalAcc</a>() const</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#a9b6e8fa94f3ddf119dd5fe52247ddfa1">speed</a>() const</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01280.html#a7f91a91ff834b70bdb04960ad215fabb">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#a289f61cc6113eeb7b8db231312f3872e">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const Eigen::Vector3d &amp;com, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01280.html#afe3cc241625aad1536805f62c0e6aa76">updateDot</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01280.html#a68c6af543ca48f350185a2ea2b8062e3">updateInertialParameters</a>(const rbd::MultiBody &amp;mb)</td><td class="entry"><a class="el" href="a01280.html">tasks::CoMTask</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aba1bfe65a758ea66b3861eb8f165c160"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#aba1bfe65a758ea66b3861eb8f165c160">GazeTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Vector2d &amp;point2d, double depthEstimate, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
+<tr class="separator:aba1bfe65a758ea66b3861eb8f165c160"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12599ce7b03170f7b9d33e521cfc417d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a12599ce7b03170f7b9d33e521cfc417d">GazeTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;point3d, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_gaze, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
+<tr class="separator:a12599ce7b03170f7b9d33e521cfc417d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87332fab30a87c03822bf31efcda8aeb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a87332fab30a87c03822bf31efcda8aeb">GazeTask</a> (const <a class="el" href="a01277.html">GazeTask</a> &amp;rhs)</td></tr>
+<tr class="separator:a87332fab30a87c03822bf31efcda8aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c9dfcd5e71d7af7f8d94476fbe9bb72"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a3c9dfcd5e71d7af7f8d94476fbe9bb72">GazeTask</a> (<a class="el" href="a01277.html">GazeTask</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a3c9dfcd5e71d7af7f8d94476fbe9bb72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d434428030eeca446ced9a18d19c60c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01277.html">GazeTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a6d434428030eeca446ced9a18d19c60c">operator=</a> (const <a class="el" href="a01277.html">GazeTask</a> &amp;rhs)</td></tr>
+<tr class="separator:a6d434428030eeca446ced9a18d19c60c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69d250bddb913512147c7850906402b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01277.html">GazeTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a69d250bddb913512147c7850906402b8">operator=</a> (<a class="el" href="a01277.html">GazeTask</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a69d250bddb913512147c7850906402b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a3a5341868b40b92cc1632695ec4ade"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a7a3a5341868b40b92cc1632695ec4ade">error</a> (const Eigen::Vector2d &amp;point2d, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
+<tr class="separator:a7a3a5341868b40b92cc1632695ec4ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aaf67f35aab816daa37233c713583c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a6aaf67f35aab816daa37233c713583c6">error</a> (const Eigen::Vector3d &amp;point3d, const Eigen::Vector2d &amp;point2d_ref=Eigen::Vector2d::Zero())</td></tr>
+<tr class="separator:a6aaf67f35aab816daa37233c713583c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38f3201c5c73d5f8604deec4e5dca994"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a38f3201c5c73d5f8604deec4e5dca994">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a38f3201c5c73d5f8604deec4e5dca994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88cbac9f9e6eefc943c29c71112fe92a"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a88cbac9f9e6eefc943c29c71112fe92a">eval</a> () const</td></tr>
+<tr class="separator:a88cbac9f9e6eefc943c29c71112fe92a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878677ece8cfa0616b69324439f985da"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a878677ece8cfa0616b69324439f985da">speed</a> () const</td></tr>
+<tr class="separator:a878677ece8cfa0616b69324439f985da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00cdee887779d01af1a8ab19bcc9eb77"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a00cdee887779d01af1a8ab19bcc9eb77">normalAcc</a> () const</td></tr>
+<tr class="separator:a00cdee887779d01af1a8ab19bcc9eb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab87f7137cbc82a7025eb0f138efed0"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#aeab87f7137cbc82a7025eb0f138efed0">jac</a> () const</td></tr>
+<tr class="separator:aeab87f7137cbc82a7025eb0f138efed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f8ec1e5d0613d667423aa6615d5aa49"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01277.html#a9f8ec1e5d0613d667423aa6615d5aa49">jacDot</a> () const</td></tr>
+<tr class="separator:a9f8ec1e5d0613d667423aa6615d5aa49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aba1bfe65a758ea66b3861eb8f165c160"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba1bfe65a758ea66b3861eb8f165c160">&#9670;&nbsp;</a></span>GazeTask() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::GazeTask::GazeTask </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>point2d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>depthEstimate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_b_gaze</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12599ce7b03170f7b9d33e521cfc417d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12599ce7b03170f7b9d33e521cfc417d">&#9670;&nbsp;</a></span>GazeTask() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::GazeTask::GazeTask </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>point3d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_b_gaze</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a87332fab30a87c03822bf31efcda8aeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87332fab30a87c03822bf31efcda8aeb">&#9670;&nbsp;</a></span>GazeTask() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::GazeTask::GazeTask </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a01277.html">GazeTask</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c9dfcd5e71d7af7f8d94476fbe9bb72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c9dfcd5e71d7af7f8d94476fbe9bb72">&#9670;&nbsp;</a></span>GazeTask() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::GazeTask::GazeTask </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01277.html">GazeTask</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7a3a5341868b40b92cc1632695ec4ade"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a3a5341868b40b92cc1632695ec4ade">&#9670;&nbsp;</a></span>error() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::GazeTask::error </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>point2d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6aaf67f35aab816daa37233c713583c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6aaf67f35aab816daa37233c713583c6">&#9670;&nbsp;</a></span>error() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::GazeTask::error </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>point3d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector2d &amp;&#160;</td>
+          <td class="paramname"><em>point2d_ref</em> = <code>Eigen::Vector2d::Zero()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88cbac9f9e6eefc943c29c71112fe92a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88cbac9f9e6eefc943c29c71112fe92a">&#9670;&nbsp;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::GazeTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeab87f7137cbc82a7025eb0f138efed0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab87f7137cbc82a7025eb0f138efed0">&#9670;&nbsp;</a></span>jac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::GazeTask::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f8ec1e5d0613d667423aa6615d5aa49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f8ec1e5d0613d667423aa6615d5aa49">&#9670;&nbsp;</a></span>jacDot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::GazeTask::jacDot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00cdee887779d01af1a8ab19bcc9eb77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00cdee887779d01af1a8ab19bcc9eb77">&#9670;&nbsp;</a></span>normalAcc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::GazeTask::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d434428030eeca446ced9a18d19c60c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d434428030eeca446ced9a18d19c60c">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01277.html">GazeTask</a>&amp; tasks::GazeTask::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="a01277.html">GazeTask</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a69d250bddb913512147c7850906402b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69d250bddb913512147c7850906402b8">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01277.html">GazeTask</a>&amp; tasks::GazeTask::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a01277.html">GazeTask</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a878677ece8cfa0616b69324439f985da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a878677ece8cfa0616b69324439f985da">&#9670;&nbsp;</a></span>speed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::GazeTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38f3201c5c73d5f8604deec4e5dca994"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38f3201c5c73d5f8604deec4e5dca994">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::GazeTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a01277.html">GazeTask</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::AlphaBound Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00912.html','');});
+$(document).ready(function(){initNavTree('a00909.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,32 +69,141 @@ $(document).ready(function(){initNavTree('a00912.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a00906.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::GenQPSolver Member List</div>  </div>
+<div class="title">tasks::AlphaBound Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00912.html">tasks::qp::GenQPSolver</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00912.html#ad8ee5e4fad141ae5f5e8b73e3842e847">default_qp_solver</a></td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00912.html#aab010e6097d3344cc671ecd6b8e2a120">dependencies_</a></td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00912.html#a4cf03fcd10207b5001b41f6fc26921bf">errorMsg</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr, std::ostream &amp;out) const =0</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00912.html#ad497fb681272aef64e78c7b3a775bfbf">fullToReduced_</a></td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00912.html#aec603fc65e65ca4f3c38f94e50ed6790">name</a>() const =0</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00912.html#a7db3d83a10b1e0c60541ff1b0b226edd">reducedToFull_</a></td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00912.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e">result</a>() const =0</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00912.html#abb590ac28fb2fa760304d276fd59e20c">setDependencies</a>(int nrVars, std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; dependencies)</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00912.html#afb9f3d99281925cd65cf1f9b29ce89ac">solve</a>()=0</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00912.html#a8fa9c75d06717be72cd03c6be8d966fc">updateMatrix</a>(const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr)=0</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00912.html#aaf305726925f3693e24dd82b473817e3">updateSize</a>(int nrVars, int nrEq, int nrInEq, int nrGenInEq)=0</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00912.html#abc3b4a33780f8fe00fd5d3385dbaf808">~GenQPSolver</a>()</td><td class="entry"><a class="el" href="a00912.html">tasks::qp::GenQPSolver</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p>General velocity vector bounds \( \underline{\alpha} \) and \( \overline{\alpha} \).  
+ <a href="a00909.html#details">More...</a></p>
+
+<p><code>#include &lt;Tasks/Bounds.h&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a5810daa83803edea5dfe2778e2fbca06"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00909.html#a5810daa83803edea5dfe2778e2fbca06">AlphaBound</a> ()</td></tr>
+<tr class="separator:a5810daa83803edea5dfe2778e2fbca06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0e37a2fff651a7fca0f817c57b8d98f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00909.html#ae0e37a2fff651a7fca0f817c57b8d98f">AlphaBound</a> (std::vector&lt; std::vector&lt; double &gt;&gt; lAB, std::vector&lt; std::vector&lt; double &gt;&gt; uAB)</td></tr>
+<tr class="separator:ae0e37a2fff651a7fca0f817c57b8d98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a47628045f7248f1147c17f17fa16d554"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00909.html#a47628045f7248f1147c17f17fa16d554">lAlphaBound</a></td></tr>
+<tr class="memdesc:a47628045f7248f1147c17f17fa16d554"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \underline{\alpha} \)  <a href="#a47628045f7248f1147c17f17fa16d554">More...</a><br /></td></tr>
+<tr class="separator:a47628045f7248f1147c17f17fa16d554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfb664f324979f6c87525b6442061b7f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00909.html#adfb664f324979f6c87525b6442061b7f">uAlphaBound</a></td></tr>
+<tr class="memdesc:adfb664f324979f6c87525b6442061b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">\( \overline{\alpha} \)  <a href="#adfb664f324979f6c87525b6442061b7f">More...</a><br /></td></tr>
+<tr class="separator:adfb664f324979f6c87525b6442061b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>General velocity vector bounds \( \underline{\alpha} \) and \( \overline{\alpha} \). </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a5810daa83803edea5dfe2778e2fbca06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5810daa83803edea5dfe2778e2fbca06">&#9670;&nbsp;</a></span>AlphaBound() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::AlphaBound::AlphaBound </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae0e37a2fff651a7fca0f817c57b8d98f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0e37a2fff651a7fca0f817c57b8d98f">&#9670;&nbsp;</a></span>AlphaBound() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::AlphaBound::AlphaBound </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>lAB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>uAB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a47628045f7248f1147c17f17fa16d554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47628045f7248f1147c17f17fa16d554">&#9670;&nbsp;</a></span>lAlphaBound</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::AlphaBound::lAlphaBound</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>\( \underline{\alpha} \) </p>
+
+</div>
+</div>
+<a id="adfb664f324979f6c87525b6442061b7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfb664f324979f6c87525b6442061b7f">&#9670;&nbsp;</a></span>uAlphaBound</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::vector&lt;double&gt; &gt; tasks::AlphaBound::uAlphaBound</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>\( \overline{\alpha} \) </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a00909.html">AlphaBound</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

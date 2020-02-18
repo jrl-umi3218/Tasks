@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::qp::Constraint Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01076.html','');});
+$(document).ready(function(){initNavTree('a01073.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,29 +69,165 @@ $(document).ready(function(){initNavTree('a01076.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01070.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::Inequality Member List</div>  </div>
+<div class="title">tasks::qp::Constraint Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01076.html">tasks::qp::Inequality</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01076.html#ace2e121e878fea4264e37d5cb15dc868">addToSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01076.html#a7aa735890ecd53799b4a1604188b9b21">AInEq</a>() const =0</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01076.html#ac3bdd0a2b50b6560f33b0e5fdd106bfa">bInEq</a>() const =0</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01076.html#af5215e8d2075f290375e9e4342cfb801">descInEq</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int i)=0</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01076.html#a8881dfaffbeff43b333cf9d30675f67f">maxInEq</a>() const =0</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01076.html#ae498b14de5f3bb6786e04828c74ea88b">nameInEq</a>() const =0</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01076.html#a23f610ba512845c6ed59a18d43bc6636">nrInEq</a>() const</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01076.html#a6b76e75f578ae739fa31aecbddc937fc">removeFromSolver</a>(QPSolver &amp;sol)</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01076.html#a8971f0b14e1d2ea3e5b126692ff6fcf8">~Inequality</a>()</td><td class="entry"><a class="el" href="a01076.html">tasks::qp::Inequality</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;Tasks/QPSolver.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for tasks::qp::Constraint:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="a01073.png" usemap="#tasks::qp::Constraint_map" alt=""/>
+  <map id="tasks::qp::Constraint_map" name="tasks::qp::Constraint_map">
+<area href="a01077.html" alt="tasks::qp::ConstraintFunction&lt; Bound &gt;" shape="rect" coords="0,56,271,80"/>
+<area href="a01077.html" alt="tasks::qp::ConstraintFunction&lt; Equality &gt;" shape="rect" coords="562,56,833,80"/>
+<area href="a01077.html" alt="tasks::qp::ConstraintFunction&lt; GenInequality &gt;" shape="rect" coords="843,56,1114,80"/>
+<area href="a01077.html" alt="tasks::qp::ConstraintFunction&lt; Inequality &gt;" shape="rect" coords="1405,56,1676,80"/>
+<area href="a01077.html" alt="tasks::qp::ConstraintFunction&lt; Fun &gt;" shape="rect" coords="1686,56,1957,80"/>
+<area href="a00929.html" title="Avoid to reach articular position and velocity limits based on a velocity damper. ..." alt="tasks::qp::DamperJointLimitsConstr" shape="rect" coords="281,112,552,136"/>
+<area href="a00925.html" title="Avoid to reach articular position limits based on direct integration. " alt="tasks::qp::JointLimitsConstr" shape="rect" coords="281,168,552,192"/>
+<area href="a01033.html" alt="tasks::qp::PositiveLambda" shape="rect" coords="281,224,552,248"/>
+<area href="a00993.html" title="Common contact constraint computation. " alt="tasks::qp::ContactConstr" shape="rect" coords="562,112,833,136"/>
+<area href="a00965.html" title="Constraint some link velocity in link frame by direct integration. " alt="tasks::qp::BoundedSpeedConstr" shape="rect" coords="1124,112,1395,136"/>
+<area href="a01041.html" alt="tasks::qp::MotionConstrCommon" shape="rect" coords="1124,168,1395,192"/>
+<area href="a00937.html" title="Avoid that too robot links enter into collision based on a velocity damper. " alt="tasks::qp::CollisionConstr" shape="rect" coords="1686,112,1957,136"/>
+<area href="a00949.html" title="Prevent robot CoM to go out of a convex hull. " alt="tasks::qp::CoMIncPlaneConstr" shape="rect" coords="1686,168,1957,192"/>
+<area href="a00957.html" alt="tasks::qp::GripperTorqueConstr" shape="rect" coords="1686,224,1957,248"/>
+<area href="a00973.html" title="Generalized Image Point Constraint This can be used as either a Field of View constraint or an Occlus..." alt="tasks::qp::ImageConstr" shape="rect" coords="1686,280,1957,304"/>
+</map>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ab0a2de8684c5cb2901578a345ec0c162"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01073.html#ab0a2de8684c5cb2901578a345ec0c162">~Constraint</a> ()</td></tr>
+<tr class="separator:ab0a2de8684c5cb2901578a345ec0c162"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d20144cd73582d7f597f4806bfdc132"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01073.html#a1d20144cd73582d7f597f4806bfdc132">updateNrVars</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;msb, const <a class="el" href="a01121.html">SolverData</a> &amp;data)=0</td></tr>
+<tr class="separator:a1d20144cd73582d7f597f4806bfdc132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaa7ba68e4d9fcbf627c048aef01dc43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01073.html#acaa7ba68e4d9fcbf627c048aef01dc43">update</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a01121.html">SolverData</a> &amp;data)=0</td></tr>
+<tr class="separator:acaa7ba68e4d9fcbf627c048aef01dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab0a2de8684c5cb2901578a345ec0c162"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0a2de8684c5cb2901578a345ec0c162">&#9670;&nbsp;</a></span>~Constraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual tasks::qp::Constraint::~Constraint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="acaa7ba68e4d9fcbf627c048aef01dc43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaa7ba68e4d9fcbf627c048aef01dc43">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::Constraint::update </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01121.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00973.html#a247edf4a8f16779ac316498e3e921a23">tasks::qp::ImageConstr</a>, <a class="el" href="a00965.html#aa85fbe1d319ff21386fc106b2979e621">tasks::qp::BoundedSpeedConstr</a>, <a class="el" href="a00957.html#a42017c9a838cfb0dd9b189f10ad820a9">tasks::qp::GripperTorqueConstr</a>, <a class="el" href="a00949.html#a1110af78967fdbf83c6ad56c4ae99280">tasks::qp::CoMIncPlaneConstr</a>, <a class="el" href="a00937.html#aad283323a7817f32ba5983d0b58454dd">tasks::qp::CollisionConstr</a>, <a class="el" href="a01013.html#aad4a67abd934dafb56469538cf7ab3ea">tasks::qp::ContactPosConstr</a>, <a class="el" href="a01009.html#a5efaf89905603ee2579a909bc1b6f215">tasks::qp::ContactSpeedConstr</a>, <a class="el" href="a01065.html#a294bc8b3c50ce8ce6ba423a08df9d3d1">tasks::qp::MotionPolyConstr</a>, <a class="el" href="a01005.html#a998ceb1758f59060e35f79645d768081">tasks::qp::ContactAccConstr</a>, <a class="el" href="a01057.html#abc6952a34aa867dad0e34cbf1497afa9">tasks::qp::MotionSpringConstr</a>, <a class="el" href="a00929.html#a1d0a2b753ffc9366583f4b86ce909ab5">tasks::qp::DamperJointLimitsConstr</a>, <a class="el" href="a01049.html#a4ca88b49c206bd95963294c4fadff0a9">tasks::qp::MotionConstr</a>, <a class="el" href="a00925.html#ad1bb25d2f65316dc645eda9db015e1ba">tasks::qp::JointLimitsConstr</a>, and <a class="el" href="a01033.html#ac757a23a5327ba6c2975494a800625c1">tasks::qp::PositiveLambda</a>.</p>
+
+</div>
+</div>
+<a id="a1d20144cd73582d7f597f4806bfdc132"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d20144cd73582d7f597f4806bfdc132">&#9670;&nbsp;</a></span>updateNrVars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::Constraint::updateNrVars </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>msb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01121.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="a00973.html#a0fd49c0ccf725afd398d3448fd4bfa72">tasks::qp::ImageConstr</a>, <a class="el" href="a00965.html#a0f7f98fca4b36a6c87b724fb598698b0">tasks::qp::BoundedSpeedConstr</a>, <a class="el" href="a00957.html#abe6ec4a958f76661992909e5e78f9c27">tasks::qp::GripperTorqueConstr</a>, <a class="el" href="a00949.html#a9ea58938e66c71938ee2837293441da8">tasks::qp::CoMIncPlaneConstr</a>, <a class="el" href="a00937.html#ad0c21cf42a3f36765645661d7ee32ddc">tasks::qp::CollisionConstr</a>, <a class="el" href="a00929.html#aa6a111694fc46b4f2f19418975ca7fa1">tasks::qp::DamperJointLimitsConstr</a>, <a class="el" href="a00993.html#a352528abbb9c6e56277ce59762644268">tasks::qp::ContactConstr</a>, <a class="el" href="a01041.html#a2f0de18ccc2c231a3930d21a468eb5db">tasks::qp::MotionConstrCommon</a>, <a class="el" href="a00925.html#a984be9df17be72329169928ea4e550e5">tasks::qp::JointLimitsConstr</a>, and <a class="el" href="a01033.html#af516ba59fed96817b3eb62bd581f05cf">tasks::qp::PositiveLambda</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a00071.html">qp</a></li><li class="navelem"><a class="el" href="a01073.html">Constraint</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

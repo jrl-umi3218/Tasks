@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['linvelocitytask',['LinVelocityTask',['../a01224.html',1,'tasks::qp::LinVelocityTask'],['../a01292.html',1,'tasks::LinVelocityTask']]],
-  ['lssolqpsolver',['LSSOLQPSolver',['../a00888.html',1,'tasks::qp']]]
+  ['linvelocitytask',['LinVelocityTask',['../a01233.html',1,'tasks::qp::LinVelocityTask'],['../a01301.html',1,'tasks::LinVelocityTask']]],
+  ['lssolqpsolver',['LSSOLQPSolver',['../a00897.html',1,'tasks::qp']]]
 ];

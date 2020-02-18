@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::qp::PositionBasedVisServoTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01208.html','');});
+$(document).ready(function(){initNavTree('a01205.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,41 +69,335 @@ $(document).ready(function(){initNavTree('a01208.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01202.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::MultiRobotTransformTask Member List</div>  </div>
+<div class="title">tasks::qp::PositionBasedVisServoTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#a62994de890fe6c6c007cb575793e5acf">begin</a>() const override</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#aba4376ae9a56de8427bc8821cb91717d">C</a>() const override</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#a3da35f9a95d597d82e640729611166bf">dimWeight</a>(const Eigen::Vector6d &amp;dim)</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#a9c9ff0cd56feb0eb0d0aaf6dbd7096d5">dimWeight</a>() const</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#aad8eaa316dc6645b9830d7f54b1401b5">eval</a>() const</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#a438e347acb8969ab6a948c2e726bab66">MultiRobotTransformTask</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, const sva::PTransformd &amp;X_r1b_r1s, const sva::PTransformd &amp;X_r2b_r2s, double stiffness, double weight)</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#ac625104a79177da111e996e03cfe9255">Q</a>() const override</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#abe0b7f72274b0ad80bada70930cc71e4">speed</a>() const</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#a9e23329e5a1eb9b33db3236921ec6eab">stiffness</a>() const</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#ab3e574aef688945a13ab3de0cda4924a">stiffness</a>(double stiffness)</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01088.html#a240a4829e60aa9f824d8145a46c9b004">Task</a>(double weight)</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#ad333f1aa17a31d472a9548d1823dc012">task</a>()</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#a6830876e0c5f20c8165a0868cb57398b">update</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#a4572a60574c8a6aaf4aefc1c48d19f61">updateNrVars</a>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const SolverData &amp;data) override</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01088.html#aa46b493ad3315c6fed56d294e387c2a4">weight</a>() const</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01088.html#a22f65e49796726052dd54f4a393b0566">weight</a>(double w)</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#a3f042cc46b00c04c05133f2e319bc0e2">X_r1b_r1s</a>(const sva::PTransformd &amp;X_r1b_r1s)</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#a1e5ef566529294b3f86c1a6883d95023">X_r1b_r1s</a>() const</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01208.html#a79b01da25b40a7c24c449976394da2eb">X_r2b_r2s</a>(const sva::PTransformd &amp;X_r2b_r2s)</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01208.html#ae1fef729e15b50e7eba0c8f7029bf0e9">X_r2b_r2s</a>() const</td><td class="entry"><a class="el" href="a01208.html">tasks::qp::MultiRobotTransformTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01088.html#ac477f102c9a66128557f4800bfb3bb43">~Task</a>()</td><td class="entry"><a class="el" href="a01088.html">tasks::qp::Task</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for tasks::qp::PositionBasedVisServoTask:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="a01205.png" usemap="#tasks::qp::PositionBasedVisServoTask_map" alt=""/>
+  <map id="tasks::qp::PositionBasedVisServoTask_map" name="tasks::qp::PositionBasedVisServoTask_map">
+<area href="a01101.html" alt="tasks::qp::HighLevelTask" shape="rect" coords="0,0,222,24"/>
+</map>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a354e8653167d8351ace362339c4db9b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a354e8653167d8351ace362339c4db9b0">PositionBasedVisServoTask</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_t_s, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_b_s=<a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00639.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>())</td></tr>
+<tr class="separator:a354e8653167d8351ace362339c4db9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e523b76b079de3ac9d0b4e36e0b7a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01281.html">tasks::PositionBasedVisServoTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a08e523b76b079de3ac9d0b4e36e0b7a2">task</a> ()</td></tr>
+<tr class="separator:a08e523b76b079de3ac9d0b4e36e0b7a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18f74604dedd9fab8d985bfde7f939af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a18f74604dedd9fab8d985bfde7f939af">error</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;X_t_s)</td></tr>
+<tr class="separator:a18f74604dedd9fab8d985bfde7f939af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a944dae3728acf481d09607c2a54c9b53"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a944dae3728acf481d09607c2a54c9b53">dim</a> () override</td></tr>
+<tr class="separator:a944dae3728acf481d09607c2a54c9b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4e6cdeb77ecbe9f4628247f3d73dfa9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#ab4e6cdeb77ecbe9f4628247f3d73dfa9">update</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a01121.html">SolverData</a> &amp;data) override</td></tr>
+<tr class="separator:ab4e6cdeb77ecbe9f4628247f3d73dfa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a528e714c835748e5bcdda5ff231d9bad"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a528e714c835748e5bcdda5ff231d9bad">jac</a> () override</td></tr>
+<tr class="separator:a528e714c835748e5bcdda5ff231d9bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a488e929765d90b39ea4cd344ef131510"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a488e929765d90b39ea4cd344ef131510">eval</a> () override</td></tr>
+<tr class="separator:a488e929765d90b39ea4cd344ef131510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a85ee189d9d7dd01ea7816dab35186"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a68a85ee189d9d7dd01ea7816dab35186">speed</a> () override</td></tr>
+<tr class="separator:a68a85ee189d9d7dd01ea7816dab35186"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a752b21fd54a6580e307c9c6d4587877a"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01205.html#a752b21fd54a6580e307c9c6d4587877a">normalAcc</a> () override</td></tr>
+<tr class="separator:a752b21fd54a6580e307c9c6d4587877a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a01101"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a01101')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a01101.html">tasks::qp::HighLevelTask</a></td></tr>
+<tr class="memitem:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a01101"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01101.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a> ()</td></tr>
+<tr class="separator:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a01101"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a354e8653167d8351ace362339c4db9b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a354e8653167d8351ace362339c4db9b0">&#9670;&nbsp;</a></span>PositionBasedVisServoTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::PositionBasedVisServoTask::PositionBasedVisServoTask </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_t_s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_b_s</em> = <code><a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00639.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransformd::Identity</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a944dae3728acf481d09607c2a54c9b53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a944dae3728acf481d09607c2a54c9b53">&#9670;&nbsp;</a></span>dim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::PositionBasedVisServoTask::dim </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#aed24cd07ba6490a8508c2fcbc52e33f6">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a18f74604dedd9fab8d985bfde7f939af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18f74604dedd9fab8d985bfde7f939af">&#9670;&nbsp;</a></span>error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::PositionBasedVisServoTask::error </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#a259dde998fab6de957995eedfdb4d179">sva::PTransformd</a> &amp;&#160;</td>
+          <td class="paramname"><em>X_t_s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a488e929765d90b39ea4cd344ef131510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a488e929765d90b39ea4cd344ef131510">&#9670;&nbsp;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::PositionBasedVisServoTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#af7a1c4c56697a44df3e692e76a42dc49">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a528e714c835748e5bcdda5ff231d9bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a528e714c835748e5bcdda5ff231d9bad">&#9670;&nbsp;</a></span>jac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::PositionBasedVisServoTask::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#a843ba46006369277b515a6a22cbe08f9">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a752b21fd54a6580e307c9c6d4587877a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a752b21fd54a6580e307c9c6d4587877a">&#9670;&nbsp;</a></span>normalAcc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::PositionBasedVisServoTask::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#ad5b4b5ca67ce2b059cb44b4e00918b38">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a68a85ee189d9d7dd01ea7816dab35186"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68a85ee189d9d7dd01ea7816dab35186">&#9670;&nbsp;</a></span>speed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::PositionBasedVisServoTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#a39cc67617b7d74386e638f1e5b0da083">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a08e523b76b079de3ac9d0b4e36e0b7a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08e523b76b079de3ac9d0b4e36e0b7a2">&#9670;&nbsp;</a></span>task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01281.html">tasks::PositionBasedVisServoTask</a>&amp; tasks::qp::PositionBasedVisServoTask::task </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4e6cdeb77ecbe9f4628247f3d73dfa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4e6cdeb77ecbe9f4628247f3d73dfa9">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::PositionBasedVisServoTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01121.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#a6af9649e3cd0adc1643a029333897d02">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a00071.html">qp</a></li><li class="navelem"><a class="el" href="a01205.html">PositionBasedVisServoTask</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

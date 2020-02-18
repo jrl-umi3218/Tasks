@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::qp::OrientationTrackingTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01240.html','');});
+$(document).ready(function(){initNavTree('a01237.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,33 +69,484 @@ $(document).ready(function(){initNavTree('a01240.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01234.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::PositionTask Member List</div>  </div>
+<div class="title">tasks::qp::OrientationTrackingTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01240.html">tasks::PositionTask</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a7a2ca4be9a7dbeb95a4446874895628d">bodyPoint</a>(const Eigen::Vector3d &amp;point)</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01240.html#a2bffe60c3cba1cbef682d84b0f8477e7">bodyPoint</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a7868fc50c34b95df66cb8131e4688e05">eval</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01240.html#a7a4377ff40443b37619e2f350043b5b2">jac</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a4a91487dacd1b0d1795fbde0f0d6b747">jacDot</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01240.html#a60bb898385e77d6d8d4f94478c6fe8c3">normalAcc</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a818b07e3aabb8b4706b47a1e95a47a87">position</a>(const Eigen::Vector3d &amp;pos)</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01240.html#a233b0bedf0ac5b3fe0ba3d18e7e1d8bc">position</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a1a41b45043e1586d8fc684471f34e9c0">PositionTask</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;pos, const Eigen::Vector3d &amp;bodyPoint=Eigen::Vector3d::Zero())</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01240.html#a007fa73b7112b84cb34a1fce25819d97">speed</a>() const</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a7d3a8ff6985e75f435c7fb37828bfaf7">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01240.html#a8751f0ff4aceca35a755979bb7e2343a">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01240.html#a838e7875aeb7b6d34a083a48ca1124d7">updateDot</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td><td class="entry"><a class="el" href="a01240.html">tasks::PositionTask</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;Tasks/QPTasks.h&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for tasks::qp::OrientationTrackingTask:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="a01237.png" usemap="#tasks::qp::OrientationTrackingTask_map" alt=""/>
+  <map id="tasks::qp::OrientationTrackingTask_map" name="tasks::qp::OrientationTrackingTask_map">
+<area href="a01101.html" alt="tasks::qp::HighLevelTask" shape="rect" coords="0,0,202,24"/>
+</map>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a9093bee511f486da7ef68cbd8675fffe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a9093bee511f486da7ef68cbd8675fffe">OrientationTrackingTask</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;<a class="el" href="a01237.html#ac00a77ee9ba777f8d4787d2de7b8d2d1">bodyPoint</a>, const Eigen::Vector3d &amp;<a class="el" href="a01237.html#a96cd54d60050fbf75507938f666364e1">bodyAxis</a>, const std::vector&lt; std::string &gt; &amp;trackingJointsName, const Eigen::Vector3d &amp;<a class="el" href="a01237.html#a5dad8875dc7ea013ca5642959e1fc590">trackedPoint</a>)</td></tr>
+<tr class="separator:a9093bee511f486da7ef68cbd8675fffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af19b576f25879b9372466010f75b45a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a01305.html">tasks::OrientationTrackingTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#af19b576f25879b9372466010f75b45a0">task</a> ()</td></tr>
+<tr class="separator:af19b576f25879b9372466010f75b45a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dad8875dc7ea013ca5642959e1fc590"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a5dad8875dc7ea013ca5642959e1fc590">trackedPoint</a> (const Eigen::Vector3d &amp;tp)</td></tr>
+<tr class="separator:a5dad8875dc7ea013ca5642959e1fc590"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cbbca770aa4c2c757f069a967610c2b"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a8cbbca770aa4c2c757f069a967610c2b">trackedPoint</a> () const</td></tr>
+<tr class="separator:a8cbbca770aa4c2c757f069a967610c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac00a77ee9ba777f8d4787d2de7b8d2d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#ac00a77ee9ba777f8d4787d2de7b8d2d1">bodyPoint</a> (const Eigen::Vector3d &amp;bp)</td></tr>
+<tr class="separator:ac00a77ee9ba777f8d4787d2de7b8d2d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81e1bcf219868e1287874967b029b77d"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a81e1bcf219868e1287874967b029b77d">bodyPoint</a> () const</td></tr>
+<tr class="separator:a81e1bcf219868e1287874967b029b77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96cd54d60050fbf75507938f666364e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a96cd54d60050fbf75507938f666364e1">bodyAxis</a> (const Eigen::Vector3d &amp;ba)</td></tr>
+<tr class="separator:a96cd54d60050fbf75507938f666364e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad88e6d9db2eaf7019a0e2b1dbfbd063"><td class="memItemLeft" align="right" valign="top">const Eigen::Vector3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#aad88e6d9db2eaf7019a0e2b1dbfbd063">bodyAxis</a> () const</td></tr>
+<tr class="separator:aad88e6d9db2eaf7019a0e2b1dbfbd063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1091b454430ab6adffc179635ea04e1"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#ae1091b454430ab6adffc179635ea04e1">dim</a> () override</td></tr>
+<tr class="separator:ae1091b454430ab6adffc179635ea04e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5a6c523af2c1cc8eac1be06eefaa339"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#ae5a6c523af2c1cc8eac1be06eefaa339">update</a> (const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;mbs, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;mbcs, const <a class="el" href="a01121.html">SolverData</a> &amp;data) override</td></tr>
+<tr class="separator:ae5a6c523af2c1cc8eac1be06eefaa339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf8e3e3fa8643007bca85d468112144f"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#adf8e3e3fa8643007bca85d468112144f">jac</a> () override</td></tr>
+<tr class="separator:adf8e3e3fa8643007bca85d468112144f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bee0d2f36a82e2588f94ccb9c903dfe"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a8bee0d2f36a82e2588f94ccb9c903dfe">eval</a> () override</td></tr>
+<tr class="separator:a8bee0d2f36a82e2588f94ccb9c903dfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a7b0dcd72f3702596bea58c9c89af64"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a9a7b0dcd72f3702596bea58c9c89af64">speed</a> () override</td></tr>
+<tr class="separator:a9a7b0dcd72f3702596bea58c9c89af64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74c28709b05b5d40e4b82f11ef8e2b84"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01237.html#a74c28709b05b5d40e4b82f11ef8e2b84">normalAcc</a> () override</td></tr>
+<tr class="separator:a74c28709b05b5d40e4b82f11ef8e2b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a01101"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a01101')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="a01101.html">tasks::qp::HighLevelTask</a></td></tr>
+<tr class="memitem:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a01101"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01101.html#ac11194ec5a81fc18b68209eadfcbf9cc">~HighLevelTask</a> ()</td></tr>
+<tr class="separator:ac11194ec5a81fc18b68209eadfcbf9cc inherit pub_methods_a01101"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a9093bee511f486da7ef68cbd8675fffe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9093bee511f486da7ef68cbd8675fffe">&#9670;&nbsp;</a></span>OrientationTrackingTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::OrientationTrackingTask::OrientationTrackingTask </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>bodyPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>bodyAxis</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>trackingJointsName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>trackedPoint</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a96cd54d60050fbf75507938f666364e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96cd54d60050fbf75507938f666364e1">&#9670;&nbsp;</a></span>bodyAxis() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::OrientationTrackingTask::bodyAxis </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>ba</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad88e6d9db2eaf7019a0e2b1dbfbd063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad88e6d9db2eaf7019a0e2b1dbfbd063">&#9670;&nbsp;</a></span>bodyAxis() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::qp::OrientationTrackingTask::bodyAxis </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac00a77ee9ba777f8d4787d2de7b8d2d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac00a77ee9ba777f8d4787d2de7b8d2d1">&#9670;&nbsp;</a></span>bodyPoint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::OrientationTrackingTask::bodyPoint </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>bp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81e1bcf219868e1287874967b029b77d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81e1bcf219868e1287874967b029b77d">&#9670;&nbsp;</a></span>bodyPoint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::qp::OrientationTrackingTask::bodyPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae1091b454430ab6adffc179635ea04e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1091b454430ab6adffc179635ea04e1">&#9670;&nbsp;</a></span>dim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int tasks::qp::OrientationTrackingTask::dim </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#aed24cd07ba6490a8508c2fcbc52e33f6">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a8bee0d2f36a82e2588f94ccb9c903dfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bee0d2f36a82e2588f94ccb9c903dfe">&#9670;&nbsp;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::OrientationTrackingTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#af7a1c4c56697a44df3e692e76a42dc49">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="adf8e3e3fa8643007bca85d468112144f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf8e3e3fa8643007bca85d468112144f">&#9670;&nbsp;</a></span>jac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::OrientationTrackingTask::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#a843ba46006369277b515a6a22cbe08f9">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a74c28709b05b5d40e4b82f11ef8e2b84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74c28709b05b5d40e4b82f11ef8e2b84">&#9670;&nbsp;</a></span>normalAcc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::OrientationTrackingTask::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#ad5b4b5ca67ce2b059cb44b4e00918b38">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="a9a7b0dcd72f3702596bea58c9c89af64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a7b0dcd72f3702596bea58c9c89af64">&#9670;&nbsp;</a></span>speed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::OrientationTrackingTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#a39cc67617b7d74386e638f1e5b0da083">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+<a id="af19b576f25879b9372466010f75b45a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af19b576f25879b9372466010f75b45a0">&#9670;&nbsp;</a></span>task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a01305.html">tasks::OrientationTrackingTask</a>&amp; tasks::qp::OrientationTrackingTask::task </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5dad8875dc7ea013ca5642959e1fc590"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dad8875dc7ea013ca5642959e1fc590">&#9670;&nbsp;</a></span>trackedPoint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::OrientationTrackingTask::trackedPoint </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3d &amp;&#160;</td>
+          <td class="paramname"><em>tp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8cbbca770aa4c2c757f069a967610c2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cbbca770aa4c2c757f069a967610c2b">&#9670;&nbsp;</a></span>trackedPoint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::Vector3d&amp; tasks::qp::OrientationTrackingTask::trackedPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5a6c523af2c1cc8eac1be06eefaa339"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5a6c523af2c1cc8eac1be06eefaa339">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void tasks::qp::OrientationTrackingTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbcs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="a01121.html">SolverData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="a01101.html#a6af9649e3cd0adc1643a029333897d02">tasks::qp::HighLevelTask</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a00071.html">qp</a></li><li class="navelem"><a class="el" href="a01237.html">OrientationTrackingTask</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['qld_2eh',['QLD.h',['https://jrl-umi3218.github.io/eigen-qld/doxygen/HEAD//a00014.html',1,'']]],
+  ['qlddirect_2eh',['QLDDirect.h',['https://jrl-umi3218.github.io/eigen-qld/doxygen/HEAD//a00017.html',1,'']]],
   ['qldqpsolver_2eh',['QLDQPSolver.h',['../a00029.html',1,'']]],
   ['qpconstr_2eh',['QPConstr.h',['../a00038.html',1,'']]],
   ['qpcontactconstr_2eh',['QPContactConstr.h',['../a00041.html',1,'']]],

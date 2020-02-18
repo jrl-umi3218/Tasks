@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::qp::FrictionCone Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01020.html','');});
+$(document).ready(function(){initNavTree('a01017.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,41 +69,136 @@ $(document).ready(function(){initNavTree('a01020.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="a01014.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::qp::BilateralContact Member List</div>  </div>
+<div class="title">tasks::qp::FrictionCone Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01020.html">tasks::qp::BilateralContact</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#a9cfc6f3d62925ea67cf4a2e25728f6ff">BilateralContact</a>()</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#a263ac7d857ffad2213ba250dcd76e7c9">BilateralContact</a>(int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, std::vector&lt; Eigen::Vector3d &gt; r1Points, const std::vector&lt; Eigen::Matrix3d &gt; &amp;r1Frames, const sva::PTransformd &amp;X_b1_b2, int nrGen, double mu, const sva::PTransformd &amp;X_b1_cf=sva::PTransformd::Identity())</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#abba7b029ab9aba37ca2f45a12438d839">BilateralContact</a>(int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, int ambId, std::vector&lt; Eigen::Vector3d &gt; r1Points, const std::vector&lt; Eigen::Matrix3d &gt; &amp;r1Frames, const sva::PTransformd &amp;X_b1_b2, int nrGen, double mu, const sva::PTransformd &amp;X_b1_cf=sva::PTransformd::Identity())</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#a81df6ab75193f9ab40d139b032afb1ac">BilateralContact</a>(const ContactId &amp;cId, std::vector&lt; Eigen::Vector3d &gt; r1Points, const std::vector&lt; Eigen::Matrix3d &gt; &amp;r1Frames, const sva::PTransformd &amp;X_b1_b2, int nrGen, double mu, const sva::PTransformd &amp;X_b1_cf=sva::PTransformd::Identity())</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#acdfe3e8f299cd16fcca9d8f2e1b5ff15">BilateralContact</a>(const UnilateralContact &amp;c)</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#a332d3c0c5db19b3ea3d7f3e12a903364">contactId</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#a9d29e059f7953f2b4eecb74c475f8205">force</a>(const Eigen::VectorXd &amp;lambda, int point, const std::vector&lt; FrictionCone &gt; &amp;c) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#aeef09cf4f0e61291df54bf1e4dcb7a52">force</a>(const Eigen::VectorXd &amp;lambda, const std::vector&lt; FrictionCone &gt; &amp;c) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#a6268f5127138a4ab954b13e63751b6ef">force</a>(const Eigen::VectorXd &amp;lambda, const std::vector&lt; Eigen::Vector3d &gt; &amp;r_b_pi, const std::vector&lt; FrictionCone &gt; &amp;c_pi_b) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#aeeb80c2c4a0ca4ec0eac1e905627b5c7">nrLambda</a>(int point) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#a8ab0a0f6eaf2f4ddd872c28d7b66b671">nrLambda</a>() const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#a0820756bc6d3dfec5acba3d29bb09ab3">r1Cones</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#aaa53327f1e4010109daaca0472cdfa87">r1Points</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#a87ac911696ce421a9ba1f83b98785986">r2Cones</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#a8e70de174d9453af6728a12bd194c163">r2Points</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#afbcf0858990ffa9d118881e65cb27e00">sForce</a>(const Eigen::VectorXd &amp;lambda, int point, const std::vector&lt; FrictionCone &gt; &amp;c) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#ad396b97cafd81a9f504ca75aeaf41b5e">sForce</a>(const Eigen::VectorXd &amp;lambda, const std::vector&lt; FrictionCone &gt; &amp;c) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#ab02ea7c942fbdb7e047235cf5c6d2669">sForce</a>(const Eigen::VectorXd &amp;lambda, const std::vector&lt; Eigen::Vector3d &gt; &amp;r_b_pi, const std::vector&lt; FrictionCone &gt; &amp;c_pi_b) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#a37214716bff475b2a091859b70a2c3d1">sNrLambda</a>(int point) const</td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01020.html#aea4bdb13ab0da1cbc451e8b752f5efb3">X_b1_b2</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01020.html#ae34273f6228a00ce4b185c83f1b233b2">X_b1_cf</a></td><td class="entry"><a class="el" href="a01020.html">tasks::qp::BilateralContact</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Linearized friction cone generator.  
+ <a href="a01017.html#details">More...</a></p>
+
+<p><code>#include &lt;Tasks/QPContacts.h&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6f26952821a8a90a13706f60fcde3678"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html#a6f26952821a8a90a13706f60fcde3678">FrictionCone</a> ()</td></tr>
+<tr class="separator:a6f26952821a8a90a13706f60fcde3678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5e1ee09db9cad55aaa5e81f827724dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html#ad5e1ee09db9cad55aaa5e81f827724dd">FrictionCone</a> (const Eigen::Matrix3d &amp;frame, int nrGen, double mu, double direction=1.)</td></tr>
+<tr class="separator:ad5e1ee09db9cad55aaa5e81f827724dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a21e18e3e28defbb740615260a07489c1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Vector3d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01017.html#a21e18e3e28defbb740615260a07489c1">generators</a></td></tr>
+<tr class="memdesc:a21e18e3e28defbb740615260a07489c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of generatrix.  <a href="#a21e18e3e28defbb740615260a07489c1">More...</a><br /></td></tr>
+<tr class="separator:a21e18e3e28defbb740615260a07489c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Linearized friction cone generator. </p>
+<p>Compute the vector that linearize the friction cone (generatrix). </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6f26952821a8a90a13706f60fcde3678"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f26952821a8a90a13706f60fcde3678">&#9670;&nbsp;</a></span>FrictionCone() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::FrictionCone::FrictionCone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad5e1ee09db9cad55aaa5e81f827724dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5e1ee09db9cad55aaa5e81f827724dd">&#9670;&nbsp;</a></span>FrictionCone() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::FrictionCone::FrictionCone </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
+          <td class="paramname"><em>frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nrGen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>direction</em> = <code>1.</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Friction cone frame. The friction cone is define along the frame normal axis (last line). </td></tr>
+    <tr><td class="paramname">nrGen</td><td>Number of generatrix. </td></tr>
+    <tr><td class="paramname">mu</td><td>Coefficient of friction. </td></tr>
+    <tr><td class="paramname">dir</td><td>Cone direction. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a21e18e3e28defbb740615260a07489c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21e18e3e28defbb740615260a07489c1">&#9670;&nbsp;</a></span>generators</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::Vector3d&gt; tasks::qp::FrictionCone::generators</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vector of generatrix. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a00071.html">qp</a></li><li class="navelem"><a class="el" href="a01017.html">FrictionCone</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Member List</title>
+<title>tasks::OrientationTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css">
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <script type="text/x-mathjax-config">
@@ -51,7 +51,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a01256.html','');});
+$(document).ready(function(){initNavTree('a01253.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -69,41 +69,351 @@ $(document).ready(function(){initNavTree('a01256.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a01250.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">tasks::TransformTask Member List</div>  </div>
+<div class="title">tasks::OrientationTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a01256.html">tasks::TransformTask</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#a298e38439bbefa80e02f53ffbda17771">bodyIndex_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01256.html#af28399b8910027ff33d9230fdf5611b8">E_0_c</a>(const Eigen::Matrix3d &amp;E_0_c)</td><td class="entry"><a class="el" href="a01256.html">tasks::TransformTask</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01256.html#a32dbd2552c66dadac00b86152e53f4f9">E_0_c</a>() const</td><td class="entry"><a class="el" href="a01256.html">tasks::TransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#ade170cd4493f4cc124e7dbe0510bb767">eval</a>() const</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#a1f71e9037d4cd93cc297e0c0b54c0d9c">eval_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#adf5b5e49e0851fd720e33b1760e0e5c8">jac</a>() const</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#a5dd5ce12eb9762527a8d6933b1b23e90">jac_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#ae6fc32df4b5ed9cf52e94a95db598708">jacMat_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#ac64f7fd93e4853da6629f403eba46fe5">normalAcc</a>() const</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#a81993fa44af379d32b94a6c3388390af">normalAcc_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#ad409e493570f60565535050f9c70a9b5">speed</a>() const</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#aa9faadfe66b2d0903cc393756277abe2">speed_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#a075f661f10fb49cfaed9a2694b6763d3">target</a>(const sva::PTransformd &amp;X_0_t)</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#ac9ac6b420170421f8658a53ffa81d798">target</a>() const</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01256.html#a47ef3ff9e94d1c029843cf2e8efd0e03">TransformTask</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity(), const Eigen::Matrix3d &amp;E_0_c=Eigen::Matrix3d::Identity())</td><td class="entry"><a class="el" href="a01256.html">tasks::TransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#a480794408729e99dea19ae53fa51fa2a">TransformTaskCommon</a>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p)</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01256.html#a2cdf770b2c150f752ff44c9a049f31b2">update</a>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</td><td class="entry"><a class="el" href="a01256.html">tasks::TransformTask</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#a65b337e6e48ec7e93b8137364374752f">X_0_t_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#a9c6b4586c641fa3a22ce68ebe9f76d36">X_b_p</a>(const sva::PTransformd &amp;X_b_p)</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a01248.html#ae3014f0561c11ea6f3f9817a0e4c3743">X_b_p</a>() const</td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a01248.html#af3c5c7d4e3e282c76d28c09563e6650d">X_b_p_</a></td><td class="entry"><a class="el" href="a01248.html">tasks::TransformTaskCommon</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-</table></div><!-- contents -->
+<p><code>#include &lt;Tasks/Tasks.h&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ad2446f810c20ba64897cd14ca9ac5111"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#ad2446f810c20ba64897cd14ca9ac5111">OrientationTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Quaterniond &amp;ori)</td></tr>
+<tr class="separator:ad2446f810c20ba64897cd14ca9ac5111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56ba8d07126797bb8979983637d148db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a56ba8d07126797bb8979983637d148db">OrientationTask</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const std::string &amp;bodyName, const Eigen::Matrix3d &amp;ori)</td></tr>
+<tr class="separator:a56ba8d07126797bb8979983637d148db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49c880820a1b5c8df79dd9e334be3659"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a49c880820a1b5c8df79dd9e334be3659">orientation</a> (const Eigen::Quaterniond &amp;ori)</td></tr>
+<tr class="separator:a49c880820a1b5c8df79dd9e334be3659"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66fd057c7e3881acde06654fe7b78b3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a66fd057c7e3881acde06654fe7b78b3f">orientation</a> (const Eigen::Matrix3d &amp;ori)</td></tr>
+<tr class="separator:a66fd057c7e3881acde06654fe7b78b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f669520d9608e83f5f7e5d4651748b"><td class="memItemLeft" align="right" valign="top">const Eigen::Matrix3d &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a59f669520d9608e83f5f7e5d4651748b">orientation</a> () const</td></tr>
+<tr class="separator:a59f669520d9608e83f5f7e5d4651748b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3742876c52257b6981ff0f3a1ba49187"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a3742876c52257b6981ff0f3a1ba49187">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;mbc)</td></tr>
+<tr class="separator:a3742876c52257b6981ff0f3a1ba49187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3f138249bb1e3a50b38d2d146ce9bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a0a3f138249bb1e3a50b38d2d146ce9bd">update</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;mbc, const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;normalAccB)</td></tr>
+<tr class="separator:a0a3f138249bb1e3a50b38d2d146ce9bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eee6faa64e247fe82f8c7564fb4ef52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a9eee6faa64e247fe82f8c7564fb4ef52">updateDot</a> (const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;mb, const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;mbc)</td></tr>
+<tr class="separator:a9eee6faa64e247fe82f8c7564fb4ef52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08678e5c44d3b28ee07e85f796d77051"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a08678e5c44d3b28ee07e85f796d77051">eval</a> () const</td></tr>
+<tr class="separator:a08678e5c44d3b28ee07e85f796d77051"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60985fab4c11750fed1ca5d08a22c6fa"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a60985fab4c11750fed1ca5d08a22c6fa">speed</a> () const</td></tr>
+<tr class="separator:a60985fab4c11750fed1ca5d08a22c6fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dd0e7f1ce32a35980b76d80a5118257"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a4dd0e7f1ce32a35980b76d80a5118257">normalAcc</a> () const</td></tr>
+<tr class="separator:a4dd0e7f1ce32a35980b76d80a5118257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927eb2498436b857af274206c03d7dab"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#a927eb2498436b857af274206c03d7dab">jac</a> () const</td></tr>
+<tr class="separator:a927eb2498436b857af274206c03d7dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad09085fc3d1bdbb0126d0e439461a2b3"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a01253.html#ad09085fc3d1bdbb0126d0e439461a2b3">jacDot</a> () const</td></tr>
+<tr class="separator:ad09085fc3d1bdbb0126d0e439461a2b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad2446f810c20ba64897cd14ca9ac5111"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2446f810c20ba64897cd14ca9ac5111">&#9670;&nbsp;</a></span>OrientationTask() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::OrientationTask::OrientationTask </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Quaterniond &amp;&#160;</td>
+          <td class="paramname"><em>ori</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56ba8d07126797bb8979983637d148db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56ba8d07126797bb8979983637d148db">&#9670;&nbsp;</a></span>OrientationTask() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::OrientationTask::OrientationTask </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>bodyName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
+          <td class="paramname"><em>ori</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a08678e5c44d3b28ee07e85f796d77051"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08678e5c44d3b28ee07e85f796d77051">&#9670;&nbsp;</a></span>eval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::OrientationTask::eval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a927eb2498436b857af274206c03d7dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a927eb2498436b857af274206c03d7dab">&#9670;&nbsp;</a></span>jac()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::OrientationTask::jac </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad09085fc3d1bdbb0126d0e439461a2b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad09085fc3d1bdbb0126d0e439461a2b3">&#9670;&nbsp;</a></span>jacDot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::OrientationTask::jacDot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4dd0e7f1ce32a35980b76d80a5118257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dd0e7f1ce32a35980b76d80a5118257">&#9670;&nbsp;</a></span>normalAcc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::OrientationTask::normalAcc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a49c880820a1b5c8df79dd9e334be3659"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49c880820a1b5c8df79dd9e334be3659">&#9670;&nbsp;</a></span>orientation() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::OrientationTask::orientation </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Quaterniond &amp;&#160;</td>
+          <td class="paramname"><em>ori</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a66fd057c7e3881acde06654fe7b78b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66fd057c7e3881acde06654fe7b78b3f">&#9670;&nbsp;</a></span>orientation() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::OrientationTask::orientation </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Matrix3d &amp;&#160;</td>
+          <td class="paramname"><em>ori</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a59f669520d9608e83f5f7e5d4651748b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59f669520d9608e83f5f7e5d4651748b">&#9670;&nbsp;</a></span>orientation() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::Matrix3d&amp; tasks::OrientationTask::orientation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60985fab4c11750fed1ca5d08a22c6fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60985fab4c11750fed1ca5d08a22c6fa">&#9670;&nbsp;</a></span>speed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::OrientationTask::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3742876c52257b6981ff0f3a1ba49187"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3742876c52257b6981ff0f3a1ba49187">&#9670;&nbsp;</a></span>update() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::OrientationTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a3f138249bb1e3a50b38d2d146ce9bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3f138249bb1e3a50b38d2d146ce9bd">&#9670;&nbsp;</a></span>update() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::OrientationTask::update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" doxygen="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//SpaceVecAlg.doxytag:https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//" href="https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#afc16c15a4fbcc2d8cf5676551b74816d">sva::MotionVecd</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>normalAccB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9eee6faa64e247fe82f8c7564fb4ef52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eee6faa64e247fe82f8c7564fb4ef52">&#9670;&nbsp;</a></span>updateDot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::OrientationTask::updateDot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01003.html">rbd::MultiBody</a> &amp;&#160;</td>
+          <td class="paramname"><em>mb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" doxygen="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//RBDyn.doxytag:https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//" href="https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01007.html">rbd::MultiBodyConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>mbc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.6-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Dec 24 2019 02:05:29 for Tasks by
+    <li class="navelem"><a class="el" href="a00070.html">tasks</a></li><li class="navelem"><a class="el" href="a01253.html">OrientationTask</a></li>
+    <li class="footer">Generated on Tue Feb 18 2020 03:15:19 for Tasks by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
