@@ -323,10 +323,7 @@ private:
     CollData(CollData &&) = default;
     CollData(const CollData &) = delete;
     CollData & operator=(const CollData &) = delete;
-    CollData & operator=(const CollData &&)
-    {
-      return *this;
-    }
+    CollData & operator=(CollData &&) = default;
 
     std::unique_ptr<sch::CD_Pair> pair;
     Eigen::Vector3d normVecDist;
