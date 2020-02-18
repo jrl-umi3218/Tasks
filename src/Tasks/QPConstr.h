@@ -320,6 +320,11 @@ private:
              double ds,
              double damping,
              double dampingOff);
+    CollData(CollData &&) = default;
+    CollData(const CollData &) = delete;
+    CollData & operator=(const CollData &) = delete;
+    CollData & operator=(CollData &&) = default;
+
     std::unique_ptr<sch::CD_Pair> pair;
     Eigen::Vector3d normVecDist;
     double di, ds;
