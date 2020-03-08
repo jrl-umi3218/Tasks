@@ -868,9 +868,14 @@ public:
     ct_.com(com);
   }
 
-  const Eigen::Vector3d com() const
+  const Eigen::Vector3d & com() const
   {
     return ct_.com();
+  }
+
+  const Eigen::Vector3d & actual() const
+  {
+    return ct_.actual();
   }
 
   void updateInertialParameters(const std::vector<rbd::MultiBody> & mbs);

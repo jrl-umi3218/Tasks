@@ -887,9 +887,14 @@ void CoMTask::com(const Eigen::Vector3d & com)
   com_ = com;
 }
 
-const Eigen::Vector3d CoMTask::com() const
+const Eigen::Vector3d & CoMTask::com() const
 {
   return com_;
+}
+
+const Eigen::Vector3d & CoMTask::actual() const
+{
+  return actual_;
 }
 
 void CoMTask::updateInertialParameters(const rbd::MultiBody & mb)
@@ -899,7 +904,8 @@ void CoMTask::updateInertialParameters(const rbd::MultiBody & mb)
 
 void CoMTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
-  eval_ = com_ - rbd::computeCoM(mb, mbc);
+  actual_ = rbd::computeCoM(mb, mbc);
+  eval_ = com_ - actual_;
 
   speed_ = jac_.velocity(mb, mbc);
   normalAcc_ = jac_.normalAcceleration(mb, mbc);
@@ -911,6 +917,7 @@ void CoMTask::update(const rbd::MultiBody & mb,
                      const Eigen::Vector3d & com,
                      const std::vector<sva::MotionVecd> & normalAccB)
 {
+  actual_ = com;
   eval_ = com_ - com;
 
   speed_ = jac_.velocity(mb, mbc);
