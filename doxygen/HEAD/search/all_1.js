@@ -11,7 +11,7 @@ var searchData=
   ['ac',['AC',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00774.html#ac262b42ba79ced20a599fd32b5db1de8',1,'sch::CD_Simplex']]],
   ['ac_5f',['ac_',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00774.html#a87959d3125ac180fd2d8210d3a360a1d',1,'sch::CD_Simplex']]],
   ['activejoints',['ActiveJoints',['../a01149.html#afdc35a75ac5a8791ebccef9a784c6ad2',1,'tasks::qp::JointsSelector']]],
-  ['actual',['actual',['../a01245.html#aa6afe7be00b8933fab39dca0433c6ee1',1,'tasks::qp::VectorOrientationTask::actual()'],['../a01317.html#accb094e11c1b3e50ae11043cad72646d',1,'tasks::VectorOrientationTask::actual()']]],
+  ['actual',['actual',['../a01209.html#a48d27c21404ec3b82bded054c653d4a7',1,'tasks::qp::CoMTask::actual()'],['../a01245.html#aa6afe7be00b8933fab39dca0433c6ee1',1,'tasks::qp::VectorOrientationTask::actual()'],['../a01289.html#a1abd40129f8991fd4f5686fb45e3e8c1',1,'tasks::CoMTask::actual()'],['../a01317.html#accb094e11c1b3e50ae11043cad72646d',1,'tasks::VectorOrientationTask::actual()']]],
   ['ad',['AD',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00774.html#ae4027955e2ea43b2852bb5d045215944',1,'sch::CD_Simplex']]],
   ['ad_5f',['ad_',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00774.html#a5531ca341d4038bbf8b8fd02914f5f58',1,'sch::CD_Simplex']]],
   ['addbody',['addBody',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01015.html#a6c3c7fa80770ae6d0eea6f4f0a294f03',1,'rbd::MultiBodyGraph']]],

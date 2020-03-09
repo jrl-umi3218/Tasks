@@ -2,8 +2,9 @@ var a01209 =
 [
     [ "CoMTask", "a01209.html#a405b0a71a500f45461809a6a834ce4ef", null ],
     [ "CoMTask", "a01209.html#a6639488dffbba63388705c3909f1e31b", null ],
+    [ "actual", "a01209.html#a48d27c21404ec3b82bded054c653d4a7", null ],
     [ "com", "a01209.html#a01fd2792379cee017ed2a4091c3b8fe5", null ],
-    [ "com", "a01209.html#a4d8f8c9ac59a55adc164e71adda5de70", null ],
+    [ "com", "a01209.html#a3e8da9aacc475dee74bc71dc27beceda", null ],
     [ "dim", "a01209.html#acf39ba9f4426acdd6dfc1fd7a9be4820", null ],
     [ "eval", "a01209.html#a08589b88a312c73d9a8941277f44658f", null ],
     [ "jac", "a01209.html#a9dfb1feeda72ecc8892ad0954f43b16a", null ],

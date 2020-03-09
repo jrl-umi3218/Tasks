@@ -967,10 +967,17 @@
       <arglist>(const Eigen::Vector3d &amp;com)</arglist>
     </member>
     <member kind="function">
-      <type>const Eigen::Vector3d</type>
+      <type>const Eigen::Vector3d &amp;</type>
       <name>com</name>
       <anchorfile>a01209.html</anchorfile>
-      <anchor>a4d8f8c9ac59a55adc164e71adda5de70</anchor>
+      <anchor>a3e8da9aacc475dee74bc71dc27beceda</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>actual</name>
+      <anchorfile>a01209.html</anchorfile>
+      <anchor>a48d27c21404ec3b82bded054c653d4a7</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
@@ -1048,10 +1055,17 @@
       <arglist>(const Eigen::Vector3d &amp;com)</arglist>
     </member>
     <member kind="function">
-      <type>const Eigen::Vector3d</type>
+      <type>const Eigen::Vector3d &amp;</type>
       <name>com</name>
       <anchorfile>a01289.html</anchorfile>
-      <anchor>a15bb951f6dbbb12763efedadb78805cd</anchor>
+      <anchor>a6e25e21cf8a60067e596fc4905643ff3</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>actual</name>
+      <anchorfile>a01289.html</anchorfile>
+      <anchor>a1abd40129f8991fd4f5686fb45e3e8c1</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
