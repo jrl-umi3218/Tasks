@@ -105,16 +105,17 @@ bool LSSOLQPSolver::solve()
   bool success = false;
   if(dependencies_.size())
   {
-    success = lssol_.solve(XL_, XU_, Q_, C_, A_.block(0, 0, nrALines_, A_.cols()), AL_.segment(0, nrALines_),
-                           AU_.segment(0, nrALines_));
+    success = lssol_.solve(XL_, XU_, static_cast<Eigen::LSSOLBase::RefMat>(Q_), C_,
+                           A_.block(0, 0, nrALines_, A_.cols()), AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
     expandResult(lssol_.result(), XFull_, reducedToFull_, dependencies_);
   }
   else
   {
     // std::cout << "Rafa, in LSSOLQPSolver::solve, AFull_.rows() = " << AFull_.rows() << std::endl;
     
-    success = lssol_.solve(XLFull_, XUFull_, QFull_, CFull_, AFull_.block(0, 0, nrALines_, AFull_.cols()),
-                           AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
+    success = lssol_.solve(XLFull_, XUFull_, static_cast<Eigen::LSSOLBase::RefMat>(QFull_), CFull_,
+                           AFull_.block(0, 0, nrALines_, AFull_.cols()), AL_.segment(0, nrALines_),
+                           AU_.segment(0, nrALines_));
   }
   return success;
 }

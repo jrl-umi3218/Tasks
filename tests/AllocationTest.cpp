@@ -28,7 +28,7 @@ std::string class_name(const std::string & fn_name)
 }
 
 template<typename T, typename... Args>
-void test_raw_ptr_creation(Args... args)
+void test_raw_ptr_creation(Args &&... args)
 {
 #ifdef __GNUG__
   std::string T_name = class_name(__PRETTY_FUNCTION__);
@@ -37,12 +37,12 @@ void test_raw_ptr_creation(Args... args)
   T * p = nullptr;
   for(size_t i = 0; i < 100; ++i)
   {
-    new T(args...);
+    new T(std::forward<Args>(args)...);
   }
 }
 
 template<typename T, typename... Args>
-void test_shared_ptr_creation(Args... args)
+void test_shared_ptr_creation(Args &&... args)
 {
 #ifdef __GNUG__
   std::string T_name = class_name(__PRETTY_FUNCTION__);
@@ -51,7 +51,7 @@ void test_shared_ptr_creation(Args... args)
   std::shared_ptr<T> p = nullptr;
   for(size_t i = 0; i < 100; ++i)
   {
-    p = std::make_shared<T>(args...);
+    p = std::make_shared<T>(std::forward<Args>(args)...);
   }
 }
 
