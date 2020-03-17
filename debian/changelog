@@ -1,3 +1,9 @@
+tasks (1.2.0-1ubuntu1) unstable; urgency=medium
+
+  * Update upstream version
+
+ -- Pierre Gergondet <pierre.gergondet+ppa@gmail.com>  Tue, 17 Mar 2020 15:42:04 +0800
+
 tasks (1.1.0-1ubuntu1) unstable; urgency=medium
 
   * Update upstream version
