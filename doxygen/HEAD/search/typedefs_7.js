@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['rbinertiad',['RBInertiad',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00067.html#ac56f2d381429fa55047d24d79ac9ae82',1,'sva']]],
-  ['rbinfo',['rbInfo',['../a01309.html#a75ccd14f42390a90f4fa913647844840',1,'tasks::RelativeDistTask']]]
+  ['quaternion',['Quaternion',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00148.html#a84a5f2e4a6807b76657edddbd1b53db9',1,'sch']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['node',['Node',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01023.html',1,'rbd::MultiBodyGraph']]],
+  ['node',['Node',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01084.html',1,'rbd::MultiBodyGraph']]],
   ['non_5fabstract',['non_abstract',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00738.html',1,'boost::archive::detail::save_pointer_type']]],
   ['non_5fpolymorphic',['non_polymorphic',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00742.html',1,'boost::archive::detail::save_pointer_type']]],
   ['norm',['Norm',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00810.html',1,'CD_Matrix']]],
