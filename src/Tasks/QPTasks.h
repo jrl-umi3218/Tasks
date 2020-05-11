@@ -2186,13 +2186,21 @@ class TASKS_DLLAPI ZMPTask : public Task
     return C_;
   }
 
+  struct BodyLambda
+  {
+    std::string body;
+    int begin;
+    int size;
+  };
+
  private:
 
   int robotIndex_, lambdaBegin_, nrBodies_;
+  std::vector<BodyLambda> contactBodies_, contactBodiesPrev_; 
   Eigen::Vector3d dimWeight_;
 
   Eigen::Vector3d zmp_;
-
+  
   Eigen::Vector3d totalForce_;
   Eigen::Vector3d totalMomentZMP_;
 
