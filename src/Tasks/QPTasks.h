@@ -1867,10 +1867,18 @@ class TASKS_DLLAPI ForceDistributionTaskCommon : public Task
   {
     return C_;
   }
+
+  struct BodyLambda
+  {
+    std::string body;
+    int begin;
+    int size;
+  };
   
  protected:
 
   int robotIndex_, lambdaBegin_, nrBodies_;
+  std::vector<BodyLambda> contactBodies_, contactBodiesPrev_; 
 
   std::map<std::string, Eigen::Vector3d> fdistRatios_;
   std::map<std::string, Eigen::Vector3d> refForces_;

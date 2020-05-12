@@ -2297,7 +2297,8 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
 
 ForceDistributionTaskCommon::ForceDistributionTaskCommon(const std::vector<rbd::MultiBody> & mbs,
 							 int robotIndex, double weight)
-: Task(weight), robotIndex_(robotIndex), lambdaBegin_(-1), nrBodies_(-1)
+: Task(weight), robotIndex_(robotIndex), lambdaBegin_(-1), nrBodies_(-1),
+  contactBodies_(), contactBodiesPrev_()
 {
 }
 
@@ -2373,7 +2374,34 @@ void ForceDistributionTaskCommon::updateNrVars(const std::vector<rbd::MultiBody>
   refForces_ = refForces_tmp;
   
   //nrBodies_ = fdistRatios_.size();
-  nrBodies_ = refForces_.size();
+  //nrBodies_ = refForces_.size();
+
+  contactBodies_.clear();
+
+  int eachBeginIndex = 0;
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      int nrEachLambda = 0;
+      for (size_t i = 0; i < contact.r1Cones.size(); i++)
+        nrEachLambda += contact.r1Cones[i].generators.size();
+
+      BodyLambda contactBody;
+      contactBody.body = contact.contactId.r1BodyName;
+      contactBody.begin = eachBeginIndex;
+      contactBody.size = nrEachLambda;
+      
+      contactBodies_.push_back(contactBody);
+
+      eachBeginIndex += nrEachLambda;
+    }
+  }
+
+  if (contactBodiesPrev_.size() == 0)
+    contactBodiesPrev_ = contactBodies_;
+
+  nrBodies_ = contactBodies_.size();
   
   fdistRatioMat_.setZero(3 * nrBodies_, 3);
 }
@@ -2411,8 +2439,32 @@ void ForceDistributionTaskCommon::update(const std::vector<rbd::MultiBody> & mbs
       column += contact.nrLambda();
     }
   }
+
+  Eigen::VectorXd lambdaVecPrev = Eigen::VectorXd::Zero(W_.cols());
+
+  // Assuming that contacts are not set and released simultaneously
+  if (contactBodies_.size() == contactBodiesPrev_.size())
+
+    lambdaVecPrev = data.lambdaVecPrev();
   
-  Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
+  else {
+
+    for (size_t i = 0; i < contactBodies_.size(); i++) {
+
+      size_t j;
+      for (j = 0; j < contactBodiesPrev_.size(); j++)
+        if (contactBodies_[i].body == contactBodiesPrev_[j].body)
+          break;
+
+      if (j < contactBodiesPrev_.size())
+        lambdaVecPrev.segment(contactBodies_[i].begin, contactBodies_[i].size) = data.lambdaVecPrev().segment(contactBodiesPrev_[j].begin, contactBodiesPrev_[j].size);
+    }
+  }
+
+  contactBodiesPrev_ = contactBodies_;
+  
+  //Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
+  Eigen::VectorXd refForcesVec = W_ * lambdaVecPrev;
 
   std::map<std::string, Eigen::Vector3d>::iterator refForce;
   
@@ -2811,7 +2863,7 @@ void ZMPTask::update(const std::vector<rbd::MultiBody> & mbs, const std::vector<
   contactBodiesPrev_ = contactBodies_;
   
   totalForce_ = Eigen::Vector3d::Zero();
-  // Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();  // Rafa
+  // Eigen::VectorXd refForcesVec = W_ * data.lambdaVecPrev();
   Eigen::VectorXd refForcesVec = W_ * lambdaVecPrev;
   for (size_t i = 0; i < nrBodies_; i++)
     totalForce_ += refForcesVec.segment<3>(3 * i);
