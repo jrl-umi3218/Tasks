@@ -1815,7 +1815,7 @@ private:
 
   int nrBodies_;
 
-  std::set<std::string> bodies_;
+  // std::set<std::string> bodies_;
   
   std::map<std::string, sva::ForceVecd> measuredWrenches_;
   std::map<std::string, Eigen::Vector3d> calculatedForces_;

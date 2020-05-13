@@ -2210,7 +2210,7 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
 {
   AdmittanceTaskCommon::updateNrVars(mbs, data);
 
-  bodies_.clear();
+  // bodies_.clear();
   std::map<std::string, sva::ForceVecd> measuredWrenches_tmp;
   std::map<std::string, Eigen::Vector3d> calculatedForces_tmp;
   
@@ -2219,7 +2219,7 @@ void NullSpaceAdmittanceTask::updateNrVars(const std::vector<rbd::MultiBody> & m
     if (contact.contactId.r1Index == robotIndex_)
     {
       const std::string & r1BodyName = contact.contactId.r1BodyName;
-      bodies_.insert(r1BodyName);
+      // bodies_.insert(r1BodyName);
 
       /*
       std::map<std::string, sva::ForceVecd>::iterator measuredWrench = measuredWrenches_.find(r1BodyName);
@@ -2325,15 +2325,18 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
     std::cout << "Rafa, in NullSpaceAdmittanceTask::update, calcForce.first = "
               << calcForce.first << std::endl;
   */
-  
-  for (const std::string & eachBody : bodies_)
+
+  for (BodyLambda contactBody : contactBodies_)
+  //for (const std::string & eachBody : bodies_)
   {
     //std::cout << "Rafa, in NullSpaceAdmittanceTask::update, eachBody = "
     //          << eachBody << std::endl;
     
-    Eigen::Vector3d forceErr = calculatedForces_.at(eachBody) - measuredWrenches_.at(eachBody).force();
+    // Eigen::Vector3d forceErr = calculatedForces_.at(eachBody) - measuredWrenches_.at(eachBody).force();
+    Eigen::Vector3d forceErr = calculatedForces_.at(contactBody.body) - measuredWrenches_.at(contactBody.body).force();
 
-    if (eachBody == bodyName)
+    // if (eachBody == bodyName)
+    if (contactBody.body == bodyName)
       projForceErr_.noalias() += forceErr;
 
     projForceErr_.noalias() -= fdistRatio_.asDiagonal() * forceErr;
