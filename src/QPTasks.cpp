@@ -1989,7 +1989,7 @@ AdmittanceTaskCommon::AdmittanceTaskCommon(const std::vector<rbd::MultiBody> & m
 					   double timeStep, double gainForceP, double gainForceD,
 					   double gainCoupleP, double gainCoupleD, double weight)
 : Task(weight), robotIndex_(robotIndex), bodyIndex_(mbs[robotIndex].bodyIndexByName(bodyName)),
-  alphaDBegin_(-1), dt_(timeStep),
+  alphaDBegin_(-1), contactBodies_(), contactBodiesPrev_(), dt_(timeStep),
   gainForceP_(gainForceP), gainForceD_(gainForceD),
   gainCoupleP_(gainCoupleP), gainCoupleD_(gainCoupleD),
   jac_(mbs[robotIndex], bodyName, bodyPoint), jacMat_(6, mbs[robotIndex].nrDof()),
@@ -2020,6 +2020,31 @@ void AdmittanceTaskCommon::updateNrVars(const std::vector<rbd::MultiBody> & /* m
 					const SolverData & data)
 {
   alphaDBegin_ = data.alphaDBegin(robotIndex_);
+
+  contactBodies_.clear();
+
+  int eachBeginIndex = 0;
+  for (const BilateralContact & contact : data.allContacts())
+  {
+    if (contact.contactId.r1Index == robotIndex_)
+    {
+      int nrEachLambda = 0;
+      for (size_t i = 0; i < contact.r1Cones.size(); i++)
+        nrEachLambda += contact.r1Cones[i].generators.size();
+
+      BodyLambda contactBody;
+      contactBody.body = contact.contactId.r1BodyName;
+      contactBody.begin = eachBeginIndex;
+      contactBody.size = nrEachLambda;
+      
+      contactBodies_.push_back(contactBody);
+
+      eachBeginIndex += nrEachLambda;
+    }
+  }
+
+  if (contactBodiesPrev_.size() == 0)
+    contactBodiesPrev_ = contactBodies_;
 }
   
 sva::ForceVecd AdmittanceTaskCommon::computeWrench(const rbd::MultiBodyConfig & mbc,
@@ -2074,6 +2099,29 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   normalAcc_.tail(3) = jac_.normalAcceleration(mb, mbc, normalAccB).linear();
   
   jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
+
+  Eigen::VectorXd lambdaVecPrev = Eigen::VectorXd::Zero(data.totalLambda());
+
+  // Assuming that contacts are not set and released simultaneously
+  if (contactBodies_.size() == contactBodiesPrev_.size())
+
+    lambdaVecPrev = data.lambdaVecPrev();
+  
+  else {
+
+    for (size_t i = 0; i < contactBodies_.size(); i++) {
+
+      size_t j;
+      for (j = 0; j < contactBodiesPrev_.size(); j++)
+        if (contactBodies_[i].body == contactBodiesPrev_[j].body)
+          break;
+
+      if (j < contactBodiesPrev_.size())
+        lambdaVecPrev.segment(contactBodies_[i].begin, contactBodies_[i].size) = data.lambdaVecPrev().segment(contactBodiesPrev_[j].begin, contactBodiesPrev_[j].size);
+    }
+  }
+
+  contactBodiesPrev_ = contactBodies_;
   
   calculatedWrench_ = sva::ForceVecd::Zero();
   
@@ -2084,8 +2132,10 @@ void AdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
     int r1BodyIndex = mbs[contact.contactId.r1Index].bodyIndexByName(contact.contactId.r1BodyName);
     
     if (contact.contactId.r1Index == robotIndex_ && r1BodyIndex == bodyIndex_)
-      calculatedWrench_ += computeWrench(mbc, contact, data.lambdaVecPrev(),
-					 data.lambdaBegin(ci) - data.lambdaBegin());
+      //calculatedWrench_ += computeWrench(mbc, contact, data.lambdaVecPrev(),
+      //				   data.lambdaBegin(ci) - data.lambdaBegin());
+      calculatedWrench_ += computeWrench(mbc, contact, lambdaVecPrev,
+                                         data.lambdaBegin(ci) - data.lambdaBegin());
   }
   
   sva::ForceVecd calculatedWrenchDot = (calculatedWrench_ - calculatedWrenchPrev_) / dt_;
@@ -2212,6 +2262,29 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
   
   jac_.fullJacobian(mb, jac_.jacobian(mb, mbc), jacMat_);
 
+  Eigen::VectorXd lambdaVecPrev = Eigen::VectorXd::Zero(data.totalLambda());
+
+  // Assuming that contacts are not set and released simultaneously
+  if (contactBodies_.size() == contactBodiesPrev_.size())
+
+    lambdaVecPrev = data.lambdaVecPrev();
+  
+  else {
+
+    for (size_t i = 0; i < contactBodies_.size(); i++) {
+
+      size_t j;
+      for (j = 0; j < contactBodiesPrev_.size(); j++)
+        if (contactBodies_[i].body == contactBodiesPrev_[j].body)
+          break;
+
+      if (j < contactBodiesPrev_.size())
+        lambdaVecPrev.segment(contactBodies_[i].begin, contactBodies_[i].size) = data.lambdaVecPrev().segment(contactBodiesPrev_[j].begin, contactBodiesPrev_[j].size);
+    }
+  }
+
+  contactBodiesPrev_ = contactBodies_;
+
   calculatedBodyWrench_ = sva::ForceVecd::Zero();
 
   for (const std::pair<std::string, Eigen::Vector3d> & calculatedForce : calculatedForces_)
@@ -2226,7 +2299,10 @@ void NullSpaceAdmittanceTask::update(const std::vector<rbd::MultiBody> & mbs,
       const std::string & r1BodyName = contact.contactId.r1BodyName;
       int r1BodyIndex = mbs[robotIndex_].bodyIndexByName(r1BodyName);
 
-      sva::ForceVecd wrench = computeWrench(mbc, contact, data.lambdaVecPrev(),
+      // sva::ForceVecd wrench = computeWrench(mbc, contact, data.lambdaVecPrev(),
+      //                                       data.lambdaBegin(ci) - data.lambdaBegin());
+
+      sva::ForceVecd wrench = computeWrench(mbc, contact, lambdaVecPrev,
                                             data.lambdaBegin(ci) - data.lambdaBegin());
       
       if (r1BodyIndex == bodyIndex_)

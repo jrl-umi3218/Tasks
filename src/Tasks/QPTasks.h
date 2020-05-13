@@ -1677,6 +1677,13 @@ public:
     return C_;
   }
 
+  struct BodyLambda
+  {
+    std::string body;
+    int begin;
+    int size;
+  };
+
 protected:
 
   sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
@@ -1684,6 +1691,7 @@ protected:
 			       Eigen::VectorXd lambdaVec, int pos);
 
   int robotIndex_, bodyIndex_, alphaDBegin_;
+  std::vector<BodyLambda> contactBodies_, contactBodiesPrev_; 
   double dt_;
   double gainForceP_, gainForceD_;
   double gainCoupleP_, gainCoupleD_;
