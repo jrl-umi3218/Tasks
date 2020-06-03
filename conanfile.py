@@ -11,7 +11,7 @@ base = python_requires("RBDyn/1.1.0@gergondet/stable")
 
 class TasksConan(base.RBDynConan):
     name = "Tasks"
-    version = "0.9.0"
+    version = "1.2.0"
     description = "Real time control of robots using constrained optimization"
     topics = ("robotics", "control", "optimization", "python")
     url = "https://github.com/jrl-umi3218/Tasks"
