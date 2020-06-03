@@ -27,12 +27,12 @@ if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 endif()
 
-add_project_dependency(RBDyn REQUIRED)
-add_project_dependency(sch-core REQUIRED)
-add_project_dependency(eigen-qld REQUIRED)
-find_package(eigen-lssol QUIET)
+add_project_dependency(RBDyn REQUIRED NO_MODULE)
+add_project_dependency(sch-core REQUIRED NO_MODULE)
+add_project_dependency(eigen-qld REQUIRED NO_MODULE)
+find_package(eigen-lssol QUIET NO_MODULE)
 if(${eigen-lssol_FOUND})
-  add_project_dependency(eigen-lssol REQUIRED)
+  add_project_dependency(eigen-lssol REQUIRED NO_MODULE)
 endif()
 
 # For MSVC, set local environment variable to enable finding the built dll

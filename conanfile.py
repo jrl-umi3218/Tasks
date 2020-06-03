@@ -6,10 +6,9 @@
 from conans import python_requires, tools
 import os
 
-base = python_requires("RBDyn/1.1.0@gergondet/stable")
+base = python_requires("Eigen3ToPython/latest@multi-contact/dev")
 
-
-class TasksConan(base.RBDynConan):
+class TasksConan(base.Eigen3ToPythonConan):
     name = "Tasks"
     version = "1.2.0"
     description = "Real time control of robots using constrained optimization"
@@ -19,14 +18,17 @@ class TasksConan(base.RBDynConan):
     author = "Pierre Gergondet <pierre.gergondet@gmail.com>"
     license = "BSD-2-Clause"
     exports = ["LICENSE"]
-    exports_sources = ["CMakeLists.txt", "conan/CMakeLists.txt", "binding/*", "cmake/*", "conan/CMakeModules/*", "doc/*", "src/*"]
-    generators = "cmake"
+    exports_sources = ["CMakeLists.txt", "conan/CMakeLists.txt", "binding/*", "cmake/*", "src/*"]
+    generators = ["cmake_find_package", "cmake_paths"]
     settings = "os", "arch", "compiler", "build_type"
-    options = { "python_version": ["2.7", "3.3", "3.4", "3.5", "3.6", "3.7"] }
-    default_options = { "python_version": base.get_python_version() }
 
     requires = (
-        "RBDyn/1.1.0@gergondet/stable",
-        "sch-core-python/1.0.0@gergondet/stable",
-        "eigen-qld/1.0.0@gergondet/stable"
+        "RBDyn/latest@multi-contact/dev",
+        "sch-core-python/latest@multi-contact/dev",
+        "eigen-qld/latest@multi-contact/dev"
     )
+
+    def package_info(self):
+        self.cpp_info.libs = tools.collect_libs(self)
+        self.env_info.LD_LIBRARY_PATH.append(os.path.join(self.package_folder, 'lib'))
+        self.env_info.PYTHONPATH.append(self._extra_python_path())
