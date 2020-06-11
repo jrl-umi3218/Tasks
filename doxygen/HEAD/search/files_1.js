@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['body_2eh',['Body.h',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00338.html',1,'']]],
-  ['bounds_2eh',['Bounds.h',['../a00032.html',1,'']]]
+  ['genqpsolver_2eh',['GenQPSolver.h',['../GenQPSolver_8h.html',1,'']]],
+  ['genqputils_2eh',['GenQPUtils.h',['../GenQPUtils_8h.html',1,'']]]
 ];

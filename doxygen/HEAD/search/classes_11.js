@@ -1,6 +1,13 @@
 var searchData=
 [
-  ['rbdynfromyaml',['RBDynFromYAML',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01008.html',1,'rbd::parsers']]],
-  ['rbinertia',['RBInertia',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00643.html',1,'sva']]],
-  ['relativedisttask',['RelativeDistTask',['../a01271.html',1,'tasks::qp::RelativeDistTask'],['../a01339.html',1,'tasks::RelativeDistTask']]]
+  ['targetobjectivetask',['TargetObjectiveTask',['../classtasks_1_1qp_1_1TargetObjectiveTask.html',1,'tasks::qp']]],
+  ['task',['Task',['../classtasks_1_1qp_1_1Task.html',1,'tasks::qp']]],
+  ['torquebound',['TorqueBound',['../structtasks_1_1TorqueBound.html',1,'tasks']]],
+  ['torquetask',['TorqueTask',['../classtasks_1_1qp_1_1TorqueTask.html',1,'tasks::qp']]],
+  ['trackingtask',['TrackingTask',['../classtasks_1_1qp_1_1TrackingTask.html',1,'tasks::qp']]],
+  ['trajectorytask',['TrajectoryTask',['../classtasks_1_1qp_1_1TrajectoryTask.html',1,'tasks::qp']]],
+  ['transformtask',['TransformTask',['../classtasks_1_1TransformTask.html',1,'tasks::TransformTask'],['../classtasks_1_1qp_1_1TransformTask.html',1,'tasks::qp::TransformTask']]],
+  ['transformtaskcommon',['TransformTaskCommon',['../classtasks_1_1qp_1_1TransformTaskCommon.html',1,'tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;'],['../classtasks_1_1TransformTaskCommon.html',1,'tasks::TransformTaskCommon']]],
+  ['transformtaskcommon_3c_20tasks_3a_3asurfacetransformtask_20_3e',['TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;',['../classtasks_1_1qp_1_1TransformTaskCommon.html',1,'tasks::qp']]],
+  ['transformtaskcommon_3c_20tasks_3a_3atransformtask_20_3e',['TransformTaskCommon&lt; tasks::TransformTask &gt;',['../classtasks_1_1qp_1_1TransformTaskCommon.html',1,'tasks::qp']]]
 ];

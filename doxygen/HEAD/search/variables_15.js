@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['ualphabound',['uAlphaBound',['../a00939.html#adfb664f324979f6c87525b6442061b7f',1,'tasks::AlphaBound']]],
-  ['unknown',['UNKNOWN',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00976.html#a91ba6c5a035011ff6a22120b1c26c71fa5d27e21c67e97e9527efa6f021626382',1,'rbd::parsers::Geometry']]],
-  ['upolytorquebound',['uPolyTorqueBound',['../a00947.html#a7f89616b892fe7142ff2159fbf3454b9',1,'tasks::PolyTorqueBound']]],
-  ['upper',['upper',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00972.html#a1a2dbbeff9c4c34ffc5466c4081fb0f4',1,'rbd::parsers::Limits']]],
-  ['uqbound',['uQBound',['../a00935.html#a5ed0fe5130f66d16efcb5af347c9f9be',1,'tasks::QBound']]],
-  ['utorquebound',['uTorqueBound',['../a00943.html#a3d06c4ad22a6fbce388e01ac4f14d6bd',1,'tasks::TorqueBound']]]
+  ['x_5f0_5ft_5f',['X_0_t_',['../classtasks_1_1TransformTaskCommon.html#a65b337e6e48ec7e93b8137364374752f',1,'tasks::TransformTaskCommon']]],
+  ['x_5fb1_5fb2',['X_b1_b2',['../structtasks_1_1qp_1_1ContactConstrCommon_1_1ContactCommon.html#a3fdbc4c04005859afe2c6f77a4cec997',1,'tasks::qp::ContactConstrCommon::ContactCommon::X_b1_b2()'],['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#afa20a55cc3a2d0ee4726aea8d0e20af4',1,'tasks::qp::ContactConstr::ContactData::X_b1_b2()'],['../structtasks_1_1qp_1_1UnilateralContact.html#a71abdba5f0d1df7cc91636b4385ee6e8',1,'tasks::qp::UnilateralContact::X_b1_b2()'],['../structtasks_1_1qp_1_1BilateralContact.html#aea4bdb13ab0da1cbc451e8b752f5efb3',1,'tasks::qp::BilateralContact::X_b1_b2()']]],
+  ['x_5fb1_5fcf',['X_b1_cf',['../structtasks_1_1qp_1_1ContactConstrCommon_1_1ContactCommon.html#a7486abed0e3e28e648c2e2d91b280c83',1,'tasks::qp::ContactConstrCommon::ContactCommon::X_b1_cf()'],['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#aec6ce54631e347b5845b6bb24cc206a9',1,'tasks::qp::ContactConstr::ContactData::X_b1_cf()'],['../structtasks_1_1qp_1_1UnilateralContact.html#aaa6507cf6e0d5cfcfdf1c6b3d5df6ca5',1,'tasks::qp::UnilateralContact::X_b1_cf()'],['../structtasks_1_1qp_1_1BilateralContact.html#ae34273f6228a00ce4b185c83f1b233b2',1,'tasks::qp::BilateralContact::X_b1_cf()']]],
+  ['x_5fb_5fp',['X_b_p',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html#ac0b9f181c4ccd6109ed924ba9f69af4e',1,'tasks::qp::ContactConstr::ContactSideData']]],
+  ['x_5fb_5fp_5f',['X_b_p_',['../classtasks_1_1TransformTaskCommon.html#af3c5c7d4e3e282c76d28c09563e6650d',1,'tasks::TransformTaskCommon']]]
 ];

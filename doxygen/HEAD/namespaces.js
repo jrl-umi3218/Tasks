@@ -1,6 +1,6 @@
 var namespaces =
 [
-    [ "rbd", "a00072.html", null ],
-    [ "sch", "a00073.html", null ],
-    [ "tasks", "a00070.html", "a00070" ]
+    [ "rbd", "namespacerbd.html", null ],
+    [ "sch", "namespacesch.html", null ],
+    [ "tasks", "namespacetasks.html", "namespacetasks" ]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['eigen',['Eigen',['https://jrl-umi3218.github.io/SpaceVecAlg/doxygen/HEAD//a00069.html',1,'']]]
+  ['qp',['qp',['../namespacetasks_1_1qp.html',1,'tasks']]],
+  ['tasks',['tasks',['../namespacetasks.html',1,'']]]
 ];

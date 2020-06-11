@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['node',['Node',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01084.html',1,'rbd::MultiBodyGraph']]],
-  ['non_5fabstract',['non_abstract',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00738.html',1,'boost::archive::detail::save_pointer_type']]],
-  ['non_5fpolymorphic',['non_polymorphic',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00742.html',1,'boost::archive::detail::save_pointer_type']]],
-  ['norm',['Norm',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00810.html',1,'CD_Matrix']]],
-  ['norm_3c_20scalar_2c_20normoptimization_20_3e',['Norm&lt; Scalar, normOptimization &gt;',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00810.html',1,'']]],
-  ['norm_3c_20t_2c_20false_20_3e',['Norm&lt; T, false &gt;',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00814.html',1,'CD_Matrix']]]
+  ['pidtask',['PIDTask',['../classtasks_1_1qp_1_1PIDTask.html',1,'tasks::qp']]],
+  ['polytorquebound',['PolyTorqueBound',['../structtasks_1_1PolyTorqueBound.html',1,'tasks']]],
+  ['positionbasedvisservotask',['PositionBasedVisServoTask',['../classtasks_1_1qp_1_1PositionBasedVisServoTask.html',1,'tasks::qp::PositionBasedVisServoTask'],['../classtasks_1_1PositionBasedVisServoTask.html',1,'tasks::PositionBasedVisServoTask']]],
+  ['positiontask',['PositionTask',['../classtasks_1_1qp_1_1PositionTask.html',1,'tasks::qp::PositionTask'],['../classtasks_1_1PositionTask.html',1,'tasks::PositionTask']]],
+  ['positivelambda',['PositiveLambda',['../classtasks_1_1qp_1_1PositiveLambda.html',1,'tasks::qp']]],
+  ['posturetask',['PostureTask',['../classtasks_1_1qp_1_1PostureTask.html',1,'tasks::qp::PostureTask'],['../classtasks_1_1PostureTask.html',1,'tasks::PostureTask']]]
 ];

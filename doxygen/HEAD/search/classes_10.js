@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['qbound',['QBound',['../a00935.html',1,'tasks']]],
-  ['qld',['QLD',['https://jrl-umi3218.github.io/eigen-qld/doxygen/HEAD//a00569.html',1,'Eigen']]],
-  ['qlddirect',['QLDDirect',['https://jrl-umi3218.github.io/eigen-qld/doxygen/HEAD//a00573.html',1,'Eigen']]],
-  ['qldqpsolver',['QLDQPSolver',['../a00931.html',1,'tasks::qp']]],
-  ['qpsolver',['QPSolver',['../a01099.html',1,'tasks::qp']]],
-  ['quaterniont',['QuaternionT',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00794.html',1,'CD_Matrix']]]
+  ['selecteddata',['SelectedData',['../structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html',1,'tasks::qp::JointsSelector']]],
+  ['setpointtask',['SetPointTask',['../classtasks_1_1qp_1_1SetPointTask.html',1,'tasks::qp']]],
+  ['setpointtaskcommon',['SetPointTaskCommon',['../classtasks_1_1qp_1_1SetPointTaskCommon.html',1,'tasks::qp']]],
+  ['solverdata',['SolverData',['../classtasks_1_1qp_1_1SolverData.html',1,'tasks::qp']]],
+  ['springjoint',['SpringJoint',['../structtasks_1_1qp_1_1SpringJoint.html',1,'tasks::qp']]],
+  ['springjointdata',['SpringJointData',['../structtasks_1_1qp_1_1MotionSpringConstr_1_1SpringJointData.html',1,'tasks::qp::MotionSpringConstr']]],
+  ['surfaceorientationtask',['SurfaceOrientationTask',['../classtasks_1_1qp_1_1SurfaceOrientationTask.html',1,'tasks::qp::SurfaceOrientationTask'],['../classtasks_1_1SurfaceOrientationTask.html',1,'tasks::SurfaceOrientationTask']]],
+  ['surfacetransformtask',['SurfaceTransformTask',['../classtasks_1_1qp_1_1SurfaceTransformTask.html',1,'tasks::qp::SurfaceTransformTask'],['../classtasks_1_1SurfaceTransformTask.html',1,'tasks::SurfaceTransformTask']]]
 ];

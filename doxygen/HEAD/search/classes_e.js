@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['orientationtask',['OrientationTask',['../a01211.html',1,'tasks::qp::OrientationTask'],['../a01283.html',1,'tasks::OrientationTask']]],
-  ['orientationtrackingtask',['OrientationTrackingTask',['../a01267.html',1,'tasks::qp::OrientationTrackingTask'],['../a01335.html',1,'tasks::OrientationTrackingTask']]],
-  ['oserializer',['oserializer',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00702.html',1,'boost::archive::detail']]]
+  ['qbound',['QBound',['../structtasks_1_1QBound.html',1,'tasks']]],
+  ['qldqpsolver',['QLDQPSolver',['../classtasks_1_1qp_1_1QLDQPSolver.html',1,'tasks::qp']]],
+  ['qpsolver',['QPSolver',['../classtasks_1_1qp_1_1QPSolver.html',1,'tasks::qp']]]
 ];

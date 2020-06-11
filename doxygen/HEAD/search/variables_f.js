@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['o',['O',['../a01083.html#aa2bcaab07c4831dde713bbab4e360ade',1,'tasks::qp::SpringJoint::O()'],['../a01091.html#a130d19b1b79cc5a3fea54d09d150e5b4',1,'tasks::qp::MotionSpringConstr::SpringJointData::O()']]],
-  ['objects_5f',['objects_',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00766.html#a169aa56e87a751b792777b4acf39411c',1,'sch::CD_Scene']]],
-  ['origin',['origin',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01000.html#acd577a1e48f8168a09745656da805b77',1,'rbd::parsers::Visual']]]
+  ['points',['points',['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html#a9ac2def7191a2deae13dec4b80fcdfbb',1,'tasks::qp::MotionConstrCommon::ContactData']]],
+  ['posindof',['posInDof',['../structtasks_1_1qp_1_1MotionSpringConstr_1_1SpringJointData.html#a2b1d3b44560d4a25373da6ac735e3e3b',1,'tasks::qp::MotionSpringConstr::SpringJointData::posInDof()'],['../structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html#ac2c3ce5bd04545655fefe4ac0a701159',1,'tasks::qp::JointsSelector::SelectedData::posInDof()']]]
 ];

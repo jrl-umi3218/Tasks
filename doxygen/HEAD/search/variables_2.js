@@ -1,26 +1,9 @@
 var searchData=
 [
-  ['b',['b',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00862.html#a0c264091669014b48326ef999c54ff13',1,'sch::PolyhedronTriangle']]],
-  ['b1',['b1',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00770.html#acf5cec3715b997ac6a16320527ca89b6',1,'sch::CD_SimplexKeptPoints']]],
-  ['b1index',['b1Index',['../a01031.html#a060e74dde561d3e2b2b744c7e413b4bb',1,'tasks::qp::ContactConstr::ContactData']]],
-  ['b2',['b2',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00770.html#a002b48706ced2c2d24de628768aba606',1,'sch::CD_SimplexKeptPoints']]],
-  ['b2index',['b2Index',['../a01031.html#a5b7a1d42371e09c6453d6fc09b29a395',1,'tasks::qp::ContactConstr::ContactData']]],
-  ['b3',['b3',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00770.html#a7360485de663c73bd3445d35a8832353',1,'sch::CD_SimplexKeptPoints']]],
-  ['b4',['b4',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00770.html#a70a1fa6bca1495fbff6f3ea034561bac',1,'sch::CD_SimplexKeptPoints']]],
-  ['b_5f',['b_',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00822.html#a0a2696fad83cf2f9bb8268e642b155a8',1,'sch::S_Box::b_()'],['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00858.html#af99c2687b9ed9f760ac2dd0fb2c214c1',1,'sch::S_Superellipsoid::b_()'],['../a01023.html#aa375b908543d69711b1dd45ece31a865',1,'tasks::qp::ContactConstr::b_()']]],
-  ['baseradius_5f',['baseRadius_',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00830.html#ad1052d4d695ece3614260692ee55316d',1,'sch::S_Cone']]],
-  ['bigsphere',['BIGSPHERE',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00148.html#aaa9a2e71c9a9687a84c75aa15b75f384a79d68d1e7ce2544bcc02887372df84c4',1,'sch']]],
-  ['binary_5farchive',['BINARY_ARCHIVE',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00148.html#aec0f4168a7c3d90bebc8db0c1f6c8fa9a3dd05585336ccf671c6058e2782b549c',1,'sch']]],
-  ['bodies_5f',['bodies_',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01064.html#abbea0b9458d4a5bfc17d1821882e78f2',1,'rbd::MultiBody']]],
-  ['body',['body',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01084.html#aea931fe8a425c0795911395cd09071b6',1,'rbd::MultiBodyGraph::Node']]],
-  ['bodyaccb',['bodyAccB',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01068.html#a25fc059a35f32434f2743f91f78c06bb',1,'rbd::MultiBodyConfig']]],
-  ['bodyindex',['bodyIndex',['../a01027.html#a74063f68fc100833abeafd911ffaae50',1,'tasks::qp::ContactConstr::ContactSideData::bodyIndex()'],['../a01075.html#abd85910b4e703019994cc83af67770ac',1,'tasks::qp::MotionConstrCommon::ContactData::bodyIndex()']]],
-  ['bodyindex_5f',['bodyIndex_',['../a01287.html#a298e38439bbefa80e02f53ffbda17771',1,'tasks::TransformTaskCommon']]],
-  ['bodynametoind_5f',['bodyNameToInd_',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01064.html#afa2c9103dc0cf11ac2812ffdf63ec738',1,'rbd::MultiBody']]],
-  ['bodynametonode_5f',['bodyNameToNode_',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01076.html#ad799fa0fa418547b6bb64ae2a5f3eb13',1,'rbd::MultiBodyGraph']]],
-  ['bodyposw',['bodyPosW',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01068.html#a68f5498dbe584cc07ca833501688a6e3',1,'rbd::MultiBodyConfig']]],
-  ['bodyvelb',['bodyVelB',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01068.html#a7f8b9fcb9804bf87505c65a0d6e17785',1,'rbd::MultiBodyConfig']]],
-  ['bodyvelw',['bodyVelW',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a01068.html#a278db7240fb454ea06bd3dce78a18da9',1,'rbd::MultiBodyConfig']]],
-  ['box',['BOX',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00976.html#a91ba6c5a035011ff6a22120b1c26c71fa0ef17f0fc0df1e20fb78c45b4a74807e',1,'rbd::parsers::Geometry']]],
-  ['buffer',['buffer',['https://jrl-umi3218.github.io/sch-core/doxygen/HEAD//a00886.html#a53646145e2a8adb56661a2ebaac43cb8',1,'sch::s_toruslinkedBV']]]
+  ['c',['C',['../structtasks_1_1qp_1_1SpringJoint.html#a2b393d84a55fe348e6e5ce04deefd329',1,'tasks::qp::SpringJoint::C()'],['../structtasks_1_1qp_1_1MotionSpringConstr_1_1SpringJointData.html#a03378bf454ffd094f82b6b80b3b6bbfd',1,'tasks::qp::MotionSpringConstr::SpringJointData::C()']]],
+  ['cid',['cId',['../structtasks_1_1qp_1_1ContactConstrCommon_1_1ContactCommon.html#ad53d259f4e7a95dfb4ac949bf30488dd',1,'tasks::qp::ContactConstrCommon::ContactCommon']]],
+  ['cont_5f',['cont_',['../classtasks_1_1qp_1_1ContactConstr.html#a462e49a9b481e139b98cd4e9749cd6c6',1,'tasks::qp::ContactConstr::cont_()'],['../classtasks_1_1qp_1_1MotionConstrCommon.html#a9447370a70ac6a0ac21d102b890447ee',1,'tasks::qp::MotionConstrCommon::cont_()']]],
+  ['contactid',['contactId',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a73463d49bc2a0f6e8e08b17c465278d9',1,'tasks::qp::ContactConstr::ContactData::contactId()'],['../structtasks_1_1qp_1_1UnilateralContact.html#a270f82eb683458249b864a73d3464021',1,'tasks::qp::UnilateralContact::contactId()'],['../structtasks_1_1qp_1_1BilateralContact.html#a332d3c0c5db19b3ea3d7f3e12a903364',1,'tasks::qp::BilateralContact::contactId()']]],
+  ['contacts',['contacts',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a8eaacc04f628b6ef37f84e711153da3e',1,'tasks::qp::ContactConstr::ContactData']]],
+  ['curtorque_5f',['curTorque_',['../classtasks_1_1qp_1_1MotionConstrCommon.html#af8dfcd48202dd0d87d0daa621eab9277',1,'tasks::qp::MotionConstrCommon']]]
 ];

@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['limits',['Limits',['https://jrl-umi3218.github.io/RBDyn/doxygen/HEAD//a00972.html',1,'rbd::parsers']]],
-  ['linvelocitytask',['LinVelocityTask',['../a01263.html',1,'tasks::qp::LinVelocityTask'],['../a01331.html',1,'tasks::LinVelocityTask']]],
-  ['lssolqpsolver',['LSSOLQPSolver',['../a00927.html',1,'tasks::qp']]]
+  ['momentumtask',['MomentumTask',['../classtasks_1_1qp_1_1MomentumTask.html',1,'tasks::qp::MomentumTask'],['../classtasks_1_1MomentumTask.html',1,'tasks::MomentumTask']]],
+  ['motionconstr',['MotionConstr',['../classtasks_1_1qp_1_1MotionConstr.html',1,'tasks::qp']]],
+  ['motionconstrcommon',['MotionConstrCommon',['../classtasks_1_1qp_1_1MotionConstrCommon.html',1,'tasks::qp']]],
+  ['motionpolyconstr',['MotionPolyConstr',['../classtasks_1_1qp_1_1MotionPolyConstr.html',1,'tasks::qp']]],
+  ['motionspringconstr',['MotionSpringConstr',['../classtasks_1_1qp_1_1MotionSpringConstr.html',1,'tasks::qp']]],
+  ['multicomtask',['MultiCoMTask',['../classtasks_1_1qp_1_1MultiCoMTask.html',1,'tasks::qp::MultiCoMTask'],['../classtasks_1_1MultiCoMTask.html',1,'tasks::MultiCoMTask']]],
+  ['multirobottransformtask',['MultiRobotTransformTask',['../classtasks_1_1qp_1_1MultiRobotTransformTask.html',1,'tasks::qp::MultiRobotTransformTask'],['../classtasks_1_1MultiRobotTransformTask.html',1,'tasks::MultiRobotTransformTask']]]
 ];
