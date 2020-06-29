@@ -99,7 +99,7 @@ To compile you need the following tools and libraries:
  * [SpaceVecAlg](https://github.com/jrl-umi3218/SpaceVecAlg)
  * [RBDyn](https://github.com/jrl-umi3218/RBDyn)
  * [eigen-qld](https://github.com/jrl-umi3218/eigen-qld)
- * [eigen-lssol]() (Optional, if you have the LSSOL licence ask us this library)
+ * eigen-lssol (Optional, if you have the LSSOL licence ask us this library)
  * [sch-core](https://github.com/jrl-umi3218/sch-core)
 
 For Python bindings:
