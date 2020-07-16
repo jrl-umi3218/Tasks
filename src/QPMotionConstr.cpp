@@ -113,15 +113,16 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody & mb,
 
 MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex)
 : robotIndex_(robotIndex), alphaDBegin_(-1), nrDof_(mbs[robotIndex_].nrDof()), lambdaBegin_(-1), fd_(mbs[robotIndex_]),
-  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), lastTorque_(nrDof_), A_(), AL_(nrDof_), AU_(nrDof_)
+  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), lastTorque_(nrDof_), A_(),
+  AL_(nrDof_), AU_(nrDof_)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
-  lastTorque_.setZero(); //TODO should be initialized with a gravity-compensation torque?
+  lastTorque_.setZero(); // TODO should be initialized with a gravity-compensation torque?
 }
 
 void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda)
 {
-  lastTorque_ = curTorque_; //NOTE: this fuction should not be called multiple times within one control cycle
+  lastTorque_ = curTorque_; // NOTE: this fuction should not be called multiple times within one control cycle
   curTorque_ = fd_.H() * alphaD.segment(alphaDBegin_, nrDof_);
   curTorque_ += fd_.C();
   curTorque_ += A_.block(0, lambdaBegin_, nrDof_, A_.cols() - lambdaBegin_) * lambda;
@@ -259,12 +260,13 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & 
  *															MotionConstr
  */
 
-MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, 
-                           int robotIndex, 
-                           const TorqueBound & tb, 
-                           const TorqueDtBound & tdb, 
+MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
+                           int robotIndex,
+                           const TorqueBound & tb,
+                           const TorqueDtBound & tdb,
                            const double & dt)
-: MotionConstrCommon(mbs, robotIndex), torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof()), torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()), tmpL_(nrDof_), tmpU_(nrDof_)
+: MotionConstrCommon(mbs, robotIndex), torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof()),
+  torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()), tmpL_(nrDof_), tmpU_(nrDof_)
 {
   rbd::paramToVector(tb.lTorqueBound, torqueL_);
   rbd::paramToVector(tb.uTorqueBound, torqueU_);

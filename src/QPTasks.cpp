@@ -638,11 +638,11 @@ const Eigen::VectorXd & JointsSelector::normalAcc()
 }
 
 /** Torque Task **/
-TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, 
-                       int robotIndex, 
-                       const TorqueBound & tb, 
-                       const TorqueDtBound & tdb, 
-                       const double & dt, 
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
+                       int robotIndex,
+                       const TorqueBound & tb,
+                       const TorqueDtBound & tdb,
+                       const double & dt,
                        double weight)
 : Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, tb, tdb, dt),
   jointSelector_(mbs[robotIndex].nrDof()), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
@@ -654,8 +654,8 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
                        int robotIndex,
                        const TorqueBound & tb,
-                       const TorqueDtBound & tdb, 
-                       const double & dt, 
+                       const TorqueDtBound & tdb,
+                       const double & dt,
                        const Eigen::VectorXd & jointSelect,
                        double weight)
 : Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, tb, tdb, dt),
@@ -666,8 +666,8 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
                        int robotIndex,
                        const TorqueBound & tb,
-                       const TorqueDtBound & tdb, 
-                       const double & dt, 
+                       const TorqueDtBound & tdb,
+                       const double & dt,
                        const std::string & efName,
                        double weight)
 : Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, tb, tdb, dt),

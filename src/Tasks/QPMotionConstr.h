@@ -122,10 +122,10 @@ protected:
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
-  MotionConstr(const std::vector<rbd::MultiBody> & mbs, 
-               int robotIndex, 
-               const TorqueBound & tb, 
-               const TorqueDtBound & tdb, 
+  MotionConstr(const std::vector<rbd::MultiBody> & mbs,
+               int robotIndex,
+               const TorqueBound & tb,
+               const TorqueDtBound & tdb,
                const double & dt);
 
   // Constraint
