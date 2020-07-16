@@ -505,6 +505,25 @@ cdef class TorqueBound(object):
     def __set__(self, value):
       self.impl.uTorqueBound = value
 
+cdef class TorqueDBound(object):
+  def __cinit__(self, *args):
+    if len(args) == 0:
+      self.impl = c_tasks.TorqueDBound()
+    elif len(args) == 2:
+      self.impl = c_tasks.TorqueDBound(args[0], args[1])
+    else:
+      raise TypeError("Wrong arguments passed to TorqueDBound ctor")
+  property lTorqueDBound:
+    def __get__(self):
+      return self.impl.lTorqueDBound
+    def __set__(self, value):
+      self.impl.lTorqueDBound = value
+  property uTorqueDBound:
+    def __get__(self):
+      return self.impl.uTorqueDBound
+    def __set__(self, value):
+      self.impl.uTorqueDBound = value
+
 cdef class PolyTorqueBound(object):
   def __vctor__(self, lPTB, uPTB):
     cdef vector[vector[c_eigen.VectorXd]] vlPTB
