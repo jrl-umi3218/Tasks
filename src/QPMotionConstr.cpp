@@ -260,6 +260,11 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & 
  *															MotionConstr
  */
 
+MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb)
+: MotionConstr(mbs, robotIndex, tb, {}, 0)
+{
+}
+
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                            int robotIndex,
                            const TorqueBound & tb,
@@ -272,6 +277,14 @@ MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
   rbd::paramToVector(tb.uTorqueBound, torqueU_);
   rbd::paramToVector(tdb.lTorqueDBound, torqueDtL_);
   rbd::paramToVector(tdb.uTorqueDBound, torqueDtU_);
+  if(torqueDtL_.size() == 0)
+  {
+    torqueDtL_.setConstant(-std::numeric_limits<double>::infinity());
+  }
+  if(torqueDtU_.size() == 0)
+  {
+    torqueDtU_.setConstant(std::numeric_limits<double>::infinity());
+  }
   torqueDtL_ *= dt;
   torqueDtU_ *= dt;
 }
@@ -282,13 +295,7 @@ void MotionConstr::update(const std::vector<rbd::MultiBody> & mbs,
 {
   computeMatrix(mbs, mbcs);
 
-  // without torque-derivative
-  // tauMin -C <= H*alphaD - J^t G lambda <= tauMax - C
-  // AL_.head(torqueL_.rows()) += torqueL_;
-  // AU_.head(torqueU_.rows()) += torqueU_;
-
-  // with torque-derivative
-  // max[tauMin, tauDtMin*dt + tau(k-1)] - C <= H*alphaD - J^t G lambda <= min[tauMax, tauDtMax * dt + tau(k-1)] - C
+  // max[tauMin, tauDMin*dt + tau(k-1)] - C <= H*alphaD - J^t G lambda <= min[tauMax, tauDMax * dt + tau(k-1)] - C
   AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + lastTorque_);
   AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + lastTorque_);
 }
@@ -306,6 +313,14 @@ const rbd::ForwardDynamics MotionConstr::fd() const
 /**
  *															MotionSpringConstr
  */
+
+MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
+                                       int robotIndex,
+                                       const TorqueBound & tb,
+                                       const std::vector<SpringJoint> & springs)
+: MotionSpringConstr(mbs, robotIndex, tb, {}, 0, springs)
+{
+}
 
 MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                                        int robotIndex,
@@ -339,8 +354,8 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody> & mbs,
     torqueU_(sj.posInDof) = -spring;
   }
 
-  AL_.head(torqueL_.rows()) += torqueL_;
-  AU_.head(torqueU_.rows()) += torqueU_;
+  AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + lastTorque_);
+  AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + lastTorque_);
 }
 
 /**

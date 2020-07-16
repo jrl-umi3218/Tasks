@@ -122,6 +122,8 @@ protected:
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
+  MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb);
+
   MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                int robotIndex,
                const TorqueBound & tb,
@@ -160,6 +162,11 @@ struct SpringJoint
 class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 {
 public:
+  MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
+                     int robotIndex,
+                     const TorqueBound & tb,
+                     const std::vector<SpringJoint> & springs);
+
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                      int robotIndex,
                      const TorqueBound & tb,
