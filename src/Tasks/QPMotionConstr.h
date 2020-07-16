@@ -21,6 +21,7 @@
 namespace tasks
 {
 struct TorqueBound;
+struct TorqueDtBound;
 struct PolyTorqueBound;
 
 namespace qp
@@ -112,6 +113,7 @@ protected:
   std::vector<ContactData> cont_;
 
   Eigen::VectorXd curTorque_;
+  Eigen::VectorXd lastTorque_;
 
   Eigen::MatrixXd A_;
   Eigen::VectorXd AL_, AU_;
@@ -120,7 +122,11 @@ protected:
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
-  MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb);
+  MotionConstr(const std::vector<rbd::MultiBody> & mbs, 
+               int robotIndex, 
+               const TorqueBound & tb, 
+               const TorqueDtBound & tdb, 
+               const double & dt);
 
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -138,6 +144,8 @@ public:
 
 protected:
   Eigen::VectorXd torqueL_, torqueU_;
+  Eigen::VectorXd torqueDtL_, torqueDtU_;
+  Eigen::VectorXd tmpL_, tmpU_;
 };
 
 struct SpringJoint
@@ -155,6 +163,8 @@ public:
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                      int robotIndex,
                      const TorqueBound & tb,
+                     const TorqueDtBound & tdb,
+                     const double & dt,
                      const std::vector<SpringJoint> & springs);
 
   // Constraint

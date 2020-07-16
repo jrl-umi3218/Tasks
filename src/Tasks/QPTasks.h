@@ -394,17 +394,26 @@ struct JointGains
 class TASKS_DLLAPI TorqueTask : public Task
 {
 public:
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb, double weight);
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, 
+             int robotIndex, 
+             const TorqueBound & tb, 
+             const TorqueDtBound & tdb, 
+             const double & dt, 
+             double weight);
 
   TorqueTask(const std::vector<rbd::MultiBody> & mbs,
              int robotIndex,
              const TorqueBound & tb,
+             const TorqueDtBound & tdb, 
+             const double & dt, 
              const Eigen::VectorXd & jointSelect,
              double weight);
 
   TorqueTask(const std::vector<rbd::MultiBody> & mbs,
              int robotIndex,
              const TorqueBound & tb,
+             const TorqueDtBound & tdb, 
+             const double & dt, 
              const std::string & efName,
              double weight);
 
