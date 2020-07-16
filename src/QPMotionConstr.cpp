@@ -264,7 +264,7 @@ MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                            int robotIndex,
                            const TorqueBound & tb,
                            const TorqueDBound & tdb,
-                           const double & dt)
+                           double dt)
 : MotionConstrCommon(mbs, robotIndex), torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof()),
   torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()), tmpL_(nrDof_), tmpU_(nrDof_)
 {
@@ -311,7 +311,7 @@ MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                                        int robotIndex,
                                        const TorqueBound & tb,
                                        const TorqueDBound & tdb,
-                                       const double & dt,
+                                       double dt,
                                        const std::vector<SpringJoint> & springs)
 : MotionConstr(mbs, robotIndex, tb, tdb, dt), springs_()
 {

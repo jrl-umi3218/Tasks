@@ -126,7 +126,7 @@ public:
                int robotIndex,
                const TorqueBound & tb,
                const TorqueDBound & tdb,
-               const double & dt);
+               double dt);
 
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -164,7 +164,7 @@ public:
                      int robotIndex,
                      const TorqueBound & tb,
                      const TorqueDBound & tdb,
-                     const double & dt,
+                     double dt,
                      const std::vector<SpringJoint> & springs);
 
   // Constraint
