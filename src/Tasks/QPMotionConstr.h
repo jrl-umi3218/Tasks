@@ -21,7 +21,7 @@
 namespace tasks
 {
 struct TorqueBound;
-struct TorqueDtBound;
+struct TorqueDBound;
 struct PolyTorqueBound;
 
 namespace qp
@@ -125,7 +125,7 @@ public:
   MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                int robotIndex,
                const TorqueBound & tb,
-               const TorqueDtBound & tdb,
+               const TorqueDBound & tdb,
                const double & dt);
 
   // Constraint
@@ -163,7 +163,7 @@ public:
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                      int robotIndex,
                      const TorqueBound & tb,
-                     const TorqueDtBound & tdb,
+                     const TorqueDBound & tdb,
                      const double & dt,
                      const std::vector<SpringJoint> & springs);
 

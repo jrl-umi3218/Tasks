@@ -73,18 +73,18 @@ struct TorqueBound
  * General force vector derivative bounds
  * \f$ \underline{\dot{\tau}} \f$ and \f$ \overline{\dot{\tau}} \f$.
  */
-struct TorqueDtBound
+struct TorqueDBound
 {
-  TorqueDtBound() {}
-  TorqueDtBound(std::vector<std::vector<double>> lTdtB, std::vector<std::vector<double>> uTdtB)
-  : lTorqueDtBound(std::move(lTdtB)), uTorqueDtBound(std::move(uTdtB))
+  TorqueDBound() {}
+  TorqueDBound(std::vector<std::vector<double>> lTDB, std::vector<std::vector<double>> uTDB)
+  : lTorqueDBound(std::move(lTDB)), uTorqueDBound(std::move(uTDB))
   {
   }
 
   /// \f$ \underline{\dot{\tau}} \f$
-  std::vector<std::vector<double>> lTorqueDtBound;
+  std::vector<std::vector<double>> lTorqueDBound;
   /// \f$ \overline{\dot{\tau}} \f$
-  std::vector<std::vector<double>> uTorqueDtBound;
+  std::vector<std::vector<double>> uTorqueDBound;
 };
 
 /**

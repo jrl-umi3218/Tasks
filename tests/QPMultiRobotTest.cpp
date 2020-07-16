@@ -538,7 +538,7 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
   }
 
   TorqueBound tb(lsup, linf);
-  TorqueDtBound tdb(lsup, linf);
+  TorqueDBound tdb(lsup, linf);
 
   qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
   qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);

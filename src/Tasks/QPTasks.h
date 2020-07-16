@@ -397,14 +397,14 @@ public:
   TorqueTask(const std::vector<rbd::MultiBody> & mbs,
              int robotIndex,
              const TorqueBound & tb,
-             const TorqueDtBound & tdb,
+             const TorqueDBound & tdb,
              const double & dt,
              double weight);
 
   TorqueTask(const std::vector<rbd::MultiBody> & mbs,
              int robotIndex,
              const TorqueBound & tb,
-             const TorqueDtBound & tdb,
+             const TorqueDBound & tdb,
              const double & dt,
              const Eigen::VectorXd & jointSelect,
              double weight);
@@ -412,7 +412,7 @@ public:
   TorqueTask(const std::vector<rbd::MultiBody> & mbs,
              int robotIndex,
              const TorqueBound & tb,
-             const TorqueDtBound & tdb,
+             const TorqueDBound & tdb,
              const double & dt,
              const std::string & efName,
              double weight);

@@ -263,15 +263,15 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & 
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                            int robotIndex,
                            const TorqueBound & tb,
-                           const TorqueDtBound & tdb,
+                           const TorqueDBound & tdb,
                            const double & dt)
 : MotionConstrCommon(mbs, robotIndex), torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof()),
   torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()), tmpL_(nrDof_), tmpU_(nrDof_)
 {
   rbd::paramToVector(tb.lTorqueBound, torqueL_);
   rbd::paramToVector(tb.uTorqueBound, torqueU_);
-  rbd::paramToVector(tdb.lTorqueDtBound, torqueDtL_);
-  rbd::paramToVector(tdb.uTorqueDtBound, torqueDtU_);
+  rbd::paramToVector(tdb.lTorqueDBound, torqueDtL_);
+  rbd::paramToVector(tdb.uTorqueDBound, torqueDtU_);
   torqueDtL_ *= dt;
   torqueDtU_ *= dt;
 }
@@ -310,7 +310,7 @@ const rbd::ForwardDynamics MotionConstr::fd() const
 MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                                        int robotIndex,
                                        const TorqueBound & tb,
-                                       const TorqueDtBound & tdb,
+                                       const TorqueDBound & tdb,
                                        const double & dt,
                                        const std::vector<SpringJoint> & springs)
 : MotionConstr(mbs, robotIndex, tb, tdb, dt), springs_()
