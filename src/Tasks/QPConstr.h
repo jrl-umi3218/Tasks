@@ -192,7 +192,7 @@ private:
 };
 
 /**
- * Avoid that too robot links enter into collision based on a velocity damper.
+ * Avoid that two robot links enter into collision based on a velocity damper.
  * For each collision pair:
  * \f[
  * \dot{d} + \ddot{d}\Delta_{dt} \geq -\xi \frac{d - d_s}{d_i - d_s}

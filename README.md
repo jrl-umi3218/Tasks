@@ -2,7 +2,7 @@ Tasks
 =====
 
 [![License](https://img.shields.io/badge/License-BSD%202--Clause-green.svg)](https://opensource.org/licenses/BSD-2-Clause)
-[ ![Download](https://api.bintray.com/packages/gergondet/multi-contact/Tasks%3Agergondet/images/download.svg) ](https://bintray.com/gergondet/multi-contact/Tasks%3Agergondet/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/gergondet/multi-contact/Tasks%3Amulti-contact/images/download.svg) ](https://bintray.com/gergondet/multi-contact/Tasks%3Amulti-contact/_latestVersion)
 [![CI](https://github.com/jrl-umi3218/Tasks/workflows/CI%20of%20Tasks/badge.svg?branch=master)](https://github.com/jrl-umi3218/Tasks/actions?query=workflow%3A%22CI+of+Tasks%22)
 [![Documentation](https://img.shields.io/badge/doxygen-online-brightgreen?logo=read-the-docs&style=flat)](http://jrl-umi3218.github.io/Tasks/doxygen/HEAD/index.html)
 
@@ -54,6 +54,18 @@ sudo apt update
 sudo apt install libtasks-dev python-tasks python3-tasks
 ```
 
+## Conan
+
+Install the latest version using [conan](https://conan.io/)
+
+```bash
+conan remote add multi-contact https://api.bintray.com/conan/gergondet/multi-contact
+# Install the latest release
+conan install Tasks/latest@multi-contact/stable
+# Or install the latest development version
+# conan install Tasks/latest@multi-contact/dev
+```
+
 ## Homebrew OS X install
 
 Install from the command line using [Homebrew](brew.sh):
@@ -87,7 +99,7 @@ To compile you need the following tools and libraries:
  * [SpaceVecAlg](https://github.com/jrl-umi3218/SpaceVecAlg)
  * [RBDyn](https://github.com/jrl-umi3218/RBDyn)
  * [eigen-qld](https://github.com/jrl-umi3218/eigen-qld)
- * [eigen-lssol]() (Optional, if you have the LSSOL licence ask us this library)
+ * eigen-lssol (Optional, if you have the LSSOL licence ask us this library)
  * [sch-core](https://github.com/jrl-umi3218/sch-core)
 
 For Python bindings:
