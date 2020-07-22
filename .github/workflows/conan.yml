@@ -36,7 +36,7 @@ jobs:
         stable-channel: stable
         dev-channel: dev
         with-build-type: true
-        force-upload: true
+        force-upload: false
         BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
   sync:
     needs: build
