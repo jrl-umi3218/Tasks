@@ -117,7 +117,9 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, 
   AL_(nrDof_), AU_(nrDof_)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
-  lastTorque_.setZero(); // TODO should be initialized with a gravity-compensation torque?
+  curTorque_.setZero();
+  // This is technically incorrect but practically not a huge deal, see #66
+  lastTorque_.setZero();
 }
 
 void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda)
