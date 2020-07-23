@@ -117,14 +117,18 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, 
   AL_(nrDof_), AU_(nrDof_)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
-  curTorque_.setZero();
   // This is technically incorrect but practically not a huge deal, see #66
+  curTorque_.setZero();
   lastTorque_.setZero();
 }
 
 void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda)
 {
-  lastTorque_ = curTorque_; // NOTE: this fuction should not be called multiple times within one control cycle
+  if(updateIter_ != lastTorqueIter_)
+  {
+    lastTorqueIter_ = updateIter_;
+    lastTorque_ = curTorque_;
+  }
   curTorque_ = fd_.H() * alphaD.segment(alphaDBegin_, nrDof_);
   curTorque_ += fd_.C();
   curTorque_ += A_.block(0, lambdaBegin_, nrDof_, A_.cols() - lambdaBegin_) * lambda;
@@ -289,6 +293,7 @@ void MotionConstr::update(const std::vector<rbd::MultiBody> & mbs,
                           const std::vector<rbd::MultiBodyConfig> & mbcs,
                           const SolverData & /* data */)
 {
+  updateIter_++;
   computeMatrix(mbs, mbcs);
 
   // max[tauMin, tauDMin*dt + tau(k-1)] - C <= H*alphaD - J^t G lambda <= min[tauMax, tauDMax * dt + tau(k-1)] - C
