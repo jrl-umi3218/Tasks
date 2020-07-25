@@ -89,8 +89,10 @@ Collaboration diagram for tasks::qp::ContactConstr::ContactData:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3ab1f7d913208fd934bf01bd7cffa8c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a3ab1f7d913208fd934bf01bd7cffa8c5">ContactData</a> (std::vector&lt; <a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html">ContactSideData</a> &gt; csds, const Eigen::MatrixXd &amp;d, int b1, int b2, const sva::PTransformd &amp;X_bb, const sva::PTransformd &amp;X_bcf, const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;cId)</td></tr>
-<tr class="separator:a3ab1f7d913208fd934bf01bd7cffa8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90801e448573ba36d10a5eb230111896"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a90801e448573ba36d10a5eb230111896">ContactData</a> (std::vector&lt; <a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html">ContactSideData</a> &gt; csds, const Eigen::MatrixXd &amp;d, int r1, int r2, int b1, int b2, const sva::PTransformd &amp;X_bb, const sva::PTransformd &amp;X_bcf, const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;cId)</td></tr>
+<tr class="separator:a90801e448573ba36d10a5eb230111896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2230dda7998dae13a6d67f51afc185"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#ace2230dda7998dae13a6d67f51afc185">update</a> (const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs)</td></tr>
+<tr class="separator:ace2230dda7998dae13a6d67f51afc185"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -98,6 +100,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a8eaacc04f628b6ef37f84e711153da3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d025b4a9ad0dc05a96b571d42fedb29"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a4d025b4a9ad0dc05a96b571d42fedb29">dof</a></td></tr>
 <tr class="separator:a4d025b4a9ad0dc05a96b571d42fedb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad29c82f825db591831606fc41d48b399"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#ad29c82f825db591831606fc41d48b399">revDof</a></td></tr>
+<tr class="separator:ad29c82f825db591831606fc41d48b399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36664bc33d3df6f48bff1cca3172188b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a36664bc33d3df6f48bff1cca3172188b">r1Index</a></td></tr>
+<tr class="separator:a36664bc33d3df6f48bff1cca3172188b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45d95d03f77de846582a64cdb1f4d888"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a45d95d03f77de846582a64cdb1f4d888">r2Index</a></td></tr>
+<tr class="separator:a45d95d03f77de846582a64cdb1f4d888"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060e74dde561d3e2b2b744c7e413b4bb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a060e74dde561d3e2b2b744c7e413b4bb">b1Index</a></td></tr>
 <tr class="separator:a060e74dde561d3e2b2b744c7e413b4bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b7a1d42371e09c6453d6fc09b29a395"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a5b7a1d42371e09c6453d6fc09b29a395">b2Index</a></td></tr>
@@ -110,8 +118,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a73463d49bc2a0f6e8e08b17c465278d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a3ab1f7d913208fd934bf01bd7cffa8c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ab1f7d913208fd934bf01bd7cffa8c5">&#9670;&nbsp;</a></span>ContactData()</h2>
+<a id="a90801e448573ba36d10a5eb230111896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90801e448573ba36d10a5eb230111896">&#9670;&nbsp;</a></span>ContactData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -130,6 +138,18 @@ Public Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
           <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>r1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>r2</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -172,6 +192,25 @@ Public Attributes</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ace2230dda7998dae13a6d67f51afc185"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace2230dda7998dae13a6d67f51afc185">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tasks::qp::ContactConstr::ContactData::update </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbcs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -241,6 +280,48 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">Eigen::MatrixXd tasks::qp::ContactConstr::ContactData::dof</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36664bc33d3df6f48bff1cca3172188b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36664bc33d3df6f48bff1cca3172188b">&#9670;&nbsp;</a></span>r1Index</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int tasks::qp::ContactConstr::ContactData::r1Index</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a45d95d03f77de846582a64cdb1f4d888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45d95d03f77de846582a64cdb1f4d888">&#9670;&nbsp;</a></span>r2Index</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int tasks::qp::ContactConstr::ContactData::r2Index</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad29c82f825db591831606fc41d48b399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad29c82f825db591831606fc41d48b399">&#9670;&nbsp;</a></span>revDof</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXd tasks::qp::ContactConstr::ContactData::revDof</td>
         </tr>
       </table>
 </div><div class="memdoc">

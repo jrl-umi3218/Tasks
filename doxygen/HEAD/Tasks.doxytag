@@ -1738,8 +1738,15 @@
       <type></type>
       <name>ContactData</name>
       <anchorfile>structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html</anchorfile>
-      <anchor>a3ab1f7d913208fd934bf01bd7cffa8c5</anchor>
-      <arglist>(std::vector&lt; ContactSideData &gt; csds, const Eigen::MatrixXd &amp;d, int b1, int b2, const sva::PTransformd &amp;X_bb, const sva::PTransformd &amp;X_bcf, const ContactId &amp;cId)</arglist>
+      <anchor>a90801e448573ba36d10a5eb230111896</anchor>
+      <arglist>(std::vector&lt; ContactSideData &gt; csds, const Eigen::MatrixXd &amp;d, int r1, int r2, int b1, int b2, const sva::PTransformd &amp;X_bb, const sva::PTransformd &amp;X_bcf, const ContactId &amp;cId)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update</name>
+      <anchorfile>structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html</anchorfile>
+      <anchor>ace2230dda7998dae13a6d67f51afc185</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs)</arglist>
     </member>
     <member kind="variable">
       <type>std::vector&lt; ContactSideData &gt;</type>
@@ -1753,6 +1760,27 @@
       <name>dof</name>
       <anchorfile>structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html</anchorfile>
       <anchor>a4d025b4a9ad0dc05a96b571d42fedb29</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>Eigen::MatrixXd</type>
+      <name>revDof</name>
+      <anchorfile>structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html</anchorfile>
+      <anchor>ad29c82f825db591831606fc41d48b399</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>r1Index</name>
+      <anchorfile>structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html</anchorfile>
+      <anchor>a36664bc33d3df6f48bff1cca3172188b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>r2Index</name>
+      <anchorfile>structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html</anchorfile>
+      <anchor>a45d95d03f77de846582a64cdb1f4d888</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
