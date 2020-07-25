@@ -505,6 +505,7 @@ cdef extern from "<Tasks/QPMotionConstr.h>" namespace "tasks::qp":
 
   cdef cppclass MotionConstr(ConstraintFunction[GenInequality], GenInequality, Constraint):
     MotionConstr(const vector[MultiBody]&, int, const c_tasks.TorqueBound&)
+    MotionConstr(const vector[MultiBody]&, int, const c_tasks.TorqueBound&, const c_tasks.TorqueDBound&, double)
     # Motion default
     void computeTorque(const VectorXd&, const VectorXd&)
     VectorXd torque() const
@@ -515,6 +516,7 @@ cdef extern from "<Tasks/QPMotionConstr.h>" namespace "tasks::qp":
 
   cdef cppclass MotionSpringConstr(ConstraintFunction[GenInequality], GenInequality, Constraint):
     MotionSpringConstr(const vector[MultiBody]&, int, const c_tasks.TorqueBound&, const vector[SpringJoint]&)
+    MotionSpringConstr(const vector[MultiBody]&, int, const c_tasks.TorqueBound&, const c_tasks.TorqueDBound&, double, const vector[SpringJoint]&)
     # Motion default
     void computeTorque(const VectorXd&, const VectorXd&)
     VectorXd torque() const

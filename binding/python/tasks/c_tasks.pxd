@@ -215,6 +215,12 @@ cdef extern from "<Tasks/Bounds.h>" namespace "tasks":
     vector[vector[double]] lTorqueBound
     vector[vector[double]] uTorqueBound
 
+  cdef cppclass TorqueDBound:
+    TorqueDBound()
+    TorqueDBound(vector[vector[double]], vector[vector[double]])
+    vector[vector[double]] lTorqueDBound
+    vector[vector[double]] uTorqueDBound
+
   cdef cppclass PolyTorqueBound:
     PolyTorqueBound()
     PolyTorqueBound(vector[vector[VectorXd]], vector[vector[VectorXd]])

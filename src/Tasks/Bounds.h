@@ -70,6 +70,24 @@ struct TorqueBound
 };
 
 /**
+ * General force vector derivative bounds
+ * \f$ \underline{\dot{\tau}} \f$ and \f$ \overline{\dot{\tau}} \f$.
+ */
+struct TorqueDBound
+{
+  TorqueDBound() {}
+  TorqueDBound(std::vector<std::vector<double>> lTDB, std::vector<std::vector<double>> uTDB)
+  : lTorqueDBound(std::move(lTDB)), uTorqueDBound(std::move(uTDB))
+  {
+  }
+
+  /// \f$ \underline{\dot{\tau}} \f$
+  std::vector<std::vector<double>> lTorqueDBound;
+  /// \f$ \overline{\dot{\tau}} \f$
+  std::vector<std::vector<double>> uTorqueDBound;
+};
+
+/**
  * General force vector bounds in function of articular position
  * \f$ \underline{\tau}(q) \f$ and \f$ \overline{\tau}(q) \f$.
  * The upper and lower bound function is represented
