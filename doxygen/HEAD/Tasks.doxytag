@@ -157,6 +157,7 @@
     <class kind="struct">tasks::QBound</class>
     <class kind="struct">tasks::AlphaBound</class>
     <class kind="struct">tasks::TorqueBound</class>
+    <class kind="struct">tasks::TorqueDBound</class>
     <class kind="struct">tasks::PolyTorqueBound</class>
     <namespace>tasks</namespace>
   </compound>
@@ -3571,6 +3572,13 @@
       <anchor>a5dc804e968c47791630468c06584d2d2</anchor>
       <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb)</arglist>
     </member>
+    <member kind="function">
+      <type></type>
+      <name>MotionConstr</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
+      <anchor>a237ae18afb594776c638ff4c6d2b4e79</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt)</arglist>
+    </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
       <name>update</name>
@@ -3611,6 +3619,34 @@
       <name>torqueU_</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
       <anchor>a87385049d7441292c5250ec072e020d3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>Eigen::VectorXd</type>
+      <name>torqueDtL_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
+      <anchor>a71917438edcc177848f8bd83c1467bc3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>Eigen::VectorXd</type>
+      <name>torqueDtU_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
+      <anchor>a593facccc83ebc3b2a9f1a10f573012b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>Eigen::VectorXd</type>
+      <name>tmpL_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
+      <anchor>a4e0fb5b9d57954dccbfe29361384f32c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>Eigen::VectorXd</type>
+      <name>tmpU_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
+      <anchor>a04a92f6cca63451514a6cd9b800a8f94</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -3774,6 +3810,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="protected">
+      <type>Eigen::VectorXd</type>
+      <name>lastTorque_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
+      <anchor>a0022a3e852fb9b9ed75183d83f0442c3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
       <type>Eigen::MatrixXd</type>
       <name>A_</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
@@ -3792,6 +3835,20 @@
       <name>AU_</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
       <anchor>a8541b39617273f08843bc213c60baaf9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>size_t</type>
+      <name>updateIter_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
+      <anchor>added6edf746371f3f4ae0a3f2aa468e6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>size_t</type>
+      <name>lastTorqueIter_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
+      <anchor>a80e7b560d33291761a30d998014f8049</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -3846,6 +3903,13 @@
       <anchorfile>classtasks_1_1qp_1_1MotionSpringConstr.html</anchorfile>
       <anchor>aae4c8dbb6054294ea28eda06f032219a</anchor>
       <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const std::vector&lt; SpringJoint &gt; &amp;springs)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>MotionSpringConstr</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionSpringConstr.html</anchorfile>
+      <anchor>ad0944797929973c29d8484bb07fa5325</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, const std::vector&lt; SpringJoint &gt; &amp;springs)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
@@ -5184,6 +5248,66 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>tasks::PostureTask</name>
+    <filename>classtasks_1_1PostureTask.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>PostureTask</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>a9296575c5d97f7a29c6877ee39e5cd79</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, std::vector&lt; std::vector&lt; double &gt;&gt; q)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>posture</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>a9f5611e197a54e421bce3f6c01a5edb6</anchor>
+      <arglist>(std::vector&lt; std::vector&lt; double &gt;&gt; q)</arglist>
+    </member>
+    <member kind="function">
+      <type>const std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+      <name>posture</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>afcb8036a3d9e36d698aba61cd0a18674</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>a2aa0643bd9456d8b976136327f491d59</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>updateDot</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>a62ea6be0a8a5abfd3481c0650d330674</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>ae6b11bfa731e8b386be36b7068ad3176</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>a2ff1a744e3359dc3e263a3efcd2302b7</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::MatrixXd &amp;</type>
+      <name>jacDot</name>
+      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
+      <anchor>a6c3bd74baf89161070c39737765ac9a9</anchor>
+      <arglist>() const</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>tasks::qp::PostureTask</name>
     <filename>classtasks_1_1qp_1_1PostureTask.html</filename>
     <base>tasks::qp::Task</base>
@@ -5304,66 +5428,6 @@
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
       <anchor>aa983b4d60327b7481f5ae41acbafeb68</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>tasks::PostureTask</name>
-    <filename>classtasks_1_1PostureTask.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>PostureTask</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>a9296575c5d97f7a29c6877ee39e5cd79</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, std::vector&lt; std::vector&lt; double &gt;&gt; q)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>posture</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>a9f5611e197a54e421bce3f6c01a5edb6</anchor>
-      <arglist>(std::vector&lt; std::vector&lt; double &gt;&gt; q)</arglist>
-    </member>
-    <member kind="function">
-      <type>const std::vector&lt; std::vector&lt; double &gt; &gt;</type>
-      <name>posture</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>afcb8036a3d9e36d698aba61cd0a18674</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>update</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>a2aa0643bd9456d8b976136327f491d59</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>updateDot</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>a62ea6be0a8a5abfd3481c0650d330674</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>ae6b11bfa731e8b386be36b7068ad3176</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>a2ff1a744e3359dc3e263a3efcd2302b7</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::MatrixXd &amp;</type>
-      <name>jacDot</name>
-      <anchorfile>classtasks_1_1PostureTask.html</anchorfile>
-      <anchor>a6c3bd74baf89161070c39737765ac9a9</anchor>
       <arglist>() const</arglist>
     </member>
   </compound>
@@ -5780,80 +5844,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>tasks::RelativeDistTask</name>
-    <filename>classtasks_1_1RelativeDistTask.html</filename>
-    <member kind="typedef">
-      <type>std::tuple&lt; std::string, Eigen::Vector3d, Eigen::Vector3d &gt;</type>
-      <name>rbInfo</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a75ccd14f42390a90f4fa913647844840</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>RelativeDistTask</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>ae61d9885b5904b203d0290b0de489cd0</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, const double timestep, const rbInfo &amp;rbi1, const rbInfo &amp;rbi2, const Eigen::Vector3d &amp;u1=Eigen::Vector3d::Zero(), const Eigen::Vector3d &amp;u2=Eigen::Vector3d::Zero())</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>robotPoint</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a3ea4a20a552a873d090c584477f58c4f</anchor>
-      <arglist>(const int bIndex, const Eigen::Vector3d &amp;point)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>envPoint</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a2ac26562c72ef4f9c697e027ccc7e0e6</anchor>
-      <arglist>(const int bIndex, const Eigen::Vector3d &amp;point)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>vector</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>acb8164d6f23aba4482cc14e56225081d</anchor>
-      <arglist>(const int bIndex, const Eigen::Vector3d &amp;u)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>update</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a1432afeef1ca0c5013e740c19fe11177</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a3d12e27c6b1fc38120b5e23082fba675</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>speed</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a689a400702a67d0546268e99267e12a9</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>normalAcc</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a156965526e6b9c232a20d48161755f56</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a58eb36795e31907c275a4297bfba700e</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>tasks::qp::RelativeDistTask</name>
     <filename>classtasks_1_1qp_1_1RelativeDistTask.html</filename>
     <base>tasks::qp::HighLevelTask</base>
@@ -5933,6 +5923,80 @@
       <anchorfile>classtasks_1_1qp_1_1RelativeDistTask.html</anchorfile>
       <anchor>a961b26cc8f41478be73ae6d3ce5467e2</anchor>
       <arglist>() override</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>tasks::RelativeDistTask</name>
+    <filename>classtasks_1_1RelativeDistTask.html</filename>
+    <member kind="typedef">
+      <type>std::tuple&lt; std::string, Eigen::Vector3d, Eigen::Vector3d &gt;</type>
+      <name>rbInfo</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a75ccd14f42390a90f4fa913647844840</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>RelativeDistTask</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>ae61d9885b5904b203d0290b0de489cd0</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, const double timestep, const rbInfo &amp;rbi1, const rbInfo &amp;rbi2, const Eigen::Vector3d &amp;u1=Eigen::Vector3d::Zero(), const Eigen::Vector3d &amp;u2=Eigen::Vector3d::Zero())</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>robotPoint</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a3ea4a20a552a873d090c584477f58c4f</anchor>
+      <arglist>(const int bIndex, const Eigen::Vector3d &amp;point)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>envPoint</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a2ac26562c72ef4f9c697e027ccc7e0e6</anchor>
+      <arglist>(const int bIndex, const Eigen::Vector3d &amp;point)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>vector</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>acb8164d6f23aba4482cc14e56225081d</anchor>
+      <arglist>(const int bIndex, const Eigen::Vector3d &amp;u)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a1432afeef1ca0c5013e740c19fe11177</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a3d12e27c6b1fc38120b5e23082fba675</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>speed</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a689a400702a67d0546268e99267e12a9</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>normalAcc</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a156965526e6b9c232a20d48161755f56</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1RelativeDistTask.html</anchorfile>
+      <anchor>a58eb36795e31907c275a4297bfba700e</anchor>
+      <arglist>() const</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -6503,25 +6567,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>tasks::qp::SurfaceTransformTask</name>
-    <filename>classtasks_1_1qp_1_1SurfaceTransformTask.html</filename>
-    <base>TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</base>
-    <member kind="function">
-      <type></type>
-      <name>SurfaceTransformTask</name>
-      <anchorfile>classtasks_1_1qp_1_1SurfaceTransformTask.html</anchorfile>
-      <anchor>ad080188983a173ad99bdbd63208eb189</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual void</type>
-      <name>update</name>
-      <anchorfile>classtasks_1_1qp_1_1SurfaceTransformTask.html</anchorfile>
-      <anchor>a5c81d6e4c1eeb30c2866b789b3c79c40</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbc, const SolverData &amp;data) override</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>tasks::SurfaceTransformTask</name>
     <filename>classtasks_1_1SurfaceTransformTask.html</filename>
     <base>tasks::TransformTaskCommon</base>
@@ -6545,6 +6590,25 @@
       <anchorfile>classtasks_1_1SurfaceTransformTask.html</anchorfile>
       <anchor>af8655a5233d9b0d4f278b9f2fb1029fd</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>tasks::qp::SurfaceTransformTask</name>
+    <filename>classtasks_1_1qp_1_1SurfaceTransformTask.html</filename>
+    <base>TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</base>
+    <member kind="function">
+      <type></type>
+      <name>SurfaceTransformTask</name>
+      <anchorfile>classtasks_1_1qp_1_1SurfaceTransformTask.html</anchorfile>
+      <anchor>ad080188983a173ad99bdbd63208eb189</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>update</name>
+      <anchorfile>classtasks_1_1qp_1_1SurfaceTransformTask.html</anchorfile>
+      <anchor>a5c81d6e4c1eeb30c2866b789b3c79c40</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbc, const SolverData &amp;data) override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -6784,6 +6848,38 @@
       <arglist></arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>tasks::TorqueDBound</name>
+    <filename>structtasks_1_1TorqueDBound.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>TorqueDBound</name>
+      <anchorfile>structtasks_1_1TorqueDBound.html</anchorfile>
+      <anchor>a4df92ce77835c4e6e9233a514bbfe7f4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>TorqueDBound</name>
+      <anchorfile>structtasks_1_1TorqueDBound.html</anchorfile>
+      <anchor>a731f5942dae883b441a6e3ee358e69e4</anchor>
+      <arglist>(std::vector&lt; std::vector&lt; double &gt;&gt; lTDB, std::vector&lt; std::vector&lt; double &gt;&gt; uTDB)</arglist>
+    </member>
+    <member kind="variable">
+      <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+      <name>lTorqueDBound</name>
+      <anchorfile>structtasks_1_1TorqueDBound.html</anchorfile>
+      <anchor>acfd2d1d38539f7238e2c5c95fb3e28e7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+      <name>uTorqueDBound</name>
+      <anchorfile>structtasks_1_1TorqueDBound.html</anchorfile>
+      <anchor>af9b512a8728bef21029d8c97806e1481</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
   <compound kind="class">
     <name>tasks::qp::TorqueTask</name>
     <filename>classtasks_1_1qp_1_1TorqueTask.html</filename>
@@ -6808,6 +6904,27 @@
       <anchorfile>classtasks_1_1qp_1_1TorqueTask.html</anchorfile>
       <anchor>ac011b1323c97601b29bcba56039f76f3</anchor>
       <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const std::string &amp;efName, double weight)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>TorqueTask</name>
+      <anchorfile>classtasks_1_1qp_1_1TorqueTask.html</anchorfile>
+      <anchor>ac4c52397472d4caea4354acff00445db</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, double weight)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>TorqueTask</name>
+      <anchorfile>classtasks_1_1qp_1_1TorqueTask.html</anchorfile>
+      <anchor>a34a1349b1986f959a420758066b7db07</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, const Eigen::VectorXd &amp;jointSelect, double weight)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>TorqueTask</name>
+      <anchorfile>classtasks_1_1qp_1_1TorqueTask.html</anchorfile>
+      <anchor>a3dde2c61b009bcde59666827370dbf9d</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, const std::string &amp;efName, double weight)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
@@ -7083,103 +7200,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>tasks::qp::TransformTaskCommon</name>
-    <filename>classtasks_1_1qp_1_1TransformTaskCommon.html</filename>
-    <templarg>transform_task_t</templarg>
-    <base>tasks::qp::HighLevelTask</base>
-    <member kind="function">
-      <type></type>
-      <name>TransformTaskCommon</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ad80e311e700791109d84fa22c954cb84</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</arglist>
-    </member>
-    <member kind="function">
-      <type>transform_task_t &amp;</type>
-      <name>task</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a14760ffdbe08973b70e3d2eea0e6aa40</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>target</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>af0b3178505a2872ceb38462bcce08f29</anchor>
-      <arglist>(const sva::PTransformd &amp;X_0_t)</arglist>
-    </member>
-    <member kind="function">
-      <type>const sva::PTransformd &amp;</type>
-      <name>target</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a02be60958c010b9af3d382849af1f607</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>X_b_p</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a7a50df788c61e0303e09ead4409eddfb</anchor>
-      <arglist>(const sva::PTransformd &amp;X_b_p)</arglist>
-    </member>
-    <member kind="function">
-      <type>const sva::PTransformd &amp;</type>
-      <name>X_b_p</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a412b4126b09d58eb01ad5383cabf45ff</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual int</type>
-      <name>dim</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ad3254048c52d4893b3fcda182cb33c86</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a710c0f4a9c71e97dee0c9059b175f5bb</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a644f20089b0dfd81f94b7e9cdcc7e6a0</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>speed</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a4bb449578f2ee544bb28cf05373f096f</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>normalAcc</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ae18d02bd366acdd7a68b540fddf17919</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="variable" protection="protected">
-      <type>transform_task_t</type>
-      <name>tt_</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a20b38faf7c45ad433e793b5bf375f61d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="protected">
-      <type>int</type>
-      <name>robotIndex_</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a55c311d3cda616f83de11d836c6f3d18</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>tasks::TransformTaskCommon</name>
     <filename>classtasks_1_1TransformTaskCommon.html</filename>
     <member kind="function">
@@ -7299,6 +7319,103 @@
       <name>jacMat_</name>
       <anchorfile>classtasks_1_1TransformTaskCommon.html</anchorfile>
       <anchor>ae6fc32df4b5ed9cf52e94a95db598708</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>tasks::qp::TransformTaskCommon</name>
+    <filename>classtasks_1_1qp_1_1TransformTaskCommon.html</filename>
+    <templarg>transform_task_t</templarg>
+    <base>tasks::qp::HighLevelTask</base>
+    <member kind="function">
+      <type></type>
+      <name>TransformTaskCommon</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>ad80e311e700791109d84fa22c954cb84</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</arglist>
+    </member>
+    <member kind="function">
+      <type>transform_task_t &amp;</type>
+      <name>task</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a14760ffdbe08973b70e3d2eea0e6aa40</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>target</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>af0b3178505a2872ceb38462bcce08f29</anchor>
+      <arglist>(const sva::PTransformd &amp;X_0_t)</arglist>
+    </member>
+    <member kind="function">
+      <type>const sva::PTransformd &amp;</type>
+      <name>target</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a02be60958c010b9af3d382849af1f607</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>X_b_p</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a7a50df788c61e0303e09ead4409eddfb</anchor>
+      <arglist>(const sva::PTransformd &amp;X_b_p)</arglist>
+    </member>
+    <member kind="function">
+      <type>const sva::PTransformd &amp;</type>
+      <name>X_b_p</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a412b4126b09d58eb01ad5383cabf45ff</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual int</type>
+      <name>dim</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>ad3254048c52d4893b3fcda182cb33c86</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a710c0f4a9c71e97dee0c9059b175f5bb</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a644f20089b0dfd81f94b7e9cdcc7e6a0</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>speed</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a4bb449578f2ee544bb28cf05373f096f</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>normalAcc</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>ae18d02bd366acdd7a68b540fddf17919</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>transform_task_t</type>
+      <name>tt_</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a20b38faf7c45ad433e793b5bf375f61d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>int</type>
+      <name>robotIndex_</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a55c311d3cda616f83de11d836c6f3d18</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -7845,6 +7962,7 @@
     <class kind="class">tasks::SurfaceOrientationTask</class>
     <class kind="class">tasks::SurfaceTransformTask</class>
     <class kind="struct">tasks::TorqueBound</class>
+    <class kind="struct">tasks::TorqueDBound</class>
     <class kind="class">tasks::TransformTask</class>
     <class kind="class">tasks::TransformTaskCommon</class>
     <class kind="class">tasks::VectorOrientationTask</class>

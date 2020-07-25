@@ -5,5 +5,5 @@ var searchData=
   ['positionbasedvisservotask',['PositionBasedVisServoTask',['../classtasks_1_1qp_1_1PositionBasedVisServoTask.html',1,'tasks::qp::PositionBasedVisServoTask'],['../classtasks_1_1PositionBasedVisServoTask.html',1,'tasks::PositionBasedVisServoTask']]],
   ['positiontask',['PositionTask',['../classtasks_1_1qp_1_1PositionTask.html',1,'tasks::qp::PositionTask'],['../classtasks_1_1PositionTask.html',1,'tasks::PositionTask']]],
   ['positivelambda',['PositiveLambda',['../classtasks_1_1qp_1_1PositiveLambda.html',1,'tasks::qp']]],
-  ['posturetask',['PostureTask',['../classtasks_1_1qp_1_1PostureTask.html',1,'tasks::qp::PostureTask'],['../classtasks_1_1PostureTask.html',1,'tasks::PostureTask']]]
+  ['posturetask',['PostureTask',['../classtasks_1_1PostureTask.html',1,'tasks::PostureTask'],['../classtasks_1_1qp_1_1PostureTask.html',1,'tasks::qp::PostureTask']]]
 ];

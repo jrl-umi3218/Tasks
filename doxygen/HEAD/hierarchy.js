@@ -119,6 +119,7 @@ var hierarchy =
       [ "tasks::qp::TorqueTask", "classtasks_1_1qp_1_1TorqueTask.html", null ]
     ] ],
     [ "tasks::TorqueBound", "structtasks_1_1TorqueBound.html", null ],
+    [ "tasks::TorqueDBound", "structtasks_1_1TorqueDBound.html", null ],
     [ "tasks::TransformTaskCommon", "classtasks_1_1TransformTaskCommon.html", [
       [ "tasks::SurfaceTransformTask", "classtasks_1_1SurfaceTransformTask.html", null ],
       [ "tasks::TransformTask", "classtasks_1_1TransformTask.html", null ]

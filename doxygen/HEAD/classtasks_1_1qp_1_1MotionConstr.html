@@ -98,6 +98,8 @@ Collaboration diagram for tasks::qp::MotionConstr:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5dc804e968c47791630468c06584d2d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a5dc804e968c47791630468c06584d2d2">MotionConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const <a class="el" href="structtasks_1_1TorqueBound.html">TorqueBound</a> &amp;tb)</td></tr>
 <tr class="separator:a5dc804e968c47791630468c06584d2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a237ae18afb594776c638ff4c6d2b4e79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a237ae18afb594776c638ff4c6d2b4e79">MotionConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const <a class="el" href="structtasks_1_1TorqueBound.html">TorqueBound</a> &amp;tb, const <a class="el" href="structtasks_1_1TorqueDBound.html">TorqueDBound</a> &amp;tdb, double dt)</td></tr>
+<tr class="separator:a237ae18afb594776c638ff4c6d2b4e79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ca88b49c206bd95963294c4fadff0a9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a4ca88b49c206bd95963294c4fadff0a9">update</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
 <tr class="separator:a4ca88b49c206bd95963294c4fadff0a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2e6cd33d0d97037b1e89443282203c1"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#ac2e6cd33d0d97037b1e89443282203c1">matrix</a> () const</td></tr>
@@ -150,6 +152,14 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a2dc3ec557ec06e2e2937fe7157753977"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87385049d7441292c5250ec072e020d3"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a87385049d7441292c5250ec072e020d3">torqueU_</a></td></tr>
 <tr class="separator:a87385049d7441292c5250ec072e020d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71917438edcc177848f8bd83c1467bc3"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a71917438edcc177848f8bd83c1467bc3">torqueDtL_</a></td></tr>
+<tr class="separator:a71917438edcc177848f8bd83c1467bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a593facccc83ebc3b2a9f1a10f573012b"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a593facccc83ebc3b2a9f1a10f573012b">torqueDtU_</a></td></tr>
+<tr class="separator:a593facccc83ebc3b2a9f1a10f573012b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e0fb5b9d57954dccbfe29361384f32c"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a4e0fb5b9d57954dccbfe29361384f32c">tmpL_</a></td></tr>
+<tr class="separator:a4e0fb5b9d57954dccbfe29361384f32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a92f6cca63451514a6cd9b800a8f94"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstr.html#a04a92f6cca63451514a6cd9b800a8f94">tmpU_</a></td></tr>
+<tr class="separator:a04a92f6cca63451514a6cd9b800a8f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html">tasks::qp::MotionConstrCommon</a></td></tr>
 <tr class="memitem:a3843d4962b6ddfd6daebacb7d8e8c7f8 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#a3843d4962b6ddfd6daebacb7d8e8c7f8">robotIndex_</a></td></tr>
 <tr class="separator:a3843d4962b6ddfd6daebacb7d8e8c7f8 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,16 +181,22 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a9447370a70ac6a0ac21d102b890447ee inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8dfcd48202dd0d87d0daa621eab9277 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#af8dfcd48202dd0d87d0daa621eab9277">curTorque_</a></td></tr>
 <tr class="separator:af8dfcd48202dd0d87d0daa621eab9277 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0022a3e852fb9b9ed75183d83f0442c3 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#a0022a3e852fb9b9ed75183d83f0442c3">lastTorque_</a></td></tr>
+<tr class="separator:a0022a3e852fb9b9ed75183d83f0442c3 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e1b827c418a55a43cb20133caa82d35 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#a2e1b827c418a55a43cb20133caa82d35">A_</a></td></tr>
 <tr class="separator:a2e1b827c418a55a43cb20133caa82d35 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d3023d1d06e2565a9eea6d8bafbc6d3 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#a8d3023d1d06e2565a9eea6d8bafbc6d3">AL_</a></td></tr>
 <tr class="separator:a8d3023d1d06e2565a9eea6d8bafbc6d3 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8541b39617273f08843bc213c60baaf9 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#a8541b39617273f08843bc213c60baaf9">AU_</a></td></tr>
 <tr class="separator:a8541b39617273f08843bc213c60baaf9 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:added6edf746371f3f4ae0a3f2aa468e6 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#added6edf746371f3f4ae0a3f2aa468e6">updateIter_</a> = 0</td></tr>
+<tr class="separator:added6edf746371f3f4ae0a3f2aa468e6 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80e7b560d33291761a30d998014f8049 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MotionConstrCommon.html#a80e7b560d33291761a30d998014f8049">lastTorqueIter_</a> = 0</td></tr>
+<tr class="separator:a80e7b560d33291761a30d998014f8049 inherit pro_attribs_classtasks_1_1qp_1_1MotionConstrCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5dc804e968c47791630468c06584d2d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5dc804e968c47791630468c06584d2d2">&#9670;&nbsp;</a></span>MotionConstr()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dc804e968c47791630468c06584d2d2">&#9670;&nbsp;</a></span>MotionConstr() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -202,6 +218,52 @@ Protected Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="structtasks_1_1TorqueBound.html">TorqueBound</a> &amp;&#160;</td>
           <td class="paramname"><em>tb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a237ae18afb594776c638ff4c6d2b4e79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a237ae18afb594776c638ff4c6d2b4e79">&#9670;&nbsp;</a></span>MotionConstr() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::MotionConstr::MotionConstr </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; rbd::MultiBody &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1TorqueBound.html">TorqueBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>tb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1TorqueDBound.html">TorqueDBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>tdb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -320,6 +382,94 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4e0fb5b9d57954dccbfe29361384f32c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e0fb5b9d57954dccbfe29361384f32c">&#9670;&nbsp;</a></span>tmpL_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd tasks::qp::MotionConstr::tmpL_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04a92f6cca63451514a6cd9b800a8f94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04a92f6cca63451514a6cd9b800a8f94">&#9670;&nbsp;</a></span>tmpU_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd tasks::qp::MotionConstr::tmpU_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71917438edcc177848f8bd83c1467bc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71917438edcc177848f8bd83c1467bc3">&#9670;&nbsp;</a></span>torqueDtL_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd tasks::qp::MotionConstr::torqueDtL_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a593facccc83ebc3b2a9f1a10f573012b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a593facccc83ebc3b2a9f1a10f573012b">&#9670;&nbsp;</a></span>torqueDtU_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd tasks::qp::MotionConstr::torqueDtU_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2dc3ec557ec06e2e2937fe7157753977"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2dc3ec557ec06e2e2937fe7157753977">&#9670;&nbsp;</a></span>torqueL_</h2>
 

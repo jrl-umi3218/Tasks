@@ -4,6 +4,7 @@ var dir_15942c16c93f90974604cc5d8cedb2cd =
       [ "QBound", "structtasks_1_1QBound.html", "structtasks_1_1QBound" ],
       [ "AlphaBound", "structtasks_1_1AlphaBound.html", "structtasks_1_1AlphaBound" ],
       [ "TorqueBound", "structtasks_1_1TorqueBound.html", "structtasks_1_1TorqueBound" ],
+      [ "TorqueDBound", "structtasks_1_1TorqueDBound.html", "structtasks_1_1TorqueDBound" ],
       [ "PolyTorqueBound", "structtasks_1_1PolyTorqueBound.html", "structtasks_1_1PolyTorqueBound" ]
     ] ],
     [ "GenQPSolver.h", "GenQPSolver_8h.html", "GenQPSolver_8h" ],

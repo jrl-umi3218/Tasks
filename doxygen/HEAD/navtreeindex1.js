@@ -1,11 +1,11 @@
 var NAVTREEINDEX1 =
 {
-"classtasks_1_1VectorOrientationTask.html#a915b78ec72edfd554234c61c883dc99b":[2,0,0,21,0],
-"classtasks_1_1VectorOrientationTask.html#ac9144d9c534c55f126404bd78b876683":[2,0,0,21,5],
-"classtasks_1_1VectorOrientationTask.html#ac9688f4adf664318c90a22c3a82353a8":[2,0,0,21,8],
-"classtasks_1_1VectorOrientationTask.html#accb094e11c1b3e50ae11043cad72646d":[2,0,0,21,1],
-"classtasks_1_1VectorOrientationTask.html#ad5a76850a02d10165fad43b93e1cd612":[2,0,0,21,9],
-"classtasks_1_1VectorOrientationTask.html#adce16f613b8c59d586d995bb9e0d4da5":[2,0,0,21,6],
+"classtasks_1_1VectorOrientationTask.html#a915b78ec72edfd554234c61c883dc99b":[2,0,0,22,0],
+"classtasks_1_1VectorOrientationTask.html#ac9144d9c534c55f126404bd78b876683":[2,0,0,22,5],
+"classtasks_1_1VectorOrientationTask.html#ac9688f4adf664318c90a22c3a82353a8":[2,0,0,22,8],
+"classtasks_1_1VectorOrientationTask.html#accb094e11c1b3e50ae11043cad72646d":[2,0,0,22,1],
+"classtasks_1_1VectorOrientationTask.html#ad5a76850a02d10165fad43b93e1cd612":[2,0,0,22,9],
+"classtasks_1_1VectorOrientationTask.html#adce16f613b8c59d586d995bb9e0d4da5":[2,0,0,22,6],
 "classtasks_1_1qp_1_1Bound.html":[2,0,0,0,1],
 "classtasks_1_1qp_1_1Bound.html#a19d04f6b7e27be0083f199820b25f85a":[2,0,0,0,1,1],
 "classtasks_1_1qp_1_1Bound.html#a33f4adaf796f3bf03434c17180964471":[2,0,0,0,1,2],

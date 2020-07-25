@@ -19,6 +19,7 @@ var namespacetasks =
     [ "SurfaceOrientationTask", "classtasks_1_1SurfaceOrientationTask.html", "classtasks_1_1SurfaceOrientationTask" ],
     [ "SurfaceTransformTask", "classtasks_1_1SurfaceTransformTask.html", "classtasks_1_1SurfaceTransformTask" ],
     [ "TorqueBound", "structtasks_1_1TorqueBound.html", "structtasks_1_1TorqueBound" ],
+    [ "TorqueDBound", "structtasks_1_1TorqueDBound.html", "structtasks_1_1TorqueDBound" ],
     [ "TransformTask", "classtasks_1_1TransformTask.html", "classtasks_1_1TransformTask" ],
     [ "TransformTaskCommon", "classtasks_1_1TransformTaskCommon.html", "classtasks_1_1TransformTaskCommon" ],
     [ "VectorOrientationTask", "classtasks_1_1VectorOrientationTask.html", "classtasks_1_1VectorOrientationTask" ]
