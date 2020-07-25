@@ -117,8 +117,8 @@ protected:
 
   Eigen::MatrixXd A_;
   Eigen::VectorXd AL_, AU_;
-  int updateIter_ = 0;
-  int lastTorqueIter_ = 0;
+  size_t updateIter_ = 0;
+  size_t lastTorqueIter_ = 0;
 };
 
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
