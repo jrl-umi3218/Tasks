@@ -52,6 +52,24 @@ struct AlphaBound
 };
 
 /**
+ * General acceleration vector bounds
+ * \f$ \underline{\dot{\alpha}} \f$ and \f$ \overline{\dot{\alpha}} \f$.
+ */
+struct AlphaDBound
+{
+  AlphaDBound() {}
+  AlphaDBound(std::vector<std::vector<double>> lADB, std::vector<std::vector<double>> uADB)
+  : lAlphaDBound(std::move(lADB)), uAlphaDBound(std::move(uADB))
+  {
+  }
+
+  /// \f$ \underline{\dot{\alpha}} \f$
+  std::vector<std::vector<double>> lAlphaDBound;
+  /// \f$ \overline{\dot{\alpha}} \f$
+  std::vector<std::vector<double>> uAlphaDBound;
+};
+
+/**
  * General force vector bounds
  * \f$ \underline{\tau} \f$ and \f$ \overline{\tau} \f$.
  */

@@ -33,9 +33,18 @@ namespace qp
  */
 
 JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, QBound bound, double step)
+: JointLimitsConstr(mbs, robotIndex, bound, {}, step)
+{
+}
+
+JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody> & mbs,
+                                     int robotIndex,
+                                     QBound bound,
+                                     const AlphaDBound & aDBound,
+                                     double step)
 : robotIndex_(robotIndex), alphaDBegin_(-1),
   alphaDOffset_(mbs[robotIndex].joint(0).dof() > 1 ? mbs[robotIndex].joint(0).dof() : 0), step_(step), qMin_(), qMax_(),
-  qVec_(), alphaVec_(), lower_(), upper_()
+  qVec_(), alphaVec_(), lower_(), upper_(), qddLower_(), qddUpper_()
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
 
@@ -61,6 +70,9 @@ JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody> & mbs, in
 
   lower_.setConstant(nrVars, -std::numeric_limits<double>::infinity());
   upper_.setConstant(nrVars, std::numeric_limits<double>::infinity());
+
+  rbd::paramToVector(aDBound.lAlphaDBound, qddLower_);
+  rbd::paramToVector(aDBound.uAlphaDBound, qddUpper_);
 }
 
 void JointLimitsConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
@@ -86,6 +98,9 @@ void JointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs */,
 
   upper_.noalias() = qMax_ - qVec_.tail(vars) - alphaVec_.tail(vars) * step_;
   upper_ /= dts;
+
+  lower_ = lower_.cwiseMax(qddLower_);
+  upper_ = upper_.cwiseMin(qddUpper_);
 }
 
 std::string JointLimitsConstr::nameBound() const
@@ -126,8 +141,21 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(const std::vector<rbd::MultiBod
                                                  double securityPercent,
                                                  double damperOffset,
                                                  double step)
+: DamperJointLimitsConstr(mbs, robotIndex, qBound, aBound, {}, interPercent, securityPercent, damperOffset, step)
+{
+}
+
+DamperJointLimitsConstr::DamperJointLimitsConstr(const std::vector<rbd::MultiBody> & mbs,
+                                                 int robotIndex,
+                                                 const QBound & qBound,
+                                                 const AlphaBound & aBound,
+                                                 const AlphaDBound & aDBound,
+                                                 double interPercent,
+                                                 double securityPercent,
+                                                 double damperOffset,
+                                                 double step)
 : robotIndex_(robotIndex), alphaDBegin_(-1), data_(), lower_(mbs[robotIndex].nrDof()), upper_(mbs[robotIndex].nrDof()),
-  step_(step), damperOff_(damperOffset)
+  dLower_(mbs[robotIndex].nrDof()), dUpper_(mbs[robotIndex].nrDof()), step_(step), damperOff_(damperOffset)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
 
@@ -145,6 +173,8 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(const std::vector<rbd::MultiBod
 
   rbd::paramToVector(aBound.lAlphaBound, lower_);
   rbd::paramToVector(aBound.uAlphaBound, upper_);
+  rbd::paramToVector(aDBound.lAlphaDBound, dLower_);
+  rbd::paramToVector(aDBound.uAlphaDBound, dUpper_);
 }
 
 void DamperJointLimitsConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
@@ -200,6 +230,8 @@ void DamperJointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs 
       d.state = DampData::Free;
     }
   }
+  lower_ = lower_.cwiseMax(dLower_);
+  upper_ = upper_.cwiseMin(dUpper_);
 }
 
 std::string DamperJointLimitsConstr::nameBound() const
