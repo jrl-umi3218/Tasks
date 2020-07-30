@@ -97,6 +97,8 @@ Collaboration diagram for tasks::qp::JointLimitsConstr:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a79767272482e70fc2f72c97458a7d752"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1JointLimitsConstr.html#a79767272482e70fc2f72c97458a7d752">JointLimitsConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, <a class="el" href="structtasks_1_1QBound.html">QBound</a> bound, double step)</td></tr>
 <tr class="separator:a79767272482e70fc2f72c97458a7d752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e4fcd5f93324877a64d14d0a0a9bb44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1JointLimitsConstr.html#a0e4fcd5f93324877a64d14d0a0a9bb44">JointLimitsConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, <a class="el" href="structtasks_1_1QBound.html">QBound</a> bound, const <a class="el" href="structtasks_1_1AlphaDBound.html">AlphaDBound</a> &amp;aDBound, double step)</td></tr>
+<tr class="separator:a0e4fcd5f93324877a64d14d0a0a9bb44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a984be9df17be72329169928ea4e550e5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1JointLimitsConstr.html#a984be9df17be72329169928ea4e550e5">updateNrVars</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
 <tr class="separator:a984be9df17be72329169928ea4e550e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1bb25d2f65316dc645eda9db015e1ba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1JointLimitsConstr.html#ad1bb25d2f65316dc645eda9db015e1ba">update</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
@@ -131,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <p> This constraint can be impossible to fulfill when articulation velocity is really high. Always prefer to use <a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html">DamperJointLimitsConstr</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a79767272482e70fc2f72c97458a7d752"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79767272482e70fc2f72c97458a7d752">&#9670;&nbsp;</a></span>JointLimitsConstr()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a79767272482e70fc2f72c97458a7d752">&#9670;&nbsp;</a></span>JointLimitsConstr() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,6 +174,62 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">mbs</td><td>Multi-robot system. </td></tr>
     <tr><td class="paramname">robotIndex</td><td>Constrained robot Index in mbs. </td></tr>
     <tr><td class="paramname">bound</td><td>Articular position bounds. </td></tr>
+    <tr><td class="paramname">step</td><td>Time step in second. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0e4fcd5f93324877a64d14d0a0a9bb44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e4fcd5f93324877a64d14d0a0a9bb44">&#9670;&nbsp;</a></span>JointLimitsConstr() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::JointLimitsConstr::JointLimitsConstr </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; rbd::MultiBody &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtasks_1_1QBound.html">QBound</a>&#160;</td>
+          <td class="paramname"><em>bound</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1AlphaDBound.html">AlphaDBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>aDBound</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>step</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mbs</td><td>Multi-robot system. </td></tr>
+    <tr><td class="paramname">robotIndex</td><td>Constrained robot Index in mbs. </td></tr>
+    <tr><td class="paramname">bound</td><td>Articular position bounds. </td></tr>
+    <tr><td class="paramname">aDBound</td><td>Articular acceleration bounds. </td></tr>
     <tr><td class="paramname">step</td><td>Time step in second. </td></tr>
   </table>
   </dd>

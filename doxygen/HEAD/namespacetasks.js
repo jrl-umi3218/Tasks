@@ -2,6 +2,7 @@ var namespacetasks =
 [
     [ "qp", "namespacetasks_1_1qp.html", "namespacetasks_1_1qp" ],
     [ "AlphaBound", "structtasks_1_1AlphaBound.html", "structtasks_1_1AlphaBound" ],
+    [ "AlphaDBound", "structtasks_1_1AlphaDBound.html", "structtasks_1_1AlphaDBound" ],
     [ "CoMTask", "classtasks_1_1CoMTask.html", "classtasks_1_1CoMTask" ],
     [ "GazeTask", "classtasks_1_1GazeTask.html", "classtasks_1_1GazeTask" ],
     [ "LinVelocityTask", "classtasks_1_1LinVelocityTask.html", "classtasks_1_1LinVelocityTask" ],

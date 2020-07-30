@@ -98,6 +98,8 @@ Collaboration diagram for tasks::qp::DamperJointLimitsConstr:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0e3959cb5a9a6e07fce811e23ec308d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html#ab0e3959cb5a9a6e07fce811e23ec308d">DamperJointLimitsConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const <a class="el" href="structtasks_1_1QBound.html">QBound</a> &amp;qBound, const <a class="el" href="structtasks_1_1AlphaBound.html">AlphaBound</a> &amp;aBound, double interPercent, double securityPercent, double damperOffset, double step)</td></tr>
 <tr class="separator:ab0e3959cb5a9a6e07fce811e23ec308d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a1e6d1eb5007d7379683461bcf36713"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html#a9a1e6d1eb5007d7379683461bcf36713">DamperJointLimitsConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const <a class="el" href="structtasks_1_1QBound.html">QBound</a> &amp;qBound, const <a class="el" href="structtasks_1_1AlphaBound.html">AlphaBound</a> &amp;aBound, const <a class="el" href="structtasks_1_1AlphaDBound.html">AlphaDBound</a> &amp;aDBound, double interPercent, double securityPercent, double damperOffset, double step)</td></tr>
+<tr class="separator:a9a1e6d1eb5007d7379683461bcf36713"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6a111694fc46b4f2f19418975ca7fa1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html#aa6a111694fc46b4f2f19418975ca7fa1">updateNrVars</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
 <tr class="separator:aa6a111694fc46b4f2f19418975ca7fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d0a2b753ffc9366583f4b86ce909ab5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html#a1d0a2b753ffc9366583f4b86ce909ab5">update</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
@@ -145,7 +147,7 @@ Public Member Functions</h2></td></tr>
 </ul>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab0e3959cb5a9a6e07fce811e23ec308d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0e3959cb5a9a6e07fce811e23ec308d">&#9670;&nbsp;</a></span>DamperJointLimitsConstr()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0e3959cb5a9a6e07fce811e23ec308d">&#9670;&nbsp;</a></span>DamperJointLimitsConstr() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,6 +213,90 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">robotIndex</td><td>Constrained robot Index in mbs. </td></tr>
     <tr><td class="paramname">qBound</td><td>Articular position bounds. </td></tr>
     <tr><td class="paramname">aBound</td><td>Articular velocity bounds. </td></tr>
+    <tr><td class="paramname">interPercent</td><td>\( interPercent (\overline{q} - \underline{q}) \) </td></tr>
+    <tr><td class="paramname">securityPercent</td><td>\( securityPercent (\overline{q} - \underline{q}) \) </td></tr>
+    <tr><td class="paramname">damperOffset</td><td>\( \xi_{\text{off}} \) </td></tr>
+    <tr><td class="paramname">step</td><td>Time step in second. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9a1e6d1eb5007d7379683461bcf36713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a1e6d1eb5007d7379683461bcf36713">&#9670;&nbsp;</a></span>DamperJointLimitsConstr() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tasks::qp::DamperJointLimitsConstr::DamperJointLimitsConstr </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; rbd::MultiBody &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mbs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1QBound.html">QBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>qBound</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1AlphaBound.html">AlphaBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>aBound</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1AlphaDBound.html">AlphaDBound</a> &amp;&#160;</td>
+          <td class="paramname"><em>aDBound</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>interPercent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>securityPercent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>damperOffset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>step</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mbs</td><td>Multi-robot system. </td></tr>
+    <tr><td class="paramname">robotIndex</td><td>Constrained robot Index in mbs. </td></tr>
+    <tr><td class="paramname">qBound</td><td>Articular position bounds. </td></tr>
+    <tr><td class="paramname">aBound</td><td>Articular velocity bounds. </td></tr>
+    <tr><td class="paramname">aDBound</td><td>Articular acceleration bounds. </td></tr>
     <tr><td class="paramname">interPercent</td><td>\( interPercent (\overline{q} - \underline{q}) \) </td></tr>
     <tr><td class="paramname">securityPercent</td><td>\( securityPercent (\overline{q} - \underline{q}) \) </td></tr>
     <tr><td class="paramname">damperOffset</td><td>\( \xi_{\text{off}} \) </td></tr>

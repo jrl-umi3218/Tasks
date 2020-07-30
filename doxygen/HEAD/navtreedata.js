@@ -31,9 +31,9 @@ var NAVTREEINDEX =
 [
 "Bounds_8h.html",
 "classtasks_1_1VectorOrientationTask.html#a915b78ec72edfd554234c61c883dc99b",
-"classtasks_1_1qp_1_1JointLimitsConstr.html",
-"classtasks_1_1qp_1_1QPSolver.html#a3566db8fd39179b06716346ca38772f8",
-"functions_q.html"
+"classtasks_1_1qp_1_1Inequality.html#af5215e8d2075f290375e9e4342cfb801",
+"classtasks_1_1qp_1_1QPSolver.html#a2ff4e607e4d85cdf16172310e112b1ec",
+"functions_o.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

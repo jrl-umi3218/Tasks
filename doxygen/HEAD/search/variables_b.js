@@ -1,6 +1,7 @@
 var searchData=
 [
   ['lalphabound',['lAlphaBound',['../structtasks_1_1AlphaBound.html#a47628045f7248f1147c17f17fa16d554',1,'tasks::AlphaBound']]],
+  ['lalphadbound',['lAlphaDBound',['../structtasks_1_1AlphaDBound.html#a6f9a9d17cbba1eda740b9ea8dd204ca1',1,'tasks::AlphaDBound']]],
   ['lambdabegin',['lambdaBegin',['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html#a5fe6588a69311d8d5503c6d9be453745',1,'tasks::qp::MotionConstrCommon::ContactData']]],
   ['lambdabegin_5f',['lambdaBegin_',['../classtasks_1_1qp_1_1MotionConstrCommon.html#a35510f97cf24f0e6292ce4c10481ab1f',1,'tasks::qp::MotionConstrCommon']]],
   ['lasttorque_5f',['lastTorque_',['../classtasks_1_1qp_1_1MotionConstrCommon.html#a0022a3e852fb9b9ed75183d83f0442c3',1,'tasks::qp::MotionConstrCommon']]],
