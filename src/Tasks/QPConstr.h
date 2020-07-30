@@ -98,7 +98,7 @@ private:
   Eigen::VectorXd qMin_, qMax_;
   Eigen::VectorXd qVec_, alphaVec_;
   Eigen::VectorXd lower_, upper_;
-  Eigen::VectorXd qddLower_, qddUpper_;
+  Eigen::VectorXd alphaDLower_, alphaDUpper_;
 };
 
 /**
@@ -223,7 +223,7 @@ private:
   std::vector<DampData> data_;
 
   Eigen::VectorXd lower_, upper_;
-  Eigen::VectorXd dLower_, dUpper_;
+  Eigen::VectorXd alphaDLower_, alphaDUpper_;
   double step_;
   double damperOff_;
 };
