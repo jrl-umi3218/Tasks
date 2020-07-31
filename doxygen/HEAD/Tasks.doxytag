@@ -850,6 +850,13 @@
       <anchor>a156d042206e1e319c9d4bb7dbfea0707</anchor>
       <arglist>() const override</arglist>
     </member>
+    <member kind="function">
+      <type>const CollData &amp;</type>
+      <name>getCollisionData</name>
+      <anchorfile>classtasks_1_1qp_1_1CollisionConstr.html</anchorfile>
+      <anchor>ac30ce96876746aeaed647263062248d3</anchor>
+      <arglist>(int collId) const</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>tasks::qp::CoMIncPlaneConstr</name>

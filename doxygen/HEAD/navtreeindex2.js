@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classtasks_1_1qp_1_1Inequality.html#ae498b14de5f3bb6786e04828c74ea88b":[2,0,0,0,29,6],
 "classtasks_1_1qp_1_1Inequality.html#af5215e8d2075f290375e9e4342cfb801":[2,0,0,0,29,4],
 "classtasks_1_1qp_1_1JointLimitsConstr.html":[2,0,0,0,31],
 "classtasks_1_1qp_1_1JointLimitsConstr.html#a0e4fcd5f93324877a64d14d0a0a9bb44":[2,0,0,0,31,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "classtasks_1_1qp_1_1QPSolver.html#a1c8120567e8b351899af4ae59fc511f4":[2,0,0,0,51,22],
 "classtasks_1_1qp_1_1QPSolver.html#a2486c97839d9f0b2a60b0ebe6a49953d":[2,0,0,0,51,34],
 "classtasks_1_1qp_1_1QPSolver.html#a26214b5fb5b521512df2538b936c8b80":[2,0,0,0,51,3],
-"classtasks_1_1qp_1_1QPSolver.html#a28bac3dae8cd554eda5f29615ae4b19a":[2,0,0,0,51,28],
-"classtasks_1_1qp_1_1QPSolver.html#a2940bea1596cc7f9064444ed90ba75b7":[2,0,0,0,51,18]
+"classtasks_1_1qp_1_1QPSolver.html#a28bac3dae8cd554eda5f29615ae4b19a":[2,0,0,0,51,28]
 };

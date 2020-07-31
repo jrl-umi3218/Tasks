@@ -7,6 +7,7 @@ var searchData=
   ['genqpsolver',['GenQPSolver',['../classtasks_1_1qp_1_1GenQPSolver.html',1,'tasks::qp']]],
   ['genqpsolver_2eh',['GenQPSolver.h',['../GenQPSolver_8h.html',1,'']]],
   ['genqputils_2eh',['GenQPUtils.h',['../GenQPUtils_8h.html',1,'']]],
+  ['getcollisiondata',['getCollisionData',['../classtasks_1_1qp_1_1CollisionConstr.html#ac30ce96876746aeaed647263062248d3',1,'tasks::qp::CollisionConstr']]],
   ['grippertorqueconstr',['GripperTorqueConstr',['../classtasks_1_1qp_1_1GripperTorqueConstr.html',1,'tasks::qp::GripperTorqueConstr'],['../classtasks_1_1qp_1_1GripperTorqueConstr.html#a158480db320f0d977606763c0ca30320',1,'tasks::qp::GripperTorqueConstr::GripperTorqueConstr()']]],
   ['grippertorquetask',['GripperTorqueTask',['../classtasks_1_1qp_1_1GripperTorqueTask.html',1,'tasks::qp::GripperTorqueTask'],['../classtasks_1_1qp_1_1GripperTorqueTask.html#abd65c8e12ea38c8ca91a0caa344166f0',1,'tasks::qp::GripperTorqueTask::GripperTorqueTask()']]]
 ];
