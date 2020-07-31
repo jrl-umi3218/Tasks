@@ -363,6 +363,9 @@ private:
     CollData & operator=(CollData &&) = default;
 
     std::unique_ptr<sch::CD_Pair> pair;
+    double distance;
+    Eigen::Vector3d p1;
+    Eigen::Vector3d p2;
     Eigen::Vector3d normVecDist;
     double di, ds;
     double damping;
@@ -372,6 +375,10 @@ private:
     double dampingOff;
     int collId;
   };
+
+public:
+  /** Access the collision data computed by the constraint */
+  const CollData & getCollisionData(int collId) const;
 
 private:
   double computeDamping(const std::vector<rbd::MultiBody> & mbs,
