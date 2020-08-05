@@ -113,22 +113,15 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody & mb,
 
 MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex)
 : robotIndex_(robotIndex), alphaDBegin_(-1), nrDof_(mbs[robotIndex_].nrDof()), lambdaBegin_(-1), fd_(mbs[robotIndex_]),
-  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), lastTorque_(nrDof_), A_(),
-  AL_(nrDof_), AU_(nrDof_)
+  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), A_(), AL_(nrDof_), AU_(nrDof_)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
   // This is technically incorrect but practically not a huge deal, see #66
   curTorque_.setZero();
-  lastTorque_.setZero();
 }
 
 void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda)
 {
-  if(updateIter_ != lastTorqueIter_)
-  {
-    lastTorqueIter_ = updateIter_;
-    lastTorque_ = curTorque_;
-  }
   curTorque_ = fd_.H() * alphaD.segment(alphaDBegin_, nrDof_);
   curTorque_ += fd_.C();
   curTorque_ += A_.block(0, lambdaBegin_, nrDof_, A_.cols() - lambdaBegin_) * lambda;
@@ -293,12 +286,19 @@ void MotionConstr::update(const std::vector<rbd::MultiBody> & mbs,
                           const std::vector<rbd::MultiBodyConfig> & mbcs,
                           const SolverData & /* data */)
 {
-  updateIter_++;
   computeMatrix(mbs, mbcs);
 
   // max[tauMin, tauDMin*dt + tau(k-1)] - C <= H*alphaD - J^t G lambda <= min[tauMax, tauDMax * dt + tau(k-1)] - C
-  AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + lastTorque_);
-  AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + lastTorque_);
+  if(updateIter_++ > 0)
+  {
+    AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + curTorque_);
+    AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + curTorque_);
+  }
+  else
+  {
+    AL_.head(torqueL_.rows()) += torqueL_;
+    AU_.head(torqueU_.rows()) += torqueU_;
+  }
 }
 
 Eigen::MatrixXd MotionConstr::contactMatrix() const
@@ -355,8 +355,16 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody> & mbs,
     torqueU_(sj.posInDof) = -spring;
   }
 
-  AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + lastTorque_);
-  AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + lastTorque_);
+  if(updateIter_++ > 0)
+  {
+    AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + curTorque_);
+    AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + curTorque_);
+  }
+  else
+  {
+    AL_.head(torqueL_.rows()) += torqueL_;
+    AU_.head(torqueL_.rows()) += torqueU_;
+  }
 }
 
 /**

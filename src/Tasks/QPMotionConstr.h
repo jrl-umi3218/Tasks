@@ -113,12 +113,10 @@ protected:
   std::vector<ContactData> cont_;
 
   Eigen::VectorXd curTorque_;
-  Eigen::VectorXd lastTorque_;
 
   Eigen::MatrixXd A_;
   Eigen::VectorXd AL_, AU_;
   size_t updateIter_ = 0;
-  size_t lastTorqueIter_ = 0;
 };
 
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
