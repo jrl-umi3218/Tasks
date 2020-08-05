@@ -24,8 +24,6 @@ var classtasks_1_1qp_1_1MotionConstrCommon =
     [ "jacLambda_", "classtasks_1_1qp_1_1MotionConstrCommon.html#afc04e4c41aa5201d796ad9d2e15c4728", null ],
     [ "jacTrans_", "classtasks_1_1qp_1_1MotionConstrCommon.html#a017d89ce7edd9cef0dded59fd5c92960", null ],
     [ "lambdaBegin_", "classtasks_1_1qp_1_1MotionConstrCommon.html#a35510f97cf24f0e6292ce4c10481ab1f", null ],
-    [ "lastTorque_", "classtasks_1_1qp_1_1MotionConstrCommon.html#a0022a3e852fb9b9ed75183d83f0442c3", null ],
-    [ "lastTorqueIter_", "classtasks_1_1qp_1_1MotionConstrCommon.html#a80e7b560d33291761a30d998014f8049", null ],
     [ "nrDof_", "classtasks_1_1qp_1_1MotionConstrCommon.html#a5f03c92906291ec277c53991dfaf42c7", null ],
     [ "robotIndex_", "classtasks_1_1qp_1_1MotionConstrCommon.html#a3843d4962b6ddfd6daebacb7d8e8c7f8", null ],
     [ "updateIter_", "classtasks_1_1qp_1_1MotionConstrCommon.html#added6edf746371f3f4ae0a3f2aa468e6", null ]

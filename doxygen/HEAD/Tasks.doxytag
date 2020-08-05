@@ -3892,13 +3892,6 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="protected">
-      <type>Eigen::VectorXd</type>
-      <name>lastTorque_</name>
-      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
-      <anchor>a0022a3e852fb9b9ed75183d83f0442c3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="protected">
       <type>Eigen::MatrixXd</type>
       <name>A_</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
@@ -3924,13 +3917,6 @@
       <name>updateIter_</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
       <anchor>added6edf746371f3f4ae0a3f2aa468e6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="protected">
-      <type>size_t</type>
-      <name>lastTorqueIter_</name>
-      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
-      <anchor>a80e7b560d33291761a30d998014f8049</anchor>
       <arglist></arglist>
     </member>
   </compound>
