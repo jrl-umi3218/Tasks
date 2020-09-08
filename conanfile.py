@@ -10,7 +10,7 @@ base = python_requires("Eigen3ToPython/latest@multi-contact/dev")
 
 class TasksConan(base.Eigen3ToPythonConan):
     name = "Tasks"
-    version = "1.2.0"
+    version = "1.3.0"
     description = "Real time control of robots using constrained optimization"
     topics = ("robotics", "control", "optimization", "python")
     url = "https://github.com/jrl-umi3218/Tasks"
@@ -23,7 +23,7 @@ class TasksConan(base.Eigen3ToPythonConan):
     settings = "os", "arch", "compiler", "build_type"
 
     requires = (
-        "RBDyn/1.2.1@multi-contact/dev",
+        "RBDyn/latest@multi-contact/dev",
         "sch-core-python/latest@multi-contact/dev",
         "eigen-qld/latest@multi-contact/dev"
     )
