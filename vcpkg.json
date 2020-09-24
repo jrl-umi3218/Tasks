@@ -1,0 +1,12 @@
+{
+  "name": "tasks",
+  "version-string": "1.3.0",
+  "homepage": "https://github.com/jrl-umi3218/Tasks",
+  "description": "Real time control of robots using constrained optimization",
+  "dependencies": [
+    "boost-timer",
+    "eigen-qld",
+    "rbdyn",
+    "sch-core"
+  ]
+}
