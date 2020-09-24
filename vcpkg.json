@@ -4,6 +4,7 @@
   "homepage": "https://github.com/jrl-umi3218/Tasks",
   "description": "Real time control of robots using constrained optimization",
   "dependencies": [
+    "boost-test",
     "boost-timer",
     "eigen-qld",
     "rbdyn",
