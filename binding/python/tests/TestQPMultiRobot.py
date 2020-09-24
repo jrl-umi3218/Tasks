@@ -365,7 +365,7 @@ class TestTwoArmMultiCoM(unittest.TestCase):
     multiCoM = tasks.qp.MultiCoMTask(mbs, [0,1], comD, 10, 500)
     multiCoM.updateInertialParameters(mbs)
 
-    contCstrSpeed = tasks.qp.ContactSpeedConstr(0.001)
+    contCstrSpeed = tasks.qp.ContactAccConstr()
 
     solver.addTask(posture1Task)
     solver.addTask(posture2Task)
