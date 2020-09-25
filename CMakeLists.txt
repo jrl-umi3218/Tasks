@@ -39,6 +39,9 @@ endif()
 # of the main library when launching ctest with RUN_TESTS
 if(MSVC)
   set(CMAKE_MSVCIDE_RUN_PATH "\$(SolutionDir)/src/\$(Configuration)")
+  if(_VCPKG_INSTALLED_DIR)
+    set(CMAKE_MSVCIDE_RUN_PATH "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin;${CMAKE_MSVCIDE_RUN_PATH}")
+  endif()
 endif(MSVC)
 
 add_subdirectory(src)
