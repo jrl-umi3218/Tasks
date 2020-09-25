@@ -106,7 +106,7 @@ void ContactConstr::ContactData::update(const std::vector<rbd::MultiBodyConfig> 
   auto X_b1_b2_current = X_0_b2 * X_0_b1.inv();
   auto X_b2_cf_current = X_b1_cf * X_b1_b2_current.inv();
   // Only apply the motion allowed by the DoF selection
-  auto error = revDof * sva::transformError(X_b2_cf_current.inv(), X_b2_cf.inv()).vector();
+  Eigen::Vector6d error = revDof * sva::transformError(X_b2_cf_current.inv(), X_b2_cf.inv()).vector();
   auto offset = sva::PTransformd(sva::RotX(error(0)) * sva::RotY(error(1)) * sva::RotZ(error(2)),
                                  Eigen::Vector3d(error(3), error(4), error(5)));
   X_b2_cf = offset * X_b2_cf;
