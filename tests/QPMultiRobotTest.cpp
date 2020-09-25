@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
   qp::OrientationTask oriTask(mbs, 1, "b3", oriD);
   qp::SetPointTask oriTaskSp(mbs, 1, &oriTask, 1000., 1.);
 
-  qp::ContactSpeedConstr contCstrSpeed(0.001);
+  qp::ContactAccConstr contCstrSpeed;
 
   contCstrSpeed.addToSolver(solver);
   solver.addTask(&oriTaskSp);
@@ -375,7 +375,7 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
   // call this method just for test coverage
   multiCoM.updateInertialParameters(mbs);
 
-  qp::ContactSpeedConstr contCstrSpeed(0.001);
+  qp::ContactAccConstr contCstrSpeed;
 
   solver.addTask(&posture1Task);
   solver.addTask(&posture2Task);
