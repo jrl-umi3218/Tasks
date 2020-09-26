@@ -40,7 +40,9 @@ endif()
 if(MSVC)
   set(CMAKE_MSVCIDE_RUN_PATH "\$(SolutionDir)/src/\$(Configuration)")
   if(_VCPKG_INSTALLED_DIR)
-    set(CMAKE_MSVCIDE_RUN_PATH "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin;${CMAKE_MSVCIDE_RUN_PATH}")
+    set(VCPKG_INSTALL_PREFIX "${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_PREFIX}")
+    # Only debug actually exists but we make sure it's first in that case
+    set(CMAKE_MSVCIDE_RUN_PATH "${VCPKG_INSTALL_PREFIX}/\$(Configuration)/bin;${VCPKG_INSTALL_PREFIX}/bin;${CMAKE_MSVCIDE_RUN_PATH}")
   endif()
 endif(MSVC)
 
