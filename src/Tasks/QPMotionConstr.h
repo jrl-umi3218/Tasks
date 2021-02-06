@@ -177,11 +177,12 @@ class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 {
 public:
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-                     const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb,
+                     const std::shared_ptr<rbd::ForwardDynamics> fd,
+                     const TorqueBound & tb,
                      const std::vector<SpringJoint> & springs);
 
-  MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
-                     int robotIndex,
+  MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                     const std::shared_ptr<rbd::ForwardDynamics> fd,
                      const TorqueBound & tb,
                      const TorqueDBound & tdb,
                      double dt,
