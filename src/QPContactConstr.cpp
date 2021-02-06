@@ -91,6 +91,28 @@ std::set<ContactConstrCommon::ContactCommon> ContactConstrCommon::contactCommonI
  *															ContactConstr
  */
 
+void ContactConstr::ContactData::update(const std::vector<rbd::MultiBodyConfig> & mbcs)
+{
+  if(contacts.size() != 2 && contacts[0].sign > 0)
+  {
+    // X_b1_b2 is only encoded in the constraint if there is two active robots or if the active robot is second
+    return;
+  }
+  auto & X_b2_cf = contacts.size() == 2 ? contacts[1].X_b_p : contacts[0].X_b_p;
+  const auto & mbc1 = mbcs[r1Index];
+  const auto & X_0_b1 = mbc1.bodyPosW[b1Index];
+  const auto & mbc2 = mbcs[r2Index];
+  const auto & X_0_b2 = mbc2.bodyPosW[b2Index];
+  auto X_b1_b2_current = X_0_b2 * X_0_b1.inv();
+  auto X_b2_cf_current = X_b1_cf * X_b1_b2_current.inv();
+  // Only apply the motion allowed by the DoF selection
+  Eigen::Vector6d error = revDof * sva::transformError(X_b2_cf_current.inv(), X_b2_cf.inv()).vector();
+  auto offset = sva::PTransformd(sva::RotX(error(0)) * sva::RotY(error(1)) * sva::RotZ(error(2)),
+                                 Eigen::Vector3d(error(3), error(4), error(5)));
+  X_b2_cf = offset * X_b2_cf;
+  X_b1_b2 = X_b2_cf.inv() * X_b1_cf;
+}
+
 ContactConstr::ContactConstr() : cont_(), fullJac_(), dofJac_(), A_(), b_(), nrEq_(0), totalAlphaD_(0) {}
 
 void ContactConstr::updateDofContacts()
@@ -134,14 +156,16 @@ void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody> & mbs, const 
       if(mbs[rIndex].nrDof() > 0)
       {
         contacts.emplace_back(rIndex, data.alphaDBegin(rIndex), sign, rbd::Jacobian(mbs[rIndex], bName), point);
+        return contacts.back().jac.jointsPath().back();
       }
+      return mbs[rIndex].bodyIndexByName(bName);
     };
-    addContact(cC.cId.r1Index, cC.cId.r1BodyName, 1., cC.X_b1_cf);
-    addContact(cC.cId.r2Index, cC.cId.r2BodyName, -1., cC.X_b1_cf * cC.X_b1_b2.inv());
+    int r1Index = cC.cId.r1Index;
+    int b1Index = addContact(r1Index, cC.cId.r1BodyName, 1., cC.X_b1_cf);
+    int r2Index = cC.cId.r2Index;
+    int b2Index = addContact(r2Index, cC.cId.r2BodyName, -1., cC.X_b1_cf * cC.X_b1_b2.inv());
 
-    int b1Index = mbs[cC.cId.r1Index].bodyIndexByName(cC.cId.r1BodyName);
-    int b2Index = mbs[cC.cId.r2Index].bodyIndexByName(cC.cId.r2BodyName);
-    cont_.emplace_back(std::move(contacts), dof, b1Index, b2Index, cC.X_b1_b2, cC.X_b1_cf, cC.cId);
+    cont_.emplace_back(std::move(contacts), dof, r1Index, r2Index, b1Index, b2Index, cC.X_b1_b2, cC.X_b1_cf, cC.cId);
   }
   updateNrEq();
 
@@ -212,6 +236,8 @@ void ContactAccConstr::update(const std::vector<rbd::MultiBody> & mbs,
     ContactData & cd = cont_[i];
     int rows = int(cd.dof.rows());
 
+    cd.update(mbcs);
+
     for(std::size_t j = 0; j < cd.contacts.size(); ++j)
     {
       ContactSideData & csd = cd.contacts[j];
@@ -262,6 +288,8 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody> & mbs,
   {
     ContactData & cd = cont_[i];
     int rows = int(cd.dof.rows());
+
+    cd.update(mbcs);
 
     for(std::size_t j = 0; j < cd.contacts.size(); ++j)
     {
@@ -315,6 +343,8 @@ void ContactPosConstr::update(const std::vector<rbd::MultiBody> & mbs,
   {
     ContactData & cd = cont_[i];
     int rows = int(cd.dof.rows());
+
+    cd.update(mbcs);
 
     for(std::size_t j = 0; j < cd.contacts.size(); ++j)
     {

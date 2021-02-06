@@ -250,8 +250,13 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
   std::vector<std::vector<double>> torqueMax1 = {{}, {Inf}, {Inf}, {Inf}};
   std::vector<std::vector<double>> torqueMin2 = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax2 = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motion1(mbs, 0, fd1, {torqueMin1, torqueMax1});
-  qp::MotionConstr motion2(mbs, 1, fd2, {torqueMin2, torqueMax2});
+
+  std::vector<std::vector<double>> torqueDtMin1 = {{}, {-Inf}, {-Inf}, {-Inf}};
+  std::vector<std::vector<double>> torqueDtMax1 = {{}, {Inf}, {Inf}, {Inf}};
+  std::vector<std::vector<double>> torqueDtMin2 = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
+  std::vector<std::vector<double>> torqueDtMax2 = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
+  qp::MotionConstr motion1(mbs, 0, fd1, {torqueMin1, torqueMax1}, {torqueDtMin1, torqueDtMax1}, 0.005);
+  qp::MotionConstr motion2(mbs, 1, fd2, {torqueMin2, torqueMax2}, {torqueDtMin2, torqueDtMax2}, 0.005);
   qp::PositiveLambda plCstr;
 
   motion1.addToSolver(solver);
@@ -533,6 +538,10 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
   std::vector<std::vector<double>> linf;
   std::vector<double> sup;
   std::vector<double> inf;
+  std::vector<std::vector<double>> lsupDt;
+  std::vector<std::vector<double>> linfDt;
+  std::vector<double> supDt;
+  std::vector<double> infDt;
 
   for(const auto j : mb1.joints())
   {
@@ -542,13 +551,21 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
     std::fill(inf.begin(), inf.end(), -1e4);
     lsup.push_back(sup);
     linf.push_back(inf);
+
+    supDt.resize(j.dof());
+    infDt.resize(j.dof());
+    std::fill(supDt.begin(), supDt.end(), 1e8);
+    std::fill(infDt.begin(), infDt.end(), -1e8);
+    lsupDt.push_back(supDt);
+    linfDt.push_back(infDt);
   }
 
   TorqueBound tb(lsup, linf);
+  TorqueDBound tdb(lsup, linf);
 
   qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
   qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
-  qp::TorqueTask tt(mbs, 0, fd1, tb, 1);
+  qp::TorqueTask tt(mbs, 0, fd1, tb, tdb, 0.005, 1);
 
   solver.addTask(&posture1Task);
   solver.addTask(&posture2Task);

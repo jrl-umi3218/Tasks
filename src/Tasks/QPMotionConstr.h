@@ -23,6 +23,7 @@
 namespace tasks
 {
 struct TorqueBound;
+struct TorqueDBound;
 struct PolyTorqueBound;
 
 namespace qp
@@ -119,13 +120,21 @@ protected:
 
   Eigen::MatrixXd A_;
   Eigen::VectorXd AL_, AU_;
+  size_t updateIter_ = 0;
 };
 
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
   MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-               const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb);
+               const std::shared_ptr<rbd::ForwardDynamics> fd,
+               const TorqueBound & tb);
+
+  MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+               const std::shared_ptr<rbd::ForwardDynamics> fd,
+               const TorqueBound & tb,
+               const TorqueDBound & tdb,
+               double dt);
 
   void computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda) override;
   
@@ -151,6 +160,8 @@ public:
 protected:
   Eigen::VectorXd computedTorque_;
   Eigen::VectorXd torqueL_, torqueU_;
+  Eigen::VectorXd torqueDtL_, torqueDtU_;
+  Eigen::VectorXd tmpL_, tmpU_;
 };
 
 struct SpringJoint
@@ -167,6 +178,13 @@ class TASKS_DLLAPI MotionSpringConstr : public MotionConstr
 public:
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
                      const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb,
+                     const std::vector<SpringJoint> & springs);
+
+  MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
+                     int robotIndex,
+                     const TorqueBound & tb,
+                     const TorqueDBound & tdb,
+                     double dt,
                      const std::vector<SpringJoint> & springs);
 
   // Constraint

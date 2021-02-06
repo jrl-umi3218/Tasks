@@ -116,6 +116,8 @@ MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody>& mbs, i
   fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(),	cont_(), curTorque_(nrDof_), A_(), AL_(nrDof_), AU_(nrDof_)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
+  // This is technically incorrect but practically not a huge deal, see #66
+  curTorque_.setZero();
 }
 
 void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda)
@@ -257,12 +259,30 @@ std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & 
  */
 
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-			   const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb)
+                           const std::shared_ptr<rbd::ForwardDynamics> fd,
+                           const TorqueBound & tb)
+: MotionConstr(mbs, robotIndex, fd, tb, {}, 0.001)
+{
+}
+
+MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                           const std::shared_ptr<rbd::ForwardDynamics> fd,
+                           const TorqueBound & tb,
+                           const TorqueDBound & tdb,
+                           double dt)
 : MotionConstrCommon(mbs, robotIndex, fd), computedTorque_(mbs[robotIndex].nrDof()),
-  torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof())
+  torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof()),
+  torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()),
+  tmpL_(nrDof_), tmpU_(nrDof_)
 {
   rbd::paramToVector(tb.lTorqueBound, torqueL_);
   rbd::paramToVector(tb.uTorqueBound, torqueU_);
+  torqueDtL_.setConstant(-std::numeric_limits<double>::infinity());
+  torqueDtU_.setConstant(std::numeric_limits<double>::infinity());
+  rbd::paramToVector(tdb.lTorqueDBound, torqueDtL_);
+  rbd::paramToVector(tdb.uTorqueDBound, torqueDtU_);
+  torqueDtL_ *= dt;
+  torqueDtU_ *= dt;
 }
 
 void MotionConstr::computeTorque(const Eigen::VectorXd& alphaD, const Eigen::VectorXd& lambda)
@@ -277,8 +297,17 @@ void MotionConstr::update(const std::vector<rbd::MultiBody> & mbs,
 {
   computeMatrix(mbs, mbcs);
 
-  AL_.head(torqueL_.rows()) += torqueL_;
-  AU_.head(torqueU_.rows()) += torqueU_;
+  // max[tauMin, tauDMin*dt + tau(k-1)] - C <= H*alphaD - J^t G lambda <= min[tauMax, tauDMax * dt + tau(k-1)] - C
+  if(updateIter_++ > 0)
+  {
+    AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + curTorque_);
+    AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + curTorque_);
+  }
+  else
+  {
+    AL_.head(torqueL_.rows()) += torqueL_;
+    AU_.head(torqueU_.rows()) += torqueU_;
+  }
 }
 
 Eigen::MatrixXd MotionConstr::contactMatrix() const
@@ -299,7 +328,17 @@ MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs, 
                                        const std::shared_ptr<rbd::ForwardDynamics> fd,
                                        const TorqueBound & tb,
                                        const std::vector<SpringJoint> & springs)
-: MotionConstr(mbs, robotIndex, fd, tb), springs_()
+: MotionSpringConstr(mbs, robotIndex, fd, tb, {}, 0.001, springs)
+{
+}
+
+MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                                       const TorqueBound & tb,
+                                       const TorqueDBound & tdb,
+                                       double dt,
+                                       const std::vector<SpringJoint> & springs)
+: MotionConstr(mbs, robotIndex, fd, tb, tdb, dt), springs_()
 {
   const rbd::MultiBody & mb = mbs[robotIndex_];
   for(const SpringJoint & sj : springs)
@@ -325,8 +364,16 @@ void MotionSpringConstr::update(const std::vector<rbd::MultiBody> & mbs,
     torqueU_(sj.posInDof) = -spring;
   }
 
-  AL_.head(torqueL_.rows()) += torqueL_;
-  AU_.head(torqueU_.rows()) += torqueU_;
+  if(updateIter_++ > 0)
+  {
+    AL_.head(torqueL_.rows()) += torqueL_.cwiseMax(torqueDtL_ + curTorque_);
+    AU_.head(torqueL_.rows()) += torqueU_.cwiseMin(torqueDtU_ + curTorque_);
+  }
+  else
+  {
+    AL_.head(torqueL_.rows()) += torqueL_;
+    AU_.head(torqueL_.rows()) += torqueU_;
+  }
 }
 
 /**

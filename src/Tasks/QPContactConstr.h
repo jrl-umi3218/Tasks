@@ -132,17 +132,38 @@ protected:
   {
     ContactData(std::vector<ContactSideData> csds,
                 const Eigen::MatrixXd & d,
+                int r1,
+                int r2,
                 int b1,
                 int b2,
                 const sva::PTransformd & X_bb,
                 const sva::PTransformd & X_bcf,
                 const ContactId & cId)
-    : contacts(std::move(csds)), dof(d), b1Index(b1), b2Index(b2), X_b1_b2(X_bb), X_b1_cf(X_bcf), contactId(cId)
+    : contacts(std::move(csds)), dof(d), r1Index(r1), r2Index(r2), b1Index(b1), b2Index(b2), X_b1_b2(X_bb),
+      X_b1_cf(X_bcf), contactId(cId)
     {
+      revDof = Eigen::Matrix6d::Zero();
+      // Find which dofs are selected and reverse that selection
+      for(int j = 0; j < 6; ++j)
+      {
+        bool dof_j_active = false;
+        for(int r = 0; r < dof.rows(); ++r)
+        {
+          dof_j_active = dof_j_active || dof(r, j) == 1;
+        }
+        if(!dof_j_active)
+        {
+          revDof(j, j) = 1;
+        }
+      }
     }
+
+    void update(const std::vector<rbd::MultiBodyConfig> & mbcs);
 
     std::vector<ContactSideData> contacts;
     Eigen::MatrixXd dof;
+    Eigen::MatrixXd revDof;
+    int r1Index, r2Index;
     int b1Index, b2Index;
     sva::PTransformd X_b1_b2;
     sva::PTransformd X_b1_cf;

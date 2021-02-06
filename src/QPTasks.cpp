@@ -18,6 +18,9 @@
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 
+// Tasks
+#include <Tasks/Bounds.h>
+
 namespace tasks
 {
 
@@ -639,8 +642,37 @@ const Eigen::VectorXd & JointsSelector::normalAcc()
 
 /** Torque Task **/
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-                       const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb, double weight)
-: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex,fd, tb),
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                       const TorqueBound & tb, double weight)
+: TorqueTask(mbs, robotIndex, fd, tb, TorqueDBound{}, 0, weight)
+{
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                       const TorqueBound & tb,
+                       const Eigen::VectorXd & jointSelect,
+                       double weight)
+: TorqueTask(mbs, robotIndex, fd, tb, TorqueDBound{}, 0, jointSelect, weight)
+{
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                       const TorqueBound & tb,
+                       const std::string & efName,
+                       double weight)
+: TorqueTask(mbs, robotIndex, fd, tb, TorqueDBound{}, 0, efName, weight)
+{
+}
+
+TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                       const TorqueBound & tb,
+                       const TorqueDBound & tdb,
+                       double dt,
+                       double weight)
+: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, fd, tb, tdb, dt),
   jointSelector_(mbs[robotIndex].nrDof()), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
   C_(mbs[robotIndex].nrDof())
 {
@@ -648,17 +680,25 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
 }
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-                       const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb,
-                       const Eigen::VectorXd & jointSelect, double weight)
-: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, fd, tb),
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                       const TorqueBound & tb,
+                       const TorqueDBound & tdb,
+                       double dt,
+                       const Eigen::VectorXd & jointSelect,
+                       double weight)
+: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, fd, tb, tdb, dt),
   jointSelector_(jointSelect), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()), C_(mbs[robotIndex].nrDof())
 {
 }
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
-                       const std::shared_ptr<rbd::ForwardDynamics> fd, const TorqueBound & tb,
-                       const std::string & efName, double weight)
-: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, fd, tb),
+                       const std::shared_ptr<rbd::ForwardDynamics> fd,
+                       const TorqueBound & tb,
+                       const TorqueDBound & tdb,
+                       double dt,
+                       const std::string & efName,
+                       double weight)
+: Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, fd, tb, tdb, dt),
   jointSelector_(mbs[robotIndex].nrDof()), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
   C_(mbs[robotIndex].nrDof())
 {

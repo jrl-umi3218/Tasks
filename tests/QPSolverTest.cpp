@@ -352,7 +352,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   double Inf = std::numeric_limits<double>::infinity();
   std::vector<std::vector<double>> torqueMin = {{}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax = {{}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax});
+  std::vector<std::vector<double>> torqueDtMin = {{}, {-Inf}, {-Inf}, {-Inf}};
+  std::vector<std::vector<double>> torqueDtMax = {{}, {Inf}, {Inf}, {Inf}};
+  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax}, {torqueDtMin, torqueDtMax}, 0.005);
   qp::PositiveLambda plCstr;
 
   motionCstr.addToSolver(solver);
@@ -476,8 +478,10 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
   double inf = std::numeric_limits<double>::infinity();
   std::vector<std::vector<double>> lBound = {{}, {-cst::pi<double>() / 4.}, {-inf}, {-inf}};
   std::vector<std::vector<double>> uBound = {{}, {cst::pi<double>() / 4.}, {inf}, {inf}};
+  std::vector<std::vector<double>> lDDBound = {{}, {-inf}, {-inf}, {-inf}};
+  std::vector<std::vector<double>> uDDBound = {{}, {inf}, {inf}, {inf}};
 
-  qp::JointLimitsConstr jointConstr(mbs, 0, {lBound, uBound}, 0.001);
+  qp::JointLimitsConstr jointConstr(mbs, 0, {lBound, uBound}, {lDDBound, uDDBound}, 0.001);
 
   // Test add*Constraint
   solver.addBoundConstraint(&jointConstr);
@@ -555,8 +559,11 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
   std::vector<std::vector<double>> uBound = {{}, {cst::pi<double>() / 4.}, {inf}, {inf}};
   std::vector<std::vector<double>> lVel = {{}, {-inf}, {-inf}, {-inf}};
   std::vector<std::vector<double>> uVel = {{}, {inf}, {inf}, {inf}};
+  std::vector<std::vector<double>> lAcc = {{}, {-inf}, {-inf}, {-inf}};
+  std::vector<std::vector<double>> uAcc = {{}, {inf}, {inf}, {inf}};
 
-  qp::DamperJointLimitsConstr dampJointConstr(mbs, 0, {lBound, uBound}, {lVel, uVel}, 0.125, 0.025, 1., 0.001);
+  qp::DamperJointLimitsConstr dampJointConstr(mbs, 0, {lBound, uBound}, {lVel, uVel}, {lAcc, uAcc}, 0.125, 0.025, 1.,
+                                              0.001);
 
   // Test add*Constraint
   dampJointConstr.addToSolver(solver);
@@ -730,8 +737,12 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
   std::vector<std::vector<double>> lBound = {{}, {-30.}, {-30.}, {-30.}};
   std::vector<std::vector<double>> uBound = {{}, {30.}, {30.}, {30.}};
+  std::vector<std::vector<double>> lBoundDt = {{}, {-500.}, {-500.}, {-500.}};
+  std::vector<std::vector<double>> uBoundDt = {{}, {500.}, {500.}, {500.}};
 
-  qp::MotionConstr motionCstr(mbs, 0, fd, {lBound, uBound});
+  constexpr double dt = 0.001;
+
+  qp::MotionConstr motionCstr(mbs, 0, fd, {lBound, uBound}, {lBoundDt, uBoundDt}, dt);
   qp::PositiveLambda plCstr;
 
   // Test add*Constraint
@@ -756,7 +767,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    eulerIntegration(mbs[0], mbcs[0], dt);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -775,7 +786,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    eulerIntegration(mbs[0], mbcs[0], dt);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1114,7 +1125,9 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
   double Inf = std::numeric_limits<double>::infinity();
   std::vector<std::vector<double>> torqueMin = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax});
+  std::vector<std::vector<double>> torqueDtMin = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
+  std::vector<std::vector<double>> torqueDtMax = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
+  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax}, {torqueDtMin, torqueDtMax}, 0.005);
   qp::PositiveLambda plCstr;
   qp::ContactAccConstr contCstrAcc;
 

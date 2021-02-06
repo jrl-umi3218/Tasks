@@ -8,7 +8,7 @@ set(PROJECT_NAME Tasks)
 set(PROJECT_DESCRIPTION "...")
 set(PROJECT_URL "https://github.com/jrl-umi3218/Tasks")
 set(PROJECT_DEBUG_POSTFIX "_d")
-set(PROJECT_VERSION 1.2.0)
+set(PROJECT_VERSION 1.3.1)
 set(PROJECT_USE_CMAKE_EXPORT TRUE)
 
 # Disable -Werror on Unix for now.
@@ -21,7 +21,9 @@ include(cmake/msvc-specific.cmake)
 
 project(Tasks CXX)
 
-add_definitions(-mfpmath=sse -msse2)
+if(UNIX AND NOT EMSCRIPTEN)
+  add_definitions(-mfpmath=sse -msse2)
+endif()
 
 if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")

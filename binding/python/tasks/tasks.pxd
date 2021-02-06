@@ -61,5 +61,8 @@ cdef class AlphaBound(object):
 cdef class TorqueBound(object):
   cdef c_tasks.TorqueBound impl
 
+cdef class TorqueDBound(object):
+  cdef c_tasks.TorqueDBound impl
+
 cdef class PolyTorqueBound(object):
   cdef c_tasks.PolyTorqueBound impl

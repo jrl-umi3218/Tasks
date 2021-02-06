@@ -418,6 +418,29 @@ public:
              const TorqueBound & tb, const std::string & efName,
              double weight);
 
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
+             int robotIndex,
+             const TorqueBound & tb,
+             const TorqueDBound & tdb,
+             double dt,
+             double weight);
+
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
+             int robotIndex,
+             const TorqueBound & tb,
+             const TorqueDBound & tdb,
+             double dt,
+             const Eigen::VectorXd & jointSelect,
+             double weight);
+
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
+             int robotIndex,
+             const TorqueBound & tb,
+             const TorqueDBound & tdb,
+             double dt,
+             const std::string & efName,
+             double weight);
+
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
