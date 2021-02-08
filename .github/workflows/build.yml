@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-16.04, ubuntu-18.04, macos-latest, windows-latest]
+        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-latest, windows-latest]
         build-type: [Debug, RelWithDebInfo]
         compiler: [gcc, clang]
         exclude:
@@ -44,7 +44,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         submodules: recursive
     - name: Install dependencies
@@ -53,32 +53,29 @@ jobs:
         compiler: ${{ matrix.compiler }}
         build-type: ${{ matrix.build-type }}
         ubuntu: |
-          apt: cython cython3 python-nose python3-nose python-numpy python3-numpy python-coverage python3-coverage python-setuptools python3-setuptools libeigen3-dev doxygen doxygen-latex libboost-all-dev libtinyxml2-dev libyaml-cpp-dev
+          apt: cython cython3 python-nose python3-nose python-numpy python3-numpy python-coverage python3-coverage python-setuptools python3-setuptools doxygen doxygen-latex libboost-all-dev libeigen-qld-dev libsch-core-dev librbdyn-dev python-eigen-qld python3-eigen-qld python-sch-core python3-sch-core python-rbdyn python3-rbdyn
+          apt-mirrors:
+            multi-contact:
+              mirror: https://dl.bintray.com/gergondet/multi-contact-head
+              key: 892EA6EE273707C6495A6FB6220D644C64666806
         macos: |
           cask: gfortran
-          brew: eigen boost tinyxml2 yaml-cpp
-          pip: Cython coverage nose numpy
+          vcpkg:
+            repo: jrl-umi3218/vcpkg
+            user: ${{ github.actor }}
+            token: ${{ github.token }}
         windows: |
-          pip: Cython coverage nose numpy
-          github:
-            - path: eigenteam/eigen-git-mirror
-              ref: 3.3.7
-            - path: leethomason/tinyxml2
-              ref: 7.1.0
-            - path: jbeder/yaml-cpp
-              ref: 29dcf92f870ee51cce8d68f8fcfe228942e8dfe1
-        github: |
-          - path: jrl-umi3218/Eigen3ToPython
-          - path: jrl-umi3218/SpaceVecAlg
-          - path: jrl-umi3218/sch-core
-          - path: jrl-umi3218/eigen-qld
-          - path: jrl-umi3218/sch-core-python
-          - path: jrl-umi3218/RBDyn
+          vcpkg:
+            repo: jrl-umi3218/vcpkg
+            user: ${{ github.actor }}
+            token: ${{ github.token }}
     - name: Build and test
       uses: jrl-umi3218/github-actions/build-cmake-project@master
       with:
         compiler: ${{ matrix.compiler }}
         build-type: ${{ matrix.build-type }}
+        windows-options: -DPYTHON_BINDING:BOOL=OFF
+        macos-options: -DPYTHON_BINDING:BOOL=OFF
     - name: Upload documentation
       # Only run on master branch and for one configuration
       if: matrix.os == 'ubuntu-18.04' && matrix.build-type == 'RelWithDebInfo' && matrix.compiler == 'gcc' && github.ref == 'refs/heads/master'
