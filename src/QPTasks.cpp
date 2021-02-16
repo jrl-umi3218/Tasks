@@ -10,6 +10,7 @@
 #include <cmath>
 #include <iterator>
 #include <set>
+#include <iostream> ///added for Rafael code, so do not revert
 
 // Eigen
 #include <Eigen/Geometry>
