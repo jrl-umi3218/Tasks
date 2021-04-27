@@ -73,7 +73,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Tasks </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://opensource.org/licenses/BSD-2-Clause"></a> <a href="https://bintray.com/gergondet/multi-contact/Tasks%3Amulti-contact/_latestVersion"></a> <a href="https://github.com/jrl-umi3218/Tasks/actions?query=workflow%3A%22CI+of+Tasks%22"></a> <a href="http://jrl-umi3218.github.io/Tasks/doxygen/HEAD/index.html"></a></p>
+<div class="textblock"><p><a href="https://opensource.org/licenses/BSD-2-Clause"></a> <a href="https://cloudsmith.com"></a> <a href="https://github.com/jrl-umi3218/Tasks/actions?query=workflow%3A%22CI+of+Tasks%22"></a> <a href="http://jrl-umi3218.github.io/Tasks/doxygen/HEAD/index.html"></a></p>
 <p>Tasks is library for real time control of robots and kinematic trees using constrained optimization. It has been used extensively to control humanoid robots such as HOAP-3, HRP-2, HRP-4 and Atlas.</p>
 <h2>Documentation </h2>
 <p>Features:</p><ul>
@@ -99,11 +99,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>An online documentation can be found <a href="https://jrl-umi3218.github.io/Tasks">online</a>.</p>
 <h2>Installing </h2>
 <h2>Ubuntu LTS (16.04, 18.04, 20.04)</h2>
-<div class="fragment"><div class="line"># Make sure you have required tools</div><div class="line">sudo apt install apt-transport-https lsb-release ca-certificates gnupg</div><div class="line"># Add our key</div><div class="line">sudo apt-key adv --keyserver &#39;hkp://keyserver.ubuntu.com:80&#39; --recv-key 892EA6EE273707C6495A6FB6220D644C64666806</div><div class="line"># Add our repository (stable versions)</div><div class="line">sudo sh -c &#39;echo &quot;deb https://dl.bintray.com/gergondet/multi-contact-release $(lsb_release -sc) main&quot; | sudo tee /etc/apt/sources.list.d/multi-contact.list&#39;</div><div class="line"># Use this to setup the HEAD version</div><div class="line"># sudo sh -c &#39;echo &quot;deb https://dl.bintray.com/gergondet/multi-contact-head $(lsb_release -sc) main&quot; | sudo tee /etc/apt/sources.list.d/multi-contact.list&#39;</div><div class="line"># Update packages list</div><div class="line">sudo apt update</div><div class="line"># Install packages</div><div class="line">sudo apt install libtasks-dev python-tasks python3-tasks</div></div><!-- fragment --><h2>Conan</h2>
+<p>You must first setup our package mirror:</p>
+<div class="fragment"><div class="line">curl -1sLf \</div><div class="line">  &#39;https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh&#39; \</div><div class="line">  | sudo -E bash</div></div><!-- fragment --><p>You can also choose the head mirror which will have the latest version of this package:</p>
+<div class="fragment"><div class="line">curl -1sLf \</div><div class="line">  &#39;https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh&#39; \</div><div class="line">  | sudo -E bash</div></div><!-- fragment --><p>You can then install the package:</p>
+<div class="fragment"><div class="line">sudo apt install libtasks-dev python-tasks python3-tasks</div></div><!-- fragment --><h2>Conan</h2>
 <p>Install the latest version using <a href="https://conan.io/">conan</a></p>
-<div class="fragment"><div class="line">conan remote add multi-contact https://api.bintray.com/conan/gergondet/multi-contact</div><div class="line"># Install the latest release</div><div class="line">conan install Tasks/latest@multi-contact/stable</div><div class="line"># Or install the latest development version</div><div class="line"># conan install Tasks/latest@multi-contact/dev</div></div><!-- fragment --><h2>Homebrew OS X install</h2>
-<p>Install from the command line using <a href="brew.sh">Homebrew</a>:</p>
-<div class="fragment"><div class="line"># install homebrew package manager</div><div class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</div><div class="line"># install caskroom application manager</div><div class="line">brew install caskroom/cask/brew-cask</div><div class="line"># tap homebrew-science package repository</div><div class="line">brew tap homebrew/science</div><div class="line"># tap ahundt-robotics repository</div><div class="line">brew tap ahundt/robotics</div><div class="line"># install tasks and all its dependencies</div><div class="line">brew install tasks</div></div><!-- fragment --><h2>Manually build from source</h2>
+<div class="fragment"><div class="line">conan remote add multi-contact https://api.bintray.com/conan/gergondet/multi-contact</div><div class="line"># Install the latest release</div><div class="line">conan install Tasks/latest@multi-contact/stable</div><div class="line"># Or install the latest development version</div><div class="line"># conan install Tasks/latest@multi-contact/dev</div></div><!-- fragment --><h2>Manually build from source</h2>
 <h3>Dependencies</h3>
 <p>To compile you need the following tools and libraries:</p>
 <ul>
