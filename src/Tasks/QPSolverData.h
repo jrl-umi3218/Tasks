@@ -28,6 +28,7 @@ class TASKS_DLLAPI SolverData
 {
 public:
   friend class QPSolver;
+  friend class PassivityPIDTerm_QPSolver;
 
   SolverData();
 
@@ -128,7 +129,13 @@ public:
     return normalAccB_[robotIndex];
   }
 
-private:
+  const Eigen::VectorXd& lambdaVecPrev() const
+  {
+    return lambdaVecPrev_;
+  }
+
+// private:
+protected:
   std::vector<int> alphaD_; //< each robot alphaD vector size
   std::vector<int> alphaDBegin_; //< each robot alphaD vector begin in x
   std::vector<int> lambda_; //< each contact lambda
@@ -144,6 +151,9 @@ private:
   std::vector<int> mobileRobotIndex_; //< robot index with dof > 0
   /// normal acceleration of each body of each robot
   std::vector<std::vector<sva::MotionVecd>> normalAccB_;
+
+  Eigen::VectorXd passiveTorque_;
+  Eigen::VectorXd lambdaVecPrev_;
 };
 
 } // namespace qp

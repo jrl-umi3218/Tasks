@@ -592,6 +592,8 @@ private:
   Eigen::MatrixXd jacDotMat_;
 };
 
+
+
 class TASKS_DLLAPI RelativeDistTask
 {
 public:
@@ -646,6 +648,8 @@ private:
   RelativeBodiesInfo rbInfo_[2];
 };
 
+
+
 class TASKS_DLLAPI VectorOrientationTask
 {
 public:
@@ -683,5 +687,6 @@ private:
   Eigen::VectorXd normalAcc_;
   Eigen::MatrixXd jacMat_;
 };
+
 
 } // namespace tasks

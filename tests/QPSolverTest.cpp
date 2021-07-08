@@ -226,6 +226,10 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   forwardKinematics(mbEnv, mbcEnv);
   forwardVelocity(mbEnv, mbcEnv);
 
+  auto fd = std::make_shared<ForwardDynamics>(mb);
+  fd->computeH(mb, mbcInit);
+  fd->computeC(mb, mbcInit);
+  
   std::vector<MultiBody> mbs = {mb, mbEnv};
   std::vector<MultiBodyConfig> mbcs = {mbcInit, mbcEnv};
 
@@ -275,6 +279,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
   }
 
   BOOST_CHECK_SMALL((posTask.eval() - evalPos).norm(), 0.00001);
@@ -320,6 +327,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
   }
 
   BOOST_CHECK_SMALL((posTask.eval() - evalPos).norm(), 0.00001);
@@ -344,7 +354,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   std::vector<std::vector<double>> torqueMax = {{}, {Inf}, {Inf}, {Inf}};
   std::vector<std::vector<double>> torqueDtMin = {{}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueDtMax = {{}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax}, {torqueDtMin, torqueDtMax}, 0.005);
+  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax}, {torqueDtMin, torqueDtMax}, 0.005);
   qp::PositiveLambda plCstr;
 
   motionCstr.addToSolver(solver);
@@ -369,6 +379,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
   }
   motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
   motionCstr.torque(mbs, mbcs);
@@ -417,6 +430,9 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
   }
 
   BOOST_CHECK_SMALL(posTask.eval().norm(), 5e-5);
@@ -706,6 +722,10 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   forwardKinematics(mb, mbcInit);
   forwardVelocity(mb, mbcInit);
 
+  auto fd = std::make_shared<ForwardDynamics>(mb);
+  fd->computeH(mb, mbcInit);
+  fd->computeC(mb, mbcInit);
+
   std::vector<rbd::MultiBody> mbs = {mb};
   std::vector<rbd::MultiBodyConfig> mbcs = {mbcInit};
 
@@ -722,7 +742,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
   constexpr double dt = 0.001;
 
-  qp::MotionConstr motionCstr(mbs, 0, {lBound, uBound}, {lBoundDt, uBoundDt}, dt);
+  qp::MotionConstr motionCstr(mbs, 0, fd, {lBound, uBound}, {lBoundDt, uBoundDt}, dt);
   qp::PositiveLambda plCstr;
 
   // Test add*Constraint
@@ -751,6 +771,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
     motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionCstr.torque(mbs, mbcs);
     for(int i = 0; i < 3; ++i)
@@ -768,6 +790,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
     motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionCstr.torque(mbs, mbcs);
     for(int i = 0; i < 3; ++i)
@@ -787,7 +811,7 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   upoly << 30, 1.;
   std::vector<std::vector<Eigen::VectorXd>> lBoundPoly = {{null}, {lpoly}, {lpoly}, {lpoly}};
   std::vector<std::vector<Eigen::VectorXd>> uBoundPoly = {{null}, {upoly}, {upoly}, {upoly}};
-  qp::MotionPolyConstr motionPolyCstr(mbs, 0, {lBoundPoly, uBoundPoly});
+  qp::MotionPolyConstr motionPolyCstr(mbs, 0, fd, {lBoundPoly, uBoundPoly});
 
   motionPolyCstr.addToSolver(solver);
   BOOST_CHECK_EQUAL(solver.nrGenInequalityConstraints(), 1);
@@ -807,6 +831,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
     motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionPolyCstr.torque(mbs, mbcs);
     for(int i = 0; i < 3; ++i)
@@ -825,6 +851,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
     motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionPolyCstr.torque(mbs, mbcs);
     for(int i = 0; i < 3; ++i)
@@ -1081,6 +1109,11 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 
   forwardKinematics(mb, mbcInit);
   forwardVelocity(mb, mbcInit);
+
+  auto fd = std::make_shared<ForwardDynamics>(mb);        
+  fd->computeH(mb, mbcInit);
+  fd->computeC(mb, mbcInit);
+  
   forwardKinematics(mbEnv, mbcEnv);
   forwardVelocity(mbEnv, mbcEnv);
 
@@ -1094,7 +1127,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
   std::vector<std::vector<double>> torqueMax = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
   std::vector<std::vector<double>> torqueDtMin = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueDtMax = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motionCstr(mbs, 0, {torqueMin, torqueMax}, {torqueDtMin, torqueDtMax}, 0.005);
+  qp::MotionConstr motionCstr(mbs, 0, fd, {torqueMin, torqueMax}, {torqueDtMin, torqueDtMax}, 0.005);
   qp::PositiveLambda plCstr;
   qp::ContactAccConstr contCstrAcc;
 
@@ -1145,6 +1178,9 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
+
+    fd->computeH(mbs[0], mbcs[0]);
+    fd->computeC(mbs[0], mbcs[0]);
   }
 
   plCstr.removeFromSolver(solver);

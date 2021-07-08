@@ -18,7 +18,7 @@ namespace qp
 
 SolverData::SolverData()
 : alphaD_(), alphaDBegin_(), lambda_(), totalAlphaD_(0), totalLambda_(0), nrUniLambda_(0), nrBiLambda_(0), nrVars_(0),
-  uniCont_(), biCont_(), allCont_(), mobileRobotIndex_(), normalAccB_()
+  uniCont_(), biCont_(), allCont_(), mobileRobotIndex_(), normalAccB_(), lambdaVecPrev_()
 {
 }
 
@@ -49,6 +49,7 @@ void SolverData::computeNormalAccB(const std::vector<rbd::MultiBody> & mbs,
   }
 }
 
+  
 } // namespace qp
 
 } // namespace tasks

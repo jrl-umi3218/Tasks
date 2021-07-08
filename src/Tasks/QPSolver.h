@@ -42,11 +42,13 @@ class Bound;
 class Task;
 class GenQPSolver;
 
+// class MotionConstr;
+          
 class TASKS_DLLAPI QPSolver
 {
 public:
   QPSolver();
-  ~QPSolver();
+  virtual ~QPSolver();  // declared as virtual for QPSolver to be polymorphic
 
   /** solve the problem
    *  \param mbs current multibody
@@ -81,6 +83,9 @@ public:
   /// call updateNrVars on all tasks and constraints
   void updateNrVars(const std::vector<rbd::MultiBody> & mbs) const;
 
+  bool hasConstraint(const Constraint* co);
+  // std::shared_ptr<tasks::qp::MotionConstr> getMotionConstr();
+
   void addEqualityConstraint(Equality * co);
   void removeEqualityConstraint(Equality * co);
   int nrEqualityConstraints() const;
@@ -108,6 +113,12 @@ public:
   void resetTasks();
   int nrTasks() const;
 
+  const std::vector<Task *> & getTasks() const { return tasks_; }
+  const std::vector<Equality *> & getEqConstr() const { return eqConstr_; }
+  const std::vector<Inequality *> & getInEqConstr() const { return inEqConstr_; }
+  const std::vector<GenInequality *> & getGenInEqConstr() const { return genInEqConstr_; }
+  const std::vector<Bound *> & getBoundConstr() const { return boundConstr_; }
+  
   void solver(const std::string & name);
   std::string solver() const;
 
@@ -130,7 +141,6 @@ protected:
   void preUpdate(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs);
   void postUpdate(const std::vector<rbd::MultiBody> & mbs, std::vector<rbd::MultiBodyConfig> & mbcs, bool success);
 
-private:
   std::vector<Constraint *> constr_;
   std::vector<Equality *> eqConstr_;
   std::vector<Inequality *> inEqConstr_;
@@ -146,6 +156,25 @@ private:
   std::unique_ptr<GenQPSolver> solver_;
 
   boost::timer::cpu_timer solverTimer_, solverAndBuildTimer_;
+};
+
+class TASKS_DLLAPI PassivityPIDTerm_QPSolver : public QPSolver
+{
+public:
+  PassivityPIDTerm_QPSolver();
+  
+  bool solve(const std::vector<rbd::MultiBody> & mbs,
+             std::vector<rbd::MultiBodyConfig> & mbcs_real,
+             std::vector<rbd::MultiBodyConfig> & mbcs_calc);
+        
+  bool solveNoMbcUpdate(const std::vector<rbd::MultiBody> & mbs,
+                        const std::vector<rbd::MultiBodyConfig> & mbcs_real,
+                        const std::vector<rbd::MultiBodyConfig> & mbcs_calc);
+
+ protected:
+  void preUpdate(const std::vector<rbd::MultiBody> & mbs,
+                 const std::vector<rbd::MultiBodyConfig> & mbcs_real,
+                 const std::vector<rbd::MultiBodyConfig> & mbcs_calc);
 };
 
 class TASKS_DLLAPI Constraint
@@ -314,6 +343,11 @@ public:
   Task(double weight) : weight_(weight) {}
   virtual ~Task() {}
 
+  virtual std::string nameTask() const
+  {
+    return "Task";
+  }
+  
   virtual double weight() const
   {
     return weight_;
@@ -342,6 +376,11 @@ class TASKS_DLLAPI HighLevelTask
 {
 public:
   virtual ~HighLevelTask() {}
+
+  virtual std::string nameHighLevelTask() const
+  {
+    return "HighLevelTask";
+  }
 
   virtual int dim() = 0;
 

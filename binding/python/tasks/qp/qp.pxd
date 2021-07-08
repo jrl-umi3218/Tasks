@@ -3,6 +3,7 @@
 #
 
 cimport c_qp
+cimport rbdyn.rbdyn as rbdyn
 
 from libcpp.vector cimport vector
 from libcpp cimport bool as cppbool
@@ -154,18 +155,21 @@ cdef class GripperTorqueTask(Task):
 cdef class MotionConstr(GenInequality):
   cdef c_qp.MotionConstr * impl
   cdef cppbool __own_impl
+  cdef rbdyn.ForwardDynamics fd_instance
 
 cdef MotionConstr MotionConstrFromPtr(c_qp.MotionConstr *)
 
 cdef class MotionPolyConstr(GenInequality):
   cdef c_qp.MotionPolyConstr * impl
   cdef cppbool __own_impl
+  cdef rbdyn.ForwardDynamics fd_instance
 
 cdef MotionPolyConstr MotionPolyConstrFromPtr(c_qp.MotionPolyConstr *)
 
 cdef class MotionSpringConstr(GenInequality):
   cdef c_qp.MotionSpringConstr * impl
   cdef cppbool __own_impl
+  cdef rbdyn.ForwardDynamics fd_instance
 
 cdef MotionSpringConstr MotionSpringConstrFromPtr(c_qp.MotionSpringConstr *)
 

@@ -19,6 +19,10 @@
 
 // Tasks
 #include "Tasks/GenQPSolver.h"
+#include "Tasks/QPMotionConstr.h"
+
+// included by Rafa as a test
+#include "LSSOLQPSolver.h"
 
 namespace tasks
 {
@@ -57,6 +61,22 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody> & mbs, const s
   bool success = solver_->solve();
   solverTimer_.stop();
 
+  data_.lambdaVecPrev_ = lambdaVec();
+
+  //std::cout << "Rafa, in QPSolver::solveNoMbcUpdate, lambdaVec() = "
+  //          << lambdaVec().transpose() << std::endl;
+
+  //volatile bool check = data_.lambdaVecPrev_.isZero(0);
+  //volatile int dummy = 0;
+
+  //if (check) {
+  //  dummy = 1;
+  //  std::cout << "Rafa, in QPSolver::solveNoMbcUpdate, lambdaVec() = 0" << std::endl;
+  //}
+  
+  // if (data_.lambdaVecPrev_.isZero(0))
+  //   *(int*)0 = 0;
+  
   if(!success)
   {
     solver_->errorMsg(mbs, tasks_, eqConstr_, inEqConstr_, genInEqConstr_, boundConstr_, std::cerr) << std::endl;
@@ -82,6 +102,8 @@ void QPSolver::updateConstrSize()
   maxEqLines_ = std::accumulate(eqConstr_.begin(), eqConstr_.end(), 0, accumMaxLines<Equality>);
   maxInEqLines_ = std::accumulate(inEqConstr_.begin(), inEqConstr_.end(), 0, accumMaxLines<Inequality>);
   maxGenInEqLines_ = std::accumulate(genInEqConstr_.begin(), genInEqConstr_.end(), 0, accumMaxLines<GenInequality>);
+
+  std::cout << "Rafa, in tasks::qp::QPSolver::updateConstrSize, maxEqLines_ = " << maxEqLines_ << ", maxInEqLines_ = " << maxInEqLines_ << ", maxGenInEqLines_ = " << maxGenInEqLines_ << std::endl;
 
   solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
 }
@@ -209,6 +231,29 @@ void QPSolver::updateNrVars(const std::vector<rbd::MultiBody> & mbs) const
   updateTasksNrVars(mbs);
   updateConstrsNrVars(mbs);
 }
+
+bool QPSolver::hasConstraint(const Constraint* co)
+{
+  return std::find(constr_.begin(), constr_.end(), co) != constr_.end(); 
+}
+
+/*
+std::shared_ptr<tasks::qp::MotionConstr> QPSolver::getMotionConstr()
+{
+  std::shared_ptr<MotionConstr> motionConstr = NULL;
+  
+  for(Constraint* c: constr_)
+  {
+    std::shared_ptr<Constraint> c_prime = std::make_shared<Constraint>().reset(c);
+    motionConstr = std::dynamic_pointer_cast<MotionConstr>(c_prime);
+    
+    if (motionConstr)
+    {
+      break;
+    }
+  }
+}
+*/
 
 void QPSolver::addEqualityConstraint(Equality * co)
 {
@@ -383,6 +428,47 @@ Eigen::VectorXd QPSolver::alphaDVec(int rIndex) const
 
 Eigen::VectorXd QPSolver::lambdaVec() const
 {
+  // Rafa added this
+  bool nantest = false;
+  bool zerotest = false;
+  //for (int i = 0; i < solver_->result().size(); i++) {
+  //  nantest |= std::isnan(solver_->result()[i]);
+  //}
+  
+  nantest = (isnan(solver_->result().array())).count() > 0;
+  //zerotest = solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_).isZero(0);
+
+  // std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
+  
+  if (nantest || zerotest)
+  {
+    if (zerotest)
+      std::cout << "Rafa, in QPSolver::lambdaVec, zerotest" << std::endl;
+    
+    std::cout << "Rafa, in QPSolver::lambdaVec, solver_->result() = " << solver_->result().transpose() << std::endl;
+
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AFull_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AFull_.size() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AL_.size() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->AU_.size() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XLFull_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->XLFull_.size() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XUFull_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->XUFull_.size() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->QFull_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->QFull_.size() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->CFull_.size() = " << static_cast<LSSOLQPSolver*>(solver_.get())->CFull_.size() << std::endl;
+
+    /*
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AFull_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->AFull_ << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AL_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->AL_.transpose() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->AU_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->AU_.transpose() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XLFull_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XLFull_.transpose() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->XUFull_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->XUFull_.transpose() << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->QFull_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->QFull_ << std::endl;
+    std::cout << "Rafa, in QPSolver::lambdaVec, static_cast<LSSOLQPSolver*>(solver_.get())->CFull_ = " << static_cast<LSSOLQPSolver*>(solver_.get())->CFull_.transpose() << std::endl;
+    */
+    
+    if (nantest)
+      *(int*)0 = 0;
+  }
+  
   return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_);
 }
 
@@ -452,6 +538,69 @@ void QPSolver::postUpdate(const std::vector<rbd::MultiBody> & /* mbs */,
     // to compute C vector.
   }
 }
+
+/**
+ *													PassivityPIDTerm_QPSolver
+ */
+
+PassivityPIDTerm_QPSolver::PassivityPIDTerm_QPSolver()
+: QPSolver()
+{
+}
+
+bool PassivityPIDTerm_QPSolver::solve(const std::vector<rbd::MultiBody> & mbs,
+                                      std::vector<rbd::MultiBodyConfig> & mbcs_real,
+                                      std::vector<rbd::MultiBodyConfig> & mbcs_calc)
+{
+  bool success = solveNoMbcUpdate(mbs, mbcs_real, mbcs_calc);
+  
+  postUpdate(mbs, mbcs_real, success);
+  postUpdate(mbs, mbcs_calc, success);
+  
+  return success;
+}
+
+bool PassivityPIDTerm_QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody> & mbs,
+                                                 const std::vector<rbd::MultiBodyConfig> & mbcs_real,
+                                                 const std::vector<rbd::MultiBodyConfig> & mbcs_calc)
+{
+  solverAndBuildTimer_.start();
+  preUpdate(mbs, mbcs_real, mbcs_calc);
+  
+  solverTimer_.start();
+  bool success = solver_->solve();
+  solverTimer_.stop();
+  
+  data_.lambdaVecPrev_ = lambdaVec();
+  
+  if(!success)
+  {
+    solver_->errorMsg(mbs, tasks_, eqConstr_, inEqConstr_, genInEqConstr_, boundConstr_, std::cerr) << std::endl;
+  }
+  solverAndBuildTimer_.stop();
+  
+  return success;
+}
+
+void PassivityPIDTerm_QPSolver::preUpdate(const std::vector<rbd::MultiBody>& mbs,
+                                          const std::vector<rbd::MultiBodyConfig>& mbcs_real,
+                                          const std::vector<rbd::MultiBodyConfig>& mbcs_calc)
+{
+  data_.computeNormalAccB(mbs, mbcs_real);
+  for(std::size_t i = 0; i < constr_.size(); ++i)
+  {
+    constr_[i]->update(mbs, mbcs_real, data_);
+  }
+  
+  data_.computeNormalAccB(mbs, mbcs_calc);
+  for(std::size_t i = 0; i < tasks_.size(); ++i)
+  {
+    tasks_[i]->update(mbs, mbcs_calc, data_);
+  }
+  
+  solver_->updateMatrix(tasks_, eqConstr_, inEqConstr_, genInEqConstr_, boundConstr_);
+}
+
 
 } // namespace qp
 

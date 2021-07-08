@@ -15,6 +15,8 @@
 // boost
 #include <boost/math/constants/constants.hpp>
 
+#include <iostream>  // Added by Rafa
+
 namespace tasks
 {
 
@@ -328,8 +330,18 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd & lambda,
   for(std::size_t i = 0; i < cones[point].generators.size(); ++i)
   {
     F += cones[point].generators[i] * lambda(i);
+    
+    if (std::isnan(F[0]))
+    {
+      std::cout << "Rafa, in BilateralContact::force, cones[point].generators[i] = " << cones[point].generators[i].transpose() << std::endl;
+      std::cout << "Rafa, in BilateralContact::force, lambda = " << lambda.transpose() << std::endl;
+      std::cout << "Rafa, in BilateralContact::force, lambda(i) = " << lambda(i) << std::endl;
+      //*(int*)0 = 0;
+    }
+    
+    // std::cout << "Rafa, in BilateralContact::force, at i = " << i << ", F += cones[point].generators[i]*lambda(i) = " << F.transpose() << std::endl;
   }
-
+  
   return F;
 }
 
