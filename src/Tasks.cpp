@@ -821,6 +821,26 @@ const std::vector<std::vector<double>> PostureTask::posture() const
   return q_;
 }
 
+void PostureTask::refVel(std::vector<std::vector<double>> qd)
+{
+  qd_ = qd;
+}
+
+const std::vector<std::vector<double>> PostureTask::refVel() const
+{
+  return qd_;
+}
+
+void PostureTask::refAccel(std::vector<std::vector<double>> qdd)
+{
+  qdd_ = qdd;
+}
+
+const std::vector<std::vector<double>> PostureTask::refAccel() const
+{
+  return qdd_;
+}
+
 void PostureTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
   using namespace Eigen;

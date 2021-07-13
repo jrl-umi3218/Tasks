@@ -489,6 +489,26 @@ public:
     return pt_.posture();
   }
 
+  void refVel(std::vector<std::vector<double>> qd)
+  {
+    pt_.refVel(qd);
+  }
+
+  const std::vector<std::vector<double>> refVel() const
+  {
+    return pt_.refVel();
+  }
+
+  void refAccel(std::vector<std::vector<double>> qdd)
+  {
+    pt_.refAccel(qdd);
+  }
+
+  const std::vector<std::vector<double>> refAccel() const
+  {
+    return pt_.refAccel();
+  }
+
   double stiffness() const
   {
     return stiffness_;

@@ -377,6 +377,10 @@ public:
 
   void posture(std::vector<std::vector<double>> q);
   const std::vector<std::vector<double>> posture() const;
+  void refVel(std::vector<std::vector<double>> qd);
+  const std::vector<std::vector<double>> refVel() const;
+  void refAccel(std::vector<std::vector<double>> qdd);
+  const std::vector<std::vector<double>> refAccel() const;
 
   void update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc);
   void updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc);
@@ -387,6 +391,8 @@ public:
 
 private:
   std::vector<std::vector<double>> q_;
+  std::vector<std::vector<double>> qd_;
+  std::vector<std::vector<double>> qdd_;
 
   Eigen::VectorXd eval_;
   Eigen::MatrixXd jacMat_;
