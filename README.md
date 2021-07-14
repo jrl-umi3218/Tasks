@@ -51,7 +51,7 @@ You can also choose the head mirror which will have the latest version of this p
 
 ```
 curl -1sLf \
-  'https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh' \
+  'https://dl.cloudsmith.io/public/mc-rtc/head/setup.deb.sh' \
   | sudo -E bash
 ```
 
