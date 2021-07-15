@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <h2>Ubuntu LTS (16.04, 18.04, 20.04)</h2>
 <p>You must first setup our package mirror:</p>
 <div class="fragment"><div class="line">curl -1sLf \</div><div class="line">  &#39;https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh&#39; \</div><div class="line">  | sudo -E bash</div></div><!-- fragment --><p>You can also choose the head mirror which will have the latest version of this package:</p>
-<div class="fragment"><div class="line">curl -1sLf \</div><div class="line">  &#39;https://dl.cloudsmith.io/public/mc-rtc/stable/setup.deb.sh&#39; \</div><div class="line">  | sudo -E bash</div></div><!-- fragment --><p>You can then install the package:</p>
+<div class="fragment"><div class="line">curl -1sLf \</div><div class="line">  &#39;https://dl.cloudsmith.io/public/mc-rtc/head/setup.deb.sh&#39; \</div><div class="line">  | sudo -E bash</div></div><!-- fragment --><p>You can then install the package:</p>
 <div class="fragment"><div class="line">sudo apt install libtasks-dev python-tasks python3-tasks</div></div><!-- fragment --><h2>Conan</h2>
 <p>Install the latest version using <a href="https://conan.io/">conan</a></p>
 <div class="fragment"><div class="line">conan remote add multi-contact https://api.bintray.com/conan/gergondet/multi-contact</div><div class="line"># Install the latest release</div><div class="line">conan install Tasks/latest@multi-contact/stable</div><div class="line"># Or install the latest development version</div><div class="line"># conan install Tasks/latest@multi-contact/dev</div></div><!-- fragment --><h2>Manually build from source</h2>

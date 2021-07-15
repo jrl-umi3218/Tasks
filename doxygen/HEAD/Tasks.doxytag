@@ -5438,6 +5438,34 @@
       <anchor>aa983b4d60327b7481f5ae41acbafeb68</anchor>
       <arglist>() const</arglist>
     </member>
+    <member kind="function">
+      <type>void</type>
+      <name>refVel</name>
+      <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
+      <anchor>a4d0d58d6c426edd2608e81179c898523</anchor>
+      <arglist>(const Eigen::VectorXd &amp;refVel) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>refVel</name>
+      <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
+      <anchor>af001530fc44c9ae6ce85d3039d514be0</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>refAccel</name>
+      <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
+      <anchor>a9dd0c104a3685262fc6bdc152f17cb4d</anchor>
+      <arglist>(const Eigen::VectorXd &amp;refAccel) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>refAccel</name>
+      <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
+      <anchor>a02f6f759473bc78717ec35c0345171f2</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>tasks::PostureTask</name>
