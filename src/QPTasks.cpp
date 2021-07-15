@@ -821,7 +821,9 @@ void PostureTask::update(const std::vector<rbd::MultiBody> & mbs,
   for(const JointData & pjd : jointDatas_)
   {
     C_.segment(pjd.start, pjd.size) =
-        -pjd.stiffness * pt_.eval().segment(pjd.start, pjd.size) + pjd.damping * alphaVec_.segment(pjd.start, pjd.size);
+        -pjd.stiffness * pt_.eval().segment(pjd.start, pjd.size)
+        + pjd.damping * (alphaVec_.segment(pjd.start, pjd.size) - refVel_.segment(pjd.start, pjd.size))
+        - refAccel_.segment(pjd.start, pjd.size);
   }
 }
 

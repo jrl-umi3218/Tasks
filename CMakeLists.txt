@@ -8,7 +8,7 @@ set(PROJECT_NAME Tasks)
 set(PROJECT_DESCRIPTION "...")
 set(PROJECT_URL "https://github.com/jrl-umi3218/Tasks")
 set(PROJECT_DEBUG_POSTFIX "_d")
-set(PROJECT_VERSION 1.4.0)
+set(PROJECT_VERSION 1.4.1)
 set(PROJECT_USE_CMAKE_EXPORT TRUE)
 
 # Disable -Werror on Unix for now.
