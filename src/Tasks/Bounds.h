@@ -70,6 +70,24 @@ struct AlphaDBound
 };
 
 /**
+ * General jerk vector bounds
+ * \f$ \underline{\ddot{\alpha}} \f$ and \f$ \overline{\ddot{\alpha}} \f$.
+ */
+struct AlphaDDBound
+{
+  AlphaDDBound() {}
+  AlphaDDBound(std::vector<std::vector<double>> lADDB, std::vector<std::vector<double>> uADDB)
+  : lAlphaDDBound(std::move(lADDB)), uAlphaDDBound(std::move(uADDB))
+  {
+  }
+
+  /// \f$ \underline{\ddot{\alpha}} \f$
+  std::vector<std::vector<double>> lAlphaDDBound;
+  /// \f$ \overline{\ddot{\alpha}} \f$
+  std::vector<std::vector<double>> uAlphaDDBound;
+};
+
+/**
  * General force vector bounds
  * \f$ \underline{\tau} \f$ and \f$ \overline{\tau} \f$.
  */

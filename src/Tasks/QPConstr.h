@@ -35,6 +35,7 @@ namespace tasks
 struct QBound;
 struct AlphaBound;
 struct AlphaDBound;
+struct AlphaDDBound;
 
 namespace qp
 {
@@ -76,6 +77,21 @@ public:
                     const AlphaDBound & aDBound,
                     double step);
 
+  /**
+   * @param mbs Multi-robot system.
+   * @param robotIndex Constrained robot Index in mbs.
+   * @param bound Articular position bounds.
+   * @param aDBound Articular acceleration bounds.
+   * @param aDDBound Articular jerk bounds.
+   * @param step Time step in second.
+   */
+  JointLimitsConstr(const std::vector<rbd::MultiBody> & mbs,
+                    int robotIndex,
+                    QBound bound,
+                    const AlphaDBound & aDBound,
+                    const AlphaDDBound & aDDBound,
+                    double step);
+
   // Constraint
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
 
@@ -99,6 +115,7 @@ private:
   Eigen::VectorXd qVec_, alphaVec_;
   Eigen::VectorXd lower_, upper_;
   Eigen::VectorXd alphaDLower_, alphaDUpper_;
+  Eigen::VectorXd alphaDDLower_, alphaDDUpper_;
 };
 
 /**
@@ -151,7 +168,6 @@ public:
                           double securityPercent,
                           double damperOffset,
                           double step);
-
   /**
    * @param mbs Multi-robot system.
    * @param robotIndex Constrained robot Index in mbs.
@@ -168,6 +184,29 @@ public:
                           const QBound & qBound,
                           const AlphaBound & aBound,
                           const AlphaDBound & aDBound,
+                          double interPercent,
+                          double securityPercent,
+                          double damperOffset,
+                          double step);
+
+  /**
+   * @param mbs Multi-robot system.
+   * @param robotIndex Constrained robot Index in mbs.
+   * @param qBound Articular position bounds.
+   * @param aBound Articular velocity bounds.
+   * @param aDBound Articular acceleration bounds.
+   * @param aDDBound Articular jerk bounds.
+   * @param interPercent \f$ interPercent (\overline{q} - \underline{q}) \f$
+   * @param securityPercent \f$ securityPercent (\overline{q} - \underline{q}) \f$
+   * @param damperOffset \f$ \xi_{\text{off}} \f$
+   * @param step Time step in second.
+   */
+  DamperJointLimitsConstr(const std::vector<rbd::MultiBody> & mbs,
+                          int robotIndex,
+                          const QBound & qBound,
+                          const AlphaBound & aBound,
+                          const AlphaDBound & aDBound,
+                          const AlphaDDBound & aDDBound,
                           double interPercent,
                           double securityPercent,
                           double damperOffset,
@@ -224,6 +263,7 @@ private:
 
   Eigen::VectorXd lower_, upper_;
   Eigen::VectorXd alphaDLower_, alphaDUpper_;
+  Eigen::VectorXd alphaDDLower_, alphaDDUpper_;
   double step_;
   double damperOff_;
 };
