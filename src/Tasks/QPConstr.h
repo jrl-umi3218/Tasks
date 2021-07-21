@@ -116,6 +116,7 @@ private:
   Eigen::VectorXd lower_, upper_;
   Eigen::VectorXd alphaDLower_, alphaDUpper_;
   Eigen::VectorXd alphaDDLower_, alphaDDUpper_;
+  Eigen::VectorXd curAlphaD_;
 };
 
 /**
@@ -264,6 +265,7 @@ private:
   Eigen::VectorXd lower_, upper_;
   Eigen::VectorXd alphaDLower_, alphaDUpper_;
   Eigen::VectorXd alphaDDLower_, alphaDDUpper_;
+  Eigen::VectorXd curAlphaD_;
   double step_;
   double damperOff_;
 };
