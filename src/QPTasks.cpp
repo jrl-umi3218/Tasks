@@ -744,6 +744,7 @@ PostureTask::PostureTask(const std::vector<rbd::MultiBody> & mbs,
   alphaDBegin_(0), jointDatas_(), Q_(mbs[rI].nrDof(), mbs[rI].nrDof()), C_(mbs[rI].nrDof()), alphaVec_(mbs[rI].nrDof()),
   refVel_(mbs[rI].nrDof()), refAccel_(mbs[rI].nrDof())
 {
+  dimWeight_ = Eigen::VectorXd::Ones(C_.size());
   refVel_.setZero();
   refAccel_.setZero();
 }
@@ -808,7 +809,7 @@ void PostureTask::update(const std::vector<rbd::MultiBody> & mbs,
   pt_.update(mb, mbc);
   rbd::paramToVector(mbc.alpha, alphaVec_);
 
-  Q_ = pt_.jac();
+  Q_ = dimWeight_.asDiagonal() * pt_.jac();
   C_.setZero();
 
   int deb = mb.jointPosInDof(1);
@@ -825,6 +826,7 @@ void PostureTask::update(const std::vector<rbd::MultiBody> & mbs,
         + pjd.damping * (alphaVec_.segment(pjd.start, pjd.size) - refVel_.segment(pjd.start, pjd.size))
         - refAccel_.segment(pjd.start, pjd.size);
   }
+  C_ = dimWeight_.asDiagonal() * C_;
 }
 
 const Eigen::MatrixXd & PostureTask::Q() const

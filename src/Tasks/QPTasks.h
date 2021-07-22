@@ -541,6 +541,17 @@ public:
     return refAccel_;
   }
 
+  inline const Eigen::VectorXd & dimWeight() const noexcept
+  {
+    return dimWeight_;
+  }
+
+  inline void dimWeight(const Eigen::VectorXd & dimW) noexcept
+  {
+    assert(dimW.size() == dimWeight_.size());
+    dimWeight_ = dimW;
+  }
+
 private:
   struct JointData
   {
@@ -561,6 +572,7 @@ private:
   Eigen::VectorXd C_;
   Eigen::VectorXd alphaVec_;
   Eigen::VectorXd refVel_, refAccel_;
+  Eigen::VectorXd dimWeight_;
 };
 
 class TASKS_DLLAPI PositionTask : public HighLevelTask
