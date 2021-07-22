@@ -4,6 +4,8 @@ var classtasks_1_1qp_1_1PostureTask =
     [ "begin", "classtasks_1_1qp_1_1PostureTask.html#a955f3aed6aaf15463327d39ef7061a3c", null ],
     [ "C", "classtasks_1_1qp_1_1PostureTask.html#a69ac4441b510a24116dd7324868bca35", null ],
     [ "damping", "classtasks_1_1qp_1_1PostureTask.html#ae97a9862ab4fe2dc6bc750ffafa93364", null ],
+    [ "dimWeight", "classtasks_1_1qp_1_1PostureTask.html#a6c2ee611b51d871449054d76e279b99b", null ],
+    [ "dimWeight", "classtasks_1_1qp_1_1PostureTask.html#a0eb5b041190c10ec6e2cdb39c4945999", null ],
     [ "eval", "classtasks_1_1qp_1_1PostureTask.html#aa983b4d60327b7481f5ae41acbafeb68", null ],
     [ "gains", "classtasks_1_1qp_1_1PostureTask.html#a739a5d0d760ba01113ea18aa3160c0da", null ],
     [ "gains", "classtasks_1_1qp_1_1PostureTask.html#a0d16ea5b77758fe575667d0f43f319f9", null ],

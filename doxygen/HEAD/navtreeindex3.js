@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"classtasks_1_1qp_1_1QPSolver.html#a104e7d56cc3c4d0dbedda82044ef5da1":[2,0,0,0,51,44],
+"classtasks_1_1qp_1_1QPSolver.html#a14180bff3ae64c749c82c06fe3bc7e68":[2,0,0,0,51,19],
 "classtasks_1_1qp_1_1QPSolver.html#a1c8120567e8b351899af4ae59fc511f4":[2,0,0,0,51,22],
 "classtasks_1_1qp_1_1QPSolver.html#a2486c97839d9f0b2a60b0ebe6a49953d":[2,0,0,0,51,34],
 "classtasks_1_1qp_1_1QPSolver.html#a26214b5fb5b521512df2538b936c8b80":[2,0,0,0,51,3],
@@ -215,8 +217,8 @@ var NAVTREEINDEX3 =
 "dir_15942c16c93f90974604cc5d8cedb2cd.html":[3,0,0,0],
 "dir_68267d1309a1af8e8297ef4c3efbcdba.html":[3,0,0],
 "files.html":[3,0],
-"functions.html":[2,3,0],
 "functions.html":[2,3,0,0],
+"functions.html":[2,3,0],
 "functions_0x7e.html":[2,3,0,24],
 "functions_b.html":[2,3,0,1],
 "functions_c.html":[2,3,0,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX3 =
 "functions_func_v.html":[2,3,1,19],
 "functions_func_w.html":[2,3,1,20],
 "functions_func_x.html":[2,3,1,21],
-"functions_g.html":[2,3,0,6],
-"functions_h.html":[2,3,0,7],
-"functions_i.html":[2,3,0,8]
+"functions_g.html":[2,3,0,6]
 };

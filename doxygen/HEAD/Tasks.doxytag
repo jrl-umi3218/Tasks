@@ -5513,6 +5513,20 @@
       <anchor>a02f6f759473bc78717ec35c0345171f2</anchor>
       <arglist>() const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>dimWeight</name>
+      <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
+      <anchor>a6c2ee611b51d871449054d76e279b99b</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>dimWeight</name>
+      <anchorfile>classtasks_1_1qp_1_1PostureTask.html</anchorfile>
+      <anchor>a0eb5b041190c10ec6e2cdb39c4945999</anchor>
+      <arglist>(const Eigen::VectorXd &amp;dimW) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>tasks::PostureTask</name>
