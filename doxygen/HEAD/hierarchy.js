@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "tasks::AlphaBound", "structtasks_1_1AlphaBound.html", null ],
     [ "tasks::AlphaDBound", "structtasks_1_1AlphaDBound.html", null ],
+    [ "tasks::AlphaDDBound", "structtasks_1_1AlphaDDBound.html", null ],
     [ "tasks::qp::BilateralContact", "structtasks_1_1qp_1_1BilateralContact.html", null ],
     [ "tasks::qp::Bound", "classtasks_1_1qp_1_1Bound.html", null ],
     [ "tasks::CoMTask", "classtasks_1_1CoMTask.html", null ],
@@ -43,8 +44,8 @@ var hierarchy =
     [ "tasks::qp::ContactConstrCommon", "classtasks_1_1qp_1_1ContactConstrCommon.html", [
       [ "tasks::qp::ContactConstr", "classtasks_1_1qp_1_1ContactConstr.html", null ]
     ] ],
-    [ "tasks::qp::ContactConstr::ContactData", "structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html", null ],
     [ "tasks::qp::MotionConstrCommon::ContactData", "structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html", null ],
+    [ "tasks::qp::ContactConstr::ContactData", "structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html", null ],
     [ "tasks::qp::ContactId", "structtasks_1_1qp_1_1ContactId.html", null ],
     [ "tasks::qp::ContactConstr::ContactSideData", "structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html", null ],
     [ "tasks::qp::Equality", "classtasks_1_1qp_1_1Equality.html", null ],

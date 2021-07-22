@@ -1,17 +1,19 @@
 var NAVTREEINDEX2 =
 {
+"classtasks_1_1qp_1_1Inequality.html#ace2e121e878fea4264e37d5cb15dc868":[2,0,0,0,29,1],
 "classtasks_1_1qp_1_1Inequality.html#ae498b14de5f3bb6786e04828c74ea88b":[2,0,0,0,29,6],
 "classtasks_1_1qp_1_1Inequality.html#af5215e8d2075f290375e9e4342cfb801":[2,0,0,0,29,4],
 "classtasks_1_1qp_1_1JointLimitsConstr.html":[2,0,0,0,31],
 "classtasks_1_1qp_1_1JointLimitsConstr.html#a0e4fcd5f93324877a64d14d0a0a9bb44":[2,0,0,0,31,1],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#a41bc40ccca62e878d41596926286a8bb":[2,0,0,0,31,3],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#a41bc40ccca62e878d41596926286a8bb":[2,0,0,0,31,4],
 "classtasks_1_1qp_1_1JointLimitsConstr.html#a79767272482e70fc2f72c97458a7d752":[2,0,0,0,31,0],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#a984be9df17be72329169928ea4e550e5":[2,0,0,0,31,7],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#a98b0bf67cc7205182274f2359d9a6e8d":[2,0,0,0,31,4],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#ab8e6a55d29ff77f6f6f62e99b1bdb8c3":[2,0,0,0,31,5],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#abae3c86c767903124a0f723d69474b51":[2,0,0,0,31,2],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#ad1bb25d2f65316dc645eda9db015e1ba":[2,0,0,0,31,6],
-"classtasks_1_1qp_1_1JointLimitsConstr.html#ad3aeca710610deccea5832e9b1c464f0":[2,0,0,0,31,8],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#a984be9df17be72329169928ea4e550e5":[2,0,0,0,31,8],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#a98b0bf67cc7205182274f2359d9a6e8d":[2,0,0,0,31,5],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#a9abbdd2d7c48e6cf8a89df00e73576b9":[2,0,0,0,31,2],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#ab8e6a55d29ff77f6f6f62e99b1bdb8c3":[2,0,0,0,31,6],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#abae3c86c767903124a0f723d69474b51":[2,0,0,0,31,3],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#ad1bb25d2f65316dc645eda9db015e1ba":[2,0,0,0,31,7],
+"classtasks_1_1qp_1_1JointLimitsConstr.html#ad3aeca710610deccea5832e9b1c464f0":[2,0,0,0,31,9],
 "classtasks_1_1qp_1_1JointsSelector.html":[2,0,0,0,32],
 "classtasks_1_1qp_1_1JointsSelector.html#a248e05842463c3ce0276abfccaeea5b4":[2,0,0,0,32,5],
 "classtasks_1_1qp_1_1JointsSelector.html#a518daaa014dea68ee70e58f95ad47dd0":[2,0,0,0,32,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "classtasks_1_1qp_1_1QPSolver.html#a01ef16a400b03ee96b693178f8f8c3c1":[2,0,0,0,51,41],
 "classtasks_1_1qp_1_1QPSolver.html#a038c63bcc76e9ddc446a1b993d6e6d7f":[2,0,0,0,51,33],
 "classtasks_1_1qp_1_1QPSolver.html#a104e7d56cc3c4d0dbedda82044ef5da1":[2,0,0,0,51,44],
-"classtasks_1_1qp_1_1QPSolver.html#a14180bff3ae64c749c82c06fe3bc7e68":[2,0,0,0,51,19],
-"classtasks_1_1qp_1_1QPSolver.html#a1c8120567e8b351899af4ae59fc511f4":[2,0,0,0,51,22],
-"classtasks_1_1qp_1_1QPSolver.html#a2486c97839d9f0b2a60b0ebe6a49953d":[2,0,0,0,51,34]
+"classtasks_1_1qp_1_1QPSolver.html#a14180bff3ae64c749c82c06fe3bc7e68":[2,0,0,0,51,19]
 };

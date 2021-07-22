@@ -17,7 +17,7 @@ var searchData=
   ['contactcommon',['ContactCommon',['../structtasks_1_1qp_1_1ContactConstrCommon_1_1ContactCommon.html',1,'tasks::qp::ContactConstrCommon']]],
   ['contactconstr',['ContactConstr',['../classtasks_1_1qp_1_1ContactConstr.html',1,'tasks::qp']]],
   ['contactconstrcommon',['ContactConstrCommon',['../classtasks_1_1qp_1_1ContactConstrCommon.html',1,'tasks::qp']]],
-  ['contactdata',['ContactData',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html',1,'tasks::qp::ContactConstr::ContactData'],['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html',1,'tasks::qp::MotionConstrCommon::ContactData']]],
+  ['contactdata',['ContactData',['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html',1,'tasks::qp::MotionConstrCommon::ContactData'],['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html',1,'tasks::qp::ContactConstr::ContactData']]],
   ['contactid',['ContactId',['../structtasks_1_1qp_1_1ContactId.html',1,'tasks::qp']]],
   ['contactposconstr',['ContactPosConstr',['../classtasks_1_1qp_1_1ContactPosConstr.html',1,'tasks::qp']]],
   ['contactsidedata',['ContactSideData',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html',1,'tasks::qp::ContactConstr']]],

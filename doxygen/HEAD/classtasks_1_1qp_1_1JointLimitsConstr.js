@@ -2,6 +2,7 @@ var classtasks_1_1qp_1_1JointLimitsConstr =
 [
     [ "JointLimitsConstr", "classtasks_1_1qp_1_1JointLimitsConstr.html#a79767272482e70fc2f72c97458a7d752", null ],
     [ "JointLimitsConstr", "classtasks_1_1qp_1_1JointLimitsConstr.html#a0e4fcd5f93324877a64d14d0a0a9bb44", null ],
+    [ "JointLimitsConstr", "classtasks_1_1qp_1_1JointLimitsConstr.html#a9abbdd2d7c48e6cf8a89df00e73576b9", null ],
     [ "beginVar", "classtasks_1_1qp_1_1JointLimitsConstr.html#abae3c86c767903124a0f723d69474b51", null ],
     [ "descBound", "classtasks_1_1qp_1_1JointLimitsConstr.html#a41bc40ccca62e878d41596926286a8bb", null ],
     [ "Lower", "classtasks_1_1qp_1_1JointLimitsConstr.html#a98b0bf67cc7205182274f2359d9a6e8d", null ],

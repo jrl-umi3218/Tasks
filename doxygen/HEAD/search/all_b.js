@@ -2,6 +2,7 @@ var searchData=
 [
   ['lalphabound',['lAlphaBound',['../structtasks_1_1AlphaBound.html#a47628045f7248f1147c17f17fa16d554',1,'tasks::AlphaBound']]],
   ['lalphadbound',['lAlphaDBound',['../structtasks_1_1AlphaDBound.html#a6f9a9d17cbba1eda740b9ea8dd204ca1',1,'tasks::AlphaDBound']]],
+  ['lalphaddbound',['lAlphaDDBound',['../structtasks_1_1AlphaDDBound.html#a6ef5fac8241704067bbd36d824da6889',1,'tasks::AlphaDDBound']]],
   ['lambda',['lambda',['../classtasks_1_1qp_1_1SolverData.html#a2694f9c69b51375902c71fc329c202c4',1,'tasks::qp::SolverData']]],
   ['lambdabegin',['lambdaBegin',['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html#a5fe6588a69311d8d5503c6d9be453745',1,'tasks::qp::MotionConstrCommon::ContactData::lambdaBegin()'],['../classtasks_1_1qp_1_1SolverData.html#a28e26fc43e01ecea91359e1a6bd4b89a',1,'tasks::qp::SolverData::lambdaBegin() const'],['../classtasks_1_1qp_1_1SolverData.html#aaf0726a5b31b66a8c0b2908105fb1c87',1,'tasks::qp::SolverData::lambdaBegin(int contactIndex) const']]],
   ['lambdabegin_5f',['lambdaBegin_',['../classtasks_1_1qp_1_1MotionConstrCommon.html#a35510f97cf24f0e6292ce4c10481ab1f',1,'tasks::qp::MotionConstrCommon']]],

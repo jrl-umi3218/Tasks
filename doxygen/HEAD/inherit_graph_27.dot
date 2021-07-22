@@ -3,5 +3,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="tasks::qp::FrictionCone",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structtasks_1_1qp_1_1FrictionCone.html"];
+  Node0 [label="tasks::qp::Equality",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1Equality.html"];
 }
