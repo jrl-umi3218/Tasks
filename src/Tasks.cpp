@@ -831,14 +831,14 @@ void PostureTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig &
   for(int i = 1; i < mb.nrJoints(); ++i)
   {
     // if dof == 1 is a prismatic/revolute joint
-    // else if dof == 4 is a spherical one
+    // else if dof == 3 is a spherical one
     // else is a fixed one
     if(mb.joint(i).dof() == 1)
     {
       eval_(pos) = q_[i][0] - mbc.q[i][0];
       ++pos;
     }
-    else if(mb.joint(i).dof() == 4)
+    else if(mb.joint(i).dof() == 3)
     {
       Matrix3d orid(Quaterniond(q_[i][0], q_[i][1], q_[i][2], q_[i][3]).matrix());
 
