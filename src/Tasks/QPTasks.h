@@ -538,6 +538,35 @@ public:
 
   const Eigen::VectorXd & eval() const;
 
+  inline void refVel(const Eigen::VectorXd & refVel) noexcept
+  {
+    refVel_ = refVel;
+  }
+  inline const Eigen::VectorXd & refVel() const noexcept
+  {
+    return refVel_;
+  }
+  inline void refAccel(const Eigen::VectorXd & refAccel) noexcept
+  {
+    assert(refAccel.size() == refAccel_.size());
+    refAccel_ = refAccel;
+  }
+  inline const Eigen::VectorXd & refAccel() const noexcept
+  {
+    return refAccel_;
+  }
+
+  inline const Eigen::VectorXd & dimWeight() const noexcept
+  {
+    return dimWeight_;
+  }
+
+  inline void dimWeight(const Eigen::VectorXd & dimW) noexcept
+  {
+    assert(dimW.size() == dimWeight_.size());
+    dimWeight_ = dimW;
+  }
+
 private:
   struct JointData
   {
@@ -557,6 +586,8 @@ private:
   Eigen::MatrixXd Q_;
   Eigen::VectorXd C_;
   Eigen::VectorXd alphaVec_;
+  Eigen::VectorXd refVel_, refAccel_;
+  Eigen::VectorXd dimWeight_;
 };
 
 class TASKS_DLLAPI PositionTask : public HighLevelTask

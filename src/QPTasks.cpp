@@ -554,7 +554,7 @@ JointsSelector JointsSelector::UnactiveJoints(
     const auto & jDofs = uad.second;
     const auto & j = mb.joint(mb.jointIndexByName(jN));
     int ji = 0;
-    for(int i = 0; i < jDofs.size(); ++i)
+    for(size_t i = 0; i < jDofs.size(); ++i)
     {
       auto dofStart = jDofs[i][0];
       if(dofStart > ji)
@@ -744,8 +744,12 @@ PostureTask::PostureTask(const std::vector<rbd::MultiBody> & mbs,
                          double stiffness,
                          double weight)
 : Task(weight), pt_(mbs[rI], q), stiffness_(stiffness), damping_(2. * std::sqrt(stiffness)), robotIndex_(rI),
-  alphaDBegin_(0), jointDatas_(), Q_(mbs[rI].nrDof(), mbs[rI].nrDof()), C_(mbs[rI].nrDof()), alphaVec_(mbs[rI].nrDof())
+  alphaDBegin_(0), jointDatas_(), Q_(mbs[rI].nrDof(), mbs[rI].nrDof()), C_(mbs[rI].nrDof()), alphaVec_(mbs[rI].nrDof()),
+  refVel_(mbs[rI].nrDof()), refAccel_(mbs[rI].nrDof())
 {
+  dimWeight_ = Eigen::VectorXd::Ones(C_.size());
+  refVel_.setZero();
+  refAccel_.setZero();
 }
 
 void PostureTask::stiffness(double stiffness)
@@ -808,19 +812,24 @@ void PostureTask::update(const std::vector<rbd::MultiBody> & mbs,
   pt_.update(mb, mbc);
   rbd::paramToVector(mbc.alpha, alphaVec_);
 
-  Q_ = pt_.jac();
+  Q_ = dimWeight_.asDiagonal() * pt_.jac();
   C_.setZero();
 
   int deb = mb.jointPosInDof(1);
   int end = mb.nrDof() - deb;
   // joint
-  C_.segment(deb, end) = -stiffness_ * pt_.eval().segment(deb, end) + damping_ * alphaVec_.segment(deb, end);
+  C_.segment(deb, end) = -stiffness_ * pt_.eval().segment(deb, end)
+                         + damping_ * (alphaVec_.segment(deb, end) - refVel_.segment(deb, end))
+                         - refAccel_.segment(deb, end);
 
   for(const JointData & pjd : jointDatas_)
   {
     C_.segment(pjd.start, pjd.size) =
-        -pjd.stiffness * pt_.eval().segment(pjd.start, pjd.size) + pjd.damping * alphaVec_.segment(pjd.start, pjd.size);
+        -pjd.stiffness * pt_.eval().segment(pjd.start, pjd.size)
+        + pjd.damping * (alphaVec_.segment(pjd.start, pjd.size) - refVel_.segment(pjd.start, pjd.size))
+        - refAccel_.segment(pjd.start, pjd.size);
   }
+  C_ = dimWeight_.asDiagonal() * C_;
 }
 
 const Eigen::MatrixXd & PostureTask::Q() const

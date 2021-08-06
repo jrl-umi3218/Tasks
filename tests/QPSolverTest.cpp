@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   solver.addTask(&oriTaskSp);
   BOOST_CHECK_EQUAL(solver.nrTasks(), 1);
 
-  // Test OrientatioTask
+  // Test OrientationTask
   mbcs[0] = mbcInit;
   for(int i = 0; i < 10000; ++i)
   {
@@ -161,6 +161,26 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   }
 
   BOOST_CHECK_SMALL(postureTask.task().eval().norm(), 0.00001);
+
+  // Test PostureTask with dimWeight
+  BOOST_CHECK_EQUAL(postureTask.dimWeight().size(), 3);
+  Eigen::VectorXd postureDimW = Eigen::VectorXd::Ones(3);
+  postureDimW(2) = 0.0;
+  postureTask.dimWeight(postureDimW);
+  postureTask.posture({{}, {0.2}, {0.4}, {-0.8}});
+
+  mbcs[0] = mbcInit;
+  for(int i = 0; i < 10000; ++i)
+  {
+    BOOST_REQUIRE(solver.solve(mbs, mbcs));
+    eulerIntegration(mb, mbcs[0], 0.001);
+
+    forwardKinematics(mb, mbcs[0]);
+    forwardVelocity(mb, mbcs[0]);
+  }
+
+  BOOST_CHECK_SMALL(postureTask.task().eval().head(2).norm(), 0.00001);
+  BOOST_CHECK_SMALL(postureTask.task().eval().tail(1).norm() - 0.8, 0.00001);
 
   solver.removeTask(&postureTask);
 
@@ -480,8 +500,10 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
   std::vector<std::vector<double>> uBound = {{}, {cst::pi<double>() / 4.}, {inf}, {inf}};
   std::vector<std::vector<double>> lDDBound = {{}, {-inf}, {-inf}, {-inf}};
   std::vector<std::vector<double>> uDDBound = {{}, {inf}, {inf}, {inf}};
+  std::vector<std::vector<double>> lDDDBound = {{}, {-inf}, {-inf}, {-inf}};
+  std::vector<std::vector<double>> uDDDBound = {{}, {inf}, {inf}, {inf}};
 
-  qp::JointLimitsConstr jointConstr(mbs, 0, {lBound, uBound}, {lDDBound, uDDBound}, 0.001);
+  qp::JointLimitsConstr jointConstr(mbs, 0, {lBound, uBound}, {lDDBound, uDDBound}, {lDDDBound, uDDDBound}, 0.001);
 
   // Test add*Constraint
   solver.addBoundConstraint(&jointConstr);
@@ -561,9 +583,11 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
   std::vector<std::vector<double>> uVel = {{}, {inf}, {inf}, {inf}};
   std::vector<std::vector<double>> lAcc = {{}, {-inf}, {-inf}, {-inf}};
   std::vector<std::vector<double>> uAcc = {{}, {inf}, {inf}, {inf}};
+  std::vector<std::vector<double>> lJer = {{}, {-inf}, {-inf}, {-inf}};
+  std::vector<std::vector<double>> uJer = {{}, {inf}, {inf}, {inf}};
 
-  qp::DamperJointLimitsConstr dampJointConstr(mbs, 0, {lBound, uBound}, {lVel, uVel}, {lAcc, uAcc}, 0.125, 0.025, 1.,
-                                              0.001);
+  qp::DamperJointLimitsConstr dampJointConstr(mbs, 0, {lBound, uBound}, {lVel, uVel}, {lAcc, uAcc}, {lJer, uJer}, 0.125,
+                                              0.025, 1., 0.001);
 
   // Test add*Constraint
   dampJointConstr.addToSolver(solver);
