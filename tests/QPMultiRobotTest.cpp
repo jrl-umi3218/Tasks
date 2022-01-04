@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
                                                                       RotX(cst::pi<double>() / 2.), X_b1_b2, 3,
                                                                       std::tan(cst::pi<double>() / 4.))};
 
-#ifdef __i386__
+#if defined __i386__ || defined __aarch64__
   Matrix3d oriD = RotZ(cst::pi<double>() / 4.);
   if(solver.solver() == "QLD")
   {
