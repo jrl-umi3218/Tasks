@@ -22,7 +22,11 @@ include(cmake/msvc-specific.cmake)
 project(Tasks CXX)
 
 if(UNIX AND NOT EMSCRIPTEN)
-  add_definitions(-mfpmath=sse -msse2)
+  include(CheckCXXSourceCompiles)
+  check_cxx_compiler_flag("-msse2" SSE2_SUPPORTED)
+  if(SSE2_SUPPORTED)
+    add_definitions(-mfpmath=sse -msse2)
+  endif()
 endif()
 
 if(NOT WIN32)

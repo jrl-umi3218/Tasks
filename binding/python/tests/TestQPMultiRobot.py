@@ -57,7 +57,7 @@ class TestTwoArmContact(unittest.TestCase):
     contVec = [ tasks.qp.UnilateralContact(0, 1, "b3", "b3", [eigen.Vector3d.Zero()], sva.RotX(math.pi/2), X_b1_b2, 3, math.tan(math.pi/4)) ]
 
     oriD = sva.RotZ(math.pi/4)
-    if platform.architecture()[0] == "32bit" and solver.solver() == b"QLD":
+    if (platform.architecture()[0] == "32bit" or platform.machine() == "aarch64") and solver.solver() == b"QLD":
       oriD = sva.RotZ(0)
     if not LEGACY:
       posD = oriD*mbc2Init.bodyPosW[-1].translation()
