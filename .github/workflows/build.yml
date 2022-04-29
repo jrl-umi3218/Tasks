@@ -81,11 +81,13 @@ jobs:
           - path: jrl-umi3218/eigen-qld
           - path: jrl-umi3218/sch-core-python
           - path: jrl-umi3218/RBDyn
+        windows-options: -DPYTHON_BINDING:BOOL=OFF
     - name: Build and test
       uses: jrl-umi3218/github-actions/build-cmake-project@master
       with:
         compiler: ${{ matrix.compiler }}
         build-type: ${{ matrix.build-type }}
+        windows-options: -DPYTHON_BINDING:BOOL=OFF
     - name: Upload documentation
       # Only run on master branch and for one configuration
       if: matrix.os == 'ubuntu-18.04' && matrix.build-type == 'RelWithDebInfo' && matrix.compiler == 'gcc' && github.ref == 'refs/heads/master'
