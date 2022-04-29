@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
+ * Copyright 2012-2022 CNRS-UM LIRMM, CNRS-AIST JRL
  */
 
 #pragma once
@@ -357,10 +357,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   Eigen::MatrixXd jac_;
@@ -614,10 +614,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbc,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::PositionTask pt_;
@@ -661,10 +661,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::OrientationTask ot_;
@@ -714,22 +714,22 @@ public:
     return 6;
   }
 
-  virtual const Eigen::MatrixXd & jac() override
+  virtual const Eigen::MatrixXd & jac() const override
   {
     return tt_.jac();
   }
 
-  virtual const Eigen::VectorXd & eval() override
+  virtual const Eigen::VectorXd & eval() const override
   {
     return tt_.eval();
   }
 
-  virtual const Eigen::VectorXd & speed() override
+  virtual const Eigen::VectorXd & speed() const override
   {
     return tt_.speed();
   }
 
-  virtual const Eigen::VectorXd & normalAcc() override
+  virtual const Eigen::VectorXd & normalAcc() const override
   {
     return tt_.normalAcc();
   }
@@ -812,10 +812,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::SurfaceOrientationTask ot_;
@@ -859,10 +859,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::GazeTask gazet_;
@@ -893,10 +893,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::PositionBasedVisServoTask pbvst_;
@@ -939,10 +939,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::CoMTask ct_;
@@ -1119,10 +1119,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbc,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::MomentumTask momt_;
@@ -1236,10 +1236,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::LinVelocityTask pt_;
@@ -1297,10 +1297,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   int robotIndex_;
@@ -1346,10 +1346,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   int rIndex_;
@@ -1395,10 +1395,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual const Eigen::MatrixXd & jac() override;
-  virtual const Eigen::VectorXd & eval() override;
-  virtual const Eigen::VectorXd & speed() override;
-  virtual const Eigen::VectorXd & normalAcc() override;
+  virtual const Eigen::MatrixXd & jac() const override;
+  virtual const Eigen::VectorXd & eval() const override;
+  virtual const Eigen::VectorXd & speed() const override;
+  virtual const Eigen::VectorXd & normalAcc() const override;
 
 private:
   tasks::VectorOrientationTask vot_;

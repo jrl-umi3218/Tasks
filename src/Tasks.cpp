@@ -1360,17 +1360,17 @@ void OrientationTrackingTask::updateDot(const rbd::MultiBody & mb, const rbd::Mu
   jac_.fullJacobian(mb, shortJacMat_, jacDotMat_);
 }
 
-const Eigen::MatrixXd & OrientationTrackingTask::jac()
+const Eigen::MatrixXd & OrientationTrackingTask::jac() const
 {
   return jacMat_;
 }
 
-const Eigen::MatrixXd & OrientationTrackingTask::jacDot()
+const Eigen::MatrixXd & OrientationTrackingTask::jacDot() const
 {
   return jacDotMat_;
 }
 
-const Eigen::VectorXd & OrientationTrackingTask::eval()
+const Eigen::VectorXd & OrientationTrackingTask::eval() const
 {
   return eval_;
 }

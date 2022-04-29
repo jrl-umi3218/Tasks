@@ -349,10 +349,10 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) = 0;
 
-  virtual const Eigen::MatrixXd & jac() = 0;
-  virtual const Eigen::VectorXd & eval() = 0;
-  virtual const Eigen::VectorXd & speed() = 0;
-  virtual const Eigen::VectorXd & normalAcc() = 0;
+  virtual const Eigen::MatrixXd & jac() const = 0;
+  virtual const Eigen::VectorXd & eval() const = 0;
+  virtual const Eigen::VectorXd & speed() const = 0;
+  virtual const Eigen::VectorXd & normalAcc() const = 0;
 };
 
 template<typename T>

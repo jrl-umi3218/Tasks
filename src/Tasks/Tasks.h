@@ -571,9 +571,9 @@ public:
   void update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc);
   void updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc);
 
-  virtual const Eigen::MatrixXd & jac();
-  virtual const Eigen::MatrixXd & jacDot();
-  virtual const Eigen::VectorXd & eval();
+  virtual const Eigen::MatrixXd & jac() const;
+  virtual const Eigen::MatrixXd & jacDot() const;
+  virtual const Eigen::VectorXd & eval() const;
 
 private:
   void zeroJacobian(Eigen::MatrixXd & jac) const;
