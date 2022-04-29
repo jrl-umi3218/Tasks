@@ -10,7 +10,7 @@ base = python_requires("Eigen3ToPython/latest@multi-contact/dev")
 
 class TasksConan(base.Eigen3ToPythonConan):
     name = "Tasks"
-    version = "1.5.0"
+    version = "1.6.0"
     description = "Real time control of robots using constrained optimization"
     topics = ("robotics", "control", "optimization", "python")
     url = "https://github.com/jrl-umi3218/Tasks"
