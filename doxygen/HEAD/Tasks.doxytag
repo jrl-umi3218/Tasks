@@ -1723,6 +1723,20 @@
       <arglist>(const ContactId &amp;contactId)</arglist>
     </member>
     <member kind="function">
+      <type>bool</type>
+      <name>hasDoFContact</name>
+      <anchorfile>classtasks_1_1qp_1_1ContactConstrCommon.html</anchorfile>
+      <anchor>aa93d683ced4759b37ed2e766bd2df197</anchor>
+      <arglist>(const ContactId &amp;id) const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::MatrixXd &amp;</type>
+      <name>dofContact</name>
+      <anchorfile>classtasks_1_1qp_1_1ContactConstrCommon.html</anchorfile>
+      <anchor>ae293d49baf668bf9d66c26d64f33e847</anchor>
+      <arglist>(const ContactId &amp;contactId)</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>resetDofContacts</name>
       <anchorfile>classtasks_1_1qp_1_1ContactConstrCommon.html</anchorfile>

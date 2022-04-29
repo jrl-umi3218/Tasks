@@ -1,13 +1,6 @@
 var searchData=
 [
-  ['_7ebound',['~Bound',['../classtasks_1_1qp_1_1Bound.html#abb2191b36aa4861bbcc8b11d5f0981fe',1,'tasks::qp::Bound']]],
-  ['_7econstraint',['~Constraint',['../classtasks_1_1qp_1_1Constraint.html#ab0a2de8684c5cb2901578a345ec0c162',1,'tasks::qp::Constraint']]],
-  ['_7econstraintfunction',['~ConstraintFunction',['../classtasks_1_1qp_1_1ConstraintFunction.html#ad668fbb366458056c27a466578c26b94',1,'tasks::qp::ConstraintFunction']]],
-  ['_7eequality',['~Equality',['../classtasks_1_1qp_1_1Equality.html#a3989011420947815653a39839aa306d4',1,'tasks::qp::Equality']]],
-  ['_7egeninequality',['~GenInequality',['../classtasks_1_1qp_1_1GenInequality.html#acc4aa2bbdb2392a856830b123cea0aae',1,'tasks::qp::GenInequality']]],
-  ['_7egenqpsolver',['~GenQPSolver',['../classtasks_1_1qp_1_1GenQPSolver.html#abc3b4a33780f8fe00fd5d3385dbaf808',1,'tasks::qp::GenQPSolver']]],
-  ['_7ehighleveltask',['~HighLevelTask',['../classtasks_1_1qp_1_1HighLevelTask.html#ac11194ec5a81fc18b68209eadfcbf9cc',1,'tasks::qp::HighLevelTask']]],
-  ['_7einequality',['~Inequality',['../classtasks_1_1qp_1_1Inequality.html#a8971f0b14e1d2ea3e5b126692ff6fcf8',1,'tasks::qp::Inequality']]],
-  ['_7eqpsolver',['~QPSolver',['../classtasks_1_1qp_1_1QPSolver.html#abf17142db1a5e1f0cd77bdf57cede049',1,'tasks::qp::QPSolver']]],
-  ['_7etask',['~Task',['../classtasks_1_1qp_1_1Task.html#ac477f102c9a66128557f4800bfb3bb43',1,'tasks::qp::Task']]]
+  ['x_5fb_5fp',['X_b_p',['../classtasks_1_1qp_1_1TransformTaskCommon.html#a7a50df788c61e0303e09ead4409eddfb',1,'tasks::qp::TransformTaskCommon::X_b_p(const sva::PTransformd &amp;X_b_p)'],['../classtasks_1_1qp_1_1TransformTaskCommon.html#a412b4126b09d58eb01ad5383cabf45ff',1,'tasks::qp::TransformTaskCommon::X_b_p() const'],['../classtasks_1_1TransformTaskCommon.html#a9c6b4586c641fa3a22ce68ebe9f76d36',1,'tasks::TransformTaskCommon::X_b_p(const sva::PTransformd &amp;X_b_p)'],['../classtasks_1_1TransformTaskCommon.html#ae3014f0561c11ea6f3f9817a0e4c3743',1,'tasks::TransformTaskCommon::X_b_p() const']]],
+  ['x_5fr1b_5fr1s',['X_r1b_r1s',['../classtasks_1_1qp_1_1MultiRobotTransformTask.html#a3f042cc46b00c04c05133f2e319bc0e2',1,'tasks::qp::MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd &amp;X_r1b_r1s)'],['../classtasks_1_1qp_1_1MultiRobotTransformTask.html#a1e5ef566529294b3f86c1a6883d95023',1,'tasks::qp::MultiRobotTransformTask::X_r1b_r1s() const'],['../classtasks_1_1MultiRobotTransformTask.html#a1a9bbc561f3314f9eb435d94145c5567',1,'tasks::MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd &amp;X_r1b_r1s)'],['../classtasks_1_1MultiRobotTransformTask.html#a8fd561cdb278950786c7f8fa6ff708bc',1,'tasks::MultiRobotTransformTask::X_r1b_r1s() const']]],
+  ['x_5fr2b_5fr2s',['X_r2b_r2s',['../classtasks_1_1qp_1_1MultiRobotTransformTask.html#a79b01da25b40a7c24c449976394da2eb',1,'tasks::qp::MultiRobotTransformTask::X_r2b_r2s(const sva::PTransformd &amp;X_r2b_r2s)'],['../classtasks_1_1qp_1_1MultiRobotTransformTask.html#ae1fef729e15b50e7eba0c8f7029bf0e9',1,'tasks::qp::MultiRobotTransformTask::X_r2b_r2s() const'],['../classtasks_1_1MultiRobotTransformTask.html#af7058dcac3a76234456ffc14d971c40c',1,'tasks::MultiRobotTransformTask::X_r2b_r2s(const sva::PTransformd &amp;X_r2b_r2s)'],['../classtasks_1_1MultiRobotTransformTask.html#a1083956c47548aba65fb917e53f966d3',1,'tasks::MultiRobotTransformTask::X_r2b_r2s() const']]]
 ];

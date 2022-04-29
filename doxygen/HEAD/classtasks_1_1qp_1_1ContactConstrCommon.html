@@ -108,6 +108,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac5123de1300b7ecb492a82bdf4ff598a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31ac823a2b09a9e5da7a4b825f8377eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1ContactConstrCommon.html#a31ac823a2b09a9e5da7a4b825f8377eb">removeDofContact</a> (const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;contactId)</td></tr>
 <tr class="separator:a31ac823a2b09a9e5da7a4b825f8377eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa93d683ced4759b37ed2e766bd2df197"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1ContactConstrCommon.html#aa93d683ced4759b37ed2e766bd2df197">hasDoFContact</a> (const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;id) const</td></tr>
+<tr class="separator:aa93d683ced4759b37ed2e766bd2df197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae293d49baf668bf9d66c26d64f33e847"><td class="memItemLeft" align="right" valign="top">const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1ContactConstrCommon.html#ae293d49baf668bf9d66c26d64f33e847">dofContact</a> (const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;contactId)</td></tr>
+<tr class="separator:ae293d49baf668bf9d66c26d64f33e847"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adecc38cbf40aa9b7b4ef2d91197bf816"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1ContactConstrCommon.html#adecc38cbf40aa9b7b4ef2d91197bf816">resetDofContacts</a> ()</td></tr>
 <tr class="separator:adecc38cbf40aa9b7b4ef2d91197bf816"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -218,6 +222,44 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae293d49baf668bf9d66c26d64f33e847"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae293d49baf668bf9d66c26d64f33e847">&#9670;&nbsp;</a></span>dofContact()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::MatrixXd&amp; tasks::qp::ContactConstrCommon::dofContact </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;&#160;</td>
+          <td class="paramname"><em>contactId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the DoF of a contact </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="classtasks_1_1qp_1_1ContactConstrCommon.html#ac5123de1300b7ecb492a82bdf4ff598a">addDofContact</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa93d683ced4759b37ed2e766bd2df197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa93d683ced4759b37ed2e766bd2df197">&#9670;&nbsp;</a></span>hasDoFContact()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool tasks::qp::ContactConstrCommon::hasDoFContact </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structtasks_1_1qp_1_1ContactId.html">ContactId</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if a DoF has specific DoF </p>
 
 </div>
 </div>

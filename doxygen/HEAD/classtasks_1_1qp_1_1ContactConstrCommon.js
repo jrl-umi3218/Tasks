@@ -4,6 +4,8 @@ var classtasks_1_1qp_1_1ContactConstrCommon =
     [ "addDofContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#ac5123de1300b7ecb492a82bdf4ff598a", null ],
     [ "addVirtualContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#a7c55dda527a78e05b4831360910bfd14", null ],
     [ "contactCommonInContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#a9ef854ece354fa70691e835d4b1b113f", null ],
+    [ "dofContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#ae293d49baf668bf9d66c26d64f33e847", null ],
+    [ "hasDoFContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#aa93d683ced4759b37ed2e766bd2df197", null ],
     [ "removeDofContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#a31ac823a2b09a9e5da7a4b825f8377eb", null ],
     [ "removeVirtualContact", "classtasks_1_1qp_1_1ContactConstrCommon.html#aedef34aeec93e2935de172e1cea9b522", null ],
     [ "resetDofContacts", "classtasks_1_1qp_1_1ContactConstrCommon.html#adecc38cbf40aa9b7b4ef2d91197bf816", null ],
