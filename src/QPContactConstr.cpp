@@ -61,6 +61,16 @@ bool ContactConstrCommon::removeDofContact(const ContactId & cId)
   return dofContacts_.erase(cId) == 1;
 }
 
+bool ContactConstrCommon::hasDoFContact(const ContactId & id) const
+{
+  return dofContacts_.count(id);
+}
+
+const Eigen::MatrixXd & ContactConstrCommon::dofContact(const ContactId & contactId)
+{
+  return dofContacts_[contactId];
+}
+
 void ContactConstrCommon::resetDofContacts()
 {
   dofContacts_.clear();

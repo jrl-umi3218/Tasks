@@ -61,6 +61,17 @@ public:
   bool removeDofContact(const ContactId & contactId);
 
   /**
+   * Check if a DoF has specific DoF
+   */
+  bool hasDoFContact(const ContactId & id) const;
+
+  /**
+   * Get the DoF of a contact
+   * @see addDofContact
+   */
+  const Eigen::MatrixXd & dofContact(const ContactId & contactId);
+
+  /**
    * Remove all Dof contact.
    * @see ContactConstr::updateDofContacts
    */
