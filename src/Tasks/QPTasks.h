@@ -1109,7 +1109,7 @@ public:
     momt_.momentum(mom);
   }
 
-  const sva::ForceVecd momentum()
+  const sva::ForceVecd momentum() const
   {
     return momt_.momentum();
   }
