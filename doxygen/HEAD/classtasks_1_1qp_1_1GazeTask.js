@@ -5,10 +5,10 @@ var classtasks_1_1qp_1_1GazeTask =
     [ "dim", "classtasks_1_1qp_1_1GazeTask.html#a64684b045a4e6b90247a33f40370e14c", null ],
     [ "error", "classtasks_1_1qp_1_1GazeTask.html#a66de6c7e95ddb0d5779460fc740dc09a", null ],
     [ "error", "classtasks_1_1qp_1_1GazeTask.html#ac08fc99e6870186c4c5a745294051563", null ],
-    [ "eval", "classtasks_1_1qp_1_1GazeTask.html#a6fe7f49c10a266a968edda7f8883c7fd", null ],
-    [ "jac", "classtasks_1_1qp_1_1GazeTask.html#a9d5e15ff479818d6f42b9d79ba4f8628", null ],
-    [ "normalAcc", "classtasks_1_1qp_1_1GazeTask.html#a17c817fc556109e9054acab47562c40a", null ],
-    [ "speed", "classtasks_1_1qp_1_1GazeTask.html#af3ff59928c46be3f8ad18f56e235bc24", null ],
+    [ "eval", "classtasks_1_1qp_1_1GazeTask.html#a954aeee3aeb66a7dca605dc6962dad26", null ],
+    [ "jac", "classtasks_1_1qp_1_1GazeTask.html#ae91ea95a689dfca2376d28c13ddaa7e5", null ],
+    [ "normalAcc", "classtasks_1_1qp_1_1GazeTask.html#a7e6b18a52ecce63f0bcd92b474249f98", null ],
+    [ "speed", "classtasks_1_1qp_1_1GazeTask.html#ab603baab4277aaa3d99a26790792f1f7", null ],
     [ "task", "classtasks_1_1qp_1_1GazeTask.html#ae619a255082dbbb29eae5c8155751564", null ],
     [ "update", "classtasks_1_1qp_1_1GazeTask.html#a9fd82b2acc7b7ed48635e4a6b5c9ef56", null ]
 ];

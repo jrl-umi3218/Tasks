@@ -94,14 +94,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aed24cd07ba6490a8508c2fcbc52e33f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6af9649e3cd0adc1643a029333897d02"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#a6af9649e3cd0adc1643a029333897d02">update</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data)=0</td></tr>
 <tr class="separator:a6af9649e3cd0adc1643a029333897d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a843ba46006369277b515a6a22cbe08f9"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#a843ba46006369277b515a6a22cbe08f9">jac</a> ()=0</td></tr>
-<tr class="separator:a843ba46006369277b515a6a22cbe08f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7a1c4c56697a44df3e692e76a42dc49"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#af7a1c4c56697a44df3e692e76a42dc49">eval</a> ()=0</td></tr>
-<tr class="separator:af7a1c4c56697a44df3e692e76a42dc49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39cc67617b7d74386e638f1e5b0da083"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#a39cc67617b7d74386e638f1e5b0da083">speed</a> ()=0</td></tr>
-<tr class="separator:a39cc67617b7d74386e638f1e5b0da083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5b4b5ca67ce2b059cb44b4e00918b38"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#ad5b4b5ca67ce2b059cb44b4e00918b38">normalAcc</a> ()=0</td></tr>
-<tr class="separator:ad5b4b5ca67ce2b059cb44b4e00918b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4463034eb44fa491bf38625eb7194f"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#aef4463034eb44fa491bf38625eb7194f">jac</a> () const =0</td></tr>
+<tr class="separator:aef4463034eb44fa491bf38625eb7194f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef5ea97428888b6090d452a8eae15eed"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#aef5ea97428888b6090d452a8eae15eed">eval</a> () const =0</td></tr>
+<tr class="separator:aef5ea97428888b6090d452a8eae15eed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a967318520f594a0d4651d7556a66fb2f"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#a967318520f594a0d4651d7556a66fb2f">speed</a> () const =0</td></tr>
+<tr class="separator:a967318520f594a0d4651d7556a66fb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88096d0081301b60eca48964cad68145"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1HighLevelTask.html#a88096d0081301b60eca48964cad68145">normalAcc</a> () const =0</td></tr>
+<tr class="separator:a88096d0081301b60eca48964cad68145"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac11194ec5a81fc18b68209eadfcbf9cc"></a>
@@ -157,8 +157,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af7a1c4c56697a44df3e692e76a42dc49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7a1c4c56697a44df3e692e76a42dc49">&#9670;&nbsp;</a></span>eval()</h2>
+<a id="aef5ea97428888b6090d452a8eae15eed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef5ea97428888b6090d452a8eae15eed">&#9670;&nbsp;</a></span>eval()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +170,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::HighLevelTask::eval </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -180,12 +180,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#aa923919c9cfbe200ef415eba2debd320">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#a11b62b9864965a33f2b1798fa98645d2">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#a8bee0d2f36a82e2588f94ccb9c903dfe">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#a04f415f398141f22a76b230343121507">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a4f6da2c23acf5f08250af1b809694cef">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#a08589b88a312c73d9a8941277f44658f">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#a488e929765d90b39ea4cd344ef131510">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#a6fe7f49c10a266a968edda7f8883c7fd">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#aff1a3f7c66110cfe1d54dccd4b69da2c">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a644f20089b0dfd81f94b7e9cdcc7e6a0">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a644f20089b0dfd81f94b7e9cdcc7e6a0">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a644f20089b0dfd81f94b7e9cdcc7e6a0">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#a7455d3547826bc76d2f37a284f1709c8">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#aaba31fc33092c896695a1fbe78b84cbb">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#a518daaa014dea68ee70e58f95ad47dd0">tasks::qp::JointsSelector</a>.</p>
+<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#a60c31be321774f98d8b0c7ad92627d38">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#a601396fd9a2a9629cc0e4c3b65512b68">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#a8fe11257f96418be09e5f3145e4c5388">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#a0304f0a1538ccdbf68d900780d58f99f">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a090d0d1a6bcf24d1a5348b609884c913">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#a2695792e57f01a7b2a80de82f0393178">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#a69cb7dfd8d1c0d4c2909fb02b175e2d5">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#a954aeee3aeb66a7dca605dc6962dad26">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#a020fd8ff9d1ba3162f6578f8906f0f32">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a391f4f064c886f53ccc7fbce982f20bb">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a391f4f064c886f53ccc7fbce982f20bb">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a391f4f064c886f53ccc7fbce982f20bb">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#a798cd8da2f9edbf9904e492e7cd8f138">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#ac18a4238c6d0613aa910d8e075d4662d">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#a6116b01d35b75254b9d2133ce02db497">tasks::qp::JointsSelector</a>.</p>
 
 </div>
 </div>
-<a id="a843ba46006369277b515a6a22cbe08f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a843ba46006369277b515a6a22cbe08f9">&#9670;&nbsp;</a></span>jac()</h2>
+<a id="aef4463034eb44fa491bf38625eb7194f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef4463034eb44fa491bf38625eb7194f">&#9670;&nbsp;</a></span>jac()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,7 +197,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::qp::HighLevelTask::jac </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -207,12 +207,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#acb936a10ae6d35b7301e3b58ae08b2ba">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#ac23fc19d200f31f7c482f256256fd71f">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#adf8e3e3fa8643007bca85d468112144f">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#aef198d90afa015a2d18c1d2543eb7618">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a8b47874a1fdb619cc61204cce078ae8c">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#a9dfb1feeda72ecc8892ad0954f43b16a">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#a528e714c835748e5bcdda5ff231d9bad">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#a9d5e15ff479818d6f42b9d79ba4f8628">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#a5d24b7b7e1916d545cd843ccd8405bdb">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a710c0f4a9c71e97dee0c9059b175f5bb">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a710c0f4a9c71e97dee0c9059b175f5bb">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a710c0f4a9c71e97dee0c9059b175f5bb">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#a025b53a1391d508d9867cde537f4049b">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#abc8dbb07aee56e235e1cb79482349b21">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#a9051e90e0997e7c1d8e92946640588c0">tasks::qp::JointsSelector</a>.</p>
+<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#af1de9be03ce67a0bf3fcabe704d8aed1">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#ac6d357950d8d05ad887162dacf4e9923">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#af1847a594b4b4a42cb346450be6b7533">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#a45f7427e702936a6e126a6511ed281f1">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#ad6d940e2d230e3bb2ed5868633bc09b0">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#a40075f81c1878b39eda8635ba3aefc02">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#abcabce248c3deb085b42f6f203ae8ef3">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#ae91ea95a689dfca2376d28c13ddaa7e5">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#ae6ef81215b626684b7f2dd3dd22a90ad">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#ab64f671f0e2f1f250a73ac60e48517b9">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#ab64f671f0e2f1f250a73ac60e48517b9">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#ab64f671f0e2f1f250a73ac60e48517b9">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#acfbaa0d2818de01db02a1ff87e134c24">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#abb755277b5359982c4290def54c50998">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#ad5ab970485f2341570368247076d78e2">tasks::qp::JointsSelector</a>.</p>
 
 </div>
 </div>
-<a id="ad5b4b5ca67ce2b059cb44b4e00918b38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5b4b5ca67ce2b059cb44b4e00918b38">&#9670;&nbsp;</a></span>normalAcc()</h2>
+<a id="a88096d0081301b60eca48964cad68145"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88096d0081301b60eca48964cad68145">&#9670;&nbsp;</a></span>normalAcc()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -224,7 +224,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::HighLevelTask::normalAcc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -234,12 +234,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#ab895a101eb88ac215b2ec1c83123939b">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#a961b26cc8f41478be73ae6d3ce5467e2">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#a74c28709b05b5d40e4b82f11ef8e2b84">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#a95890e36c2d61f5fc3d438208f8166ce">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a0b9bbec02ea88c9319ba283bd0be2974">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#a187d5abafe3350c7b9a4e2db15284bdf">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#a752b21fd54a6580e307c9c6d4587877a">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#a17c817fc556109e9054acab47562c40a">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#aad097c8d593df68d4f9e575f92f5af64">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#ae18d02bd366acdd7a68b540fddf17919">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#ae18d02bd366acdd7a68b540fddf17919">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#ae18d02bd366acdd7a68b540fddf17919">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#a9226d23df243e49b42b8dbd742869392">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#ae576afaada2105c12796957d07f3c1f2">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#a248e05842463c3ce0276abfccaeea5b4">tasks::qp::JointsSelector</a>.</p>
+<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#a9ba984ed9f42fae7c283f0dcca2d634b">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#ad45f5efa2b1ebaa8d1ef97476689d9f1">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#a2c340c63d6519bfea9c66aa646ae9afa">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#aa5c2ac3e28fddcce0b91c994a9b2f16c">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a54b078bea9f88754b5792fa38e376b92">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#ace13e0886113907ce79dd1f57356b403">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#abcfec14f37470851f2d50f594a764b7c">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#a7e6b18a52ecce63f0bcd92b474249f98">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#a5e788410bd2f37b0f7622aa654064748">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a1a2a0bc0a9f08f14d5b338327c8b2291">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a1a2a0bc0a9f08f14d5b338327c8b2291">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a1a2a0bc0a9f08f14d5b338327c8b2291">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#afbc5c7e69ef0f9058ea4a8162f67b9ce">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#abbd314900215faa9dd27f20169c4278c">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#a1775febb37e0b2799c38132cc354f2f7">tasks::qp::JointsSelector</a>.</p>
 
 </div>
 </div>
-<a id="a39cc67617b7d74386e638f1e5b0da083"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39cc67617b7d74386e638f1e5b0da083">&#9670;&nbsp;</a></span>speed()</h2>
+<a id="a967318520f594a0d4651d7556a66fb2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a967318520f594a0d4651d7556a66fb2f">&#9670;&nbsp;</a></span>speed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,7 +251,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::VectorXd&amp; tasks::qp::HighLevelTask::speed </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -261,7 +261,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#a4c4842e7b627a65bb82fa3d7ce94fefe">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#a48fa7152b7ad02469cfc5a4d6288222b">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#a9a7b0dcd72f3702596bea58c9c89af64">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#a63c79bf6f3cf19e09e4691db0fb5505c">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a679fd754b18658c33e50f6a6ba7f6411">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#aca2035d05f7e974bdc09593a02751c85">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#a68a85ee189d9d7dd01ea7816dab35186">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#af3ff59928c46be3f8ad18f56e235bc24">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#ab6eed915cd6046c49696d38dc067c5ef">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a4bb449578f2ee544bb28cf05373f096f">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a4bb449578f2ee544bb28cf05373f096f">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a4bb449578f2ee544bb28cf05373f096f">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#a1474caf55aa1dcc86dfa3b6cac7f8103">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#ac2db6a2bda2262bf8bbc8f5887e81d79">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#a79f06ced3ab60284ccc1fbfc3e050939">tasks::qp::JointsSelector</a>.</p>
+<p>Implemented in <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#aed154364cc0cf34fc55d69f23dc2fed6">tasks::qp::VectorOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1RelativeDistTask.html#a4ac941235d8a5233dca4c1195a146ded">tasks::qp::RelativeDistTask</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTrackingTask.html#ab6250afd822682b2db0c6e81349c122e">tasks::qp::OrientationTrackingTask</a>, <a class="el" href="classtasks_1_1qp_1_1LinVelocityTask.html#a24080372bc1d732a53332433294c747e">tasks::qp::LinVelocityTask</a>, <a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#ad7107b60763a5571abc8e57738075f83">tasks::qp::MomentumTask</a>, <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#ae23e5029a879d3e9ce5bc1ea904e5ae1">tasks::qp::CoMTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionBasedVisServoTask.html#a69ce1a68e121133af079d5b6db872c72">tasks::qp::PositionBasedVisServoTask</a>, <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#ab603baab4277aaa3d99a26790792f1f7">tasks::qp::GazeTask</a>, <a class="el" href="classtasks_1_1qp_1_1SurfaceOrientationTask.html#a03941e2ed80ade8acbd3a9173c06b1ba">tasks::qp::SurfaceOrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a52d9b1affad4c2c731a2d4a3e0a76ee2">tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a52d9b1affad4c2c731a2d4a3e0a76ee2">tasks::qp::TransformTaskCommon&lt; tasks::TransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1TransformTaskCommon.html#a52d9b1affad4c2c731a2d4a3e0a76ee2">tasks::qp::TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;</a>, <a class="el" href="classtasks_1_1qp_1_1OrientationTask.html#a2ff18f2a7a3f7e8ff4c92d2d172c3788">tasks::qp::OrientationTask</a>, <a class="el" href="classtasks_1_1qp_1_1PositionTask.html#ac92338815e82013c97414b9172d1411c">tasks::qp::PositionTask</a>, and <a class="el" href="classtasks_1_1qp_1_1JointsSelector.html#ac05ad926e23d20e401c5031abc0cd2a0">tasks::qp::JointsSelector</a>.</p>
 
 </div>
 </div>

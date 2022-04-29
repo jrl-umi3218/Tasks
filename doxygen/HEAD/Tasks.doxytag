@@ -1072,29 +1072,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1CoMTask.html</anchorfile>
-      <anchor>a9dfb1feeda72ecc8892ad0954f43b16a</anchor>
-      <arglist>() override</arglist>
+      <anchor>a40075f81c1878b39eda8635ba3aefc02</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1CoMTask.html</anchorfile>
-      <anchor>a08589b88a312c73d9a8941277f44658f</anchor>
-      <arglist>() override</arglist>
+      <anchor>a2695792e57f01a7b2a80de82f0393178</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1CoMTask.html</anchorfile>
-      <anchor>aca2035d05f7e974bdc09593a02751c85</anchor>
-      <arglist>() override</arglist>
+      <anchor>ae23e5029a879d3e9ce5bc1ea904e5ae1</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1CoMTask.html</anchorfile>
-      <anchor>a187d5abafe3350c7b9a4e2db15284bdf</anchor>
-      <arglist>() override</arglist>
+      <anchor>ace13e0886113907ce79dd1f57356b403</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -2384,29 +2384,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1GazeTask.html</anchorfile>
-      <anchor>a9d5e15ff479818d6f42b9d79ba4f8628</anchor>
-      <arglist>() override</arglist>
+      <anchor>ae91ea95a689dfca2376d28c13ddaa7e5</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1GazeTask.html</anchorfile>
-      <anchor>a6fe7f49c10a266a968edda7f8883c7fd</anchor>
-      <arglist>() override</arglist>
+      <anchor>a954aeee3aeb66a7dca605dc6962dad26</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1GazeTask.html</anchorfile>
-      <anchor>af3ff59928c46be3f8ad18f56e235bc24</anchor>
-      <arglist>() override</arglist>
+      <anchor>ab603baab4277aaa3d99a26790792f1f7</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1GazeTask.html</anchorfile>
-      <anchor>a17c817fc556109e9054acab47562c40a</anchor>
-      <arglist>() override</arglist>
+      <anchor>a7e6b18a52ecce63f0bcd92b474249f98</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -2830,29 +2830,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1HighLevelTask.html</anchorfile>
-      <anchor>a843ba46006369277b515a6a22cbe08f9</anchor>
-      <arglist>()=0</arglist>
+      <anchor>aef4463034eb44fa491bf38625eb7194f</anchor>
+      <arglist>() const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1HighLevelTask.html</anchorfile>
-      <anchor>af7a1c4c56697a44df3e692e76a42dc49</anchor>
-      <arglist>()=0</arglist>
+      <anchor>aef5ea97428888b6090d452a8eae15eed</anchor>
+      <arglist>() const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1HighLevelTask.html</anchorfile>
-      <anchor>a39cc67617b7d74386e638f1e5b0da083</anchor>
-      <arglist>()=0</arglist>
+      <anchor>a967318520f594a0d4651d7556a66fb2f</anchor>
+      <arglist>() const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1HighLevelTask.html</anchorfile>
-      <anchor>ad5b4b5ca67ce2b059cb44b4e00918b38</anchor>
-      <arglist>()=0</arglist>
+      <anchor>a88096d0081301b60eca48964cad68145</anchor>
+      <arglist>() const =0</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -3239,29 +3239,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1JointsSelector.html</anchorfile>
-      <anchor>a9051e90e0997e7c1d8e92946640588c0</anchor>
-      <arglist>() override</arglist>
+      <anchor>ad5ab970485f2341570368247076d78e2</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1JointsSelector.html</anchorfile>
-      <anchor>a518daaa014dea68ee70e58f95ad47dd0</anchor>
-      <arglist>() override</arglist>
+      <anchor>a6116b01d35b75254b9d2133ce02db497</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1JointsSelector.html</anchorfile>
-      <anchor>a79f06ced3ab60284ccc1fbfc3e050939</anchor>
-      <arglist>() override</arglist>
+      <anchor>ac05ad926e23d20e401c5031abc0cd2a0</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1JointsSelector.html</anchorfile>
-      <anchor>a248e05842463c3ce0276abfccaeea5b4</anchor>
-      <arglist>() override</arglist>
+      <anchor>a1775febb37e0b2799c38132cc354f2f7</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static JointsSelector</type>
@@ -3374,29 +3374,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1LinVelocityTask.html</anchorfile>
-      <anchor>aef198d90afa015a2d18c1d2543eb7618</anchor>
-      <arglist>() override</arglist>
+      <anchor>a45f7427e702936a6e126a6511ed281f1</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1LinVelocityTask.html</anchorfile>
-      <anchor>a04f415f398141f22a76b230343121507</anchor>
-      <arglist>() override</arglist>
+      <anchor>a0304f0a1538ccdbf68d900780d58f99f</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1LinVelocityTask.html</anchorfile>
-      <anchor>a63c79bf6f3cf19e09e4691db0fb5505c</anchor>
-      <arglist>() override</arglist>
+      <anchor>a24080372bc1d732a53332433294c747e</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1LinVelocityTask.html</anchorfile>
-      <anchor>a95890e36c2d61f5fc3d438208f8166ce</anchor>
-      <arglist>() override</arglist>
+      <anchor>aa5c2ac3e28fddcce0b91c994a9b2f16c</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -3577,8 +3577,8 @@
       <type>const sva::ForceVecd</type>
       <name>momentum</name>
       <anchorfile>classtasks_1_1qp_1_1MomentumTask.html</anchorfile>
-      <anchor>aacfe57e9e9670bcd71e6b259d5741568</anchor>
-      <arglist>()</arglist>
+      <anchor>a6563421fd4036327c9901c0cf19c172e</anchor>
+      <arglist>() const</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual int</type>
@@ -3598,29 +3598,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1MomentumTask.html</anchorfile>
-      <anchor>a8b47874a1fdb619cc61204cce078ae8c</anchor>
-      <arglist>() override</arglist>
+      <anchor>ad6d940e2d230e3bb2ed5868633bc09b0</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1MomentumTask.html</anchorfile>
-      <anchor>a4f6da2c23acf5f08250af1b809694cef</anchor>
-      <arglist>() override</arglist>
+      <anchor>a090d0d1a6bcf24d1a5348b609884c913</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1MomentumTask.html</anchorfile>
-      <anchor>a679fd754b18658c33e50f6a6ba7f6411</anchor>
-      <arglist>() override</arglist>
+      <anchor>ad7107b60763a5571abc8e57738075f83</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1MomentumTask.html</anchorfile>
-      <anchor>a0b9bbec02ea88c9319ba283bd0be2974</anchor>
-      <arglist>() override</arglist>
+      <anchor>a54b078bea9f88754b5792fa38e376b92</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -4543,29 +4543,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTask.html</anchorfile>
-      <anchor>a025b53a1391d508d9867cde537f4049b</anchor>
-      <arglist>() override</arglist>
+      <anchor>acfbaa0d2818de01db02a1ff87e134c24</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTask.html</anchorfile>
-      <anchor>a7455d3547826bc76d2f37a284f1709c8</anchor>
-      <arglist>() override</arglist>
+      <anchor>a798cd8da2f9edbf9904e492e7cd8f138</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTask.html</anchorfile>
-      <anchor>a1474caf55aa1dcc86dfa3b6cac7f8103</anchor>
-      <arglist>() override</arglist>
+      <anchor>a2ff18f2a7a3f7e8ff4c92d2d172c3788</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTask.html</anchorfile>
-      <anchor>a9226d23df243e49b42b8dbd742869392</anchor>
-      <arglist>() override</arglist>
+      <anchor>afbc5c7e69ef0f9058ea4a8162f67b9ce</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -4741,29 +4741,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>adf8e3e3fa8643007bca85d468112144f</anchor>
-      <arglist>() override</arglist>
+      <anchor>af1847a594b4b4a42cb346450be6b7533</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>a8bee0d2f36a82e2588f94ccb9c903dfe</anchor>
-      <arglist>() override</arglist>
+      <anchor>a8fe11257f96418be09e5f3145e4c5388</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>a9a7b0dcd72f3702596bea58c9c89af64</anchor>
-      <arglist>() override</arglist>
+      <anchor>ab6250afd822682b2db0c6e81349c122e</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>a74c28709b05b5d40e4b82f11ef8e2b84</anchor>
-      <arglist>() override</arglist>
+      <anchor>a2c340c63d6519bfea9c66aa646ae9afa</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -4836,22 +4836,22 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>a70ab5fae20b8faaa1280469f6b910c68</anchor>
-      <arglist>()</arglist>
+      <anchor>ab2d1322a5cb47037c436d313f41bb2e7</anchor>
+      <arglist>() const</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jacDot</name>
       <anchorfile>classtasks_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>abe9bdf8376dbeeea30d171db7ccb2aa7</anchor>
-      <arglist>()</arglist>
+      <anchor>a99e2423d0cbb15146805209806bed7ed</anchor>
+      <arglist>() const</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1OrientationTrackingTask.html</anchorfile>
-      <anchor>a3c1634367431d102e3d722cf666b5178</anchor>
-      <arglist>()</arglist>
+      <anchor>a721d884566d4ec0188f4a8222778e5c2</anchor>
+      <arglist>() const</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -5018,29 +5018,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1PositionBasedVisServoTask.html</anchorfile>
-      <anchor>a528e714c835748e5bcdda5ff231d9bad</anchor>
-      <arglist>() override</arglist>
+      <anchor>abcabce248c3deb085b42f6f203ae8ef3</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1PositionBasedVisServoTask.html</anchorfile>
-      <anchor>a488e929765d90b39ea4cd344ef131510</anchor>
-      <arglist>() override</arglist>
+      <anchor>a69cb7dfd8d1c0d4c2909fb02b175e2d5</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1PositionBasedVisServoTask.html</anchorfile>
-      <anchor>a68a85ee189d9d7dd01ea7816dab35186</anchor>
-      <arglist>() override</arglist>
+      <anchor>a69ce1a68e121133af079d5b6db872c72</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1PositionBasedVisServoTask.html</anchorfile>
-      <anchor>a752b21fd54a6580e307c9c6d4587877a</anchor>
-      <arglist>() override</arglist>
+      <anchor>abcfec14f37470851f2d50f594a764b7c</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -5195,29 +5195,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>abc8dbb07aee56e235e1cb79482349b21</anchor>
-      <arglist>() override</arglist>
+      <anchor>abb755277b5359982c4290def54c50998</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>aaba31fc33092c896695a1fbe78b84cbb</anchor>
-      <arglist>() override</arglist>
+      <anchor>ac18a4238c6d0613aa910d8e075d4662d</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>ac2db6a2bda2262bf8bbc8f5887e81d79</anchor>
-      <arglist>() override</arglist>
+      <anchor>ac92338815e82013c97414b9172d1411c</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>ae576afaada2105c12796957d07f3c1f2</anchor>
-      <arglist>() override</arglist>
+      <anchor>abbd314900215faa9dd27f20169c4278c</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -6145,29 +6145,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1RelativeDistTask.html</anchorfile>
-      <anchor>ac23fc19d200f31f7c482f256256fd71f</anchor>
-      <arglist>() override</arglist>
+      <anchor>ac6d357950d8d05ad887162dacf4e9923</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a11b62b9864965a33f2b1798fa98645d2</anchor>
-      <arglist>() override</arglist>
+      <anchor>a601396fd9a2a9629cc0e4c3b65512b68</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a48fa7152b7ad02469cfc5a4d6288222b</anchor>
-      <arglist>() override</arglist>
+      <anchor>a4ac941235d8a5233dca4c1195a146ded</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1RelativeDistTask.html</anchorfile>
-      <anchor>a961b26cc8f41478be73ae6d3ce5467e2</anchor>
-      <arglist>() override</arglist>
+      <anchor>ad45f5efa2b1ebaa8d1ef97476689d9f1</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -6617,29 +6617,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1SurfaceOrientationTask.html</anchorfile>
-      <anchor>a5d24b7b7e1916d545cd843ccd8405bdb</anchor>
-      <arglist>() override</arglist>
+      <anchor>ae6ef81215b626684b7f2dd3dd22a90ad</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1SurfaceOrientationTask.html</anchorfile>
-      <anchor>aff1a3f7c66110cfe1d54dccd4b69da2c</anchor>
-      <arglist>() override</arglist>
+      <anchor>a020fd8ff9d1ba3162f6578f8906f0f32</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1SurfaceOrientationTask.html</anchorfile>
-      <anchor>ab6eed915cd6046c49696d38dc067c5ef</anchor>
-      <arglist>() override</arglist>
+      <anchor>a03941e2ed80ade8acbd3a9173c06b1ba</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1SurfaceOrientationTask.html</anchorfile>
-      <anchor>aad097c8d593df68d4f9e575f92f5af64</anchor>
-      <arglist>() override</arglist>
+      <anchor>a5e788410bd2f37b0f7622aa654064748</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -7551,29 +7551,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a710c0f4a9c71e97dee0c9059b175f5bb</anchor>
-      <arglist>() override</arglist>
+      <anchor>ab64f671f0e2f1f250a73ac60e48517b9</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a644f20089b0dfd81f94b7e9cdcc7e6a0</anchor>
-      <arglist>() override</arglist>
+      <anchor>a391f4f064c886f53ccc7fbce982f20bb</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a4bb449578f2ee544bb28cf05373f096f</anchor>
-      <arglist>() override</arglist>
+      <anchor>a52d9b1affad4c2c731a2d4a3e0a76ee2</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ae18d02bd366acdd7a68b540fddf17919</anchor>
-      <arglist>() override</arglist>
+      <anchor>a1a2a0bc0a9f08f14d5b338327c8b2291</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="variable" protection="protected">
       <type>transform_task_t</type>
@@ -7647,29 +7647,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a710c0f4a9c71e97dee0c9059b175f5bb</anchor>
-      <arglist>() override</arglist>
+      <anchor>ab64f671f0e2f1f250a73ac60e48517b9</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a644f20089b0dfd81f94b7e9cdcc7e6a0</anchor>
-      <arglist>() override</arglist>
+      <anchor>a391f4f064c886f53ccc7fbce982f20bb</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a4bb449578f2ee544bb28cf05373f096f</anchor>
-      <arglist>() override</arglist>
+      <anchor>a52d9b1affad4c2c731a2d4a3e0a76ee2</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ae18d02bd366acdd7a68b540fddf17919</anchor>
-      <arglist>() override</arglist>
+      <anchor>a1a2a0bc0a9f08f14d5b338327c8b2291</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="variable" protection="protected">
       <type>tasks::SurfaceTransformTask</type>
@@ -7743,29 +7743,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a710c0f4a9c71e97dee0c9059b175f5bb</anchor>
-      <arglist>() override</arglist>
+      <anchor>ab64f671f0e2f1f250a73ac60e48517b9</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a644f20089b0dfd81f94b7e9cdcc7e6a0</anchor>
-      <arglist>() override</arglist>
+      <anchor>a391f4f064c886f53ccc7fbce982f20bb</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a4bb449578f2ee544bb28cf05373f096f</anchor>
-      <arglist>() override</arglist>
+      <anchor>a52d9b1affad4c2c731a2d4a3e0a76ee2</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ae18d02bd366acdd7a68b540fddf17919</anchor>
-      <arglist>() override</arglist>
+      <anchor>a1a2a0bc0a9f08f14d5b338327c8b2291</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="variable" protection="protected">
       <type>tasks::TransformTask</type>
@@ -8078,29 +8078,29 @@
       <type>virtual const Eigen::MatrixXd &amp;</type>
       <name>jac</name>
       <anchorfile>classtasks_1_1qp_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>acb936a10ae6d35b7301e3b58ae08b2ba</anchor>
-      <arglist>() override</arglist>
+      <anchor>af1de9be03ce67a0bf3fcabe704d8aed1</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>eval</name>
       <anchorfile>classtasks_1_1qp_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>aa923919c9cfbe200ef415eba2debd320</anchor>
-      <arglist>() override</arglist>
+      <anchor>a60c31be321774f98d8b0c7ad92627d38</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>speed</name>
       <anchorfile>classtasks_1_1qp_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a4c4842e7b627a65bb82fa3d7ce94fefe</anchor>
-      <arglist>() override</arglist>
+      <anchor>aed154364cc0cf34fc55d69f23dc2fed6</anchor>
+      <arglist>() const override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual const Eigen::VectorXd &amp;</type>
       <name>normalAcc</name>
       <anchorfile>classtasks_1_1qp_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>ab895a101eb88ac215b2ec1c83123939b</anchor>
-      <arglist>() override</arglist>
+      <anchor>a9ba984ed9f42fae7c283f0dcca2d634b</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="namespace">

@@ -99,12 +99,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae97d66bbc9c1f7993f5704d7ea229a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a371555e79bbb2217b373de54783fb55f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#a371555e79bbb2217b373de54783fb55f">updateDot</a> (const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc)</td></tr>
 <tr class="separator:a371555e79bbb2217b373de54783fb55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70ab5fae20b8faaa1280469f6b910c68"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#a70ab5fae20b8faaa1280469f6b910c68">jac</a> ()</td></tr>
-<tr class="separator:a70ab5fae20b8faaa1280469f6b910c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe9bdf8376dbeeea30d171db7ccb2aa7"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#abe9bdf8376dbeeea30d171db7ccb2aa7">jacDot</a> ()</td></tr>
-<tr class="separator:abe9bdf8376dbeeea30d171db7ccb2aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c1634367431d102e3d722cf666b5178"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#a3c1634367431d102e3d722cf666b5178">eval</a> ()</td></tr>
-<tr class="separator:a3c1634367431d102e3d722cf666b5178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d1322a5cb47037c436d313f41bb2e7"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#ab2d1322a5cb47037c436d313f41bb2e7">jac</a> () const</td></tr>
+<tr class="separator:ab2d1322a5cb47037c436d313f41bb2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99e2423d0cbb15146805209806bed7ed"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#a99e2423d0cbb15146805209806bed7ed">jacDot</a> () const</td></tr>
+<tr class="separator:a99e2423d0cbb15146805209806bed7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a721d884566d4ec0188f4a8222778e5c2"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1OrientationTrackingTask.html#a721d884566d4ec0188f4a8222778e5c2">eval</a> () const</td></tr>
+<tr class="separator:a721d884566d4ec0188f4a8222778e5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad1edc9ba39bb298ec7a1cbc30861140d"></a>
@@ -230,8 +230,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3c1634367431d102e3d722cf666b5178"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c1634367431d102e3d722cf666b5178">&#9670;&nbsp;</a></span>eval()</h2>
+<a id="a721d884566d4ec0188f4a8222778e5c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a721d884566d4ec0188f4a8222778e5c2">&#9670;&nbsp;</a></span>eval()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +243,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::VectorXd&amp; tasks::OrientationTrackingTask::eval </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -255,8 +255,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a70ab5fae20b8faaa1280469f6b910c68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70ab5fae20b8faaa1280469f6b910c68">&#9670;&nbsp;</a></span>jac()</h2>
+<a id="ab2d1322a5cb47037c436d313f41bb2e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2d1322a5cb47037c436d313f41bb2e7">&#9670;&nbsp;</a></span>jac()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,7 +268,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::OrientationTrackingTask::jac </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -280,8 +280,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abe9bdf8376dbeeea30d171db7ccb2aa7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe9bdf8376dbeeea30d171db7ccb2aa7">&#9670;&nbsp;</a></span>jacDot()</h2>
+<a id="a99e2423d0cbb15146805209806bed7ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99e2423d0cbb15146805209806bed7ed">&#9670;&nbsp;</a></span>jacDot()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -293,7 +293,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">virtual const Eigen::MatrixXd&amp; tasks::OrientationTrackingTask::jacDot </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
