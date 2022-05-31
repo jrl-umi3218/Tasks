@@ -1,0 +1,29 @@
+name: Check formatting of Tasks sources
+
+on:
+  push:
+    paths-ignore:
+      # Changes to those files don't mandate running CI
+      - ".github/workflows/sources/*"
+      - ".github/workflows/build.yml"
+      - ".github/workflows/conan.yml"
+      - ".github/workflows/package.yml"
+      - "debian/**"
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+jobs:
+  clang-format:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install clang-format-10
+      run: |
+        sudo apt-get -qq update
+        sudo apt-get -qq install clang-format-10
+    - name: Run clang-format-check
+      run: |
+        ./.clang-format-check.sh
+
