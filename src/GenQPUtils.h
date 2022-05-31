@@ -59,44 +59,32 @@ inline void fillQC(const std::vector<Task *> & tasks, int nrVars, Eigen::MatrixX
 }
 
 /**
- * Reduce \f$ Q \f$ matrix and the \f$ c \f$ vector based on the dependencies list
+ * Reduce \f$ Q \f$ matrix and the \f$ c \f$ vector using the multiplier matrix
+ *
+ * Indeed, solving:
+ * \f{align}
+ * \underset{x}{\text{minimize }} & \frac{1}{2} x^T Q x + x^T c\\
+ * \f}
+ *
+ * Where:
+ * \f{align}
+ * x = M y
+ * \f}
+ *
+ * Is equivalent to solving:
+ * \f{align}
+ * \underset{x}{\text{minimize }} & \frac{1}{2} y^T M ^T Q M y + y^T M^T c\\
+ * \f}
+ *
  */
 inline void reduceQC(const Eigen::MatrixXd & QFull,
                      const Eigen::VectorXd & CFull,
                      Eigen::MatrixXd & Q,
                      Eigen::VectorXd & C,
-                     const std::vector<int> & fullToReduced,
-                     const std::vector<int> & reducedToFull,
-                     const std::vector<std::tuple<int, int, double>> & dependencies)
+                     const Eigen::MatrixXd & M)
 {
-  /* Start by moving the non-reduced variables to their new location */
-  for(size_t i = 0; i < reducedToFull.size(); ++i)
-  {
-    for(size_t j = i; j < reducedToFull.size(); ++j)
-    {
-      Q(i, j) = QFull(reducedToFull[i], reducedToFull[j]);
-    }
-    C(i) = CFull(reducedToFull[i]);
-  }
-  /* Apply the reduction */
-  for(const auto & d : dependencies)
-  {
-    const int & primaryFullI = std::get<0>(d);
-    const int & primaryReducedI = fullToReduced[primaryFullI];
-    const int & replicaFullI = std::get<1>(d);
-    const double & alpha = std::get<2>(d);
-    /* Apply reduction to C */
-    C(primaryReducedI) += alpha * CFull(replicaFullI);
-    /* Add cross-terms to Q */
-    for(size_t i = 0; i < reducedToFull.size(); ++i)
-    {
-      Q(i, primaryReducedI) += alpha * QFull(reducedToFull[i], replicaFullI);
-    }
-    /* Add diagonal element to Q */
-    Q(primaryReducedI, primaryReducedI) += alpha * alpha * QFull(replicaFullI, replicaFullI);
-  }
-  /* Update the lower triangular part of Q */
-  Q = Q.selfadjointView<Eigen::Upper>();
+  Q.noalias() = M.transpose() * QFull * M;
+  C.noalias() = M.transpose() * CFull;
 }
 
 // general qp form
@@ -292,26 +280,25 @@ inline void fillBound(const std::vector<Bound *> & bounds, Eigen::VectorXd & XL,
 }
 
 /**
- * Reduce \f$ A \f$ matrix based on the dependencies list
+ * Reduce \f$ A \f$ matrix based on the multiplier and offset
+ *
+ * In this form, all non bounds constraints are represented as:
+ * \f{align}
+ * A x \eq b
+ * A x \leq b
+ * L \leq A x \leq U
+ * \f}
+ *
+ * Which we can rewrite as:
+ * \f{align}
+ * A M y \eq b
+ * A M y \leq b
+ * L \leq A M y \leq U
+ * \f}
  */
-inline void reduceA(const Eigen::MatrixXd & AFull,
-                    Eigen::MatrixXd & A,
-                    const std::vector<int> & fullToReduced,
-                    const std::vector<int> & reducedToFull,
-                    const std::vector<std::tuple<int, int, double>> & dependencies)
+inline void reduceA(const Eigen::MatrixXd & AFull, Eigen::MatrixXd & A, const Eigen::MatrixXd & M)
 {
-  for(size_t i = 0; i < reducedToFull.size(); ++i)
-  {
-    A.col(i) = AFull.col(reducedToFull[i]);
-  }
-  for(const auto & d : dependencies)
-  {
-    const int & primaryFullI = std::get<0>(d);
-    const int & primaryReducedI = fullToReduced[primaryFullI];
-    const int & replicaFullI = std::get<1>(d);
-    const double & alpha = std::get<2>(d);
-    A.col(primaryReducedI) += alpha * AFull.col(replicaFullI);
-  }
+  A.noalias() = AFull * M;
 }
 
 /**
@@ -327,13 +314,13 @@ inline void reduceBound(const Eigen::VectorXd & XLFull,
 {
   for(size_t i = 0; i < static_cast<size_t>(XL.rows()); ++i)
   {
-    XL(i) = XLFull(reducedToFull[i]);
-    XU(i) = XUFull(reducedToFull[i]);
+    XL(static_cast<Eigen::DenseIndex>(i)) = XLFull(reducedToFull[i]);
+    XU(static_cast<Eigen::DenseIndex>(i)) = XUFull(reducedToFull[i]);
   }
   for(const auto & d : dependencies)
   {
     const int & primaryFullI = std::get<0>(d);
-    const int & primaryReducedI = fullToReduced[primaryFullI];
+    const int & primaryReducedI = fullToReduced[static_cast<size_t>(primaryFullI)];
     const int & replicaFullI = std::get<1>(d);
     const double & alpha = std::get<2>(d);
     if(alpha != 0)
@@ -358,20 +345,9 @@ inline void reduceBound(const Eigen::VectorXd & XLFull,
  */
 inline void expandResult(const Eigen::VectorXd & result,
                          Eigen::VectorXd & resultFull,
-                         const std::vector<int> & reducedToFull,
-                         const std::vector<std::tuple<int, int, double>> & dependencies)
+                         const Eigen::MatrixXd & multipliers)
 {
-  for(size_t i = 0; i < reducedToFull.size(); ++i)
-  {
-    resultFull(reducedToFull[i]) = result(i);
-  }
-  for(const auto & d : dependencies)
-  {
-    const int & primaryFullI = std::get<0>(d);
-    const int & replicaFullI = std::get<1>(d);
-    const double & alpha = std::get<2>(d);
-    resultFull(replicaFullI) = alpha * resultFull(primaryFullI);
-  }
+  resultFull.noalias() = multipliers * result;
 }
 
 // print of a constraint at a given line

@@ -95,10 +95,10 @@ void QLDQPSolver::updateMatrix(const std::vector<Task *> & tasks,
     XU_.fill(std::numeric_limits<double>::infinity());
     Q_.setZero();
     C_.setZero();
-    reduceA(AeqFull_, Aeq_, fullToReduced_, reducedToFull_, dependencies_);
-    reduceA(AineqFull_, Aineq_, fullToReduced_, reducedToFull_, dependencies_);
+    reduceA(AeqFull_, Aeq_, multipliers_);
+    reduceA(AineqFull_, Aineq_, multipliers_);
     reduceBound(XLFull_, XL_, XUFull_, XU_, fullToReduced_, reducedToFull_, dependencies_);
-    reduceQC(QFull_, CFull_, Q_, C_, fullToReduced_, reducedToFull_, dependencies_);
+    reduceQC(QFull_, CFull_, Q_, C_, multipliers_);
   }
 }
 
@@ -110,7 +110,7 @@ bool QLDQPSolver::solve()
     success = qld_.solve(Q_, C_, Aeq_.block(0, 0, nrAeqLines_, int(Aeq_.cols())), beq_.segment(0, nrAeqLines_),
                          Aineq_.block(0, 0, nrAineqLines_, int(Aineq_.cols())), bineq_.segment(0, nrAineqLines_), XL_,
                          XU_, false, 1e-6);
-    expandResult(qld_.result(), XFull_, reducedToFull_, dependencies_);
+    expandResult(qld_.result(), XFull_, multipliers_);
   }
   else
   {

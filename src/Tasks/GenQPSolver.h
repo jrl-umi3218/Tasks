@@ -68,7 +68,7 @@ public:
   /**
    * Setup dependent variables, only linear dependencies are supported
    * @param nrVars Variable number.
-   * @param dependencies List of tuple {primary, replica, factor}
+   * @param dependencies List of tuple {primary, replica, factor, offset}
    */
   virtual void setDependencies(int nrVars, std::vector<std::tuple<int, int, double>> dependencies);
 
@@ -112,11 +112,11 @@ protected:
   std::vector<int> fullToReduced_;
   /** Correspondence between reduced variable indices and full variable indices */
   std::vector<int> reducedToFull_;
-
-  /** Variable dependencies, each tuple gives the primary variable index in the
-   * full variable, replica variable index in the full variable and the factor
-   * in the dependency equation: replica = factor * primary */
+  /** Variable dependencies, each tuple gives the primary variable index in the full variable, replica variable index in
+   * the full variable and the factor and offset in the dependency equation: replica = factor * primary */
   std::vector<std::tuple<int, int, double>> dependencies_;
+  /** Multipliers matrix M of size (nFull, nReduced) such that full = M * reduce */
+  Eigen::MatrixXd multipliers_;
 };
 
 } // namespace qp
