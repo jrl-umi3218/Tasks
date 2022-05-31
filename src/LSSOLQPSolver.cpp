@@ -87,9 +87,9 @@ void LSSOLQPSolver::updateMatrix(const std::vector<Task *> & tasks,
 
   if(dependencies_.size())
   {
-    reduceA(AFull_, A_, fullToReduced_, reducedToFull_, dependencies_);
+    reduceA(AFull_, A_, multipliers_);
     reduceBound(XLFull_, XL_, XUFull_, XU_, fullToReduced_, reducedToFull_, dependencies_);
-    reduceQC(QFull_, CFull_, Q_, C_, fullToReduced_, reducedToFull_, dependencies_);
+    reduceQC(QFull_, CFull_, Q_, C_, multipliers_);
   }
 }
 
@@ -100,7 +100,7 @@ bool LSSOLQPSolver::solve()
   {
     success = lssol_.solve(XL_, XU_, static_cast<Eigen::LSSOLBase::RefMat>(Q_), C_,
                            A_.block(0, 0, nrALines_, A_.cols()), AL_.segment(0, nrALines_), AU_.segment(0, nrALines_));
-    expandResult(lssol_.result(), XFull_, reducedToFull_, dependencies_);
+    expandResult(lssol_.result(), XFull_, multipliers_);
   }
   else
   {

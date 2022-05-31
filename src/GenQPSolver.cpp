@@ -47,30 +47,35 @@ GenQPSolver * createQPSolver(const std::string & name)
 
 void GenQPSolver::setDependencies(int nrVars, std::vector<std::tuple<int, int, double>> dependencies)
 {
+  assert(static_cast<size_t>(nrVars) > dependencies.size());
   dependencies_ = dependencies;
-  fullToReduced_.resize(nrVars, -1);
-  reducedToFull_.resize(nrVars - static_cast<int>(dependencies_.size()), -1);
-  /* Retrieve the variables which are removed due to the dependencies */
-  std::vector<int> removedVars;
-  removedVars.reserve(dependencies.size() + 1);
-  for(const auto & d : dependencies)
-  {
-    removedVars.push_back(std::get<1>(d));
-  }
-  /* Prevent issue once we have gone past the last removed variable */
-  removedVars.push_back(nrVars);
-  std::sort(removedVars.begin(), removedVars.end());
+  using dependency_t = std::tuple<int, int, double>;
+  /* Sort dependencies by the index of removed variables */
+  std::sort(dependencies_.begin(), dependencies_.end(),
+            [](const dependency_t & lhs, const dependency_t & rhs) { return std::get<1>(lhs) < std::get<1>(rhs); });
+  fullToReduced_.resize(static_cast<size_t>(nrVars), -1);
+  reducedToFull_.resize(static_cast<size_t>(nrVars) - dependencies_.size(), -1);
+  /* Initialize the multipliers and offset variable */
+  multipliers_ = Eigen::MatrixXd::Zero(nrVars, nrVars - static_cast<int>(dependencies.size()));
   /* Number of removed variables encountered so far */
   size_t shift = 0;
   for(size_t i = 0; i < fullToReduced_.size(); ++i)
   {
-    if(i == static_cast<size_t>(removedVars[shift]))
+    if(shift < dependencies_.size() && std::get<1>(dependencies_[shift]) == static_cast<int>(i))
     {
       shift++;
       continue;
     }
     fullToReduced_[i] = static_cast<int>(i - shift);
+    multipliers_(static_cast<Eigen::DenseIndex>(i), fullToReduced_[i]) = 1.0;
     reducedToFull_[i - shift] = static_cast<int>(i);
+  }
+  for(const auto & d : dependencies_)
+  {
+    auto leader_idx = std::get<0>(d);
+    auto mimic_idx = std::get<1>(d);
+    auto mult = std::get<2>(d);
+    multipliers_(mimic_idx, fullToReduced_[static_cast<size_t>(leader_idx)]) = mult;
   }
 }
 

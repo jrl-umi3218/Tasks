@@ -120,9 +120,9 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody> & mbs,
       {
         if(j.isMimic())
         {
-          dependencies.emplace_back(data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimicName())),
-                                    data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())),
-                                    j.mimicMultiplier());
+          dependencies.push_back(std::make_tuple(
+              data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.mimicName())),
+              data_.alphaDBegin_[r] + mb.jointPosInDof(mb.jointIndexByName(j.name())), j.mimicMultiplier()));
         }
       }
     }
