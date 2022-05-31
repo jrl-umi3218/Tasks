@@ -186,7 +186,8 @@ var NAVTREEINDEX1 =
 "classtasks_1_1qp_1_1GenQPSolver.html":[2,0,0,0,24],
 "classtasks_1_1qp_1_1GenQPSolver.html#a4cf03fcd10207b5001b41f6fc26921bf":[2,0,0,0,24,1],
 "classtasks_1_1qp_1_1GenQPSolver.html#a5b2bbb5cd5e65aeec71466a98bbc7d7e":[2,0,0,0,24,3],
-"classtasks_1_1qp_1_1GenQPSolver.html#a7db3d83a10b1e0c60541ff1b0b226edd":[2,0,0,0,24,10],
+"classtasks_1_1qp_1_1GenQPSolver.html#a7b7781b89821581eb94fbb825d2f30f7":[2,0,0,0,24,10],
+"classtasks_1_1qp_1_1GenQPSolver.html#a7db3d83a10b1e0c60541ff1b0b226edd":[2,0,0,0,24,11],
 "classtasks_1_1qp_1_1GenQPSolver.html#a8fa9c75d06717be72cd03c6be8d966fc":[2,0,0,0,24,6],
 "classtasks_1_1qp_1_1GenQPSolver.html#aab010e6097d3344cc671ecd6b8e2a120":[2,0,0,0,24,8],
 "classtasks_1_1qp_1_1GenQPSolver.html#aaf305726925f3693e24dd82b473817e3":[2,0,0,0,24,7],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classtasks_1_1qp_1_1Inequality.html":[2,0,0,0,29],
 "classtasks_1_1qp_1_1Inequality.html#a23f610ba512845c6ed59a18d43bc6636":[2,0,0,0,29,7],
 "classtasks_1_1qp_1_1Inequality.html#a6b76e75f578ae739fa31aecbddc937fc":[2,0,0,0,29,8],
-"classtasks_1_1qp_1_1Inequality.html#a7aa735890ecd53799b4a1604188b9b21":[2,0,0,0,29,2],
-"classtasks_1_1qp_1_1Inequality.html#a8881dfaffbeff43b333cf9d30675f67f":[2,0,0,0,29,5]
+"classtasks_1_1qp_1_1Inequality.html#a7aa735890ecd53799b4a1604188b9b21":[2,0,0,0,29,2]
 };

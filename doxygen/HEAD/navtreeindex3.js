@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"classtasks_1_1qp_1_1QPSolver.html":[2,0,0,0,51],
 "classtasks_1_1qp_1_1QPSolver.html#a01ef16a400b03ee96b693178f8f8c3c1":[2,0,0,0,51,41],
 "classtasks_1_1qp_1_1QPSolver.html#a038c63bcc76e9ddc446a1b993d6e6d7f":[2,0,0,0,51,33],
 "classtasks_1_1qp_1_1QPSolver.html#a104e7d56cc3c4d0dbedda82044ef5da1":[2,0,0,0,51,44],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "functions_func_r.html":[2,3,1,16],
 "functions_func_s.html":[2,3,1,17],
 "functions_func_t.html":[2,3,1,18],
-"functions_func_u.html":[2,3,1,19],
-"functions_func_v.html":[2,3,1,20]
+"functions_func_u.html":[2,3,1,19]
 };

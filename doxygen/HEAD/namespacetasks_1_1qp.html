@@ -223,8 +223,8 @@ Classes</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a19005ec649deff2408ae41bd0ac73972"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a19005ec649deff2408ae41bd0ac73972">fillQC</a> (const std::vector&lt; <a class="el" href="classtasks_1_1qp_1_1Task.html">Task</a> *&gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</td></tr>
 <tr class="separator:a19005ec649deff2408ae41bd0ac73972"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a8c8f1ea8f2baca2cc37e1e737edd9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a4a8c8f1ea8f2baca2cc37e1e737edd9b">reduceQC</a> (const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</td></tr>
-<tr class="separator:a4a8c8f1ea8f2baca2cc37e1e737edd9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ad2cb7bd904212e5d9b6dcfaa989f94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a6ad2cb7bd904212e5d9b6dcfaa989f94">reduceQC</a> (const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::MatrixXd &amp;M)</td></tr>
+<tr class="separator:a6ad2cb7bd904212e5d9b6dcfaa989f94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef4304bc755850350a21adc6250789a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#aef4304bc755850350a21adc6250789a4">fillEq</a> (const std::vector&lt; <a class="el" href="classtasks_1_1qp_1_1Equality.html">Equality</a> *&gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</td></tr>
 <tr class="separator:aef4304bc755850350a21adc6250789a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75ff83cd1b1004838311866eda859393"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a75ff83cd1b1004838311866eda859393">fillInEq</a> (const std::vector&lt; <a class="el" href="classtasks_1_1qp_1_1Inequality.html">Inequality</a> *&gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</td></tr>
@@ -239,12 +239,12 @@ Functions</h2></td></tr>
 <tr class="separator:a7d5e57614fe485d3e3c82d4edc26dbc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a76dde5839eb89ded3ad069f46f38e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a49a76dde5839eb89ded3ad069f46f38e">fillBound</a> (const std::vector&lt; <a class="el" href="classtasks_1_1qp_1_1Bound.html">Bound</a> *&gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</td></tr>
 <tr class="separator:a49a76dde5839eb89ded3ad069f46f38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c7c5651f0a5ab680fa7f34d4b98f6c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a5c7c5651f0a5ab680fa7f34d4b98f6c3">reduceA</a> (const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</td></tr>
-<tr class="separator:a5c7c5651f0a5ab680fa7f34d4b98f6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5c44bc95450bbbc88c5b1af5d3d851d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#ac5c44bc95450bbbc88c5b1af5d3d851d">reduceA</a> (const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::MatrixXd &amp;M)</td></tr>
+<tr class="separator:ac5c44bc95450bbbc88c5b1af5d3d851d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a741de9b14e9fe6a5b4ec675703215210"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">reduceBound</a> (const Eigen::VectorXd &amp;XLFull, Eigen::VectorXd &amp;XL, const Eigen::VectorXd &amp;XUFull, Eigen::VectorXd &amp;XU, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</td></tr>
 <tr class="separator:a741de9b14e9fe6a5b4ec675703215210"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8798d79d3633875640b98586875a0a05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a8798d79d3633875640b98586875a0a05">expandResult</a> (const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</td></tr>
-<tr class="separator:a8798d79d3633875640b98586875a0a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ce2d39b71ff7cc28fd53ce83444803f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a9ce2d39b71ff7cc28fd53ce83444803f">expandResult</a> (const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::MatrixXd &amp;multipliers)</td></tr>
+<tr class="separator:a9ce2d39b71ff7cc28fd53ce83444803f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65d9ff284da05686474a0fb01276bbce"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a65d9ff284da05686474a0fb01276bbce"><td class="memTemplItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a> (const Eigen::VectorXd &amp;result, T *constr, int line, std::ostream &amp;out)</td></tr>
 <tr class="separator:a65d9ff284da05686474a0fb01276bbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -394,8 +394,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a8798d79d3633875640b98586875a0a05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8798d79d3633875640b98586875a0a05">&#9670;&nbsp;</a></span>expandResult()</h2>
+<a id="a9ce2d39b71ff7cc28fd53ce83444803f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ce2d39b71ff7cc28fd53ce83444803f">&#9670;&nbsp;</a></span>expandResult()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -418,14 +418,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>reducedToFull</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>dependencies</em>&#160;</td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>multipliers</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1117,8 +1111,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="a5c7c5651f0a5ab680fa7f34d4b98f6c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c7c5651f0a5ab680fa7f34d4b98f6c3">&#9670;&nbsp;</a></span>reduceA()</h2>
+<a id="ac5c44bc95450bbbc88c5b1af5d3d851d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5c44bc95450bbbc88c5b1af5d3d851d">&#9670;&nbsp;</a></span>reduceA()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1141,20 +1135,8 @@ template&lt;&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>fullToReduced</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>reducedToFull</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>dependencies</em>&#160;</td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>M</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1168,8 +1150,14 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Reduce \( A \) matrix based on the dependencies list </p>
-
+<p>Reduce \( A \) matrix based on the multiplier and offset</p>
+<p>In this form, all non bounds constraints are represented as: </p><p class="formulaDsp">
+\begin{align} A x \eq b A x \leq b L \leq A x \leq U \end{align}
+</p>
+<p>Which we can rewrite as: </p><p class="formulaDsp">
+\begin{align} A M y \eq b A M y \leq b L \leq A M y \leq U \end{align}
+</p>
+ 
 </div>
 </div>
 <a id="a741de9b14e9fe6a5b4ec675703215210"></a>
@@ -1240,8 +1228,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="a4a8c8f1ea8f2baca2cc37e1e737edd9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a8c8f1ea8f2baca2cc37e1e737edd9b">&#9670;&nbsp;</a></span>reduceQC()</h2>
+<a id="a6ad2cb7bd904212e5d9b6dcfaa989f94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ad2cb7bd904212e5d9b6dcfaa989f94">&#9670;&nbsp;</a></span>reduceQC()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1276,20 +1264,8 @@ template&lt;&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>fullToReduced</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>reducedToFull</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>dependencies</em>&#160;</td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>M</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1303,8 +1279,17 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Reduce \( Q \) matrix and the \( c \) vector based on the dependencies list </p>
-
+<p>Reduce \( Q \) matrix and the \( c \) vector using the multiplier matrix</p>
+<p>Indeed, solving: </p><p class="formulaDsp">
+\begin{align} \underset{x}{\text{minimize }} &amp; \frac{1}{2} x^T Q x + x^T c\\ \end{align}
+</p>
+<p>Where: </p><p class="formulaDsp">
+\begin{align} x = M y \end{align}
+</p>
+<p>Is equivalent to solving: </p><p class="formulaDsp">
+\begin{align} \underset{x}{\text{minimize }} &amp; \frac{1}{2} y^T M ^T Q M y + y^T M^T c\\ \end{align}
+</p>
+ 
 </div>
 </div>
 <a id="a2887fd65f669f54a2aaaa911c724a089"></a>

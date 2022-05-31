@@ -23,8 +23,8 @@
       <type>void</type>
       <name>reduceQC</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a4a8c8f1ea8f2baca2cc37e1e737edd9b</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</arglist>
+      <anchor>a6ad2cb7bd904212e5d9b6dcfaa989f94</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::MatrixXd &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
@@ -79,8 +79,8 @@
       <type>void</type>
       <name>reduceA</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a5c7c5651f0a5ab680fa7f34d4b98f6c3</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</arglist>
+      <anchor>ac5c44bc95450bbbc88c5b1af5d3d851d</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::MatrixXd &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -93,8 +93,8 @@
       <type>void</type>
       <name>expandResult</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a8798d79d3633875640b98586875a0a05</anchor>
-      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</arglist>
+      <anchor>a9ce2d39b71ff7cc28fd53ce83444803f</anchor>
+      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::MatrixXd &amp;multipliers)</arglist>
     </member>
     <member kind="function">
       <type>std::ostream &amp;</type>
@@ -2670,6 +2670,13 @@
       <name>dependencies_</name>
       <anchorfile>classtasks_1_1qp_1_1GenQPSolver.html</anchorfile>
       <anchor>aab010e6097d3344cc671ecd6b8e2a120</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>Eigen::MatrixXd</type>
+      <name>multipliers_</name>
+      <anchorfile>classtasks_1_1qp_1_1GenQPSolver.html</anchorfile>
+      <anchor>a7b7781b89821581eb94fbb825d2f30f7</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -8222,8 +8229,8 @@
       <type>void</type>
       <name>reduceQC</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a4a8c8f1ea8f2baca2cc37e1e737edd9b</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</arglist>
+      <anchor>a6ad2cb7bd904212e5d9b6dcfaa989f94</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::MatrixXd &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
@@ -8278,8 +8285,8 @@
       <type>void</type>
       <name>reduceA</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a5c7c5651f0a5ab680fa7f34d4b98f6c3</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</arglist>
+      <anchor>ac5c44bc95450bbbc88c5b1af5d3d851d</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::MatrixXd &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -8292,8 +8299,8 @@
       <type>void</type>
       <name>expandResult</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a8798d79d3633875640b98586875a0a05</anchor>
-      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</arglist>
+      <anchor>a9ce2d39b71ff7cc28fd53ce83444803f</anchor>
+      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::MatrixXd &amp;multipliers)</arglist>
     </member>
     <member kind="function">
       <type>std::ostream &amp;</type>
