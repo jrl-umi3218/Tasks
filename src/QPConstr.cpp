@@ -360,8 +360,9 @@ CollisionConstr::BodyCollData::BodyCollData(const rbd::MultiBody & mb,
                                             int rI,
                                             const std::string & bName,
                                             sch::S_Object * h,
-                                            const sva::PTransformd & X)
-: hull(h), jac(mb, bName), X_op_o(X), rIndex(rI), bIndex(mb.bodyIndexByName(bName)), bodyName(bName)
+                                            const sva::PTransformd & X,
+                                            const Eigen::VectorXd & selector)
+: hull(h), jac(mb, bName), X_op_o(X), rIndex(rI), bIndex(mb.bodyIndexByName(bName)), bodyName(bName), selector(selector)
 {
 }
 
@@ -400,18 +401,22 @@ void CollisionConstr::addCollision(const std::vector<rbd::MultiBody> & mbs,
                                    double di,
                                    double ds,
                                    double damping,
-                                   double dampingOff)
+                                   double dampingOff,
+                                   const Eigen::VectorXd & r1Selector,
+                                   const Eigen::VectorXd & r2Selector)
 {
-  const rbd::MultiBody mb1 = mbs[r1Index];
-  const rbd::MultiBody mb2 = mbs[r2Index];
+  const rbd::MultiBody mb1 = mbs[static_cast<size_t>(r1Index)];
+  const rbd::MultiBody mb2 = mbs[static_cast<size_t>(r2Index)];
   std::vector<BodyCollData> bodies;
   if(mb1.nrDof() > 0)
   {
-    bodies.emplace_back(mb1, r1Index, r1BodyName, body1, X_op1_o1);
+    assert(r1Selector.size() == 0 || r1Selector.size() == mb1.nrDof());
+    bodies.emplace_back(mb1, r1Index, r1BodyName, body1, X_op1_o1, r1Selector);
   }
   if(mb2.nrDof() > 0)
   {
-    bodies.emplace_back(mb2, r2Index, r2BodyName, body2, X_op2_o2);
+    assert(r2Selector.size() == 0 || r2Selector.size() == mb2.nrDof());
+    bodies.emplace_back(mb2, r2Index, r2BodyName, body2, X_op2_o2, r1Index == r2Index ? r1Selector : r2Selector);
   }
   dataVec_.emplace_back(std::move(bodies), collId, body1, body2, di, ds, damping, dampingOff);
 }
@@ -452,8 +457,8 @@ void CollisionConstr::reset()
 
 void CollisionConstr::updateNrCollisions()
 {
-  AInEq_.setZero(dataVec_.size(), nrVars_);
-  bInEq_.setZero(dataVec_.size());
+  AInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()), nrVars_);
+  bInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()));
 }
 
 void CollisionConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mb */, const SolverData & data)
@@ -478,8 +483,8 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
     // update moving hull position
     for(BodyCollData & bcd : d.bodies)
     {
-      const rbd::MultiBodyConfig & mbc = mbcs[bcd.rIndex];
-      bcd.hull->setTransformation(tosch(bcd.X_op_o * mbc.bodyPosW[bcd.bIndex]));
+      const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
+      bcd.hull->setTransformation(tosch(bcd.X_op_o * mbc.bodyPosW[static_cast<size_t>(bcd.bIndex)]));
     }
 
     d.distance = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
@@ -495,8 +500,9 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
     for(std::size_t i = 0; i < d.bodies.size(); ++i)
     {
       BodyCollData & bcd = d.bodies[i];
-      const rbd::MultiBodyConfig & mbc = mbcs[bcd.rIndex];
-      nearestPoint = (sva::PTransformd(nearestPoint) * mbc.bodyPosW[bcd.bIndex].inv()).translation();
+      const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
+      nearestPoint =
+          (sva::PTransformd(nearestPoint) * mbc.bodyPosW[static_cast<size_t>(bcd.bIndex)].inv()).translation();
 
       // change the jacobian end point
       bcd.jac.point(nearestPoint);
@@ -524,8 +530,8 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
       for(std::size_t i = 0; i < d.bodies.size(); ++i)
       {
         BodyCollData & bcd = d.bodies[i];
-        const rbd::MultiBody & mb = mbs[bcd.rIndex];
-        const rbd::MultiBodyConfig & mbc = mbcs[bcd.rIndex];
+        const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
+        const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
 
         // Compute body1
         const MatrixXd & jac = bcd.jac.jacobian(mb, mbc);
@@ -541,8 +547,16 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
         double jqdnd = pSpeed.dot(dnf * step_);
         double jdqdn = pNormalAcc.dot(nf * step_);
 
-        AInEq_.block(nrActivated_, data.alphaDBegin(bcd.rIndex), 1, mb.nrDof()).noalias() -=
-            fullJac_.block(0, 0, 1, mb.nrDof());
+        if(bcd.selector.size() == 0)
+        {
+          AInEq_.block(nrActivated_, data.alphaDBegin(bcd.rIndex), 1, mb.nrDof()).noalias() -=
+              fullJac_.block(0, 0, 1, mb.nrDof());
+        }
+        else
+        {
+          AInEq_.block(nrActivated_, data.alphaDBegin(bcd.rIndex), 1, mb.nrDof()).noalias() -=
+              fullJac_.block(0, 0, 1, mb.nrDof()) * bcd.selector.asDiagonal();
+        }
         bInEq_(nrActivated_) += sign * (jqdn + jqdnd + jdqdn);
         // little hack
         // the max iteration number is two, so at the second iteration
@@ -582,7 +596,7 @@ std::string CollisionConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, i
         std::stringstream ss;
         for(const BodyCollData & bcd : d.bodies)
         {
-          const rbd::MultiBody & mb = mbs[bcd.rIndex];
+          const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
           ss << "robot: " << bcd.rIndex << std::endl;
           ss << "body: " << mb.body(bcd.bIndex).name() << std::endl;
         }
@@ -630,8 +644,8 @@ double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody> & mbs,
   for(std::size_t i = 0; i < cd.bodies.size(); ++i)
   {
     const BodyCollData & bcd = cd.bodies[i];
-    const rbd::MultiBody & mb = mbs[bcd.rIndex];
-    const rbd::MultiBodyConfig & mbc = mbcs[bcd.rIndex];
+    const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
+    const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
 
     Eigen::Vector3d velW = bcd.jac.velocity(mb, mbc).linear();
 
