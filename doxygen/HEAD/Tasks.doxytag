@@ -796,8 +796,8 @@
       <type>void</type>
       <name>addCollision</name>
       <anchorfile>classtasks_1_1qp_1_1CollisionConstr.html</anchorfile>
-      <anchor>a5219663aa6329f878b922596d1a2cbce</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int collId, int r1Index, const std::string &amp;r1BodyName, sch::S_Object *body1, const sva::PTransformd &amp;X_op1_o1, int r2Index, const std::string &amp;r2BodyName, sch::S_Object *body2, const sva::PTransformd &amp;X_op2_o2, double di, double ds, double damping, double dampingOff=0.)</arglist>
+      <anchor>a965900ecf498d92673d64796558b9857</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int collId, int r1Index, const std::string &amp;r1BodyName, sch::S_Object *body1, const sva::PTransformd &amp;X_op1_o1, int r2Index, const std::string &amp;r2BodyName, sch::S_Object *body2, const sva::PTransformd &amp;X_op2_o2, double di, double ds, double damping, double dampingOff=0., const Eigen::VectorXd &amp;r1Selector=Eigen::VectorXd::Zero(0), const Eigen::VectorXd &amp;r2Selector=Eigen::VectorXd::Zero(0))</arglist>
     </member>
     <member kind="function">
       <type>bool</type>

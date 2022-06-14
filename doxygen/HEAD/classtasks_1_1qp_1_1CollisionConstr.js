@@ -1,7 +1,7 @@
 var classtasks_1_1qp_1_1CollisionConstr =
 [
     [ "CollisionConstr", "classtasks_1_1qp_1_1CollisionConstr.html#a6cbd77cac9be76d2b470ede58f805e6e", null ],
-    [ "addCollision", "classtasks_1_1qp_1_1CollisionConstr.html#a5219663aa6329f878b922596d1a2cbce", null ],
+    [ "addCollision", "classtasks_1_1qp_1_1CollisionConstr.html#a965900ecf498d92673d64796558b9857", null ],
     [ "AInEq", "classtasks_1_1qp_1_1CollisionConstr.html#a33371ff73cdc9160464bf037940ca5de", null ],
     [ "bInEq", "classtasks_1_1qp_1_1CollisionConstr.html#a156d042206e1e319c9d4bb7dbfea0707", null ],
     [ "descInEq", "classtasks_1_1qp_1_1CollisionConstr.html#a20297f19f57623cee1ed62c8dfe43263", null ],

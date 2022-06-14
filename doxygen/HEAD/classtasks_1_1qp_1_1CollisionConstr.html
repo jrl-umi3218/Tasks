@@ -98,8 +98,8 @@ Collaboration diagram for tasks::qp::CollisionConstr:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6cbd77cac9be76d2b470ede58f805e6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#a6cbd77cac9be76d2b470ede58f805e6e">CollisionConstr</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, double step)</td></tr>
 <tr class="separator:a6cbd77cac9be76d2b470ede58f805e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5219663aa6329f878b922596d1a2cbce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#a5219663aa6329f878b922596d1a2cbce">addCollision</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int collId, int r1Index, const std::string &amp;r1BodyName, sch::S_Object *body1, const sva::PTransformd &amp;X_op1_o1, int r2Index, const std::string &amp;r2BodyName, sch::S_Object *body2, const sva::PTransformd &amp;X_op2_o2, double di, double ds, double damping, double dampingOff=0.)</td></tr>
-<tr class="separator:a5219663aa6329f878b922596d1a2cbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a965900ecf498d92673d64796558b9857"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#a965900ecf498d92673d64796558b9857">addCollision</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int collId, int r1Index, const std::string &amp;r1BodyName, sch::S_Object *body1, const sva::PTransformd &amp;X_op1_o1, int r2Index, const std::string &amp;r2BodyName, sch::S_Object *body2, const sva::PTransformd &amp;X_op2_o2, double di, double ds, double damping, double dampingOff=0., const Eigen::VectorXd &amp;r1Selector=Eigen::VectorXd::Zero(0), const Eigen::VectorXd &amp;r2Selector=Eigen::VectorXd::Zero(0))</td></tr>
+<tr class="separator:a965900ecf498d92673d64796558b9857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a378178fcd1de3da1e6a0472c0f04f42e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#a378178fcd1de3da1e6a0472c0f04f42e">rmCollision</a> (int collId)</td></tr>
 <tr class="separator:a378178fcd1de3da1e6a0472c0f04f42e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a341e8e4c203491bd1798956615736350"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#a341e8e4c203491bd1798956615736350">nrCollisions</a> () const</td></tr>
@@ -186,8 +186,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5219663aa6329f878b922596d1a2cbce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5219663aa6329f878b922596d1a2cbce">&#9670;&nbsp;</a></span>addCollision()</h2>
+<a id="a965900ecf498d92673d64796558b9857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a965900ecf498d92673d64796558b9857">&#9670;&nbsp;</a></span>addCollision()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -274,7 +274,19 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dampingOff</em> = <code>0.</code>&#160;</td>
+          <td class="paramname"><em>dampingOff</em> = <code>0.</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>r1Selector</em> = <code>Eigen::VectorXd::Zero(0)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::VectorXd &amp;&#160;</td>
+          <td class="paramname"><em>r2Selector</em> = <code>Eigen::VectorXd::Zero(0)</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -300,6 +312,8 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">ds</td><td>\( d_s \). </td></tr>
     <tr><td class="paramname">damping</td><td>\( \xi \), if set to 0 the damping is computed automatically. </td></tr>
     <tr><td class="paramname">dampingOff</td><td>\( \xi_{\text{off}} \). </td></tr>
+    <tr><td class="paramname">r1Selector</td><td>A joint selection vector for <code>r1Index</code> the default selects all joints </td></tr>
+    <tr><td class="paramname">r2Selector</td><td>A joint selection vector for <code>r2Index</code> the default selects all joints, ignored if r1Index == r2Index </td></tr>
   </table>
   </dd>
 </dl>
