@@ -317,6 +317,9 @@ public:
    * @param ds \f$ d_s \f$.
    * @param damping \f$ \xi \f$, if set to 0 the damping is computed automatically.
    * @param dampingOff \f$ \xi_{\text{off}} \f$.
+   * @param r1Selector A joint selection vector for \p r1Index the default selects all joints
+   * @param r2Selector A joint selection vector for \p r2Index the default selects all joints,
+   * ignored if r1Index == r2Index
    */
   void addCollision(const std::vector<rbd::MultiBody> & mbs,
                     int collId,
@@ -331,7 +334,9 @@ public:
                     double di,
                     double ds,
                     double damping,
-                    double dampingOff = 0.);
+                    double dampingOff = 0.,
+                    const Eigen::VectorXd & r1Selector = Eigen::VectorXd::Zero(0),
+                    const Eigen::VectorXd & r2Selector = Eigen::VectorXd::Zero(0));
 
   /**
    * Remove a collision avoidance constraint.
@@ -374,13 +379,15 @@ private:
                  int rIndex,
                  const std::string & bodyName,
                  sch::S_Object * hull,
-                 const sva::PTransformd & X_op_o);
+                 const sva::PTransformd & X_op_o,
+                 const Eigen::VectorXd & selector);
 
     sch::S_Object * hull;
     rbd::Jacobian jac;
     sva::PTransformd X_op_o;
     int rIndex, bIndex;
     std::string bodyName;
+    Eigen::VectorXd selector;
   };
 
   struct CollData
