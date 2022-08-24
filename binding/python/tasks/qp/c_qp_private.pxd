@@ -10,3 +10,4 @@ from libcpp.vector cimport vector
 cdef extern from "qp_wrapper.hpp" namespace "tasks::qp":
     JointsSelector* ActiveJoints2Ptr(const vector[MultiBody]&, int, HighLevelTask*, const vector[string])
     JointsSelector* UnactiveJoints2Ptr(const vector[MultiBody]&, int, HighLevelTask*, const vector[string])
+    shared_ptr[ForwardDynamics] FD2ShPtr(ForwardDynamics & fd)

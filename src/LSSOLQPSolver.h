@@ -42,7 +42,8 @@ public:
                                   std::ostream & out) const override;
   std::string name() const override;
 
-private:
+public:  // Changed by Rafa as a test
+//private:
   Eigen::LSSOL_QP lssol_;
 
   Eigen::MatrixXd A_;

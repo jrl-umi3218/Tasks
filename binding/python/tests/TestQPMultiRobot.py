@@ -152,6 +152,9 @@ class TestTwoArmDDynamicContact(unittest.TestCase):
     mb1, mbc1Init = arms.makeZXZArm()
     rbdyn.forwardKinematics(mb1, mbc1Init)
     rbdyn.forwardVelocity(mb1, mbc1Init)
+    self.fd1 = rbdyn.ForwardDynamics(mb1)
+    self.fd1.computeH(mb1, mbc1Init)
+    self.fd1.computeC(mb1, mbc1Init)
 
     mb2, mbc2Init = arms.makeZXZArm(False)
     if not LEGACY:
@@ -164,6 +167,9 @@ class TestTwoArmDDynamicContact(unittest.TestCase):
       mbc2Init.q[0] = [mb2InitOri.w(), mb2InitOri.x(), mb2InitOri.y(), mb2InitOri.z(), mb2InitPos.x(), mb2InitPos.y() + 1, mb2InitPos.z()]
     rbdyn.forwardKinematics(mb2, mbc2Init)
     rbdyn.forwardVelocity(mb2, mbc2Init)
+    self.fd2 = rbdyn.ForwardDynamics(mb2)
+    self.fd2.computeH(mb2, mbc2Init)
+    self.fd2.computeC(mb2, mbc2Init)
 
     if not LEGACY:
       X_0_b1 = sva.PTransformd(mbc1Init.bodyPosW[-1])
@@ -228,8 +234,8 @@ class TestTwoArmDDynamicContact(unittest.TestCase):
     torqueMax1 = [[], [Inf], [Inf], [Inf]]
     torqueMin2 = [[0,0,0,0,0,0], [-Inf], [-Inf], [-Inf]]
     torqueMax2 = [[0,0,0,0,0,0], [Inf], [Inf], [Inf]]
-    motion1 = tasks.qp.MotionConstr(mbs, 0, tasks.TorqueBound(torqueMin1, torqueMax1))
-    motion2 = tasks.qp.MotionConstr(mbs, 1, tasks.TorqueBound(torqueMin2, torqueMax2))
+    motion1 = tasks.qp.MotionConstr(mbs, 0, self.fd1, tasks.TorqueBound(torqueMin1, torqueMax1))
+    motion2 = tasks.qp.MotionConstr(mbs, 1, self.fd2, tasks.TorqueBound(torqueMin2, torqueMax2))
     plCstr = tasks.qp.PositiveLambda()
 
     motion1.addToSolver(solver)
@@ -264,6 +270,10 @@ class TestTwoArmDDynamicContact(unittest.TestCase):
         rbdyn.eulerIntegration(mbs[i], mbcs[i], 0.001)
         rbdyn.forwardKinematics(mbs[i], mbcs[i])
         rbdyn.forwardVelocity(mbs[i], mbcs[i])
+      self.fd1.computeH(mbs[0], mbcs[0])
+      self.fd1.computeC(mbs[0], mbcs[0])
+      self.fd2.computeH(mbs[1], mbcs[1])
+      self.fd2.computeC(mbs[1], mbcs[1])
 
       # Check that the link hold
       if not LEGACY:

@@ -7,9 +7,14 @@
 // includes
 //
 #include <array>
+#include <set>
 
 // Eigen
 #include <Eigen/Core>
+
+// RBDyn, added by Rafa
+#include <RBDyn/CoM.h>
+#include <RBDyn/Momentum.h>
 
 // Tasks
 #include "QPMotionConstr.h"
@@ -40,6 +45,11 @@ public:
                      const Eigen::VectorXd & dimWeight,
                      double weight);
 
+  virtual std::string nameTask() const override
+  {
+    return hlTask_->nameHighLevelTask();
+  }
+  
   virtual std::pair<int, int> begin() const override
   {
     return std::make_pair(alphaDBegin_, alphaDBegin_);
@@ -394,37 +404,37 @@ struct JointGains
 class TASKS_DLLAPI TorqueTask : public Task
 {
 public:
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb, double weight);
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+             const std::shared_ptr<rbd::ForwardDynamics> fd,
+             const TorqueBound & tb, double weight);
 
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
-             int robotIndex,
-             const TorqueBound & tb,
-             const Eigen::VectorXd & jointSelect,
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+             const std::shared_ptr<rbd::ForwardDynamics> fd,
+             const TorqueBound & tb, const Eigen::VectorXd & jointSelect,
              double weight);
 
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
-             int robotIndex,
-             const TorqueBound & tb,
-             const std::string & efName,
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+             const std::shared_ptr<rbd::ForwardDynamics> fd,
+             const TorqueBound & tb, const std::string & efName,
              double weight);
 
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
-             int robotIndex,
-             const TorqueBound & tb,
-             const TorqueDBound & tdb,
-             double dt,
-             double weight);
-
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
-             int robotIndex,
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+             const std::shared_ptr<rbd::ForwardDynamics> fd,
              const TorqueBound & tb,
              const TorqueDBound & tdb,
              double dt,
+             double weight);
+
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+             const std::shared_ptr<rbd::ForwardDynamics> fd,
+             const TorqueBound & tb,
+             const TorqueDBound & tdb,
+             double dt,
              const Eigen::VectorXd & jointSelect,
              double weight);
 
-  TorqueTask(const std::vector<rbd::MultiBody> & mbs,
-             int robotIndex,
+  TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+             const std::shared_ptr<rbd::ForwardDynamics> fd,
              const TorqueBound & tb,
              const TorqueDBound & tdb,
              double dt,
@@ -473,6 +483,11 @@ public:
               std::vector<std::vector<double>> q,
               double stiffness,
               double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "PostureTask";
+  }
 
   tasks::PostureTask & task()
   {
@@ -584,6 +599,11 @@ public:
                const Eigen::Vector3d & pos,
                const Eigen::Vector3d & bodyPoint = Eigen::Vector3d::Zero());
 
+  virtual std::string nameHighLevelTask() const override
+  {
+    return "PositionTask";
+  }
+
   tasks::PositionTask & task()
   {
     return pt_;
@@ -636,6 +656,11 @@ public:
                   const std::string & bodyName,
                   const Eigen::Matrix3d & ori);
 
+  virtual std::string nameHighLevelTask() const override
+  {
+    return "OrientationTask";
+  }
+  
   tasks::OrientationTask & task()
   {
     return ot_;
@@ -912,6 +937,11 @@ public:
           const Eigen::Vector3d & com,
           std::vector<double> weight);
 
+  virtual std::string nameHighLevelTask() const override
+  {
+    return "CoMTask";
+  }
+  
   tasks::CoMTask & task()
   {
     return ct_;
@@ -948,7 +978,7 @@ private:
   tasks::CoMTask ct_;
   int robotIndex_;
 };
-
+ 
 class TASKS_DLLAPI MultiCoMTask : public Task
 {
 public:
@@ -1129,6 +1159,83 @@ private:
   int robotIndex_;
 };
 
+class TASKS_DLLAPI CentroidalAngularMomentumTask : public Task
+{
+public:
+  CentroidalAngularMomentumTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex,
+				double gain, const Eigen::Vector3d angMomentum, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "CentroidalAngularMomentumTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+  
+  void angMomentum(const Eigen::Vector3d & angMomentum)
+  {
+    angMomentum_ = angMomentum;
+  }
+
+  const Eigen::Vector3d angMomentum() const
+  {
+    return angMomentum_;
+  }
+
+  void setGain(double gain)
+  {
+    gain_ = gain;
+  }
+
+  void dimWeight(const Eigen::Vector3d & dim)
+  {
+    dimWeight_ = dim;
+  }
+
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+                            const SolverData & data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+                      const std::vector<rbd::MultiBodyConfig> & mbcs,
+                      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+  
+private:
+  
+  int robotIndex_, alphaDBegin_;
+  Eigen::Vector3d dimWeight_;
+
+  Eigen::Vector3d angMomentum_;
+  double gain_;
+
+  rbd::CentroidalMomentumMatrix centroidalMomentumMatrix_;
+
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd jacMat_;
+  Eigen::MatrixXd preQ_;
+  Eigen::Vector3d CSum_;
+  Eigen::Vector3d normalAcc_;
+};
+ 
 class TASKS_DLLAPI ContactTask : public Task
 {
 public:
@@ -1405,6 +1512,787 @@ private:
   int robotIndex_;
 };
 
+class TASKS_DLLAPI WrenchTask : public Task
+{
+ public:
+  WrenchTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const std::string & bodyName,
+	     const Eigen::Vector3d & bodyPoint, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "WrenchTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(lambdaBegin_, lambdaBegin_);
+  }
+  
+  void bodyPoint(const Eigen::Vector3d & point)
+  {
+    bodyPoint_ = point;
+  }
+  
+  const Eigen::Vector3d & bodyPoint() const
+  {
+    return bodyPoint_;
+  }
+  
+  void treatDesWrenchAsLocal(bool local)
+  {
+    local_ = local;
+  }
+  
+  bool treatSettingsAsLocal()
+  {
+    return local_;
+  }
+  
+  void wrench(const std::vector<rbd::MultiBodyConfig> & mbcs, const sva::ForceVecd & wrench);
+  
+  const sva::ForceVecd & wrench() const
+  {
+    return wrench_;
+  }
+  
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector6d & dim);
+  
+  const Eigen::Vector6d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+  
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+ private:
+  
+  int robotIndex_, bodyIndex_, lambdaBegin_;
+  Eigen::Vector6d dimWeight_;
+  
+  Eigen::Vector3d bodyPoint_;
+  sva::ForceVecd wrench_;
+  
+  Eigen::MatrixXd W_;
+  
+  // the following flag indicates if the desired values are expressed or not in the local frame
+  bool local_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd preQ_;
+  Eigen::MatrixXd preC_;
+};
+
+class TASKS_DLLAPI LocalCoPTask : public Task
+{
+ public:
+  LocalCoPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+               const std::string & bodyName, const Eigen::Vector3d & localCoP,
+               double weight);
+  
+  virtual std::string nameTask() const override
+  {
+    return "LocalCoPTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(lambdaBegin_, lambdaBegin_);
+  }
+
+  void localCoP(const Eigen::Vector3d & point)
+  {
+    localCoP_ = point;
+  }
+  
+  const Eigen::Vector3d & localCoP() const
+  {
+    return localCoP_;
+  }
+
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs, const Eigen::Vector3d & dim);
+  
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+ private:
+
+  int robotIndex_, bodyIndex_, lambdaBegin_;
+  Eigen::Vector3d dimWeight_;
+  
+  Eigen::Vector3d localCoP_;
+  
+  Eigen::MatrixXd W_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd preQ_;
+};
+
+class TASKS_DLLAPI AdmittanceTaskCommon : public Task
+{
+public:
+  AdmittanceTaskCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+		       const std::string & bodyName,
+		       const Eigen::Vector3d & bodyPoint,
+		       double timeStep, double gainForceP, double gainForceD,
+		       double gainCoupleP, double gainCoupleD, double weight);
+
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+  
+  void bodyPoint(const Eigen::Vector3d & point)
+  {
+    jac_.point(point);
+  }
+  
+  const Eigen::Vector3d & bodyPoint() const
+  {
+    return jac_.point();
+  }
+  
+  void treatSettingsAsLocal(bool local)
+  {
+    local_ = local;
+  }
+
+  void setForceGains(double gainP, double gainD)
+  {
+    gainForceP_ = gainP;
+    gainForceD_ = gainD;
+  }
+  
+  void setCoupleGains(double gainP, double gainD)
+  {
+    gainCoupleP_ = gainP;
+    gainCoupleD_ = gainD;
+  }
+
+  void dimWeight(const std::vector<rbd::MultiBodyConfig> & mbcs,
+		 const Eigen::Vector6d & dim);
+  
+  const Eigen::Vector6d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+  
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData & data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) = 0;
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+  struct BodyLambda
+  {
+    std::string body;
+    int begin;
+    int size;
+  };
+
+protected:
+
+  sva::ForceVecd computeWrench(const rbd::MultiBodyConfig & mbc,
+			       const tasks::qp::BilateralContact & contact,
+			       Eigen::VectorXd lambdaVec, int pos);
+
+  int robotIndex_, bodyIndex_, alphaDBegin_;
+  std::vector<BodyLambda> contactBodies_, contactBodiesPrev_; 
+  double dt_;
+  double gainForceP_, gainForceD_;
+  double gainCoupleP_, gainCoupleD_;
+
+  rbd::Jacobian jac_;
+  Eigen::MatrixXd jacMat_;
+  Eigen::Vector6d error_;
+  Eigen::Vector6d normalAcc_;
+  Eigen::Vector6d dimWeight_;
+  
+  // the following flag indicates if dimWeight values are related or not to the local frame
+  bool local_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd preQ_;
+  Eigen::Vector6d preC_;
+};
+ 
+class TASKS_DLLAPI AdmittanceTask : public AdmittanceTaskCommon
+{
+public:
+  AdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+		 const std::string & bodyName,
+		 const Eigen::Vector3d & bodyPoint,
+		 double timeStep, double gainForceP, double gainForceD,
+		 double gainCoupleP, double gainCoupleD, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "AdmittanceTask";
+  }
+  
+  void measuredWrench(const sva::ForceVecd wrench)
+  {
+    measuredWrench_ = wrench;
+  }
+  
+  const sva::ForceVecd & measuredWrench() const
+  {
+    return measuredWrench_;
+  }
+  
+  const sva::ForceVecd & calculatedWrench() const
+  {
+    return calculatedWrench_;
+  }
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+private:
+  
+  sva::ForceVecd measuredWrench_, measuredWrenchPrev_;
+  sva::ForceVecd calculatedWrench_, calculatedWrenchPrev_;
+};
+
+class TASKS_DLLAPI NullSpaceAdmittanceTask : public AdmittanceTaskCommon
+{
+public:
+  NullSpaceAdmittanceTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+			  const std::string & bodyName,
+			  const Eigen::Vector3d & bodyPoint,
+			  double timeStep, double gainForceP, double gainForceD,
+			  double gainCoupleP, double gainCoupleD, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "NullSpaceAdmittanceTask";
+  }
+  
+  void measuredWrench(const std::string & bodyName, const sva::ForceVecd & wrench);
+  
+  void measuredWrenches(const std::map<std::string, sva::ForceVecd> & wrenches);
+
+  const sva::ForceVecd & measuredWrench(const std::string & bodyName) const
+  {
+    return measuredWrenches_.at(bodyName);
+  }
+
+  const std::map<std::string, sva::ForceVecd> & measuredWrenches() const
+  {
+    return measuredWrenches_;
+  }
+
+  const Eigen::Vector3d & calculatedForce(const std::string & bodyName) const
+  {
+    return calculatedForces_.at(bodyName);
+  }
+
+  const std::map<std::string, Eigen::Vector3d> & calculatedForces() const
+  {
+    return calculatedForces_;
+  }
+
+  const sva::ForceVecd & calculatedWrench() const
+  {
+    return calculatedBodyWrench_;
+  }
+  
+  void fdistRatio(const Eigen::Vector3d & ratio)
+  {
+    fdistRatio_ = ratio;
+  }
+
+  const Eigen::Vector3d & fdistRatio() const
+  {
+    return fdistRatio_;
+  }
+  
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData & data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+
+private:
+
+  int nrBodies_;
+
+  // std::set<std::string> bodies_;
+  
+  std::map<std::string, sva::ForceVecd> measuredWrenches_;
+  std::map<std::string, Eigen::Vector3d> calculatedForces_;
+
+  sva::ForceVecd calculatedBodyWrench_;
+  sva::ForceVecd measuredBodyWrenchPrev_;
+  sva::ForceVecd calculatedBodyWrenchPrev_;
+  
+  Eigen::Vector3d fdistRatio_;
+
+  Eigen::Vector3d projForceErr_;
+};
+
+class TASKS_DLLAPI ForceDistributionTaskCommon : public Task
+{
+ public:
+  ForceDistributionTaskCommon(const std::vector<rbd::MultiBody> & mbs,
+			      int robotIndex, double weight);
+
+  virtual std::pair<int, int> begin() const = 0;
+
+  void fdistRatio(const std::string & bodyName, const Eigen::Vector3d & ratio)
+  {
+    //fdistRatios_.at(bodyName) = ratio;
+    fdistRatios_[bodyName] = ratio;
+  }
+  
+  void fdistRatios(const std::map<std::string, Eigen::Vector3d> & ratios);
+
+  Eigen::Vector3d fdistRatio(const std::string & bodyName) const;
+  
+  const std::map<std::string, Eigen::Vector3d> & fdistRatios() const
+  {
+    return fdistRatios_;
+  }
+
+  Eigen::Vector3d refForce(const std::string & bodyName) const;
+  
+  const std::map<std::string, Eigen::Vector3d> & refForces() const
+  {
+    return refForces_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+  struct BodyLambda
+  {
+    std::string body;
+    int begin;
+    int size;
+  };
+  
+ protected:
+
+  int robotIndex_, lambdaBegin_, nrBodies_;
+  std::vector<BodyLambda> contactBodies_, contactBodiesPrev_; 
+
+  std::map<std::string, Eigen::Vector3d> fdistRatios_;
+  std::map<std::string, Eigen::Vector3d> refForces_;
+
+  Eigen::MatrixXd W_;
+  Eigen::MatrixXd fdistRatioMat_;
+  Eigen::MatrixXd A_;
+    
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+};
+ 
+class TASKS_DLLAPI ForceDistributionTaskOriginal : public ForceDistributionTaskCommon
+{
+public:
+  ForceDistributionTaskOriginal(const std::vector<rbd::MultiBody> & mbs,
+				int robotIndex, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "ForceDistributionTaskOriginal";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(0, 0);
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) override;
+  
+private:
+
+  int alphaDBegin_;
+  
+  double gAcc_;
+  double totalMass_;
+  
+  rbd::CoMJacobian comJac_;
+
+  Eigen::MatrixXd comJacMat_;
+  Eigen::Vector3d normalAcc_;
+
+  // cache
+  Eigen::VectorXd CSum_;
+};
+
+class TASKS_DLLAPI ForceDistributionTaskOptimized : public ForceDistributionTaskCommon
+{
+ public:
+  ForceDistributionTaskOptimized(const std::vector<rbd::MultiBody> & mbs,
+				 int robotIndex, double weight);
+  
+  virtual std::string nameTask() const override
+  {
+    return "ForceDistributionTaskOriginal";
+  }
+
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(lambdaBegin_, lambdaBegin_);
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data) override;
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data) override;
+
+ protected:
+
+  // cache
+  Eigen::MatrixXd SumMat_;
+  Eigen::MatrixXd preA_;
+};
+
+class TASKS_DLLAPI ZMPBasedCoMTask : public Task
+{
+ public:
+  ZMPBasedCoMTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+		  const Eigen::Vector3d & com, const Eigen::Vector3d & zmp,
+		  double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "ZMPBasedCoMTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+
+  void com(const Eigen::Vector3d & com)
+  {
+    com_ = com;
+  }
+
+  const Eigen::Vector3d & com() const
+  {
+    return com_;
+  }
+  
+  void zmp(const Eigen::Vector3d & zmp)
+  {
+    zmp_ = zmp;
+  }
+
+  const Eigen::Vector3d & zmp() const
+  {
+    return zmp_;
+  }
+
+  void ddcom(const Eigen::Vector3d & ddcom)
+  {
+    ddcom_ = ddcom;
+  }
+
+  const Eigen::Vector3d & ddcom() const
+  {
+    return ddcom_;
+  }
+
+  void dimWeight(const Eigen::Vector3d & dim)
+  {
+    dimWeight_ = dim;
+  }
+
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+ private:
+
+  int robotIndex_, alphaDBegin_;
+
+  Eigen::Vector3d com_, ddcom_, zmp_;
+  double gAcc_;
+  
+  Eigen::Vector3d dimWeight_;
+
+  rbd::CoMJacobian jac_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd jacMat_;
+  Eigen::MatrixXd preQ_;
+  Eigen::Vector3d CSum_;
+  Eigen::Vector3d normalAcc_;
+};
+
+class TASKS_DLLAPI ZMPTask : public Task
+{
+ public:
+  ZMPTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex,
+	  const Eigen::Vector3d & zmp, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "ZMPTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(lambdaBegin_, lambdaBegin_);
+  }
+
+  void zmp(const Eigen::Vector3d & zmp)
+  {
+    zmp_ = zmp;
+  }
+
+  const Eigen::Vector3d & zmp() const
+  {
+    return zmp_;
+  }
+
+  const Eigen::Vector3d & totalForce() const
+  {
+    return totalForce_;
+  }
+
+  const Eigen::Vector3d & totalMomentZMP() const
+  {
+    return totalMomentZMP_;
+  }
+
+  void dimWeight(const Eigen::Vector3d & dim)
+  {
+    dimWeight_ = dim;
+  }
+
+  const Eigen::Vector3d & dimWeight() const
+  {
+    return dimWeight_;
+  }
+
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs,
+			    const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+		      const std::vector<rbd::MultiBodyConfig> & mbcs,
+		      const SolverData & data);
+  
+  virtual const Eigen::MatrixXd & Q() const
+  {
+    return Q_;
+  }
+
+  virtual const Eigen::VectorXd & C() const
+  {
+    return C_;
+  }
+
+  struct BodyLambda
+  {
+    std::string body;
+    int begin;
+    int size;
+  };
+
+ private:
+
+  int robotIndex_, lambdaBegin_, nrBodies_;
+  std::vector<BodyLambda> contactBodies_, contactBodiesPrev_; 
+  Eigen::Vector3d dimWeight_;
+
+  Eigen::Vector3d zmp_;
+  
+  Eigen::Vector3d totalForce_;
+  Eigen::Vector3d totalMomentZMP_;
+
+  Eigen::MatrixXd W_;
+  Eigen::MatrixXd pW_;
+
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+  // cache
+  Eigen::MatrixXd preQ_;
+};
+
+// Pending to finish...
+ 
+class TASKS_DLLAPI YawMomentCompensationTask : public Task
+{
+ public:
+  YawMomentCompensationTask(const std::vector<rbd::MultiBody>& mbs, int robotIndex, double timeStep,
+                            double gainKp, double gainKd, double gainKi, double gainKii, double weight);
+
+  virtual std::string nameTask() const override
+  {
+    return "YawMomentCompensationTask";
+  }
+  
+  virtual std::pair<int, int> begin() const
+  {
+    return std::make_pair(alphaDBegin_, alphaDBegin_);
+  }
+  
+  void deltaTauP(const double delta_tau_p)
+  {
+    delta_tau_p_ = delta_tau_p;
+  }
+  
+  double deltaTauP()
+  {
+    return delta_tau_p_;
+  }
+  
+  void zmp(const Eigen::Vector3d p)
+  {
+    zmp_ = p;
+  }
+  
+  const Eigen::Vector3d zmp() const
+  {
+    return zmp_;
+  }
+  
+  void setGains(double gainKp, double gainKd, double gainKi, double gainKii)
+  {
+    gainKp_  = gainKp;
+    gainKd_  = gainKd;
+    gainKi_  = gainKi;
+    gainKii_ = gainKii;
+  }
+  
+  virtual void updateNrVars(const std::vector<rbd::MultiBody>& mbs,
+                            const SolverData& data);
+  
+  virtual void update(const std::vector<rbd::MultiBody>& mbs,
+                      const std::vector<rbd::MultiBodyConfig>& mbcs,
+                      const SolverData& data);
+  
+  virtual const Eigen::MatrixXd& Q() const
+  {
+    return Q_;
+  }
+  
+  virtual const Eigen::VectorXd& C() const
+  {
+    return C_;
+  }
+  
+ private:
+
+  double computeTauP();
+  sva::ForceVecd computeWrench(const rbd::MultiBodyConfig& mbc,
+                               const tasks::qp::BilateralContact& contact, Eigen::VectorXd lambdaVec, int pos);
+  Eigen::Matrix3d skewMatrix(const Eigen::Vector3d& v);
+        
+  int robotIndex_, alphaDBegin_;
+  
+  double dt_;
+  double gainKp_, gainKd_, gainKi_, gainKii_;
+        
+  Eigen::Vector3d com_prev_;
+  Eigen::Vector3d zmp_, zmp_prev_;
+  double delta_tau_p_, delta_tau_p_prev_;
+  double Lpz_, iLpz_;
+  
+  rbd::CentroidalMomentumMatrix centroidalMomentumMatrix_;
+  Eigen::MatrixXd jacMat_;
+  
+  Eigen::MatrixXd Q_;
+  Eigen::VectorXd C_;
+};
+ 
 } // namespace qp
 
 } // namespace tasks

@@ -19,5 +19,10 @@ JointsSelector* UnactiveJoints2Ptr(const std::vector<rbd::MultiBody>& mbs, int r
   return new JointsSelector(JointsSelector::UnactiveJoints(mbs, robotIndex, hl, unactiveJointsNames));
 }
 
+std::shared_ptr<rbd::ForwardDynamics> FD2ShPtr(rbd::ForwardDynamics & fd)
+{
+  return std::shared_ptr<rbd::ForwardDynamics>(&fd, [](rbd::ForwardDynamics *){});
+}
+
 }
 }

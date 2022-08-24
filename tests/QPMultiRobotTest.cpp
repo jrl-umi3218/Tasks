@@ -17,6 +17,7 @@
 #include <RBDyn/EulerIntegration.h>
 #include <RBDyn/FK.h>
 #include <RBDyn/FV.h>
+#include <RBDyn/FD.h>
 #include <RBDyn/ID.h>
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
@@ -176,6 +177,10 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
   forwardKinematics(mb1, mbc1Init);
   forwardVelocity(mb1, mbc1Init);
 
+  auto fd1 = std::make_shared<ForwardDynamics>(mb1);
+  fd1->computeH(mb1, mbc1Init);
+  fd1->computeC(mb1, mbc1Init);
+
   std::tie(mb2, mbc2Init) = makeZXZArm(false);
   Vector3d mb2InitPos = mbc1Init.bodyPosW.back().translation();
   Quaterniond mb2InitOri(RotY(cst::pi<double>() / 2.));
@@ -184,12 +189,17 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
   forwardKinematics(mb2, mbc2Init);
   forwardVelocity(mb2, mbc2Init);
 
+  auto fd2 = std::make_shared<ForwardDynamics>(mb2);
+  fd2->computeH(mb2, mbc2Init);
+  fd2->computeC(mb2, mbc2Init);
+
   sva::PTransformd X_0_b1(mbc1Init.bodyPosW.back());
   sva::PTransformd X_0_b2(mbc2Init.bodyPosW.front());
   sva::PTransformd X_b1_b2(X_0_b2 * X_0_b1.inv());
 
   std::vector<MultiBody> mbs = {mb1, mb2};
   std::vector<MultiBodyConfig> mbcs = {mbc1Init, mbc2Init};
+  std::vector<std::shared_ptr<ForwardDynamics>> fds = {fd1, fd2};
 
   // Test ContactAccConstr constraint
   // Also test PositionTask on the second robot
@@ -240,12 +250,13 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
   std::vector<std::vector<double>> torqueMax1 = {{}, {Inf}, {Inf}, {Inf}};
   std::vector<std::vector<double>> torqueMin2 = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueMax2 = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
+
   std::vector<std::vector<double>> torqueDtMin1 = {{}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueDtMax1 = {{}, {Inf}, {Inf}, {Inf}};
   std::vector<std::vector<double>> torqueDtMin2 = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
   std::vector<std::vector<double>> torqueDtMax2 = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
-  qp::MotionConstr motion1(mbs, 0, {torqueMin1, torqueMax1}, {torqueDtMin1, torqueDtMax1}, 0.005);
-  qp::MotionConstr motion2(mbs, 1, {torqueMin2, torqueMax2}, {torqueDtMin2, torqueDtMax2}, 0.005);
+  qp::MotionConstr motion1(mbs, 0, fd1, {torqueMin1, torqueMax1}, {torqueDtMin1, torqueDtMax1}, 0.005);
+  qp::MotionConstr motion2(mbs, 1, fd2, {torqueMin2, torqueMax2}, {torqueDtMin2, torqueDtMax2}, 0.005);
   qp::PositiveLambda plCstr;
 
   motion1.addToSolver(solver);
@@ -308,6 +319,9 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
+
+      fds[r]->computeH(mbs[r], mbcs[r]);
+      fds[r]->computeC(mbs[r], mbcs[r]);
     }
     // check that the link hold
     sva::PTransformd X_0_b1_post(mbcs[0].bodyPosW.back());
@@ -498,13 +512,22 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
   forwardKinematics(mb1, mbc1Init);
   forwardVelocity(mb1, mbc1Init);
 
+  auto fd1 = std::make_shared<ForwardDynamics>(mb1);
+  fd1->computeH(mb1, mbc1Init);
+  fd1->computeC(mb1, mbc1Init);
+        
   std::tie(mb2, mbc2Init) =
       makeZXZArm(false, sva::PTransformd(sva::RotZ(cst::pi<double>() / 2.), Vector3d(0.5, 0., 0.)));
   forwardKinematics(mb2, mbc2Init);
   forwardVelocity(mb2, mbc2Init);
 
+  auto fd2 = std::make_shared<ForwardDynamics>(mb2);
+  fd2->computeH(mb2, mbc2Init);
+  fd2->computeC(mb2, mbc2Init);
+
   std::vector<MultiBody> mbs = {mb1, mb2};
   std::vector<MultiBodyConfig> mbcs = {mbc1Init, mbc2Init};
+  std::vector<std::shared_ptr<ForwardDynamics>> fds = {fd1, fd2};
 
   // Test ContactAccConstr constraint
   // Also test PositionTask on the second robot
@@ -542,7 +565,7 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
 
   qp::PostureTask posture1Task(mbs, 0, mbc1Init.q, 0.1, 10.);
   qp::PostureTask posture2Task(mbs, 1, mbc2Init.q, 0.1, 10.);
-  qp::TorqueTask tt(mbs, 0, tb, tdb, 0.005, 1);
+  qp::TorqueTask tt(mbs, 0, fd1, tb, tdb, 0.005, 1);
 
   solver.addTask(&posture1Task);
   solver.addTask(&posture2Task);
@@ -562,6 +585,9 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
+      
+      fds[r]->computeH(mbs[r], mbcs[r]);
+      fds[r]->computeC(mbs[r], mbcs[r]);
     }
   }
   solver.removeTask(&posture1Task);
