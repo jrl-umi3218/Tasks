@@ -10,7 +10,6 @@ from __future__ import print_function
 LEGACY = False
 
 import unittest
-from utils import expected_failure
 
 import math
 try:
@@ -246,10 +245,6 @@ class TestQPConstr(unittest.TestCase):
 
   def test_contact_speed_constr(self):
     self.check_equality_constr(tasks.qp.ContactSpeedConstr, 0.001)
-
-  @expected_failure
-  def test_contact_pos_constr(self):
-    self.check_equality_constr(tasks.qp.ContactPosConstr, 0.001)
 
   def test_motion_constr(self):
     Inf = float("inf")
