@@ -77,11 +77,11 @@ void ContactConstrCommon::resetDofContacts()
 }
 
 std::set<ContactConstrCommon::ContactCommon> ContactConstrCommon::contactCommonInContact(
-    const std::vector<rbd::MultiBody> & mbs,
+    const std::vector<rbd::MultiBody> & /*mbs*/,
     const SolverData & data)
 {
   std::set<ContactCommon> ret;
-  auto isValid = [&mbs, this](const ContactId & contactId) {
+  auto isValid = [this](const ContactId & contactId) {
     // if is virtualContacts we don't add it
     return (virtualContacts_.find(contactId) == virtualContacts_.end());
   };
@@ -94,7 +94,7 @@ std::set<ContactConstrCommon::ContactCommon> ContactConstrCommon::contactCommonI
     }
   }
 
-  return std::move(ret);
+  return ret;
 }
 
 /**

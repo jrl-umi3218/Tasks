@@ -14,13 +14,13 @@
 #include <boost/test/unit_test.hpp>
 
 // RBDyn
-#include <RBDyn/EulerIntegration.h>
 #include <RBDyn/FK.h>
 #include <RBDyn/FV.h>
 #include <RBDyn/ID.h>
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
 #include <RBDyn/MultiBodyGraph.h>
+#include <RBDyn/NumericalIntegration.h>
 
 // Tasks
 #include "Tasks/Bounds.h"
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.001);
+      integration(mbs[r], mbcs[r], 0.001);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(TwoArmContactTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.001);
+      integration(mbs[r], mbcs[r], 0.001);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.001);
+      integration(mbs[r], mbcs[r], 0.001);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
@@ -304,7 +304,7 @@ BOOST_AUTO_TEST_CASE(TwoArmDDynamicContactTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.001);
+      integration(mbs[r], mbcs[r], 0.001);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
@@ -397,7 +397,7 @@ BOOST_AUTO_TEST_CASE(TwoArmMultiCoMTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.001);
+      integration(mbs[r], mbcs[r], 0.001);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
@@ -468,7 +468,7 @@ BOOST_AUTO_TEST_CASE(MultiRobotTransformTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.005);
+      integration(mbs[r], mbcs[r], 0.005);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);
@@ -520,17 +520,17 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
   std::vector<double> supDt;
   std::vector<double> infDt;
 
-  for(const auto j : mb1.joints())
+  for(const auto & j : mb1.joints())
   {
-    sup.resize(j.dof());
-    inf.resize(j.dof());
+    sup.resize(static_cast<size_t>(j.dof()));
+    inf.resize(static_cast<size_t>(j.dof()));
     std::fill(sup.begin(), sup.end(), 1e4);
     std::fill(inf.begin(), inf.end(), -1e4);
     lsup.push_back(sup);
     linf.push_back(inf);
 
-    supDt.resize(j.dof());
-    infDt.resize(j.dof());
+    supDt.resize(static_cast<size_t>(j.dof()));
+    infDt.resize(static_cast<size_t>(j.dof()));
     std::fill(supDt.begin(), supDt.end(), 1e8);
     std::fill(infDt.begin(), infDt.end(), -1e8);
     lsupDt.push_back(supDt);
@@ -558,7 +558,7 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     for(std::size_t r = 0; r < mbs.size(); ++r)
     {
-      eulerIntegration(mbs[r], mbcs[r], 0.005);
+      integration(mbs[r], mbcs[r], 0.005);
 
       forwardKinematics(mbs[r], mbcs[r]);
       forwardVelocity(mbs[r], mbcs[r]);

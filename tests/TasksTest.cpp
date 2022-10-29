@@ -17,9 +17,9 @@
 #include <SpaceVecAlg/SpaceVecAlg>
 
 // RBDyn
-#include <RBDyn/EulerIntegration.h>
 #include <RBDyn/FK.h>
 #include <RBDyn/FV.h>
+#include <RBDyn/NumericalIntegration.h>
 
 // Tasks
 #include "Tasks/Tasks.h"
@@ -84,16 +84,18 @@ void computeNormalAccB(const rbd::MultiBody & mb,
   const std::vector<int> & pred = mb.predecessors();
   const std::vector<int> & succ = mb.successors();
 
-  for(int i = 0; i < mb.nrJoints(); ++i)
+  for(size_t i = 0; i < static_cast<size_t>(mb.nrJoints()); ++i)
   {
     const sva::PTransformd & X_p_i = mbc.parentToSon[i];
     const sva::MotionVecd & vj_i = mbc.jointVelocity[i];
     const sva::MotionVecd & vb_i = mbc.bodyVelB[i];
 
+    size_t succ_i = static_cast<size_t>(succ[i]);
+    size_t pred_i = static_cast<size_t>(pred[i]);
     if(pred[i] != -1)
-      normalAccB[succ[i]] = X_p_i * normalAccB[pred[i]] + vb_i.cross(vj_i);
+      normalAccB[succ_i] = X_p_i * normalAccB[pred_i] + vb_i.cross(vj_i);
     else
-      normalAccB[succ[i]] = vb_i.cross(vj_i);
+      normalAccB[succ_i] = vb_i.cross(vj_i);
   }
 }
 
@@ -112,7 +114,7 @@ void computeNormalAccB(const std::vector<rbd::MultiBody> & mbs,
 template<typename Task>
 struct NormalAccUpdater : public TanAccel<Task>
 {
-  NormalAccUpdater(const rbd::MultiBody & mb) : normalAccB(mb.nrBodies()) {}
+  NormalAccUpdater(const rbd::MultiBody & mb) : normalAccB(static_cast<size_t>(mb.nrBodies())) {}
 
   void operator()(Task & task, const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
   {
@@ -132,7 +134,7 @@ struct MRNormalAccUpdater : public MRTanAccel<Task>
   {
     for(std::size_t i = 0; i < mbs.size(); ++i)
     {
-      normalAccBs[i].resize(mbs[i].nrBodies());
+      normalAccBs[i].resize(static_cast<size_t>(mbs[i].nrBodies()));
     }
   }
 
@@ -149,7 +151,7 @@ struct MRNormalAccUpdater : public MRTanAccel<Task>
 template<typename Task>
 struct NormalAccCoMUpdater : public TanAccel<Task>
 {
-  NormalAccCoMUpdater(const rbd::MultiBody & mb) : normalAccB(mb.nrBodies()) {}
+  NormalAccCoMUpdater(const rbd::MultiBody & mb) : normalAccB(static_cast<size_t>(mb.nrBodies())) {}
 
   void operator()(Task & task, const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
   {
@@ -170,7 +172,7 @@ struct MRNormalAccCoMUpdater : public MRTanAccel<Task>
   {
     for(std::size_t i = 0; i < mbs.size(); ++i)
     {
-      normalAccBs[i].resize(mbs[i].nrBodies());
+      normalAccBs[i].resize(static_cast<size_t>(mbs[i].nrBodies()));
     }
   }
 
@@ -318,7 +320,7 @@ void testTaskNumDiff(const std::vector<rbd::MultiBody> & mbs,
 
       mbcPost = mbcCur;
 
-      eulerIntegration(mb, mbcPost, diffStep);
+      integration(mb, mbcPost, diffStep);
 
       forwardKinematics(mb, mbcCur);
       forwardKinematics(mb, mbcPost);

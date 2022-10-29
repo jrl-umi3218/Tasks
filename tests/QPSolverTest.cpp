@@ -19,10 +19,10 @@
 #include <SpaceVecAlg/SpaceVecAlg>
 
 // RBDyn
-#include <RBDyn/EulerIntegration.h>
 #include <RBDyn/FK.h>
 #include <RBDyn/FV.h>
 #include <RBDyn/ID.h>
+#include <RBDyn/NumericalIntegration.h>
 
 // sch
 #include <sch/CD/CD_Pair.h>
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE(QPTaskTest)
   for(int i = 0; i < 4000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   for(int i = 0; i < 1000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   for(int i = 0; i < 1000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -385,7 +385,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -433,7 +433,7 @@ BOOST_AUTO_TEST_CASE(QPConstrTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -476,7 +476,8 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
   qp::QPSolver solver;
 
   int bodyI = mb.bodyIndexByName("b3");
-  qp::PositionTask posTask(mbs, 0, "b3", RotZ(cst::pi<double>() / 2.) * mbcInit.bodyPosW[bodyI].translation());
+  qp::PositionTask posTask(mbs, 0, "b3",
+                           RotZ(cst::pi<double>() / 2.) * mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
   double inf = std::numeric_limits<double>::infinity();
@@ -506,19 +507,19 @@ BOOST_AUTO_TEST_CASE(QPJointLimitsTest)
   for(int i = 0; i < 1000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
     BOOST_REQUIRE_GT(mbcs[0].q[1][0], -cst::pi<double>() / 4. - 0.01);
   }
 
-  posTask.position(RotZ(-cst::pi<double>() / 2.) * mbcInit.bodyPosW[bodyI].translation());
+  posTask.position(RotZ(-cst::pi<double>() / 2.) * mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   mbcs[0] = mbcInit;
   for(int i = 0; i < 1000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -557,7 +558,8 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
   qp::QPSolver solver;
 
   int bodyI = mb.bodyIndexByName("b3");
-  qp::PositionTask posTask(mbs, 0, "b3", RotZ(cst::pi<double>() / 2.) * mbcInit.bodyPosW[bodyI].translation());
+  qp::PositionTask posTask(mbs, 0, "b3",
+                           RotZ(cst::pi<double>() / 2.) * mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
   double inf = std::numeric_limits<double>::infinity();
@@ -589,19 +591,19 @@ BOOST_AUTO_TEST_CASE(QPDamperJointLimitsTest)
   for(int i = 0; i < 2000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
     BOOST_REQUIRE_GT(mbcs[0].q[1][0], -(cst::pi<double>() / 4.) * (1. - 0.025) - 0.01);
   }
 
-  posTask.position(RotZ(-cst::pi<double>() / 2.) * mbcInit.bodyPosW[bodyI].translation());
+  posTask.position(RotZ(-cst::pi<double>() / 2.) * mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   mbcs[0] = mbcInit;
   for(int i = 0; i < 2000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -623,7 +625,6 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   /* Make a very simple gripper */
   MultiBodyGraph mbg;
@@ -687,7 +688,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
   for(int i = 0; i < 1000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -701,7 +702,7 @@ BOOST_AUTO_TEST_CASE(QPMimicJointTest)
   for(int i = 0; i < 2000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -736,7 +737,8 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   qp::QPSolver solver;
 
   int bodyI = mb.bodyIndexByName("b3");
-  qp::PositionTask posTask(mbs, 0, "b3", RotZ(cst::pi<double>() / 2.) * mbcInit.bodyPosW[bodyI].translation());
+  qp::PositionTask posTask(mbs, 0, "b3",
+                           RotZ(cst::pi<double>() / 2.) * mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   qp::SetPointTask posTaskSp(mbs, 0, &posTask, 10., 1.);
 
   std::vector<std::vector<double>> lBound = {{}, {-30.}, {-30.}, {-30.}};
@@ -771,33 +773,33 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], dt);
+    integration(mbs[0], mbcs[0], dt);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
     motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionCstr.torque(mbs, mbcs);
-    for(int i = 0; i < 3; ++i)
+    for(size_t jIdx = 0; jIdx < 3; ++jIdx)
     {
-      BOOST_REQUIRE_GT(mbcs[0].jointTorque[i + 1][0], lBound[i + 1][0] - 0.001);
-      BOOST_REQUIRE_LT(mbcs[0].jointTorque[i + 1][0], uBound[i + 1][0] + 0.001);
+      BOOST_REQUIRE_GT(mbcs[0].jointTorque[jIdx + 1][0], lBound[jIdx + 1][0] - 0.001);
+      BOOST_REQUIRE_LT(mbcs[0].jointTorque[jIdx + 1][0], uBound[jIdx + 1][0] + 0.001);
     }
   }
 
-  posTask.position(mbcInit.bodyPosW[bodyI].translation());
+  posTask.position(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], dt);
+    integration(mbs[0], mbcs[0], dt);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
     motionCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionCstr.torque(mbs, mbcs);
-    for(int i = 0; i < 3; ++i)
+    for(size_t jIdx = 0; jIdx < 3; ++jIdx)
     {
-      BOOST_REQUIRE_GT(mbcs[0].jointTorque[i + 1][0], lBound[i + 1][0] - 0.001);
-      BOOST_REQUIRE_LT(mbcs[0].jointTorque[i + 1][0], uBound[i + 1][0] + 0.001);
+      BOOST_REQUIRE_GT(mbcs[0].jointTorque[jIdx + 1][0], lBound[jIdx + 1][0] - 0.001);
+      BOOST_REQUIRE_LT(mbcs[0].jointTorque[jIdx + 1][0], uBound[jIdx + 1][0] + 0.001);
     }
   }
 
@@ -827,34 +829,34 @@ BOOST_AUTO_TEST_CASE(QPTorqueLimitsTest)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     std::vector<std::vector<double>> oldQ = mbcs[0].q;
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
     motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionPolyCstr.torque(mbs, mbcs);
-    for(int i = 0; i < 3; ++i)
+    for(size_t jIdx = 0; jIdx < 3; ++jIdx)
     {
-      BOOST_REQUIRE_GT(mbcs[0].jointTorque[i + 1][0], Eigen::poly_eval(lBoundPoly[i + 1][0], oldQ[i + 1][0]));
-      BOOST_REQUIRE_LT(mbcs[0].jointTorque[i + 1][0], Eigen::poly_eval(uBoundPoly[i + 1][0], oldQ[i + 1][0]));
+      BOOST_REQUIRE_GT(mbcs[0].jointTorque[jIdx + 1][0], Eigen::poly_eval(lBoundPoly[jIdx + 1][0], oldQ[jIdx + 1][0]));
+      BOOST_REQUIRE_LT(mbcs[0].jointTorque[jIdx + 1][0], Eigen::poly_eval(uBoundPoly[jIdx + 1][0], oldQ[jIdx + 1][0]));
     }
   }
 
-  posTask.position(mbcInit.bodyPosW[bodyI].translation());
+  posTask.position(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
     std::vector<std::vector<double>> oldQ = mbcs[0].q;
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
     motionPolyCstr.computeTorque(solver.alphaDVec(), solver.lambdaVec());
     motionPolyCstr.torque(mbs, mbcs);
-    for(int i = 0; i < 3; ++i)
+    for(size_t jIdx = 0; jIdx < 3; ++jIdx)
     {
-      BOOST_REQUIRE_GT(mbcs[0].jointTorque[i + 1][0], Eigen::poly_eval(lBoundPoly[i + 1][0], oldQ[i + 1][0]));
-      BOOST_REQUIRE_LT(mbcs[0].jointTorque[i + 1][0], Eigen::poly_eval(uBoundPoly[i + 1][0], oldQ[i + 1][0]));
+      BOOST_REQUIRE_GT(mbcs[0].jointTorque[jIdx + 1][0], Eigen::poly_eval(lBoundPoly[jIdx + 1][0], oldQ[jIdx + 1][0]));
+      BOOST_REQUIRE_LT(mbcs[0].jointTorque[jIdx + 1][0], Eigen::poly_eval(uBoundPoly[jIdx + 1][0], oldQ[jIdx + 1][0]));
     }
   }
 
@@ -876,7 +878,6 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb;
   MultiBodyConfig mbcInit;
@@ -892,7 +893,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   qp::QPSolver solver;
 
   int bodyI = mb.bodyIndexByName("b3");
-  qp::PositionTask posTask(mbs, 0, "b3", mbcInit.bodyPosW[bodyI].translation());
+  qp::PositionTask posTask(mbs, 0, "b3", mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
 
   sch::S_Sphere b0(0.25), b3(0.25);
@@ -923,7 +924,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   {
     posTask.position(RotX(0.01) * posTask.position());
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     sch::Point3 pb1Tmp, pb2Tmp;
     double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
@@ -942,7 +943,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   // test automatic damping computation
   autoCollConstr.addCollision(mbs, collId1, 0, "b0", &b0, I, 0, "b3", &b3, I, 0.1, 0.01, 0., 0.1);
   BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
-  posTask.position(mbcInit.bodyPosW[bodyI].translation());
+  posTask.position(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
 
   mbcs[0] = mbcInit;
   std::ofstream distSoft("selfDistSoft.py");
@@ -951,7 +952,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   {
     posTask.position(RotX(0.01) * posTask.position());
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     sch::Point3 pb1Tmp, pb2Tmp;
     double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
@@ -983,7 +984,6 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb, mbEnv;
   MultiBodyConfig mbcInit, mbcEnv;
@@ -1002,7 +1002,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   qp::QPSolver solver;
 
   int bodyI = mb.bodyIndexByName("b3");
-  qp::PositionTask posTask(mbs, 0, "b3", mbcInit.bodyPosW[bodyI].translation());
+  qp::PositionTask posTask(mbs, 0, "b3", mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
 
   sch::S_Sphere b0(0.25), b3(0.25);
@@ -1035,7 +1035,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   {
     posTask.position(RotX(0.01) * posTask.position());
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     sch::Point3 pb1Tmp, pb2Tmp;
     double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
@@ -1054,7 +1054,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   // test damping computation
   seCollConstr.addCollision(mbs, collId1, 0, "b3", &b3, I, 1, "b0", &b0, I, 0.1, 0.01, 0., 0.1);
   BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
-  posTask.position(mbcInit.bodyPosW[bodyI].translation());
+  posTask.position(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
 
   mbcs[0] = mbcInit;
   std::ofstream distSoft("staticDistSoft.py");
@@ -1063,7 +1063,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   {
     posTask.position(RotX(0.01) * posTask.position());
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     sch::Point3 pb1Tmp, pb2Tmp;
     double dist = pair.getClosestPoints(pb1Tmp, pb2Tmp);
@@ -1165,7 +1165,7 @@ BOOST_AUTO_TEST_CASE(QPBilatContactTest)
   for(int i = 0; i < 10; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1212,7 +1212,6 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb, mbEnv;
   MultiBodyConfig mbcInit, mbcEnv;
@@ -1273,7 +1272,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
   for(int i = 0; i < 100; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.005);
+    integration(mbs[0], mbcs[0], 0.005);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1297,7 +1296,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
   for(int i = 0; i < 100; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.005);
+    integration(mbs[0], mbcs[0], 0.005);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1325,7 +1324,7 @@ BOOST_AUTO_TEST_CASE(QPDofContactsTest)
   for(int i = 0; i < 1000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.005);
+    integration(mbs[0], mbcs[0], 0.005);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1342,7 +1341,6 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb;
   MultiBodyConfig mbcInit;
@@ -1386,14 +1384,14 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
   for(int i = 0; i < 100; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.005);
+    integration(mbs[0], mbcs[0], 0.005);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
   }
 
-  sva::PTransformd initPos(bodyPoint * mbcInit.bodyPosW[bodyIndex]);
-  sva::PTransformd finalPos(bodyPoint * mbcs[0].bodyPosW[bodyIndex]);
+  sva::PTransformd initPos(bodyPoint * mbcInit.bodyPosW[static_cast<size_t>(bodyIndex)]);
+  sva::PTransformd finalPos(bodyPoint * mbcs[0].bodyPosW[static_cast<size_t>(bodyIndex)]);
   BOOST_CHECK_SMALL(computeDofError(finalPos, initPos, dof), 1e-6);
   BOOST_CHECK_GT(std::pow(compute6dError(finalPos, initPos)(4), 2), 0.1);
 
@@ -1416,14 +1414,14 @@ BOOST_AUTO_TEST_CASE(QPBoundedSpeedTest)
   for(int i = 0; i < 100; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.005);
+    integration(mbs[0], mbcs[0], 0.005);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
   }
 
-  initPos = bodyPoint * mbcInit.bodyPosW[bodyIndex];
-  finalPos = bodyPoint * mbcs[0].bodyPosW[bodyIndex];
+  initPos = bodyPoint * mbcInit.bodyPosW[static_cast<size_t>(bodyIndex)];
+  finalPos = bodyPoint * mbcs[0].bodyPosW[static_cast<size_t>(bodyIndex)];
   BOOST_CHECK_SMALL(computeDofError(finalPos, initPos, dof), 1e-6);
   BOOST_CHECK_GT(std::pow(compute6dError(finalPos, initPos)(4), 2), 0.1);
 }
@@ -1434,7 +1432,6 @@ BOOST_AUTO_TEST_CASE(MomentumTask)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb;
   MultiBodyConfig mbcInit;
@@ -1507,7 +1504,6 @@ BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb;
   MultiBodyConfig mbcInit;
@@ -1523,7 +1519,7 @@ BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
   qp::QPSolver solver;
 
   int bodyI = mb.bodyIndexByName("b3");
-  Eigen::Vector3d initPos(mbcInit.bodyPosW[bodyI].translation());
+  Eigen::Vector3d initPos(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
   qp::PositionTask posTask(mbs, 0, "b3", initPos);
   qp::SetPointTask posTaskSp(mbs, 0, &posTask, 50., 1.);
   Eigen::Vector3d n1(0., 0., -1.);
@@ -1555,7 +1551,7 @@ BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
   {
     posTask.position(RotX(0.01) * posTask.position());
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1575,7 +1571,7 @@ BOOST_AUTO_TEST_CASE(QPCoMPlaneTest)
   {
     posTask.position(RotX(-0.01) * posTask.position());
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mbs[0], mbcs[0], 0.001);
+    integration(mbs[0], mbcs[0], 0.001);
 
     forwardKinematics(mbs[0], mbcs[0]);
     forwardVelocity(mbs[0], mbcs[0]);
@@ -1606,7 +1602,6 @@ BOOST_AUTO_TEST_CASE(JointsSelector)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb;
   MultiBodyConfig mbcInit;
@@ -1665,7 +1660,6 @@ BOOST_AUTO_TEST_CASE(QPTransformTaskTest)
   using namespace sva;
   using namespace rbd;
   using namespace tasks;
-  namespace cst = boost::math::constants;
 
   MultiBody mb;
   MultiBodyConfig mbcInit;
@@ -1707,7 +1701,7 @@ BOOST_AUTO_TEST_CASE(QPTransformTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
@@ -1730,7 +1724,7 @@ BOOST_AUTO_TEST_CASE(QPTransformTaskTest)
   for(int i = 0; i < 10000; ++i)
   {
     BOOST_REQUIRE(solver.solve(mbs, mbcs));
-    eulerIntegration(mb, mbcs[0], 0.001);
+    integration(mb, mbcs[0], 0.001);
 
     forwardKinematics(mb, mbcs[0]);
     forwardVelocity(mb, mbcs[0]);
