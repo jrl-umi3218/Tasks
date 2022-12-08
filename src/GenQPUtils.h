@@ -10,6 +10,7 @@
 
 // Eigen
 #include <Eigen/Core>
+#include <Eigen/Sparse>
 
 // Tasks
 #include "Tasks/QPSolver.h"
@@ -81,7 +82,7 @@ inline void reduceQC(const Eigen::MatrixXd & QFull,
                      const Eigen::VectorXd & CFull,
                      Eigen::MatrixXd & Q,
                      Eigen::VectorXd & C,
-                     const Eigen::MatrixXd & M)
+                     const Eigen::SparseMatrix<double> & M)
 {
   Q.noalias() = M.transpose() * QFull * M;
   C.noalias() = M.transpose() * CFull;
@@ -296,7 +297,7 @@ inline void fillBound(const std::vector<Bound *> & bounds, Eigen::VectorXd & XL,
  * L \leq A M y \leq U
  * \f}
  */
-inline void reduceA(const Eigen::MatrixXd & AFull, Eigen::MatrixXd & A, const Eigen::MatrixXd & M)
+inline void reduceA(const Eigen::MatrixXd & AFull, Eigen::MatrixXd & A, const Eigen::SparseMatrix<double> & M)
 {
   A.noalias() = AFull * M;
 }
@@ -345,7 +346,7 @@ inline void reduceBound(const Eigen::VectorXd & XLFull,
  */
 inline void expandResult(const Eigen::VectorXd & result,
                          Eigen::VectorXd & resultFull,
-                         const Eigen::MatrixXd & multipliers)
+                         const Eigen::SparseMatrix<double> & multipliers)
 {
   resultFull.noalias() = multipliers * result;
 }

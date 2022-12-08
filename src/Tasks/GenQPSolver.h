@@ -8,10 +8,12 @@
 // std
 #include <vector>
 
-// Eigen
+// Tasks
 #include <tasks/config.hh>
 
+// Eigen
 #include <Eigen/Core>
+#include <Eigen/Sparse>
 
 // forward declaration
 // RBDyn
@@ -116,7 +118,7 @@ protected:
    * the full variable and the factor and offset in the dependency equation: replica = factor * primary */
   std::vector<std::tuple<int, int, double>> dependencies_;
   /** Multipliers matrix M of size (nFull, nReduced) such that full = M * reduce */
-  Eigen::MatrixXd multipliers_;
+  Eigen::SparseMatrix<double> multipliers_;
 };
 
 } // namespace qp
