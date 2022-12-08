@@ -13,4 +13,6 @@ digraph "src/LSSOLQPSolver.h"
   Node4 [label="tasks/config.hh",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
   Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node5 [label="Eigen/Core",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Eigen/Sparse",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
 }

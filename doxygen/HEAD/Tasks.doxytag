@@ -23,8 +23,8 @@
       <type>void</type>
       <name>reduceQC</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a6ad2cb7bd904212e5d9b6dcfaa989f94</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::MatrixXd &amp;M)</arglist>
+      <anchor>a1e54edbe1bc0981fbe3b6a2b6e63bbcd</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::SparseMatrix&lt; double &gt; &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
@@ -79,8 +79,8 @@
       <type>void</type>
       <name>reduceA</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>ac5c44bc95450bbbc88c5b1af5d3d851d</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::MatrixXd &amp;M)</arglist>
+      <anchor>ae6c8ab3f7b9ce0aaa405e48e8c078c88</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::SparseMatrix&lt; double &gt; &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -93,8 +93,8 @@
       <type>void</type>
       <name>expandResult</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a9ce2d39b71ff7cc28fd53ce83444803f</anchor>
-      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::MatrixXd &amp;multipliers)</arglist>
+      <anchor>a9d6585a2cc645c39f28ebe77b309d07f</anchor>
+      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::SparseMatrix&lt; double &gt; &amp;multipliers)</arglist>
     </member>
     <member kind="function">
       <type>std::ostream &amp;</type>
@@ -2673,10 +2673,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="protected">
-      <type>Eigen::MatrixXd</type>
+      <type>Eigen::SparseMatrix&lt; double &gt;</type>
       <name>multipliers_</name>
       <anchorfile>classtasks_1_1qp_1_1GenQPSolver.html</anchorfile>
-      <anchor>a7b7781b89821581eb94fbb825d2f30f7</anchor>
+      <anchor>af655dd3159e86158d06e81b9977dcd90</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -8229,8 +8229,8 @@
       <type>void</type>
       <name>reduceQC</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a6ad2cb7bd904212e5d9b6dcfaa989f94</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::MatrixXd &amp;M)</arglist>
+      <anchor>a1e54edbe1bc0981fbe3b6a2b6e63bbcd</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::SparseMatrix&lt; double &gt; &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
@@ -8285,8 +8285,8 @@
       <type>void</type>
       <name>reduceA</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>ac5c44bc95450bbbc88c5b1af5d3d851d</anchor>
-      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::MatrixXd &amp;M)</arglist>
+      <anchor>ae6c8ab3f7b9ce0aaa405e48e8c078c88</anchor>
+      <arglist>(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::SparseMatrix&lt; double &gt; &amp;M)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -8299,8 +8299,8 @@
       <type>void</type>
       <name>expandResult</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a9ce2d39b71ff7cc28fd53ce83444803f</anchor>
-      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::MatrixXd &amp;multipliers)</arglist>
+      <anchor>a9d6585a2cc645c39f28ebe77b309d07f</anchor>
+      <arglist>(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::SparseMatrix&lt; double &gt; &amp;multipliers)</arglist>
     </member>
     <member kind="function">
       <type>std::ostream &amp;</type>
