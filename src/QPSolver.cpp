@@ -137,10 +137,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody> & mbs,
   {
     data_.lambdaBegin_[cIndex] = cumLambda;
     int lambda = 0;
-    for(std::size_t p = 0; p < c.r1Points.size(); ++p)
-    {
-      lambda += c.nrLambda(int(p));
-    }
+    for(std::size_t p = 0; p < c.r1Points.size(); ++p) { lambda += c.nrLambda(int(p)); }
     data_.lambda_[cIndex] = lambda;
     cumLambda += lambda;
     ++cIndex;
@@ -154,10 +151,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody> & mbs,
   {
     data_.lambdaBegin_[cIndex] = cumLambda;
     int lambda = 0;
-    for(std::size_t p = 0; p < c.r1Points.size(); ++p)
-    {
-      lambda += c.nrLambda(int(p));
-    }
+    for(std::size_t p = 0; p < c.r1Points.size(); ++p) { lambda += c.nrLambda(int(p)); }
     data_.lambda_[cIndex] = lambda;
     cumLambda += lambda;
     ++cIndex;
@@ -169,15 +163,9 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody> & mbs,
   data_.totalLambda_ = data_.nrUniLambda_ + data_.nrBiLambda_;
   data_.nrVars_ = data_.totalAlphaD_ + data_.totalLambda_;
 
-  for(Task * t : tasks_)
-  {
-    t->updateNrVars(mbs, data_);
-  }
+  for(Task * t : tasks_) { t->updateNrVars(mbs, data_); }
 
-  for(Constraint * c : constr_)
-  {
-    c->updateNrVars(mbs, data_);
-  }
+  for(Constraint * c : constr_) { c->updateNrVars(mbs, data_); }
 
   solver_->setDependencies(data_.nrVars_, dependencies);
   solver_->updateSize(data_.nrVars_, maxEqLines_, maxInEqLines_, maxGenInEqLines_);
@@ -190,18 +178,12 @@ int QPSolver::nrVars() const
 
 void QPSolver::updateTasksNrVars(const std::vector<rbd::MultiBody> & mbs) const
 {
-  for(Task * t : tasks_)
-  {
-    t->updateNrVars(mbs, data_);
-  }
+  for(Task * t : tasks_) { t->updateNrVars(mbs, data_); }
 }
 
 void QPSolver::updateConstrsNrVars(const std::vector<rbd::MultiBody> & mbs) const
 {
-  for(Constraint * c : constr_)
-  {
-    c->updateNrVars(mbs, data_);
-  }
+  for(Constraint * c : constr_) { c->updateNrVars(mbs, data_); }
 }
 
 void QPSolver::updateNrVars(const std::vector<rbd::MultiBody> & mbs) const
@@ -272,10 +254,7 @@ int QPSolver::nrBoundConstraints() const
 
 void QPSolver::addConstraint(Constraint * co)
 {
-  if(std::find(constr_.begin(), constr_.end(), co) == constr_.end())
-  {
-    constr_.push_back(co);
-  }
+  if(std::find(constr_.begin(), constr_.end(), co) == constr_.end()) { constr_.push_back(co); }
 }
 
 void QPSolver::addConstraint(const std::vector<rbd::MultiBody> & mbs, Constraint * co)
@@ -284,20 +263,14 @@ void QPSolver::addConstraint(const std::vector<rbd::MultiBody> & mbs, Constraint
   {
     constr_.push_back(co);
     // check if nrVars has been call at least one
-    if(data_.nrVars_ > 0)
-    {
-      co->updateNrVars(mbs, data_);
-    }
+    if(data_.nrVars_ > 0) { co->updateNrVars(mbs, data_); }
   }
 }
 
 void QPSolver::removeConstraint(Constraint * co)
 {
   auto it = std::find(constr_.begin(), constr_.end(), co);
-  if(it != constr_.end())
-  {
-    constr_.erase(it);
-  }
+  if(it != constr_.end()) { constr_.erase(it); }
 }
 
 int QPSolver::nrConstraints() const
@@ -307,10 +280,7 @@ int QPSolver::nrConstraints() const
 
 void QPSolver::addTask(Task * task)
 {
-  if(std::find(tasks_.begin(), tasks_.end(), task) == tasks_.end())
-  {
-    tasks_.push_back(task);
-  }
+  if(std::find(tasks_.begin(), tasks_.end(), task) == tasks_.end()) { tasks_.push_back(task); }
 }
 
 void QPSolver::addTask(const std::vector<rbd::MultiBody> & mbs, Task * task)
@@ -319,20 +289,14 @@ void QPSolver::addTask(const std::vector<rbd::MultiBody> & mbs, Task * task)
   {
     tasks_.push_back(task);
     // check if nrVars has been call at least one
-    if(data_.nrVars_ > 0)
-    {
-      task->updateNrVars(mbs, data_);
-    }
+    if(data_.nrVars_ > 0) { task->updateNrVars(mbs, data_); }
   }
 }
 
 void QPSolver::removeTask(Task * task)
 {
   auto it = std::find(tasks_.begin(), tasks_.end(), task);
-  if(it != tasks_.end())
-  {
-    tasks_.erase(it);
-  }
+  if(it != tasks_.end()) { tasks_.erase(it); }
 }
 
 int QPSolver::nrTasks() const
@@ -397,15 +361,9 @@ int QPSolver::contactLambdaPosition(const ContactId & cId) const
 
   for(const BilateralContact & bc : data_.allContacts())
   {
-    if(bc.contactId == cId)
-    {
-      return pos;
-    }
+    if(bc.contactId == cId) { return pos; }
 
-    for(std::size_t i = 0; i < bc.r1Points.size(); ++i)
-    {
-      pos += bc.nrLambda(int(i));
-    }
+    for(std::size_t i = 0; i < bc.r1Points.size(); ++i) { pos += bc.nrLambda(int(i)); }
   }
 
   return -1;
@@ -424,15 +382,9 @@ boost::timer::cpu_times QPSolver::solveAndBuildTime() const
 void QPSolver::preUpdate(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
 {
   data_.computeNormalAccB(mbs, mbcs);
-  for(std::size_t i = 0; i < constr_.size(); ++i)
-  {
-    constr_[i]->update(mbs, mbcs, data_);
-  }
+  for(std::size_t i = 0; i < constr_.size(); ++i) { constr_[i]->update(mbs, mbcs, data_); }
 
-  for(std::size_t i = 0; i < tasks_.size(); ++i)
-  {
-    tasks_[i]->update(mbs, mbcs, data_);
-  }
+  for(std::size_t i = 0; i < tasks_.size(); ++i) { tasks_[i]->update(mbs, mbcs, data_); }
 
   solver_->updateMatrix(tasks_, eqConstr_, inEqConstr_, genInEqConstr_, boundConstr_);
 }
@@ -443,10 +395,7 @@ void QPSolver::postUpdate(const std::vector<rbd::MultiBody> & /* mbs */,
 {
   if(success)
   {
-    for(std::size_t r = 0; r < mbcs.size(); ++r)
-    {
-      updateMbc(mbcs[r], int(r));
-    }
+    for(std::size_t r = 0; r < mbcs.size(); ++r) { updateMbc(mbcs[r], int(r)); }
 
     // don't write contact force to the structure since contact force are used
     // to compute C vector.

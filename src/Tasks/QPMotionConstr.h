@@ -135,10 +135,7 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
   // Matrix
-  const Eigen::MatrixXd matrix() const
-  {
-    return A_;
-  }
+  const Eigen::MatrixXd matrix() const { return A_; }
   // Contact torque
   Eigen::MatrixXd contactMatrix() const;
   // Access fd...

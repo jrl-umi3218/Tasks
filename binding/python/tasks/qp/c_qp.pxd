@@ -684,4 +684,3 @@ cdef extern from "<Tasks/QPSolver.h>" namespace "tasks::qp":
     SolverData data() const
     c_tasks.cpu_times solveTime() const
     c_tasks.cpu_times solveAndBuildTime() const
-

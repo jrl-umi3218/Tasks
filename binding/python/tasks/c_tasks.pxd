@@ -226,4 +226,3 @@ cdef extern from "<Tasks/Bounds.h>" namespace "tasks":
     PolyTorqueBound(vector[vector[VectorXd]], vector[vector[VectorXd]])
     vector[vector[VectorXd]] lPolyTorqueBound
     vector[vector[VectorXd]] uPolyTorqueBound
-

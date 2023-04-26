@@ -41,8 +41,8 @@ if(${eigen-lssol_FOUND})
   add_project_dependency(eigen-lssol REQUIRED NO_MODULE)
 endif()
 
-# For MSVC, set local environment variable to enable finding the built dll
-# of the main library when launching ctest with RUN_TESTS
+# For MSVC, set local environment variable to enable finding the built dll of the main
+# library when launching ctest with RUN_TESTS
 if(MSVC)
   set(CMAKE_MSVCIDE_RUN_PATH "\$(SolutionDir)/src/\$(Configuration)")
 endif(MSVC)
@@ -54,5 +54,5 @@ if(${BUILD_TESTING})
 endif()
 
 if(${PYTHON_BINDING})
- add_subdirectory(binding/python)
+  add_subdirectory(binding/python)
 endif()

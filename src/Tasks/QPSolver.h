@@ -208,10 +208,7 @@ class TASKS_DLLAPI Equality
 public:
   virtual ~Equality() {}
   virtual int maxEq() const = 0;
-  virtual int nrEq() const
-  {
-    return maxEq();
-  }
+  virtual int nrEq() const { return maxEq(); }
 
   virtual const Eigen::MatrixXd & AEq() const = 0;
   virtual const Eigen::VectorXd & bEq() const = 0;
@@ -219,15 +216,9 @@ public:
   virtual std::string nameEq() const = 0;
   virtual std::string descEq(const std::vector<rbd::MultiBody> & mbs, int i) = 0;
 
-  void addToSolver(QPSolver & sol)
-  {
-    sol.addEqualityConstraint(this);
-  }
+  void addToSolver(QPSolver & sol) { sol.addEqualityConstraint(this); }
 
-  void removeFromSolver(QPSolver & sol)
-  {
-    sol.removeEqualityConstraint(this);
-  }
+  void removeFromSolver(QPSolver & sol) { sol.removeEqualityConstraint(this); }
 };
 
 class TASKS_DLLAPI Inequality
@@ -235,10 +226,7 @@ class TASKS_DLLAPI Inequality
 public:
   virtual ~Inequality() {}
   virtual int maxInEq() const = 0;
-  virtual int nrInEq() const
-  {
-    return maxInEq();
-  }
+  virtual int nrInEq() const { return maxInEq(); }
 
   virtual const Eigen::MatrixXd & AInEq() const = 0;
   virtual const Eigen::VectorXd & bInEq() const = 0;
@@ -246,15 +234,9 @@ public:
   virtual std::string nameInEq() const = 0;
   virtual std::string descInEq(const std::vector<rbd::MultiBody> & mbs, int i) = 0;
 
-  void addToSolver(QPSolver & sol)
-  {
-    sol.addInequalityConstraint(this);
-  }
+  void addToSolver(QPSolver & sol) { sol.addInequalityConstraint(this); }
 
-  void removeFromSolver(QPSolver & sol)
-  {
-    sol.removeInequalityConstraint(this);
-  }
+  void removeFromSolver(QPSolver & sol) { sol.removeInequalityConstraint(this); }
 };
 
 class TASKS_DLLAPI GenInequality
@@ -262,10 +244,7 @@ class TASKS_DLLAPI GenInequality
 public:
   virtual ~GenInequality() {}
   virtual int maxGenInEq() const = 0;
-  virtual int nrGenInEq() const
-  {
-    return maxGenInEq();
-  }
+  virtual int nrGenInEq() const { return maxGenInEq(); }
 
   virtual const Eigen::MatrixXd & AGenInEq() const = 0;
   virtual const Eigen::VectorXd & LowerGenInEq() const = 0;
@@ -274,15 +253,9 @@ public:
   virtual std::string nameGenInEq() const = 0;
   virtual std::string descGenInEq(const std::vector<rbd::MultiBody> & mbs, int i) = 0;
 
-  void addToSolver(QPSolver & sol)
-  {
-    sol.addGenInequalityConstraint(this);
-  }
+  void addToSolver(QPSolver & sol) { sol.addGenInequalityConstraint(this); }
 
-  void removeFromSolver(QPSolver & sol)
-  {
-    sol.removeGenInequalityConstraint(this);
-  }
+  void removeFromSolver(QPSolver & sol) { sol.removeGenInequalityConstraint(this); }
 };
 
 class TASKS_DLLAPI Bound
@@ -297,15 +270,9 @@ public:
   virtual std::string nameBound() const = 0;
   virtual std::string descBound(const std::vector<rbd::MultiBody> & mbs, int i) = 0;
 
-  void addToSolver(QPSolver & sol)
-  {
-    sol.addBoundConstraint(this);
-  }
+  void addToSolver(QPSolver & sol) { sol.addBoundConstraint(this); }
 
-  void removeFromSolver(QPSolver & sol)
-  {
-    sol.removeBoundConstraint(this);
-  }
+  void removeFromSolver(QPSolver & sol) { sol.removeBoundConstraint(this); }
 };
 
 class TASKS_DLLAPI Task
@@ -314,15 +281,9 @@ public:
   Task(double weight) : weight_(weight) {}
   virtual ~Task() {}
 
-  virtual double weight() const
-  {
-    return weight_;
-  }
+  virtual double weight() const { return weight_; }
 
-  virtual void weight(double w)
-  {
-    weight_ = w;
-  }
+  virtual void weight(double w) { weight_ = w; }
 
   virtual std::pair<int, int> begin() const = 0;
 
@@ -363,20 +324,11 @@ struct constr_traits
 template<>
 struct constr_traits<Equality>
 {
-  static int maxLines(const Equality * constr)
-  {
-    return constr->maxEq();
-  }
+  static int maxLines(const Equality * constr) { return constr->maxEq(); }
 
-  static int nrLines(const Equality * constr)
-  {
-    return constr->nrEq();
-  }
+  static int nrLines(const Equality * constr) { return constr->nrEq(); }
 
-  static std::string name(const Equality * constr)
-  {
-    return constr->nameEq();
-  }
+  static std::string name(const Equality * constr) { return constr->nameEq(); }
 
   static std::string desc(Equality * constr, const std::vector<rbd::MultiBody> & mbs, int i)
   {
@@ -387,20 +339,11 @@ struct constr_traits<Equality>
 template<>
 struct constr_traits<Inequality>
 {
-  static int maxLines(const Inequality * constr)
-  {
-    return constr->maxInEq();
-  }
+  static int maxLines(const Inequality * constr) { return constr->maxInEq(); }
 
-  static int nrLines(const Inequality * constr)
-  {
-    return constr->nrInEq();
-  }
+  static int nrLines(const Inequality * constr) { return constr->nrInEq(); }
 
-  static std::string name(const Inequality * constr)
-  {
-    return constr->nameInEq();
-  }
+  static std::string name(const Inequality * constr) { return constr->nameInEq(); }
 
   static std::string desc(Inequality * constr, const std::vector<rbd::MultiBody> & mbs, int i)
   {
@@ -411,20 +354,11 @@ struct constr_traits<Inequality>
 template<>
 struct constr_traits<GenInequality>
 {
-  static int maxLines(const GenInequality * constr)
-  {
-    return constr->maxGenInEq();
-  }
+  static int maxLines(const GenInequality * constr) { return constr->maxGenInEq(); }
 
-  static int nrLines(const GenInequality * constr)
-  {
-    return constr->nrGenInEq();
-  }
+  static int nrLines(const GenInequality * constr) { return constr->nrGenInEq(); }
 
-  static std::string name(const GenInequality * constr)
-  {
-    return constr->nameGenInEq();
-  }
+  static std::string name(const GenInequality * constr) { return constr->nameGenInEq(); }
 
   static std::string desc(GenInequality * constr, const std::vector<rbd::MultiBody> & mbs, int i)
   {

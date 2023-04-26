@@ -8,9 +8,9 @@ AlignEscapedNewlinesLeft: true
 AlignOperands:   true
 AlignTrailingComments: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: true
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: None
@@ -42,7 +42,7 @@ ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
-IncludeBlocks: Regroup
+IncludeBlocks: Preserve
 IncludeCategories:
   - Regex:           '^(<mc_[a-z]*/)'
     Priority:        1
@@ -103,4 +103,3 @@ Standard:        Cpp11
 TabWidth:        2
 UseTab:          Never
 ...
-

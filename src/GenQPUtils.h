@@ -52,10 +52,7 @@ inline void fillQC(const std::vector<Task *> & tasks, int nrVars, Eigen::MatrixX
   // Q_(i,i) + Q_(j,j) > 2·Q_(i,j) for i≠j
   for(int i = 0; i < nrVars; ++i)
   {
-    if(std::abs(Q(i, i)) < DIAG_CONSTANT)
-    {
-      Q(i, i) += DIAG_CONSTANT;
-    }
+    if(std::abs(Q(i, i)) < DIAG_CONSTANT) { Q(i, i) += DIAG_CONSTANT; }
   }
 }
 
