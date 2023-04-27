@@ -20,10 +20,7 @@ std::string class_name(const std::string & fn_name)
 {
   auto eq_pos = fn_name.find_first_of('=') + 2;
   auto c_pos = fn_name.find_first_of(';');
-  if(c_pos == std::string::npos)
-  {
-    c_pos = fn_name.find_first_of(',');
-  }
+  if(c_pos == std::string::npos) { c_pos = fn_name.find_first_of(','); }
   return fn_name.substr(eq_pos, c_pos - eq_pos);
 }
 
@@ -35,10 +32,7 @@ void test_raw_ptr_creation(Args &&... args)
   std::cout << "Testing raw pointer creation for " << T_name << std::endl;
 #endif
   T * p = nullptr;
-  for(size_t i = 0; i < 100; ++i)
-  {
-    new T(std::forward<Args>(args)...);
-  }
+  for(size_t i = 0; i < 100; ++i) { new T(std::forward<Args>(args)...); }
 }
 
 template<typename T, typename... Args>
@@ -49,10 +43,7 @@ void test_shared_ptr_creation(Args &&... args)
   std::cout << "Testing shared_ptr creation for for " << T_name << std::endl;
 #endif
   std::shared_ptr<T> p = nullptr;
-  for(size_t i = 0; i < 100; ++i)
-  {
-    p = std::make_shared<T>(std::forward<Args>(args)...);
-  }
+  for(size_t i = 0; i < 100; ++i) { p = std::make_shared<T>(std::forward<Args>(args)...); }
 }
 
 BOOST_AUTO_TEST_CASE(AllocationTest)

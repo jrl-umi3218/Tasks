@@ -286,10 +286,7 @@ void DamperJointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs 
       double damper = computeDamper(ud, d.iDist, d.sDist, d.damping);
       upper_[d.alphaDBegin] = std::min((damper - alpha) / step_, upper_[d.alphaDBegin]);
     }
-    else
-    {
-      d.state = DampData::Free;
-    }
+    else { d.state = DampData::Free; }
   }
   lower_ = lower_.cwiseMax(alphaDLower_).cwiseMax(alphaDDLower_ + prevAlphaD_);
   upper_ = upper_.cwiseMin(alphaDUpper_).cwiseMin(alphaDDUpper_ + prevAlphaD_);
@@ -343,10 +340,7 @@ sch::Matrix4x4 tosch(const sva::PTransformd & t)
 
   for(int i = 0; i < 3; ++i)
   {
-    for(int j = 0; j < 3; ++j)
-    {
-      m(i, j) = rot(j, i);
-    }
+    for(int j = 0; j < 3; ++j) { m(i, j) = rot(j, i); }
   }
 
   m(0, 3) = tran(0);
@@ -438,10 +432,7 @@ auto CollisionConstr::getCollisionData(int collId) const -> const CollData &
 {
   auto it =
       std::find_if(dataVec_.begin(), dataVec_.end(), [&](const CollData & data) { return data.collId == collId; });
-  if(it != dataVec_.end())
-  {
-    return *it;
-  }
+  if(it != dataVec_.end()) { return *it; }
   throw std::runtime_error("No collision with the requested id");
 }
 
@@ -567,10 +558,7 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
     }
     else
     {
-      if(d.dampingType == CollData::DampingType::Soft)
-      {
-        d.dampingType = CollData::DampingType::Free;
-      }
+      if(d.dampingType == CollData::DampingType::Soft) { d.dampingType = CollData::DampingType::Free; }
     }
 
     d.normVecDist = normVecDist;
@@ -775,10 +763,7 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody> & mbs,
     }
     else
     {
-      if(d.dampingType == PlaneData::DampingType::Soft)
-      {
-        d.dampingType = PlaneData::DampingType::Free;
-      }
+      if(d.dampingType == PlaneData::DampingType::Soft) { d.dampingType = PlaneData::DampingType::Free; }
     }
   }
 
@@ -1100,10 +1085,7 @@ std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody> & 
   for(const BoundedSpeedData & c : cont_)
   {
     curRow += int(c.dof.rows());
-    if(line < curRow)
-    {
-      return std::string("Body: ") + mbs[robotIndex_].body(c.body).name();
-    }
+    if(line < curRow) { return std::string("Body: ") + mbs[robotIndex_].body(c.body).name(); }
   }
   return std::string("");
 }
@@ -1131,10 +1113,7 @@ const Eigen::VectorXd & BoundedSpeedConstr::UpperGenInEq() const
 void BoundedSpeedConstr::updateNrEq()
 {
   int nrEq = 0;
-  for(const BoundedSpeedData & c : cont_)
-  {
-    nrEq += int(c.dof.rows());
-  }
+  for(const BoundedSpeedData & c : cont_) { nrEq += int(c.dof.rows()); }
 
   A_.setZero(nrEq, nrVars_);
   lower_.setZero(nrEq);
@@ -1424,14 +1403,8 @@ std::string ImageConstr::descInEq(const std::vector<rbd::MultiBody> & /* mbs */,
       {
         std::stringstream ss;
         ss << "pointId: " << i << std::endl;
-        if(j == 0)
-        {
-          ss << "x" << std::endl;
-        }
-        else
-        {
-          ss << "y" << std::endl;
-        }
+        if(j == 0) { ss << "x" << std::endl; }
+        else { ss << "y" << std::endl; }
         ss << "normalized 2d location: " << std::endl << dataVec_[i].point2d << std::endl;
         return ss.str();
       }

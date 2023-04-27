@@ -104,10 +104,7 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody & mb,
   for(std::size_t i = 0; i < cones.size(); ++i)
   {
     minusGenerators[i].resize(3, cones[i].generators.size());
-    for(std::size_t j = 0; j < cones[i].generators.size(); ++j)
-    {
-      minusGenerators[i].col(j) = -cones[i].generators[j];
-    }
+    for(std::size_t j = 0; j < cones[i].generators.size(); ++j) { minusGenerators[i].col(j) = -cones[i].generators[j]; }
   }
 }
 

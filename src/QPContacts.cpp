@@ -45,10 +45,7 @@ FrictionCone::FrictionCone(const Eigen::Matrix3d & frame, int nrGen, double mu, 
   Eigen::Vector3d gen = Eigen::AngleAxisd(angle, tan) * normal;
   double step = (boost::math::constants::pi<double>() * 2.) / nrGen;
 
-  for(int i = 0; i < nrGen; ++i)
-  {
-    generators[i] = Eigen::AngleAxisd(dir * step * i, normal) * gen;
-  }
+  for(int i = 0; i < nrGen; ++i) { generators[i] = Eigen::AngleAxisd(dir * step * i, normal) * gen; }
 }
 
 /**
@@ -139,10 +136,7 @@ Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd & lambda,
 {
   Eigen::Vector3d F(Eigen::Vector3d::Zero());
 
-  for(std::size_t i = 0; i < cone.generators.size(); ++i)
-  {
-    F += cone.generators[i] * lambda(i);
-  }
+  for(std::size_t i = 0; i < cone.generators.size(); ++i) { F += cone.generators[i] * lambda(i); }
 
   return F;
 }
@@ -188,10 +182,7 @@ int UnilateralContact::nrLambda(int /* point */) const
 int UnilateralContact::nrLambda() const
 {
   int totalLambda = 0;
-  for(int i = 0; i < int(r1Points.size()); ++i)
-  {
-    totalLambda += nrLambda(i);
-  }
+  for(int i = 0; i < int(r1Points.size()); ++i) { totalLambda += nrLambda(i); }
   return totalLambda;
 }
 
@@ -249,10 +240,7 @@ void UnilateralContact::construct(const Eigen::MatrixXd & r1Frame, int nrGen, do
 {
   // compute points in b2 coordinate
   r2Points.reserve(r1Points.size());
-  for(const Eigen::Vector3d & p : r1Points)
-  {
-    r2Points.push_back((sva::PTransformd(p) * X_b1_b2.inv()).translation());
-  }
+  for(const Eigen::Vector3d & p : r1Points) { r2Points.push_back((sva::PTransformd(p) * X_b1_b2.inv()).translation()); }
 
   // compute points frame in b2 coordinate
   // Eigen::Matrix3d r2Frame = (X_b1_b2*sva::PTransformd(Eigen::Matrix3d(r1Frame))).rotation();
@@ -325,10 +313,7 @@ Eigen::Vector3d BilateralContact::force(const Eigen::VectorXd & lambda,
 {
   Eigen::Vector3d F(Eigen::Vector3d::Zero());
 
-  for(std::size_t i = 0; i < cones[point].generators.size(); ++i)
-  {
-    F += cones[point].generators[i] * lambda(i);
-  }
+  for(std::size_t i = 0; i < cones[point].generators.size(); ++i) { F += cones[point].generators[i] * lambda(i); }
 
   return F;
 }
@@ -374,10 +359,7 @@ int BilateralContact::nrLambda(int point) const
 int BilateralContact::nrLambda() const
 {
   int totalLambda = 0;
-  for(int i = 0; i < int(r1Points.size()); ++i)
-  {
-    totalLambda += nrLambda(i);
-  }
+  for(int i = 0; i < int(r1Points.size()); ++i) { totalLambda += nrLambda(i); }
   return totalLambda;
 }
 

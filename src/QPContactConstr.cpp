@@ -81,17 +81,15 @@ std::set<ContactConstrCommon::ContactCommon> ContactConstrCommon::contactCommonI
     const SolverData & data)
 {
   std::set<ContactCommon> ret;
-  auto isValid = [this](const ContactId & contactId) {
+  auto isValid = [this](const ContactId & contactId)
+  {
     // if is virtualContacts we don't add it
     return (virtualContacts_.find(contactId) == virtualContacts_.end());
   };
 
   for(const BilateralContact & c : data.allContacts())
   {
-    if(isValid(c.contactId))
-    {
-      ret.insert({c.contactId, c.X_b1_cf, c.X_b1_b2});
-    }
+    if(isValid(c.contactId)) { ret.insert({c.contactId, c.X_b1_cf, c.X_b1_b2}); }
   }
 
   return ret;
@@ -130,14 +128,8 @@ void ContactConstr::updateDofContacts()
   for(ContactData & c : cont_)
   {
     auto it = dofContacts_.find(c.contactId);
-    if(it != dofContacts_.end())
-    {
-      c.dof = it->second;
-    }
-    else
-    {
-      c.dof.setIdentity(6, 6);
-    }
+    if(it != dofContacts_.end()) { c.dof = it->second; }
+    else { c.dof.setIdentity(6, 6); }
   }
   updateNrEq();
 }
@@ -156,13 +148,11 @@ void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody> & mbs, const 
   {
     Eigen::MatrixXd dof(Eigen::MatrixXd::Identity(6, 6));
     auto it = dofContacts_.find(cC.cId);
-    if(it != dofContacts_.end())
-    {
-      dof = it->second;
-    }
+    if(it != dofContacts_.end()) { dof = it->second; }
     std::vector<ContactSideData> contacts;
-    auto addContact = [&mbs, &data, &contacts](int rIndex, const std::string & bName, double sign,
-                                               const sva::PTransformd & point) {
+    auto addContact =
+        [&mbs, &data, &contacts](int rIndex, const std::string & bName, double sign, const sva::PTransformd & point)
+    {
       if(mbs[rIndex].nrDof() > 0)
       {
         contacts.emplace_back(rIndex, data.alphaDBegin(rIndex), sign, rbd::Jacobian(mbs[rIndex], bName), point);
@@ -218,10 +208,7 @@ const Eigen::VectorXd & ContactConstr::bEq() const
 void ContactConstr::updateNrEq()
 {
   nrEq_ = 0;
-  for(const ContactData & c : cont_)
-  {
-    nrEq_ += int(c.dof.rows());
-  }
+  for(const ContactData & c : cont_) { nrEq_ += int(c.dof.rows()); }
 }
 
 /**

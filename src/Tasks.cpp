@@ -804,10 +804,7 @@ PostureTask::PostureTask(const rbd::MultiBody & mb, std::vector<std::vector<doub
 
   if(mb.nrDof() > 0 && mb.joint(0).type() == rbd::Joint::Free)
   {
-    for(int i = 0; i < 6; ++i)
-    {
-      jacMat_(i, i) = 0;
-    }
+    for(int i = 0; i < 6; ++i) { jacMat_(i, i) = 0; }
   }
 }
 
@@ -1283,10 +1280,7 @@ OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody & mb,
   jacDotMat_(3, mb.nrDof())
 {
   std::set<int> trackingJointsIndex;
-  for(const std::string & name : trackingJointsName)
-  {
-    trackingJointsIndex.insert(mb.jointIndexByName(name));
-  }
+  for(const std::string & name : trackingJointsName) { trackingJointsIndex.insert(mb.jointIndexByName(name)); }
 
   int jacPos = 0;
   for(int i : jac_.jointsPath())
@@ -1294,10 +1288,7 @@ OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody & mb,
     const rbd::Joint & curJoint = mb.joint(i);
     if(trackingJointsIndex.find(i) == std::end(trackingJointsIndex))
     {
-      for(int j = 0; j < curJoint.dof(); ++j)
-      {
-        zeroJacIndex_.push_back(jacPos + j);
-      }
+      for(int j = 0; j < curJoint.dof(); ++j) { zeroJacIndex_.push_back(jacPos + j); }
     }
 
     jacPos += curJoint.dof();
@@ -1377,10 +1368,7 @@ const Eigen::VectorXd & OrientationTrackingTask::eval() const
 
 void OrientationTrackingTask::zeroJacobian(Eigen::MatrixXd & jac) const
 {
-  for(int i : zeroJacIndex_)
-  {
-    jac.col(i).setZero();
-  }
+  for(int i : zeroJacIndex_) { jac.col(i).setZero(); }
 }
 
 /**
@@ -1397,10 +1385,7 @@ RelativeDistTask::RelativeDistTask(const rbd::MultiBody & mb,
 {
   rbInfo_[0] = RelativeDistTask::RelativeBodiesInfo(mb, rbi1, u1);
   rbInfo_[1] = RelativeDistTask::RelativeBodiesInfo(mb, rbi2, u2);
-  if(u1 != Eigen::Vector3d::Zero() && u2 != Eigen::Vector3d::Zero())
-  {
-    isVectorFixed_ = true;
-  }
+  if(u1 != Eigen::Vector3d::Zero() && u2 != Eigen::Vector3d::Zero()) { isVectorFixed_ = true; }
 }
 
 RelativeDistTask::RelativeBodiesInfo::RelativeBodiesInfo(const rbd::MultiBody & mb,
@@ -1427,10 +1412,7 @@ void RelativeDistTask::envPoint(const int bIndex, const Eigen::Vector3d & point)
 {
   for(RelativeBodiesInfo & rbi : rbInfo_)
   {
-    if(rbi.b1Index == bIndex)
-    {
-      rbi.r_0_b2p = point;
-    }
+    if(rbi.b1Index == bIndex) { rbi.r_0_b2p = point; }
   }
 }
 
@@ -1438,10 +1420,7 @@ void RelativeDistTask::vector(const int bIndex, const Eigen::Vector3d & u)
 {
   for(RelativeBodiesInfo & rbi : rbInfo_)
   {
-    if(rbi.b1Index == bIndex)
-    {
-      rbi.u = u;
-    }
+    if(rbi.b1Index == bIndex) { rbi.u = u; }
   }
 }
 

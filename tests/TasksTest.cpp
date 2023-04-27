@@ -44,10 +44,7 @@ struct MRTanAccel
   Eigen::VectorXd tanAcc(Task & task, const std::vector<Eigen::VectorXd> & alphaD)
   {
     tanAccV.setZero();
-    for(std::size_t i = 0; i < alphaD.size(); ++i)
-    {
-      tanAccV += task.jac(int(i)) * alphaD[i];
-    }
+    for(std::size_t i = 0; i < alphaD.size(); ++i) { tanAccV += task.jac(int(i)) * alphaD[i]; }
     return tanAccV;
   }
 
@@ -104,10 +101,7 @@ void computeNormalAccB(const std::vector<rbd::MultiBody> & mbs,
                        const std::vector<rbd::MultiBodyConfig> & mbcs,
                        std::vector<std::vector<sva::MotionVecd>> & normalAccB)
 {
-  for(std::size_t i = 0; i < mbs.size(); ++i)
-  {
-    computeNormalAccB(mbs[i], mbcs[i], normalAccB[i]);
-  }
+  for(std::size_t i = 0; i < mbs.size(); ++i) { computeNormalAccB(mbs[i], mbcs[i], normalAccB[i]); }
 }
 
 /// run the task update(mb, mbc, bodyNormalAcc) method
@@ -132,10 +126,7 @@ struct MRNormalAccUpdater : public MRTanAccel<Task>
   MRNormalAccUpdater(const std::vector<rbd::MultiBody> & mbs, int taskDim)
   : MRTanAccel<Task>(taskDim), normalAccBs(mbs.size())
   {
-    for(std::size_t i = 0; i < mbs.size(); ++i)
-    {
-      normalAccBs[i].resize(static_cast<size_t>(mbs[i].nrBodies()));
-    }
+    for(std::size_t i = 0; i < mbs.size(); ++i) { normalAccBs[i].resize(static_cast<size_t>(mbs[i].nrBodies())); }
   }
 
   void operator()(Task & task, const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
@@ -170,19 +161,13 @@ struct MRNormalAccCoMUpdater : public MRTanAccel<Task>
   MRNormalAccCoMUpdater(const std::vector<rbd::MultiBody> & mbs, int taskDim)
   : MRTanAccel<Task>(taskDim), normalAccBs(mbs.size()), coms(mbs.size())
   {
-    for(std::size_t i = 0; i < mbs.size(); ++i)
-    {
-      normalAccBs[i].resize(static_cast<size_t>(mbs[i].nrBodies()));
-    }
+    for(std::size_t i = 0; i < mbs.size(); ++i) { normalAccBs[i].resize(static_cast<size_t>(mbs[i].nrBodies())); }
   }
 
   void operator()(Task & task, const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
   {
     computeNormalAccB(mbs, mbcs, normalAccBs);
-    for(std::size_t i = 0; i < mbs.size(); ++i)
-    {
-      coms[i] = rbd::computeCoM(mbs[i], mbcs[i]);
-    }
+    for(std::size_t i = 0; i < mbs.size(); ++i) { coms[i] = rbd::computeCoM(mbs[i], mbcs[i]); }
     task.update(mbs, mbcs, coms, normalAccBs);
   }
 

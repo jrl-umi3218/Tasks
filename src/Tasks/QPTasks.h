@@ -40,17 +40,11 @@ public:
                      const Eigen::VectorXd & dimWeight,
                      double weight);
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return std::make_pair(alphaDBegin_, alphaDBegin_);
-  }
+  virtual std::pair<int, int> begin() const override { return std::make_pair(alphaDBegin_, alphaDBegin_); }
 
   void dimWeight(const Eigen::VectorXd & dim);
 
-  const Eigen::VectorXd & dimWeight() const
-  {
-    return dimWeight_;
-  }
+  const Eigen::VectorXd & dimWeight() const { return dimWeight_; }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
 
@@ -91,10 +85,7 @@ public:
                const Eigen::VectorXd & dimWeight,
                double weight);
 
-  double stiffness() const
-  {
-    return stiffness_;
-  }
+  double stiffness() const { return stiffness_; }
 
   void stiffness(double stiffness);
 
@@ -244,55 +235,22 @@ public:
   double duration() const;
   void duration(double d);
 
-  int iter() const
-  {
-    return iter_;
-  }
-  void iter(int i)
-  {
-    iter_ = i;
-  }
+  int iter() const { return iter_; }
+  void iter(int i) { iter_ = i; }
 
-  int nrIter() const
-  {
-    return nrIter_;
-  }
-  void nrIter(int i)
-  {
-    nrIter_ = i;
-  }
+  int nrIter() const { return nrIter_; }
+  void nrIter(int i) { nrIter_ = i; }
 
-  const Eigen::VectorXd & objDot() const
-  {
-    return objDot_;
-  }
-  void objDot(const Eigen::VectorXd & o)
-  {
-    objDot_ = o;
-  }
+  const Eigen::VectorXd & objDot() const { return objDot_; }
+  void objDot(const Eigen::VectorXd & o) { objDot_ = o; }
 
-  const Eigen::VectorXd & dimWeight() const
-  {
-    return dimWeight_;
-  }
-  void dimWeight(const Eigen::VectorXd & o)
-  {
-    dimWeight_ = o;
-  }
+  const Eigen::VectorXd & dimWeight() const { return dimWeight_; }
+  void dimWeight(const Eigen::VectorXd & o) { dimWeight_ = o; }
 
-  const Eigen::VectorXd & phi() const
-  {
-    return phi_;
-  }
-  const Eigen::VectorXd & psi() const
-  {
-    return psi_;
-  }
+  const Eigen::VectorXd & phi() const { return phi_; }
+  const Eigen::VectorXd & psi() const { return psi_; }
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return std::make_pair(alphaDBegin_, alphaDBegin_);
-  }
+  virtual std::pair<int, int> begin() const override { return std::make_pair(alphaDBegin_, alphaDBegin_); }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -347,10 +305,7 @@ public:
                  const std::vector<std::string> & selectedJointsName,
                  const std::map<std::string, std::vector<std::array<int, 2>>> & activeDofs = {});
 
-  const std::vector<SelectedData> selectedJoints() const
-  {
-    return selectedJoints_;
-  }
+  const std::vector<SelectedData> selectedJoints() const { return selectedJoints_; }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -436,25 +391,13 @@ public:
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return std::make_pair(0, 0);
-  }
+  virtual std::pair<int, int> begin() const override { return std::make_pair(0, 0); }
 
-  virtual const Eigen::MatrixXd & Q() const override
-  {
-    return Q_;
-  }
+  virtual const Eigen::MatrixXd & Q() const override { return Q_; }
 
-  virtual const Eigen::VectorXd & C() const override
-  {
-    return C_;
-  }
+  virtual const Eigen::VectorXd & C() const override { return C_; }
 
-  virtual const Eigen::VectorXd & jointSelect() const
-  {
-    return jointSelector_;
-  }
+  virtual const Eigen::VectorXd & jointSelect() const { return jointSelector_; }
 
 private:
   int robotIndex_;
@@ -474,30 +417,15 @@ public:
               double stiffness,
               double weight);
 
-  tasks::PostureTask & task()
-  {
-    return pt_;
-  }
+  tasks::PostureTask & task() { return pt_; }
 
-  void posture(std::vector<std::vector<double>> q)
-  {
-    pt_.posture(q);
-  }
+  void posture(std::vector<std::vector<double>> q) { pt_.posture(q); }
 
-  const std::vector<std::vector<double>> posture() const
-  {
-    return pt_.posture();
-  }
+  const std::vector<std::vector<double>> posture() const { return pt_.posture(); }
 
-  double stiffness() const
-  {
-    return stiffness_;
-  }
+  double stiffness() const { return stiffness_; }
 
-  double damping() const
-  {
-    return damping_;
-  }
+  double damping() const { return damping_; }
 
   void stiffness(double stiffness);
 
@@ -508,10 +436,7 @@ public:
 
   void jointsGains(const std::vector<rbd::MultiBody> & mbs, const std::vector<JointGains> & jgv);
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return std::make_pair(alphaDBegin_, alphaDBegin_);
-  }
+  virtual std::pair<int, int> begin() const override { return std::make_pair(alphaDBegin_, alphaDBegin_); }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -523,28 +448,16 @@ public:
 
   const Eigen::VectorXd & eval() const;
 
-  inline void refVel(const Eigen::VectorXd & refVel) noexcept
-  {
-    refVel_ = refVel;
-  }
-  inline const Eigen::VectorXd & refVel() const noexcept
-  {
-    return refVel_;
-  }
+  inline void refVel(const Eigen::VectorXd & refVel) noexcept { refVel_ = refVel; }
+  inline const Eigen::VectorXd & refVel() const noexcept { return refVel_; }
   inline void refAccel(const Eigen::VectorXd & refAccel) noexcept
   {
     assert(refAccel.size() == refAccel_.size());
     refAccel_ = refAccel;
   }
-  inline const Eigen::VectorXd & refAccel() const noexcept
-  {
-    return refAccel_;
-  }
+  inline const Eigen::VectorXd & refAccel() const noexcept { return refAccel_; }
 
-  inline const Eigen::VectorXd & dimWeight() const noexcept
-  {
-    return dimWeight_;
-  }
+  inline const Eigen::VectorXd & dimWeight() const noexcept { return dimWeight_; }
 
   inline void dimWeight(const Eigen::VectorXd & dimW) noexcept
   {
@@ -584,30 +497,15 @@ public:
                const Eigen::Vector3d & pos,
                const Eigen::Vector3d & bodyPoint = Eigen::Vector3d::Zero());
 
-  tasks::PositionTask & task()
-  {
-    return pt_;
-  }
+  tasks::PositionTask & task() { return pt_; }
 
-  void position(const Eigen::Vector3d & pos)
-  {
-    pt_.position(pos);
-  }
+  void position(const Eigen::Vector3d & pos) { pt_.position(pos); }
 
-  const Eigen::Vector3d & position() const
-  {
-    return pt_.position();
-  }
+  const Eigen::Vector3d & position() const { return pt_.position(); }
 
-  void bodyPoint(const Eigen::Vector3d & point)
-  {
-    pt_.bodyPoint(point);
-  }
+  void bodyPoint(const Eigen::Vector3d & point) { pt_.bodyPoint(point); }
 
-  const Eigen::Vector3d & bodyPoint() const
-  {
-    return pt_.bodyPoint();
-  }
+  const Eigen::Vector3d & bodyPoint() const { return pt_.bodyPoint(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mb,
@@ -636,25 +534,13 @@ public:
                   const std::string & bodyName,
                   const Eigen::Matrix3d & ori);
 
-  tasks::OrientationTask & task()
-  {
-    return ot_;
-  }
+  tasks::OrientationTask & task() { return ot_; }
 
-  void orientation(const Eigen::Quaterniond & ori)
-  {
-    ot_.orientation(ori);
-  }
+  void orientation(const Eigen::Quaterniond & ori) { ot_.orientation(ori); }
 
-  void orientation(const Eigen::Matrix3d & ori)
-  {
-    ot_.orientation(ori);
-  }
+  void orientation(const Eigen::Matrix3d & ori) { ot_.orientation(ori); }
 
-  const Eigen::Matrix3d & orientation() const
-  {
-    return ot_.orientation();
-  }
+  const Eigen::Matrix3d & orientation() const { return ot_.orientation(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -684,55 +570,25 @@ public:
   {
   }
 
-  transform_task_t & task()
-  {
-    return tt_;
-  }
+  transform_task_t & task() { return tt_; }
 
-  void target(const sva::PTransformd & X_0_t)
-  {
-    tt_.target(X_0_t);
-  }
+  void target(const sva::PTransformd & X_0_t) { tt_.target(X_0_t); }
 
-  const sva::PTransformd & target() const
-  {
-    return tt_.target();
-  }
+  const sva::PTransformd & target() const { return tt_.target(); }
 
-  void X_b_p(const sva::PTransformd & X_b_p)
-  {
-    tt_.X_b_p(X_b_p);
-  }
+  void X_b_p(const sva::PTransformd & X_b_p) { tt_.X_b_p(X_b_p); }
 
-  const sva::PTransformd & X_b_p() const
-  {
-    return tt_.X_b_p();
-  }
+  const sva::PTransformd & X_b_p() const { return tt_.X_b_p(); }
 
-  virtual int dim() override
-  {
-    return 6;
-  }
+  virtual int dim() override { return 6; }
 
-  virtual const Eigen::MatrixXd & jac() const override
-  {
-    return tt_.jac();
-  }
+  virtual const Eigen::MatrixXd & jac() const override { return tt_.jac(); }
 
-  virtual const Eigen::VectorXd & eval() const override
-  {
-    return tt_.eval();
-  }
+  virtual const Eigen::VectorXd & eval() const override { return tt_.eval(); }
 
-  virtual const Eigen::VectorXd & speed() const override
-  {
-    return tt_.speed();
-  }
+  virtual const Eigen::VectorXd & speed() const override { return tt_.speed(); }
 
-  virtual const Eigen::VectorXd & normalAcc() const override
-  {
-    return tt_.normalAcc();
-  }
+  virtual const Eigen::VectorXd & normalAcc() const override { return tt_.normalAcc(); }
 
 protected:
   transform_task_t tt_;
@@ -787,25 +643,13 @@ public:
                          const Eigen::Matrix3d & ori,
                          const sva::PTransformd & X_b_s);
 
-  tasks::SurfaceOrientationTask & task()
-  {
-    return ot_;
-  }
+  tasks::SurfaceOrientationTask & task() { return ot_; }
 
-  void orientation(const Eigen::Quaterniond & ori)
-  {
-    ot_.orientation(ori);
-  }
+  void orientation(const Eigen::Quaterniond & ori) { ot_.orientation(ori); }
 
-  void orientation(const Eigen::Matrix3d & ori)
-  {
-    ot_.orientation(ori);
-  }
+  void orientation(const Eigen::Matrix3d & ori) { ot_.orientation(ori); }
 
-  const Eigen::Matrix3d & orientation() const
-  {
-    return ot_.orientation();
-  }
+  const Eigen::Matrix3d & orientation() const { return ot_.orientation(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -839,10 +683,7 @@ public:
            const sva::PTransformd & X_b_gaze,
            const Eigen::Vector2d & point2d_ref = Eigen::Vector2d::Zero());
 
-  tasks::GazeTask & task()
-  {
-    return gazet_;
-  }
+  tasks::GazeTask & task() { return gazet_; }
 
   void error(const Eigen::Vector2d & point2d, const Eigen::Vector2d & point2d_ref = Eigen::Vector2d::Zero())
   {
@@ -878,15 +719,9 @@ public:
                             const sva::PTransformd & X_t_s,
                             const sva::PTransformd & X_b_s = sva::PTransformd::Identity());
 
-  tasks::PositionBasedVisServoTask & task()
-  {
-    return pbvst_;
-  }
+  tasks::PositionBasedVisServoTask & task() { return pbvst_; }
 
-  void error(const sva::PTransformd & X_t_s)
-  {
-    pbvst_.error(X_t_s);
-  }
+  void error(const sva::PTransformd & X_t_s) { pbvst_.error(X_t_s); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -912,25 +747,13 @@ public:
           const Eigen::Vector3d & com,
           std::vector<double> weight);
 
-  tasks::CoMTask & task()
-  {
-    return ct_;
-  }
+  tasks::CoMTask & task() { return ct_; }
 
-  void com(const Eigen::Vector3d & com)
-  {
-    ct_.com(com);
-  }
+  void com(const Eigen::Vector3d & com) { ct_.com(com); }
 
-  const Eigen::Vector3d & com() const
-  {
-    return ct_.com();
-  }
+  const Eigen::Vector3d & com() const { return ct_.com(); }
 
-  const Eigen::Vector3d & actual() const
-  {
-    return ct_.actual();
-  }
+  const Eigen::Vector3d & actual() const { return ct_.actual(); }
 
   void updateInertialParameters(const std::vector<rbd::MultiBody> & mbs);
 
@@ -964,41 +787,23 @@ public:
                const Eigen::Vector3d & dimWeight,
                double weight);
 
-  tasks::MultiCoMTask & task()
-  {
-    return mct_;
-  }
+  tasks::MultiCoMTask & task() { return mct_; }
 
-  void com(const Eigen::Vector3d & com)
-  {
-    mct_.com(com);
-  }
+  void com(const Eigen::Vector3d & com) { mct_.com(com); }
 
-  const Eigen::Vector3d com() const
-  {
-    return mct_.com();
-  }
+  const Eigen::Vector3d com() const { return mct_.com(); }
 
   void updateInertialParameters(const std::vector<rbd::MultiBody> & mbs);
 
-  double stiffness() const
-  {
-    return stiffness_;
-  }
+  double stiffness() const { return stiffness_; }
 
   void stiffness(double stiffness);
 
   void dimWeight(const Eigen::Vector3d & dim);
 
-  const Eigen::Vector3d & dimWeight() const
-  {
-    return dimWeight_;
-  }
+  const Eigen::Vector3d & dimWeight() const { return dimWeight_; }
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return {alphaDBegin_, alphaDBegin_};
-  }
+  virtual std::pair<int, int> begin() const override { return {alphaDBegin_, alphaDBegin_}; }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -1040,10 +845,7 @@ public:
                           double stiffness,
                           double weight);
 
-  tasks::MultiRobotTransformTask & task()
-  {
-    return mrtt_;
-  }
+  tasks::MultiRobotTransformTask & task() { return mrtt_; }
 
   void X_r1b_r1s(const sva::PTransformd & X_r1b_r1s);
   const sva::PTransformd & X_r1b_r1s() const;
@@ -1051,24 +853,15 @@ public:
   void X_r2b_r2s(const sva::PTransformd & X_r2b_r2s);
   const sva::PTransformd & X_r2b_r2s() const;
 
-  double stiffness() const
-  {
-    return stiffness_;
-  }
+  double stiffness() const { return stiffness_; }
 
   void stiffness(double stiffness);
 
   void dimWeight(const Eigen::Vector6d & dim);
 
-  const Eigen::VectorXd & dimWeight() const
-  {
-    return dimWeight_;
-  }
+  const Eigen::VectorXd & dimWeight() const { return dimWeight_; }
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return {alphaDBegin_, alphaDBegin_};
-  }
+  virtual std::pair<int, int> begin() const override { return {alphaDBegin_, alphaDBegin_}; }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -1099,20 +892,11 @@ class TASKS_DLLAPI MomentumTask : public HighLevelTask
 public:
   MomentumTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const sva::ForceVecd & mom);
 
-  tasks::MomentumTask & task()
-  {
-    return momt_;
-  }
+  tasks::MomentumTask & task() { return momt_; }
 
-  void momentum(const sva::ForceVecd & mom)
-  {
-    momt_.momentum(mom);
-  }
+  void momentum(const sva::ForceVecd & mom) { momt_.momentum(mom); }
 
-  const sva::ForceVecd momentum() const
-  {
-    return momt_.momentum();
-  }
+  const sva::ForceVecd momentum() const { return momt_.momentum(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mb,
@@ -1138,10 +922,7 @@ public:
   {
   }
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return std::make_pair(begin_, begin_);
-  }
+  virtual std::pair<int, int> begin() const override { return std::make_pair(begin_, begin_); }
 
   void error(const Eigen::Vector3d & error);
   void errorD(const Eigen::Vector3d & errorD);
@@ -1174,10 +955,7 @@ public:
   {
   }
 
-  virtual std::pair<int, int> begin() const override
-  {
-    return std::make_pair(begin_, begin_);
-  }
+  virtual std::pair<int, int> begin() const override { return std::make_pair(begin_, begin_); }
 
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -1206,30 +984,15 @@ public:
                   const Eigen::Vector3d & vel,
                   const Eigen::Vector3d & bodyPoint = Eigen::Vector3d::Zero());
 
-  tasks::LinVelocityTask & task()
-  {
-    return pt_;
-  }
+  tasks::LinVelocityTask & task() { return pt_; }
 
-  void velocity(const Eigen::Vector3d & s)
-  {
-    pt_.velocity(s);
-  }
+  void velocity(const Eigen::Vector3d & s) { pt_.velocity(s); }
 
-  const Eigen::Vector3d & velocity() const
-  {
-    return pt_.velocity();
-  }
+  const Eigen::Vector3d & velocity() const { return pt_.velocity(); }
 
-  void bodyPoint(const Eigen::Vector3d & point)
-  {
-    pt_.bodyPoint(point);
-  }
+  void bodyPoint(const Eigen::Vector3d & point) { pt_.bodyPoint(point); }
 
-  const Eigen::Vector3d & bodyPoint() const
-  {
-    return pt_.bodyPoint();
-  }
+  const Eigen::Vector3d & bodyPoint() const { return pt_.bodyPoint(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -1257,40 +1020,19 @@ public:
                           const std::vector<std::string> & trackingJointsName,
                           const Eigen::Vector3d & trackedPoint);
 
-  tasks::OrientationTrackingTask & task()
-  {
-    return ott_;
-  }
+  tasks::OrientationTrackingTask & task() { return ott_; }
 
-  void trackedPoint(const Eigen::Vector3d & tp)
-  {
-    ott_.trackedPoint(tp);
-  }
+  void trackedPoint(const Eigen::Vector3d & tp) { ott_.trackedPoint(tp); }
 
-  const Eigen::Vector3d & trackedPoint() const
-  {
-    return ott_.trackedPoint();
-  }
+  const Eigen::Vector3d & trackedPoint() const { return ott_.trackedPoint(); }
 
-  void bodyPoint(const Eigen::Vector3d & bp)
-  {
-    ott_.bodyPoint(bp);
-  }
+  void bodyPoint(const Eigen::Vector3d & bp) { ott_.bodyPoint(bp); }
 
-  const Eigen::Vector3d & bodyPoint() const
-  {
-    return ott_.bodyPoint();
-  }
+  const Eigen::Vector3d & bodyPoint() const { return ott_.bodyPoint(); }
 
-  void bodyAxis(const Eigen::Vector3d & ba)
-  {
-    ott_.bodyAxis(ba);
-  }
+  void bodyAxis(const Eigen::Vector3d & ba) { ott_.bodyAxis(ba); }
 
-  const Eigen::Vector3d & bodyAxis() const
-  {
-    return ott_.bodyAxis();
-  }
+  const Eigen::Vector3d & bodyAxis() const { return ott_.bodyAxis(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -1320,10 +1062,7 @@ public:
                    const Eigen::Vector3d & u1 = Eigen::Vector3d::Zero(),
                    const Eigen::Vector3d & u2 = Eigen::Vector3d::Zero());
 
-  tasks::RelativeDistTask & task()
-  {
-    return rdt_;
-  }
+  tasks::RelativeDistTask & task() { return rdt_; }
 
   void robotPoint(const rbd::MultiBody & mb, const std::string & bName, const Eigen::Vector3d & point)
   {
@@ -1365,30 +1104,12 @@ public:
                         const Eigen::Vector3d & bodyVector,
                         const Eigen::Vector3d & targetVector);
 
-  tasks::VectorOrientationTask & task()
-  {
-    return vot_;
-  }
-  void bodyVector(const Eigen::Vector3d & vector)
-  {
-    vot_.bodyVector(vector);
-  }
-  const Eigen::Vector3d & bodyVector() const
-  {
-    return vot_.bodyVector();
-  }
-  void target(const Eigen::Vector3d & vector)
-  {
-    vot_.target(vector);
-  }
-  const Eigen::Vector3d & target() const
-  {
-    return vot_.target();
-  }
-  const Eigen::Vector3d & actual() const
-  {
-    return vot_.actual();
-  }
+  tasks::VectorOrientationTask & task() { return vot_; }
+  void bodyVector(const Eigen::Vector3d & vector) { vot_.bodyVector(vector); }
+  const Eigen::Vector3d & bodyVector() const { return vot_.bodyVector(); }
+  void target(const Eigen::Vector3d & vector) { vot_.target(vector); }
+  const Eigen::Vector3d & target() const { return vot_.target(); }
+  const Eigen::Vector3d & actual() const { return vot_.actual(); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,

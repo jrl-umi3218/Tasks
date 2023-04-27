@@ -556,17 +556,11 @@ JointsSelector JointsSelector::UnactiveJoints(
     for(size_t i = 0; i < jDofs.size(); ++i)
     {
       auto dofStart = jDofs[i][0];
-      if(dofStart > ji)
-      {
-        activeDofs[jN].push_back({{ji, dofStart - ji}});
-      }
+      if(dofStart > ji) { activeDofs[jN].push_back({{ji, dofStart - ji}}); }
       ji = dofStart + jDofs[i][1];
     }
     auto finalDof = jDofs.back()[0] + jDofs.back()[1];
-    if(finalDof < j.dof())
-    {
-      activeDofs[jN].push_back({{finalDof, j.dof() - finalDof}});
-    }
+    if(finalDof < j.dof()) { activeDofs[jN].push_back({{finalDof, j.dof() - finalDof}}); }
   }
 
   return JointsSelector(mbs, robotIndex, hl, activeJointsName);
@@ -593,10 +587,7 @@ JointsSelector::JointsSelector(const std::vector<rbd::MultiBody> & mbs,
         selectedJoints_.push_back({pInDof + jdof[0], jdof[1]});
       }
     }
-    else
-    {
-      selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()});
-    }
+    else { selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()}); }
   }
   // sort data in posInDof order
   std::sort(selectedJoints_.begin(), selectedJoints_.end(),
@@ -705,10 +696,7 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
   for(auto i : jac.jointsPath())
   {
     // Do not add root joint !
-    if(i != 0)
-    {
-      jointSelector_.segment(mbs[robotIndex].jointPosInDof(i), mbs[robotIndex].joint(i).dof()).setOnes();
-    }
+    if(i != 0) { jointSelector_.segment(mbs[robotIndex].jointPosInDof(i), mbs[robotIndex].joint(i).dof()).setOnes(); }
   }
 }
 
@@ -1259,10 +1247,7 @@ void MultiCoMTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, c
   C_.setZero(size);
 
   posInQ_.clear();
-  for(int r : mct_.robotIndexes())
-  {
-    posInQ_.push_back(data.alphaDBegin(r) - alphaDBegin_);
-  }
+  for(int r : mct_.robotIndexes()) { posInQ_.push_back(data.alphaDBegin(r) - alphaDBegin_); }
 }
 
 void MultiCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
@@ -1310,10 +1295,7 @@ const Eigen::VectorXd & MultiCoMTask::speed() const
 void MultiCoMTask::init(const std::vector<rbd::MultiBody> & mbs)
 {
   int maxDof = 0;
-  for(int r : mct_.robotIndexes())
-  {
-    maxDof = std::max(maxDof, mbs[r].nrDof());
-  }
+  for(int r : mct_.robotIndexes()) { maxDof = std::max(maxDof, mbs[r].nrDof()); }
   preQ_.resize(3, maxDof);
 }
 
@@ -1336,10 +1318,7 @@ MultiRobotTransformTask::MultiRobotTransformTask(const std::vector<rbd::MultiBod
   CSum_(Eigen::Vector6d::Zero()), preQ_()
 {
   int maxDof = 0;
-  for(int r : robotIndexes_)
-  {
-    maxDof = std::max(maxDof, mbs[r].nrDof());
-  }
+  for(int r : robotIndexes_) { maxDof = std::max(maxDof, mbs[r].nrDof()); }
   preQ_.resize(6, maxDof);
 }
 
@@ -1386,10 +1365,7 @@ void MultiRobotTransformTask::updateNrVars(const std::vector<rbd::MultiBody> & /
   C_.setZero(size);
 
   posInQ_.clear();
-  for(int r : robotIndexes_)
-  {
-    posInQ_.push_back(data.alphaDBegin(r) - alphaDBegin_);
-  }
+  for(int r : robotIndexes_) { posInQ_.push_back(data.alphaDBegin(r) - alphaDBegin_); }
 }
 
 void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody> & mbs,
@@ -1574,10 +1550,7 @@ void GripperTorqueTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs 
   {
     int curLambda = 0;
     // compute the number of lambda needed by the current bilateral
-    for(std::size_t i = 0; i < bc.r1Points.size(); ++i)
-    {
-      curLambda += bc.nrLambda(static_cast<int>(i));
-    }
+    for(std::size_t i = 0; i < bc.r1Points.size(); ++i) { curLambda += bc.nrLambda(static_cast<int>(i)); }
 
     if(bc.contactId == contactId_)
     {

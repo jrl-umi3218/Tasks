@@ -157,14 +157,8 @@ protected:
       for(int j = 0; j < 6; ++j)
       {
         bool dof_j_active = false;
-        for(int r = 0; r < dof.rows(); ++r)
-        {
-          dof_j_active = dof_j_active || dof(r, j) == 1;
-        }
-        if(!dof_j_active)
-        {
-          revDof(j, j) = 1;
-        }
+        for(int r = 0; r < dof.rows(); ++r) { dof_j_active = dof_j_active || dof(r, j) == 1; }
+        if(!dof_j_active) { revDof(j, j) = 1; }
       }
     }
 

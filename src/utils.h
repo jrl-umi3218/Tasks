@@ -15,10 +15,7 @@ inline int findJointFromVector(const rbd::MultiBody & mb, int line, bool withBas
   int start = withBase ? 0 : 1;
   for(int j = start; j < int(mb.nrJoints()); ++j)
   {
-    if(line >= start && line <= (start + mb.joint(j).dof()))
-    {
-      return j;
-    }
+    if(line >= start && line <= (start + mb.joint(j).dof())) { return j; }
     start += mb.joint(j).dof();
   }
   return -1;

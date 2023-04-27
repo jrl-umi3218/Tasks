@@ -31,102 +31,45 @@ public:
 
   SolverData();
 
-  int nrVars() const
-  {
-    return nrVars_;
-  }
+  int nrVars() const { return nrVars_; }
 
-  int totalAlphaD() const
-  {
-    return totalAlphaD_;
-  }
+  int totalAlphaD() const { return totalAlphaD_; }
 
-  int totalLambda() const
-  {
-    return totalLambda_;
-  }
+  int totalLambda() const { return totalLambda_; }
 
-  int alphaD(int robotIndex) const
-  {
-    return alphaD_[robotIndex];
-  }
+  int alphaD(int robotIndex) const { return alphaD_[robotIndex]; }
 
-  int lambda(int contactIndex) const
-  {
-    return lambda_[contactIndex];
-  }
+  int lambda(int contactIndex) const { return lambda_[contactIndex]; }
 
-  int alphaDBegin() const
-  {
-    return 0;
-  }
+  int alphaDBegin() const { return 0; }
 
-  int alphaDBegin(int robotIndex) const
-  {
-    return alphaDBegin_[robotIndex];
-  }
+  int alphaDBegin(int robotIndex) const { return alphaDBegin_[robotIndex]; }
 
-  int lambdaBegin() const
-  {
-    return totalAlphaD_;
-  }
+  int lambdaBegin() const { return totalAlphaD_; }
 
-  int lambdaBegin(int contactIndex) const
-  {
-    return lambdaBegin_[contactIndex];
-  }
+  int lambdaBegin(int contactIndex) const { return lambdaBegin_[contactIndex]; }
 
-  int nrUniLambda() const
-  {
-    return nrUniLambda_;
-  }
+  int nrUniLambda() const { return nrUniLambda_; }
 
-  int nrBiLambda() const
-  {
-    return nrBiLambda_;
-  }
+  int nrBiLambda() const { return nrBiLambda_; }
 
-  int unilateralBegin() const
-  {
-    return lambdaBegin();
-  }
+  int unilateralBegin() const { return lambdaBegin(); }
 
-  int bilateralBegin() const
-  {
-    return unilateralBegin() + nrUniLambda_;
-  }
+  int bilateralBegin() const { return unilateralBegin() + nrUniLambda_; }
 
-  int nrContacts() const
-  {
-    return static_cast<int>(uniCont_.size() + biCont_.size());
-  }
+  int nrContacts() const { return static_cast<int>(uniCont_.size() + biCont_.size()); }
 
-  const std::vector<UnilateralContact> & unilateralContacts() const
-  {
-    return uniCont_;
-  }
+  const std::vector<UnilateralContact> & unilateralContacts() const { return uniCont_; }
 
-  const std::vector<BilateralContact> & bilateralContacts() const
-  {
-    return biCont_;
-  }
+  const std::vector<BilateralContact> & bilateralContacts() const { return biCont_; }
 
-  const std::vector<BilateralContact> & allContacts() const
-  {
-    return allCont_;
-  }
+  const std::vector<BilateralContact> & allContacts() const { return allCont_; }
 
   void computeNormalAccB(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs);
 
-  const std::vector<std::vector<sva::MotionVecd>> & normalAccB() const
-  {
-    return normalAccB_;
-  }
+  const std::vector<std::vector<sva::MotionVecd>> & normalAccB() const { return normalAccB_; }
 
-  const std::vector<sva::MotionVecd> & normalAccB(int robotIndex) const
-  {
-    return normalAccB_[robotIndex];
-  }
+  const std::vector<sva::MotionVecd> & normalAccB(int robotIndex) const { return normalAccB_[robotIndex]; }
 
 private:
   std::vector<int> alphaD_; //< each robot alphaD vector size
