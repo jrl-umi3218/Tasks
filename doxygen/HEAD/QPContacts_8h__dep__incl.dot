@@ -1,22 +1,23 @@
 digraph "src/Tasks/QPContacts.h"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  Node5 [label="src/Tasks/QPContacts.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node6 [label="src/Tasks/QPSolver.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolver_8h.html"];
+  Node1 [label="src/Tasks/QPContacts.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/Tasks/QPSolver.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolver_8h.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/GenQPUtils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$GenQPUtils_8h.html",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/Tasks/QPConstr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPConstr_8h.html",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/Tasks/QPContactConstr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPContactConstr_8h.html",tooltip=" "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/Tasks/QPMotionConstr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPMotionConstr_8h.html",tooltip=" "];
   Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node7 [label="src/GenQPUtils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$GenQPUtils_8h.html"];
-  Node6 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node8 [label="src/Tasks/QPConstr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPConstr_8h.html"];
-  Node6 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node9 [label="src/Tasks/QPContactConstr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPContactConstr_8h.html"];
-  Node6 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node10 [label="src/Tasks/QPMotionConstr.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPMotionConstr_8h.html"];
-  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node11 [label="src/Tasks/QPTasks.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPTasks_8h.html"];
-  Node6 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node12 [label="src/Tasks/QPSolverData.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolverData_8h.html"];
-  Node12 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/Tasks/QPTasks.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPTasks_8h.html",tooltip=" "];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/Tasks/QPSolverData.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolverData_8h.html",tooltip=" "];
+  Node8 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

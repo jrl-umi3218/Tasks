@@ -8,8 +8,8 @@ var classtasks_1_1MultiRobotTransformTask =
     [ "r2Index", "classtasks_1_1MultiRobotTransformTask.html#a3ac3c39e41fc0bcec84e373ad65eeedb", null ],
     [ "speed", "classtasks_1_1MultiRobotTransformTask.html#a34f465854954916811ba4146a76b3c53", null ],
     [ "update", "classtasks_1_1MultiRobotTransformTask.html#a251727256873e2bd2df730be58bd9781", null ],
-    [ "X_r1b_r1s", "classtasks_1_1MultiRobotTransformTask.html#a1a9bbc561f3314f9eb435d94145c5567", null ],
     [ "X_r1b_r1s", "classtasks_1_1MultiRobotTransformTask.html#a8fd561cdb278950786c7f8fa6ff708bc", null ],
-    [ "X_r2b_r2s", "classtasks_1_1MultiRobotTransformTask.html#af7058dcac3a76234456ffc14d971c40c", null ],
-    [ "X_r2b_r2s", "classtasks_1_1MultiRobotTransformTask.html#a1083956c47548aba65fb917e53f966d3", null ]
+    [ "X_r1b_r1s", "classtasks_1_1MultiRobotTransformTask.html#a1a9bbc561f3314f9eb435d94145c5567", null ],
+    [ "X_r2b_r2s", "classtasks_1_1MultiRobotTransformTask.html#a1083956c47548aba65fb917e53f966d3", null ],
+    [ "X_r2b_r2s", "classtasks_1_1MultiRobotTransformTask.html#af7058dcac3a76234456ffc14d971c40c", null ]
 ];

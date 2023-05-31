@@ -1,4 +1,4 @@
-var namespaces =
+var namespaces_dup =
 [
     [ "rbd", "namespacerbd.html", null ],
     [ "sch", "namespacesch.html", null ],

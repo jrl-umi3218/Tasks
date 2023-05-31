@@ -1,8 +1,8 @@
 var classtasks_1_1qp_1_1CoMIncPlaneConstr =
 [
     [ "CoMIncPlaneConstr", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a8d06d7750347b3548de72faae5394406", null ],
-    [ "addPlane", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#ab4ff9ded4f0e0fcbbaf64bb7a9fc9d0a", null ],
     [ "addPlane", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a842c6c78a0ebbc92999997d2cb74ebae", null ],
+    [ "addPlane", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#ab4ff9ded4f0e0fcbbaf64bb7a9fc9d0a", null ],
     [ "AInEq", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a0a0d3bc6d47d20a4f8721dd973f6276d", null ],
     [ "bInEq", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a71a8e9ef2b63d24f0f210799fe22e5b2", null ],
     [ "descInEq", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a33875a675a759a588497158c1a3ee1d3", null ],

@@ -3,12 +3,12 @@
   <compound kind="file">
     <name>README.md</name>
     <path>/home/runner/work/Tasks/Tasks/</path>
-    <filename>README_8md</filename>
+    <filename>README_8md.html</filename>
   </compound>
   <compound kind="file">
     <name>GenQPUtils.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/</path>
-    <filename>GenQPUtils_8h</filename>
+    <filename>GenQPUtils_8h.html</filename>
     <includes id="QPSolver_8h" name="QPSolver.h" local="yes" imported="no">Tasks/QPSolver.h</includes>
     <namespace>tasks</namespace>
     <namespace>tasks::qp</namespace>
@@ -16,8 +16,8 @@
       <type>void</type>
       <name>fillQC</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a19005ec649deff2408ae41bd0ac73972</anchor>
-      <arglist>(const std::vector&lt; Task *&gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</arglist>
+      <anchor>a3acd478a67503f59d9247a42d049ccab</anchor>
+      <arglist>(const std::vector&lt; Task * &gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -30,50 +30,50 @@
       <type>int</type>
       <name>fillEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>aef4304bc755850350a21adc6250789a4</anchor>
-      <arglist>(const std::vector&lt; Equality *&gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
+      <anchor>a483f5734b17b8c4500a85814c867ebc9</anchor>
+      <arglist>(const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a75ff83cd1b1004838311866eda859393</anchor>
-      <arglist>(const std::vector&lt; Inequality *&gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
+      <anchor>a77e5a5962c21c03aeda39abeeb516912</anchor>
+      <arglist>(const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillGenInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a0ebca234bbf747cb3780799a89d195fc</anchor>
-      <arglist>(const std::vector&lt; GenInequality *&gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
+      <anchor>aab329f620a78124fb5d860881f293835</anchor>
+      <arglist>(const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a1db07134f231c8aacf6c2bf2f401639d</anchor>
-      <arglist>(const std::vector&lt; Equality *&gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
+      <anchor>a4af6028d8957e20c500d0bb31a2b9231</anchor>
+      <arglist>(const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a01ded3311635f6d7af39e15d1659f7b9</anchor>
-      <arglist>(const std::vector&lt; Inequality *&gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
+      <anchor>a5f31965982894310938eeee89933c06f</anchor>
+      <arglist>(const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillGenInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a7d5e57614fe485d3e3c82d4edc26dbc0</anchor>
-      <arglist>(const std::vector&lt; GenInequality *&gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
+      <anchor>a0194ab22689c282d9e6205c973bce141</anchor>
+      <arglist>(const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>fillBound</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a49a76dde5839eb89ded3ad069f46f38e</anchor>
-      <arglist>(const std::vector&lt; Bound *&gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</arglist>
+      <anchor>aca70e0c2bf7e2fe95b1817865ae65bd8</anchor>
+      <arglist>(const std::vector&lt; Bound * &gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -128,14 +128,14 @@
       <type>std::ostream &amp;</type>
       <name>constrErrorMsg</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a35f47a0707e1b0bd512e16bcc7fdd235</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T *&gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</arglist>
+      <anchor>a1d2dfd5d6e03be7321854fb1e2bc32df</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T * &gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</arglist>
     </member>
   </compound>
   <compound kind="file">
     <name>LSSOLQPSolver.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/</path>
-    <filename>LSSOLQPSolver_8h</filename>
+    <filename>LSSOLQPSolver_8h.html</filename>
     <includes id="GenQPSolver_8h" name="GenQPSolver.h" local="yes" imported="no">Tasks/GenQPSolver.h</includes>
     <class kind="class">tasks::qp::LSSOLQPSolver</class>
     <namespace>tasks</namespace>
@@ -144,7 +144,7 @@
   <compound kind="file">
     <name>QLDQPSolver.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/</path>
-    <filename>QLDQPSolver_8h</filename>
+    <filename>QLDQPSolver_8h.html</filename>
     <includes id="GenQPSolver_8h" name="GenQPSolver.h" local="yes" imported="no">Tasks/GenQPSolver.h</includes>
     <class kind="class">tasks::qp::QLDQPSolver</class>
     <namespace>tasks</namespace>
@@ -153,7 +153,7 @@
   <compound kind="file">
     <name>Bounds.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>Bounds_8h</filename>
+    <filename>Bounds_8h.html</filename>
     <class kind="struct">tasks::QBound</class>
     <class kind="struct">tasks::AlphaBound</class>
     <class kind="struct">tasks::AlphaDBound</class>
@@ -166,7 +166,7 @@
   <compound kind="file">
     <name>GenQPSolver.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>GenQPSolver_8h</filename>
+    <filename>GenQPSolver_8h.html</filename>
     <class kind="class">tasks::qp::GenQPSolver</class>
     <namespace>rbd</namespace>
     <namespace>tasks</namespace>
@@ -182,7 +182,7 @@
   <compound kind="file">
     <name>QPConstr.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPConstr_8h</filename>
+    <filename>QPConstr_8h.html</filename>
     <includes id="QPSolver_8h" name="QPSolver.h" local="yes" imported="no">QPSolver.h</includes>
     <class kind="class">tasks::qp::JointLimitsConstr</class>
     <class kind="class">tasks::qp::DamperJointLimitsConstr</class>
@@ -205,7 +205,7 @@
   <compound kind="file">
     <name>QPContactConstr.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPContactConstr_8h</filename>
+    <filename>QPContactConstr_8h.html</filename>
     <includes id="QPSolver_8h" name="QPSolver.h" local="yes" imported="no">QPSolver.h</includes>
     <class kind="class">tasks::qp::ContactConstrCommon</class>
     <class kind="struct">tasks::qp::ContactConstrCommon::ContactCommon</class>
@@ -221,7 +221,7 @@
   <compound kind="file">
     <name>QPContacts.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPContacts_8h</filename>
+    <filename>QPContacts_8h.html</filename>
     <class kind="struct">tasks::qp::FrictionCone</class>
     <class kind="struct">tasks::qp::ContactId</class>
     <class kind="struct">tasks::qp::UnilateralContact</class>
@@ -232,7 +232,7 @@
   <compound kind="file">
     <name>QPMotionConstr.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPMotionConstr_8h</filename>
+    <filename>QPMotionConstr_8h.html</filename>
     <includes id="QPSolver_8h" name="QPSolver.h" local="yes" imported="no">QPSolver.h</includes>
     <class kind="class">tasks::qp::PositiveLambda</class>
     <class kind="class">tasks::qp::MotionConstrCommon</class>
@@ -248,7 +248,7 @@
   <compound kind="file">
     <name>QPSolver.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPSolver_8h</filename>
+    <filename>QPSolver_8h.html</filename>
     <includes id="QPContacts_8h" name="QPContacts.h" local="yes" imported="no">QPContacts.h</includes>
     <includes id="QPSolverData_8h" name="QPSolverData.h" local="yes" imported="no">QPSolverData.h</includes>
     <class kind="class">tasks::qp::QPSolver</class>
@@ -271,7 +271,7 @@
   <compound kind="file">
     <name>QPSolverData.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPSolverData_8h</filename>
+    <filename>QPSolverData_8h.html</filename>
     <includes id="QPContacts_8h" name="QPContacts.h" local="yes" imported="no">QPContacts.h</includes>
     <class kind="class">tasks::qp::SolverData</class>
     <namespace>rbd</namespace>
@@ -281,7 +281,7 @@
   <compound kind="file">
     <name>QPTasks.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>QPTasks_8h</filename>
+    <filename>QPTasks_8h.html</filename>
     <includes id="QPMotionConstr_8h" name="QPMotionConstr.h" local="yes" imported="no">QPMotionConstr.h</includes>
     <includes id="QPSolver_8h" name="QPSolver.h" local="yes" imported="no">QPSolver.h</includes>
     <includes id="Tasks_8h" name="Tasks.h" local="yes" imported="no">Tasks.h</includes>
@@ -322,7 +322,7 @@
   <compound kind="file">
     <name>Tasks.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/Tasks/</path>
-    <filename>Tasks_8h</filename>
+    <filename>Tasks_8h.html</filename>
     <class kind="class">tasks::PositionTask</class>
     <class kind="class">tasks::OrientationTask</class>
     <class kind="class">tasks::TransformTaskCommon</class>
@@ -346,7 +346,7 @@
   <compound kind="file">
     <name>utils.h</name>
     <path>/home/runner/work/Tasks/Tasks/src/</path>
-    <filename>utils_8h</filename>
+    <filename>utils_8h.html</filename>
     <namespace>tasks</namespace>
     <namespace>tasks::qp</namespace>
     <member kind="function">
@@ -2613,8 +2613,8 @@
       <type>virtual void</type>
       <name>updateMatrix</name>
       <anchorfile>classtasks_1_1qp_1_1GenQPSolver.html</anchorfile>
-      <anchor>a8fa9c75d06717be72cd03c6be8d966fc</anchor>
-      <arglist>(const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr)=0</arglist>
+      <anchor>a7c72a60336439e940e2976d327dd98dd</anchor>
+      <arglist>(const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual bool</type>
@@ -2634,8 +2634,8 @@
       <type>virtual std::ostream &amp;</type>
       <name>errorMsg</name>
       <anchorfile>classtasks_1_1qp_1_1GenQPSolver.html</anchorfile>
-      <anchor>a4cf03fcd10207b5001b41f6fc26921bf</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr, std::ostream &amp;out) const =0</arglist>
+      <anchor>a54b51f336322baaca38f31c9b0f5df98</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr, std::ostream &amp;out) const =0</arglist>
     </member>
     <member kind="function" virtualness="pure">
       <type>virtual std::string</type>
@@ -3523,8 +3523,8 @@
       <type>virtual void</type>
       <name>updateMatrix</name>
       <anchorfile>classtasks_1_1qp_1_1LSSOLQPSolver.html</anchorfile>
-      <anchor>a4b275b42f42b6228b0d6cb7842109294</anchor>
-      <arglist>(const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr) override</arglist>
+      <anchor>a12be106df27c06f12e438c7129422baf</anchor>
+      <arglist>(const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr) override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
@@ -3544,8 +3544,8 @@
       <type>virtual std::ostream &amp;</type>
       <name>errorMsg</name>
       <anchorfile>classtasks_1_1qp_1_1LSSOLQPSolver.html</anchorfile>
-      <anchor>aa06e14e8def97a8fc92fd5003b2e6513</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr, std::ostream &amp;out) const override</arglist>
+      <anchor>a710a1f1b2e91b05fac21228fad56f2e8</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr, std::ostream &amp;out) const override</arglist>
     </member>
     <member kind="function">
       <type>std::string</type>
@@ -4275,94 +4275,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>tasks::MultiRobotTransformTask</name>
-    <filename>classtasks_1_1MultiRobotTransformTask.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>MultiRobotTransformTask</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a8f6e1b8388384c5089b9297d65a848d8</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, const sva::PTransformd &amp;X_r1b_r1s, const sva::PTransformd &amp;X_r2b_r2s)</arglist>
-    </member>
-    <member kind="function">
-      <type>int</type>
-      <name>r1Index</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>aba6b56e514165a1c2e1eaeed87536482</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>int</type>
-      <name>r2Index</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a3ac3c39e41fc0bcec84e373ad65eeedb</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>X_r1b_r1s</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a1a9bbc561f3314f9eb435d94145c5567</anchor>
-      <arglist>(const sva::PTransformd &amp;X_r1b_r1s)</arglist>
-    </member>
-    <member kind="function">
-      <type>const sva::PTransformd &amp;</type>
-      <name>X_r1b_r1s</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a8fd561cdb278950786c7f8fa6ff708bc</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>X_r2b_r2s</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>af7058dcac3a76234456ffc14d971c40c</anchor>
-      <arglist>(const sva::PTransformd &amp;X_r2b_r2s)</arglist>
-    </member>
-    <member kind="function">
-      <type>const sva::PTransformd &amp;</type>
-      <name>X_r2b_r2s</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a1083956c47548aba65fb917e53f966d3</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>update</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a251727256873e2bd2df730be58bd9781</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const std::vector&lt; std::vector&lt; sva::MotionVecd &gt;&gt; &amp;normalAccB)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>af9e23d43a0e0e8457611092e043edc3c</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>speed</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a34f465854954916811ba4146a76b3c53</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>normalAcc</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>add70ed8d65822c0135338170f621c14a</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
-      <anchor>a26bd2ac21835a6dafecb1f479f3cb1e9</anchor>
-      <arglist>(int index) const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>tasks::qp::MultiRobotTransformTask</name>
     <filename>classtasks_1_1qp_1_1MultiRobotTransformTask.html</filename>
     <base>tasks::qp::Task</base>
@@ -4484,6 +4396,94 @@
       <anchorfile>classtasks_1_1qp_1_1MultiRobotTransformTask.html</anchorfile>
       <anchor>abe0b7f72274b0ad80bada70930cc71e4</anchor>
       <arglist>() const</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>tasks::MultiRobotTransformTask</name>
+    <filename>classtasks_1_1MultiRobotTransformTask.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>MultiRobotTransformTask</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a8f6e1b8388384c5089b9297d65a848d8</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int r1Index, int r2Index, const std::string &amp;r1BodyName, const std::string &amp;r2BodyName, const sva::PTransformd &amp;X_r1b_r1s, const sva::PTransformd &amp;X_r2b_r2s)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>r1Index</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>aba6b56e514165a1c2e1eaeed87536482</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>r2Index</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a3ac3c39e41fc0bcec84e373ad65eeedb</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>X_r1b_r1s</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a1a9bbc561f3314f9eb435d94145c5567</anchor>
+      <arglist>(const sva::PTransformd &amp;X_r1b_r1s)</arglist>
+    </member>
+    <member kind="function">
+      <type>const sva::PTransformd &amp;</type>
+      <name>X_r1b_r1s</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a8fd561cdb278950786c7f8fa6ff708bc</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>X_r2b_r2s</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>af7058dcac3a76234456ffc14d971c40c</anchor>
+      <arglist>(const sva::PTransformd &amp;X_r2b_r2s)</arglist>
+    </member>
+    <member kind="function">
+      <type>const sva::PTransformd &amp;</type>
+      <name>X_r2b_r2s</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a1083956c47548aba65fb917e53f966d3</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a251727256873e2bd2df730be58bd9781</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const std::vector&lt; std::vector&lt; sva::MotionVecd &gt;&gt; &amp;normalAccB)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>af9e23d43a0e0e8457611092e043edc3c</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>speed</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a34f465854954916811ba4146a76b3c53</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>normalAcc</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>add70ed8d65822c0135338170f621c14a</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1MultiRobotTransformTask.html</anchorfile>
+      <anchor>a26bd2ac21835a6dafecb1f479f3cb1e9</anchor>
+      <arglist>(int index) const</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -5139,95 +5139,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>tasks::qp::PositionTask</name>
-    <filename>classtasks_1_1qp_1_1PositionTask.html</filename>
-    <base>tasks::qp::HighLevelTask</base>
-    <member kind="function">
-      <type></type>
-      <name>PositionTask</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>a4e62387a66f8fcda315b09ccb5b7a61e</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;pos, const Eigen::Vector3d &amp;bodyPoint=Eigen::Vector3d::Zero())</arglist>
-    </member>
-    <member kind="function">
-      <type>tasks::PositionTask &amp;</type>
-      <name>task</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>a7f25f8900bd1f60713f457d644d7f475</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>position</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>ab87c8b5a100da4d6368c11564676267f</anchor>
-      <arglist>(const Eigen::Vector3d &amp;pos)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::Vector3d &amp;</type>
-      <name>position</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>a8eea98be88dfe3fb50a4543f394b023b</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>bodyPoint</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>a64ffb42b4665cbe52c05e8de5349f4bd</anchor>
-      <arglist>(const Eigen::Vector3d &amp;point)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::Vector3d &amp;</type>
-      <name>bodyPoint</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>a45c8754fe1a2aff6ce727e09185f7853</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual int</type>
-      <name>dim</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>aaaf4db680518858da754c91c98bd3ba9</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual void</type>
-      <name>update</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>a1200ea6f0088c6fbb4ee1eec4d873931</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbc, const SolverData &amp;data) override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>abb755277b5359982c4290def54c50998</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>ac18a4238c6d0613aa910d8e075d4662d</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>speed</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>ac92338815e82013c97414b9172d1411c</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>normalAcc</name>
-      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
-      <anchor>abbd314900215faa9dd27f20169c4278c</anchor>
-      <arglist>() const override</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>tasks::PositionTask</name>
     <filename>classtasks_1_1PositionTask.html</filename>
     <member kind="function">
@@ -5320,6 +5231,95 @@
       <anchorfile>classtasks_1_1PositionTask.html</anchorfile>
       <anchor>a4a91487dacd1b0d1795fbde0f0d6b747</anchor>
       <arglist>() const</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>tasks::qp::PositionTask</name>
+    <filename>classtasks_1_1qp_1_1PositionTask.html</filename>
+    <base>tasks::qp::HighLevelTask</base>
+    <member kind="function">
+      <type></type>
+      <name>PositionTask</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>a4e62387a66f8fcda315b09ccb5b7a61e</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const Eigen::Vector3d &amp;pos, const Eigen::Vector3d &amp;bodyPoint=Eigen::Vector3d::Zero())</arglist>
+    </member>
+    <member kind="function">
+      <type>tasks::PositionTask &amp;</type>
+      <name>task</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>a7f25f8900bd1f60713f457d644d7f475</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>position</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>ab87c8b5a100da4d6368c11564676267f</anchor>
+      <arglist>(const Eigen::Vector3d &amp;pos)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>position</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>a8eea98be88dfe3fb50a4543f394b023b</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>bodyPoint</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>a64ffb42b4665cbe52c05e8de5349f4bd</anchor>
+      <arglist>(const Eigen::Vector3d &amp;point)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>bodyPoint</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>a45c8754fe1a2aff6ce727e09185f7853</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual int</type>
+      <name>dim</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>aaaf4db680518858da754c91c98bd3ba9</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual void</type>
+      <name>update</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>a1200ea6f0088c6fbb4ee1eec4d873931</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mb, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbc, const SolverData &amp;data) override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>abb755277b5359982c4290def54c50998</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>ac18a4238c6d0613aa910d8e075d4662d</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>speed</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>ac92338815e82013c97414b9172d1411c</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>normalAcc</name>
+      <anchorfile>classtasks_1_1qp_1_1PositionTask.html</anchorfile>
+      <anchor>abbd314900215faa9dd27f20169c4278c</anchor>
+      <arglist>() const override</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -5663,8 +5663,8 @@
       <type>virtual void</type>
       <name>updateMatrix</name>
       <anchorfile>classtasks_1_1qp_1_1QLDQPSolver.html</anchorfile>
-      <anchor>a30ebcbf8ae6ce83caac665e07fb83ef6</anchor>
-      <arglist>(const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr) override</arglist>
+      <anchor>a771aa5e02e50abc1603b08da7e7a649d</anchor>
+      <arglist>(const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr) override</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual bool</type>
@@ -5684,8 +5684,8 @@
       <type>virtual std::ostream &amp;</type>
       <name>errorMsg</name>
       <anchorfile>classtasks_1_1qp_1_1QLDQPSolver.html</anchorfile>
-      <anchor>a2cb5a9a27ea6b3a501217a974c67b1ab</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task *&gt; &amp;tasks, const std::vector&lt; Equality *&gt; &amp;eqConstr, const std::vector&lt; Inequality *&gt; &amp;inEqConstr, const std::vector&lt; GenInequality *&gt; &amp;genInEqConstr, const std::vector&lt; Bound *&gt; &amp;boundConstr, std::ostream &amp;out) const override</arglist>
+      <anchor>af3ce529f75e491c1cd60b91dd284eb80</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; Task * &gt; &amp;tasks, const std::vector&lt; Equality * &gt; &amp;eqConstr, const std::vector&lt; Inequality * &gt; &amp;inEqConstr, const std::vector&lt; GenInequality * &gt; &amp;genInEqConstr, const std::vector&lt; Bound * &gt; &amp;boundConstr, std::ostream &amp;out) const override</arglist>
     </member>
     <member kind="function">
       <type>std::string</type>
@@ -7378,6 +7378,103 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>tasks::qp::TransformTaskCommon</name>
+    <filename>classtasks_1_1qp_1_1TransformTaskCommon.html</filename>
+    <templarg></templarg>
+    <base>tasks::qp::HighLevelTask</base>
+    <member kind="function">
+      <type></type>
+      <name>TransformTaskCommon</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>ad80e311e700791109d84fa22c954cb84</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</arglist>
+    </member>
+    <member kind="function">
+      <type>transform_task_t &amp;</type>
+      <name>task</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a14760ffdbe08973b70e3d2eea0e6aa40</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>target</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>af0b3178505a2872ceb38462bcce08f29</anchor>
+      <arglist>(const sva::PTransformd &amp;X_0_t)</arglist>
+    </member>
+    <member kind="function">
+      <type>const sva::PTransformd &amp;</type>
+      <name>target</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a02be60958c010b9af3d382849af1f607</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>X_b_p</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a7a50df788c61e0303e09ead4409eddfb</anchor>
+      <arglist>(const sva::PTransformd &amp;X_b_p)</arglist>
+    </member>
+    <member kind="function">
+      <type>const sva::PTransformd &amp;</type>
+      <name>X_b_p</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a412b4126b09d58eb01ad5383cabf45ff</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual int</type>
+      <name>dim</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>ad3254048c52d4893b3fcda182cb33c86</anchor>
+      <arglist>() override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>ab64f671f0e2f1f250a73ac60e48517b9</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a391f4f064c886f53ccc7fbce982f20bb</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>speed</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a52d9b1affad4c2c731a2d4a3e0a76ee2</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const Eigen::VectorXd &amp;</type>
+      <name>normalAcc</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a1a2a0bc0a9f08f14d5b338327c8b2291</anchor>
+      <arglist>() const override</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>transform_task_t</type>
+      <name>tt_</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a20b38faf7c45ad433e793b5bf375f61d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>int</type>
+      <name>robotIndex_</name>
+      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
+      <anchor>a55c311d3cda616f83de11d836c6f3d18</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>tasks::TransformTaskCommon</name>
     <filename>classtasks_1_1TransformTaskCommon.html</filename>
     <member kind="function">
@@ -7497,103 +7594,6 @@
       <name>jacMat_</name>
       <anchorfile>classtasks_1_1TransformTaskCommon.html</anchorfile>
       <anchor>ae6fc32df4b5ed9cf52e94a95db598708</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>tasks::qp::TransformTaskCommon</name>
-    <filename>classtasks_1_1qp_1_1TransformTaskCommon.html</filename>
-    <templarg>transform_task_t</templarg>
-    <base>tasks::qp::HighLevelTask</base>
-    <member kind="function">
-      <type></type>
-      <name>TransformTaskCommon</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ad80e311e700791109d84fa22c954cb84</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const std::string &amp;bodyName, const sva::PTransformd &amp;X_0_t, const sva::PTransformd &amp;X_b_p=sva::PTransformd::Identity())</arglist>
-    </member>
-    <member kind="function">
-      <type>transform_task_t &amp;</type>
-      <name>task</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a14760ffdbe08973b70e3d2eea0e6aa40</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>target</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>af0b3178505a2872ceb38462bcce08f29</anchor>
-      <arglist>(const sva::PTransformd &amp;X_0_t)</arglist>
-    </member>
-    <member kind="function">
-      <type>const sva::PTransformd &amp;</type>
-      <name>target</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a02be60958c010b9af3d382849af1f607</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>X_b_p</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a7a50df788c61e0303e09ead4409eddfb</anchor>
-      <arglist>(const sva::PTransformd &amp;X_b_p)</arglist>
-    </member>
-    <member kind="function">
-      <type>const sva::PTransformd &amp;</type>
-      <name>X_b_p</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a412b4126b09d58eb01ad5383cabf45ff</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual int</type>
-      <name>dim</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ad3254048c52d4893b3fcda182cb33c86</anchor>
-      <arglist>() override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>ab64f671f0e2f1f250a73ac60e48517b9</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a391f4f064c886f53ccc7fbce982f20bb</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>speed</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a52d9b1affad4c2c731a2d4a3e0a76ee2</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual const Eigen::VectorXd &amp;</type>
-      <name>normalAcc</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a1a2a0bc0a9f08f14d5b338327c8b2291</anchor>
-      <arglist>() const override</arglist>
-    </member>
-    <member kind="variable" protection="protected">
-      <type>transform_task_t</type>
-      <name>tt_</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a20b38faf7c45ad433e793b5bf375f61d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="protected">
-      <type>int</type>
-      <name>robotIndex_</name>
-      <anchorfile>classtasks_1_1qp_1_1TransformTaskCommon.html</anchorfile>
-      <anchor>a55c311d3cda616f83de11d836c6f3d18</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -7934,87 +7934,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>tasks::VectorOrientationTask</name>
-    <filename>classtasks_1_1VectorOrientationTask.html</filename>
-    <member kind="function">
-      <type></type>
-      <name>VectorOrientationTask</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a915b78ec72edfd554234c61c883dc99b</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;bodyVector, const Eigen::Vector3d &amp;targetVector)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>update</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a0f73567b135c586035253002b91fa65f</anchor>
-      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>bodyVector</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a0122d38e08243f8d504435e793fd0088</anchor>
-      <arglist>(const Eigen::Vector3d &amp;vector)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::Vector3d &amp;</type>
-      <name>bodyVector</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a14bf0b01a13e432d12dcdd51cc7b28fb</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>target</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>ac9688f4adf664318c90a22c3a82353a8</anchor>
-      <arglist>(const Eigen::Vector3d &amp;vector)</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::Vector3d &amp;</type>
-      <name>target</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>ad5a76850a02d10165fad43b93e1cd612</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::Vector3d &amp;</type>
-      <name>actual</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>accb094e11c1b3e50ae11043cad72646d</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>eval</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a2e7206a4e62167c039c50717eff8c6b5</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>speed</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>a2ac9e1a39dac7cf02bdac3727a9f980a</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::VectorXd &amp;</type>
-      <name>normalAcc</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>adce16f613b8c59d586d995bb9e0d4da5</anchor>
-      <arglist>() const</arglist>
-    </member>
-    <member kind="function">
-      <type>const Eigen::MatrixXd &amp;</type>
-      <name>jac</name>
-      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
-      <anchor>ac9144d9c534c55f126404bd78b876683</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>tasks::qp::VectorOrientationTask</name>
     <filename>classtasks_1_1qp_1_1VectorOrientationTask.html</filename>
     <base>tasks::qp::HighLevelTask</base>
@@ -8108,6 +8027,87 @@
       <anchorfile>classtasks_1_1qp_1_1VectorOrientationTask.html</anchorfile>
       <anchor>a9ba984ed9f42fae7c283f0dcca2d634b</anchor>
       <arglist>() const override</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>tasks::VectorOrientationTask</name>
+    <filename>classtasks_1_1VectorOrientationTask.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>VectorOrientationTask</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>a915b78ec72edfd554234c61c883dc99b</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, const std::string &amp;bodyName, const Eigen::Vector3d &amp;bodyVector, const Eigen::Vector3d &amp;targetVector)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>a0f73567b135c586035253002b91fa65f</anchor>
+      <arglist>(const rbd::MultiBody &amp;mb, const rbd::MultiBodyConfig &amp;mbc, const std::vector&lt; sva::MotionVecd &gt; &amp;normalAccB)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>bodyVector</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>a0122d38e08243f8d504435e793fd0088</anchor>
+      <arglist>(const Eigen::Vector3d &amp;vector)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>bodyVector</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>a14bf0b01a13e432d12dcdd51cc7b28fb</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>target</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>ac9688f4adf664318c90a22c3a82353a8</anchor>
+      <arglist>(const Eigen::Vector3d &amp;vector)</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>target</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>ad5a76850a02d10165fad43b93e1cd612</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::Vector3d &amp;</type>
+      <name>actual</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>accb094e11c1b3e50ae11043cad72646d</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>eval</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>a2e7206a4e62167c039c50717eff8c6b5</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>speed</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>a2ac9e1a39dac7cf02bdac3727a9f980a</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>normalAcc</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>adce16f613b8c59d586d995bb9e0d4da5</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::MatrixXd &amp;</type>
+      <name>jac</name>
+      <anchorfile>classtasks_1_1VectorOrientationTask.html</anchorfile>
+      <anchor>ac9144d9c534c55f126404bd78b876683</anchor>
+      <arglist>() const</arglist>
     </member>
   </compound>
   <compound kind="namespace">
@@ -8222,8 +8222,8 @@
       <type>void</type>
       <name>fillQC</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a19005ec649deff2408ae41bd0ac73972</anchor>
-      <arglist>(const std::vector&lt; Task *&gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</arglist>
+      <anchor>a3acd478a67503f59d9247a42d049ccab</anchor>
+      <arglist>(const std::vector&lt; Task * &gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -8236,50 +8236,50 @@
       <type>int</type>
       <name>fillEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>aef4304bc755850350a21adc6250789a4</anchor>
-      <arglist>(const std::vector&lt; Equality *&gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
+      <anchor>a483f5734b17b8c4500a85814c867ebc9</anchor>
+      <arglist>(const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a75ff83cd1b1004838311866eda859393</anchor>
-      <arglist>(const std::vector&lt; Inequality *&gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
+      <anchor>a77e5a5962c21c03aeda39abeeb516912</anchor>
+      <arglist>(const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillGenInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a0ebca234bbf747cb3780799a89d195fc</anchor>
-      <arglist>(const std::vector&lt; GenInequality *&gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
+      <anchor>aab329f620a78124fb5d860881f293835</anchor>
+      <arglist>(const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a1db07134f231c8aacf6c2bf2f401639d</anchor>
-      <arglist>(const std::vector&lt; Equality *&gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
+      <anchor>a4af6028d8957e20c500d0bb31a2b9231</anchor>
+      <arglist>(const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a01ded3311635f6d7af39e15d1659f7b9</anchor>
-      <arglist>(const std::vector&lt; Inequality *&gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
+      <anchor>a5f31965982894310938eeee89933c06f</anchor>
+      <arglist>(const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
     </member>
     <member kind="function">
       <type>int</type>
       <name>fillGenInEq</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a7d5e57614fe485d3e3c82d4edc26dbc0</anchor>
-      <arglist>(const std::vector&lt; GenInequality *&gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
+      <anchor>a0194ab22689c282d9e6205c973bce141</anchor>
+      <arglist>(const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;b)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
       <name>fillBound</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a49a76dde5839eb89ded3ad069f46f38e</anchor>
-      <arglist>(const std::vector&lt; Bound *&gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</arglist>
+      <anchor>aca70e0c2bf7e2fe95b1817865ae65bd8</anchor>
+      <arglist>(const std::vector&lt; Bound * &gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -8334,8 +8334,8 @@
       <type>std::ostream &amp;</type>
       <name>constrErrorMsg</name>
       <anchorfile>namespacetasks_1_1qp.html</anchorfile>
-      <anchor>a35f47a0707e1b0bd512e16bcc7fdd235</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T *&gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</arglist>
+      <anchor>a1d2dfd5d6e03be7321854fb1e2bc32df</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T * &gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</arglist>
     </member>
     <member kind="function">
       <type>TASKS_DLLAPI GenQPSolver *</type>
