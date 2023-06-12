@@ -107,6 +107,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa28f3741c6fb07f9c5d95967209bebb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#aa28f3741c6fb07f9c5d95967209bebb2">reset</a> ()</td></tr>
 <tr class="memdesc:aa28f3741c6fb07f9c5d95967209bebb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all plane.  <a href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#aa28f3741c6fb07f9c5d95967209bebb2">More...</a><br /></td></tr>
 <tr class="separator:aa28f3741c6fb07f9c5d95967209bebb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e70da55e157b79e1775ead7fabf1466"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a2e70da55e157b79e1775ead7fabf1466">selector</a> () noexcept</td></tr>
+<tr class="separator:a2e70da55e157b79e1775ead7fabf1466"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92e99d38a41b56e262ae966310706679"><td class="memItemLeft" align="right" valign="top">const Eigen::VectorXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a92e99d38a41b56e262ae966310706679">selector</a> () const noexcept</td></tr>
+<tr class="separator:a92e99d38a41b56e262ae966310706679"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad425d494b96f1aeaa34d3380ce8618df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#ad425d494b96f1aeaa34d3380ce8618df">updateNrPlanes</a> ()</td></tr>
 <tr class="memdesc:ad425d494b96f1aeaa34d3380ce8618df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reallocate A and b matrix.  <a href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#ad425d494b96f1aeaa34d3380ce8618df">More...</a><br /></td></tr>
 <tr class="separator:ad425d494b96f1aeaa34d3380ce8618df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -552,6 +556,60 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the plane as been removed false if plane id was associated with no collision. </dd></dl>
+
+</div>
+</div>
+<a id="a92e99d38a41b56e262ae966310706679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92e99d38a41b56e262ae966310706679">&#9670;&nbsp;</a></span>selector() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Eigen::VectorXd&amp; tasks::qp::CoMIncPlaneConstr::selector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Access the joint selector (const)</p>
+<p>By default the vector selects all joints in the robot </p>
+
+</div>
+</div>
+<a id="a2e70da55e157b79e1775ead7fabf1466"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e70da55e157b79e1775ead7fabf1466">&#9670;&nbsp;</a></span>selector() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXd&amp; tasks::qp::CoMIncPlaneConstr::selector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Access the joint selector</p>
+<p>By default the vector selects all joints in the robot </p>
 
 </div>
 </div>

@@ -12,6 +12,8 @@ var classtasks_1_1qp_1_1CoMIncPlaneConstr =
     [ "nrPlanes", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#aa76fb574e8bab05a837920cadd968306", null ],
     [ "reset", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#aa28f3741c6fb07f9c5d95967209bebb2", null ],
     [ "rmPlane", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#ac6a9eb3a427aefd92dde43a9cad9f2af", null ],
+    [ "selector", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a92e99d38a41b56e262ae966310706679", null ],
+    [ "selector", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a2e70da55e157b79e1775ead7fabf1466", null ],
     [ "update", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a1110af78967fdbf83c6ad56c4ae99280", null ],
     [ "updateNrPlanes", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#ad425d494b96f1aeaa34d3380ce8618df", null ],
     [ "updateNrVars", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a9ea58938e66c71938ee2837293441da8", null ]

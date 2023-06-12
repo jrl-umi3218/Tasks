@@ -938,6 +938,20 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>Eigen::VectorXd &amp;</type>
+      <name>selector</name>
+      <anchorfile>classtasks_1_1qp_1_1CoMIncPlaneConstr.html</anchorfile>
+      <anchor>a2e70da55e157b79e1775ead7fabf1466</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>const Eigen::VectorXd &amp;</type>
+      <name>selector</name>
+      <anchorfile>classtasks_1_1qp_1_1CoMIncPlaneConstr.html</anchorfile>
+      <anchor>a92e99d38a41b56e262ae966310706679</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>updateNrPlanes</name>
       <anchorfile>classtasks_1_1qp_1_1CoMIncPlaneConstr.html</anchorfile>
