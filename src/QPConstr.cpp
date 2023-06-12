@@ -672,7 +672,8 @@ CoMIncPlaneConstr::PlaneData::PlaneData(int planeId,
 
 CoMIncPlaneConstr::CoMIncPlaneConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, double step)
 : robotIndex_(robotIndex), alphaDBegin_(-1), dataVec_(), step_(step), nrVars_(0), nrActivated_(0), activated_(0),
-  jacCoM_(mbs[robotIndex]), AInEq_(), bInEq_()
+  jacCoM_(mbs[static_cast<size_t>(robotIndex)]), selector_(Eigen::VectorXd::Ones(jacCoM_.jacobian().cols())), AInEq_(),
+  bInEq_()
 {
 }
 
@@ -730,8 +731,8 @@ void CoMIncPlaneConstr::reset()
 
 void CoMIncPlaneConstr::updateNrPlanes()
 {
-  AInEq_.setZero(dataVec_.size(), nrVars_);
-  bInEq_.setZero(dataVec_.size());
+  AInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()), nrVars_);
+  bInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()));
 }
 
 void CoMIncPlaneConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
@@ -745,10 +746,9 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody> & mbs,
                                const std::vector<rbd::MultiBodyConfig> & mbcs,
                                const SolverData & data)
 {
-  using namespace Eigen;
-
-  const rbd::MultiBody & mb = mbs[robotIndex_];
-  const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
+  const rbd::MultiBody & mb = mbs[static_cast<size_t>(robotIndex_)];
+  const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(robotIndex_)];
+  assert(selector_.size() == mb.nrDof());
 
   Eigen::Vector3d com = rbd::computeCoM(mb, mbc);
 
@@ -770,7 +770,7 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody> & mbs,
   nrActivated_ = 0;
   if(!activated_.empty())
   {
-    const MatrixXd & jacComMat = jacCoM_.jacobian(mb, mbc);
+    const Eigen::MatrixXd & jacComMat = jacCoM_.jacobian(mb, mbc);
     Eigen::Vector3d comSpeed = jacCoM_.velocity(mb, mbc);
     Eigen::Vector3d comNormalAcc = jacCoM_.normalAcceleration(mb, mbc, data.normalAccB(robotIndex_));
 
@@ -794,6 +794,8 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody> & mbs,
 
       // -dt*normal^T*J_com
       AInEq_.block(nrActivated_, alphaDBegin_, 1, mb.nrDof()).noalias() = -(step_ * d.normal.transpose()) * jacComMat;
+      AInEq_.block(nrActivated_, alphaDBegin_, 1, mb.nrDof()).noalias() =
+          -(step_ * d.normal.transpose()) * jacComMat * selector_.asDiagonal();
 
       // dampers + ddot + dt*normal^T*J*qdot
       bInEq_(nrActivated_) = dampers + distDot + step_ * (d.normal.dot(comNormalAcc) + distDDot);
