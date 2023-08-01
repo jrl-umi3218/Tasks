@@ -2,7 +2,7 @@
 # Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 
-cimport c_qp
+cimport tasks.qp.c_qp as c_qp
 
 from libcpp.vector cimport vector
 from libcpp cimport bool as cppbool

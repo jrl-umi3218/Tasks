@@ -2,7 +2,7 @@
 # Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 
-cimport c_tasks
+cimport tasks.c_tasks as c_tasks
 from libcpp.vector cimport vector
 
 cdef class cpu_times(object):

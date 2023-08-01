@@ -5,8 +5,8 @@
 #
 
 cimport sva.c_sva
-cimport c_qp
-cimport c_qp_private
+cimport tasks.qp.c_qp as c_qp
+cimport tasks.qp.c_qp_private as c_qp_private
 from eigen.eigen cimport *
 from rbdyn.rbdyn cimport *
 from sva.sva cimport *

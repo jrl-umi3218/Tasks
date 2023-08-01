@@ -3,7 +3,7 @@
 #
 
 # distutils: language = c++
-cimport c_tasks
+cimport tasks.c_tasks as c_tasks
 cimport eigen.c_eigen as c_eigen
 cimport eigen.eigen as eigen
 cimport rbdyn.rbdyn as rbdyn

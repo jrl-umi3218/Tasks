@@ -2,8 +2,8 @@
 # Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 
-from rbdyn.c_rbdyn cimport *
-from c_qp cimport *
+from rbdyn.c_rbdyn cimport MultiBody
+from tasks.qp.c_qp cimport JointsSelector, HighLevelTask
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
