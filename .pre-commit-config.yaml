@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: black
 - repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
+  rev: 6.1.0
   hooks:
   - id: flake8
     exclude: ^binding/python/tasks/.*__init__.py
