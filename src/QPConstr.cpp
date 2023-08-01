@@ -368,9 +368,9 @@ CollisionConstr::CollData::CollData(std::vector<BodyCollData> bcds,
                                     double ds,
                                     double damp,
                                     double dampOff)
-: pair(new sch::CD_Pair(body1, body2)), normVecDist(Eigen::Vector3d::Zero()), di(di), ds(ds), damping(damp),
-  bodies(std::move(bcds)), dampingType(damping > 0. ? DampingType::Hard : DampingType::Free), dampingOff(dampOff),
-  collId(collId)
+: pair(new sch::CD_Pair(body1, body2)), distance(2 * di), normVecDist(Eigen::Vector3d::Zero()), di(di), ds(ds),
+  damping(damp), bodies(std::move(bcds)), dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
+  dampingOff(dampOff), collId(collId)
 {
 }
 
