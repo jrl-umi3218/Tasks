@@ -21,7 +21,7 @@ include(cmake/msvc-specific.cmake)
 
 project(Tasks CXX)
 
-if(UNIX AND NOT EMSCRIPTEN)
+if(UNIX AND NOT EMSCRIPTEN AND NOT (APPLE AND CMAKE_SYSTEM_PROCESSOR MATCHES "arm"))
   include(CheckCXXSourceCompiles)
   check_cxx_compiler_flag("-msse2" SSE2_SUPPORTED)
   if(SSE2_SUPPORTED)
