@@ -47,8 +47,8 @@ jobs:
           apt: cython cython3 python-pytest python3-pytest python-numpy python3-numpy python-coverage python3-coverage python-setuptools python3-setuptools libeigen3-dev doxygen doxygen-latex libboost-all-dev libtinyxml2-dev libyaml-cpp-dev
         macos: |
           cask: gfortran
-          brew: eigen boost tinyxml2 yaml-cpp
-          pip: Cython coverage pytest numpy
+          brew: eigen boost tinyxml2 yaml-cpp pipx
+          pipx: Cython coverage pytest numpy
         windows: |
           pip: Cython coverage pytest numpy
           github:
