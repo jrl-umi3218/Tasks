@@ -54,7 +54,7 @@ set_target_properties(Tasks PROPERTIES COMPILE_FLAGS "-Dtasks_EXPORTS")
 set_target_properties(
   Tasks PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION}
 )
-set_target_properties(Tasks PROPERTIES CXX_STANDARD 11)
+set_target_properties(Tasks PROPERTIES CXX_STANDARD 17)
 
 pkg_config_append_libs(Tasks)
 
