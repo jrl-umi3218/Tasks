@@ -1,4 +1,0 @@
-Invoking command in '/home/celian/workspace/src/Tasks/build/Tasks': /usr/bin/cmake /home/celian/workspace/src/Tasks -DCMAKE_INSTALL_PREFIX=/home/celian/workspace/src/Tasks/install
-Invoked command in '/home/celian/workspace/src/Tasks/build/Tasks' returned '0': /usr/bin/cmake /home/celian/workspace/src/Tasks -DCMAKE_INSTALL_PREFIX=/home/celian/workspace/src/Tasks/install
-Invoking command in '/home/celian/workspace/src/Tasks/build/Tasks': /usr/bin/cmake --build /home/celian/workspace/src/Tasks/build/Tasks -- -j22 -l22
-Invoked command in '/home/celian/workspace/src/Tasks/build/Tasks' returned '2': /usr/bin/cmake --build /home/celian/workspace/src/Tasks/build/Tasks -- -j22 -l22

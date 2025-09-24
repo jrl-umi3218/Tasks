@@ -1,2 +1,0 @@
-Invoking command in '/home/celian/workspace/src/Tasks/build/Tasks': /usr/bin/cmake --build /home/celian/workspace/src/Tasks/build/Tasks -- -j22 -l22
-Invoked command in '/home/celian/workspace/src/Tasks/build/Tasks' returned '-2': /usr/bin/cmake --build /home/celian/workspace/src/Tasks/build/Tasks -- -j22 -l22
