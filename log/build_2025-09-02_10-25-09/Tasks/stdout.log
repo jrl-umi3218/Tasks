@@ -1,0 +1,72 @@
+/usr/bin/cmake -S/home/celian/workspace/src/Tasks -B/home/celian/workspace/build/Tasks/Tasks --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /home/celian/workspace/build/Tasks/Tasks/CMakeFiles /home/celian/workspace/build/Tasks/Tasks//CMakeFiles/progress.marks
+/usr/bin/gmake  -f CMakeFiles/Makefile2 all
+gmake[1]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/depend
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/src /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/src /home/celian/workspace/build/Tasks/Tasks/src/CMakeFiles/Tasks.dir/DependInfo.cmake "--color="
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/build
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Nothing to be done for 'src/CMakeFiles/Tasks.dir/build'.
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[ 46%] Built target Tasks
+/usr/bin/gmake  -f tests/CMakeFiles/QPSolverTest.dir/build.make tests/CMakeFiles/QPSolverTest.dir/depend
+/usr/bin/gmake  -f tests/CMakeFiles/QPMultiRobotTest.dir/build.make tests/CMakeFiles/QPMultiRobotTest.dir/depend
+/usr/bin/gmake  -f tests/CMakeFiles/TasksTest.dir/build.make tests/CMakeFiles/TasksTest.dir/depend
+/usr/bin/gmake  -f tests/CMakeFiles/AllocationTest.dir/build.make tests/CMakeFiles/AllocationTest.dir/depend
+/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_Python.dir/build.make binding/python/CMakeFiles/tasks_Python.dir/depend
+/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_qp_Python.dir/build.make binding/python/CMakeFiles/tasks_qp_Python.dir/depend
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks/binding/python/CMakeFiles/tasks_qp_Python.dir/DependInfo.cmake "--color="
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks/binding/python/CMakeFiles/tasks_Python.dir/DependInfo.cmake "--color="
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/QPSolverTest.dir/DependInfo.cmake "--color="
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/TasksTest.dir/DependInfo.cmake "--color="
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/QPMultiRobotTest.dir/DependInfo.cmake "--color="
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/AllocationTest.dir/DependInfo.cmake "--color="
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f tests/CMakeFiles/QPMultiRobotTest.dir/build.make tests/CMakeFiles/QPMultiRobotTest.dir/build
+/usr/bin/gmake  -f tests/CMakeFiles/QPSolverTest.dir/build.make tests/CMakeFiles/QPSolverTest.dir/build
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f tests/CMakeFiles/AllocationTest.dir/build.make tests/CMakeFiles/AllocationTest.dir/build
+/usr/bin/gmake  -f tests/CMakeFiles/TasksTest.dir/build.make tests/CMakeFiles/TasksTest.dir/build
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_Python.dir/build.make binding/python/CMakeFiles/tasks_Python.dir/build
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_qp_Python.dir/build.make binding/python/CMakeFiles/tasks_qp_Python.dir/build
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Nothing to be done for 'binding/python/CMakeFiles/tasks_Python.dir/build'.
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Nothing to be done for 'binding/python/CMakeFiles/tasks_qp_Python.dir/build'.
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[ 57%] Built target tasks_qp_Python
+[ 61%] [32m[1mLinking CXX executable QPSolverTest[0m
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/QPSolverTest.dir/link.txt --verbose=1
+[ 65%] [32m[1mLinking CXX executable TasksTest[0m
+cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/TasksTest.dir/link.txt --verbose=1
+[ 76%] Built target tasks_Python
+[ 80%] [32m[1mLinking CXX executable QPMultiRobotTest[0m
+cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/QPMultiRobotTest.dir/link.txt --verbose=1
+/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o -o QPSolverTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+[ 84%] [32m[1mLinking CXX executable AllocationTest[0m
+cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/AllocationTest.dir/link.txt --verbose=1
+/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/TasksTest.dir/TasksTest.cpp.o -o TasksTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o -o QPMultiRobotTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o -o AllocationTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[1]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'

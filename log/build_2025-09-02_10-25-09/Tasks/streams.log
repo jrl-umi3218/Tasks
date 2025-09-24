@@ -1,0 +1,132 @@
+[0.009s] Invoking command in '/home/celian/workspace/src/Tasks/build/Tasks': /usr/bin/cmake --build /home/celian/workspace/src/Tasks/build/Tasks -- -j22 -l22
+[0.016s] /usr/bin/cmake -S/home/celian/workspace/src/Tasks -B/home/celian/workspace/build/Tasks/Tasks --check-build-system CMakeFiles/Makefile.cmake 0
+[0.020s] /usr/bin/cmake -E cmake_progress_start /home/celian/workspace/build/Tasks/Tasks/CMakeFiles /home/celian/workspace/build/Tasks/Tasks//CMakeFiles/progress.marks
+[0.025s] /usr/bin/gmake  -f CMakeFiles/Makefile2 all
+[0.027s] gmake[1]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.027s] /usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/depend
+[0.032s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.032s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/src /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/src /home/celian/workspace/build/Tasks/Tasks/src/CMakeFiles/Tasks.dir/DependInfo.cmake "--color="
+[0.044s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.044s] /usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/build
+[0.050s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.050s] gmake[2]: Nothing to be done for 'src/CMakeFiles/Tasks.dir/build'.
+[0.050s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.055s] [ 46%] Built target Tasks
+[0.055s] /usr/bin/gmake  -f tests/CMakeFiles/QPSolverTest.dir/build.make tests/CMakeFiles/QPSolverTest.dir/depend
+[0.055s] /usr/bin/gmake  -f tests/CMakeFiles/QPMultiRobotTest.dir/build.make tests/CMakeFiles/QPMultiRobotTest.dir/depend
+[0.055s] /usr/bin/gmake  -f tests/CMakeFiles/TasksTest.dir/build.make tests/CMakeFiles/TasksTest.dir/depend
+[0.056s] /usr/bin/gmake  -f tests/CMakeFiles/AllocationTest.dir/build.make tests/CMakeFiles/AllocationTest.dir/depend
+[0.056s] /usr/bin/gmake  -f binding/python/CMakeFiles/tasks_Python.dir/build.make binding/python/CMakeFiles/tasks_Python.dir/depend
+[0.056s] /usr/bin/gmake  -f binding/python/CMakeFiles/tasks_qp_Python.dir/build.make binding/python/CMakeFiles/tasks_qp_Python.dir/depend
+[0.058s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.058s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks/binding/python/CMakeFiles/tasks_qp_Python.dir/DependInfo.cmake "--color="
+[0.059s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.059s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks/binding/python/CMakeFiles/tasks_Python.dir/DependInfo.cmake "--color="
+[0.059s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.059s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/QPSolverTest.dir/DependInfo.cmake "--color="
+[0.059s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.059s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/TasksTest.dir/DependInfo.cmake "--color="
+[0.059s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.059s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/QPMultiRobotTest.dir/DependInfo.cmake "--color="
+[0.060s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.060s] cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/AllocationTest.dir/DependInfo.cmake "--color="
+[0.062s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.062s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.062s] /usr/bin/gmake  -f tests/CMakeFiles/QPMultiRobotTest.dir/build.make tests/CMakeFiles/QPMultiRobotTest.dir/build
+[0.063s] /usr/bin/gmake  -f tests/CMakeFiles/QPSolverTest.dir/build.make tests/CMakeFiles/QPSolverTest.dir/build
+[0.063s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.063s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.063s] /usr/bin/gmake  -f tests/CMakeFiles/AllocationTest.dir/build.make tests/CMakeFiles/AllocationTest.dir/build
+[0.063s] /usr/bin/gmake  -f tests/CMakeFiles/TasksTest.dir/build.make tests/CMakeFiles/TasksTest.dir/build
+[0.064s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.064s] /usr/bin/gmake  -f binding/python/CMakeFiles/tasks_Python.dir/build.make binding/python/CMakeFiles/tasks_Python.dir/build
+[0.064s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.064s] /usr/bin/gmake  -f binding/python/CMakeFiles/tasks_qp_Python.dir/build.make binding/python/CMakeFiles/tasks_qp_Python.dir/build
+[0.066s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.066s] gmake[2]: Nothing to be done for 'binding/python/CMakeFiles/tasks_Python.dir/build'.
+[0.066s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.066s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.066s] gmake[2]: Nothing to be done for 'binding/python/CMakeFiles/tasks_qp_Python.dir/build'.
+[0.066s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.066s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.067s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.068s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.068s] [ 57%] Built target tasks_qp_Python
+[0.068s] [ 61%] [32m[1mLinking CXX executable QPSolverTest[0m
+[0.068s] gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.069s] cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/QPSolverTest.dir/link.txt --verbose=1
+[0.069s] [ 65%] [32m[1mLinking CXX executable TasksTest[0m
+[0.069s] cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/TasksTest.dir/link.txt --verbose=1
+[0.069s] [ 76%] Built target tasks_Python
+[0.070s] [ 80%] [32m[1mLinking CXX executable QPMultiRobotTest[0m
+[0.070s] cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/QPMultiRobotTest.dir/link.txt --verbose=1
+[0.072s] /usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o -o QPSolverTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+[0.072s] [ 84%] [32m[1mLinking CXX executable AllocationTest[0m
+[0.072s] cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/AllocationTest.dir/link.txt --verbose=1
+[0.072s] /usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/TasksTest.dir/TasksTest.cpp.o -o TasksTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+[0.074s] /usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o -o QPMultiRobotTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+[0.074s] /usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o -o AllocationTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
+[0.264s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'
+[0.264s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.265s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'
+[0.265s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'
+[0.265s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'
+[0.265s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.266s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'
+[0.267s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'
+[0.267s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'
+[0.268s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.268s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.273s] collect2: error: ld returned 1 exit status
+[0.275s] gmake[2]: *** [tests/CMakeFiles/AllocationTest.dir/build.make:111: tests/AllocationTest] Error 1
+[0.275s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.275s] gmake[1]: *** [CMakeFiles/Makefile2:1816: tests/CMakeFiles/AllocationTest.dir/all] Error 2
+[0.276s] gmake[1]: *** Waiting for unfinished jobs....
+[0.279s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'
+[0.279s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.280s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'
+[0.280s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'
+[0.281s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'
+[0.281s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.282s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'
+[0.284s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'
+[0.284s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'
+[0.285s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.285s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.291s] collect2: error: ld returned 1 exit status
+[0.292s] gmake[2]: *** [tests/CMakeFiles/TasksTest.dir/build.make:111: tests/TasksTest] Error 1
+[0.293s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.293s] gmake[1]: *** [CMakeFiles/Makefile2:1784: tests/CMakeFiles/TasksTest.dir/all] Error 2
+[0.330s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'
+[0.330s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.331s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'
+[0.331s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'
+[0.332s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'
+[0.332s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.333s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'
+[0.334s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'
+[0.334s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'
+[0.335s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'
+[0.335s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.335s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.335s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.336s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'
+[0.336s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'
+[0.336s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'
+[0.336s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.337s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'
+[0.339s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'
+[0.340s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'
+[0.340s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.340s] /usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'
+[0.343s] collect2: error: ld returned 1 exit status
+[0.345s] gmake[2]: *** [tests/CMakeFiles/QPMultiRobotTest.dir/build.make:111: tests/QPMultiRobotTest] Error 1
+[0.345s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.345s] gmake[1]: *** [CMakeFiles/Makefile2:1752: tests/CMakeFiles/QPMultiRobotTest.dir/all] Error 2
+[0.351s] collect2: error: ld returned 1 exit status
+[0.353s] gmake[2]: *** [tests/CMakeFiles/QPSolverTest.dir/build.make:111: tests/QPSolverTest] Error 1
+[0.353s] gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.353s] gmake[1]: *** [CMakeFiles/Makefile2:1720: tests/CMakeFiles/QPSolverTest.dir/all] Error 2
+[0.353s] gmake[1]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+[0.353s] gmake: *** [Makefile:149: all] Error 2
+[0.355s] Invoked command in '/home/celian/workspace/src/Tasks/build/Tasks' returned '2': /usr/bin/cmake --build /home/celian/workspace/src/Tasks/build/Tasks -- -j22 -l22

@@ -1,0 +1,14 @@
+/usr/bin/cmake -S/home/celian/workspace/src/Tasks -B/home/celian/workspace/build/Tasks/Tasks --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /home/celian/workspace/build/Tasks/Tasks/CMakeFiles /home/celian/workspace/build/Tasks/Tasks//CMakeFiles/progress.marks
+/usr/bin/gmake  -f CMakeFiles/Makefile2 all
+gmake[1]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/depend
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/src /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/src /home/celian/workspace/build/Tasks/Tasks/src/CMakeFiles/Tasks.dir/DependInfo.cmake "--color="
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+/usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/build
+gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'
+[  3%] [32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o[0m
+cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o -MF CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o.d -o CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o -c /home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp
+gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'
+gmake[1]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'

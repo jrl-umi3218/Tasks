@@ -1,0 +1,608 @@
+[0.000000] (-) TimerEvent: {}
+[0.000264] (Tasks) JobQueued: {'identifier': 'Tasks', 'dependencies': OrderedDict()}
+[0.000651] (Tasks) JobStarted: {'identifier': 'Tasks'}
+[0.007243] (Tasks) JobProgress: {'identifier': 'Tasks', 'progress': 'cmake'}
+[0.007973] (Tasks) Command: {'cmd': ['/usr/bin/cmake', '/home/celian/workspace/src/Tasks', '-DCMAKE_INSTALL_PREFIX=/home/celian/workspace/src/Tasks/install'], 'cwd': '/home/celian/workspace/src/Tasks/build/Tasks', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'celian'), ('LC_TIME', 'ja_JP.UTF-8'), ('ROS_PACKAGE_PATH', '/home/celian/workspace/src/catkin_ws/install/share'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/celian/workspace/src/catkin_ws/install/lib:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils/lib:/home/celian/workspace/src/catkin_data_ws/install/lib:/home/celian/workspace/install/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/celian'), ('CHROME_DESKTOP', 'code.desktop'), ('CONDA_SHLVL', '0'), ('TERM_PROGRAM_VERSION', '1.102.3'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('VSCODE_GIT_ASKPASS_MAIN', '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('LC_MONETARY', 'ja_JP.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/usr/share/code/code'), ('MANAGERPID', '2019'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('SYSTEMD_EXEC_PID', '2497'), ('BUNDLED_DEBUGPY_PATH', '/home/celian/.vscode/extensions/ms-python.debugpy-2025.10.0-linux-x64/bundled/libs/debugpy'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('RTM_IDL_DIR2', '/usr/share/openrtm-2.0/idl'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7001'), ('COLCON_PREFIX_PATH', '/home/celian/ros/ws_mujoco/install:/home/celian/workspace/src/catkin_ws/install:/home/celian/workspace/src/catkin_data_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'celian'), ('JOURNAL_STREAM', '8:17799'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('PKG_CONFIG_PATH', '/home/celian/workspace/src/catkin_ws/install/lib/x86_64-linux-gnu/pkgconfig:/home/celian/workspace/src/catkin_ws/install/lib/pkgconfig:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils/lib/pkgconfig:/home/celian/workspace/install/lib/pkgconfig:'), ('XDG_SESSION_CLASS', 'user'), ('MUJOCO_HOME', '/home/celian/.mujoco/mujoco301'), ('USERNAME', 'celian'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('RTM_JAVA_ROOT', '/usr/lib/x86_64-linux-gnu/openrtm-2.0'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/celian/anaconda3/condabin:/home/celian/hrp5p-iob-merge-HRP4CR-without-DoubleHand-into-master-with-clang-format-again/install/ecat_iob/bin:/home/celian/workspace/src/catkin_ws/install/bin:/home/celian/workspace/install/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/celian/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/celian/.vscode/extensions/ms-python.debugpy-2025.10.0-linux-x64/bundled/scripts/noConfigScripts'), ('SESSION_MANAGER', 'local/celian-Alienware-m16-R2:@/tmp/.ICE-unix/2467,unix/celian-Alienware-m16-R2:/tmp/.ICE-unix/2467'), ('INVOCATION_ID', '8c3875a745844c42af5652146c905899'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ja_JP.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':1'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/celian/.vscode/extensions/ms-python.debugpy-2025.10.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-661abbb6584f1c97.txt'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('ROS_PARALLEL_JOBS', '-j22 -l22'), ('LC_TELEPHONE', 'ja_JP.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-cc71e91d60.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('ROS_DOMAIN_ID', '42'), ('AMENT_PREFIX_PATH', '/home/celian/workspace/src/catkin_ws/install:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils:/home/celian/workspace/src/catkin_data_ws/install:/opt/ros/humble'), ('CONDA_PYTHON_EXE', '/home/celian/anaconda3/bin/python'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ja_JP.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ja_JP.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'ja_JP.UTF-8'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/celian/workspace/build/Tasks/Tasks'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/celian/anaconda3/bin/conda'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/celian/ros/ws_mujoco/install/mujoco_ros_utils/local/lib/python3.10/dist-packages:/home/celian/workspace/src/catkin_data_ws/install/local/lib/python3.10/dist-packages:/home/celian/workspace/install/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ja_JP.UTF-8'), ('LC_PAPER', 'ja_JP.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/celian/workspace/src/catkin_ws/install:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils:/home/celian/workspace/src/catkin_data_ws/install')]), 'shell': False}
+[0.016826] (Tasks) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:5 (cmake_minimum_required):\n'}
+[0.016947] (Tasks) StderrLine: {'line': b'  Compatibility with CMake < 3.10 will be removed from a future version of\n'}
+[0.016987] (Tasks) StderrLine: {'line': b'  CMake.\n'}
+[0.017015] (Tasks) StderrLine: {'line': b'\n'}
+[0.017039] (Tasks) StderrLine: {'line': b'  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax\n'}
+[0.017063] (Tasks) StderrLine: {'line': b'  to tell CMake that the project requires at least <min> but has been updated\n'}
+[0.017088] (Tasks) StderrLine: {'line': b'  to work with policies introduced by <max> or earlier.\n'}
+[0.017115] (Tasks) StderrLine: {'line': b'\n'}
+[0.017139] (Tasks) StderrLine: {'line': b'\x1b[0m\n'}
+[0.022070] (Tasks) StdoutLine: {'line': b'-- Configuring "Tasks" (https://github.com/jrl-umi3218/Tasks)\n'}
+[0.069182] (Tasks) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.076561] (Tasks) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.099935] (-) TimerEvent: {}
+[0.126660] (Tasks) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.136619] (Tasks) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.137135] (Tasks) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.137917] (Tasks) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.153790] (Tasks) StdoutLine: {'line': b'-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2")\n'}
+[0.200059] (-) TimerEvent: {}
+[0.300290] (-) TimerEvent: {}
+[0.400533] (-) TimerEvent: {}
+[0.501915] (-) TimerEvent: {}
+[0.583136] (Tasks) StdoutLine: {'line': b'-- Found Python: /usr/bin/python (found version "3.10.12") found components: Interpreter Development NumPy Development.Module Development.Embed\n'}
+[0.583567] (Tasks) StdoutLine: {'line': b'-- Performing Test R-pedantic\n'}
+[0.602003] (-) TimerEvent: {}
+[0.638710] (Tasks) StdoutLine: {'line': b'-- Performing Test R-pedantic - Success\n'}
+[0.639698] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wno-long-long\n'}
+[0.691795] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wno-long-long - Success\n'}
+[0.692492] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wall\n'}
+[0.702086] (-) TimerEvent: {}
+[0.741484] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wall - Success\n'}
+[0.741824] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wextra\n'}
+[0.796362] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wextra - Success\n'}
+[0.797131] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wcast-align\n'}
+[0.802148] (-) TimerEvent: {}
+[0.850042] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wcast-align - Success\n'}
+[0.850847] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wcast-qual\n'}
+[0.901196] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wcast-qual - Success\n'}
+[0.901590] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wformat\n'}
+[0.902224] (-) TimerEvent: {}
+[0.952798] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wformat - Success\n'}
+[0.953152] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wwrite-strings\n'}
+[1.002338] (-) TimerEvent: {}
+[1.003485] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wwrite-strings - Success\n'}
+[1.003966] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wconversion\n'}
+[1.051578] (Tasks) StdoutLine: {'line': b'-- Performing Test R-Wconversion - Success\n'}
+[1.102497] (-) TimerEvent: {}
+[1.159395] (Tasks) StdoutLine: {'line': b'-- Found Doxygen: /usr/bin/doxygen (found version "1.9.1") found components: doxygen dot\n'}
+[1.202610] (-) TimerEvent: {}
+[1.206588] (Tasks) StdoutLine: {'line': b'-- Performing Test SSE2_SUPPORTED\n'}
+[1.261057] (Tasks) StdoutLine: {'line': b'-- Performing Test SSE2_SUPPORTED - Success\n'}
+[1.270110] (Tasks) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at /usr/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake:78 (find_package):\n'}
+[1.270233] (Tasks) StderrLine: {'line': b'  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake\n'}
+[1.270264] (Tasks) StderrLine: {'line': b'  --help-policy CMP0167" for policy details.  Use the cmake_policy command to\n'}
+[1.270291] (Tasks) StderrLine: {'line': b'  set the policy and suppress this warning.\n'}
+[1.270315] (Tasks) StderrLine: {'line': b'\n'}
+[1.270340] (Tasks) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[1.270364] (Tasks) StderrLine: {'line': b'  /home/celian/workspace/install/lib/cmake/RBDyn/RBDynConfig.cmake:148 (find_dependency)\n'}
+[1.270388] (Tasks) StderrLine: {'line': b'  cmake/package-config.cmake:110 (find_package)\n'}
+[1.270412] (Tasks) StderrLine: {'line': b'  CMakeLists.txt:40 (add_project_dependency)\n'}
+[1.270441] (Tasks) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[1.270465] (Tasks) StderrLine: {'line': b'\x1b[0m\n'}
+[1.276096] (Tasks) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: system\n'}
+[1.281023] (Tasks) StdoutLine: {'line': b'-- Found RBDyn_TinyXML2: /usr/lib/x86_64-linux-gnu/libtinyxml2.so\n'}
+[1.285604] (Tasks) StdoutLine: {'line': b'-- sch-core not FOUND.\n'}
+[1.285899] (Tasks) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at /usr/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake:78 (find_package):\n'}
+[1.285988] (Tasks) StderrLine: {'line': b'  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake\n'}
+[1.286050] (Tasks) StderrLine: {'line': b'  --help-policy CMP0167" for policy details.  Use the cmake_policy command to\n'}
+[1.286107] (Tasks) StderrLine: {'line': b'  set the policy and suppress this warning.\n'}
+[1.286162] (Tasks) StderrLine: {'line': b'\n'}
+[1.286218] (Tasks) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[1.286272] (Tasks) StderrLine: {'line': b'  /home/celian/workspace/install/lib/cmake/sch-core/sch-coreConfig.cmake:144 (find_dependency)\n'}
+[1.286326] (Tasks) StderrLine: {'line': b'  cmake/package-config.cmake:110 (find_package)\n'}
+[1.286380] (Tasks) StderrLine: {'line': b'  CMakeLists.txt:41 (add_project_dependency)\n'}
+[1.286432] (Tasks) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[1.286484] (Tasks) StderrLine: {'line': b'\x1b[0m\n'}
+[1.290129] (Tasks) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: serialization\n'}
+[1.299972] (Tasks) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at cmake/package-config.cmake:110 (find_package):\n'}
+[1.300100] (Tasks) StderrLine: {'line': b'  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake\n'}
+[1.300152] (Tasks) StderrLine: {'line': b'  --help-policy CMP0167" for policy details.  Use the cmake_policy command to\n'}
+[1.300199] (Tasks) StderrLine: {'line': b'  set the policy and suppress this warning.\n'}
+[1.300246] (Tasks) StderrLine: {'line': b'\n'}
+[1.300294] (Tasks) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[1.300342] (Tasks) StderrLine: {'line': b'  src/CMakeLists.txt:38 (add_project_dependency)\n'}
+[1.300386] (Tasks) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[1.300430] (Tasks) StderrLine: {'line': b'\x1b[0m\n'}
+[1.302671] (-) TimerEvent: {}
+[1.305268] (Tasks) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: timer\n'}
+[1.305761] (Tasks) StdoutLine: {'line': b'-- target_type: SHARED_LIBRARY\n'}
+[1.306321] (Tasks) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at tests/CMakeLists.txt:7 (find_package):\n'}
+[1.306397] (Tasks) StderrLine: {'line': b'  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake\n'}
+[1.306449] (Tasks) StderrLine: {'line': b'  --help-policy CMP0167" for policy details.  Use the cmake_policy command to\n'}
+[1.306497] (Tasks) StderrLine: {'line': b'  set the policy and suppress this warning.\n'}
+[1.306549] (Tasks) StderrLine: {'line': b'\n'}
+[1.306597] (Tasks) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[1.306642] (Tasks) StderrLine: {'line': b'\x1b[0m\n'}
+[1.312245] (Tasks) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: unit_test_framework timer system\n'}
+[1.333434] (Tasks) StderrLine: {'line': b'<string>:1: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives\n'}
+[1.334359] (Tasks) StderrLine: {'line': b'<string>:1: DeprecationWarning: The distutils.sysconfig module is deprecated, use sysconfig instead\n'}
+[1.350728] (Tasks) StdoutLine: {'line': b'-- Doxygen rendering: using MathJax backend\n'}
+[1.356227] (Tasks) StdoutLine: {'line': b'-- Configuring done (1.3s)\n'}
+[1.381190] (Tasks) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[1.387384] (Tasks) StdoutLine: {'line': b'-- Build files have been written to: /home/celian/workspace/build/Tasks/Tasks\n'}
+[1.393323] (Tasks) CommandEnded: {'returncode': 0}
+[1.393790] (Tasks) JobProgress: {'identifier': 'Tasks', 'progress': 'build'}
+[1.394499] (Tasks) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/celian/workspace/src/Tasks/build/Tasks', '--', '-j22', '-l22'], 'cwd': '/home/celian/workspace/src/Tasks/build/Tasks', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'celian'), ('LC_TIME', 'ja_JP.UTF-8'), ('ROS_PACKAGE_PATH', '/home/celian/workspace/src/catkin_ws/install/share'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/celian/workspace/src/catkin_ws/install/lib:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils/lib:/home/celian/workspace/src/catkin_data_ws/install/lib:/home/celian/workspace/install/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/celian'), ('CHROME_DESKTOP', 'code.desktop'), ('CONDA_SHLVL', '0'), ('TERM_PROGRAM_VERSION', '1.102.3'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('VSCODE_GIT_ASKPASS_MAIN', '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('LC_MONETARY', 'ja_JP.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/usr/share/code/code'), ('MANAGERPID', '2019'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('SYSTEMD_EXEC_PID', '2497'), ('BUNDLED_DEBUGPY_PATH', '/home/celian/.vscode/extensions/ms-python.debugpy-2025.10.0-linux-x64/bundled/libs/debugpy'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('RTM_IDL_DIR2', '/usr/share/openrtm-2.0/idl'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7001'), ('COLCON_PREFIX_PATH', '/home/celian/ros/ws_mujoco/install:/home/celian/workspace/src/catkin_ws/install:/home/celian/workspace/src/catkin_data_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'celian'), ('JOURNAL_STREAM', '8:17799'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('PKG_CONFIG_PATH', '/home/celian/workspace/src/catkin_ws/install/lib/x86_64-linux-gnu/pkgconfig:/home/celian/workspace/src/catkin_ws/install/lib/pkgconfig:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils/lib/pkgconfig:/home/celian/workspace/install/lib/pkgconfig:'), ('XDG_SESSION_CLASS', 'user'), ('MUJOCO_HOME', '/home/celian/.mujoco/mujoco301'), ('USERNAME', 'celian'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('RTM_JAVA_ROOT', '/usr/lib/x86_64-linux-gnu/openrtm-2.0'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/celian/anaconda3/condabin:/home/celian/hrp5p-iob-merge-HRP4CR-without-DoubleHand-into-master-with-clang-format-again/install/ecat_iob/bin:/home/celian/workspace/src/catkin_ws/install/bin:/home/celian/workspace/install/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/celian/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/celian/.vscode/extensions/ms-python.debugpy-2025.10.0-linux-x64/bundled/scripts/noConfigScripts'), ('SESSION_MANAGER', 'local/celian-Alienware-m16-R2:@/tmp/.ICE-unix/2467,unix/celian-Alienware-m16-R2:/tmp/.ICE-unix/2467'), ('INVOCATION_ID', '8c3875a745844c42af5652146c905899'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ja_JP.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':1'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/celian/.vscode/extensions/ms-python.debugpy-2025.10.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-661abbb6584f1c97.txt'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('ROS_PARALLEL_JOBS', '-j22 -l22'), ('LC_TELEPHONE', 'ja_JP.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-cc71e91d60.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('ROS_DOMAIN_ID', '42'), ('AMENT_PREFIX_PATH', '/home/celian/workspace/src/catkin_ws/install:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils:/home/celian/workspace/src/catkin_data_ws/install:/opt/ros/humble'), ('CONDA_PYTHON_EXE', '/home/celian/anaconda3/bin/python'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ja_JP.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ja_JP.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'ja_JP.UTF-8'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/celian/workspace/build/Tasks/Tasks'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('CONDA_EXE', '/home/celian/anaconda3/bin/conda'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/celian/ros/ws_mujoco/install/mujoco_ros_utils/local/lib/python3.10/dist-packages:/home/celian/workspace/src/catkin_data_ws/install/local/lib/python3.10/dist-packages:/home/celian/workspace/install/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ja_JP.UTF-8'), ('LC_PAPER', 'ja_JP.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/celian/workspace/src/catkin_ws/install:/home/celian/ros/ws_mujoco/install/mujoco_ros_utils:/home/celian/workspace/src/catkin_data_ws/install')]), 'shell': False}
+[1.402517] (Tasks) StdoutLine: {'line': b'/usr/bin/cmake -S/home/celian/workspace/src/Tasks -B/home/celian/workspace/build/Tasks/Tasks --check-build-system CMakeFiles/Makefile.cmake 0\n'}
+[1.402731] (-) TimerEvent: {}
+[1.408497] (Tasks) StdoutLine: {'line': b'/usr/bin/cmake -E cmake_progress_start /home/celian/workspace/build/Tasks/Tasks/CMakeFiles /home/celian/workspace/build/Tasks/Tasks//CMakeFiles/progress.marks\n'}
+[1.411016] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f CMakeFiles/Makefile2 all\n'}
+[1.413294] (Tasks) StdoutLine: {'line': b"gmake[1]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[1.413349] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/depend\n'}
+[1.414952] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[1.415004] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/src /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/src /home/celian/workspace/build/Tasks/Tasks/src/CMakeFiles/Tasks.dir/DependInfo.cmake "--color="\n'}
+[1.419791] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[1.419891] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f src/CMakeFiles/Tasks.dir/build.make src/CMakeFiles/Tasks.dir/build\n'}
+[1.421245] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[1.424051] (Tasks) StdoutLine: {'line': b'[  3%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/Tasks.cpp.o\x1b[0m\n'}
+[1.424426] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/Tasks.cpp.o -MF CMakeFiles/Tasks.dir/Tasks.cpp.o.d -o CMakeFiles/Tasks.dir/Tasks.cpp.o -c /home/celian/workspace/src/Tasks/src/Tasks.cpp\n'}
+[1.425131] (Tasks) StdoutLine: {'line': b'[  7%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPContacts.cpp.o\x1b[0m\n'}
+[1.425396] (Tasks) StdoutLine: {'line': b'[ 11%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPSolver.cpp.o\x1b[0m\n'}
+[1.425647] (Tasks) StdoutLine: {'line': b'[ 15%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPMotionConstr.cpp.o\x1b[0m\n'}
+[1.425716] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPContacts.cpp.o -MF CMakeFiles/Tasks.dir/QPContacts.cpp.o.d -o CMakeFiles/Tasks.dir/QPContacts.cpp.o -c /home/celian/workspace/src/Tasks/src/QPContacts.cpp\n'}
+[1.425778] (Tasks) StdoutLine: {'line': b'[ 19%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPTasks.cpp.o\x1b[0m\n'}
+[1.425833] (Tasks) StdoutLine: {'line': b'[ 23%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPConstr.cpp.o\x1b[0m\n'}
+[1.425932] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPMotionConstr.cpp.o -MF CMakeFiles/Tasks.dir/QPMotionConstr.cpp.o.d -o CMakeFiles/Tasks.dir/QPMotionConstr.cpp.o -c /home/celian/workspace/src/Tasks/src/QPMotionConstr.cpp\n'}
+[1.425995] (Tasks) StdoutLine: {'line': b'[ 26%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPContactConstr.cpp.o\x1b[0m\n'}
+[1.426036] (Tasks) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QLDQPSolver.cpp.o\x1b[0m\n'}
+[1.426130] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPSolver.cpp.o -MF CMakeFiles/Tasks.dir/QPSolver.cpp.o.d -o CMakeFiles/Tasks.dir/QPSolver.cpp.o -c /home/celian/workspace/src/Tasks/src/QPSolver.cpp\n'}
+[1.426289] (Tasks) StdoutLine: {'line': b'[ 34%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPSolverData.cpp.o\x1b[0m\n'}
+[1.426379] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPTasks.cpp.o -MF CMakeFiles/Tasks.dir/QPTasks.cpp.o.d -o CMakeFiles/Tasks.dir/QPTasks.cpp.o -c /home/celian/workspace/src/Tasks/src/QPTasks.cpp\n'}
+[1.426510] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPConstr.cpp.o -MF CMakeFiles/Tasks.dir/QPConstr.cpp.o.d -o CMakeFiles/Tasks.dir/QPConstr.cpp.o -c /home/celian/workspace/src/Tasks/src/QPConstr.cpp\n'}
+[1.426609] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPContactConstr.cpp.o -MF CMakeFiles/Tasks.dir/QPContactConstr.cpp.o.d -o CMakeFiles/Tasks.dir/QPContactConstr.cpp.o -c /home/celian/workspace/src/Tasks/src/QPContactConstr.cpp\n'}
+[1.426687] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QLDQPSolver.cpp.o -MF CMakeFiles/Tasks.dir/QLDQPSolver.cpp.o.d -o CMakeFiles/Tasks.dir/QLDQPSolver.cpp.o -c /home/celian/workspace/src/Tasks/src/QLDQPSolver.cpp\n'}
+[1.426826] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPSolverData.cpp.o -MF CMakeFiles/Tasks.dir/QPSolverData.cpp.o.d -o CMakeFiles/Tasks.dir/QPSolverData.cpp.o -c /home/celian/workspace/src/Tasks/src/QPSolverData.cpp\n'}
+[1.426928] (Tasks) StdoutLine: {'line': b'[ 38%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/GenQPSolver.cpp.o\x1b[0m\n'}
+[1.427035] (Tasks) StdoutLine: {'line': b'[ 42%] \x1b[32mBuilding CXX object src/CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o\x1b[0m\n'}
+[1.427402] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/GenQPSolver.cpp.o -MF CMakeFiles/Tasks.dir/GenQPSolver.cpp.o.d -o CMakeFiles/Tasks.dir/GenQPSolver.cpp.o -c /home/celian/workspace/src/Tasks/src/GenQPSolver.cpp\n'}
+[1.427593] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -DTasks_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC   -mfpmath=sse -msse2 -Dtasks_EXPORTS -MD -MT src/CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o -MF CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o.d -o CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o -c /home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp\n'}
+[1.502899] (-) TimerEvent: {}
+[1.603394] (-) TimerEvent: {}
+[1.703780] (-) TimerEvent: {}
+[1.804297] (-) TimerEvent: {}
+[1.904655] (-) TimerEvent: {}
+[2.005015] (-) TimerEvent: {}
+[2.105454] (-) TimerEvent: {}
+[2.205808] (-) TimerEvent: {}
+[2.306167] (-) TimerEvent: {}
+[2.406544] (-) TimerEvent: {}
+[2.506944] (-) TimerEvent: {}
+[2.524974] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvirtual std::string tasks::qp::FixedCoincidenceConstr::descEq(const std::vector<rbd::MultiBody>&, int)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.525256] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:72:80:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kmbs\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.525373] (Tasks) StderrLine: {'line': b'   72 | std::string FixedCoincidenceConstr::descEq(\x1b[01;35m\x1b[Kconst std::vector<rbd::MultiBody> & mbs\x1b[m\x1b[K, int i)\n'}
+[2.525469] (Tasks) StderrLine: {'line': b'      |                                            \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.525557] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:72:89:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Ki\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.525642] (Tasks) StderrLine: {'line': b'   72 | std::string FixedCoincidenceConstr::descEq(const std::vector<rbd::MultiBody> & mbs, \x1b[01;35m\x1b[Kint i\x1b[m\x1b[K)\n'}
+[2.525718] (Tasks) StderrLine: {'line': b'      |                                                                                     \x1b[01;35m\x1b[K~~~~^\x1b[m\x1b[K\n'}
+[2.594232] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvirtual std::string tasks::qp::RotationalCoincidenceConstr::descEq(const std::vector<rbd::MultiBody>&, int)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.594482] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:149:85:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kmbs\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.594601] (Tasks) StderrLine: {'line': b'  149 | std::string RotationalCoincidenceConstr::descEq(\x1b[01;35m\x1b[Kconst std::vector<rbd::MultiBody> & mbs\x1b[m\x1b[K, int i)\n'}
+[2.594672] (Tasks) StderrLine: {'line': b'      |                                                 \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~\x1b[m\x1b[K\n'}
+[2.594738] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:149:94:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Ki\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.594818] (Tasks) StderrLine: {'line': b'  149 | std::string RotationalCoincidenceConstr::descEq(const std::vector<rbd::MultiBody> & mbs, \x1b[01;35m\x1b[Kint i\x1b[m\x1b[K)\n'}
+[2.594903] (Tasks) StderrLine: {'line': b'      |                                                                                          \x1b[01;35m\x1b[K~~~~^\x1b[m\x1b[K\n'}
+[2.607069] (-) TimerEvent: {}
+[2.627318] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvirtual void tasks::qp::RotationalCoincidenceConstr::update(const std::vector<rbd::MultiBody>&, const std::vector<rbd::MultiBodyConfig>&, const tasks::qp::SolverData&)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.627571] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/src/Tasks/src/QPCoincidenceConstr.cpp:210:20:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison of integer expressions of different signedness: \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99 and \xe2\x80\x98\x1b[01m\x1b[Kstd::vector<std::vector<double> >::size_type\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare\x07-Wsign-compare\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.627686] (Tasks) StderrLine: {'line': b'  210 |   for (int i =0 ; \x1b[01;35m\x1b[Ki<std::size(mbc.alphaD)\x1b[m\x1b[K; i++){\n'}
+[2.627773] (Tasks) StderrLine: {'line': b'      |                   \x1b[01;35m\x1b[K~^~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.707207] (-) TimerEvent: {}
+[2.807614] (-) TimerEvent: {}
+[2.907955] (-) TimerEvent: {}
+[3.008364] (-) TimerEvent: {}
+[3.108721] (-) TimerEvent: {}
+[3.209087] (-) TimerEvent: {}
+[3.309505] (-) TimerEvent: {}
+[3.410052] (-) TimerEvent: {}
+[3.510422] (-) TimerEvent: {}
+[3.610785] (-) TimerEvent: {}
+[3.711146] (-) TimerEvent: {}
+[3.811477] (-) TimerEvent: {}
+[3.911871] (-) TimerEvent: {}
+[4.012336] (-) TimerEvent: {}
+[4.112629] (-) TimerEvent: {}
+[4.212940] (-) TimerEvent: {}
+[4.313266] (-) TimerEvent: {}
+[4.413641] (-) TimerEvent: {}
+[4.513941] (-) TimerEvent: {}
+[4.614312] (-) TimerEvent: {}
+[4.714666] (-) TimerEvent: {}
+[4.815029] (-) TimerEvent: {}
+[4.915416] (-) TimerEvent: {}
+[5.015764] (-) TimerEvent: {}
+[5.116133] (-) TimerEvent: {}
+[5.216456] (-) TimerEvent: {}
+[5.316829] (-) TimerEvent: {}
+[5.417242] (-) TimerEvent: {}
+[5.517575] (-) TimerEvent: {}
+[5.618008] (-) TimerEvent: {}
+[5.718422] (-) TimerEvent: {}
+[5.818765] (-) TimerEvent: {}
+[5.919096] (-) TimerEvent: {}
+[6.019454] (-) TimerEvent: {}
+[6.119795] (-) TimerEvent: {}
+[6.220163] (-) TimerEvent: {}
+[6.320590] (-) TimerEvent: {}
+[6.421073] (-) TimerEvent: {}
+[6.521442] (-) TimerEvent: {}
+[6.621826] (-) TimerEvent: {}
+[6.722155] (-) TimerEvent: {}
+[6.822433] (-) TimerEvent: {}
+[6.922744] (-) TimerEvent: {}
+[7.023081] (-) TimerEvent: {}
+[7.123459] (-) TimerEvent: {}
+[7.223866] (-) TimerEvent: {}
+[7.324181] (-) TimerEvent: {}
+[7.424552] (-) TimerEvent: {}
+[7.524916] (-) TimerEvent: {}
+[7.625251] (-) TimerEvent: {}
+[7.725691] (-) TimerEvent: {}
+[7.826148] (-) TimerEvent: {}
+[7.926554] (-) TimerEvent: {}
+[8.026963] (-) TimerEvent: {}
+[8.127377] (-) TimerEvent: {}
+[8.227772] (-) TimerEvent: {}
+[8.328085] (-) TimerEvent: {}
+[8.428428] (-) TimerEvent: {}
+[8.528793] (-) TimerEvent: {}
+[8.629102] (-) TimerEvent: {}
+[8.729392] (-) TimerEvent: {}
+[8.829661] (-) TimerEvent: {}
+[8.929955] (-) TimerEvent: {}
+[9.030286] (-) TimerEvent: {}
+[9.130568] (-) TimerEvent: {}
+[9.230884] (-) TimerEvent: {}
+[9.331195] (-) TimerEvent: {}
+[9.431471] (-) TimerEvent: {}
+[9.531815] (-) TimerEvent: {}
+[9.632237] (-) TimerEvent: {}
+[9.732508] (-) TimerEvent: {}
+[9.832907] (-) TimerEvent: {}
+[9.933296] (-) TimerEvent: {}
+[10.033860] (-) TimerEvent: {}
+[10.134168] (-) TimerEvent: {}
+[10.234509] (-) TimerEvent: {}
+[10.334844] (-) TimerEvent: {}
+[10.435186] (-) TimerEvent: {}
+[10.535521] (-) TimerEvent: {}
+[10.635847] (-) TimerEvent: {}
+[10.736309] (-) TimerEvent: {}
+[10.836840] (-) TimerEvent: {}
+[10.937227] (-) TimerEvent: {}
+[11.037560] (-) TimerEvent: {}
+[11.137894] (-) TimerEvent: {}
+[11.238340] (-) TimerEvent: {}
+[11.339085] (-) TimerEvent: {}
+[11.440728] (-) TimerEvent: {}
+[11.541354] (-) TimerEvent: {}
+[11.643292] (-) TimerEvent: {}
+[11.744611] (-) TimerEvent: {}
+[11.844985] (-) TimerEvent: {}
+[11.945350] (-) TimerEvent: {}
+[12.045722] (-) TimerEvent: {}
+[12.146096] (-) TimerEvent: {}
+[12.246508] (-) TimerEvent: {}
+[12.348024] (-) TimerEvent: {}
+[12.448728] (-) TimerEvent: {}
+[12.549443] (-) TimerEvent: {}
+[12.650224] (-) TimerEvent: {}
+[12.750728] (-) TimerEvent: {}
+[12.851767] (-) TimerEvent: {}
+[12.955971] (-) TimerEvent: {}
+[13.056483] (-) TimerEvent: {}
+[13.156813] (-) TimerEvent: {}
+[13.257166] (-) TimerEvent: {}
+[13.357516] (-) TimerEvent: {}
+[13.457846] (-) TimerEvent: {}
+[13.558303] (-) TimerEvent: {}
+[13.658668] (-) TimerEvent: {}
+[13.759000] (-) TimerEvent: {}
+[13.859369] (-) TimerEvent: {}
+[13.959690] (-) TimerEvent: {}
+[14.060026] (-) TimerEvent: {}
+[14.160356] (-) TimerEvent: {}
+[14.260714] (-) TimerEvent: {}
+[14.361075] (-) TimerEvent: {}
+[14.461425] (-) TimerEvent: {}
+[14.561812] (-) TimerEvent: {}
+[14.662128] (-) TimerEvent: {}
+[14.762440] (-) TimerEvent: {}
+[14.862785] (-) TimerEvent: {}
+[14.963125] (-) TimerEvent: {}
+[15.063470] (-) TimerEvent: {}
+[15.163821] (-) TimerEvent: {}
+[15.264153] (-) TimerEvent: {}
+[15.364500] (-) TimerEvent: {}
+[15.464866] (-) TimerEvent: {}
+[15.565219] (-) TimerEvent: {}
+[15.665614] (-) TimerEvent: {}
+[15.766048] (-) TimerEvent: {}
+[15.866404] (-) TimerEvent: {}
+[15.966748] (-) TimerEvent: {}
+[16.067118] (-) TimerEvent: {}
+[16.167461] (-) TimerEvent: {}
+[16.267834] (-) TimerEvent: {}
+[16.368279] (-) TimerEvent: {}
+[16.468639] (-) TimerEvent: {}
+[16.569021] (-) TimerEvent: {}
+[16.669404] (-) TimerEvent: {}
+[16.769786] (-) TimerEvent: {}
+[16.870129] (-) TimerEvent: {}
+[16.970500] (-) TimerEvent: {}
+[17.071035] (-) TimerEvent: {}
+[17.171541] (-) TimerEvent: {}
+[17.271923] (-) TimerEvent: {}
+[17.372293] (-) TimerEvent: {}
+[17.472704] (-) TimerEvent: {}
+[17.554376] (Tasks) StdoutLine: {'line': b'[ 46%] \x1b[32m\x1b[1mLinking CXX shared library libTasks.so\x1b[0m\n'}
+[17.554920] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/cmake -E cmake_link_script CMakeFiles/Tasks.dir/link.txt --verbose=1\n'}
+[17.558358] (Tasks) StdoutLine: {'line': b'/usr/bin/c++ -fPIC  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -shared -Wl,-soname,libTasks.so.1 -o libTasks.so.1.8.1 CMakeFiles/Tasks.dir/Tasks.cpp.o CMakeFiles/Tasks.dir/QPSolver.cpp.o CMakeFiles/Tasks.dir/QPTasks.cpp.o CMakeFiles/Tasks.dir/QPConstr.cpp.o CMakeFiles/Tasks.dir/QPContacts.cpp.o CMakeFiles/Tasks.dir/QPSolverData.cpp.o CMakeFiles/Tasks.dir/QPMotionConstr.cpp.o CMakeFiles/Tasks.dir/GenQPSolver.cpp.o CMakeFiles/Tasks.dir/QPContactConstr.cpp.o CMakeFiles/Tasks.dir/QLDQPSolver.cpp.o CMakeFiles/Tasks.dir/QPCoincidenceConstr.cpp.o  -Wl,-rpath,/home/celian/workspace/install/lib: /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[17.572830] (-) TimerEvent: {}
+[17.673223] (-) TimerEvent: {}
+[17.773513] (-) TimerEvent: {}
+[17.873818] (-) TimerEvent: {}
+[17.974109] (-) TimerEvent: {}
+[18.074385] (-) TimerEvent: {}
+[18.174664] (-) TimerEvent: {}
+[18.274926] (-) TimerEvent: {}
+[18.375245] (-) TimerEvent: {}
+[18.475626] (-) TimerEvent: {}
+[18.576102] (-) TimerEvent: {}
+[18.630597] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/src && /usr/bin/cmake -E cmake_symlink_library libTasks.so.1.8.1 libTasks.so.1 libTasks.so\n'}
+[18.636316] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.639904] (Tasks) StdoutLine: {'line': b'[ 46%] Built target Tasks\n'}
+[18.640220] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/QPSolverTest.dir/build.make tests/CMakeFiles/QPSolverTest.dir/depend\n'}
+[18.640477] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/QPMultiRobotTest.dir/build.make tests/CMakeFiles/QPMultiRobotTest.dir/depend\n'}
+[18.640662] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/TasksTest.dir/build.make tests/CMakeFiles/TasksTest.dir/depend\n'}
+[18.640820] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/AllocationTest.dir/build.make tests/CMakeFiles/AllocationTest.dir/depend\n'}
+[18.641041] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_Python.dir/build.make binding/python/CMakeFiles/tasks_Python.dir/depend\n'}
+[18.641176] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_qp_Python.dir/build.make binding/python/CMakeFiles/tasks_qp_Python.dir/depend\n'}
+[18.641229] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.641274] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/QPSolverTest.dir/DependInfo.cmake "--color="\n'}
+[18.641507] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.641552] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/AllocationTest.dir/DependInfo.cmake "--color="\n'}
+[18.641609] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.641636] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/QPMultiRobotTest.dir/DependInfo.cmake "--color="\n'}
+[18.641937] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.642077] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/tests /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/tests /home/celian/workspace/build/Tasks/Tasks/tests/CMakeFiles/TasksTest.dir/DependInfo.cmake "--color="\n'}
+[18.642202] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.642292] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.643824] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.644067] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.644288] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/QPSolverTest.dir/build.make tests/CMakeFiles/QPSolverTest.dir/build\n'}
+[18.644362] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/AllocationTest.dir/build.make tests/CMakeFiles/AllocationTest.dir/build\n'}
+[18.644595] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.644673] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.644745] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.644874] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/QPMultiRobotTest.dir/build.make tests/CMakeFiles/QPMultiRobotTest.dir/build\n'}
+[18.644952] (Tasks) StdoutLine: {'line': b'[ 50%] \x1b[34m\x1b[1mGenerating Python/tasks/tasks.cpp\x1b[0m\n'}
+[18.645500] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/binding/python && /usr/bin/python -m cython --cplus -o /home/celian/workspace/build/Tasks/Tasks/binding/python/Python/tasks/tasks.cpp -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/binding/python/include /home/celian/workspace/src/Tasks/binding/python/tasks/tasks.pyx\n'}
+[18.645662] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.645788] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.645850] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f tests/CMakeFiles/TasksTest.dir/build.make tests/CMakeFiles/TasksTest.dir/build\n'}
+[18.645957] (Tasks) StdoutLine: {'line': b'[ 53%] \x1b[34m\x1b[1mGenerating Python/tasks/qp/qp.cpp\x1b[0m\n'}
+[18.646441] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/binding/python && /usr/bin/python -m cython --cplus -o /home/celian/workspace/build/Tasks/Tasks/binding/python/Python/tasks/qp/qp.cpp -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/binding/python/include /home/celian/workspace/src/Tasks/binding/python/tasks/qp/qp.pyx\n'}
+[18.646542] (Tasks) StdoutLine: {'line': b'[ 57%] \x1b[32mBuilding CXX object tests/CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o\x1b[0m\n'}
+[18.646892] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TEST_DYN_LINK -DBOOST_TIMER_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17   -mfpmath=sse -msse2 -MD -MT tests/CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o -MF CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o.d -o CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o -c /home/celian/workspace/src/Tasks/tests/AllocationTest.cpp\n'}
+[18.646999] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[18.647634] (Tasks) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding CXX object tests/CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o\x1b[0m\n'}
+[18.647750] (Tasks) StdoutLine: {'line': b'[ 65%] \x1b[32mBuilding CXX object tests/CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o\x1b[0m\n'}
+[18.647914] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TEST_DYN_LINK -DBOOST_TIMER_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17   -mfpmath=sse -msse2 -MD -MT tests/CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o -MF CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o.d -o CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o -c /home/celian/workspace/src/Tasks/tests/QPMultiRobotTest.cpp\n'}
+[18.648273] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TEST_DYN_LINK -DBOOST_TIMER_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17   -mfpmath=sse -msse2 -MD -MT tests/CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o -MF CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o.d -o CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o -c /home/celian/workspace/src/Tasks/tests/QPSolverTest.cpp\n'}
+[18.648756] (Tasks) StdoutLine: {'line': b'[ 69%] \x1b[32mBuilding CXX object tests/CMakeFiles/TasksTest.dir/TasksTest.cpp.o\x1b[0m\n'}
+[18.649056] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TEST_DYN_LINK -DBOOST_TIMER_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17   -mfpmath=sse -msse2 -MD -MT tests/CMakeFiles/TasksTest.dir/TasksTest.cpp.o -MF CMakeFiles/TasksTest.dir/TasksTest.cpp.o.d -o CMakeFiles/TasksTest.dir/TasksTest.cpp.o -c /home/celian/workspace/src/Tasks/tests/TasksTest.cpp\n'}
+[18.676204] (-) TimerEvent: {}
+[18.776570] (-) TimerEvent: {}
+[18.877434] (-) TimerEvent: {}
+[18.977738] (-) TimerEvent: {}
+[19.078081] (-) TimerEvent: {}
+[19.105020] (Tasks) StderrLine: {'line': b"/usr/lib/python3/dist-packages/Cython/Compiler/Main.py:369: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /home/celian/workspace/src/Tasks/binding/python/tasks/qp/qp.pxd\n"}
+[19.105250] (Tasks) StderrLine: {'line': b'  tree = Parsing.p_module(s, pxd, full_module_name)\n'}
+[19.178191] (-) TimerEvent: {}
+[19.236910] (Tasks) StderrLine: {'line': b"/usr/lib/python3/dist-packages/Cython/Compiler/Main.py:369: FutureWarning: Cython directive 'language_level' not set, using 2 for now (Py2). This will change in a later release! File: /home/celian/workspace/src/Tasks/binding/python/tasks/tasks.pxd\n"}
+[19.237138] (Tasks) StderrLine: {'line': b'  tree = Parsing.p_module(s, pxd, full_module_name)\n'}
+[19.278302] (-) TimerEvent: {}
+[19.378652] (-) TimerEvent: {}
+[19.479022] (-) TimerEvent: {}
+[19.579415] (-) TimerEvent: {}
+[19.679768] (-) TimerEvent: {}
+[19.780135] (-) TimerEvent: {}
+[19.880485] (-) TimerEvent: {}
+[19.980836] (-) TimerEvent: {}
+[20.081166] (-) TimerEvent: {}
+[20.181518] (-) TimerEvent: {}
+[20.281893] (-) TimerEvent: {}
+[20.382256] (-) TimerEvent: {}
+[20.482621] (-) TimerEvent: {}
+[20.582950] (-) TimerEvent: {}
+[20.683351] (-) TimerEvent: {}
+[20.783688] (-) TimerEvent: {}
+[20.884030] (-) TimerEvent: {}
+[20.984340] (-) TimerEvent: {}
+[21.084649] (-) TimerEvent: {}
+[21.185042] (-) TimerEvent: {}
+[21.285404] (-) TimerEvent: {}
+[21.374806] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks/binding/python/CMakeFiles/tasks_Python.dir/DependInfo.cmake "--color="\n'}
+[21.379704] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[21.379900] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_Python.dir/build.make binding/python/CMakeFiles/tasks_Python.dir/build\n'}
+[21.381176] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[21.384826] (Tasks) StdoutLine: {'line': b'[ 73%] \x1b[32mBuilding CXX object binding/python/CMakeFiles/tasks_Python.dir/Python/tasks/tasks.cpp.o\x1b[0m\n'}
+[21.385331] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/binding/python && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -Dtasks_Python_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/binding/python/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /usr/include/python3.10 -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -isystem /home/celian/.local/lib/python3.10/site-packages/numpy/core/include -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC -fvisibility=default   -mfpmath=sse -msse2 -Wno-cast-qual -Wno-cpp -Wno-conversion -Wno-overflow -Wno-unused-variable -Wno-unused-function -MD -MT binding/python/CMakeFiles/tasks_Python.dir/Python/tasks/tasks.cpp.o -MF CMakeFiles/tasks_Python.dir/Python/tasks/tasks.cpp.o.d -o CMakeFiles/tasks_Python.dir/Python/tasks/tasks.cpp.o -c /home/celian/workspace/build/Tasks/Tasks/binding/python/Python/tasks/tasks.cpp\n'}
+[21.385421] (-) TimerEvent: {}
+[21.485645] (-) TimerEvent: {}
+[21.586006] (-) TimerEvent: {}
+[21.686392] (-) TimerEvent: {}
+[21.786715] (-) TimerEvent: {}
+[21.887124] (-) TimerEvent: {}
+[21.987484] (-) TimerEvent: {}
+[22.087811] (-) TimerEvent: {}
+[22.188170] (-) TimerEvent: {}
+[22.288593] (-) TimerEvent: {}
+[22.389123] (-) TimerEvent: {}
+[22.489619] (-) TimerEvent: {}
+[22.590099] (-) TimerEvent: {}
+[22.670263] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /home/celian/workspace/src/Tasks /home/celian/workspace/src/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks /home/celian/workspace/build/Tasks/Tasks/binding/python /home/celian/workspace/build/Tasks/Tasks/binding/python/CMakeFiles/tasks_qp_Python.dir/DependInfo.cmake "--color="\n'}
+[22.675513] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[22.675793] (Tasks) StdoutLine: {'line': b'/usr/bin/gmake  -f binding/python/CMakeFiles/tasks_qp_Python.dir/build.make binding/python/CMakeFiles/tasks_qp_Python.dir/build\n'}
+[22.677108] (Tasks) StdoutLine: {'line': b"gmake[2]: Entering directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[22.681586] (Tasks) StdoutLine: {'line': b'[ 76%] \x1b[32mBuilding CXX object binding/python/CMakeFiles/tasks_qp_Python.dir/Python/tasks/qp/qp.cpp.o\x1b[0m\n'}
+[22.682142] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/binding/python && /usr/bin/c++ -DBOOST_ALL_NO_LIB -DBOOST_CHRONO_DYN_LINK -DBOOST_SERIALIZATION_DYN_LINK -DBOOST_TIMER_DYN_LINK -Dtasks_qp_Python_EXPORTS -I/home/celian/workspace/build/Tasks/Tasks -I/home/celian/workspace/build/Tasks/Tasks/include -I/home/celian/workspace/src/Tasks/include -I/home/celian/workspace/src/Tasks/binding/python/include -I/home/celian/workspace/src/Tasks/src -I/home/celian/workspace/build/Tasks/Tasks/src/../include -isystem /usr/include/python3.10 -isystem /home/celian/workspace/install/include -isystem /usr/include/eigen3 -isystem /home/celian/.local/lib/python3.10/site-packages/numpy/core/include -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -std=gnu++17 -fPIC -fvisibility=default   -mfpmath=sse -msse2 -Wno-cast-qual -Wno-cpp -Wno-conversion -Wno-overflow -Wno-unused-variable -Wno-unused-function -MD -MT binding/python/CMakeFiles/tasks_qp_Python.dir/Python/tasks/qp/qp.cpp.o -MF CMakeFiles/tasks_qp_Python.dir/Python/tasks/qp/qp.cpp.o.d -o CMakeFiles/tasks_qp_Python.dir/Python/tasks/qp/qp.cpp.o -c /home/celian/workspace/build/Tasks/Tasks/binding/python/Python/tasks/qp/qp.cpp\n'}
+[22.690205] (-) TimerEvent: {}
+[22.790564] (-) TimerEvent: {}
+[22.890963] (-) TimerEvent: {}
+[22.945935] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/build/Tasks/Tasks/binding/python/Python/tasks/tasks.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kvoid __pyx_pf_5tasks_5tasks_23OrientationTrackingTask___dealloc__(__pyx_obj_5tasks_5tasks_OrientationTrackingTask*)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[22.946182] (Tasks) StderrLine: {'line': b'\x1b[01m\x1b[K/home/celian/workspace/build/Tasks/Tasks/binding/python/Python/tasks/tasks.cpp:17438:3:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kdeleting object of polymorphic class type \xe2\x80\x98\x1b[01m\x1b[Ktasks::OrientationTrackingTask\x1b[m\x1b[K\xe2\x80\x99 which has non-virtual destructor might cause undefined behavior [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdelete-non-virtual-dtor\x07-Wdelete-non-virtual-dtor\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[22.946287] (Tasks) StderrLine: {'line': b'17438 |   \x1b[01;35m\x1b[Kdelete __pyx_v_self->impl\x1b[m\x1b[K;\n'}
+[22.946342] (Tasks) StderrLine: {'line': b'      |   \x1b[01;35m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[22.991182] (-) TimerEvent: {}
+[23.023721] (Tasks) StdoutLine: {'line': b'[ 80%] \x1b[32m\x1b[1mLinking CXX executable AllocationTest\x1b[0m\n'}
+[23.024165] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/AllocationTest.dir/link.txt --verbose=1\n'}
+[23.028168] (Tasks) StdoutLine: {'line': b'/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/AllocationTest.dir/AllocationTest.cpp.o -o AllocationTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[23.091294] (-) TimerEvent: {}
+[23.191660] (-) TimerEvent: {}
+[23.216806] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'\n"}
+[23.217094] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `std::locale fmt::v8::detail::locale_ref::get<std::locale>() const'\n"}
+[23.217224] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[23.217543] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[23.217773] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[23.218533] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'\n"}
+[23.218747] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[23.219228] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'\n"}
+[23.219866] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `mc_rtc::log::details::info()'\n"}
+[23.220621] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'\n"}
+[23.221370] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'\n"}
+[23.221658] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[23.221738] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[23.226297] (Tasks) StderrLine: {'line': b'collect2: error: ld returned 1 exit status\n'}
+[23.227515] (Tasks) StderrLine: {'line': b'gmake[2]: *** [tests/CMakeFiles/AllocationTest.dir/build.make:111: tests/AllocationTest] Error 1\n'}
+[23.227681] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[23.227783] (Tasks) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:1816: tests/CMakeFiles/AllocationTest.dir/all] Error 2\n'}
+[23.227846] (Tasks) StderrLine: {'line': b'gmake[1]: *** Waiting for unfinished jobs....\n'}
+[23.291764] (-) TimerEvent: {}
+[23.392117] (-) TimerEvent: {}
+[23.492542] (-) TimerEvent: {}
+[23.592947] (-) TimerEvent: {}
+[23.693339] (-) TimerEvent: {}
+[23.793771] (-) TimerEvent: {}
+[23.894191] (-) TimerEvent: {}
+[23.896514] (Tasks) StdoutLine: {'line': b'[ 84%] \x1b[32m\x1b[1mLinking CXX executable TasksTest\x1b[0m\n'}
+[23.896928] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/TasksTest.dir/link.txt --verbose=1\n'}
+[23.900589] (Tasks) StdoutLine: {'line': b'/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/TasksTest.dir/TasksTest.cpp.o -o TasksTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[23.994312] (-) TimerEvent: {}
+[24.078155] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'\n"}
+[24.078809] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `std::locale fmt::v8::detail::locale_ref::get<std::locale>() const'\n"}
+[24.078970] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.079573] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[24.079841] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[24.080668] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'\n"}
+[24.081075] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.081452] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'\n"}
+[24.081830] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `mc_rtc::log::details::info()'\n"}
+[24.082570] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'\n"}
+[24.083290] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'\n"}
+[24.083566] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.083678] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.090105] (Tasks) StderrLine: {'line': b'collect2: error: ld returned 1 exit status\n'}
+[24.092079] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[24.092342] (Tasks) StderrLine: {'line': b'gmake[2]: *** [tests/CMakeFiles/TasksTest.dir/build.make:111: tests/TasksTest] Error 1\n'}
+[24.092520] (Tasks) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:1784: tests/CMakeFiles/TasksTest.dir/all] Error 2\n'}
+[24.094419] (-) TimerEvent: {}
+[24.161709] (Tasks) StdoutLine: {'line': b'[ 88%] \x1b[32m\x1b[1mLinking CXX executable QPMultiRobotTest\x1b[0m\n'}
+[24.162189] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/QPMultiRobotTest.dir/link.txt --verbose=1\n'}
+[24.165214] (Tasks) StdoutLine: {'line': b'/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/QPMultiRobotTest.dir/QPMultiRobotTest.cpp.o -o QPMultiRobotTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[24.194567] (-) TimerEvent: {}
+[24.294938] (-) TimerEvent: {}
+[24.364301] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'\n"}
+[24.364930] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `std::locale fmt::v8::detail::locale_ref::get<std::locale>() const'\n"}
+[24.365084] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.365406] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[24.365744] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[24.366527] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'\n"}
+[24.366942] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.367227] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'\n"}
+[24.367566] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `mc_rtc::log::details::info()'\n"}
+[24.368410] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'\n"}
+[24.369228] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'\n"}
+[24.369605] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.369756] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[24.376203] (Tasks) StderrLine: {'line': b'collect2: error: ld returned 1 exit status\n'}
+[24.377771] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[24.377894] (Tasks) StderrLine: {'line': b'gmake[2]: *** [tests/CMakeFiles/QPMultiRobotTest.dir/build.make:111: tests/QPMultiRobotTest] Error 1\n'}
+[24.378092] (Tasks) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:1752: tests/CMakeFiles/QPMultiRobotTest.dir/all] Error 2\n'}
+[24.395002] (-) TimerEvent: {}
+[24.495358] (-) TimerEvent: {}
+[24.595756] (-) TimerEvent: {}
+[24.696161] (-) TimerEvent: {}
+[24.796519] (-) TimerEvent: {}
+[24.896905] (-) TimerEvent: {}
+[24.997279] (-) TimerEvent: {}
+[25.097610] (-) TimerEvent: {}
+[25.197995] (-) TimerEvent: {}
+[25.298450] (-) TimerEvent: {}
+[25.337985] (Tasks) StdoutLine: {'line': b'[ 92%] \x1b[32m\x1b[1mLinking CXX shared module Python/tasks/tasks/tasks.so\x1b[0m\n'}
+[25.338287] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/binding/python && /usr/bin/cmake -E cmake_link_script CMakeFiles/tasks_Python.dir/link.txt --verbose=1\n'}
+[25.342760] (Tasks) StdoutLine: {'line': b'/usr/bin/c++ -fPIC  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -shared  -o Python/tasks/tasks/tasks.so CMakeFiles/tasks_Python.dir/Python/tasks/tasks.cpp.o  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libpython3.10.so /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[25.398579] (-) TimerEvent: {}
+[25.473443] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[25.477822] (Tasks) StdoutLine: {'line': b'[ 92%] Built target tasks_Python\n'}
+[25.498677] (-) TimerEvent: {}
+[25.598952] (-) TimerEvent: {}
+[25.699399] (-) TimerEvent: {}
+[25.799816] (-) TimerEvent: {}
+[25.900301] (-) TimerEvent: {}
+[25.929909] (Tasks) StdoutLine: {'line': b'[ 96%] \x1b[32m\x1b[1mLinking CXX executable QPSolverTest\x1b[0m\n'}
+[25.930256] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/tests && /usr/bin/cmake -E cmake_link_script CMakeFiles/QPSolverTest.dir/link.txt --verbose=1\n'}
+[25.934579] (Tasks) StdoutLine: {'line': b'/usr/bin/c++  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic CMakeFiles/QPSolverTest.dir/QPSolverTest.cpp.o -o QPSolverTest  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libboost_unit_test_framework.so.1.74.0 /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[26.000405] (-) TimerEvent: {}
+[26.100883] (-) TimerEvent: {}
+[26.177966] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::error_handler::on_error(char const*)'\n"}
+[26.178344] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `std::locale fmt::v8::detail::locale_ref::get<std::locale>() const'\n"}
+[26.178505] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[26.179007] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::thousands_sep_result<char> fmt::v8::detail::thousands_sep_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[26.179279] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `char fmt::v8::detail::decimal_point_impl<char>(fmt::v8::detail::locale_ref)'\n"}
+[26.180044] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<float> fmt::v8::detail::dragonbox::to_decimal<float>(float)'\n"}
+[26.180113] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::snprintf_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[26.180851] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::assert_fail(char const*, int, char const*)'\n"}
+[26.181363] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `mc_rtc::log::details::info()'\n"}
+[26.182470] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::dragonbox::decimal_fp<double> fmt::v8::detail::dragonbox::to_decimal<double>(double)'\n"}
+[26.183407] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `fmt::v8::detail::throw_format_error(char const*)'\n"}
+[26.183960] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<double>(double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[26.184025] (Tasks) StderrLine: {'line': b"/usr/bin/ld: ../src/libTasks.so.1.8.1: undefined reference to `int fmt::v8::detail::format_float<long double>(long double, int, fmt::v8::detail::float_specs, fmt::v8::detail::buffer<char>&)'\n"}
+[26.194486] (Tasks) StderrLine: {'line': b'collect2: error: ld returned 1 exit status\n'}
+[26.195864] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[26.196179] (Tasks) StderrLine: {'line': b'gmake[2]: *** [tests/CMakeFiles/QPSolverTest.dir/build.make:111: tests/QPSolverTest] Error 1\n'}
+[26.196269] (Tasks) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:1720: tests/CMakeFiles/QPSolverTest.dir/all] Error 2\n'}
+[26.200872] (-) TimerEvent: {}
+[26.301106] (-) TimerEvent: {}
+[26.401560] (-) TimerEvent: {}
+[26.501908] (-) TimerEvent: {}
+[26.602203] (-) TimerEvent: {}
+[26.702554] (-) TimerEvent: {}
+[26.802842] (-) TimerEvent: {}
+[26.903158] (-) TimerEvent: {}
+[27.003470] (-) TimerEvent: {}
+[27.103783] (-) TimerEvent: {}
+[27.204183] (-) TimerEvent: {}
+[27.304446] (-) TimerEvent: {}
+[27.404816] (-) TimerEvent: {}
+[27.505201] (-) TimerEvent: {}
+[27.605470] (-) TimerEvent: {}
+[27.705787] (-) TimerEvent: {}
+[27.806120] (-) TimerEvent: {}
+[27.906428] (-) TimerEvent: {}
+[28.006735] (-) TimerEvent: {}
+[28.107059] (-) TimerEvent: {}
+[28.207383] (-) TimerEvent: {}
+[28.307662] (-) TimerEvent: {}
+[28.407943] (-) TimerEvent: {}
+[28.508264] (-) TimerEvent: {}
+[28.608573] (-) TimerEvent: {}
+[28.708900] (-) TimerEvent: {}
+[28.809191] (-) TimerEvent: {}
+[28.909497] (-) TimerEvent: {}
+[29.009814] (-) TimerEvent: {}
+[29.110081] (-) TimerEvent: {}
+[29.210337] (-) TimerEvent: {}
+[29.310635] (-) TimerEvent: {}
+[29.410948] (-) TimerEvent: {}
+[29.511246] (-) TimerEvent: {}
+[29.611501] (-) TimerEvent: {}
+[29.711812] (-) TimerEvent: {}
+[29.789049] (Tasks) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX shared module Python/tasks/tasks/qp/qp.so\x1b[0m\n'}
+[29.789501] (Tasks) StdoutLine: {'line': b'cd /home/celian/workspace/build/Tasks/Tasks/binding/python && /usr/bin/cmake -E cmake_link_script CMakeFiles/tasks_qp_Python.dir/link.txt --verbose=1\n'}
+[29.793102] (Tasks) StdoutLine: {'line': b'/usr/bin/c++ -fPIC  -pedantic -Wno-long-long -Wall -Wextra -Wcast-align -Wcast-qual -Wformat -Wwrite-strings -Wconversion  -Wall -Wextra -pedantic -shared  -o Python/tasks/tasks/qp/qp.so CMakeFiles/tasks_qp_Python.dir/Python/tasks/qp/qp.cpp.o  -Wl,-rpath,/home/celian/workspace/build/Tasks/Tasks/src:/home/celian/workspace/install/lib ../../src/libTasks.so.1.8.1 /usr/lib/x86_64-linux-gnu/libpython3.10.so /home/celian/workspace/install/lib/libRBDyn.so.1.9.1 /home/celian/workspace/install/lib/libsch-core.so.1.4.2 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /home/celian/workspace/install/lib/libeigen-qld.so.1.2.5 /usr/lib/x86_64-linux-gnu/libboost_timer.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0\n'}
+[29.811922] (-) TimerEvent: {}
+[29.912266] (-) TimerEvent: {}
+[29.961673] (Tasks) StdoutLine: {'line': b"gmake[2]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[29.966012] (Tasks) StdoutLine: {'line': b'[100%] Built target tasks_qp_Python\n'}
+[29.966329] (Tasks) StdoutLine: {'line': b"gmake[1]: Leaving directory '/home/celian/workspace/build/Tasks/Tasks'\n"}
+[29.966984] (Tasks) StderrLine: {'line': b'gmake: *** [Makefile:149: all] Error 2\n'}
+[29.968384] (Tasks) CommandEnded: {'returncode': 2}
+[29.968633] (Tasks) JobEnded: {'identifier': 'Tasks', 'rc': 2}
+[29.979041] (-) EventReactorShutdown: {}
