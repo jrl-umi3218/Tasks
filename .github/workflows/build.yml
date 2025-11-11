@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04, macos-latest, windows-latest]
+        os: [ubuntu-22.04, macos-latest, windows-latest]
         build-type: [Debug, RelWithDebInfo]
         compiler: [gcc, clang]
         exclude:
@@ -29,15 +29,9 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
-    - name: Install pip for Python 2 (Ubuntu 20.04)
-      run: |
-        curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
-        sudo python2 get-pip.py
-        rm -f get-pip.py
-      if: matrix.os == 'ubuntu-20.04'
     - name: Install dependencies
       uses: jrl-umi3218/github-actions/install-dependencies@master
       with:
@@ -46,8 +40,7 @@ jobs:
         ubuntu: |
           apt: cython cython3 python-pytest python3-pytest python-numpy python3-numpy python-coverage python3-coverage python-setuptools python3-setuptools libeigen3-dev doxygen doxygen-latex libboost-all-dev libtinyxml2-dev libyaml-cpp-dev
         macos: |
-          cask: gfortran
-          brew: eigen boost tinyxml2 yaml-cpp pipx
+          brew: eigen boost tinyxml2 yaml-cpp pipx gcc
           pipx: Cython coverage pytest numpy
         windows: |
           pip: Cython coverage pytest numpy
@@ -77,7 +70,7 @@ jobs:
         windows-options: -DPYTHON_BINDING:BOOL=OFF
     - name: Upload documentation
       # Only run on master branch and for one configuration
-      if: matrix.os == 'ubuntu-20.04' && matrix.build-type == 'RelWithDebInfo' && matrix.compiler == 'gcc' && github.ref == 'refs/heads/master'
+      if: matrix.os == 'ubuntu-22.04' && matrix.build-type == 'RelWithDebInfo' && matrix.compiler == 'gcc' && github.ref == 'refs/heads/master'
       uses: jrl-umi3218/github-actions/upload-documentation@master
       with:
         GH_USER: gergondet
