@@ -4,7 +4,7 @@
 
 enable_testing()
 
-find_package(Boost REQUIRED COMPONENTS unit_test_framework timer system)
+find_package(Boost REQUIRED COMPONENTS unit_test_framework timer)
 add_definitions(-DBOOST_TEST_DYN_LINK)
 
 set(HEADERS arms.h)
