@@ -55,7 +55,10 @@ void LSSOLQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 
     lssol_.resize(nrReducedVars, maxALines, Eigen::lssol::QP2);
   }
-  else { lssol_.resize(nrVars, maxALines, Eigen::lssol::QP2); }
+  else
+  {
+    lssol_.resize(nrVars, maxALines, Eigen::lssol::QP2);
+  }
 }
 
 void LSSOLQPSolver::updateMatrix(const std::vector<Task *> & tasks,
@@ -111,7 +114,10 @@ bool LSSOLQPSolver::solve()
 const Eigen::VectorXd & LSSOLQPSolver::result() const
 {
   if(dependencies_.size()) { return XFull_; }
-  else { return lssol_.result(); }
+  else
+  {
+    return lssol_.result();
+  }
 }
 
 std::ostream & LSSOLQPSolver::errorMsg(const std::vector<rbd::MultiBody> & mbs,

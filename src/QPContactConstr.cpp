@@ -129,7 +129,10 @@ void ContactConstr::updateDofContacts()
   {
     auto it = dofContacts_.find(c.contactId);
     if(it != dofContacts_.end()) { c.dof = it->second; }
-    else { c.dof.setIdentity(6, 6); }
+    else
+    {
+      c.dof.setIdentity(6, 6);
+    }
   }
   updateNrEq();
 }

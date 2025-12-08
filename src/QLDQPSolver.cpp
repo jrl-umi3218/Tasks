@@ -56,7 +56,10 @@ void QLDQPSolver::updateSize(int nrVars, int nrEq, int nrInEq, int nrGenInEq)
 
     qld_.problem(reducedNrVars, maxAeqLines, maxAineqLines);
   }
-  else { qld_.problem(nrVars, maxAeqLines, maxAineqLines); }
+  else
+  {
+    qld_.problem(nrVars, maxAeqLines, maxAineqLines);
+  }
 }
 
 void QLDQPSolver::updateMatrix(const std::vector<Task *> & tasks,
@@ -121,7 +124,10 @@ bool QLDQPSolver::solve()
 const Eigen::VectorXd & QLDQPSolver::result() const
 {
   if(dependencies_.size()) { return XFull_; }
-  else { return qld_.result(); }
+  else
+  {
+    return qld_.result();
+  }
 }
 
 std::ostream & QLDQPSolver::errorMsg(const std::vector<rbd::MultiBody> & /* mbs */,

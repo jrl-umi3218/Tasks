@@ -588,7 +588,10 @@ JointsSelector::JointsSelector(const std::vector<rbd::MultiBody> & mbs,
         selectedJoints_.push_back({pInDof + jdof[0], jdof[1]});
       }
     }
-    else { selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()}); }
+    else
+    {
+      selectedJoints_.push_back({mb.jointPosInDof(index), mb.joint(index).dof()});
+    }
   }
   // sort data in posInDof order
   std::sort(selectedJoints_.begin(), selectedJoints_.end(),
