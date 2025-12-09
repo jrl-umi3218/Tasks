@@ -6,6 +6,7 @@
 #include "Tasks/QPMotionConstr.h"
 
 // includes
+#include <cassert>
 // Eigen
 #include <unsupported/Eigen/Polynomials>
 

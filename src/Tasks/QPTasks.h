@@ -5,7 +5,8 @@
 #pragma once
 
 // includes
-//
+#include <cassert>
+// std
 #include <array>
 
 // Eigen
