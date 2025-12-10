@@ -8,8 +8,4 @@ digraph "tasks::qp::TransformTask"
   Node2 [label="tasks::qp::TransformTask\lCommon\< tasks::TransformTask \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1TransformTaskCommon.html",tooltip=" "];
   Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="tasks::qp::HighLevelTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1HighLevelTask.html",tooltip=" "];
-  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" tt_" ,fontname="Helvetica"];
-  Node4 [label="tasks::TransformTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1TransformTask.html",tooltip=" "];
-  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="tasks::TransformTaskCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1TransformTaskCommon.html",tooltip=" "];
 }
