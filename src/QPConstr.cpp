@@ -6,6 +6,7 @@
 #include "Tasks/QPConstr.h"
 
 // includes
+#include <cassert>
 // std
 #include <cmath>
 

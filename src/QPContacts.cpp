@@ -6,6 +6,7 @@
 #include "Tasks/QPContacts.h"
 
 // includes
+#include <cassert>
 // std
 #include <stdexcept>
 

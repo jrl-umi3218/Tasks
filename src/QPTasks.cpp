@@ -6,6 +6,7 @@
 #include "Tasks/QPTasks.h"
 
 // includes
+#include <cassert>
 // std
 #include <cmath>
 #include <iterator>

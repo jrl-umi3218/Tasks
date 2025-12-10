@@ -6,6 +6,7 @@
 #include "Tasks/GenQPSolver.h"
 
 // includes
+#include <cassert>
 // std
 #include <map>
 
