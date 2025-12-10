@@ -287,7 +287,10 @@ void DamperJointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs 
       double damper = computeDamper(ud, d.iDist, d.sDist, d.damping);
       upper_[d.alphaDBegin] = std::min((damper - alpha) / step_, upper_[d.alphaDBegin]);
     }
-    else { d.state = DampData::Free; }
+    else
+    {
+      d.state = DampData::Free;
+    }
   }
   lower_ = lower_.cwiseMax(alphaDLower_).cwiseMax(alphaDDLower_ + prevAlphaD_);
   upper_ = upper_.cwiseMin(alphaDUpper_).cwiseMin(alphaDDUpper_ + prevAlphaD_);
@@ -1407,7 +1410,10 @@ std::string ImageConstr::descInEq(const std::vector<rbd::MultiBody> & /* mbs */,
         std::stringstream ss;
         ss << "pointId: " << i << std::endl;
         if(j == 0) { ss << "x" << std::endl; }
-        else { ss << "y" << std::endl; }
+        else
+        {
+          ss << "y" << std::endl;
+        }
         ss << "normalized 2d location: " << std::endl << dataVec_[i].point2d << std::endl;
         return ss.str();
       }
