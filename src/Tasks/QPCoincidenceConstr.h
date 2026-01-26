@@ -1,6 +1,10 @@
+/*
+ * Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
+ */
+
 #pragma once
 
-// include
+// includes
 // std
 #include <vector>
 
@@ -16,9 +20,27 @@ namespace tasks
 namespace qp
 {
 
+/**
+ * Base class for coincidence equality constraints.
+ *
+ * This constraint enforces acceleration-level coincidence between two bodies
+ * of the same robot using their Jacobians and normal accelerations.
+ *
+ * A proportional-derivative (PD) stabilization term is added in the update step
+ * to reduce position and velocity errors between the bodies.
+ *
+ * Derived classes define whether the coincidence applies to translation,
+ * rotation, or both.
+ */
 class TASKS_DLLAPI CoincidenceConstr : public ConstraintFunction<Equality>
 {
 public:
+  /**
+   * @param robotIndex Constrained robot Index in mbs.
+   * @param body1Name Name of the first body.
+   * @param body2Name Name of the second body.
+   * @param jointSelector Joint selection vector.
+   */
   CoincidenceConstr(int robotIndex,
                     const std::string & body1Name,
                     const std::string & body2Name,
@@ -27,9 +49,18 @@ public:
     jointSelector_(jointSelector)
   {
   }
+
+  // Equality constraint
   virtual int maxEq() const override;
+
   virtual const Eigen::MatrixXd & AEq() const override;
+
   virtual const Eigen::VectorXd & bEq() const override;
+
+  /**
+   * Set the joint selector.
+   * @param selector Joint selection vector.
+   */
   void setJointSelector(const Eigen::VectorXd & selector);
 
 protected:
@@ -41,16 +72,25 @@ protected:
   Eigen::VectorXd jointSelector_;
 };
 
-class FixedCoincidenceConstr : public CoincidenceConstr
+/**
+ * Enforce translational coincidence between two bodies.
+ *
+ * This constraint enforces equality of linear accelerations between two bodies
+ * (6D formulation), using the difference of their full Jacobians.
+ *
+ * A PD stabilization term is added based on the difference of body world
+ * positions and linear velocities.
+ */
+class TASKS_DLLAPI FixedCoincidenceConstr : public CoincidenceConstr
 {
 public:
   /**
-   * Constructor
-   * @param robotIndex
-   * @param body1Name
-   * @param body2Name
-   * @param point1
-   * @param point2
+   * @param robotIndex Constrained robot Index in mbs.
+   * @param body1Name Name of the first body.
+   * @param body2Name Name of the second body.
+   * @param point1 Unused (kept for API compatibility).
+   * @param point2 Unused (kept for API compatibility).
+   * @param jointSelector Joint selection vector.
    */
   FixedCoincidenceConstr(int robotIndex = 0,
                          const std::string & body1Name = "",
@@ -59,9 +99,13 @@ public:
                          const Eigen::Vector3d & point2 = Eigen::Vector3d::Zero(),
                          const Eigen::VectorXd & jointSelector = Eigen::VectorXd());
 
+  // Equality constraint
   virtual std::string nameEq() const override;
-  virtual std::string descEq(const std::vector<rbd::MultiBody> & mbs, int i) override;
+
+  virtual std::string descEq(const std::vector<rbd::MultiBody> & mbs, int line) override;
+
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
+
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
@@ -70,23 +114,36 @@ private:
   Eigen::Vector3d point1_, point2_;
 };
 
-class RotationalCoincidenceConstr : public CoincidenceConstr
+/**
+ * Enforce rotational coincidence between two bodies.
+ *
+ * This constraint enforces equality of angular accelerations between two bodies
+ * (3D formulation), using the angular part of their Jacobians.
+ *
+ * A PD stabilization term is added based on the difference of body world
+ * orientations and angular velocities.
+ */
+class TASKS_DLLAPI RotationalCoincidenceConstr : public CoincidenceConstr
 {
 public:
   /**
-   * Constructor
-   * @param robotIndex
-   * @param body1Name
-   * @param body2Name
+   * @param robotIndex Constrained robot Index in mbs.
+   * @param body1Name Name of the first body.
+   * @param body2Name Name of the second body.
+   * @param jointSelector Joint selection vector.
    */
   RotationalCoincidenceConstr(int robotIndex = 0,
                               const std::string & body1Name = "",
                               const std::string & body2Name = "",
                               const Eigen::VectorXd & jointSelector = Eigen::VectorXd());
 
+  // Equality constraint
   virtual std::string nameEq() const override;
-  virtual std::string descEq(const std::vector<rbd::MultiBody> & mbs, int i) override;
+
+  virtual std::string descEq(const std::vector<rbd::MultiBody> & mbs, int line) override;
+
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
+
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data) override;
