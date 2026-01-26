@@ -10,7 +10,6 @@
 // Tasks
 #include "QPSolver.h"
 
-
 namespace tasks
 {
 

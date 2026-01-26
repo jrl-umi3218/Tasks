@@ -1,13 +1,12 @@
 #include "Tasks/QPCoincidenceConstr.h"
 
 // RBDyn
+#include <RBDyn/Jacobian.h>
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
-#include <RBDyn/Jacobian.h>
 
 // Tasks
 #include "utils.h"
-
 
 namespace tasks
 {
