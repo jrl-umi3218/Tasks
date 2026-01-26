@@ -1,16 +1,13 @@
 #include "Tasks/QPCoincidenceConstr.h"
+
+// RBDyn
 #include <RBDyn/MultiBody.h>
 #include <RBDyn/MultiBodyConfig.h>
-
-#include <mc_rtc/logging.h>
 #include <RBDyn/Jacobian.h>
-#include <SpaceVecAlg/SpaceVecAlg>
-#include "Tasks/QPTasks.h"
+
+// Tasks
 #include "utils.h"
-#include <Eigen/QR>
-#include <fstream>
-#include <iostream>
-#include <set>
+
 
 namespace tasks
 {
@@ -49,8 +46,6 @@ FixedCoincidenceConstr::FixedCoincidenceConstr(int robotIndex,
 {
   A_.resize(0, 0);
   b_.resize(0);
-  std::cout << "FixedCoincidenceConstr created: " << body1Name << " <-> " << body2Name << " (robot " << robotIndex
-            << ")" << std::endl;
 }
 
 std::string FixedCoincidenceConstr::nameEq() const
@@ -70,7 +65,7 @@ void FixedCoincidenceConstr::updateNrVars(const std::vector<rbd::MultiBody> & mb
   body2Index_ = mb.bodyIndexByName(body2Name_);
   if(body1Index_ == -1 || body2Index_ == -1)
   {
-    std::cerr << "Error: Invalid body indices in FixedCoincidenceConstr::update" << std::endl;
+    // Error: Invalid body indices in FixedCoincidenceConstr::update
     return;
   }
 
@@ -87,7 +82,7 @@ void FixedCoincidenceConstr::update(const std::vector<rbd::MultiBody> & mbs,
   const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
   if(body1Index_ == -1 || body2Index_ == -1)
   {
-    std::cerr << "Error: Invalid body indices in FixedCoincidenceConstr::update" << std::endl;
+    // Error: Invalid body indices in FixedCoincidenceConstr::update
     return;
   }
 
@@ -128,8 +123,6 @@ RotationalCoincidenceConstr::RotationalCoincidenceConstr(int robotIndex,
 {
   A_.resize(0, 0);
   b_.resize(0);
-  std::cout << "RotationalCoincidenceConstr created: " << body1Name << " <-> " << body2Name << " (robot " << robotIndex
-            << ")" << std::endl;
 }
 
 std::string RotationalCoincidenceConstr::nameEq() const
@@ -149,7 +142,7 @@ void RotationalCoincidenceConstr::updateNrVars(const std::vector<rbd::MultiBody>
   body2Index_ = mb.bodyIndexByName(body2Name_);
   if(body1Index_ == -1 || body2Index_ == -1)
   {
-    std::cerr << "Error: Invalid body indices in RotationalCoincidenceConstr::update" << std::endl;
+    // Error: Invalid body indices in RotationalCoincidenceConstr::update
     return;
   }
 
@@ -166,7 +159,7 @@ void RotationalCoincidenceConstr::update(const std::vector<rbd::MultiBody> & mbs
   const rbd::MultiBodyConfig & mbc = mbcs[robotIndex_];
   if(body1Index_ == -1 || body2Index_ == -1)
   {
-    std::cerr << "Error: Invalid body indices in RotationalCoincidenceConstr::update" << std::endl;
+    // Error: Invalid body indices in RotationalCoincidenceConstr::update
     return;
   }
 
@@ -195,12 +188,6 @@ void RotationalCoincidenceConstr::update(const std::vector<rbd::MultiBody> & mbs
   Eigen::VectorXd errord = mbc.bodyVelW[body1Index_].linear() - mbc.bodyVelW[body2Index_].linear();
 
   b_.segment(0, 3) = -(normalAcc1.tail(3) - normalAcc2.tail(3)) - Kp * errorp - Kd * errord;
-
-  double distance = errorp.norm();
-  double distancex = (mbc.bodyPosW[body1Index_].translation()).norm();
-  std::ofstream file("close_loop_measurement.csv", std::ios::app);
-  file << distance << "," << distancex << "\n";
-  file.close();
 }
 
 } // namespace qp

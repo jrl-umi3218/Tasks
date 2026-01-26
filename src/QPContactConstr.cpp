@@ -16,8 +16,6 @@
 // Tasks
 #include "utils.h"
 
-#include <iostream>
-
 namespace tasks
 {
 

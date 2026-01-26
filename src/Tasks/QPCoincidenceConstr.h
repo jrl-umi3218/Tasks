@@ -1,10 +1,15 @@
 #pragma once
 
-#include "QPSolver.h"
-#include <Eigen/Core>
-#include <iostream>
-#include <string>
+// include
+// std
 #include <vector>
+
+// Eigen
+#include <Eigen/Core>
+
+// Tasks
+#include "QPSolver.h"
+
 
 namespace tasks
 {
