@@ -111,7 +111,22 @@ MotionConstrCommon::ContactData::ContactData(const rbd::MultiBody & mb,
 
 MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex)
 : robotIndex_(robotIndex), alphaDBegin_(-1), nrDof_(mbs[robotIndex_].nrDof()), lambdaBegin_(-1), fd_(mbs[robotIndex_]),
-  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), A_(), AL_(nrDof_), AU_(nrDof_)
+  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), useExternalTorque_(false),
+  extTorque_(curTorque_), A_(), AL_(nrDof_), AU_(nrDof_)
+{
+  // We set the extTorque_ reference to curTorque_ as it needs to be initialized in the struct but we are not going to
+  // use it
+  assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
+  // This is technically incorrect but practically not a huge deal, see #66
+  curTorque_.setZero();
+}
+
+MotionConstrCommon::MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs,
+                                       int robotIndex,
+                                       const Eigen::VectorXd & externalTorque)
+: robotIndex_(robotIndex), alphaDBegin_(-1), nrDof_(mbs[robotIndex_].nrDof()), lambdaBegin_(-1), fd_(mbs[robotIndex_]),
+  fullJacLambda_(), jacTrans_(6, nrDof_), jacLambda_(), cont_(), curTorque_(nrDof_), useExternalTorque_(true),
+  extTorque_(externalTorque), A_(), AL_(nrDof_), AU_(nrDof_)
 {
   assert(std::size_t(robotIndex_) < mbs.size() && robotIndex_ >= 0);
   // This is technically incorrect but practically not a huge deal, see #66
@@ -122,6 +137,7 @@ void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eig
 {
   curTorque_ = fd_.H() * alphaD.segment(alphaDBegin_, nrDof_);
   curTorque_ += fd_.C();
+  if(useExternalTorque_) { curTorque_ -= extTorque_; }
   curTorque_ += A_.block(0, lambdaBegin_, nrDof_, A_.cols() - lambdaBegin_) * lambda;
 }
 
@@ -220,6 +236,11 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody> & mbs,
   // BEq = -C
   AL_ = -fd_.C();
   AU_ = -fd_.C();
+  if(useExternalTorque_)
+  {
+    AL_ += extTorque_;
+    AU_ += extTorque_;
+  }
 }
 
 int MotionConstrCommon::maxGenInEq() const
@@ -265,10 +286,38 @@ MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotInd
 MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                            int robotIndex,
                            const TorqueBound & tb,
+                           const Eigen::VectorXd & externalTorque)
+: MotionConstr(mbs, robotIndex, tb, {}, 0.001, externalTorque)
+{
+}
+
+MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
+                           int robotIndex,
+                           const TorqueBound & tb,
                            const TorqueDBound & tdb,
                            double dt)
 : MotionConstrCommon(mbs, robotIndex), torqueL_(mbs[robotIndex].nrDof()), torqueU_(mbs[robotIndex].nrDof()),
   torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()), tmpL_(nrDof_), tmpU_(nrDof_)
+{
+  rbd::paramToVector(tb.lTorqueBound, torqueL_);
+  rbd::paramToVector(tb.uTorqueBound, torqueU_);
+  torqueDtL_.setConstant(-std::numeric_limits<double>::infinity());
+  torqueDtU_.setConstant(std::numeric_limits<double>::infinity());
+  rbd::paramToVector(tdb.lTorqueDBound, torqueDtL_);
+  rbd::paramToVector(tdb.uTorqueDBound, torqueDtU_);
+  torqueDtL_ *= dt;
+  torqueDtU_ *= dt;
+}
+
+MotionConstr::MotionConstr(const std::vector<rbd::MultiBody> & mbs,
+                           int robotIndex,
+                           const TorqueBound & tb,
+                           const TorqueDBound & tdb,
+                           double dt,
+                           const Eigen::VectorXd & externalTorque)
+: MotionConstrCommon(mbs, robotIndex, externalTorque), torqueL_(mbs[robotIndex].nrDof()),
+  torqueU_(mbs[robotIndex].nrDof()), torqueDtL_(mbs[robotIndex].nrDof()), torqueDtU_(mbs[robotIndex].nrDof()),
+  tmpL_(nrDof_), tmpU_(nrDof_)
 {
   rbd::paramToVector(tb.lTorqueBound, torqueL_);
   rbd::paramToVector(tb.uTorqueBound, torqueU_);
@@ -324,10 +373,37 @@ MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
 MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                                        int robotIndex,
                                        const TorqueBound & tb,
+                                       const std::vector<SpringJoint> & springs,
+                                       const Eigen::VectorXd & externalTorque)
+: MotionSpringConstr(mbs, robotIndex, tb, {}, 0.001, springs, externalTorque)
+{
+}
+
+MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
+                                       int robotIndex,
+                                       const TorqueBound & tb,
                                        const TorqueDBound & tdb,
                                        double dt,
                                        const std::vector<SpringJoint> & springs)
 : MotionConstr(mbs, robotIndex, tb, tdb, dt), springs_()
+{
+  const rbd::MultiBody & mb = mbs[robotIndex_];
+  for(const SpringJoint & sj : springs)
+  {
+    int index = mb.jointIndexByName(sj.jointName);
+    int posInDof = mb.jointPosInDof(index);
+    springs_.push_back({index, posInDof, sj.K, sj.C, sj.O});
+  }
+}
+
+MotionSpringConstr::MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
+                                       int robotIndex,
+                                       const TorqueBound & tb,
+                                       const TorqueDBound & tdb,
+                                       double dt,
+                                       const std::vector<SpringJoint> & springs,
+                                       const Eigen::VectorXd & externalTorque)
+: MotionConstr(mbs, robotIndex, tb, tdb, dt, externalTorque), springs_()
 {
   const rbd::MultiBody & mb = mbs[robotIndex_];
   for(const SpringJoint & sj : springs)
