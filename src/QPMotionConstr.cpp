@@ -52,9 +52,7 @@ void PositiveLambda::update(const std::vector<rbd::MultiBody> & /* mbs */,
 }
 
 std::string PositiveLambda::nameBound() const
-{
-  return "PositiveLambda";
-}
+{ return "PositiveLambda"; }
 
 std::string PositiveLambda::descBound(const std::vector<rbd::MultiBody> & /* mbs */, int line)
 {
@@ -76,19 +74,13 @@ std::string PositiveLambda::descBound(const std::vector<rbd::MultiBody> & /* mbs
 }
 
 int PositiveLambda::beginVar() const
-{
-  return lambdaBegin_;
-}
+{ return lambdaBegin_; }
 
 const Eigen::VectorXd & PositiveLambda::Lower() const
-{
-  return XL_;
-}
+{ return XL_; }
 
 const Eigen::VectorXd & PositiveLambda::Upper() const
-{
-  return XU_;
-}
+{ return XU_; }
 
 /**
  *															MotionConstrCommon
@@ -126,9 +118,7 @@ void MotionConstrCommon::computeTorque(const Eigen::VectorXd & alphaD, const Eig
 }
 
 const Eigen::VectorXd & MotionConstrCommon::torque() const
-{
-  return curTorque_;
-}
+{ return curTorque_; }
 
 void MotionConstrCommon::torque(const std::vector<rbd::MultiBody> & mbs, std::vector<rbd::MultiBodyConfig> & mbcs) const
 {
@@ -223,29 +213,19 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int MotionConstrCommon::maxGenInEq() const
-{
-  return int(A_.rows());
-}
+{ return int(A_.rows()); }
 
 const Eigen::MatrixXd & MotionConstrCommon::AGenInEq() const
-{
-  return A_;
-}
+{ return A_; }
 
 const Eigen::VectorXd & MotionConstrCommon::LowerGenInEq() const
-{
-  return AL_;
-}
+{ return AL_; }
 
 const Eigen::VectorXd & MotionConstrCommon::UpperGenInEq() const
-{
-  return AU_;
-}
+{ return AU_; }
 
 std::string MotionConstrCommon::nameGenInEq() const
-{
-  return "MotionConstr";
-}
+{ return "MotionConstr"; }
 
 std::string MotionConstrCommon::descGenInEq(const std::vector<rbd::MultiBody> & mbs, int line)
 {
@@ -300,14 +280,10 @@ void MotionConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 Eigen::MatrixXd MotionConstr::contactMatrix() const
-{
-  return A_.block(0, nrDof_, A_.rows(), A_.cols() - nrDof_);
-}
+{ return A_.block(0, nrDof_, A_.rows(), A_.cols() - nrDof_); }
 
 const rbd::ForwardDynamics MotionConstr::fd() const
-{
-  return fd_;
-}
+{ return fd_; }
 
 /**
  *															MotionSpringConstr

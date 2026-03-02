@@ -27,54 +27,34 @@ namespace qp
  */
 
 bool ContactConstrCommon::ContactCommon::operator==(const ContactCommon & cc) const
-{
-  return cId == cc.cId;
-}
+{ return cId == cc.cId; }
 
 bool ContactConstrCommon::ContactCommon::operator<(const ContactCommon & cc) const
-{
-  return cId < cc.cId;
-}
+{ return cId < cc.cId; }
 
 bool ContactConstrCommon::addVirtualContact(const ContactId & cId)
-{
-  return virtualContacts_.insert(cId).second;
-}
+{ return virtualContacts_.insert(cId).second; }
 
 bool ContactConstrCommon::removeVirtualContact(const ContactId & cId)
-{
-  return virtualContacts_.erase(cId) == 1;
-}
+{ return virtualContacts_.erase(cId) == 1; }
 
 void ContactConstrCommon::resetVirtualContacts()
-{
-  virtualContacts_.clear();
-}
+{ virtualContacts_.clear(); }
 
 bool ContactConstrCommon::addDofContact(const ContactId & cId, const Eigen::MatrixXd & dof)
-{
-  return dofContacts_.insert({cId, dof}).second;
-}
+{ return dofContacts_.insert({cId, dof}).second; }
 
 bool ContactConstrCommon::removeDofContact(const ContactId & cId)
-{
-  return dofContacts_.erase(cId) == 1;
-}
+{ return dofContacts_.erase(cId) == 1; }
 
 bool ContactConstrCommon::hasDoFContact(const ContactId & id) const
-{
-  return dofContacts_.count(id);
-}
+{ return dofContacts_.count(id); }
 
 const Eigen::MatrixXd & ContactConstrCommon::dofContact(const ContactId & contactId)
-{
-  return dofContacts_[contactId];
-}
+{ return dofContacts_[contactId]; }
 
 void ContactConstrCommon::resetDofContacts()
-{
-  dofContacts_.clear();
-}
+{ dofContacts_.clear(); }
 
 std::set<ContactConstrCommon::ContactCommon> ContactConstrCommon::contactCommonInContact(
     const std::vector<rbd::MultiBody> & /*mbs*/,
@@ -177,9 +157,7 @@ void ContactConstr::updateNrVars(const std::vector<rbd::MultiBody> & mbs, const 
 }
 
 int ContactConstr::nrEq() const
-{
-  return nrEq_;
-}
+{ return nrEq_; }
 
 std::string ContactConstr::descEq(const std::vector<rbd::MultiBody> & mbs, int line)
 {
@@ -194,19 +172,13 @@ std::string ContactConstr::descEq(const std::vector<rbd::MultiBody> & mbs, int l
 }
 
 int ContactConstr::maxEq() const
-{
-  return int(A_.rows());
-}
+{ return int(A_.rows()); }
 
 const Eigen::MatrixXd & ContactConstr::AEq() const
-{
-  return A_;
-}
+{ return A_; }
 
 const Eigen::VectorXd & ContactConstr::bEq() const
-{
-  return b_;
-}
+{ return b_; }
 
 void ContactConstr::updateNrEq()
 {
@@ -263,9 +235,7 @@ void ContactAccConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string ContactAccConstr::nameEq() const
-{
-  return "ContactAccConstr";
-}
+{ return "ContactAccConstr"; }
 
 /**
  *															ContactSpeedConstr
@@ -318,9 +288,7 @@ void ContactSpeedConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string ContactSpeedConstr::nameEq() const
-{
-  return "ContactSpeedConstr";
-}
+{ return "ContactSpeedConstr"; }
 
 /**
  *															ContactPosConstr
@@ -383,9 +351,7 @@ void ContactPosConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string ContactPosConstr::nameEq() const
-{
-  return "ContactPosConstr";
-}
+{ return "ContactPosConstr"; }
 
 } // namespace qp
 

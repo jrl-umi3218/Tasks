@@ -103,9 +103,7 @@ JointLimitsConstr::JointLimitsConstr(const std::vector<rbd::MultiBody> & mbs,
 }
 
 void JointLimitsConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_) + alphaDOffset_;
-}
+{ alphaDBegin_ = data.alphaDBegin(robotIndex_) + alphaDOffset_; }
 
 void JointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs */,
                                const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -132,9 +130,7 @@ void JointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs */,
 }
 
 std::string JointLimitsConstr::nameBound() const
-{
-  return "JointLimitsConstr";
-}
+{ return "JointLimitsConstr"; }
 
 std::string JointLimitsConstr::descBound(const std::vector<rbd::MultiBody> & mbs, int line)
 {
@@ -143,19 +139,13 @@ std::string JointLimitsConstr::descBound(const std::vector<rbd::MultiBody> & mbs
 }
 
 int JointLimitsConstr::beginVar() const
-{
-  return alphaDBegin_;
-}
+{ return alphaDBegin_; }
 
 const Eigen::VectorXd & JointLimitsConstr::Lower() const
-{
-  return lower_;
-}
+{ return lower_; }
 
 const Eigen::VectorXd & JointLimitsConstr::Upper() const
-{
-  return upper_;
-}
+{ return upper_; }
 
 /**
  *												DamperJointLimitsConstr
@@ -239,9 +229,7 @@ DamperJointLimitsConstr::DamperJointLimitsConstr(const std::vector<rbd::MultiBod
 }
 
 void DamperJointLimitsConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
+{ alphaDBegin_ = data.alphaDBegin(robotIndex_); }
 
 void DamperJointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs */,
                                      const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -297,9 +285,7 @@ void DamperJointLimitsConstr::update(const std::vector<rbd::MultiBody> & /* mbs 
 }
 
 std::string DamperJointLimitsConstr::nameBound() const
-{
-  return "DamperJointLimitsConstr";
-}
+{ return "DamperJointLimitsConstr"; }
 
 std::string DamperJointLimitsConstr::descBound(const std::vector<rbd::MultiBody> & mbs, int line)
 {
@@ -308,29 +294,19 @@ std::string DamperJointLimitsConstr::descBound(const std::vector<rbd::MultiBody>
 }
 
 int DamperJointLimitsConstr::beginVar() const
-{
-  return alphaDBegin_;
-}
+{ return alphaDBegin_; }
 
 const Eigen::VectorXd & DamperJointLimitsConstr::Lower() const
-{
-  return lower_;
-}
+{ return lower_; }
 
 const Eigen::VectorXd & DamperJointLimitsConstr::Upper() const
-{
-  return upper_;
-}
+{ return upper_; }
 
 double DamperJointLimitsConstr::computeDamping(double alpha, double dist, double iDist, double sDist)
-{
-  return ((iDist - sDist) / (dist - sDist)) * alpha;
-}
+{ return ((iDist - sDist) / (dist - sDist)) * alpha; }
 
 double DamperJointLimitsConstr::computeDamper(double dist, double iDist, double sDist, double damping)
-{
-  return damping * ((dist - sDist) / (iDist - sDist));
-}
+{ return damping * ((dist - sDist) / (iDist - sDist)); }
 
 /**
  *													CollisionConstr
@@ -441,14 +417,10 @@ auto CollisionConstr::getCollisionData(int collId) const -> const CollData &
 }
 
 std::size_t CollisionConstr::nrCollisions() const
-{
-  return dataVec_.size();
-}
+{ return dataVec_.size(); }
 
 void CollisionConstr::reset()
-{
-  dataVec_.clear();
-}
+{ dataVec_.clear(); }
 
 void CollisionConstr::updateNrCollisions()
 {
@@ -570,9 +542,7 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string CollisionConstr::nameInEq() const
-{
-  return "SelfCollisionConstr";
-}
+{ return "SelfCollisionConstr"; }
 
 std::string CollisionConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, int line)
 {
@@ -606,24 +576,16 @@ std::string CollisionConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, i
 }
 
 int CollisionConstr::nrInEq() const
-{
-  return nrActivated_;
-}
+{ return nrActivated_; }
 
 int CollisionConstr::maxInEq() const
-{
-  return int(dataVec_.size());
-}
+{ return int(dataVec_.size()); }
 
 const Eigen::MatrixXd & CollisionConstr::AInEq() const
-{
-  return AInEq_;
-}
+{ return AInEq_; }
 
 const Eigen::VectorXd & CollisionConstr::bInEq() const
-{
-  return bInEq_;
-}
+{ return bInEq_; }
 
 double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody> & mbs,
                                        const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -724,14 +686,10 @@ bool CoMIncPlaneConstr::rmPlane(int planeId)
 }
 
 std::size_t CoMIncPlaneConstr::nrPlanes() const
-{
-  return dataVec_.size();
-}
+{ return dataVec_.size(); }
 
 void CoMIncPlaneConstr::reset()
-{
-  dataVec_.clear();
-}
+{ dataVec_.clear(); }
 
 void CoMIncPlaneConstr::updateNrPlanes()
 {
@@ -811,9 +769,7 @@ void CoMIncPlaneConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string CoMIncPlaneConstr::nameInEq() const
-{
-  return "CoMIncPlaneConstr";
-}
+{ return "CoMIncPlaneConstr"; }
 
 std::string CoMIncPlaneConstr::descInEq(const std::vector<rbd::MultiBody> & /* mbs */, int line)
 {
@@ -843,24 +799,16 @@ std::string CoMIncPlaneConstr::descInEq(const std::vector<rbd::MultiBody> & /* m
 }
 
 int CoMIncPlaneConstr::nrInEq() const
-{
-  return nrActivated_;
-}
+{ return nrActivated_; }
 
 int CoMIncPlaneConstr::maxInEq() const
-{
-  return int(dataVec_.size());
-}
+{ return int(dataVec_.size()); }
 
 const Eigen::MatrixXd & CoMIncPlaneConstr::AInEq() const
-{
-  return AInEq_;
-}
+{ return AInEq_; }
 
 const Eigen::VectorXd & CoMIncPlaneConstr::bInEq() const
-{
-  return bInEq_;
-}
+{ return bInEq_; }
 
 /**
  *													GripperTorqueConstr
@@ -880,9 +828,7 @@ void GripperTorqueConstr::addGripper(const ContactId & cId,
                                      double torqueLimit,
                                      const Eigen::Vector3d & origin,
                                      const Eigen::Vector3d & axis)
-{
-  dataVec_.emplace_back(cId, torqueLimit, origin, axis);
-}
+{ dataVec_.emplace_back(cId, torqueLimit, origin, axis); }
 
 bool GripperTorqueConstr::rmGripper(const ContactId & contactId)
 {
@@ -899,9 +845,7 @@ bool GripperTorqueConstr::rmGripper(const ContactId & contactId)
 }
 
 void GripperTorqueConstr::reset()
-{
-  dataVec_.clear();
-}
+{ dataVec_.clear(); }
 
 void GripperTorqueConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
 {
@@ -949,9 +893,7 @@ void GripperTorqueConstr::update(const std::vector<rbd::MultiBody> & /* mbs */,
 }
 
 std::string GripperTorqueConstr::nameInEq() const
-{
-  return "GripperTorqueConstr";
-}
+{ return "GripperTorqueConstr"; }
 
 std::string GripperTorqueConstr::descInEq(const std::vector<rbd::MultiBody> & /* mbs */, int line)
 {
@@ -964,19 +906,13 @@ std::string GripperTorqueConstr::descInEq(const std::vector<rbd::MultiBody> & /*
 }
 
 int GripperTorqueConstr::maxInEq() const
-{
-  return static_cast<int>(dataVec_.size());
-}
+{ return static_cast<int>(dataVec_.size()); }
 
 const Eigen::MatrixXd & GripperTorqueConstr::AInEq() const
-{
-  return AInEq_;
-}
+{ return AInEq_; }
 
 const Eigen::VectorXd & GripperTorqueConstr::bInEq() const
-{
-  return bInEq_;
-}
+{ return bInEq_; }
 
 /**
  *															BoundedSpeedConstr
@@ -993,9 +929,7 @@ void BoundedSpeedConstr::addBoundedSpeed(const std::vector<rbd::MultiBody> & mbs
                                          const Eigen::Vector3d & bodyPoint,
                                          const Eigen::MatrixXd & dof,
                                          const Eigen::VectorXd & speed)
-{
-  addBoundedSpeed(mbs, bodyName, bodyPoint, dof, speed, speed);
-}
+{ addBoundedSpeed(mbs, bodyName, bodyPoint, dof, speed, speed); }
 
 void BoundedSpeedConstr::addBoundedSpeed(const std::vector<rbd::MultiBody> & mbs,
                                          const std::string & bodyName,
@@ -1023,19 +957,13 @@ bool BoundedSpeedConstr::removeBoundedSpeed(const std::string & bodyName)
 }
 
 void BoundedSpeedConstr::resetBoundedSpeeds()
-{
-  cont_.clear();
-}
+{ cont_.clear(); }
 
 std::size_t BoundedSpeedConstr::nrBoundedSpeeds() const
-{
-  return cont_.size();
-}
+{ return cont_.size(); }
 
 void BoundedSpeedConstr::updateBoundedSpeeds()
-{
-  updateNrEq();
-}
+{ updateNrEq(); }
 
 void BoundedSpeedConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
 {
@@ -1081,9 +1009,7 @@ void BoundedSpeedConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string BoundedSpeedConstr::nameGenInEq() const
-{
-  return "BoundedSpeedConstr";
-}
+{ return "BoundedSpeedConstr"; }
 
 std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody> & mbs, int line)
 {
@@ -1097,24 +1023,16 @@ std::string BoundedSpeedConstr::descGenInEq(const std::vector<rbd::MultiBody> & 
 }
 
 int BoundedSpeedConstr::maxGenInEq() const
-{
-  return int(A_.rows());
-}
+{ return int(A_.rows()); }
 
 const Eigen::MatrixXd & BoundedSpeedConstr::AGenInEq() const
-{
-  return A_;
-}
+{ return A_; }
 
 const Eigen::VectorXd & BoundedSpeedConstr::LowerGenInEq() const
-{
-  return lower_;
-}
+{ return lower_; }
 
 const Eigen::VectorXd & BoundedSpeedConstr::UpperGenInEq() const
-{
-  return upper_;
-}
+{ return upper_; }
 
 void BoundedSpeedConstr::updateNrEq()
 {
@@ -1226,9 +1144,7 @@ int ImageConstr::addPoint(const Eigen::Vector3d & point3d)
 void ImageConstr::addPoint(const std::vector<rbd::MultiBody> & mbs,
                            const std::string & bName,
                            const sva::PTransformd & X_b_p)
-{
-  dataVecRob_.emplace_back(bName, X_b_p, rbd::Jacobian(mbs[robotIndex_], bName));
-}
+{ dataVecRob_.emplace_back(bName, X_b_p, rbd::Jacobian(mbs[robotIndex_], bName)); }
 
 void ImageConstr::reset()
 {
@@ -1237,14 +1153,10 @@ void ImageConstr::reset()
 }
 
 void ImageConstr::updatePoint(const int pointId, const Eigen::Vector2d & point2d)
-{
-  dataVec_[pointId].point2d = point2d;
-}
+{ dataVec_[pointId].point2d = point2d; }
 
 void ImageConstr::updatePoint(const int pointId, const Eigen::Vector2d & point2d, const double depthEstimate)
-{
-  dataVec_[pointId] = PointData(point2d, depthEstimate);
-}
+{ dataVec_[pointId] = PointData(point2d, depthEstimate); }
 
 void ImageConstr::updatePoint(const int pointId, const Eigen::Vector3d & point3d)
 {
@@ -1393,9 +1305,7 @@ void ImageConstr::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string ImageConstr::nameInEq() const
-{
-  return "ImageConstr";
-}
+{ return "ImageConstr"; }
 
 std::string ImageConstr::descInEq(const std::vector<rbd::MultiBody> & /* mbs */, int line)
 {
@@ -1424,24 +1334,16 @@ std::string ImageConstr::descInEq(const std::vector<rbd::MultiBody> & /* mbs */,
 }
 
 int ImageConstr::nrInEq() const
-{
-  return nrActivated_;
-}
+{ return nrActivated_; }
 
 int ImageConstr::maxInEq() const
-{
-  return int(2 * (dataVec_.size() + dataVecRob_.size()));
-}
+{ return int(2 * (dataVec_.size() + dataVecRob_.size())); }
 
 const Eigen::MatrixXd & ImageConstr::AInEq() const
-{
-  return AInEq_;
-}
+{ return AInEq_; }
 
 const Eigen::VectorXd & ImageConstr::bInEq() const
-{
-  return bInEq_;
-}
+{ return bInEq_; }
 
 } // namespace qp
 

@@ -331,9 +331,7 @@ struct constr_traits<Equality>
   static std::string name(const Equality * constr) { return constr->nameEq(); }
 
   static std::string desc(Equality * constr, const std::vector<rbd::MultiBody> & mbs, int i)
-  {
-    return constr->descEq(mbs, i);
-  }
+  { return constr->descEq(mbs, i); }
 };
 
 template<>
@@ -346,9 +344,7 @@ struct constr_traits<Inequality>
   static std::string name(const Inequality * constr) { return constr->nameInEq(); }
 
   static std::string desc(Inequality * constr, const std::vector<rbd::MultiBody> & mbs, int i)
-  {
-    return constr->descInEq(mbs, i);
-  }
+  { return constr->descInEq(mbs, i); }
 };
 
 template<>
@@ -361,9 +357,7 @@ struct constr_traits<GenInequality>
   static std::string name(const GenInequality * constr) { return constr->nameGenInEq(); }
 
   static std::string desc(GenInequality * constr, const std::vector<rbd::MultiBody> & mbs, int i)
-  {
-    return constr->descGenInEq(mbs, i);
-  }
+  { return constr->descGenInEq(mbs, i); }
 };
 
 } // namespace qp

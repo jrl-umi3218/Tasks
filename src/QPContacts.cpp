@@ -67,9 +67,7 @@ bool ContactId::operator==(const ContactId & cId) const
 }
 
 bool ContactId::operator!=(const ContactId & cId) const
-{
-  return !((*this) == cId);
-}
+{ return !((*this) == cId); }
 
 bool ContactId::operator<(const ContactId & cId) const
 {
@@ -97,9 +95,7 @@ UnilateralContact::UnilateralContact(int r1I,
                                      const sva::PTransformd & Xbcf)
 : contactId(r1I, r2I, r1BName, r2BName), r1Points(std::move(r1P)), r2Points(), r1Cone(r1Frame, nrGen, mu), r2Cone(),
   X_b1_b2(Xbb), X_b1_cf(Xbcf)
-{
-  construct(r1Frame, nrGen, mu);
-}
+{ construct(r1Frame, nrGen, mu); }
 
 UnilateralContact::UnilateralContact(int r1I,
                                      int r2I,
@@ -114,9 +110,7 @@ UnilateralContact::UnilateralContact(int r1I,
                                      const sva::PTransformd & Xbcf)
 : contactId(r1I, r2I, r1BName, r2BName, ambId), r1Points(std::move(r1P)), r2Points(), r1Cone(r1Frame, nrGen, mu),
   r2Cone(), X_b1_b2(Xbb), X_b1_cf(Xbcf)
-{
-  construct(r1Frame, nrGen, mu);
-}
+{ construct(r1Frame, nrGen, mu); }
 
 UnilateralContact::UnilateralContact(const ContactId & cId,
                                      std::vector<Eigen::Vector3d> r1P,
@@ -127,9 +121,7 @@ UnilateralContact::UnilateralContact(const ContactId & cId,
                                      const sva::PTransformd & Xbcf)
 : contactId(cId), r1Points(std::move(r1P)), r2Points(), r1Cone(r1Frame, nrGen, mu), r2Cone(), X_b1_b2(Xbb),
   X_b1_cf(Xbcf)
-{
-  construct(r1Frame, nrGen, mu);
-}
+{ construct(r1Frame, nrGen, mu); }
 
 Eigen::Vector3d UnilateralContact::force(const Eigen::VectorXd & lambda,
                                          int /* point */,
@@ -176,9 +168,7 @@ sva::ForceVecd UnilateralContact::force(const Eigen::VectorXd & lambda,
 }
 
 int UnilateralContact::nrLambda(int /* point */) const
-{
-  return static_cast<int>(r1Cone.generators.size());
-}
+{ return static_cast<int>(r1Cone.generators.size()); }
 
 int UnilateralContact::nrLambda() const
 {
@@ -268,9 +258,7 @@ BilateralContact::BilateralContact(int r1I,
                                    const sva::PTransformd & Xbcf)
 : contactId(r1I, r2I, r1BName, r2BName), r1Points(std::move(r1P)), r2Points(), r1Cones(r1Points.size()),
   r2Cones(r1Points.size()), X_b1_b2(Xbb), X_b1_cf(Xbcf)
-{
-  construct(r1Frames, nrGen, mu);
-}
+{ construct(r1Frames, nrGen, mu); }
 
 BilateralContact::BilateralContact(int r1I,
                                    int r2I,
@@ -285,9 +273,7 @@ BilateralContact::BilateralContact(int r1I,
                                    const sva::PTransformd & Xbcf)
 : contactId(r1I, r2I, r1BName, r2BName, ambId), r1Points(std::move(r1P)), r2Points(), r1Cones(r1Points.size()),
   r2Cones(r1Points.size()), X_b1_b2(Xbb), X_b1_cf(Xbcf)
-{
-  construct(r1Frames, nrGen, mu);
-}
+{ construct(r1Frames, nrGen, mu); }
 
 BilateralContact::BilateralContact(const ContactId & cId,
                                    std::vector<Eigen::Vector3d> r1P,
@@ -298,9 +284,7 @@ BilateralContact::BilateralContact(const ContactId & cId,
                                    const sva::PTransformd & Xbcf)
 : contactId(cId), r1Points(std::move(r1P)), r2Points(), r1Cones(r1Points.size()), r2Cones(r1Points.size()),
   X_b1_b2(Xbb), X_b1_cf(Xbcf)
-{
-  construct(r1Frames, nrGen, mu);
-}
+{ construct(r1Frames, nrGen, mu); }
 
 BilateralContact::BilateralContact(const UnilateralContact & c)
 : contactId(c.contactId), r1Points(c.r1Points), r2Points(c.r2Points), r1Cones(c.r1Points.size(), c.r1Cone),
@@ -353,9 +337,7 @@ sva::ForceVecd BilateralContact::force(const Eigen::VectorXd & lambda,
 }
 
 int BilateralContact::nrLambda(int point) const
-{
-  return static_cast<int>(r1Cones[point].generators.size());
-}
+{ return static_cast<int>(r1Cones[point].generators.size()); }
 
 int BilateralContact::nrLambda() const
 {

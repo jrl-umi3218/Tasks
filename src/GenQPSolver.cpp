@@ -31,9 +31,7 @@ const std::string GenQPSolver::default_qp_solver("QLD");
 
 template<typename T>
 T * allocateQP()
-{
-  return new T;
-}
+{ return new T; }
 
 static const std::map<std::string, std::function<GenQPSolver *(void)>> qpFactory = {
 #ifdef LSSOL_SOLVER_FOUND
@@ -42,9 +40,7 @@ static const std::map<std::string, std::function<GenQPSolver *(void)>> qpFactory
     {"QLD", allocateQP<QLDQPSolver>}};
 
 GenQPSolver * createQPSolver(const std::string & name)
-{
-  return qpFactory.at(name)();
-}
+{ return qpFactory.at(name)(); }
 
 void GenQPSolver::setDependencies(int nrVars, std::vector<std::tuple<int, int, double>> dependencies)
 {

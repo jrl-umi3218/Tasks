@@ -67,15 +67,11 @@ bool QPSolver::solveNoMbcUpdate(const std::vector<rbd::MultiBody> & mbs, const s
 }
 
 void QPSolver::updateMbc(rbd::MultiBodyConfig & mbc, int rI) const
-{
-  rbd::vectorToParam(solver_->result().segment(data_.alphaDBegin_[rI], data_.alphaD_[rI]), mbc.alphaD);
-}
+{ rbd::vectorToParam(solver_->result().segment(data_.alphaDBegin_[rI], data_.alphaD_[rI]), mbc.alphaD); }
 
 template<typename T>
 int accumMaxLines(int acc, T * constr)
-{
-  return acc + constr_traits<T>::maxLines(constr);
-}
+{ return acc + constr_traits<T>::maxLines(constr); }
 
 void QPSolver::updateConstrSize()
 {
@@ -172,9 +168,7 @@ void QPSolver::nrVars(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int QPSolver::nrVars() const
-{
-  return data_.nrVars_;
-}
+{ return data_.nrVars_; }
 
 void QPSolver::updateTasksNrVars(const std::vector<rbd::MultiBody> & mbs) const
 {
@@ -193,64 +187,40 @@ void QPSolver::updateNrVars(const std::vector<rbd::MultiBody> & mbs) const
 }
 
 void QPSolver::addEqualityConstraint(Equality * co)
-{
-  eqConstr_.push_back(co);
-}
+{ eqConstr_.push_back(co); }
 
 void QPSolver::removeEqualityConstraint(Equality * co)
-{
-  eqConstr_.erase(std::find(eqConstr_.begin(), eqConstr_.end(), co));
-}
+{ eqConstr_.erase(std::find(eqConstr_.begin(), eqConstr_.end(), co)); }
 
 int QPSolver::nrEqualityConstraints() const
-{
-  return static_cast<int>(eqConstr_.size());
-}
+{ return static_cast<int>(eqConstr_.size()); }
 
 void QPSolver::addInequalityConstraint(Inequality * co)
-{
-  inEqConstr_.push_back(co);
-}
+{ inEqConstr_.push_back(co); }
 
 void QPSolver::removeInequalityConstraint(Inequality * co)
-{
-  inEqConstr_.erase(std::find(inEqConstr_.begin(), inEqConstr_.end(), co));
-}
+{ inEqConstr_.erase(std::find(inEqConstr_.begin(), inEqConstr_.end(), co)); }
 
 int QPSolver::nrInequalityConstraints() const
-{
-  return static_cast<int>(inEqConstr_.size());
-}
+{ return static_cast<int>(inEqConstr_.size()); }
 
 void QPSolver::addGenInequalityConstraint(GenInequality * co)
-{
-  genInEqConstr_.push_back(co);
-}
+{ genInEqConstr_.push_back(co); }
 
 void QPSolver::removeGenInequalityConstraint(GenInequality * co)
-{
-  genInEqConstr_.erase(std::find(genInEqConstr_.begin(), genInEqConstr_.end(), co));
-}
+{ genInEqConstr_.erase(std::find(genInEqConstr_.begin(), genInEqConstr_.end(), co)); }
 
 int QPSolver::nrGenInequalityConstraints() const
-{
-  return static_cast<int>(genInEqConstr_.size());
-}
+{ return static_cast<int>(genInEqConstr_.size()); }
 
 void QPSolver::addBoundConstraint(Bound * co)
-{
-  boundConstr_.push_back(co);
-}
+{ boundConstr_.push_back(co); }
 
 void QPSolver::removeBoundConstraint(Bound * co)
-{
-  boundConstr_.erase(std::find(boundConstr_.begin(), boundConstr_.end(), co));
-}
+{ boundConstr_.erase(std::find(boundConstr_.begin(), boundConstr_.end(), co)); }
 
 int QPSolver::nrBoundConstraints() const
-{
-  return static_cast<int>(boundConstr_.size());
-}
+{ return static_cast<int>(boundConstr_.size()); }
 
 void QPSolver::addConstraint(Constraint * co)
 {
@@ -274,9 +244,7 @@ void QPSolver::removeConstraint(Constraint * co)
 }
 
 int QPSolver::nrConstraints() const
-{
-  return static_cast<int>(constr_.size());
-}
+{ return static_cast<int>(constr_.size()); }
 
 void QPSolver::addTask(Task * task)
 {
@@ -300,9 +268,7 @@ void QPSolver::removeTask(Task * task)
 }
 
 int QPSolver::nrTasks() const
-{
-  return static_cast<int>(tasks_.size());
-}
+{ return static_cast<int>(tasks_.size()); }
 
 void QPSolver::solver(const std::string & name)
 {
@@ -311,49 +277,31 @@ void QPSolver::solver(const std::string & name)
 }
 
 std::string QPSolver::solver() const
-{
-  return solver_->name();
-}
+{ return solver_->name(); }
 
 void QPSolver::resetTasks()
-{
-  tasks_.clear();
-}
+{ tasks_.clear(); }
 
 const SolverData & QPSolver::data() const
-{
-  return data_;
-}
+{ return data_; }
 
 SolverData & QPSolver::data()
-{
-  return data_;
-}
+{ return data_; }
 
 const Eigen::VectorXd & QPSolver::result() const
-{
-  return solver_->result();
-}
+{ return solver_->result(); }
 
 Eigen::VectorXd QPSolver::alphaDVec() const
-{
-  return solver_->result().head(data_.totalAlphaD_);
-}
+{ return solver_->result().head(data_.totalAlphaD_); }
 
 Eigen::VectorXd QPSolver::alphaDVec(int rIndex) const
-{
-  return solver_->result().segment(data_.alphaDBegin_[rIndex], data_.alphaD_[rIndex]);
-}
+{ return solver_->result().segment(data_.alphaDBegin_[rIndex], data_.alphaD_[rIndex]); }
 
 Eigen::VectorXd QPSolver::lambdaVec() const
-{
-  return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_);
-}
+{ return solver_->result().segment(data_.lambdaBegin(), data_.totalLambda_); }
 
 Eigen::VectorXd QPSolver::lambdaVec(int cIndex) const
-{
-  return solver_->result().segment(data_.lambdaBegin_[cIndex], data_.lambda_[cIndex]);
-}
+{ return solver_->result().segment(data_.lambdaBegin_[cIndex], data_.lambda_[cIndex]); }
 
 int QPSolver::contactLambdaPosition(const ContactId & cId) const
 {
@@ -370,14 +318,10 @@ int QPSolver::contactLambdaPosition(const ContactId & cId) const
 }
 
 boost::timer::cpu_times QPSolver::solveTime() const
-{
-  return solverTimer_.elapsed();
-}
+{ return solverTimer_.elapsed(); }
 
 boost::timer::cpu_times QPSolver::solveAndBuildTime() const
-{
-  return solverAndBuildTimer_.elapsed();
-}
+{ return solverAndBuildTimer_.elapsed(); }
 
 void QPSolver::preUpdate(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
 {

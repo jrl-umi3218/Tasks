@@ -137,14 +137,10 @@ std::ostream & QLDQPSolver::errorMsg(const std::vector<rbd::MultiBody> & /* mbs 
                                      const std::vector<GenInequality *> & /* genInEqConstr */,
                                      const std::vector<Bound *> & /* boundConstr */,
                                      std::ostream & out) const
-{
-  return out;
-}
+{ return out; }
 
 std::string QLDQPSolver::name() const
-{
-  return "QLD";
-}
+{ return "QLD"; }
 
 } // namespace qp
 

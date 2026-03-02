@@ -1197,14 +1197,10 @@ Eigen::Vector6d compute6dErrorInB1(const sva::PTransformd & b1, const sva::PTran
 }
 
 double computeDofError(const sva::PTransformd & b1, const sva::PTransformd & b2, const Eigen::MatrixXd & dof)
-{
-  return (dof * compute6dError(b1, b2)).norm();
-}
+{ return (dof * compute6dError(b1, b2)).norm(); }
 
 double computeDofErrorInB1(const sva::PTransformd & b1, const sva::PTransformd & b2, const Eigen::MatrixXd & dof)
-{
-  return (dof * compute6dErrorInB1(b1, b2)).norm();
-}
+{ return (dof * compute6dErrorInB1(b1, b2)).norm(); }
 
 BOOST_AUTO_TEST_CASE(QPDofContactsTest)
 {

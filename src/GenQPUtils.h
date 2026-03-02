@@ -295,9 +295,7 @@ inline void fillBound(const std::vector<Bound *> & bounds, Eigen::VectorXd & XL,
  * \f}
  */
 inline void reduceA(const Eigen::MatrixXd & AFull, Eigen::MatrixXd & A, const Eigen::SparseMatrix<double> & M)
-{
-  A.noalias() = AFull * M;
-}
+{ A.noalias() = AFull * M; }
 
 /**
  * Reduce bounds vector based on the dependencies list
@@ -344,9 +342,7 @@ inline void reduceBound(const Eigen::VectorXd & XLFull,
 inline void expandResult(const Eigen::VectorXd & result,
                          Eigen::VectorXd & resultFull,
                          const Eigen::SparseMatrix<double> & multipliers)
-{
-  resultFull.noalias() = multipliers * result;
-}
+{ resultFull.noalias() = multipliers * result; }
 
 // print of a constraint at a given line
 template<typename T>
