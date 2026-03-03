@@ -304,107 +304,103 @@ $(document).ready(function(){initNavTree('GenQPUtils_8h_source.html',''); initRe
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;}</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
 <div class="line"><a name="l00297"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#ae6c8ab3f7b9ce0aaa405e48e8c078c88">  297</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetasks_1_1qp.html#ae6c8ab3f7b9ce0aaa405e48e8c078c88">reduceA</a>(<span class="keyword">const</span> Eigen::MatrixXd &amp; AFull, Eigen::MatrixXd &amp; A, <span class="keyword">const</span> Eigen::SparseMatrix&lt;double&gt; &amp; M)</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;{</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  A.noalias() = AFull * M;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;}</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
-<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">  305</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">reduceBound</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; XLFull,</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                        Eigen::VectorXd &amp; XL,</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                        <span class="keyword">const</span> Eigen::VectorXd &amp; XUFull,</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                        Eigen::VectorXd &amp; XU,</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                        <span class="keyword">const</span> std::vector&lt;int&gt; &amp; fullToReduced,</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                        <span class="keyword">const</span> std::vector&lt;int&gt; &amp; reducedToFull,</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                        <span class="keyword">const</span> std::vector&lt;std::tuple&lt;int, int, double&gt;&gt; &amp; dependencies)</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;{</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; static_cast&lt;size_t&gt;(XL.rows()); ++i)</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    XL(<span class="keyword">static_cast&lt;</span>Eigen::DenseIndex<span class="keyword">&gt;</span>(i)) = XLFull(reducedToFull[i]);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    XU(<span class="keyword">static_cast&lt;</span>Eigen::DenseIndex<span class="keyword">&gt;</span>(i)) = XUFull(reducedToFull[i]);</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  }</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp; d : dependencies)</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;  {</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> &amp; primaryFullI = std::get&lt;0&gt;(d);</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> &amp; primaryReducedI = fullToReduced[<span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(primaryFullI)];</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> &amp; replicaFullI = std::get&lt;1&gt;(d);</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> &amp; alpha = std::get&lt;2&gt;(d);</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">if</span>(alpha != 0)</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    {</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      <span class="keywordflow">if</span>(alpha &lt; 0)</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;      {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        XL(primaryReducedI) = std::max(XL(primaryReducedI), XUFull(replicaFullI) / alpha);</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        XU(primaryReducedI) = std::min(XU(primaryReducedI), XLFull(replicaFullI) / alpha);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      }</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;      {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        XL(primaryReducedI) = std::max(XL(primaryReducedI), XLFull(replicaFullI) / alpha);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        XU(primaryReducedI) = std::min(XU(primaryReducedI), XUFull(replicaFullI) / alpha);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;      }</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    }</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  }</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;}</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00344"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a9d6585a2cc645c39f28ebe77b309d07f">  344</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetasks_1_1qp.html#a9d6585a2cc645c39f28ebe77b309d07f">expandResult</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result,</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                         Eigen::VectorXd &amp; resultFull,</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                         <span class="keyword">const</span> Eigen::SparseMatrix&lt;double&gt; &amp; multipliers)</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;{</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  resultFull.noalias() = multipliers * result;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;}</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;{ A.noalias() = AFull * M; }</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00303"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">  303</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">reduceBound</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; XLFull,</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                        Eigen::VectorXd &amp; XL,</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                        <span class="keyword">const</span> Eigen::VectorXd &amp; XUFull,</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                        Eigen::VectorXd &amp; XU,</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                        <span class="keyword">const</span> std::vector&lt;int&gt; &amp; fullToReduced,</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                        <span class="keyword">const</span> std::vector&lt;int&gt; &amp; reducedToFull,</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                        <span class="keyword">const</span> std::vector&lt;std::tuple&lt;int, int, double&gt;&gt; &amp; dependencies)</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;{</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; static_cast&lt;size_t&gt;(XL.rows()); ++i)</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  {</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    XL(<span class="keyword">static_cast&lt;</span>Eigen::DenseIndex<span class="keyword">&gt;</span>(i)) = XLFull(reducedToFull[i]);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    XU(<span class="keyword">static_cast&lt;</span>Eigen::DenseIndex<span class="keyword">&gt;</span>(i)) = XUFull(reducedToFull[i]);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  }</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  <span class="keywordflow">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp; d : dependencies)</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;  {</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> &amp; primaryFullI = std::get&lt;0&gt;(d);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> &amp; primaryReducedI = fullToReduced[<span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(primaryFullI)];</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> &amp; replicaFullI = std::get&lt;1&gt;(d);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> &amp; alpha = std::get&lt;2&gt;(d);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keywordflow">if</span>(alpha != 0)</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    {</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;      <span class="keywordflow">if</span>(alpha &lt; 0)</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;      {</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        XL(primaryReducedI) = std::max(XL(primaryReducedI), XUFull(replicaFullI) / alpha);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        XU(primaryReducedI) = std::min(XU(primaryReducedI), XLFull(replicaFullI) / alpha);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;      }</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;      {</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        XL(primaryReducedI) = std::max(XL(primaryReducedI), XLFull(replicaFullI) / alpha);</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        XU(primaryReducedI) = std::min(XU(primaryReducedI), XUFull(replicaFullI) / alpha);</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;      }</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    }</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;  }</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;}</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160; </div>
+<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a9d6585a2cc645c39f28ebe77b309d07f">  342</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacetasks_1_1qp.html#a9d6585a2cc645c39f28ebe77b309d07f">expandResult</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result,</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                         Eigen::VectorXd &amp; resultFull,</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                         <span class="keyword">const</span> Eigen::SparseMatrix&lt;double&gt; &amp; multipliers)</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;{ resultFull.noalias() = multipliers * result; }</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">// print of a constraint at a given line</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00349"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">  349</a></span>&#160;std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, T * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out);</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">// print of a constraint at a given line</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00353"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">  353</a></span>&#160;std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, T * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
-<div class="line"><a name="l00356"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a9694a15e3e5b744843aa6dae4fa134da">  356</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, <a class="code" href="classtasks_1_1qp_1_1Equality.html">Equality</a> * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out)</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;{</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  out &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Equality.html#ae8a5859b8789be2ab522d2e9aa32ec20">AEq</a>().row(line) * result &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Equality.html#ada49ed453361019ecb1b22dfe48d4ae3">bEq</a>()(line);</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;}</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
-<div class="line"><a name="l00363"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#abda68512c902b700787e7eea478cd71a">  363</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, <a class="code" href="classtasks_1_1qp_1_1Inequality.html">Inequality</a> * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out)</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;{</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  out &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Inequality.html#a7aa735890ecd53799b4a1604188b9b21">AInEq</a>().row(line) * result &lt;&lt; <span class="stringliteral">&quot; &lt;= &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Inequality.html#ac3bdd0a2b50b6560f33b0e5fdd106bfa">bInEq</a>()(line);</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;}</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
-<div class="line"><a name="l00370"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a92dd7d7ce7ea80e3cf096e82061d0b66">  370</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, <a class="code" href="classtasks_1_1qp_1_1GenInequality.html">GenInequality</a> * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out)</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;{</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  out &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1GenInequality.html#afbc386b920f098adbf97579136f7aafe">LowerGenInEq</a>()(line) &lt;&lt; <span class="stringliteral">&quot; &lt;= &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1GenInequality.html#a325d9d056bb2f4384f2dd5d7782c7d67">AGenInEq</a>().row(line) * result</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;      &lt;&lt; <span class="stringliteral">&quot; &lt;= &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1GenInequality.html#ab9e1c4057da5a53adb8f42ab0a3de2c9">UpperGenInEq</a>()(line);</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;}</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00378"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df">  378</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df">constrErrorMsg</a>(<span class="keyword">const</span> std::vector&lt;rbd::MultiBody&gt; &amp; mbs,</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                                     <span class="keyword">const</span> Eigen::VectorXd &amp; result,</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                                     <span class="keywordtype">int</span> ALine,</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                                     <span class="keyword">const</span> std::vector&lt;T *&gt; &amp; constr,</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                                     <span class="keywordtype">int</span> &amp; start,</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                                     <span class="keywordtype">int</span> &amp; end,</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                                     std::ostream &amp; out)</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;{</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  <span class="keywordflow">for</span>(T * e : constr)</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;  {</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    end += <a class="code" href="structtasks_1_1qp_1_1constr__traits.html">constr_traits&lt;T&gt;::nrLines</a>(e);</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">if</span>(ALine &gt;= start &amp;&amp; ALine &lt; end)</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    {</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;      <span class="keywordtype">int</span> line = ALine - start;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;      out &lt;&lt; constr_traits&lt;T&gt;::name(e) &lt;&lt; <span class="stringliteral">&quot; violated at line: &quot;</span> &lt;&lt; line &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;      out &lt;&lt; constr_traits&lt;T&gt;::desc(e, mbs, line) &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;      <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(result, e, line, out) &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;      start = end;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    }</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    start = end;</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;  }</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;  <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;}</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160; </div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;} <span class="comment">// namespace qp</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;} <span class="comment">// namespace tasks</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00352"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a9694a15e3e5b744843aa6dae4fa134da">  352</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, <a class="code" href="classtasks_1_1qp_1_1Equality.html">Equality</a> * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out)</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;{</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  out &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Equality.html#ae8a5859b8789be2ab522d2e9aa32ec20">AEq</a>().row(line) * result &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Equality.html#ada49ed453361019ecb1b22dfe48d4ae3">bEq</a>()(line);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;}</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#abda68512c902b700787e7eea478cd71a">  359</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, <a class="code" href="classtasks_1_1qp_1_1Inequality.html">Inequality</a> * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out)</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;{</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  out &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Inequality.html#a7aa735890ecd53799b4a1604188b9b21">AInEq</a>().row(line) * result &lt;&lt; <span class="stringliteral">&quot; &lt;= &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1Inequality.html#ac3bdd0a2b50b6560f33b0e5fdd106bfa">bInEq</a>()(line);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;}</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="keyword">template</span>&lt;&gt;</div>
+<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a92dd7d7ce7ea80e3cf096e82061d0b66">  366</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(<span class="keyword">const</span> Eigen::VectorXd &amp; result, <a class="code" href="classtasks_1_1qp_1_1GenInequality.html">GenInequality</a> * constr, <span class="keywordtype">int</span> line, std::ostream &amp; out)</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;{</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  out &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1GenInequality.html#afbc386b920f098adbf97579136f7aafe">LowerGenInEq</a>()(line) &lt;&lt; <span class="stringliteral">&quot; &lt;= &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1GenInequality.html#a325d9d056bb2f4384f2dd5d7782c7d67">AGenInEq</a>().row(line) * result</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;      &lt;&lt; <span class="stringliteral">&quot; &lt;= &quot;</span> &lt;&lt; constr-&gt;<a class="code" href="classtasks_1_1qp_1_1GenInequality.html#ab9e1c4057da5a53adb8f42ab0a3de2c9">UpperGenInEq</a>()(line);</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;}</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00374"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df">  374</a></span>&#160;<span class="keyword">inline</span> std::ostream &amp; <a class="code" href="namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df">constrErrorMsg</a>(<span class="keyword">const</span> std::vector&lt;rbd::MultiBody&gt; &amp; mbs,</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                                     <span class="keyword">const</span> Eigen::VectorXd &amp; result,</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                                     <span class="keywordtype">int</span> ALine,</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                                     <span class="keyword">const</span> std::vector&lt;T *&gt; &amp; constr,</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                                     <span class="keywordtype">int</span> &amp; start,</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                                     <span class="keywordtype">int</span> &amp; end,</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                                     std::ostream &amp; out)</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;{</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;  <span class="keywordflow">for</span>(T * e : constr)</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  {</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    end += <a class="code" href="structtasks_1_1qp_1_1constr__traits.html">constr_traits&lt;T&gt;::nrLines</a>(e);</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordflow">if</span>(ALine &gt;= start &amp;&amp; ALine &lt; end)</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    {</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;      <span class="keywordtype">int</span> line = ALine - start;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;      out &lt;&lt; constr_traits&lt;T&gt;::name(e) &lt;&lt; <span class="stringliteral">&quot; violated at line: &quot;</span> &lt;&lt; line &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;      out &lt;&lt; constr_traits&lt;T&gt;::desc(e, mbs, line) &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;      <a class="code" href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">printConstr</a>(result, e, line, out) &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;      start = end;</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    }</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    start = end;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;  }</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;  <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;}</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;} <span class="comment">// namespace qp</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160; </div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;} <span class="comment">// namespace tasks</span></div>
 <div class="ttc" id="aQPSolver_8h_html"><div class="ttname"><a href="QPSolver_8h.html">QPSolver.h</a></div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1Equality_html"><div class="ttname"><a href="classtasks_1_1qp_1_1Equality.html">tasks::qp::Equality</a></div><div class="ttdef"><b>Definition:</b> QPSolver.h:207</div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1Equality_html_ada49ed453361019ecb1b22dfe48d4ae3"><div class="ttname"><a href="classtasks_1_1qp_1_1Equality.html#ada49ed453361019ecb1b22dfe48d4ae3">tasks::qp::Equality::bEq</a></div><div class="ttdeci">virtual const Eigen::VectorXd &amp; bEq() const =0</div></div>
@@ -416,14 +412,14 @@ $(document).ready(function(){initNavTree('GenQPUtils_8h_source.html',''); initRe
 <div class="ttc" id="aclasstasks_1_1qp_1_1Inequality_html"><div class="ttname"><a href="classtasks_1_1qp_1_1Inequality.html">tasks::qp::Inequality</a></div><div class="ttdef"><b>Definition:</b> QPSolver.h:225</div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1Inequality_html_a7aa735890ecd53799b4a1604188b9b21"><div class="ttname"><a href="classtasks_1_1qp_1_1Inequality.html#a7aa735890ecd53799b4a1604188b9b21">tasks::qp::Inequality::AInEq</a></div><div class="ttdeci">virtual const Eigen::MatrixXd &amp; AInEq() const =0</div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1Inequality_html_ac3bdd0a2b50b6560f33b0e5fdd106bfa"><div class="ttname"><a href="classtasks_1_1qp_1_1Inequality.html#ac3bdd0a2b50b6560f33b0e5fdd106bfa">tasks::qp::Inequality::bInEq</a></div><div class="ttdeci">virtual const Eigen::VectorXd &amp; bInEq() const =0</div></div>
-<div class="ttc" id="anamespacetasks_1_1qp_html_a1d2dfd5d6e03be7321854fb1e2bc32df"><div class="ttname"><a href="namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df">tasks::qp::constrErrorMsg</a></div><div class="ttdeci">std::ostream &amp; constrErrorMsg(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T * &gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:378</div></div>
+<div class="ttc" id="anamespacetasks_1_1qp_html_a1d2dfd5d6e03be7321854fb1e2bc32df"><div class="ttname"><a href="namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df">tasks::qp::constrErrorMsg</a></div><div class="ttdeci">std::ostream &amp; constrErrorMsg(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const Eigen::VectorXd &amp;result, int ALine, const std::vector&lt; T * &gt; &amp;constr, int &amp;start, int &amp;end, std::ostream &amp;out)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:374</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_a1e54edbe1bc0981fbe3b6a2b6e63bbcd"><div class="ttname"><a href="namespacetasks_1_1qp.html#a1e54edbe1bc0981fbe3b6a2b6e63bbcd">tasks::qp::reduceQC</a></div><div class="ttdeci">void reduceQC(const Eigen::MatrixXd &amp;QFull, const Eigen::VectorXd &amp;CFull, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C, const Eigen::SparseMatrix&lt; double &gt; &amp;M)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:78</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_a3acd478a67503f59d9247a42d049ccab"><div class="ttname"><a href="namespacetasks_1_1qp.html#a3acd478a67503f59d9247a42d049ccab">tasks::qp::fillQC</a></div><div class="ttdeci">void fillQC(const std::vector&lt; Task * &gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:31</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_a483f5734b17b8c4500a85814c867ebc9"><div class="ttname"><a href="namespacetasks_1_1qp.html#a483f5734b17b8c4500a85814c867ebc9">tasks::qp::fillEq</a></div><div class="ttdeci">int fillEq(const std::vector&lt; Equality * &gt; &amp;eq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:94</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_a65d9ff284da05686474a0fb01276bbce"><div class="ttname"><a href="namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce">tasks::qp::printConstr</a></div><div class="ttdeci">std::ostream &amp; printConstr(const Eigen::VectorXd &amp;result, T *constr, int line, std::ostream &amp;out)</div></div>
-<div class="ttc" id="anamespacetasks_1_1qp_html_a741de9b14e9fe6a5b4ec675703215210"><div class="ttname"><a href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">tasks::qp::reduceBound</a></div><div class="ttdeci">void reduceBound(const Eigen::VectorXd &amp;XLFull, Eigen::VectorXd &amp;XL, const Eigen::VectorXd &amp;XUFull, Eigen::VectorXd &amp;XU, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:305</div></div>
+<div class="ttc" id="anamespacetasks_1_1qp_html_a741de9b14e9fe6a5b4ec675703215210"><div class="ttname"><a href="namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210">tasks::qp::reduceBound</a></div><div class="ttdeci">void reduceBound(const Eigen::VectorXd &amp;XLFull, Eigen::VectorXd &amp;XL, const Eigen::VectorXd &amp;XUFull, Eigen::VectorXd &amp;XU, const std::vector&lt; int &gt; &amp;fullToReduced, const std::vector&lt; int &gt; &amp;reducedToFull, const std::vector&lt; std::tuple&lt; int, int, double &gt;&gt; &amp;dependencies)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:303</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_a77e5a5962c21c03aeda39abeeb516912"><div class="ttname"><a href="namespacetasks_1_1qp.html#a77e5a5962c21c03aeda39abeeb516912">tasks::qp::fillInEq</a></div><div class="ttdeci">int fillInEq(const std::vector&lt; Inequality * &gt; &amp;inEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:123</div></div>
-<div class="ttc" id="anamespacetasks_1_1qp_html_a9d6585a2cc645c39f28ebe77b309d07f"><div class="ttname"><a href="namespacetasks_1_1qp.html#a9d6585a2cc645c39f28ebe77b309d07f">tasks::qp::expandResult</a></div><div class="ttdeci">void expandResult(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::SparseMatrix&lt; double &gt; &amp;multipliers)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:344</div></div>
+<div class="ttc" id="anamespacetasks_1_1qp_html_a9d6585a2cc645c39f28ebe77b309d07f"><div class="ttname"><a href="namespacetasks_1_1qp.html#a9d6585a2cc645c39f28ebe77b309d07f">tasks::qp::expandResult</a></div><div class="ttdeci">void expandResult(const Eigen::VectorXd &amp;result, Eigen::VectorXd &amp;resultFull, const Eigen::SparseMatrix&lt; double &gt; &amp;multipliers)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:342</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_aab329f620a78124fb5d860881f293835"><div class="ttname"><a href="namespacetasks_1_1qp.html#aab329f620a78124fb5d860881f293835">tasks::qp::fillGenInEq</a></div><div class="ttdeci">int fillGenInEq(const std::vector&lt; GenInequality * &gt; &amp;genInEq, int nrVars, int nrALines, Eigen::MatrixXd &amp;A, Eigen::VectorXd &amp;AL, Eigen::VectorXd &amp;AU)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:152</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_aca70e0c2bf7e2fe95b1817865ae65bd8"><div class="ttname"><a href="namespacetasks_1_1qp.html#aca70e0c2bf7e2fe95b1817865ae65bd8">tasks::qp::fillBound</a></div><div class="ttdeci">void fillBound(const std::vector&lt; Bound * &gt; &amp;bounds, Eigen::VectorXd &amp;XL, Eigen::VectorXd &amp;XU)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:267</div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_ae6c8ab3f7b9ce0aaa405e48e8c078c88"><div class="ttname"><a href="namespacetasks_1_1qp.html#ae6c8ab3f7b9ce0aaa405e48e8c078c88">tasks::qp::reduceA</a></div><div class="ttdeci">void reduceA(const Eigen::MatrixXd &amp;AFull, Eigen::MatrixXd &amp;A, const Eigen::SparseMatrix&lt; double &gt; &amp;M)</div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:297</div></div>
