@@ -31,9 +31,7 @@ template<typename Task>
 struct TanAccel
 {
   Eigen::VectorXd tanAcc(Task & task, const std::vector<Eigen::VectorXd> & alphaD)
-  {
-    return Eigen::VectorXd(task.jac() * alphaD[0]);
-  }
+  { return Eigen::VectorXd(task.jac() * alphaD[0]); }
 };
 
 template<typename Task>
@@ -56,9 +54,7 @@ template<typename Task>
 struct ClassicUpdater : public TanAccel<Task>
 {
   void operator()(Task & task, const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
-  {
-    task.update(mbs[0], mbcs[0]);
-  }
+  { task.update(mbs[0], mbcs[0]); }
 };
 
 /// run the task update(mbs, mbcs) method
@@ -68,9 +64,7 @@ struct MRClassicUpdater : public MRTanAccel<Task>
   MRClassicUpdater(int taskDim) : MRTanAccel<Task>(taskDim) {}
 
   void operator()(Task & task, const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs)
-  {
-    task.update(mbs, mbcs);
-  }
+  { task.update(mbs, mbcs); }
 };
 
 /// Compute normal acceleration (like QPSolverData::computeNormalAccB)
@@ -227,9 +221,7 @@ struct OriTaskTester
                   const Eigen::VectorXd & /* speedDiff */,
                   const Eigen::VectorXd & accDiff,
                   double tol)
-  {
-    BOOST_CHECK_SMALL((accCur - accDiff).norm(), tol);
-  }
+  { BOOST_CHECK_SMALL((accCur - accDiff).norm(), tol); }
 };
 
 /// Test velocity task (eval, and acc are defined)
@@ -240,9 +232,7 @@ struct VelTester
                   const Eigen::VectorXd & speedDiff,
                   const Eigen::VectorXd & /* accDiff */,
                   double tol)
-  {
-    BOOST_CHECK_SMALL((accCur - speedDiff).norm(), tol);
-  }
+  { BOOST_CHECK_SMALL((accCur - speedDiff).norm(), tol); }
 };
 
 /// Test position task (eval, speed and acc are defined)

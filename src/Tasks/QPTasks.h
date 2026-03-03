@@ -337,9 +337,7 @@ struct JointGains
 {
   JointGains() : jointName(), stiffness(), damping() {}
   JointGains(const std::string & jName, double stif) : jointName(jName), stiffness(stif)
-  {
-    damping = 2. * std::sqrt(stif);
-  }
+  { damping = 2. * std::sqrt(stif); }
 
   JointGains(const std::string & jName, double stif, double damp) : jointName(jName), stiffness(stif), damping(damp) {}
 
@@ -687,14 +685,10 @@ public:
   tasks::GazeTask & task() { return gazet_; }
 
   void error(const Eigen::Vector2d & point2d, const Eigen::Vector2d & point2d_ref = Eigen::Vector2d::Zero())
-  {
-    gazet_.error(point2d, point2d_ref);
-  }
+  { gazet_.error(point2d, point2d_ref); }
 
   void error(const Eigen::Vector3d & point3d, const Eigen::Vector2d & point2d_ref = Eigen::Vector2d::Zero())
-  {
-    gazet_.error(point3d, point2d_ref);
-  }
+  { gazet_.error(point3d, point2d_ref); }
 
   virtual int dim() override;
   virtual void update(const std::vector<rbd::MultiBody> & mbs,

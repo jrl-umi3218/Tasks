@@ -22,9 +22,7 @@ inline int findJointFromVector(const rbd::MultiBody & mb, int line, bool withBas
 }
 
 inline bool compareDof(const rbd::MultiBody & mb1, const rbd::MultiBody & mb2)
-{
-  return mb1.nrDof() < mb2.nrDof();
-}
+{ return mb1.nrDof() < mb2.nrDof(); }
 
 } // namespace qp
 

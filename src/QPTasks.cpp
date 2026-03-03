@@ -53,14 +53,10 @@ SetPointTaskCommon::SetPointTaskCommon(const std::vector<rbd::MultiBody> & mbs,
 }
 
 void SetPointTaskCommon::dimWeight(const Eigen::VectorXd & dim)
-{
-  dimWeight_ = dim;
-}
+{ dimWeight_ = dim; }
 
 void SetPointTaskCommon::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
+{ alphaDBegin_ = data.alphaDBegin(robotIndex_); }
 
 void SetPointTaskCommon::computeQC(Eigen::VectorXd & error)
 {
@@ -76,14 +72,10 @@ void SetPointTaskCommon::computeQC(Eigen::VectorXd & error)
 }
 
 const Eigen::MatrixXd & SetPointTaskCommon::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & SetPointTaskCommon::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 /**
  *														SetPointTask
@@ -165,19 +157,13 @@ void TrackingTask::setGains(double gainPos, double gainVel)
 }
 
 void TrackingTask::errorPos(const Eigen::VectorXd & errorPos)
-{
-  errorPos_ = errorPos;
-}
+{ errorPos_ = errorPos; }
 
 void TrackingTask::errorVel(const Eigen::VectorXd & errorVel)
-{
-  errorVel_ = errorVel;
-}
+{ errorVel_ = errorVel; }
 
 void TrackingTask::refAccel(const Eigen::VectorXd & refAccel)
-{
-  refAccel_ = refAccel;
-}
+{ refAccel_ = refAccel; }
 
 void TrackingTask::update(const std::vector<rbd::MultiBody> & mbs,
                           const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -235,9 +221,7 @@ void TrajectoryTask::setGains(const Eigen::VectorXd & stiffness, const Eigen::Ve
 }
 
 void TrajectoryTask::stiffness(double gainPos)
-{
-  stiffness_ = gainPos * Eigen::VectorXd::Ones(hlTask_->dim());
-}
+{ stiffness_ = gainPos * Eigen::VectorXd::Ones(hlTask_->dim()); }
 
 void TrajectoryTask::stiffness(const Eigen::VectorXd & stiffness)
 {
@@ -246,14 +230,10 @@ void TrajectoryTask::stiffness(const Eigen::VectorXd & stiffness)
 }
 
 const Eigen::VectorXd & TrajectoryTask::stiffness() const
-{
-  return stiffness_;
-}
+{ return stiffness_; }
 
 void TrajectoryTask::damping(double gainVel)
-{
-  damping_ = gainVel * Eigen::VectorXd::Ones(hlTask_->dim());
-}
+{ damping_ = gainVel * Eigen::VectorXd::Ones(hlTask_->dim()); }
 
 void TrajectoryTask::damping(const Eigen::VectorXd & damping)
 {
@@ -262,29 +242,19 @@ void TrajectoryTask::damping(const Eigen::VectorXd & damping)
 }
 
 const Eigen::VectorXd & TrajectoryTask::damping() const
-{
-  return damping_;
-}
+{ return damping_; }
 
 void TrajectoryTask::refVel(const Eigen::VectorXd & refVel)
-{
-  refVel_ = refVel;
-}
+{ refVel_ = refVel; }
 
 const Eigen::VectorXd & TrajectoryTask::refVel() const
-{
-  return refVel_;
-}
+{ return refVel_; }
 
 void TrajectoryTask::refAccel(const Eigen::VectorXd & refAccel)
-{
-  refAccel_ = refAccel;
-}
+{ refAccel_ = refAccel; }
 
 const Eigen::VectorXd & TrajectoryTask::refAccel() const
-{
-  return refAccel_;
-}
+{ return refAccel_; }
 
 void TrajectoryTask::update(const std::vector<rbd::MultiBody> & mbs,
                             const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -332,49 +302,31 @@ PIDTask::PIDTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 double PIDTask::P() const
-{
-  return P_;
-}
+{ return P_; }
 
 void PIDTask::P(double p)
-{
-  P_ = p;
-}
+{ P_ = p; }
 
 double PIDTask::I() const
-{
-  return I_;
-}
+{ return I_; }
 
 void PIDTask::I(double i)
-{
-  I_ = i;
-}
+{ I_ = i; }
 
 double PIDTask::D() const
-{
-  return D_;
-}
+{ return D_; }
 
 void PIDTask::D(double d)
-{
-  D_ = d;
-}
+{ D_ = d; }
 
 void PIDTask::error(const Eigen::VectorXd & err)
-{
-  error_ = err;
-}
+{ error_ = err; }
 
 void PIDTask::errorD(const Eigen::VectorXd & errD)
-{
-  errorD_ = errD;
-}
+{ errorD_ = errD; }
 
 void PIDTask::errorI(const Eigen::VectorXd & errI)
-{
-  errorI_ = errI;
-}
+{ errorI_ = errI; }
 
 void PIDTask::update(const std::vector<rbd::MultiBody> & mbs,
                      const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -402,9 +354,7 @@ TargetObjectiveTask::TargetObjectiveTask(const std::vector<rbd::MultiBody> & mbs
 : Task(weight), hlTask_(hlTask), dt_(timeStep), objDot_(objDot), dimWeight_(Eigen::VectorXd::Ones(hlTask->dim())),
   robotIndex_(rI), alphaDBegin_(0), phi_(hlTask->dim()), psi_(hlTask->dim()), Q_(mbs[rI].nrDof(), mbs[rI].nrDof()),
   C_(mbs[rI].nrDof()), preQ_(hlTask->dim(), mbs[rI].nrDof()), CVecSum_(hlTask->dim()), preC_(hlTask->dim())
-{
-  duration(dur);
-}
+{ duration(dur); }
 
 TargetObjectiveTask::TargetObjectiveTask(const std::vector<rbd::MultiBody> & mbs,
                                          int rI,
@@ -417,14 +367,10 @@ TargetObjectiveTask::TargetObjectiveTask(const std::vector<rbd::MultiBody> & mbs
 : Task(weight), hlTask_(hlTask), dt_(timeStep), objDot_(objDot), dimWeight_(dimWeight), robotIndex_(rI),
   alphaDBegin_(0), phi_(hlTask->dim()), psi_(hlTask->dim()), Q_(mbs[rI].nrDof(), mbs[rI].nrDof()), C_(mbs[rI].nrDof()),
   preQ_(hlTask->dim(), mbs[rI].nrDof()), CVecSum_(hlTask->dim()), preC_(hlTask->dim())
-{
-  duration(dur);
-}
+{ duration(dur); }
 
 double TargetObjectiveTask::duration() const
-{
-  return (nrIter_ - iter_) * dt_;
-}
+{ return (nrIter_ - iter_) * dt_; }
 
 void TargetObjectiveTask::duration(double d)
 {
@@ -433,9 +379,7 @@ void TargetObjectiveTask::duration(double d)
 }
 
 void TargetObjectiveTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
+{ alphaDBegin_ = data.alphaDBegin(robotIndex_); }
 
 void TargetObjectiveTask::update(const std::vector<rbd::MultiBody> & mbs,
                                  const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -502,14 +446,10 @@ void TargetObjectiveTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & TargetObjectiveTask::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & TargetObjectiveTask::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 /**
  *												JointsSelector
@@ -520,9 +460,7 @@ JointsSelector JointsSelector::ActiveJoints(const std::vector<rbd::MultiBody> & 
                                             HighLevelTask * hl,
                                             const std::vector<std::string> & activeJointsName,
                                             const std::map<std::string, std::vector<std::array<int, 2>>> & activeDofs)
-{
-  return JointsSelector(mbs, robotIndex, hl, activeJointsName, activeDofs);
-}
+{ return JointsSelector(mbs, robotIndex, hl, activeJointsName, activeDofs); }
 
 JointsSelector JointsSelector::UnactiveJoints(
     const std::vector<rbd::MultiBody> & mbs,
@@ -599,9 +537,7 @@ JointsSelector::JointsSelector(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int JointsSelector::dim()
-{
-  return hl_->dim();
-}
+{ return hl_->dim(); }
 
 void JointsSelector::update(const std::vector<rbd::MultiBody> & mbs,
                             const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -616,24 +552,16 @@ void JointsSelector::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & JointsSelector::jac() const
-{
-  return jac_;
-}
+{ return jac_; }
 
 const Eigen::VectorXd & JointsSelector::eval() const
-{
-  return hl_->eval();
-}
+{ return hl_->eval(); }
 
 const Eigen::VectorXd & JointsSelector::speed() const
-{
-  return hl_->speed();
-}
+{ return hl_->speed(); }
 
 const Eigen::VectorXd & JointsSelector::normalAcc() const
-{
-  return hl_->normalAcc();
-}
+{ return hl_->normalAcc(); }
 
 /** Torque Task **/
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb, double weight)
@@ -668,9 +596,7 @@ TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
 : Task(weight), robotIndex_(robotIndex), alphaDBegin_(-1), lambdaBegin_(-1), motionConstr(mbs, robotIndex, tb, tdb, dt),
   jointSelector_(mbs[robotIndex].nrDof()), Q_(mbs[robotIndex].nrDof(), mbs[robotIndex].nrDof()),
   C_(mbs[robotIndex].nrDof())
-{
-  jointSelector_.setOnes();
-}
+{ jointSelector_.setOnes(); }
 
 TorqueTask::TorqueTask(const std::vector<rbd::MultiBody> & mbs,
                        int robotIndex,
@@ -787,9 +713,7 @@ void PostureTask::jointsGains(const std::vector<rbd::MultiBody> & mbs, const std
 }
 
 void PostureTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
-{
-  alphaDBegin_ = data.alphaDBegin(robotIndex_);
-}
+{ alphaDBegin_ = data.alphaDBegin(robotIndex_); }
 
 void PostureTask::update(const std::vector<rbd::MultiBody> & mbs,
                          const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -822,19 +746,13 @@ void PostureTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & PostureTask::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & PostureTask::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 const Eigen::VectorXd & PostureTask::eval() const
-{
-  return pt_.eval();
-}
+{ return pt_.eval(); }
 
 /**
  *											PositionTask
@@ -850,36 +768,24 @@ PositionTask::PositionTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int PositionTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void PositionTask::update(const std::vector<rbd::MultiBody> & mbs,
                           const std::vector<rbd::MultiBodyConfig> & mbcs,
                           const SolverData & data)
-{
-  pt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ pt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & PositionTask::jac() const
-{
-  return pt_.jac();
-}
+{ return pt_.jac(); }
 
 const Eigen::VectorXd & PositionTask::eval() const
-{
-  return pt_.eval();
-}
+{ return pt_.eval(); }
 
 const Eigen::VectorXd & PositionTask::speed() const
-{
-  return pt_.speed();
-}
+{ return pt_.speed(); }
 
 const Eigen::VectorXd & PositionTask::normalAcc() const
-{
-  return pt_.normalAcc();
-}
+{ return pt_.normalAcc(); }
 
 /**
  *																OrientationTask
@@ -902,36 +808,24 @@ OrientationTask::OrientationTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int OrientationTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void OrientationTask::update(const std::vector<rbd::MultiBody> & mbs,
                              const std::vector<rbd::MultiBodyConfig> & mbcs,
                              const SolverData & data)
-{
-  ot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ ot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & OrientationTask::jac() const
-{
-  return ot_.jac();
-}
+{ return ot_.jac(); }
 
 const Eigen::VectorXd & OrientationTask::eval() const
-{
-  return ot_.eval();
-}
+{ return ot_.eval(); }
 
 const Eigen::VectorXd & OrientationTask::speed() const
-{
-  return ot_.speed();
-}
+{ return ot_.speed(); }
 
 const Eigen::VectorXd & OrientationTask::normalAcc() const
-{
-  return ot_.normalAcc();
-}
+{ return ot_.normalAcc(); }
 
 /**
  *											SurfaceTransformTask
@@ -949,9 +843,7 @@ SurfaceTransformTask::SurfaceTransformTask(const std::vector<rbd::MultiBody> & m
 void SurfaceTransformTask::update(const std::vector<rbd::MultiBody> & mbs,
                                   const std::vector<rbd::MultiBodyConfig> & mbcs,
                                   const SolverData & data)
-{
-  tt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ tt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 /**
  *											TransformTask
@@ -964,26 +856,18 @@ TransformTask::TransformTask(const std::vector<rbd::MultiBody> & mbs,
                              const sva::PTransformd & X_b_p,
                              const Eigen::Matrix3d & E_0_c)
 : TransformTaskCommon(mbs, robotIndex, bodyName, X_0_t, X_b_p)
-{
-  tt_.E_0_c(E_0_c);
-}
+{ tt_.E_0_c(E_0_c); }
 
 void TransformTask::E_0_c(const Eigen::Matrix3d & E_0_c)
-{
-  tt_.E_0_c(E_0_c);
-}
+{ tt_.E_0_c(E_0_c); }
 
 const Eigen::Matrix3d & TransformTask::E_0_c() const
-{
-  return tt_.E_0_c();
-}
+{ return tt_.E_0_c(); }
 
 void TransformTask::update(const std::vector<rbd::MultiBody> & mbs,
                            const std::vector<rbd::MultiBodyConfig> & mbcs,
                            const SolverData & data)
-{
-  tt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ tt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 /**
  *																SurfaceOrientationTask
@@ -1008,36 +892,24 @@ SurfaceOrientationTask::SurfaceOrientationTask(const std::vector<rbd::MultiBody>
 }
 
 int SurfaceOrientationTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void SurfaceOrientationTask::update(const std::vector<rbd::MultiBody> & mbs,
                                     const std::vector<rbd::MultiBodyConfig> & mbcs,
                                     const SolverData & data)
-{
-  ot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ ot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & SurfaceOrientationTask::jac() const
-{
-  return ot_.jac();
-}
+{ return ot_.jac(); }
 
 const Eigen::VectorXd & SurfaceOrientationTask::eval() const
-{
-  return ot_.eval();
-}
+{ return ot_.eval(); }
 
 const Eigen::VectorXd & SurfaceOrientationTask::speed() const
-{
-  return ot_.speed();
-}
+{ return ot_.speed(); }
 
 const Eigen::VectorXd & SurfaceOrientationTask::normalAcc() const
-{
-  return ot_.normalAcc();
-}
+{ return ot_.normalAcc(); }
 
 /**
  *																GazeTask
@@ -1065,36 +937,24 @@ GazeTask::GazeTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int GazeTask::dim()
-{
-  return 2;
-}
+{ return 2; }
 
 void GazeTask::update(const std::vector<rbd::MultiBody> & mbs,
                       const std::vector<rbd::MultiBodyConfig> & mbcs,
                       const SolverData & data)
-{
-  gazet_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ gazet_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & GazeTask::jac() const
-{
-  return gazet_.jac();
-}
+{ return gazet_.jac(); }
 
 const Eigen::VectorXd & GazeTask::eval() const
-{
-  return gazet_.eval();
-}
+{ return gazet_.eval(); }
 
 const Eigen::VectorXd & GazeTask::speed() const
-{
-  return gazet_.speed();
-}
+{ return gazet_.speed(); }
 
 const Eigen::VectorXd & GazeTask::normalAcc() const
-{
-  return gazet_.normalAcc();
-}
+{ return gazet_.normalAcc(); }
 
 /**
  *																PositionBasedVisServoTask
@@ -1110,36 +970,24 @@ PositionBasedVisServoTask::PositionBasedVisServoTask(const std::vector<rbd::Mult
 }
 
 int PositionBasedVisServoTask::dim()
-{
-  return 6;
-}
+{ return 6; }
 
 void PositionBasedVisServoTask::update(const std::vector<rbd::MultiBody> & mbs,
                                        const std::vector<rbd::MultiBodyConfig> & mbcs,
                                        const SolverData & data)
-{
-  pbvst_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ pbvst_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & PositionBasedVisServoTask::jac() const
-{
-  return pbvst_.jac();
-}
+{ return pbvst_.jac(); }
 
 const Eigen::VectorXd & PositionBasedVisServoTask::eval() const
-{
-  return pbvst_.eval();
-}
+{ return pbvst_.eval(); }
 
 const Eigen::VectorXd & PositionBasedVisServoTask::speed() const
-{
-  return pbvst_.speed();
-}
+{ return pbvst_.speed(); }
 
 const Eigen::VectorXd & PositionBasedVisServoTask::normalAcc() const
-{
-  return pbvst_.normalAcc();
-}
+{ return pbvst_.normalAcc(); }
 
 /**
  *													CoMTask
@@ -1159,14 +1007,10 @@ CoMTask::CoMTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 void CoMTask::updateInertialParameters(const std::vector<rbd::MultiBody> & mbs)
-{
-  ct_.updateInertialParameters(mbs[robotIndex_]);
-}
+{ ct_.updateInertialParameters(mbs[robotIndex_]); }
 
 int CoMTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void CoMTask::update(const std::vector<rbd::MultiBody> & mbs,
                      const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -1177,24 +1021,16 @@ void CoMTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & CoMTask::jac() const
-{
-  return ct_.jac();
-}
+{ return ct_.jac(); }
 
 const Eigen::VectorXd & CoMTask::eval() const
-{
-  return ct_.eval();
-}
+{ return ct_.eval(); }
 
 const Eigen::VectorXd & CoMTask::speed() const
-{
-  return ct_.speed();
-}
+{ return ct_.speed(); }
 
 const Eigen::VectorXd & CoMTask::normalAcc() const
-{
-  return ct_.normalAcc();
-}
+{ return ct_.normalAcc(); }
 
 /**
  *													MultiCoMTask
@@ -1207,9 +1043,7 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody> & mbs,
                            double weight)
 : Task(weight), alphaDBegin_(-1), stiffness_(stiffness), stiffnessSqrt_(2. * std::sqrt(stiffness)),
   dimWeight_(Eigen::Vector3d::Ones()), posInQ_(rI.size()), mct_(mbs, std::move(rI), com), Q_(), C_(), CSum_(), preQ_()
-{
-  init(mbs);
-}
+{ init(mbs); }
 
 MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody> & mbs,
                            std::vector<int> rI,
@@ -1219,14 +1053,10 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody> & mbs,
                            double weight)
 : Task(weight), alphaDBegin_(-1), stiffness_(stiffness), stiffnessSqrt_(2. * std::sqrt(stiffness)),
   dimWeight_(dimWeight), posInQ_(rI.size()), mct_(mbs, std::move(rI), com), Q_(), C_(), CSum_(), preQ_()
-{
-  init(mbs);
-}
+{ init(mbs); }
 
 void MultiCoMTask::updateInertialParameters(const std::vector<rbd::MultiBody> & mbs)
-{
-  mct_.updateInertialParameters(mbs);
-}
+{ mct_.updateInertialParameters(mbs); }
 
 void MultiCoMTask::stiffness(double stiffness)
 {
@@ -1235,9 +1065,7 @@ void MultiCoMTask::stiffness(double stiffness)
 }
 
 void MultiCoMTask::dimWeight(const Eigen::Vector3d & dim)
-{
-  dimWeight_ = dim;
-}
+{ dimWeight_ = dim; }
 
 void MultiCoMTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
 {
@@ -1277,24 +1105,16 @@ void MultiCoMTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & MultiCoMTask::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & MultiCoMTask::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 const Eigen::VectorXd & MultiCoMTask::eval() const
-{
-  return mct_.eval();
-}
+{ return mct_.eval(); }
 
 const Eigen::VectorXd & MultiCoMTask::speed() const
-{
-  return mct_.speed();
-}
+{ return mct_.speed(); }
 
 void MultiCoMTask::init(const std::vector<rbd::MultiBody> & mbs)
 {
@@ -1327,24 +1147,16 @@ MultiRobotTransformTask::MultiRobotTransformTask(const std::vector<rbd::MultiBod
 }
 
 void MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd & X_r1b_r1s)
-{
-  mrtt_.X_r1b_r1s(X_r1b_r1s);
-}
+{ mrtt_.X_r1b_r1s(X_r1b_r1s); }
 
 const sva::PTransformd & MultiRobotTransformTask::X_r1b_r1s() const
-{
-  return mrtt_.X_r1b_r1s();
-}
+{ return mrtt_.X_r1b_r1s(); }
 
 void MultiRobotTransformTask::X_r2b_r2s(const sva::PTransformd & X_r2b_r2s)
-{
-  mrtt_.X_r2b_r2s(X_r2b_r2s);
-}
+{ mrtt_.X_r2b_r2s(X_r2b_r2s); }
 
 const sva::PTransformd & MultiRobotTransformTask::X_r2b_r2s() const
-{
-  return mrtt_.X_r2b_r2s();
-}
+{ return mrtt_.X_r2b_r2s(); }
 
 void MultiRobotTransformTask::stiffness(double stiffness)
 {
@@ -1353,9 +1165,7 @@ void MultiRobotTransformTask::stiffness(double stiffness)
 }
 
 void MultiRobotTransformTask::dimWeight(const Eigen::Vector6d & dim)
-{
-  dimWeight_ = dim;
-}
+{ dimWeight_ = dim; }
 
 void MultiRobotTransformTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
 {
@@ -1408,24 +1218,16 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & MultiRobotTransformTask::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & MultiRobotTransformTask::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 const Eigen::VectorXd & MultiRobotTransformTask::eval() const
-{
-  return mrtt_.eval();
-}
+{ return mrtt_.eval(); }
 
 const Eigen::VectorXd & MultiRobotTransformTask::speed() const
-{
-  return mrtt_.speed();
-}
+{ return mrtt_.speed(); }
 
 /**
  *													MomentumTask
@@ -1437,50 +1239,34 @@ MomentumTask::MomentumTask(const std::vector<rbd::MultiBody> & mbs, int rI, cons
 }
 
 int MomentumTask::dim()
-{
-  return 6;
-}
+{ return 6; }
 
 void MomentumTask::update(const std::vector<rbd::MultiBody> & mbs,
                           const std::vector<rbd::MultiBodyConfig> & mbcs,
                           const SolverData & data)
-{
-  momt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ momt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & MomentumTask::jac() const
-{
-  return momt_.jac();
-}
+{ return momt_.jac(); }
 
 const Eigen::VectorXd & MomentumTask::eval() const
-{
-  return momt_.eval();
-}
+{ return momt_.eval(); }
 
 const Eigen::VectorXd & MomentumTask::speed() const
-{
-  return momt_.speed();
-}
+{ return momt_.speed(); }
 
 const Eigen::VectorXd & MomentumTask::normalAcc() const
-{
-  return momt_.normalAcc();
-}
+{ return momt_.normalAcc(); }
 
 /**
  *														ContactTask
  */
 
 void ContactTask::error(const Eigen::Vector3d & error)
-{
-  error_ = error;
-}
+{ error_ = error; }
 
 void ContactTask::errorD(const Eigen::Vector3d & errorD)
-{
-  errorD_ = errorD;
-}
+{ errorD_ = errorD; }
 
 void ContactTask::updateNrVars(const std::vector<rbd::MultiBody> & /* mbs */, const SolverData & data)
 {
@@ -1531,14 +1317,10 @@ void ContactTask::update(const std::vector<rbd::MultiBody> & /* mbs */,
 }
 
 const Eigen::MatrixXd & ContactTask::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & ContactTask::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 /**
  *														GripperTorqueTask
@@ -1599,14 +1381,10 @@ void GripperTorqueTask::update(const std::vector<rbd::MultiBody> & /* mbs */,
 }
 
 const Eigen::MatrixXd & GripperTorqueTask::Q() const
-{
-  return Q_;
-}
+{ return Q_; }
 
 const Eigen::VectorXd & GripperTorqueTask::C() const
-{
-  return C_;
-}
+{ return C_; }
 
 /**
  *											LinVelocityTask
@@ -1622,36 +1400,24 @@ LinVelocityTask::LinVelocityTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int LinVelocityTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void LinVelocityTask::update(const std::vector<rbd::MultiBody> & mbs,
                              const std::vector<rbd::MultiBodyConfig> & mbcs,
                              const SolverData & data)
-{
-  pt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ pt_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & LinVelocityTask::jac() const
-{
-  return pt_.jac();
-}
+{ return pt_.jac(); }
 
 const Eigen::VectorXd & LinVelocityTask::eval() const
-{
-  return pt_.eval();
-}
+{ return pt_.eval(); }
 
 const Eigen::VectorXd & LinVelocityTask::speed() const
-{
-  return pt_.speed();
-}
+{ return pt_.speed(); }
 
 const Eigen::VectorXd & LinVelocityTask::normalAcc() const
-{
-  return pt_.normalAcc();
-}
+{ return pt_.normalAcc(); }
 
 /**
  *											OrientationTrackingTask
@@ -1670,9 +1436,7 @@ OrientationTrackingTask::OrientationTrackingTask(const std::vector<rbd::MultiBod
 }
 
 int OrientationTrackingTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void OrientationTrackingTask::update(const std::vector<rbd::MultiBody> & mbs,
                                      const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -1686,24 +1450,16 @@ void OrientationTrackingTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::MatrixXd & OrientationTrackingTask::jac() const
-{
-  return ott_.jac();
-}
+{ return ott_.jac(); }
 
 const Eigen::VectorXd & OrientationTrackingTask::eval() const
-{
-  return ott_.eval();
-}
+{ return ott_.eval(); }
 
 const Eigen::VectorXd & OrientationTrackingTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & OrientationTrackingTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 /**
  *											RelativeDistTask
@@ -1721,36 +1477,24 @@ RelativeDistTask::RelativeDistTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 int RelativeDistTask::dim()
-{
-  return 1;
-}
+{ return 1; }
 
 void RelativeDistTask::update(const std::vector<rbd::MultiBody> & mbs,
                               const std::vector<rbd::MultiBodyConfig> & mbcs,
                               const SolverData & data)
-{
-  rdt_.update(mbs[rIndex_], mbcs[rIndex_], data.normalAccB(rIndex_));
-}
+{ rdt_.update(mbs[rIndex_], mbcs[rIndex_], data.normalAccB(rIndex_)); }
 
 const Eigen::MatrixXd & RelativeDistTask::jac() const
-{
-  return rdt_.jac();
-}
+{ return rdt_.jac(); }
 
 const Eigen::VectorXd & RelativeDistTask::eval() const
-{
-  return rdt_.eval();
-}
+{ return rdt_.eval(); }
 
 const Eigen::VectorXd & RelativeDistTask::speed() const
-{
-  return rdt_.speed();
-}
+{ return rdt_.speed(); }
 
 const Eigen::VectorXd & RelativeDistTask::normalAcc() const
-{
-  return rdt_.normalAcc();
-}
+{ return rdt_.normalAcc(); }
 
 /**
  *											VectorOrientationTask
@@ -1766,36 +1510,24 @@ VectorOrientationTask::VectorOrientationTask(const std::vector<rbd::MultiBody> &
 }
 
 int VectorOrientationTask::dim()
-{
-  return 3;
-}
+{ return 3; }
 
 void VectorOrientationTask::update(const std::vector<rbd::MultiBody> & mbs,
                                    const std::vector<rbd::MultiBodyConfig> & mbcs,
                                    const SolverData & data)
-{
-  vot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_));
-}
+{ vot_.update(mbs[robotIndex_], mbcs[robotIndex_], data.normalAccB(robotIndex_)); }
 
 const Eigen::MatrixXd & VectorOrientationTask::jac() const
-{
-  return vot_.jac();
-}
+{ return vot_.jac(); }
 
 const Eigen::VectorXd & VectorOrientationTask::eval() const
-{
-  return vot_.eval();
-}
+{ return vot_.eval(); }
 
 const Eigen::VectorXd & VectorOrientationTask::speed() const
-{
-  return vot_.speed();
-}
+{ return vot_.speed(); }
 
 const Eigen::VectorXd & VectorOrientationTask::normalAcc() const
-{
-  return vot_.normalAcc();
-}
+{ return vot_.normalAcc(); }
 
 } // namespace qp
 

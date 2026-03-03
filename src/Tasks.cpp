@@ -31,24 +31,16 @@ PositionTask::PositionTask(const rbd::MultiBody & mb,
 }
 
 void PositionTask::position(const Eigen::Vector3d & pos)
-{
-  pos_ = pos;
-}
+{ pos_ = pos; }
 
 const Eigen::Vector3d & PositionTask::position() const
-{
-  return pos_;
-}
+{ return pos_; }
 
 void PositionTask::bodyPoint(const Eigen::Vector3d & point)
-{
-  jac_.point(point);
-}
+{ jac_.point(point); }
 
 const Eigen::Vector3d & PositionTask::bodyPoint() const
-{
-  return jac_.point();
-}
+{ return jac_.point(); }
 
 void PositionTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -79,29 +71,19 @@ void PositionTask::updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyConf
 }
 
 const Eigen::VectorXd & PositionTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & PositionTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & PositionTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & PositionTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & PositionTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													OrientationTask
@@ -122,19 +104,13 @@ OrientationTask::OrientationTask(const rbd::MultiBody & mb, const std::string & 
 }
 
 void OrientationTask::orientation(const Eigen::Quaterniond & ori)
-{
-  ori_ = ori.matrix();
-}
+{ ori_ = ori.matrix(); }
 
 void OrientationTask::orientation(const Eigen::Matrix3d & ori)
-{
-  ori_ = ori;
-}
+{ ori_ = ori; }
 
 const Eigen::Matrix3d & OrientationTask::orientation() const
-{
-  return ori_;
-}
+{ return ori_; }
 
 void OrientationTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -165,29 +141,19 @@ void OrientationTask::updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyC
 }
 
 const Eigen::VectorXd & OrientationTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & OrientationTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & OrientationTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & OrientationTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & OrientationTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													TransformTaskCommon
@@ -203,44 +169,28 @@ TransformTaskCommon::TransformTaskCommon(const rbd::MultiBody & mb,
 }
 
 void TransformTaskCommon::target(const sva::PTransformd & X_0_t)
-{
-  X_0_t_ = X_0_t;
-}
+{ X_0_t_ = X_0_t; }
 
 const sva::PTransformd & TransformTaskCommon::target() const
-{
-  return X_0_t_;
-}
+{ return X_0_t_; }
 
 void TransformTaskCommon::X_b_p(const sva::PTransformd & X_b_p)
-{
-  X_b_p_ = X_b_p;
-}
+{ X_b_p_ = X_b_p; }
 
 const sva::PTransformd & TransformTaskCommon::X_b_p() const
-{
-  return X_b_p_;
-}
+{ return X_b_p_; }
 
 const Eigen::VectorXd & TransformTaskCommon::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & TransformTaskCommon::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & TransformTaskCommon::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & TransformTaskCommon::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 /**
  *													SurfaceTransformTask
@@ -299,14 +249,10 @@ TransformTask::TransformTask(const rbd::MultiBody & mb,
 }
 
 void TransformTask::E_0_c(const Eigen::Matrix3d & E_0_c)
-{
-  E_0_c_ = E_0_c;
-}
+{ E_0_c_ = E_0_c; }
 
 const Eigen::Matrix3d & TransformTask::E_0_c() const
-{
-  return E_0_c_;
-}
+{ return E_0_c_; }
 
 void TransformTask::update(const rbd::MultiBody & mb,
                            const rbd::MultiBodyConfig & mbc,
@@ -346,34 +292,22 @@ MultiRobotTransformTask::MultiRobotTransformTask(const std::vector<rbd::MultiBod
 }
 
 int MultiRobotTransformTask::r1Index() const
-{
-  return r1Index_;
-}
+{ return r1Index_; }
 
 int MultiRobotTransformTask::r2Index() const
-{
-  return r2Index_;
-}
+{ return r2Index_; }
 
 void MultiRobotTransformTask::X_r1b_r1s(const sva::PTransformd & X_r1b_r1s)
-{
-  X_r1b_r1s_ = X_r1b_r1s;
-}
+{ X_r1b_r1s_ = X_r1b_r1s; }
 
 const sva::PTransformd & MultiRobotTransformTask::X_r1b_r1s() const
-{
-  return X_r1b_r1s_;
-}
+{ return X_r1b_r1s_; }
 
 void MultiRobotTransformTask::X_r2b_r2s(const sva::PTransformd & X_r2b_r2s)
-{
-  X_r2b_r2s_ = X_r2b_r2s;
-}
+{ X_r2b_r2s_ = X_r2b_r2s; }
 
 const sva::PTransformd & MultiRobotTransformTask::X_r2b_r2s() const
-{
-  return X_r2b_r2s_;
-}
+{ return X_r2b_r2s_; }
 
 void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody> & mbs,
                                      const std::vector<rbd::MultiBodyConfig> & mbcs,
@@ -433,24 +367,16 @@ void MultiRobotTransformTask::update(const std::vector<rbd::MultiBody> & mbs,
 }
 
 const Eigen::VectorXd & MultiRobotTransformTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & MultiRobotTransformTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & MultiRobotTransformTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & MultiRobotTransformTask::jac(int index) const
-{
-  return fullJacMat_[index];
-}
+{ return fullJacMat_[index]; }
 
 /**
  *													SurfaceOrientationTask
@@ -475,19 +401,13 @@ SurfaceOrientationTask::SurfaceOrientationTask(const rbd::MultiBody & mb,
 }
 
 void SurfaceOrientationTask::orientation(const Eigen::Quaterniond & ori)
-{
-  ori_ = ori.matrix();
-}
+{ ori_ = ori.matrix(); }
 
 void SurfaceOrientationTask::orientation(const Eigen::Matrix3d & ori)
-{
-  ori_ = ori;
-}
+{ ori_ = ori; }
 
 const Eigen::Matrix3d & SurfaceOrientationTask::orientation() const
-{
-  return ori_;
-}
+{ return ori_; }
 
 void SurfaceOrientationTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -524,29 +444,19 @@ void SurfaceOrientationTask::updateDot(const rbd::MultiBody & mb, const rbd::Mul
 }
 
 const Eigen::VectorXd & SurfaceOrientationTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & SurfaceOrientationTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & SurfaceOrientationTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & SurfaceOrientationTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & SurfaceOrientationTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													GazeTask
@@ -659,29 +569,19 @@ void GazeTask::update(const rbd::MultiBody & mb,
 }
 
 const Eigen::VectorXd & GazeTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & GazeTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & GazeTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & GazeTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & GazeTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													PositionBasedVisServoTask
@@ -733,9 +633,7 @@ PositionBasedVisServoTask & PositionBasedVisServoTask::operator=(const PositionB
 }
 
 void PositionBasedVisServoTask::error(const sva::PTransformd & X_t_s)
-{
-  X_t_s_ = X_t_s;
-}
+{ X_t_s_ = X_t_s; }
 
 void PositionBasedVisServoTask::update(const rbd::MultiBody & mb,
                                        const rbd::MultiBodyConfig & mbc,
@@ -767,29 +665,19 @@ void PositionBasedVisServoTask::update(const rbd::MultiBody & mb,
 }
 
 const Eigen::VectorXd & PositionBasedVisServoTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & PositionBasedVisServoTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & PositionBasedVisServoTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & PositionBasedVisServoTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & PositionBasedVisServoTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													PostureTask
@@ -809,14 +697,10 @@ PostureTask::PostureTask(const rbd::MultiBody & mb, std::vector<std::vector<doub
 }
 
 void PostureTask::posture(std::vector<std::vector<double>> q)
-{
-  q_ = q;
-}
+{ q_ = q; }
 
 const std::vector<std::vector<double>> PostureTask::posture() const
-{
-  return q_;
-}
+{ return q_; }
 
 void PostureTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -850,19 +734,13 @@ void PostureTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig &
 void PostureTask::updateDot(const rbd::MultiBody & /* mb */, const rbd::MultiBodyConfig & /* mbc */) {}
 
 const Eigen::VectorXd & PostureTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::MatrixXd & PostureTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & PostureTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													CoMTask
@@ -880,24 +758,16 @@ CoMTask::CoMTask(const rbd::MultiBody & mb, const Eigen::Vector3d & com, std::ve
 }
 
 void CoMTask::com(const Eigen::Vector3d & com)
-{
-  com_ = com;
-}
+{ com_ = com; }
 
 const Eigen::Vector3d & CoMTask::com() const
-{
-  return com_;
-}
+{ return com_; }
 
 const Eigen::Vector3d & CoMTask::actual() const
-{
-  return actual_;
-}
+{ return actual_; }
 
 void CoMTask::updateInertialParameters(const rbd::MultiBody & mb)
-{
-  jac_.updateInertialParameters(mb);
-}
+{ jac_.updateInertialParameters(mb); }
 
 void CoMTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -923,34 +793,22 @@ void CoMTask::update(const rbd::MultiBody & mb,
 }
 
 void CoMTask::updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
-{
-  jacDotMat_ = jac_.jacobianDot(mb, mbc);
-}
+{ jacDotMat_ = jac_.jacobianDot(mb, mbc); }
 
 const Eigen::VectorXd & CoMTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & CoMTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & CoMTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & CoMTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & CoMTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													MultiCoMTask
@@ -976,19 +834,13 @@ MultiCoMTask::MultiCoMTask(const std::vector<rbd::MultiBody> & mbs,
 }
 
 void MultiCoMTask::com(const Eigen::Vector3d & com)
-{
-  com_ = com;
-}
+{ com_ = com; }
 
 const Eigen::Vector3d MultiCoMTask::com() const
-{
-  return com_;
-}
+{ return com_; }
 
 const std::vector<int> & MultiCoMTask::robotIndexes() const
-{
-  return robotIndexes_;
-}
+{ return robotIndexes_; }
 
 void MultiCoMTask::updateInertialParameters(const std::vector<rbd::MultiBody> & mbs)
 {
@@ -1084,24 +936,16 @@ void MultiCoMTask::computeRobotsWeight(const std::vector<rbd::MultiBody> & mbs)
 }
 
 const Eigen::VectorXd & MultiCoMTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & MultiCoMTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & MultiCoMTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & MultiCoMTask::jac(int index) const
-{
-  return jacMat_[index];
-}
+{ return jacMat_[index]; }
 
 /**
  *													MomentumTask
@@ -1110,19 +954,13 @@ const Eigen::MatrixXd & MultiCoMTask::jac(int index) const
 MomentumTask::MomentumTask(const rbd::MultiBody & mb, const sva::ForceVecd mom)
 : momentum_(mom), momentumMatrix_(mb), eval_(6), speed_(6), normalAcc_(6), jacMat_(6, mb.nrDof()),
   jacDotMat_(6, mb.nrDof())
-{
-  speed_.setZero();
-}
+{ speed_.setZero(); }
 
 void MomentumTask::momentum(const sva::ForceVecd & mom)
-{
-  momentum_ = mom;
-}
+{ momentum_ = mom; }
 
 const sva::ForceVecd MomentumTask::momentum() const
-{
-  return momentum_;
-}
+{ return momentum_; }
 
 void MomentumTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -1155,29 +993,19 @@ void MomentumTask::updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyConf
 }
 
 const Eigen::VectorXd & MomentumTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & MomentumTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & MomentumTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & MomentumTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & MomentumTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													LinVelocityTask
@@ -1195,24 +1023,16 @@ LinVelocityTask::LinVelocityTask(const rbd::MultiBody & mb,
 }
 
 void LinVelocityTask::velocity(const Eigen::Vector3d & v)
-{
-  vel_ = v;
-}
+{ vel_ = v; }
 
 const Eigen::Vector3d & LinVelocityTask::velocity() const
-{
-  return vel_;
-}
+{ return vel_; }
 
 void LinVelocityTask::bodyPoint(const Eigen::Vector3d & point)
-{
-  jac_.point(point);
-}
+{ jac_.point(point); }
 
 const Eigen::Vector3d & LinVelocityTask::bodyPoint() const
-{
-  return jac_.point();
-}
+{ return jac_.point(); }
 
 void LinVelocityTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -1241,29 +1061,19 @@ void LinVelocityTask::updateDot(const rbd::MultiBody & mb, const rbd::MultiBodyC
 }
 
 const Eigen::VectorXd & LinVelocityTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & LinVelocityTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & LinVelocityTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & LinVelocityTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & LinVelocityTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 /**
  *													OrientationTrackingTask
@@ -1296,34 +1106,22 @@ OrientationTrackingTask::OrientationTrackingTask(const rbd::MultiBody & mb,
 }
 
 void OrientationTrackingTask::trackedPoint(const Eigen::Vector3d & tp)
-{
-  trackedPoint_ = tp;
-}
+{ trackedPoint_ = tp; }
 
 const Eigen::Vector3d & OrientationTrackingTask::trackedPoint() const
-{
-  return trackedPoint_;
-}
+{ return trackedPoint_; }
 
 void OrientationTrackingTask::bodyPoint(const Eigen::Vector3d & bp)
-{
-  bodyPoint_ = sva::PTransformd(bp);
-}
+{ bodyPoint_ = sva::PTransformd(bp); }
 
 const Eigen::Vector3d & OrientationTrackingTask::bodyPoint() const
-{
-  return bodyPoint_.translation();
-}
+{ return bodyPoint_.translation(); }
 
 void OrientationTrackingTask::bodyAxis(const Eigen::Vector3d & ba)
-{
-  bodyAxis_ = ba;
-}
+{ bodyAxis_ = ba; }
 
 const Eigen::Vector3d & OrientationTrackingTask::bodyAxis() const
-{
-  return bodyAxis_;
-}
+{ return bodyAxis_; }
 
 void OrientationTrackingTask::update(const rbd::MultiBody & mb, const rbd::MultiBodyConfig & mbc)
 {
@@ -1352,19 +1150,13 @@ void OrientationTrackingTask::updateDot(const rbd::MultiBody & mb, const rbd::Mu
 }
 
 const Eigen::MatrixXd & OrientationTrackingTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 const Eigen::MatrixXd & OrientationTrackingTask::jacDot() const
-{
-  return jacDotMat_;
-}
+{ return jacDotMat_; }
 
 const Eigen::VectorXd & OrientationTrackingTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 void OrientationTrackingTask::zeroJacobian(Eigen::MatrixXd & jac) const
 {
@@ -1478,24 +1270,16 @@ void RelativeDistTask::update(const rbd::MultiBody & mb,
 }
 
 const Eigen::VectorXd & RelativeDistTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & RelativeDistTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & RelativeDistTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & RelativeDistTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 /**
  *													VectorOrientationTask
@@ -1543,48 +1327,30 @@ Eigen::Matrix3d VectorOrientationTask::skewMatrix(const Eigen::Vector3d & v)
 }
 
 void VectorOrientationTask::bodyVector(const Eigen::Vector3d & vector)
-{
-  bodyVector_ = vector;
-}
+{ bodyVector_ = vector; }
 
 const Eigen::Vector3d & VectorOrientationTask::bodyVector() const
-{
-  return bodyVector_;
-}
+{ return bodyVector_; }
 
 void VectorOrientationTask::target(const Eigen::Vector3d & vector)
-{
-  targetVector_ = vector;
-}
+{ targetVector_ = vector; }
 
 const Eigen::Vector3d & VectorOrientationTask::target() const
-{
-  return targetVector_;
-}
+{ return targetVector_; }
 
 const Eigen::Vector3d & VectorOrientationTask::actual() const
-{
-  return actualVector_;
-}
+{ return actualVector_; }
 
 const Eigen::VectorXd & VectorOrientationTask::eval() const
-{
-  return eval_;
-}
+{ return eval_; }
 
 const Eigen::VectorXd & VectorOrientationTask::speed() const
-{
-  return speed_;
-}
+{ return speed_; }
 
 const Eigen::VectorXd & VectorOrientationTask::normalAcc() const
-{
-  return normalAcc_;
-}
+{ return normalAcc_; }
 
 const Eigen::MatrixXd & VectorOrientationTask::jac() const
-{
-  return jacMat_;
-}
+{ return jacMat_; }
 
 } // namespace tasks

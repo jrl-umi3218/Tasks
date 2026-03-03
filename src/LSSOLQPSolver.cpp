@@ -175,9 +175,7 @@ std::ostream & LSSOLQPSolver::errorMsg(const std::vector<rbd::MultiBody> & mbs,
 }
 
 std::string LSSOLQPSolver::name() const
-{
-  return "LSSOL";
-}
+{ return "LSSOL"; }
 
 } // namespace qp
 
