@@ -17,6 +17,7 @@
 
 // Tasks
 #include "QPSolver.h"
+#include <optional>
 
 namespace tasks
 {
@@ -65,7 +66,9 @@ private:
 class TASKS_DLLAPI MotionConstrCommon : public ConstraintFunction<GenInequality>
 {
 public:
-  MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs, int robotIndex);
+  MotionConstrCommon(const std::vector<rbd::MultiBody> & mbs,
+                     int robotIndex,
+                     std::optional<Eigen::VectorXd> externalTorque = std::nullopt);
 
   void computeTorque(const Eigen::VectorXd & alphaD, const Eigen::VectorXd & lambda);
   const Eigen::VectorXd & torque() const;
@@ -86,6 +89,9 @@ public:
   virtual const Eigen::MatrixXd & AGenInEq() const override;
   virtual const Eigen::VectorXd & LowerGenInEq() const override;
   virtual const Eigen::VectorXd & UpperGenInEq() const override;
+
+  // Update external torques value
+  void setExternalTorques(const Eigen::VectorXd & torques);
 
 protected:
   struct ContactData
@@ -114,6 +120,8 @@ protected:
 
   Eigen::VectorXd curTorque_;
 
+  std::optional<Eigen::VectorXd> extTorque_;
+
   Eigen::MatrixXd A_;
   Eigen::VectorXd AL_, AU_;
   size_t updateIter_ = 0;
@@ -122,13 +130,17 @@ protected:
 class TASKS_DLLAPI MotionConstr : public MotionConstrCommon
 {
 public:
-  MotionConstr(const std::vector<rbd::MultiBody> & mbs, int robotIndex, const TorqueBound & tb);
+  MotionConstr(const std::vector<rbd::MultiBody> & mbs,
+               int robotIndex,
+               const TorqueBound & tb,
+               std::optional<Eigen::VectorXd> externalTorque = std::nullopt);
 
   MotionConstr(const std::vector<rbd::MultiBody> & mbs,
                int robotIndex,
                const TorqueBound & tb,
                const TorqueDBound & tdb,
-               double dt);
+               double dt,
+               std::optional<Eigen::VectorXd> externalTorque = std::nullopt);
 
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
@@ -162,14 +174,16 @@ public:
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                      int robotIndex,
                      const TorqueBound & tb,
-                     const std::vector<SpringJoint> & springs);
+                     const std::vector<SpringJoint> & springs,
+                     std::optional<Eigen::VectorXd> externalTorque = std::nullopt);
 
   MotionSpringConstr(const std::vector<rbd::MultiBody> & mbs,
                      int robotIndex,
                      const TorqueBound & tb,
                      const TorqueDBound & tdb,
                      double dt,
-                     const std::vector<SpringJoint> & springs);
+                     const std::vector<SpringJoint> & springs,
+                     std::optional<Eigen::VectorXd> externalTorque = std::nullopt);
 
   // Constraint
   virtual void update(const std::vector<rbd::MultiBody> & mbs,
