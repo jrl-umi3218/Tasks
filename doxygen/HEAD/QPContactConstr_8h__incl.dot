@@ -29,7 +29,7 @@ digraph "src/Tasks/QPContactConstr.h"
   Node11 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node11 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node12 [label="SpaceVecAlg/SpaceVecAlg",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 [label="SpaceVecAlg/SpaceVecAlg",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/SpaceVecAlg/doxygen-html/SpaceVecAlg.doxytag$SpaceVecAlg.html.html",tooltip=" "];
   Node6 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node13 [label="QPSolverData.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolverData_8h.html",tooltip=" "];
   Node13 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

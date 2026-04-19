@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['tasks_2eh_529',['Tasks.h',['../Tasks_8h.html',1,'']]]
+  ['genqpsolver_2eh_658',['GenQPSolver.h',['../GenQPSolver_8h.html',1,'']]],
+  ['genqputils_2eh_659',['GenQPUtils.h',['../GenQPUtils_8h.html',1,'']]]
 ];
