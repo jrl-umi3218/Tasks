@@ -1,10 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"functions_func_q.html":[7,3,1,15],
-"functions_func_r.html":[7,3,1,16],
-"functions_func_s.html":[7,3,1,17],
-"functions_func_t.html":[7,3,1,18],
-"functions_func_u.html":[7,3,1,19],
 "functions_func_v.html":[7,3,1,20],
 "functions_func_w.html":[7,3,1,21],
 "functions_func_x.html":[7,3,1,22],
@@ -249,5 +244,10 @@ var NAVTREEINDEX4 =
 "structtasks_1_1qp_1_1JointGains.html#a84e051a4f37a2a15de59b3d900953f87":[7,0,0,0,47,2],
 "structtasks_1_1qp_1_1JointGains.html#ab0a41a5153da3a170bafea2c4453a7a5":[7,0,0,0,47,5],
 "structtasks_1_1qp_1_1JointGains.html#add0cd36307b044425a1175e82be95c8f":[7,0,0,0,47,0],
-"structtasks_1_1qp_1_1JointStiffness.html":[7,0,0,0,46]
+"structtasks_1_1qp_1_1JointStiffness.html":[7,0,0,0,46],
+"structtasks_1_1qp_1_1JointStiffness.html#a8c087e0882456550df07bda258fa420a":[7,0,0,0,46,1],
+"structtasks_1_1qp_1_1JointStiffness.html#a980bad314fc5bfe87b586df8195e6520":[7,0,0,0,46,0],
+"structtasks_1_1qp_1_1JointStiffness.html#ad4bedc4f72672de6e850add50e757853":[7,0,0,0,46,2],
+"structtasks_1_1qp_1_1JointStiffness.html#ad533f855fbb99ea34bad2832042c973e":[7,0,0,0,46,3],
+"structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html":[7,0,0,0,45,0]
 };

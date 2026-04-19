@@ -1,10 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"structtasks_1_1qp_1_1JointStiffness.html#a8c087e0882456550df07bda258fa420a":[7,0,0,0,46,1],
-"structtasks_1_1qp_1_1JointStiffness.html#a980bad314fc5bfe87b586df8195e6520":[7,0,0,0,46,0],
-"structtasks_1_1qp_1_1JointStiffness.html#ad4bedc4f72672de6e850add50e757853":[7,0,0,0,46,2],
-"structtasks_1_1qp_1_1JointStiffness.html#ad533f855fbb99ea34bad2832042c973e":[7,0,0,0,46,3],
-"structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html":[7,0,0,0,45,0],
 "structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html#a67cd5c7c9bb87ce3c7e7940e2e75efce":[7,0,0,0,45,0,0],
 "structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html#ac2c3ce5bd04545655fefe4ac0a701159":[7,0,0,0,45,0,1],
 "structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html":[7,0,0,0,20,0],
@@ -56,5 +51,10 @@ var NAVTREEINDEX5 =
 "utils_8h.html":[8,0,0,4],
 "utils_8h.html#a9d2ad288554eb8df94fadd7bfc77009d":[8,0,0,4,0],
 "utils_8h.html#ac4a39f2423f38a93bb34cd5d0dba891c":[8,0,0,4,1],
-"utils_8h_source.html":[8,0,0,4]
+"utils_8h_source.html":[8,0,0,4],
+"":[6,0,3,0],
+"":[6,0,0],
+"":[6,0,3,1],
+"":[6,0,3,2],
+"":[6,0,3]
 };
