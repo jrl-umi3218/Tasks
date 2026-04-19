@@ -1,8 +1,8 @@
 #
-# Copyright 2012-2019 CNRS-UM LIRMM, CNRS-AIST JRL
+# Copyright 2012-2026 CNRS-UM LIRMM, CNRS-AIST JRL
 #
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.22)
 
 set(PROJECT_NAME Tasks)
 set(PROJECT_DESCRIPTION "...")
