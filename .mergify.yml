@@ -13,3 +13,12 @@ pull_request_rules:
           - author = pre-commit-ci[bot]
     actions:
       merge:
+
+  - name: queue all PRs when all CI checks pass
+    conditions:
+      - check-success = "check-macos-linux-nix"
+      - check-success = "check-build"
+      - check-success = "check-package"
+      - check-success = "pre-commit.ci - pr"
+    actions:
+      queue:
