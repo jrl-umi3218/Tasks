@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['orientationtask_606',['OrientationTask',['../classtasks_1_1OrientationTask.html',1,'tasks::OrientationTask'],['../classtasks_1_1qp_1_1OrientationTask.html',1,'tasks::qp::OrientationTask']]],
-  ['orientationtrackingtask_607',['OrientationTrackingTask',['../classtasks_1_1OrientationTrackingTask.html',1,'tasks::OrientationTrackingTask'],['../classtasks_1_1qp_1_1OrientationTrackingTask.html',1,'tasks::qp::OrientationTrackingTask']]]
+  ['node_1026',['Node',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyGraph_1_1Node.html',1,'rbd::MultiBodyGraph']]]
 ];

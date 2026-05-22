@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['selecteddata_620',['SelectedData',['../structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html',1,'tasks::qp::JointsSelector']]],
-  ['setpointtask_621',['SetPointTask',['../classtasks_1_1qp_1_1SetPointTask.html',1,'tasks::qp']]],
-  ['setpointtaskcommon_622',['SetPointTaskCommon',['../classtasks_1_1qp_1_1SetPointTaskCommon.html',1,'tasks::qp']]],
-  ['solverdata_623',['SolverData',['../classtasks_1_1qp_1_1SolverData.html',1,'tasks::qp']]],
-  ['springjoint_624',['SpringJoint',['../structtasks_1_1qp_1_1SpringJoint.html',1,'tasks::qp']]],
-  ['springjointdata_625',['SpringJointData',['../structtasks_1_1qp_1_1MotionSpringConstr_1_1SpringJointData.html',1,'tasks::qp::MotionSpringConstr']]],
-  ['surfaceorientationtask_626',['SurfaceOrientationTask',['../classtasks_1_1qp_1_1SurfaceOrientationTask.html',1,'tasks::qp::SurfaceOrientationTask'],['../classtasks_1_1SurfaceOrientationTask.html',1,'tasks::SurfaceOrientationTask']]],
-  ['surfacetransformtask_627',['SurfaceTransformTask',['../classtasks_1_1qp_1_1SurfaceTransformTask.html',1,'tasks::qp::SurfaceTransformTask'],['../classtasks_1_1SurfaceTransformTask.html',1,'tasks::SurfaceTransformTask']]]
+  ['rbdynfromyaml_1041',['RBDynFromYAML',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1parsers_1_1RBDynFromYAML.html',1,'rbd::parsers']]],
+  ['rbinertia_1042',['RBInertia',['/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1RBInertia.html',1,'sva']]],
+  ['relativedisttask_1043',['RelativeDistTask',['../classtasks_1_1qp_1_1RelativeDistTask.html',1,'tasks::qp::RelativeDistTask'],['../classtasks_1_1RelativeDistTask.html',1,'tasks::RelativeDistTask']]]
 ];

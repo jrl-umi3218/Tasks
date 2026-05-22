@@ -14,4 +14,6 @@ digraph "tasks::qp::MotionSpringConstr"
   Node5 [label="tasks::qp::Constraint",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1Constraint.html",tooltip=" "];
   Node6 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node6 [label="Fun",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node7 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fd_" ,fontname="Helvetica"];
+  Node7 [label="rbd::ForwardDynamics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$classrbd_1_1ForwardDynamics.html",tooltip=" "];
 }

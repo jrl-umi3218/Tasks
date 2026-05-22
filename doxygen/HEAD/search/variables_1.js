@@ -1,8 +1,19 @@
 var searchData=
 [
-  ['b1index_1059',['b1Index',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a060e74dde561d3e2b2b744c7e413b4bb',1,'tasks::qp::ContactConstr::ContactData']]],
-  ['b2index_1060',['b2Index',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a5b7a1d42371e09c6453d6fc09b29a395',1,'tasks::qp::ContactConstr::ContactData']]],
-  ['b_5f_1061',['b_',['../classtasks_1_1qp_1_1ContactConstr.html#aa375b908543d69711b1dd45ece31a865',1,'tasks::qp::ContactConstr']]],
-  ['bodyindex_1062',['bodyIndex',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html#a74063f68fc100833abeafd911ffaae50',1,'tasks::qp::ContactConstr::ContactSideData::bodyIndex()'],['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html#abd85910b4e703019994cc83af67770ac',1,'tasks::qp::MotionConstrCommon::ContactData::bodyIndex()']]],
-  ['bodyindex_5f_1063',['bodyIndex_',['../classtasks_1_1TransformTaskCommon.html#a298e38439bbefa80e02f53ffbda17771',1,'tasks::TransformTaskCommon']]]
+  ['b_1789',['b',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Material_1_1Color.html#a33017e2153cc2306d67870d34824e28b',1,'rbd::parsers::Material::Color']]],
+  ['b1index_1790',['b1Index',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a060e74dde561d3e2b2b744c7e413b4bb',1,'tasks::qp::ContactConstr::ContactData']]],
+  ['b2index_1791',['b2Index',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a5b7a1d42371e09c6453d6fc09b29a395',1,'tasks::qp::ContactConstr::ContactData']]],
+  ['b_5f_1792',['b_',['../classtasks_1_1qp_1_1ContactConstr.html#aa375b908543d69711b1dd45ece31a865',1,'tasks::qp::ContactConstr']]],
+  ['base_5flink_5f_1793',['base_link_',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1ParserParameters.html#a64f438df4c34fec6b5e1ebe2c4cf2300',1,'rbd::parsers::ParserParameters']]],
+  ['bodies_5f_1794',['bodies_',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html#abbea0b9458d4a5bfc17d1821882e78f2',1,'rbd::MultiBody']]],
+  ['body_1795',['body',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyGraph_1_1Node.html#aea931fe8a425c0795911395cd09071b6',1,'rbd::MultiBodyGraph::Node']]],
+  ['bodyaccb_1796',['bodyAccB',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html#a25fc059a35f32434f2743f91f78c06bb',1,'rbd::MultiBodyConfig']]],
+  ['bodyindex_1797',['bodyIndex',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html#a74063f68fc100833abeafd911ffaae50',1,'tasks::qp::ContactConstr::ContactSideData::bodyIndex()'],['../structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html#abd85910b4e703019994cc83af67770ac',1,'tasks::qp::MotionConstrCommon::ContactData::bodyIndex()']]],
+  ['bodyindex_5f_1798',['bodyIndex_',['../classtasks_1_1TransformTaskCommon.html#a298e38439bbefa80e02f53ffbda17771',1,'tasks::TransformTaskCommon']]],
+  ['bodynametoind_5f_1799',['bodyNameToInd_',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html#afa2c9103dc0cf11ac2812ffdf63ec738',1,'rbd::MultiBody']]],
+  ['bodynametonode_5f_1800',['bodyNameToNode_',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBodyGraph.html#ad799fa0fa418547b6bb64ae2a5f3eb13',1,'rbd::MultiBodyGraph']]],
+  ['bodyposw_1801',['bodyPosW',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html#a68f5498dbe584cc07ca833501688a6e3',1,'rbd::MultiBodyConfig']]],
+  ['bodyvelb_1802',['bodyVelB',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html#a7f8b9fcb9804bf87505c65a0d6e17785',1,'rbd::MultiBodyConfig']]],
+  ['bodyvelw_1803',['bodyVelW',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html#a278db7240fb454ea06bd3dce78a18da9',1,'rbd::MultiBodyConfig']]],
+  ['box_1804',['BOX',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Geometry.html#a91ba6c5a035011ff6a22120b1c26c71fa0ef17f0fc0df1e20fb78c45b4a74807e',1,'rbd::parsers::Geometry']]]
 ];

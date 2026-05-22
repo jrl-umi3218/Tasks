@@ -111,7 +111,7 @@ Collaboration diagram for tasks::qp::MomentumTask:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af2696f6c37fc2fe6b4976cae7f3ad882"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#af2696f6c37fc2fe6b4976cae7f3ad882">MomentumTask</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const <a class="elRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/namespacesva.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> &amp;mom)</td></tr>
+<tr class="memitem:af2696f6c37fc2fe6b4976cae7f3ad882"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#af2696f6c37fc2fe6b4976cae7f3ad882">MomentumTask</a> (const std::vector&lt; <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &gt; &amp;mbs, int robotIndex, const <a class="elRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/namespacesva.html#aaea958106abfa742585ced52492029c4">sva::ForceVecd</a> &amp;mom)</td></tr>
 <tr class="separator:af2696f6c37fc2fe6b4976cae7f3ad882"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa09068452fc37a606b39bfbd125773a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtasks_1_1MomentumTask.html">tasks::MomentumTask</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#aa09068452fc37a606b39bfbd125773a0">task</a> ()</td></tr>
 <tr class="separator:aa09068452fc37a606b39bfbd125773a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,7 +121,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6563421fd4036327c9901c0cf19c172e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f9105b9b2559bc7fcd204f2ef0afe52"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#a8f9105b9b2559bc7fcd204f2ef0afe52">dim</a> () override</td></tr>
 <tr class="separator:a8f9105b9b2559bc7fcd204f2ef0afe52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3cb9bd1bb45ac8eefab0403507bf681"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#ad3cb9bd1bb45ac8eefab0403507bf681">update</a> (const std::vector&lt; rbd::MultiBody &gt; &amp;mb, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbc, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
+<tr class="memitem:ad3cb9bd1bb45ac8eefab0403507bf681"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#ad3cb9bd1bb45ac8eefab0403507bf681">update</a> (const std::vector&lt; <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &gt; &amp;mb, const std::vector&lt; <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html">rbd::MultiBodyConfig</a> &gt; &amp;mbc, const <a class="el" href="classtasks_1_1qp_1_1SolverData.html">SolverData</a> &amp;data) override</td></tr>
 <tr class="separator:ad3cb9bd1bb45ac8eefab0403507bf681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6d940e2d230e3bb2ed5868633bc09b0"><td class="memItemLeft" align="right" valign="top">virtual const Eigen::MatrixXd &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1MomentumTask.html#ad6d940e2d230e3bb2ed5868633bc09b0">jac</a> () const override</td></tr>
 <tr class="separator:ad6d940e2d230e3bb2ed5868633bc09b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,7 +145,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">tasks::qp::MomentumTask::MomentumTask </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; rbd::MultiBody &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbs</em>, </td>
         </tr>
         <tr>
@@ -394,13 +394,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void tasks::qp::MomentumTask::update </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; rbd::MultiBody &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html">rbd::MultiBodyConfig</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>mbc</em>, </td>
         </tr>
         <tr>

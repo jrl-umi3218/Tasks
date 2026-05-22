@@ -6,4 +6,6 @@ digraph "tasks::TransformTask"
   Node1 [label="tasks::TransformTask",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="tasks::TransformTaskCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1TransformTaskCommon.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" jac_" ,fontname="Helvetica"];
+  Node3 [label="rbd::Jacobian",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$classrbd_1_1Jacobian.html",tooltip=" "];
 }

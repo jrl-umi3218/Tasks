@@ -16,9 +16,9 @@ digraph "src/Tasks/QPTasks.h"
   Node6 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node5 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node7 [label="RBDyn/FD.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node7 [label="RBDyn/FD.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$FD_8h.html.html",tooltip=" "];
   Node5 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node8 [label="RBDyn/Jacobian.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node8 [label="RBDyn/Jacobian.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$Jacobian_8h.html.html",tooltip=" "];
   Node5 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node9 [label="QPSolver.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolver_8h.html",tooltip=" "];
   Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -47,11 +47,11 @@ digraph "src/Tasks/QPTasks.h"
   Node17 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node17 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node17 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="RBDyn/CoM.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 [label="RBDyn/CoM.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$CoM_8h.html.html",tooltip=" "];
   Node17 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node17 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node19 [label="RBDyn/Momentum.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node19 [label="RBDyn/Momentum.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$Momentum_8h.html.html",tooltip=" "];
   Node17 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node20 [label="RBDyn/VisServo.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node20 [label="RBDyn/VisServo.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/RBDyn/doxygen-html/RBDyn.doxytag$VisServo_8h.html.html",tooltip=" "];
   Node17 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

@@ -1,14 +1,13 @@
 var searchData=
 [
-  ['targetobjectivetask_628',['TargetObjectiveTask',['../classtasks_1_1qp_1_1TargetObjectiveTask.html',1,'tasks::qp']]],
-  ['task_629',['Task',['../classtasks_1_1qp_1_1Task.html',1,'tasks::qp']]],
-  ['torquebound_630',['TorqueBound',['../structtasks_1_1TorqueBound.html',1,'tasks']]],
-  ['torquedbound_631',['TorqueDBound',['../structtasks_1_1TorqueDBound.html',1,'tasks']]],
-  ['torquetask_632',['TorqueTask',['../classtasks_1_1qp_1_1TorqueTask.html',1,'tasks::qp']]],
-  ['trackingtask_633',['TrackingTask',['../classtasks_1_1qp_1_1TrackingTask.html',1,'tasks::qp']]],
-  ['trajectorytask_634',['TrajectoryTask',['../classtasks_1_1qp_1_1TrajectoryTask.html',1,'tasks::qp']]],
-  ['transformtask_635',['TransformTask',['../classtasks_1_1qp_1_1TransformTask.html',1,'tasks::qp::TransformTask'],['../classtasks_1_1TransformTask.html',1,'tasks::TransformTask']]],
-  ['transformtaskcommon_636',['TransformTaskCommon',['../classtasks_1_1qp_1_1TransformTaskCommon.html',1,'tasks::qp::TransformTaskCommon&lt; transform_task_t &gt;'],['../classtasks_1_1TransformTaskCommon.html',1,'tasks::TransformTaskCommon']]],
-  ['transformtaskcommon_3c_20tasks_3a_3asurfacetransformtask_20_3e_637',['TransformTaskCommon&lt; tasks::SurfaceTransformTask &gt;',['../classtasks_1_1qp_1_1TransformTaskCommon.html',1,'tasks::qp']]],
-  ['transformtaskcommon_3c_20tasks_3a_3atransformtask_20_3e_638',['TransformTaskCommon&lt; tasks::TransformTask &gt;',['../classtasks_1_1qp_1_1TransformTaskCommon.html',1,'tasks::qp']]]
+  ['selecteddata_1044',['SelectedData',['../structtasks_1_1qp_1_1JointsSelector_1_1SelectedData.html',1,'tasks::qp::JointsSelector']]],
+  ['setpointtask_1045',['SetPointTask',['../classtasks_1_1qp_1_1SetPointTask.html',1,'tasks::qp']]],
+  ['setpointtaskcommon_1046',['SetPointTaskCommon',['../classtasks_1_1qp_1_1SetPointTaskCommon.html',1,'tasks::qp']]],
+  ['solverdata_1047',['SolverData',['../classtasks_1_1qp_1_1SolverData.html',1,'tasks::qp']]],
+  ['sphere_1048',['Sphere',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Geometry_1_1Sphere.html',1,'rbd::parsers::Geometry']]],
+  ['springjoint_1049',['SpringJoint',['../structtasks_1_1qp_1_1SpringJoint.html',1,'tasks::qp']]],
+  ['springjointdata_1050',['SpringJointData',['../structtasks_1_1qp_1_1MotionSpringConstr_1_1SpringJointData.html',1,'tasks::qp::MotionSpringConstr']]],
+  ['superellipsoid_1051',['Superellipsoid',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Geometry_1_1Superellipsoid.html',1,'rbd::parsers::Geometry']]],
+  ['surfaceorientationtask_1052',['SurfaceOrientationTask',['../classtasks_1_1qp_1_1SurfaceOrientationTask.html',1,'tasks::qp::SurfaceOrientationTask'],['../classtasks_1_1SurfaceOrientationTask.html',1,'tasks::SurfaceOrientationTask']]],
+  ['surfacetransformtask_1053',['SurfaceTransformTask',['../classtasks_1_1qp_1_1SurfaceTransformTask.html',1,'tasks::qp::SurfaceTransformTask'],['../classtasks_1_1SurfaceTransformTask.html',1,'tasks::SurfaceTransformTask']]]
 ];
