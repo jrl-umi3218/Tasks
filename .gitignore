@@ -4,3 +4,5 @@
 CMakeLists.txt.user*
 *.autosave
 build/
+.direnv/
+result*

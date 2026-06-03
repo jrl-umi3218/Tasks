@@ -37,7 +37,31 @@ An online documentation can be found [online](https://jrl-umi3218.github.io/Task
 Installing
 ----------
 
-## Ubuntu LTS (16.04, 18.04, 20.04)
+## Nix
+
+### Build
+To build this software simply use
+
+```sh
+nix build github:jrl-umi3218/Tasks#tasks
+```
+
+### Develop
+To work on the project, use a development shell
+
+```sh
+gh repo clone jrl-umi3218/Tasks
+cd Tasks
+direnv allow # or nix develop
+cmake -B build $cmakeFlags
+cmake --build build
+```
+
+### Overlay
+To use in your own nix flakes, you may use the overlay provided in https://github.com/mc-rtc/nixpkgs or add this repository's flake to your flake inputs.
+
+
+## Ubuntu LTS (22.04, 24.04, 26.04)
 
 You must first setup our package mirror:
 
