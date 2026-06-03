@@ -124,10 +124,17 @@ Installing</h1>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Nix</h1>
 <h2><a class="anchor" id="autotoc_md3"></a>
+Run python interpreter</h2>
+<p>To get a python interpreter, use</p>
+<div class="fragment"><div class="line">nix run github:jrl-umi3218/Tasks</div>
+</div><!-- fragment --><p>and use it with</p>
+<div class="fragment"><div class="line">import tasks</div>
+<div class="line"># ...</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
 Build</h2>
 <p>To build this software simply use</p>
 <div class="fragment"><div class="line">nix build github:jrl-umi3218/Tasks#tasks</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
 Develop</h2>
 <p>To work on the project, use a development shell</p>
 <div class="fragment"><div class="line">gh repo clone jrl-umi3218/Tasks</div>
@@ -135,10 +142,10 @@ Develop</h2>
 <div class="line">direnv allow # or nix develop</div>
 <div class="line">cmake -B build $cmakeFlags</div>
 <div class="line">cmake --build build</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
 Overlay</h2>
 <p>To use in your own nix flakes, you may use the overlay provided in <a href="https://github.com/mc-rtc/nixpkgs">https://github.com/mc-rtc/nixpkgs</a> or add this repository's flake to your flake inputs.</p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Ubuntu LTS (22.04, 24.04, 26.04)</h1>
 <p>You must first setup our package mirror:</p>
 <div class="fragment"><div class="line">curl -1sLf \</div>
@@ -150,7 +157,7 @@ Ubuntu LTS (22.04, 24.04, 26.04)</h1>
 <div class="line">  | sudo -E bash</div>
 </div><!-- fragment --><p>You can then install the package:</p>
 <div class="fragment"><div class="line">sudo apt install libtasks-dev python-tasks python3-tasks</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
 Conan</h1>
 <p>Install the latest version using <a href="https://conan.io/">conan</a></p>
 <div class="fragment"><div class="line">conan remote add multi-contact https://api.bintray.com/conan/gergondet/multi-contact</div>
@@ -158,9 +165,9 @@ Conan</h1>
 <div class="line">conan install Tasks/latest@multi-contact/stable</div>
 <div class="line"># Or install the latest development version</div>
 <div class="line"># conan install Tasks/latest@multi-contact/dev</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
 Manually build from source</h1>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Dependencies</h2>
 <p>To compile you need the following tools and libraries:</p>
 <ul>
@@ -182,7 +189,7 @@ Dependencies</h2>
 <li><a href="https://github.com/jrl-umi3218/Eigen3ToPython">Eigen3ToPython</a></li>
 <li><a href="https://github.com/jrl-umi3218/sch-core-python">sch-core-python</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Building</h2>
 <div class="fragment"><div class="line">git clone --recursive https://github.com/jrl-umi3218/Tasks</div>
 <div class="line">cd Tasks</div>
@@ -190,7 +197,7 @@ Building</h2>
 <div class="line">cd _build</div>
 <div class="line">cmake [options] ..</div>
 <div class="line">make &amp;&amp; make intall</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md11"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md12"></a>
 CMake options</h3>
 <p>By default, the build will use the <code>python</code> and <code>pip</code> command to install the bindings for the default system version (this behaviour can be used to build the bindings in a given virtualenv). The following options allow to control this behaviour:</p>
 <ul>

@@ -28,16 +28,17 @@ var NAVTREE =
     [ "Documentation", "index.html#autotoc_md0", null ],
     [ "Installing", "index.html#autotoc_md1", null ],
     [ "Nix", "index.html#autotoc_md2", [
-      [ "Build", "index.html#autotoc_md3", null ],
-      [ "Develop", "index.html#autotoc_md4", null ],
-      [ "Overlay", "index.html#autotoc_md5", null ]
+      [ "Run python interpreter", "index.html#autotoc_md3", null ],
+      [ "Build", "index.html#autotoc_md4", null ],
+      [ "Develop", "index.html#autotoc_md5", null ],
+      [ "Overlay", "index.html#autotoc_md6", null ]
     ] ],
-    [ "Ubuntu LTS (22.04, 24.04, 26.04)", "index.html#autotoc_md6", null ],
-    [ "Conan", "index.html#autotoc_md7", null ],
-    [ "Manually build from source", "index.html#autotoc_md8", [
-      [ "Dependencies", "index.html#autotoc_md9", null ],
-      [ "Building", "index.html#autotoc_md10", [
-        [ "CMake options", "index.html#autotoc_md11", null ]
+    [ "Ubuntu LTS (22.04, 24.04, 26.04)", "index.html#autotoc_md7", null ],
+    [ "Conan", "index.html#autotoc_md8", null ],
+    [ "Manually build from source", "index.html#autotoc_md9", [
+      [ "Dependencies", "index.html#autotoc_md10", null ],
+      [ "Building", "index.html#autotoc_md11", [
+        [ "CMake options", "index.html#autotoc_md12", null ]
       ] ]
     ] ],
     [ "Deprecated List", "deprecated.html", null ],
@@ -73,7 +74,7 @@ var NAVTREEINDEX =
 "classtasks_1_1qp_1_1ImageConstr.html#adf0dd8a09a53250bcda351cbfffb2dbf",
 "classtasks_1_1qp_1_1QLDQPSolver.html",
 "functions_func_p.html",
-"namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce"
+"namespacetasks_1_1qp.html#a5f31965982894310938eeee89933c06f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
