@@ -39,6 +39,20 @@ Installing
 
 ## Nix
 
+### Run python interpreter
+To get a python interpreter, use
+
+```sh
+nix run github:jrl-umi3218/Tasks
+```
+
+and use it with
+
+```python
+import tasks
+# ...
+```
+
 ### Build
 To build this software simply use
 
