@@ -1,11 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"functions_func_p.html":[7,3,1,14],
-"functions_func_q.html":[7,3,1,15],
-"functions_func_r.html":[7,3,1,16],
-"functions_func_s.html":[7,3,1,17],
-"functions_func_t.html":[7,3,1,18],
-"functions_func_u.html":[7,3,1,19],
 "functions_func_v.html":[7,3,1,20],
 "functions_func_w.html":[7,3,1,21],
 "functions_func_x.html":[7,3,1,22],
@@ -249,5 +243,11 @@ var NAVTREEINDEX4 =
 "structtasks_1_1PolyTorqueBound.html#a2940edde14b86bf399b4122861178b42":[7,0,0,7,2],
 "structtasks_1_1PolyTorqueBound.html#a3dd3f2707509e52e84f0d1ed3edc1072":[7,0,0,7,0],
 "structtasks_1_1PolyTorqueBound.html#a60ae0a607860c7b1eeb10c3eb1900d8d":[7,0,0,7,1],
-"structtasks_1_1PolyTorqueBound.html#a7f89616b892fe7142ff2159fbf3454b9":[7,0,0,7,3]
+"structtasks_1_1PolyTorqueBound.html#a7f89616b892fe7142ff2159fbf3454b9":[7,0,0,7,3],
+"structtasks_1_1QBound.html":[7,0,0,1],
+"structtasks_1_1QBound.html#a5ed0fe5130f66d16efcb5af347c9f9be":[7,0,0,1,3],
+"structtasks_1_1QBound.html#a8b98c406f6daa08af4a7883ba00cf844":[7,0,0,1,2],
+"structtasks_1_1QBound.html#a9adaf296f18e8d83bea065e232714633":[7,0,0,1,0],
+"structtasks_1_1QBound.html#adb75555826261616bcfc52c56ec0a863":[7,0,0,1,1],
+"structtasks_1_1TorqueBound.html":[7,0,0,5]
 };
