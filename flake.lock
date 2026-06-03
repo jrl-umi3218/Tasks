@@ -333,11 +333,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776502416,
-        "narHash": "sha256-XIUzDcHFlo1QH+ANQtEEBiwYpuhf9t1hRYYPoEdZGo0=",
+        "lastModified": 1780430434,
+        "narHash": "sha256-X/pA/VpWdxCTHyCg50semDoyMnTmHaaOpk8AQRFTmUo=",
         "owner": "mc-rtc",
         "repo": "nixpkgs",
-        "rev": "0a04121f6c78bf1f796447d5078a65e373a94109",
+        "rev": "728d0ce3a9d76eb7f8c709905dcff340eca4a4a6",
         "type": "github"
       },
       "original": {
