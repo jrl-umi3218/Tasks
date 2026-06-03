@@ -109,7 +109,7 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="codeRef" href="/usr/local/share/doc/RBDyn/doxygen-html/Jacobian_8h.html">RBDyn/Jacobian.h</a>&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// sch</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;sch/Matrix/SCH_Types.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;<a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/SCH__Types_8h.html">sch/Matrix/SCH_Types.h</a>&gt;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// Tasks</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="QPSolver_8h.html">QPSolver.h</a>&quot;</span></div>
@@ -119,7 +119,7 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// forward declaration</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// sch</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="namespacesch.html">   27</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacesch.html">sch</a></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacesch.html">sch</a></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">class </span>S_Object;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">class </span>CD_Pair;</div>
@@ -135,7 +135,7 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">namespace </span>qp</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a2887fd65f669f54a2aaaa911c724a089">   44</a></span>&#160;TASKS_DLLAPI sch::Matrix4x4 <a class="code" href="namespacetasks_1_1qp.html#a2887fd65f669f54a2aaaa911c724a089">tosch</a>(<span class="keyword">const</span> <a class="codeRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransformd</a> &amp; t);</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="namespacetasks_1_1qp.html#a2887fd65f669f54a2aaaa911c724a089">   44</a></span>&#160;TASKS_DLLAPI <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/structCD__Matrix_1_1Matrix4x4T.html">sch::Matrix4x4</a> <a class="code" href="namespacetasks_1_1qp.html#a2887fd65f669f54a2aaaa911c724a089">tosch</a>(<span class="keyword">const</span> <a class="codeRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransformd</a> &amp; t);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classtasks_1_1qp_1_1JointLimitsConstr.html">   56</a></span>&#160;<span class="keyword">class </span>TASKS_DLLAPI <a class="code" href="classtasks_1_1qp_1_1JointLimitsConstr.html">JointLimitsConstr</a> : <span class="keyword">public</span> <a class="code" href="classtasks_1_1qp_1_1ConstraintFunction.html">ConstraintFunction</a>&lt;Bound&gt;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
@@ -279,11 +279,11 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                    <span class="keywordtype">int</span> collId,</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                    <span class="keywordtype">int</span> r1Index,</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                    <span class="keyword">const</span> std::string &amp; r1BodyName,</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                    sch::S_Object * body1,</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                    <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a> * body1,</div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                    <span class="keyword">const</span> <a class="codeRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransformd</a> &amp; X_op1_o1,</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                    <span class="keywordtype">int</span> r2Index,</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                    <span class="keyword">const</span> std::string &amp; r2BodyName,</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                    sch::S_Object * body2,</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                    <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a> * body2,</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                    <span class="keyword">const</span> <a class="codeRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransformd</a> &amp; X_op2_o2,</div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                    <span class="keywordtype">double</span> di,</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                    <span class="keywordtype">double</span> ds,</div>
@@ -323,11 +323,11 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    BodyCollData(<span class="keyword">const</span> <a class="codeRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &amp; mb,</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                 <span class="keywordtype">int</span> rIndex,</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                 <span class="keyword">const</span> std::string &amp; bodyName,</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                 sch::S_Object * hull,</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                 <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a> * hull,</div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                 <span class="keyword">const</span> <a class="codeRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransformd</a> &amp; X_op_o,</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                 <span class="keyword">const</span> Eigen::VectorXd &amp; selector);</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    sch::S_Object * hull;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a> * hull;</div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <a class="codeRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Jacobian.html">rbd::Jacobian</a> jac;</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <a class="codeRef" href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransformd</a> X_op_o;</div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordtype">int</span> rIndex, bIndex;</div>
@@ -345,8 +345,8 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    };</div>
 <div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    CollData(std::vector&lt;BodyCollData&gt; bcds,</div>
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;             <span class="keywordtype">int</span> collId,</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;             sch::S_Object * body1,</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;             sch::S_Object * body2,</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;             <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a> * body1,</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;             <a class="codeRef" href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a> * body2,</div>
 <div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;             <span class="keywordtype">double</span> di,</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;             <span class="keywordtype">double</span> ds,</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;             <span class="keywordtype">double</span> damping,</div>
@@ -725,9 +725,11 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="ttc" id="aCoM_8h.html_html"><div class="ttname"><a href="/usr/local/share/doc/RBDyn/doxygen-html/CoM_8h.html">CoM.h</a></div></div>
 <div class="ttc" id="aJacobian_8h.html_html"><div class="ttname"><a href="/usr/local/share/doc/RBDyn/doxygen-html/Jacobian_8h.html">Jacobian.h</a></div></div>
 <div class="ttc" id="aQPSolver_8h_html"><div class="ttname"><a href="QPSolver_8h.html">QPSolver.h</a></div></div>
+<div class="ttc" id="aSCH__Types_8h.html_html"><div class="ttname"><a href="/usr/local/share/doc/sch-core/doxygen-html/SCH__Types_8h.html">SCH_Types.h</a></div></div>
 <div class="ttc" id="aclassrbd_1_1CoMJacobian_html"><div class="ttname"><a href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1CoMJacobian.html">rbd::CoMJacobian</a></div></div>
 <div class="ttc" id="aclassrbd_1_1Jacobian_html"><div class="ttname"><a href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Jacobian.html">rbd::Jacobian</a></div></div>
 <div class="ttc" id="aclassrbd_1_1MultiBody_html"><div class="ttname"><a href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a></div></div>
+<div class="ttc" id="aclasssch_1_1S__Object_html"><div class="ttname"><a href="/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html">sch::S_Object</a></div></div>
 <div class="ttc" id="aclasssva_1_1PTransform_html"><div class="ttname"><a href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html">sva::PTransform</a></div></div>
 <div class="ttc" id="aclasssva_1_1PTransform_html_a8f9781828ebc80b8c89a6e9bfba6ea4d"><div class="ttname"><a href="/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1PTransform.html#a8f9781828ebc80b8c89a6e9bfba6ea4d">sva::PTransform::Identity</a></div><div class="ttdeci">static PTransform&lt; T &gt; Identity()</div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1BoundedSpeedConstr_html"><div class="ttname"><a href="classtasks_1_1qp_1_1BoundedSpeedConstr.html">tasks::qp::BoundedSpeedConstr</a></div><div class="ttdef"><b>Definition:</b> QPConstr.h:662</div></div>
@@ -841,9 +843,10 @@ $(document).ready(function(){initNavTree('QPConstr_8h_source.html',''); initResi
 <div class="ttc" id="aclasstasks_1_1qp_1_1JointLimitsConstr_html_ad1bb25d2f65316dc645eda9db015e1ba"><div class="ttname"><a href="classtasks_1_1qp_1_1JointLimitsConstr.html#ad1bb25d2f65316dc645eda9db015e1ba">tasks::qp::JointLimitsConstr::update</a></div><div class="ttdeci">virtual void update(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, const std::vector&lt; rbd::MultiBodyConfig &gt; &amp;mbcs, const SolverData &amp;data) override</div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1JointLimitsConstr_html_ad3aeca710610deccea5832e9b1c464f0"><div class="ttname"><a href="classtasks_1_1qp_1_1JointLimitsConstr.html#ad3aeca710610deccea5832e9b1c464f0">tasks::qp::JointLimitsConstr::Upper</a></div><div class="ttdeci">virtual const Eigen::VectorXd &amp; Upper() const override</div></div>
 <div class="ttc" id="aclasstasks_1_1qp_1_1SolverData_html"><div class="ttname"><a href="classtasks_1_1qp_1_1SolverData.html">tasks::qp::SolverData</a></div><div class="ttdef"><b>Definition:</b> QPSolverData.h:28</div></div>
-<div class="ttc" id="anamespacesch_html"><div class="ttname"><a href="namespacesch.html">sch</a></div><div class="ttdef"><b>Definition:</b> QPConstr.h:28</div></div>
+<div class="ttc" id="anamespacesch_html"><div class="ttname"><a href="namespacesch.html">sch</a></div></div>
 <div class="ttc" id="anamespacetasks_1_1qp_html_a2887fd65f669f54a2aaaa911c724a089"><div class="ttname"><a href="namespacetasks_1_1qp.html#a2887fd65f669f54a2aaaa911c724a089">tasks::qp::tosch</a></div><div class="ttdeci">TASKS_DLLAPI sch::Matrix4x4 tosch(const sva::PTransformd &amp;t)</div><div class="ttdoc">Convert a sch-core transformation matrix to a sva::PTransformd matrix.</div></div>
 <div class="ttc" id="anamespacetasks_html"><div class="ttname"><a href="namespacetasks.html">tasks</a></div><div class="ttdef"><b>Definition:</b> GenQPUtils.h:19</div></div>
+<div class="ttc" id="astructCD__Matrix_1_1Matrix4x4T_html"><div class="ttname"><a href="/usr/local/share/doc/sch-core/doxygen-html/structCD__Matrix_1_1Matrix4x4T.html">CD_Matrix::Matrix4x4T</a></div></div>
 <div class="ttc" id="astructrbd_1_1MultiBodyConfig_html"><div class="ttname"><a href="/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html">rbd::MultiBodyConfig</a></div></div>
 <div class="ttc" id="astructtasks_1_1AlphaBound_html"><div class="ttname"><a href="structtasks_1_1AlphaBound.html">tasks::AlphaBound</a></div><div class="ttdef"><b>Definition:</b> Bounds.h:41</div></div>
 <div class="ttc" id="astructtasks_1_1AlphaDBound_html"><div class="ttname"><a href="structtasks_1_1AlphaDBound.html">tasks::AlphaDBound</a></div><div class="ttdef"><b>Definition:</b> Bounds.h:59</div></div>

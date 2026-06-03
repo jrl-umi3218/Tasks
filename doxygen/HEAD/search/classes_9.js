@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['jacobian_1004',['Jacobian',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Jacobian.html',1,'rbd']]],
-  ['joint_1005',['Joint',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html',1,'rbd']]],
-  ['jointgains_1006',['JointGains',['../structtasks_1_1qp_1_1JointGains.html',1,'tasks::qp']]],
-  ['jointlimitsconstr_1007',['JointLimitsConstr',['../classtasks_1_1qp_1_1JointLimitsConstr.html',1,'tasks::qp']]],
-  ['jointsselector_1008',['JointsSelector',['../classtasks_1_1qp_1_1JointsSelector.html',1,'tasks::qp']]],
-  ['jointstiffness_1009',['JointStiffness',['../structtasks_1_1qp_1_1JointStiffness.html',1,'tasks::qp']]]
+  ['idim_1495',['IDIM',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1IDIM.html',1,'rbd']]],
+  ['imageconstr_1496',['ImageConstr',['../classtasks_1_1qp_1_1ImageConstr.html',1,'tasks::qp']]],
+  ['impedancevec_1497',['ImpedanceVec',['/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1ImpedanceVec.html',1,'sva']]],
+  ['inequality_1498',['Inequality',['../classtasks_1_1qp_1_1Inequality.html',1,'tasks::qp']]],
+  ['inversedynamics_1499',['InverseDynamics',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1InverseDynamics.html',1,'rbd']]],
+  ['inversekinematics_1500',['InverseKinematics',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1InverseKinematics.html',1,'rbd']]],
+  ['inversestatics_1501',['InverseStatics',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1InverseStatics.html',1,'rbd']]]
 ];

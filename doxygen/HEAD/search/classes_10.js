@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['rbdynfromyaml_1041',['RBDynFromYAML',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1parsers_1_1RBDynFromYAML.html',1,'rbd::parsers']]],
-  ['rbinertia_1042',['RBInertia',['/usr/local/share/doc/SpaceVecAlg/doxygen-html/classsva_1_1RBInertia.html',1,'sva']]],
-  ['relativedisttask_1043',['RelativeDistTask',['../classtasks_1_1qp_1_1RelativeDistTask.html',1,'tasks::qp::RelativeDistTask'],['../classtasks_1_1RelativeDistTask.html',1,'tasks::RelativeDistTask']]]
+  ['qbound_1549',['QBound',['../structtasks_1_1QBound.html',1,'tasks']]],
+  ['qldqpsolver_1550',['QLDQPSolver',['../classtasks_1_1qp_1_1QLDQPSolver.html',1,'tasks::qp']]],
+  ['qpsolver_1551',['QPSolver',['../classtasks_1_1qp_1_1QPSolver.html',1,'tasks::qp']]],
+  ['quaterniont_1552',['QuaternionT',['/usr/local/share/doc/sch-core/doxygen-html/classCD__Matrix_1_1QuaternionT.html',1,'CD_Matrix']]]
 ];

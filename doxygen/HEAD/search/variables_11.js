@@ -1,27 +1,4 @@
 var searchData=
 [
-  ['r_1902',['r',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Material_1_1Color.html#ac091dd6c2225928c6e0226deb2a0d3de',1,'rbd::parsers::Material::Color']]],
-  ['r1bodyname_1903',['r1BodyName',['../structtasks_1_1qp_1_1ContactId.html#a47acc85ec19a848ec185d379dbd7c9ea',1,'tasks::qp::ContactId']]],
-  ['r1cone_1904',['r1Cone',['../structtasks_1_1qp_1_1UnilateralContact.html#a3e166b10c87bccb10ff5b22559171623',1,'tasks::qp::UnilateralContact']]],
-  ['r1cones_1905',['r1Cones',['../structtasks_1_1qp_1_1BilateralContact.html#a0820756bc6d3dfec5acba3d29bb09ab3',1,'tasks::qp::BilateralContact']]],
-  ['r1index_1906',['r1Index',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a36664bc33d3df6f48bff1cca3172188b',1,'tasks::qp::ContactConstr::ContactData::r1Index()'],['../structtasks_1_1qp_1_1ContactId.html#aa0f853c4f1786b8a23a0252dcbf2678a',1,'tasks::qp::ContactId::r1Index()']]],
-  ['r1points_1907',['r1Points',['../structtasks_1_1qp_1_1UnilateralContact.html#af7e3cbf6139f5f5b34dc5cc36e7ee9c5',1,'tasks::qp::UnilateralContact::r1Points()'],['../structtasks_1_1qp_1_1BilateralContact.html#aaa53327f1e4010109daaca0472cdfa87',1,'tasks::qp::BilateralContact::r1Points()']]],
-  ['r2bodyname_1908',['r2BodyName',['../structtasks_1_1qp_1_1ContactId.html#aec152e04a89289523099fd8ebe816e8c',1,'tasks::qp::ContactId']]],
-  ['r2cone_1909',['r2Cone',['../structtasks_1_1qp_1_1UnilateralContact.html#a73df9714f72365e74a0682317107b646',1,'tasks::qp::UnilateralContact']]],
-  ['r2cones_1910',['r2Cones',['../structtasks_1_1qp_1_1BilateralContact.html#a87ac911696ce421a9ba1f83b98785986',1,'tasks::qp::BilateralContact']]],
-  ['r2index_1911',['r2Index',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#a45d95d03f77de846582a64cdb1f4d888',1,'tasks::qp::ContactConstr::ContactData::r2Index()'],['../structtasks_1_1qp_1_1ContactId.html#a58515743f8024e51dc07e65a3f0447d6',1,'tasks::qp::ContactId::r2Index()']]],
-  ['r2points_1912',['r2Points',['../structtasks_1_1qp_1_1UnilateralContact.html#a3ffa099f15791cc4efddb0f2bcea16b0',1,'tasks::qp::UnilateralContact::r2Points()'],['../structtasks_1_1qp_1_1BilateralContact.html#a8e70de174d9453af6728a12bd194c163',1,'tasks::qp::BilateralContact::r2Points()']]],
-  ['radius_1913',['radius',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Geometry_1_1Cylinder.html#a814a8bcabc3a0f5ae2ddb5003ce4ab0b',1,'rbd::parsers::Geometry::Cylinder::radius()'],['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Geometry_1_1Sphere.html#a93775c16f27ef4ad1921db9609b63b1c',1,'rbd::parsers::Geometry::Sphere::radius()']]],
-  ['reducedtofull_5f_1914',['reducedToFull_',['../classtasks_1_1qp_1_1GenQPSolver.html#a7db3d83a10b1e0c60541ff1b0b226edd',1,'tasks::qp::GenQPSolver']]],
-  ['remove_5ffiltered_5flinks_5f_1915',['remove_filtered_links_',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1ParserParameters.html#ab647a29ccf17ef16a0fe0fe25ae1b5e7',1,'rbd::parsers::ParserParameters']]],
-  ['remove_5fvirtual_5flinks_5f_1916',['remove_virtual_links_',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1ParserParameters.html#aa378704cd06e8d0bb83e0190f461e166',1,'rbd::parsers::ParserParameters']]],
-  ['rev_1917',['Rev',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#afff99e26b5eeb3d899af433df385f4fdac5b8dc11c03ee56b4eab11623556d65d',1,'rbd::Joint']]],
-  ['revdof_1918',['revDof',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactData.html#ad29c82f825db591831606fc41d48b399',1,'tasks::qp::ContactConstr::ContactData']]],
-  ['revx_1919',['RevX',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#ab948ec84d396e27779015bccdf303536a27319663df173fa147a2d271e0ef355f',1,'rbd::Joint']]],
-  ['revy_1920',['RevY',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#ab948ec84d396e27779015bccdf303536a3686aba670ebb2c1a6a3b789114884bd',1,'rbd::Joint']]],
-  ['revz_1921',['RevZ',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#ab948ec84d396e27779015bccdf303536a432be99df9b9483bee433d8d9f948cc2',1,'rbd::Joint']]],
-  ['righthanded_1922',['RightHanded',['/usr/local/share/doc/SpaceVecAlg/doxygen-html/namespacesva_1_1conversions.html#adfa051e762e1b8048e916c9297df6ac9',1,'sva::conversions']]],
-  ['robotindex_1923',['robotIndex',['../structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html#ab8b5fe032fa924722e9e9936033ac11a',1,'tasks::qp::ContactConstr::ContactSideData']]],
-  ['robotindex_5f_1924',['robotIndex_',['../classtasks_1_1qp_1_1MotionConstrCommon.html#a3843d4962b6ddfd6daebacb7d8e8c7f8',1,'tasks::qp::MotionConstrCommon::robotIndex_()'],['../classtasks_1_1qp_1_1TransformTaskCommon.html#a55c311d3cda616f83de11d836c6f3d18',1,'tasks::qp::TransformTaskCommon::robotIndex_()']]],
-  ['rootjointname_5f_1925',['rootJointName_',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBodyGraph.html#a80b027812459d999809baa10eae13236',1,'rbd::MultiBodyGraph']]]
+  ['q_2844',['q',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1MultiBodyConfig.html#aa5bc9b892c357f9c59b378a3bc17b335',1,'rbd::MultiBodyConfig']]]
 ];

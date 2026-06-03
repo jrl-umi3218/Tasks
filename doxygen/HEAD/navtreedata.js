@@ -27,12 +27,17 @@ var NAVTREE =
   [ "Tasks", "index.html", [
     [ "Documentation", "index.html#autotoc_md0", null ],
     [ "Installing", "index.html#autotoc_md1", null ],
-    [ "Ubuntu LTS (16.04, 18.04, 20.04)", "index.html#autotoc_md2", null ],
-    [ "Conan", "index.html#autotoc_md3", null ],
-    [ "Manually build from source", "index.html#autotoc_md4", [
-      [ "Dependencies", "index.html#autotoc_md5", null ],
-      [ "Building", "index.html#autotoc_md6", [
-        [ "CMake options", "index.html#autotoc_md7", null ]
+    [ "Nix", "index.html#autotoc_md2", [
+      [ "Build", "index.html#autotoc_md3", null ],
+      [ "Develop", "index.html#autotoc_md4", null ],
+      [ "Overlay", "index.html#autotoc_md5", null ]
+    ] ],
+    [ "Ubuntu LTS (22.04, 24.04, 26.04)", "index.html#autotoc_md6", null ],
+    [ "Conan", "index.html#autotoc_md7", null ],
+    [ "Manually build from source", "index.html#autotoc_md8", [
+      [ "Dependencies", "index.html#autotoc_md9", null ],
+      [ "Building", "index.html#autotoc_md10", [
+        [ "CMake options", "index.html#autotoc_md11", null ]
       ] ]
     ] ],
     [ "Deprecated List", "deprecated.html", null ],
@@ -63,12 +68,12 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"Bounds_8h.html",
-"classtasks_1_1VectorOrientationTask.html#a915b78ec72edfd554234c61c883dc99b",
-"classtasks_1_1qp_1_1Inequality.html#a6b76e75f578ae739fa31aecbddc937fc",
-"classtasks_1_1qp_1_1QLDQPSolver.html#ac39b5fa66ffe4aa42c22e3119981268e",
-"functions_func_v.html",
-"structtasks_1_1TorqueBound.html#a3d06c4ad22a6fbce388e01ac4f14d6bd"
+"",
+"classtasks_1_1VectorOrientationTask.html",
+"classtasks_1_1qp_1_1ImageConstr.html#adf0dd8a09a53250bcda351cbfffb2dbf",
+"classtasks_1_1qp_1_1QLDQPSolver.html",
+"functions_func_p.html",
+"namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

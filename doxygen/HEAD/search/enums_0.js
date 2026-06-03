@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['oldtype_1993',['OldType',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#ab948ec84d396e27779015bccdf303536',1,'rbd::Joint']]]
+  ['archivetype_2999',['ArchiveType',['/usr/local/share/doc/sch-core/doxygen-html/namespacesch.html#aec0f4168a7c3d90bebc8db0c1f6c8fa9',1,'sch']]]
 ];
