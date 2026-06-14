@@ -1,11 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"functions_func_p.html":[8,3,1,14],
-"functions_func_q.html":[8,3,1,15],
-"functions_func_r.html":[8,3,1,16],
-"functions_func_s.html":[8,3,1,17],
-"functions_func_t.html":[8,3,1,18],
-"functions_func_u.html":[8,3,1,19],
 "functions_func_v.html":[8,3,1,20],
 "functions_func_w.html":[8,3,1,21],
 "functions_func_x.html":[8,3,1,22],
@@ -249,5 +243,11 @@ var NAVTREEINDEX4 =
 "namespacetasks_1_1qp.html#a2887fd65f669f54a2aaaa911c724a089":[7,0,4,0,88],
 "namespacetasks_1_1qp.html#a3acd478a67503f59d9247a42d049ccab":[7,0,4,0,79],
 "namespacetasks_1_1qp.html#a483f5734b17b8c4500a85814c867ebc9":[7,0,4,0,73],
-"namespacetasks_1_1qp.html#a4af6028d8957e20c500d0bb31a2b9231":[7,0,4,0,74]
+"namespacetasks_1_1qp.html#a4af6028d8957e20c500d0bb31a2b9231":[7,0,4,0,74],
+"namespacetasks_1_1qp.html#a5f31965982894310938eeee89933c06f":[7,0,4,0,78],
+"namespacetasks_1_1qp.html#a65d9ff284da05686474a0fb01276bbce":[7,0,4,0,84],
+"namespacetasks_1_1qp.html#a741de9b14e9fe6a5b4ec675703215210":[7,0,4,0,86],
+"namespacetasks_1_1qp.html#a77e5a5962c21c03aeda39abeeb516912":[7,0,4,0,77],
+"namespacetasks_1_1qp.html#a92dd7d7ce7ea80e3cf096e82061d0b66":[7,0,4,0,82],
+"namespacetasks_1_1qp.html#a9694a15e3e5b744843aa6dae4fa134da":[7,0,4,0,81]
 };

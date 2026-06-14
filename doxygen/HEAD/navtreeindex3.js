@@ -1,11 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"classtasks_1_1qp_1_1QLDQPSolver.html":[8,0,0,0,1],
-"classtasks_1_1qp_1_1QLDQPSolver.html#a23f91afba5699bb41d02a3081c1ab59e":[8,0,0,0,1,0],
-"classtasks_1_1qp_1_1QLDQPSolver.html#a63cfa790fe87436d11657c6c3d5e1ee5":[8,0,0,0,1,3],
-"classtasks_1_1qp_1_1QLDQPSolver.html#a771aa5e02e50abc1603b08da7e7a649d":[8,0,0,0,1,5],
-"classtasks_1_1qp_1_1QLDQPSolver.html#a96cc2b5d90faaae84bac06d5d5acf6ea":[8,0,0,0,1,4],
-"classtasks_1_1qp_1_1QLDQPSolver.html#aa1c9b49bd2a1055f5656d6061cb3f244":[8,0,0,0,1,2],
 "classtasks_1_1qp_1_1QLDQPSolver.html#ac39b5fa66ffe4aa42c22e3119981268e":[8,0,0,0,1,6],
 "classtasks_1_1qp_1_1QLDQPSolver.html#af3ce529f75e491c1cd60b91dd284eb80":[8,0,0,0,1,1],
 "classtasks_1_1qp_1_1QPSolver.html":[8,0,0,0,25],
@@ -228,15 +222,15 @@ var NAVTREEINDEX3 =
 "dir_15942c16c93f90974604cc5d8cedb2cd.html":[9,0,0,0],
 "dir_68267d1309a1af8e8297ef4c3efbcdba.html":[9,0,0],
 "files.html":[9,0],
-"functions.html":[8,3,0,0],
 "functions.html":[8,3,0],
+"functions.html":[8,3,0,0],
 "functions_b.html":[8,3,0,1],
 "functions_c.html":[8,3,0,2],
 "functions_d.html":[8,3,0,3],
 "functions_e.html":[8,3,0,4],
 "functions_f.html":[8,3,0,5],
-"functions_func.html":[8,3,1,0],
 "functions_func.html":[8,3,1],
+"functions_func.html":[8,3,1,0],
 "functions_func_b.html":[8,3,1,1],
 "functions_func_c.html":[8,3,1,2],
 "functions_func_d.html":[8,3,1,3],
@@ -249,5 +243,11 @@ var NAVTREEINDEX3 =
 "functions_func_l.html":[8,3,1,10],
 "functions_func_m.html":[8,3,1,11],
 "functions_func_n.html":[8,3,1,12],
-"functions_func_o.html":[8,3,1,13]
+"functions_func_o.html":[8,3,1,13],
+"functions_func_p.html":[8,3,1,14],
+"functions_func_q.html":[8,3,1,15],
+"functions_func_r.html":[8,3,1,16],
+"functions_func_s.html":[8,3,1,17],
+"functions_func_t.html":[8,3,1,18],
+"functions_func_u.html":[8,3,1,19]
 };
