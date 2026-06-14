@@ -45,12 +45,12 @@ jobs:
         windows: |
           pip: Cython coverage pytest numpy
           github:
-            - path: eigenteam/eigen-git-mirror
-              ref: 3.3.7
+            - path: eigen-mirror/eigen
+              ref: 3.4.1
             - path: leethomason/tinyxml2
-              ref: 7.1.0
+              ref: 11.0.0
             - path: jbeder/yaml-cpp
-              ref: 29dcf92f870ee51cce8d68f8fcfe228942e8dfe1
+              ref: yaml-cpp-0.9.0
         github: |
           - path: jrl-umi3218/Eigen3ToPython
           - path: jrl-umi3218/SpaceVecAlg
