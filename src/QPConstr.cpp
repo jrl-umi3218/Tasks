@@ -768,7 +768,7 @@ void MaxDistanceConstr::update(const std::vector<rbd::MultiBody> & mbs,
       nearestPoint = d.p2;
     }
 
-    if(d.distance < d.di)
+    if(d.distance > d.di)
     {
       // automatic damping computation if needed
       if(d.dampingType == MaxDistData::DampingType::Free)
@@ -783,7 +783,7 @@ void MaxDistanceConstr::update(const std::vector<rbd::MultiBody> & mbs,
       Vector3d onf = d.normVecDist;
       Vector3d dnf = (nf - onf) / step_;
 
-      double sign = 1.;
+      double sign = -1.;
       bInEq_(nrActivated_) = dampers;
       AInEq_.block(nrActivated_, 0, 1, totalAlphaD_).setZero();
       for(std::size_t i = 0; i < d.bodies.size(); ++i)
@@ -819,8 +819,8 @@ void MaxDistanceConstr::update(const std::vector<rbd::MultiBody> & mbs,
         bInEq_(nrActivated_) += sign * (jqdn + jqdnd + jdqdn);
         // little hack
         // the max iteration number is two, so at the second iteration
-        // sign will be -1
-        sign = -1.;
+        // sign will be 1
+        sign = 1.;
       }
       ++nrActivated_;
     }
