@@ -619,6 +619,298 @@ double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody> & mbs,
 }
 
 /**
+ *													MaxDistanceConstr
+ */
+
+MaxDistanceConstr::BodyMaxDistData::BodyMaxDistData(const rbd::MultiBody & mb,
+                                                    int rI,
+                                                    const std::string & bName,
+                                                    sch::S_Object * h,
+                                                    const sva::PTransformd & X,
+                                                    const Eigen::VectorXd & selector)
+: hull(h), jac(mb, bName), X_op_o(X), rIndex(rI), bIndex(mb.bodyIndexByName(bName)), bodyName(bName), selector(selector)
+{
+}
+
+MaxDistanceConstr::MaxDistData::MaxDistData(std::vector<BodyMaxDistData> bcds,
+                                            int maxDistId,
+                                            sch::S_Object * body1,
+                                            sch::S_Object * body2,
+                                            double di,
+                                            double ds,
+                                            double damp,
+                                            double dampOff)
+: pair(new sch::CD_Pair(body1, body2)), distance(2 * di), normVecDist(Eigen::Vector3d::Zero()), di(di), ds(ds),
+  damping(damp), bodies(std::move(bcds)), dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
+  dampingOff(dampOff), maxDistId(maxDistId)
+{
+}
+
+MaxDistanceConstr::MaxDistanceConstr(const std::vector<rbd::MultiBody> & mbs, double step)
+: dataVec_(), step_(step), nrActivated_(0), totalAlphaD_(-1), AInEq_(), bInEq_(), fullJac_(), distJac_()
+{
+  int maxDof = std::max_element(mbs.begin(), mbs.end(), compareDof)->nrDof();
+  fullJac_.resize(1, maxDof);
+  distJac_.resize(1, maxDof);
+}
+
+void MaxDistanceConstr::addMaxDist(const std::vector<rbd::MultiBody> & mbs,
+                                   int maxDistId,
+                                   int r1Index,
+                                   const std::string & r1BodyName,
+                                   sch::S_Object * body1,
+                                   const sva::PTransformd & X_op1_o1,
+                                   int r2Index,
+                                   const std::string & r2BodyName,
+                                   sch::S_Object * body2,
+                                   const sva::PTransformd & X_op2_o2,
+                                   double di,
+                                   double ds,
+                                   double damping,
+                                   double dampingOff,
+                                   const Eigen::VectorXd & r1Selector,
+                                   const Eigen::VectorXd & r2Selector)
+{
+  const rbd::MultiBody mb1 = mbs[static_cast<size_t>(r1Index)];
+  const rbd::MultiBody mb2 = mbs[static_cast<size_t>(r2Index)];
+  std::vector<BodyMaxDistData> bodies;
+  if(mb1.nrDof() > 0)
+  {
+    assert(r1Selector.size() == 0 || r1Selector.size() == mb1.nrDof());
+    bodies.emplace_back(mb1, r1Index, r1BodyName, body1, X_op1_o1, r1Selector);
+  }
+  if(mb2.nrDof() > 0)
+  {
+    assert(r2Selector.size() == 0 || r2Selector.size() == mb2.nrDof());
+    bodies.emplace_back(mb2, r2Index, r2BodyName, body2, X_op2_o2, r1Index == r2Index ? r1Selector : r2Selector);
+  }
+  dataVec_.emplace_back(std::move(bodies), maxDistId, body1, body2, di, ds, damping, dampingOff);
+}
+
+bool MaxDistanceConstr::rmMaxDist(int maxDistId)
+{
+  auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
+                         [maxDistId](const MaxDistData & data) { return data.maxDistId == maxDistId; });
+  if(it != dataVec_.end())
+  {
+    dataVec_.erase(it);
+    return true;
+  }
+
+  return false;
+}
+
+auto MaxDistanceConstr::getMaxDistData(int maxDistId) const -> const MaxDistData &
+{
+  auto it = std::find_if(dataVec_.begin(), dataVec_.end(),
+                         [&](const MaxDistData & data) { return data.maxDistId == maxDistId; });
+  if(it != dataVec_.end()) { return *it; }
+  throw std::runtime_error("No max distance with the requested id");
+}
+
+std::size_t MaxDistanceConstr::nrMaxDists() const
+{ return dataVec_.size(); }
+
+void MaxDistanceConstr::reset()
+{ dataVec_.clear(); }
+
+void MaxDistanceConstr::updateNrMaxDists()
+{
+  AInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()), nrVars_);
+  bInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()));
+}
+
+void MaxDistanceConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mb */, const SolverData & data)
+{
+  totalAlphaD_ = data.totalAlphaD();
+  nrVars_ = data.nrVars();
+  updateNrMaxDists();
+}
+
+void MaxDistanceConstr::update(const std::vector<rbd::MultiBody> & mbs,
+                               const std::vector<rbd::MultiBodyConfig> & mbcs,
+                               const SolverData & data)
+{
+  using namespace Eigen;
+
+  sch::Point3 pb1Tmp;
+  sch::Point3 pb2Tmp;
+
+  nrActivated_ = 0;
+  for(MaxDistData & d : dataVec_)
+  {
+    // update moving hull position
+    for(BodyMaxDistData & bcd : d.bodies)
+    {
+      const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
+      bcd.hull->setTransformation(tosch(bcd.X_op_o * mbc.bodyPosW[static_cast<size_t>(bcd.bIndex)]));
+    }
+
+    d.distance = d.pair->getClosestPoints(pb1Tmp, pb2Tmp);
+    d.distance = d.distance >= 0 ? std::sqrt(d.distance) : -std::sqrt(-d.distance);
+
+    d.p1 << pb1Tmp[0], pb1Tmp[1], pb1Tmp[2];
+    d.p2 << pb2Tmp[0], pb2Tmp[1], pb2Tmp[2];
+
+    Eigen::Vector3d normVecDist = (d.p1 - d.p2) / (d.distance != 0 ? d.distance : sch::epsilon);
+
+    // compute nearestPoint in body coordinate
+    Eigen::Vector3d nearestPoint = d.p1;
+    for(std::size_t i = 0; i < d.bodies.size(); ++i)
+    {
+      BodyMaxDistData & bcd = d.bodies[i];
+      const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
+      nearestPoint =
+          (sva::PTransformd(nearestPoint) * mbc.bodyPosW[static_cast<size_t>(bcd.bIndex)].inv()).translation();
+
+      // change the jacobian end point
+      bcd.jac.point(nearestPoint);
+      nearestPoint = d.p2;
+    }
+
+    if(d.distance < d.di)
+    {
+      // automatic damping computation if needed
+      if(d.dampingType == MaxDistData::DampingType::Free)
+      {
+        d.dampingType = MaxDistData::DampingType::Soft;
+        d.damping = computeDamping(mbs, mbcs, d, normVecDist, d.distance);
+      }
+
+      double dampers = d.damping * ((d.distance - d.ds) / (d.di - d.ds));
+
+      Vector3d nf = normVecDist;
+      Vector3d onf = d.normVecDist;
+      Vector3d dnf = (nf - onf) / step_;
+
+      double sign = 1.;
+      bInEq_(nrActivated_) = dampers;
+      AInEq_.block(nrActivated_, 0, 1, totalAlphaD_).setZero();
+      for(std::size_t i = 0; i < d.bodies.size(); ++i)
+      {
+        BodyMaxDistData & bcd = d.bodies[i];
+        const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
+        const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
+
+        // Compute body1
+        const MatrixXd & jac = bcd.jac.jacobian(mb, mbc);
+        Eigen::Vector3d pSpeed = bcd.jac.velocity(mb, mbc).linear();
+        Eigen::Vector3d pNormalAcc = bcd.jac.normalAcceleration(mb, mbc, data.normalAccB(bcd.rIndex)).linear();
+
+        distJac_.block(0, 0, 1, bcd.jac.dof()).noalias() =
+            (nf * step_ * sign).transpose() * jac.block(3, 0, 3, bcd.jac.dof());
+
+        bcd.jac.fullJacobian(mb, distJac_.block(0, 0, 1, bcd.jac.dof()), fullJac_);
+
+        double jqdn = pSpeed.dot(nf);
+        double jqdnd = pSpeed.dot(dnf * step_);
+        double jdqdn = pNormalAcc.dot(nf * step_);
+
+        if(bcd.selector.size() == 0)
+        {
+          AInEq_.block(nrActivated_, data.alphaDBegin(bcd.rIndex), 1, mb.nrDof()).noalias() -=
+              fullJac_.block(0, 0, 1, mb.nrDof());
+        }
+        else
+        {
+          AInEq_.block(nrActivated_, data.alphaDBegin(bcd.rIndex), 1, mb.nrDof()).noalias() -=
+              fullJac_.block(0, 0, 1, mb.nrDof()) * bcd.selector.asDiagonal();
+        }
+        bInEq_(nrActivated_) += sign * (jqdn + jqdnd + jdqdn);
+        // little hack
+        // the max iteration number is two, so at the second iteration
+        // sign will be -1
+        sign = -1.;
+      }
+      ++nrActivated_;
+    }
+    else
+    {
+      if(d.dampingType == MaxDistData::DampingType::Soft) { d.dampingType = MaxDistData::DampingType::Free; }
+    }
+
+    d.normVecDist = normVecDist;
+  }
+}
+
+std::string MaxDistanceConstr::nameInEq() const
+{ return "MaxDistanceConstr"; }
+
+std::string MaxDistanceConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, int line)
+{
+  int curLine = 0;
+  for(MaxDistData & d : dataVec_)
+  {
+    double dist = d.pair->getDistance();
+    dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
+    if(dist < d.di)
+    {
+      if(curLine == line)
+      {
+        std::stringstream ss;
+        for(const BodyMaxDistData & bcd : d.bodies)
+        {
+          const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
+          ss << "robot: " << bcd.rIndex << std::endl;
+          ss << "body: " << mb.body(bcd.bIndex).name() << std::endl;
+        }
+        ss << "maxDistId: " << d.maxDistId << std::endl;
+        ss << "dist: " << dist << std::endl;
+        ss << "di: " << d.di << std::endl;
+        ss << "ds: " << d.ds << std::endl;
+        ss << "damp: " << d.damping + d.dampingOff << std::endl;
+        return ss.str();
+      }
+      ++curLine;
+    }
+  }
+  return "";
+}
+
+int MaxDistanceConstr::nrInEq() const
+{ return nrActivated_; }
+
+int MaxDistanceConstr::maxInEq() const
+{ return int(dataVec_.size()); }
+
+const Eigen::MatrixXd & MaxDistanceConstr::AInEq() const
+{ return AInEq_; }
+
+const Eigen::VectorXd & MaxDistanceConstr::bInEq() const
+{ return bInEq_; }
+
+double MaxDistanceConstr::computeDamping(const std::vector<rbd::MultiBody> & mbs,
+                                         const std::vector<rbd::MultiBodyConfig> & mbcs,
+                                         const MaxDistData & md,
+                                         const Eigen::Vector3d & normVecDist,
+                                         double dist) const
+{
+  Eigen::Vector3d diffVel(Eigen::Vector3d::Zero());
+  double sign = 1.;
+  for(std::size_t i = 0; i < md.bodies.size(); ++i)
+  {
+    const BodyMaxDistData & bmd = md.bodies[i];
+    const rbd::MultiBody & mb = mbs[static_cast<size_t>(bmd.rIndex)];
+    const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bmd.rIndex)];
+
+    Eigen::Vector3d velW = bmd.jac.velocity(mb, mbc).linear();
+
+    diffVel += sign * velW;
+    // little hack
+    // the max iteration number is two, so at the second iteration
+    // sign will be -1
+    sign = -1;
+  }
+
+  double distDot = std::abs((diffVel).dot(normVecDist));
+
+  /// @todo find a bette solution.
+  // use a value slightly upper ds if dist <= ds
+  double fixedDist = dist <= md.ds ? md.ds + (md.di - md.ds) * 0.2 : dist;
+  return ((md.di - md.ds) / (fixedDist - md.ds)) * distDot + md.dampingOff;
+}
+
+/**
  *													CoMIncPlaneConstr
  */
 

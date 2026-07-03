@@ -453,6 +453,188 @@ private:
 };
 
 /**
+ * Avoid that two robot links move farther apart than a set distance.
+ * For each links pair:
+ * \f[
+ * \dot{d} + \ddot{d}\Delta_{dt} \geq -\xi \frac{d_s - d}{d_s - d_i} //TODO: double check equation
+ * \f]
+ * with \f$ d \f$ the maximum distance between the two links,
+ * \f$ d_i \f$ the interactive distance, \f$ d_s \f$ the security distance
+ * and \f$ \xi \f$ the damper.
+ *
+ * The damper \f$ \xi \f$ can be calculated automatically each time
+ * the distance \f$ d \f$ go above the interactive distance \f$ d_i \f$ with
+ * the following formula:
+ * \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]//TODO: double check equation
+ */
+class TASKS_DLLAPI MaxDistanceConstr : public ConstraintFunction<Inequality>
+{
+public:
+  /**
+   * @param mbs Multi-robot system.
+   * @param step Time step in second.
+   */
+  MaxDistanceConstr(const std::vector<rbd::MultiBody> & mbs, double step);
+
+  /**
+   * Add a max distance avoidance constraint.
+   * Don't forget to call updateNrMaxDists and QPSolver::updateConstrSize.
+   * You can also only call QPSolver::nrVars or QPSolver::updateConstrsNrVars
+   * or QPSolver::updateNrVars.
+   *
+   * @param mbs Multi-robot system (must be the same given in the constructor.
+   * @param maxDistId Id of this max distance, must be unique.
+   * @param r1Index First constrained robot Index in mbs.
+   * @param r1BodyId Constrained body id in mbs[r1Index].
+   * @param body1 sch-core hull associated to the r1BodyId link.
+   * @param X_op1_o1 body1 position will be set at each iteration to
+   * \f$ {}^{o1}X_{op1} {}^{r1BodyId}X_O \f$.
+   * @param r2Index Second constrained robot Index in mbs
+   * (can be equal to r1Index).
+   * @param r2BodyId Constrained body id in mbs[r2Index].
+   * @param body2 sch-core hull associated to the r2BodyId link.
+   * @param X_op2_o2 body2 position will be set at each iteration to
+   * \f$ {}^{o2}X_{op2} {}^{r2BodyId}X_O \f$.
+   * @param di \f$ d_i \f$.
+   * @param ds \f$ d_s \f$.
+   * @param damping \f$ \xi \f$, if set to 0 the damping is computed automatically.
+   * @param dampingOff \f$ \xi_{\text{off}} \f$.
+   * @param r1Selector A joint selection vector for \p r1Index the default selects all joints
+   * @param r2Selector A joint selection vector for \p r2Index the default selects all joints,
+   * ignored if r1Index == r2Index
+   */
+  void addMaxDist(const std::vector<rbd::MultiBody> & mbs,
+                  int maxDistId,
+                  int r1Index,
+                  const std::string & r1BodyName,
+                  sch::S_Object * body1,
+                  const sva::PTransformd & X_op1_o1,
+                  int r2Index,
+                  const std::string & r2BodyName,
+                  sch::S_Object * body2,
+                  const sva::PTransformd & X_op2_o2,
+                  double di,
+                  double ds,
+                  double damping,
+                  double dampingOff = 0.,
+                  const Eigen::VectorXd & r1Selector = Eigen::VectorXd::Zero(0),
+                  const Eigen::VectorXd & r2Selector = Eigen::VectorXd::Zero(0));
+
+  /**
+   * Remove a max distance constraint.
+   * @param maxDistId Max distance id to remove.
+   * @return true if the max distance as been removed false if the maxDistId
+   * was associated with no max distance.
+   */
+  bool rmMaxDist(int maxDistId);
+
+  /// @return Number of max distance constraint.
+  std::size_t nrMaxDists() const;
+
+  /// Remove all max distance constraints.
+  void reset();
+
+  /// Reallocate A and b matrix.
+  void updateNrMaxDists();
+
+  // Constraint
+  virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
+
+  virtual void update(const std::vector<rbd::MultiBody> & mbs,
+                      const std::vector<rbd::MultiBodyConfig> & mbcs,
+                      const SolverData & data) override;
+
+  virtual std::string nameInEq() const override;
+  virtual std::string descInEq(const std::vector<rbd::MultiBody> & mbs, int line) override;
+
+  // In Inequality Constraint
+  virtual int nrInEq() const override;
+  virtual int maxInEq() const override;
+
+  virtual const Eigen::MatrixXd & AInEq() const override;
+  virtual const Eigen::VectorXd & bInEq() const override;
+
+private:
+  struct BodyMaxDistData
+  {
+    BodyMaxDistData(const rbd::MultiBody & mb,
+                    int rIndex,
+                    const std::string & bodyName,
+                    sch::S_Object * hull,
+                    const sva::PTransformd & X_op_o,
+                    const Eigen::VectorXd & selector);
+
+    sch::S_Object * hull;
+    rbd::Jacobian jac;
+    sva::PTransformd X_op_o;
+    int rIndex, bIndex;
+    std::string bodyName;
+    Eigen::VectorXd selector;
+  };
+
+  struct MaxDistData
+  {
+    enum class DampingType
+    {
+      Hard,
+      Soft,
+      Free
+    };
+    MaxDistData(std::vector<BodyMaxDistData> bcds,
+                int maxDistId,
+                sch::S_Object * body1,
+                sch::S_Object * body2,
+                double di,
+                double ds,
+                double damping,
+                double dampingOff);
+    MaxDistData(MaxDistData &&) = default;
+    MaxDistData(const MaxDistData &) = delete;
+    MaxDistData & operator=(const MaxDistData &) = delete;
+    MaxDistData & operator=(MaxDistData &&) = default;
+
+    std::unique_ptr<sch::CD_Pair> pair;
+    double distance;
+    Eigen::Vector3d p1;
+    Eigen::Vector3d p2;
+    Eigen::Vector3d normVecDist;
+    double di, ds;
+    double damping;
+    std::vector<BodyMaxDistData> bodies;
+
+    DampingType dampingType;
+    double dampingOff;
+    int maxDistId;
+  };
+
+public:
+  /** Access the max distance data computed by the constraint */
+  const MaxDistData & getMaxDistData(int maxDistId) const;
+
+private:
+  double computeDamping(const std::vector<rbd::MultiBody> & mbs,
+                        const std::vector<rbd::MultiBodyConfig> & mbcs,
+                        const MaxDistData & md,
+                        const Eigen::Vector3d & normalVecDist,
+                        double dist) const;
+
+private:
+  std::vector<MaxDistData> dataVec_;
+  double step_;
+  int nrActivated_, totalAlphaD_;
+
+  Eigen::MatrixXd AInEq_;
+  Eigen::VectorXd bInEq_;
+
+  Eigen::MatrixXd fullJac_, distJac_;
+
+  int nrVars_;
+
+  MaxDistanceConstr(const MaxDistanceConstr &) = delete;
+  MaxDistanceConstr & operator=(const MaxDistanceConstr &) = delete;
+};
+
+/**
  * Prevent robot CoM to go out of a convex hull.
  * For each plane that compose the convex hull:
  * \f[
