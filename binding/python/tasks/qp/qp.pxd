@@ -196,11 +196,11 @@ cdef class ContactPosConstr(ContactConstrCommon):
 
 cdef ContactPosConstr ContactPosConstrFromPtr(c_qp.ContactPosConstr *)
 
-cdef class CollisionConstr(Inequality):
-  cdef c_qp.CollisionConstr * impl
+cdef class DistanceConstr(Inequality):
+  cdef c_qp.DistanceConstr * impl
   cdef cppbool __own_impl
 
-cdef CollisionConstr CollisionConstrFromPtr(c_qp.CollisionConstr*)
+cdef DistanceConstr DistanceConstrFromPtr(c_qp.DistanceConstr*)
 
 cdef class CoMIncPlaneConstr(Inequality):
   cdef c_qp.CoMIncPlaneConstr * impl

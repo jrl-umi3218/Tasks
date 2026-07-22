@@ -646,7 +646,7 @@ class TestQPAutoColl(unittest.TestCase):
         pair = sch.CD_Pair(b0, b3)
 
         identity = sva.PTransformd.Identity()
-        autoCollConstr = tasks.qp.CollisionConstr(mbs, 0.001)
+        autoCollConstr = tasks.qp.DistanceConstr(mbs, 0.001)
         collId1 = 10
         autoCollConstr.addCollision(
             mbs, collId1, 0, "b0", b0, identity, 0, "b3", b3, identity, 0.01, 0.005, 1
@@ -709,7 +709,7 @@ class TestQPStaticEnvColl(unittest.TestCase):
         b0.transform(mbcInit.bodyPosW[0])
 
         identity = sva.PTransformd.Identity()
-        seCollConstr = tasks.qp.CollisionConstr(mbs, 0.001)
+        seCollConstr = tasks.qp.DistanceConstr(mbs, 0.001)
         collId1 = 10
         seCollConstr.addCollision(
             mbs, collId1, 0, "b3", b3, identity, 1, "b0", b0, identity, 0.01, 0.005, 1

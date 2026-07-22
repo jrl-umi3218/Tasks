@@ -285,14 +285,14 @@ private:
  * the following formula:
  * \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
  */
-class TASKS_DLLAPI CollisionConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI DistanceConstr : public ConstraintFunction<Inequality>
 {
 public:
   /**
    * @param mbs Multi-robot system.
    * @param step Time step in second.
    */
-  CollisionConstr(const std::vector<rbd::MultiBody> & mbs, double step);
+  DistanceConstr(const std::vector<rbd::MultiBody> & mbs, double step);
 
   /**
    * Add a collision avoidance constraint.
@@ -448,8 +448,8 @@ private:
 
   int nrVars_;
 
-  CollisionConstr(const CollisionConstr &) = delete;
-  CollisionConstr & operator=(const CollisionConstr &) = delete;
+  DistanceConstr(const DistanceConstr &) = delete;
+  DistanceConstr & operator=(const DistanceConstr &) = delete;
 };
 
 /**

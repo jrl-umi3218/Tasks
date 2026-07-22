@@ -900,7 +900,7 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   sch::CD_Pair pair(&b0, &b3);
 
   PTransformd I = PTransformd::Identity();
-  qp::CollisionConstr autoCollConstr(mbs, 0.001);
+  qp::DistanceConstr autoCollConstr(mbs, 0.001);
   int collId1 = 10;
   autoCollConstr.addCollision(mbs, collId1, 0, "b0", &b0, I, 0, "b3", &b3, I, 0.01, 0.005, 1.);
   BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
@@ -1011,7 +1011,7 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   b0.setTransformation(qp::tosch(mbcInit.bodyPosW[0]));
 
   PTransformd I = PTransformd::Identity();
-  qp::CollisionConstr seCollConstr(mbs, 0.001);
+  qp::DistanceConstr seCollConstr(mbs, 0.001);
   int collId1 = 10;
   seCollConstr.addCollision(mbs, collId1, 0, "b3", &b3, I, 1, "b0", &b0, I, 0.01, 0.005, 1.);
   BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);

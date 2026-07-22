@@ -1878,14 +1878,14 @@ cdef ContactPosConstr ContactPosConstrFromPtr(c_qp.ContactPosConstr * p):
     ret.constraint_base = ret.impl
     return ret
 
-cdef class CollisionConstr(Inequality):
+cdef class DistanceConstr(Inequality):
   def __dealloc__(self):
     if self.__own_impl:
       del self.impl
   def __cinit__(self, MultiBodyVector mbs, double step, skip_alloc = False):
     self.__own_impl = True
     if not skip_alloc:
-      self.impl = new c_qp.CollisionConstr(deref(mbs.v), step)
+      self.impl = new c_qp.DistanceConstr(deref(mbs.v), step)
       self.cf_base = self.impl
       self.ineq_base = self.impl
       self.constraint_base = self.impl
@@ -1915,8 +1915,8 @@ cdef class CollisionConstr(Inequality):
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
 
-cdef CollisionConstr CollisionConstrFromPtr(c_qp.CollisionConstr * p):
-    cdef CollisionConstr ret = CollisionConstr(None, 0, skip_alloc = True)
+cdef DistanceConstr DistanceConstrFromPtr(c_qp.DistanceConstr * p):
+    cdef DistanceConstr ret = DistanceConstr(None, 0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.ineq_base = ret.constraint_base = p
     return ret
