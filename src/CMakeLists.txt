@@ -13,6 +13,7 @@ set(SOURCES
     GenQPSolver.cpp
     QPContactConstr.cpp
     QLDQPSolver.cpp
+    QPCoincidenceConstr.cpp
 )
 set(HEADERS
     Tasks/Tasks.h
@@ -25,6 +26,7 @@ set(HEADERS
     Tasks/GenQPSolver.h
     Tasks/Bounds.h
     Tasks/QPContactConstr.h
+    Tasks/QPCoincidenceConstr.h
 )
 set(PRIVATE_HEADERS utils.h GenQPUtils.h QLDQPSolver.h)
 
