@@ -295,9 +295,7 @@ public:
 
 public:
   struct SelectedData
-  {
-    int posInDof, dof;
-  };
+  { int posInDof, dof; };
 
 public:
   JointsSelector(const std::vector<rbd::MultiBody> & mbs,
