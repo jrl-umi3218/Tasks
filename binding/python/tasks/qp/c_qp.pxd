@@ -564,11 +564,11 @@ cdef extern from "<Tasks/QPContactConstr.h>" namespace "tasks::qp":
 cdef extern from "<Tasks/QPConstr.h>" namespace "tasks::qp":
   cdef cppclass DistanceConstr(ConstraintFunction[Inequality], Inequality, Constraint):
     DistanceConstr(const vector[MultiBody]&, double)
-    void addCollision(const vector[MultiBody]&, int, int, const string&, S_Object*, const PTransformd&, int, const string&, S_Object*, const PTransformd&, double, double, double, double)
-    bool rmCollision(int)
-    int nrCollisions() const
+    void addDistanceLimit(const vector[MultiBody]&, int, int, const string&, S_Object*, const PTransformd&, int, const string&, S_Object*, const PTransformd&, double, double, double, double)
+    bool rmDistanceLimit(int)
+    int nrDistanceLimits() const
     void reset()
-    void updateNrCollisions()
+    void updateNrDistanceLimits()
     void addToSolver(QPSolver &)
     void addToSolver(const vector[MultiBody]&, QPSolver &)
     void removeFromSolver(QPSolver &)

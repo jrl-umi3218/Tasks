@@ -900,15 +900,15 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   sch::CD_Pair pair(&b0, &b3);
 
   PTransformd I = PTransformd::Identity();
-  qp::DistanceConstr autoCollConstr(mbs, 0.001);
+  qp::DistanceConstr autoDistConstr(mbs, 0.001);
   int collId1 = 10;
-  autoCollConstr.addCollision(mbs, collId1, 0, "b0", &b0, I, 0, "b3", &b3, I, 0.01, 0.005, 1.);
-  BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
+  autoDistConstr.addDistanceLimit(mbs, collId1, 0, "b0", &b0, I, 0, "b3", &b3, I, 0.01, 0.005, 1.);
+  BOOST_CHECK_EQUAL(autoDistConstr.nrDistanceLimits(), 1);
 
   // Test addInequalityConstraint
-  solver.addInequalityConstraint(&autoCollConstr);
+  solver.addInequalityConstraint(&autoDistConstr);
   BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 1);
-  solver.addConstraint(&autoCollConstr);
+  solver.addConstraint(&autoDistConstr);
   BOOST_CHECK_EQUAL(solver.nrConstraints(), 1);
 
   solver.nrVars(mbs, {}, {});
@@ -937,12 +937,12 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   }
   distHard << "]" << std::endl;
 
-  autoCollConstr.rmCollision(collId1);
-  BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
+  autoDistConstr.rmDistanceLimit(collId1);
+  BOOST_CHECK_EQUAL(autoDistConstr.nrDistanceLimits(), 0);
 
   // test automatic damping computation
-  autoCollConstr.addCollision(mbs, collId1, 0, "b0", &b0, I, 0, "b3", &b3, I, 0.1, 0.01, 0., 0.1);
-  BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 1);
+  autoDistConstr.addDistanceLimit(mbs, collId1, 0, "b0", &b0, I, 0, "b3", &b3, I, 0.1, 0.01, 0., 0.1);
+  BOOST_CHECK_EQUAL(autoDistConstr.nrDistanceLimits(), 1);
   posTask.position(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
 
   mbcs[0] = mbcInit;
@@ -965,16 +965,16 @@ BOOST_AUTO_TEST_CASE(QPAutoCollTest)
   }
   distSoft << "]" << std::endl;
 
-  autoCollConstr.rmCollision(collId1);
-  BOOST_CHECK_EQUAL(autoCollConstr.nrCollisions(), 0);
+  autoDistConstr.rmDistanceLimit(collId1);
+  BOOST_CHECK_EQUAL(autoDistConstr.nrDistanceLimits(), 0);
 
   solver.removeTask(&posTaskSp);
   BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
 
   // Test remove*Constraint
-  solver.removeInequalityConstraint(&autoCollConstr);
+  solver.removeInequalityConstraint(&autoDistConstr);
   BOOST_CHECK_EQUAL(solver.nrInequalityConstraints(), 0);
-  solver.removeConstraint(&autoCollConstr);
+  solver.removeConstraint(&autoDistConstr);
   BOOST_CHECK_EQUAL(solver.nrConstraints(), 0);
 }
 
@@ -1013,8 +1013,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   PTransformd I = PTransformd::Identity();
   qp::DistanceConstr seCollConstr(mbs, 0.001);
   int collId1 = 10;
-  seCollConstr.addCollision(mbs, collId1, 0, "b3", &b3, I, 1, "b0", &b0, I, 0.01, 0.005, 1.);
-  BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
+  seCollConstr.addDistanceLimit(mbs, collId1, 0, "b3", &b3, I, 1, "b0", &b0, I, 0.01, 0.005, 1.);
+  BOOST_CHECK_EQUAL(seCollConstr.nrDistanceLimits(), 1);
 
   // Test addInequalityConstraint
   solver.addInequalityConstraint(&seCollConstr);
@@ -1048,12 +1048,12 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   }
   distHard << "]" << std::endl;
 
-  seCollConstr.rmCollision(collId1);
-  BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 0);
+  seCollConstr.rmDistanceLimit(collId1);
+  BOOST_CHECK_EQUAL(seCollConstr.nrDistanceLimits(), 0);
 
   // test damping computation
-  seCollConstr.addCollision(mbs, collId1, 0, "b3", &b3, I, 1, "b0", &b0, I, 0.1, 0.01, 0., 0.1);
-  BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 1);
+  seCollConstr.addDistanceLimit(mbs, collId1, 0, "b3", &b3, I, 1, "b0", &b0, I, 0.1, 0.01, 0., 0.1);
+  BOOST_CHECK_EQUAL(seCollConstr.nrDistanceLimits(), 1);
   posTask.position(mbcInit.bodyPosW[static_cast<size_t>(bodyI)].translation());
 
   mbcs[0] = mbcInit;
@@ -1076,8 +1076,8 @@ BOOST_AUTO_TEST_CASE(QPStaticEnvCollTest)
   }
   distSoft << "]" << std::endl;
 
-  seCollConstr.rmCollision(collId1);
-  BOOST_CHECK_EQUAL(seCollConstr.nrCollisions(), 0);
+  seCollConstr.rmDistanceLimit(collId1);
+  BOOST_CHECK_EQUAL(seCollConstr.nrDistanceLimits(), 0);
 
   solver.removeTask(&posTaskSp);
   BOOST_CHECK_EQUAL(solver.nrTasks(), 0);
