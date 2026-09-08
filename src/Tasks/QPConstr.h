@@ -271,12 +271,16 @@ private:
 };
 
 /**
- * Avoid that two robot links enter into collision based on a velocity damper.
- * For each collision pair:
+ * Set a limit for a distance between two robot links based on a velocity damper.
+ * For each distance limit pair if d \geq d_s :
  * \f[
  * \dot{d} + \ddot{d}\Delta_{dt} \geq -\xi \frac{d - d_s}{d_i - d_s}
  * \f]
- * with \f$ d \f$ the minimal distance between the two links,
+ * and for d \leq d_s (inverted into -d \geq \d_s (note that d_i also gets negated)):
+ * \f[
+ * -\dot{d} - \ddot{d}\Delta_{dt} \geq -\xi \frac{d - d_s}{d_i - d_s}
+ * \f]
+ * with \f$ d \f$ the distance between the two links,
  * \f$ d_i \f$ the interactive distance, \f$ d_s \f$ the security distance
  * and \f$ \xi \f$ the damper.
  *
@@ -285,23 +289,23 @@ private:
  * the following formula:
  * \f[ \xi = -\frac{d_i - d_s}{d - d_s}\alpha + \xi_{\text{off}} \f]
  */
-class TASKS_DLLAPI CollisionConstr : public ConstraintFunction<Inequality>
+class TASKS_DLLAPI DistanceConstr : public ConstraintFunction<Inequality>
 {
 public:
   /**
    * @param mbs Multi-robot system.
    * @param step Time step in second.
    */
-  CollisionConstr(const std::vector<rbd::MultiBody> & mbs, double step);
+  DistanceConstr(const std::vector<rbd::MultiBody> & mbs, double step);
 
   /**
-   * Add a collision avoidance constraint.
-   * Don't forget to call updateNrCollisions and QPSolver::updateConstrSize.
+   * Add a distance constraint.
+   * Don't forget to call updateNrDistanceLimits and QPSolver::updateConstrSize.
    * You can also only call QPSolver::nrVars or QPSolver::updateConstrsNrVars
    * or QPSolver::updateNrVars.
    *
    * @param mbs Multi-robot system (must be the same given in the constructor.
-   * @param collId Id of this collision, must be unique.
+   * @param dlId Id of this distance limit, must be unique.
    * @param r1Index First constrained robot Index in mbs.
    * @param r1BodyId Constrained body id in mbs[r1Index].
    * @param body1 sch-core hull associated to the r1BodyId link.
@@ -321,39 +325,39 @@ public:
    * @param r2Selector A joint selection vector for \p r2Index the default selects all joints,
    * ignored if r1Index == r2Index
    */
-  void addCollision(const std::vector<rbd::MultiBody> & mbs,
-                    int collId,
-                    int r1Index,
-                    const std::string & r1BodyName,
-                    sch::S_Object * body1,
-                    const sva::PTransformd & X_op1_o1,
-                    int r2Index,
-                    const std::string & r2BodyName,
-                    sch::S_Object * body2,
-                    const sva::PTransformd & X_op2_o2,
-                    double di,
-                    double ds,
-                    double damping,
-                    double dampingOff = 0.,
-                    const Eigen::VectorXd & r1Selector = Eigen::VectorXd::Zero(0),
-                    const Eigen::VectorXd & r2Selector = Eigen::VectorXd::Zero(0));
+  void addDistanceLimit(const std::vector<rbd::MultiBody> & mbs,
+                        int dlId,
+                        int r1Index,
+                        const std::string & r1BodyName,
+                        sch::S_Object * body1,
+                        const sva::PTransformd & X_op1_o1,
+                        int r2Index,
+                        const std::string & r2BodyName,
+                        sch::S_Object * body2,
+                        const sva::PTransformd & X_op2_o2,
+                        double di,
+                        double ds,
+                        double damping,
+                        double dampingOff = 0.,
+                        const Eigen::VectorXd & r1Selector = Eigen::VectorXd::Zero(0),
+                        const Eigen::VectorXd & r2Selector = Eigen::VectorXd::Zero(0));
 
   /**
-   * Remove a collision avoidance constraint.
-   * @param collId Collision id to remove.
-   * @return true if the collision as been removed false if the collision id
-   * was associated with no collision.
+   * Remove a distance constraint.
+   * @param dlId DistanceLimit id to remove.
+   * @return true if the distance limit as been removed false if the distance limit id
+   * was associated with no distance limit.
    */
-  bool rmCollision(int collId);
+  bool rmDistanceLimit(int dlId);
 
-  /// @return Number of collision constraint.
-  std::size_t nrCollisions() const;
+  /// @return Number of distance constraint.
+  std::size_t nrDistanceLimits() const;
 
-  /// Remove all collision constraints.
+  /// Remove all distance constraints.
   void reset();
 
   /// Reallocate A and b matrix.
-  void updateNrCollisions();
+  void updateNrDistanceLimits();
 
   // Constraint
   virtual void updateNrVars(const std::vector<rbd::MultiBody> & mbs, const SolverData & data) override;
@@ -373,9 +377,9 @@ public:
   virtual const Eigen::VectorXd & bInEq() const override;
 
 private:
-  struct BodyCollData
+  struct BodyDistData
   {
-    BodyCollData(const rbd::MultiBody & mb,
+    BodyDistData(const rbd::MultiBody & mb,
                  int rIndex,
                  const std::string & bodyName,
                  sch::S_Object * hull,
@@ -390,7 +394,7 @@ private:
     Eigen::VectorXd selector;
   };
 
-  struct CollData
+  struct DistLimData
   {
     enum class DampingType
     {
@@ -398,18 +402,18 @@ private:
       Soft,
       Free
     };
-    CollData(std::vector<BodyCollData> bcds,
-             int collId,
-             sch::S_Object * body1,
-             sch::S_Object * body2,
-             double di,
-             double ds,
-             double damping,
-             double dampingOff);
-    CollData(CollData &&) = default;
-    CollData(const CollData &) = delete;
-    CollData & operator=(const CollData &) = delete;
-    CollData & operator=(CollData &&) = default;
+    DistLimData(std::vector<BodyDistData> bcds,
+                int dlId,
+                sch::S_Object * body1,
+                sch::S_Object * body2,
+                double di,
+                double ds,
+                double damping,
+                double dampingOff);
+    DistLimData(DistLimData &&) = default;
+    DistLimData(const DistLimData &) = delete;
+    DistLimData & operator=(const DistLimData &) = delete;
+    DistLimData & operator=(DistLimData &&) = default;
 
     std::unique_ptr<sch::CD_Pair> pair;
     double distance;
@@ -418,26 +422,26 @@ private:
     Eigen::Vector3d normVecDist;
     double di, ds;
     double damping;
-    std::vector<BodyCollData> bodies;
+    std::vector<BodyDistData> bodies;
 
     DampingType dampingType;
     double dampingOff;
-    int collId;
+    int dlId;
   };
 
 public:
-  /** Access the collision data computed by the constraint */
-  const CollData & getCollisionData(int collId) const;
+  /** Access the distance data computed by the constraint */
+  const DistLimData & getDistanceData(int dlId) const;
 
 private:
   double computeDamping(const std::vector<rbd::MultiBody> & mbs,
                         const std::vector<rbd::MultiBodyConfig> & mbcs,
-                        const CollData & cd,
+                        const DistLimData & cd,
                         const Eigen::Vector3d & normalVecDist,
                         double dist) const;
 
 private:
-  std::vector<CollData> dataVec_;
+  std::vector<DistLimData> dataVec_;
   double step_;
   int nrActivated_, totalAlphaD_;
 
@@ -448,8 +452,8 @@ private:
 
   int nrVars_;
 
-  CollisionConstr(const CollisionConstr &) = delete;
-  CollisionConstr & operator=(const CollisionConstr &) = delete;
+  DistanceConstr(const DistanceConstr &) = delete;
+  DistanceConstr & operator=(const DistanceConstr &) = delete;
 };
 
 /**

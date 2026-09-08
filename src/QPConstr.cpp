@@ -309,7 +309,7 @@ double DamperJointLimitsConstr::computeDamper(double dist, double iDist, double 
 { return damping * ((dist - sDist) / (iDist - sDist)); }
 
 /**
- *													CollisionConstr
+ *													DistanceConstr
  */
 
 sch::Matrix4x4 tosch(const sva::PTransformd & t)
@@ -330,31 +330,31 @@ sch::Matrix4x4 tosch(const sva::PTransformd & t)
   return m;
 }
 
-CollisionConstr::BodyCollData::BodyCollData(const rbd::MultiBody & mb,
-                                            int rI,
-                                            const std::string & bName,
-                                            sch::S_Object * h,
-                                            const sva::PTransformd & X,
-                                            const Eigen::VectorXd & selector)
+DistanceConstr::BodyDistData::BodyDistData(const rbd::MultiBody & mb,
+                                           int rI,
+                                           const std::string & bName,
+                                           sch::S_Object * h,
+                                           const sva::PTransformd & X,
+                                           const Eigen::VectorXd & selector)
 : hull(h), jac(mb, bName), X_op_o(X), rIndex(rI), bIndex(mb.bodyIndexByName(bName)), bodyName(bName), selector(selector)
 {
 }
 
-CollisionConstr::CollData::CollData(std::vector<BodyCollData> bcds,
-                                    int collId,
-                                    sch::S_Object * body1,
-                                    sch::S_Object * body2,
-                                    double di,
-                                    double ds,
-                                    double damp,
-                                    double dampOff)
+DistanceConstr::DistLimData::DistLimData(std::vector<BodyDistData> bcds,
+                                         int dlId,
+                                         sch::S_Object * body1,
+                                         sch::S_Object * body2,
+                                         double di,
+                                         double ds,
+                                         double damp,
+                                         double dampOff)
 : pair(new sch::CD_Pair(body1, body2)), distance(2 * di), normVecDist(Eigen::Vector3d::Zero()), di(di), ds(ds),
   damping(damp), bodies(std::move(bcds)), dampingType(damping > 0. ? DampingType::Hard : DampingType::Free),
-  dampingOff(dampOff), collId(collId)
+  dampingOff(dampOff), dlId(dlId)
 {
 }
 
-CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody> & mbs, double step)
+DistanceConstr::DistanceConstr(const std::vector<rbd::MultiBody> & mbs, double step)
 : dataVec_(), step_(step), nrActivated_(0), totalAlphaD_(-1), AInEq_(), bInEq_(), fullJac_(), distJac_()
 {
   int maxDof = std::max_element(mbs.begin(), mbs.end(), compareDof)->nrDof();
@@ -362,26 +362,26 @@ CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody> & mbs, double
   distJac_.resize(1, maxDof);
 }
 
-void CollisionConstr::addCollision(const std::vector<rbd::MultiBody> & mbs,
-                                   int collId,
-                                   int r1Index,
-                                   const std::string & r1BodyName,
-                                   sch::S_Object * body1,
-                                   const sva::PTransformd & X_op1_o1,
-                                   int r2Index,
-                                   const std::string & r2BodyName,
-                                   sch::S_Object * body2,
-                                   const sva::PTransformd & X_op2_o2,
-                                   double di,
-                                   double ds,
-                                   double damping,
-                                   double dampingOff,
-                                   const Eigen::VectorXd & r1Selector,
-                                   const Eigen::VectorXd & r2Selector)
+void DistanceConstr::addDistanceLimit(const std::vector<rbd::MultiBody> & mbs,
+                                      int dlId,
+                                      int r1Index,
+                                      const std::string & r1BodyName,
+                                      sch::S_Object * body1,
+                                      const sva::PTransformd & X_op1_o1,
+                                      int r2Index,
+                                      const std::string & r2BodyName,
+                                      sch::S_Object * body2,
+                                      const sva::PTransformd & X_op2_o2,
+                                      double di,
+                                      double ds,
+                                      double damping,
+                                      double dampingOff,
+                                      const Eigen::VectorXd & r1Selector,
+                                      const Eigen::VectorXd & r2Selector)
 {
   const rbd::MultiBody mb1 = mbs[static_cast<size_t>(r1Index)];
   const rbd::MultiBody mb2 = mbs[static_cast<size_t>(r2Index)];
-  std::vector<BodyCollData> bodies;
+  std::vector<BodyDistData> bodies;
   if(mb1.nrDof() > 0)
   {
     assert(r1Selector.size() == 0 || r1Selector.size() == mb1.nrDof());
@@ -392,13 +392,13 @@ void CollisionConstr::addCollision(const std::vector<rbd::MultiBody> & mbs,
     assert(r2Selector.size() == 0 || r2Selector.size() == mb2.nrDof());
     bodies.emplace_back(mb2, r2Index, r2BodyName, body2, X_op2_o2, r1Index == r2Index ? r1Selector : r2Selector);
   }
-  dataVec_.emplace_back(std::move(bodies), collId, body1, body2, di, ds, damping, dampingOff);
+  dataVec_.emplace_back(std::move(bodies), dlId, body1, body2, di, ds, damping, dampingOff);
 }
 
-bool CollisionConstr::rmCollision(int collId)
+bool DistanceConstr::rmDistanceLimit(int dlId)
 {
   auto it =
-      std::find_if(dataVec_.begin(), dataVec_.end(), [collId](const CollData & data) { return data.collId == collId; });
+      std::find_if(dataVec_.begin(), dataVec_.end(), [dlId](const DistLimData & data) { return data.dlId == dlId; });
   if(it != dataVec_.end())
   {
     dataVec_.erase(it);
@@ -408,36 +408,35 @@ bool CollisionConstr::rmCollision(int collId)
   return false;
 }
 
-auto CollisionConstr::getCollisionData(int collId) const -> const CollData &
+auto DistanceConstr::getDistanceData(int dlId) const -> const DistLimData &
 {
-  auto it =
-      std::find_if(dataVec_.begin(), dataVec_.end(), [&](const CollData & data) { return data.collId == collId; });
+  auto it = std::find_if(dataVec_.begin(), dataVec_.end(), [&](const DistLimData & data) { return data.dlId == dlId; });
   if(it != dataVec_.end()) { return *it; }
   throw std::runtime_error("No collision with the requested id");
 }
 
-std::size_t CollisionConstr::nrCollisions() const
+std::size_t DistanceConstr::nrDistanceLimits() const
 { return dataVec_.size(); }
 
-void CollisionConstr::reset()
+void DistanceConstr::reset()
 { dataVec_.clear(); }
 
-void CollisionConstr::updateNrCollisions()
+void DistanceConstr::updateNrDistanceLimits()
 {
   AInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()), nrVars_);
   bInEq_.setZero(static_cast<Eigen::DenseIndex>(dataVec_.size()));
 }
 
-void CollisionConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mb */, const SolverData & data)
+void DistanceConstr::updateNrVars(const std::vector<rbd::MultiBody> & /* mb */, const SolverData & data)
 {
   totalAlphaD_ = data.totalAlphaD();
   nrVars_ = data.nrVars();
-  updateNrCollisions();
+  updateNrDistanceLimits();
 }
 
-void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
-                             const std::vector<rbd::MultiBodyConfig> & mbcs,
-                             const SolverData & data)
+void DistanceConstr::update(const std::vector<rbd::MultiBody> & mbs,
+                            const std::vector<rbd::MultiBodyConfig> & mbcs,
+                            const SolverData & data)
 {
   using namespace Eigen;
 
@@ -445,10 +444,10 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
   sch::Point3 pb2Tmp;
 
   nrActivated_ = 0;
-  for(CollData & d : dataVec_)
+  for(DistLimData & d : dataVec_)
   {
     // update moving hull position
-    for(BodyCollData & bcd : d.bodies)
+    for(BodyDistData & bcd : d.bodies)
     {
       const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
       bcd.hull->setTransformation(tosch(bcd.X_op_o * mbc.bodyPosW[static_cast<size_t>(bcd.bIndex)]));
@@ -466,7 +465,7 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
     Eigen::Vector3d nearestPoint = d.p1;
     for(std::size_t i = 0; i < d.bodies.size(); ++i)
     {
-      BodyCollData & bcd = d.bodies[i];
+      BodyDistData & bcd = d.bodies[i];
       const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
       nearestPoint =
           (sva::PTransformd(nearestPoint) * mbc.bodyPosW[static_cast<size_t>(bcd.bIndex)].inv()).translation();
@@ -476,12 +475,12 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
       nearestPoint = d.p2;
     }
 
-    if(d.distance < d.di)
+    if((d.distance < d.di && d.di > d.ds) || (d.distance > d.di && d.di < d.ds))
     {
       // automatic damping computation if needed
-      if(d.dampingType == CollData::DampingType::Free)
+      if(d.dampingType == DistLimData::DampingType::Free)
       {
-        d.dampingType = CollData::DampingType::Soft;
+        d.dampingType = DistLimData::DampingType::Soft;
         d.damping = computeDamping(mbs, mbcs, d, normVecDist, d.distance);
       }
 
@@ -491,12 +490,12 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
       Vector3d onf = d.normVecDist;
       Vector3d dnf = (nf - onf) / step_;
 
-      double sign = 1.;
+      double sign = (d.di > d.ds) ? 1.0 : -1.0;
       bInEq_(nrActivated_) = dampers;
       AInEq_.block(nrActivated_, 0, 1, totalAlphaD_).setZero();
       for(std::size_t i = 0; i < d.bodies.size(); ++i)
       {
-        BodyCollData & bcd = d.bodies[i];
+        BodyDistData & bcd = d.bodies[i];
         const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
         const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
 
@@ -527,27 +526,27 @@ void CollisionConstr::update(const std::vector<rbd::MultiBody> & mbs,
         bInEq_(nrActivated_) += sign * (jqdn + jqdnd + jdqdn);
         // little hack
         // the max iteration number is two, so at the second iteration
-        // sign will be -1
-        sign = -1.;
+        // sign will be -sign
+        sign = -sign;
       }
       ++nrActivated_;
     }
     else
     {
-      if(d.dampingType == CollData::DampingType::Soft) { d.dampingType = CollData::DampingType::Free; }
+      if(d.dampingType == DistLimData::DampingType::Soft) { d.dampingType = DistLimData::DampingType::Free; }
     }
 
     d.normVecDist = normVecDist;
   }
 }
 
-std::string CollisionConstr::nameInEq() const
-{ return "SelfCollisionConstr"; }
+std::string DistanceConstr::nameInEq() const
+{ return "DistanceConstr"; }
 
-std::string CollisionConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, int line)
+std::string DistanceConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, int line)
 {
   int curLine = 0;
-  for(CollData & d : dataVec_)
+  for(DistLimData & d : dataVec_)
   {
     double dist = d.pair->getDistance();
     dist = dist >= 0 ? std::sqrt(dist) : -std::sqrt(-dist);
@@ -556,13 +555,13 @@ std::string CollisionConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, i
       if(curLine == line)
       {
         std::stringstream ss;
-        for(const BodyCollData & bcd : d.bodies)
+        for(const BodyDistData & bcd : d.bodies)
         {
           const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
           ss << "robot: " << bcd.rIndex << std::endl;
           ss << "body: " << mb.body(bcd.bIndex).name() << std::endl;
         }
-        ss << "collId: " << d.collId << std::endl;
+        ss << "collId: " << d.dlId << std::endl;
         ss << "dist: " << dist << std::endl;
         ss << "di: " << d.di << std::endl;
         ss << "ds: " << d.ds << std::endl;
@@ -575,29 +574,29 @@ std::string CollisionConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, i
   return "";
 }
 
-int CollisionConstr::nrInEq() const
+int DistanceConstr::nrInEq() const
 { return nrActivated_; }
 
-int CollisionConstr::maxInEq() const
+int DistanceConstr::maxInEq() const
 { return int(dataVec_.size()); }
 
-const Eigen::MatrixXd & CollisionConstr::AInEq() const
+const Eigen::MatrixXd & DistanceConstr::AInEq() const
 { return AInEq_; }
 
-const Eigen::VectorXd & CollisionConstr::bInEq() const
+const Eigen::VectorXd & DistanceConstr::bInEq() const
 { return bInEq_; }
 
-double CollisionConstr::computeDamping(const std::vector<rbd::MultiBody> & mbs,
-                                       const std::vector<rbd::MultiBodyConfig> & mbcs,
-                                       const CollData & cd,
-                                       const Eigen::Vector3d & normVecDist,
-                                       double dist) const
+double DistanceConstr::computeDamping(const std::vector<rbd::MultiBody> & mbs,
+                                      const std::vector<rbd::MultiBodyConfig> & mbcs,
+                                      const DistLimData & cd,
+                                      const Eigen::Vector3d & normVecDist,
+                                      double dist) const
 {
   Eigen::Vector3d diffVel(Eigen::Vector3d::Zero());
   double sign = 1.;
   for(std::size_t i = 0; i < cd.bodies.size(); ++i)
   {
-    const BodyCollData & bcd = cd.bodies[i];
+    const BodyDistData & bcd = cd.bodies[i];
     const rbd::MultiBody & mb = mbs[static_cast<size_t>(bcd.rIndex)];
     const rbd::MultiBodyConfig & mbc = mbcs[static_cast<size_t>(bcd.rIndex)];
 

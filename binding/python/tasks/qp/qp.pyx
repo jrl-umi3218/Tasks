@@ -1878,31 +1878,31 @@ cdef ContactPosConstr ContactPosConstrFromPtr(c_qp.ContactPosConstr * p):
     ret.constraint_base = ret.impl
     return ret
 
-cdef class CollisionConstr(Inequality):
+cdef class DistanceConstr(Inequality):
   def __dealloc__(self):
     if self.__own_impl:
       del self.impl
   def __cinit__(self, MultiBodyVector mbs, double step, skip_alloc = False):
     self.__own_impl = True
     if not skip_alloc:
-      self.impl = new c_qp.CollisionConstr(deref(mbs.v), step)
+      self.impl = new c_qp.DistanceConstr(deref(mbs.v), step)
       self.cf_base = self.impl
       self.ineq_base = self.impl
       self.constraint_base = self.impl
-  def addCollision(self, MultiBodyVector mbs, int collId, int r1Index, r1BodyName, S_Object body1, PTransformd X_op1_o1, int r2Index, r2BodyName, S_Object body2, PTransformd X_op2_o2, double di, double ds, double damping, double dampingOff = 0):
+  def addDistanceLimit(self, MultiBodyVector mbs, int collId, int r1Index, r1BodyName, S_Object body1, PTransformd X_op1_o1, int r2Index, r2BodyName, S_Object body2, PTransformd X_op2_o2, double di, double ds, double damping, double dampingOff = 0):
     if isinstance(r1BodyName, unicode):
       r1BodyName = r1BodyName.encode(u'ascii')
     if isinstance(r2BodyName, unicode):
       r2BodyName = r2BodyName.encode(u'ascii')
-    self.impl.addCollision(deref(mbs.v), collId, r1Index, r1BodyName, body1.impl, deref(X_op1_o1.impl), r2Index, r2BodyName, body2.impl, deref(X_op2_o2.impl), di, ds, damping, dampingOff)
-  def rmCollision(self, int collId):
-    return self.impl.rmCollision(collId)
-  def nrCollisions(self):
-    return self.impl.nrCollisions()
+    self.impl.addDistanceLimit(deref(mbs.v), collId, r1Index, r1BodyName, body1.impl, deref(X_op1_o1.impl), r2Index, r2BodyName, body2.impl, deref(X_op2_o2.impl), di, ds, damping, dampingOff)
+  def rmDistanceLimit(self, int collId):
+    return self.impl.rmDistanceLimit(collId)
+  def rmDistanceLimit(self):
+    return self.impl.nrDistanceLimits()
   def reset(self):
     self.impl.reset()
-  def updateNrCollisions(self):
-    self.impl.updateNrCollisions()
+  def updateNrDistanceLimits(self):
+    self.impl.updateNrDistanceLimits()
   def __addToSolver(self, QPSolver solver):
     self.impl.addToSolver(deref(solver.impl))
   def __addToSolverMBS(self, MultiBodyVector mbs, QPSolver solver):
@@ -1915,8 +1915,8 @@ cdef class CollisionConstr(Inequality):
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
 
-cdef CollisionConstr CollisionConstrFromPtr(c_qp.CollisionConstr * p):
-    cdef CollisionConstr ret = CollisionConstr(None, 0, skip_alloc = True)
+cdef DistanceConstr DistanceConstrFromPtr(c_qp.DistanceConstr * p):
+    cdef DistanceConstr ret = DistanceConstr(None, 0, skip_alloc = True)
     ret.__own_impl = False
     ret.impl = ret.ineq_base = ret.constraint_base = p
     return ret
