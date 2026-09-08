@@ -272,9 +272,13 @@ private:
 
 /**
  * Set a limit for a distance between two robot links based on a velocity damper.
- * For each distance limit pair:
+ * For each distance limit pair if d \geq d_s :
  * \f[
  * \dot{d} + \ddot{d}\Delta_{dt} \geq -\xi \frac{d - d_s}{d_i - d_s}
+ * \f]
+ * and for d \leq d_s (inverted into -d \geq \d_s (note that d_i also gets negated)):
+ * \f[
+ * -\dot{d} - \ddot{d}\Delta_{dt} \geq -\xi \frac{d - d_s}{d_i - d_s}
  * \f]
  * with \f$ d \f$ the distance between the two links,
  * \f$ d_i \f$ the interactive distance, \f$ d_s \f$ the security distance
@@ -296,7 +300,7 @@ public:
 
   /**
    * Add a distance constraint.
-   * Don't forget to call updateNrCollisions and QPSolver::updateConstrSize.
+   * Don't forget to call updateNrDistanceLimits and QPSolver::updateConstrSize.
    * You can also only call QPSolver::nrVars or QPSolver::updateConstrsNrVars
    * or QPSolver::updateNrVars.
    *
