@@ -456,6 +456,8 @@ private:
   DistanceConstr & operator=(const DistanceConstr &) = delete;
 };
 
+using CollisionConstr [[deprecated("Use DistanceConstr instead.")]] = DistanceConstr;
+
 /**
  * Prevent robot CoM to go out of a convex hull.
  * For each plane that compose the convex hull:

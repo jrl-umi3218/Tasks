@@ -412,7 +412,7 @@ auto DistanceConstr::getDistanceData(int dlId) const -> const DistLimData &
 {
   auto it = std::find_if(dataVec_.begin(), dataVec_.end(), [&](const DistLimData & data) { return data.dlId == dlId; });
   if(it != dataVec_.end()) { return *it; }
-  throw std::runtime_error("No collision with the requested id");
+  throw std::runtime_error("No distance limit with the requested id");
 }
 
 std::size_t DistanceConstr::nrDistanceLimits() const
@@ -561,7 +561,7 @@ std::string DistanceConstr::descInEq(const std::vector<rbd::MultiBody> & mbs, in
           ss << "robot: " << bcd.rIndex << std::endl;
           ss << "body: " << mb.body(bcd.bIndex).name() << std::endl;
         }
-        ss << "collId: " << d.dlId << std::endl;
+        ss << "dlId: " << d.dlId << std::endl;
         ss << "dist: " << dist << std::endl;
         ss << "di: " << d.di << std::endl;
         ss << "ds: " << d.ds << std::endl;
