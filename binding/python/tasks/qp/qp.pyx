@@ -1889,14 +1889,14 @@ cdef class DistanceConstr(Inequality):
       self.cf_base = self.impl
       self.ineq_base = self.impl
       self.constraint_base = self.impl
-  def addDistanceLimit(self, MultiBodyVector mbs, int collId, int r1Index, r1BodyName, S_Object body1, PTransformd X_op1_o1, int r2Index, r2BodyName, S_Object body2, PTransformd X_op2_o2, double di, double ds, double damping, double dampingOff = 0):
+  def addDistanceLimit(self, MultiBodyVector mbs, int dlId, int r1Index, r1BodyName, S_Object body1, PTransformd X_op1_o1, int r2Index, r2BodyName, S_Object body2, PTransformd X_op2_o2, double di, double ds, double damping, double dampingOff = 0):
     if isinstance(r1BodyName, unicode):
       r1BodyName = r1BodyName.encode(u'ascii')
     if isinstance(r2BodyName, unicode):
       r2BodyName = r2BodyName.encode(u'ascii')
-    self.impl.addDistanceLimit(deref(mbs.v), collId, r1Index, r1BodyName, body1.impl, deref(X_op1_o1.impl), r2Index, r2BodyName, body2.impl, deref(X_op2_o2.impl), di, ds, damping, dampingOff)
-  def rmDistanceLimit(self, int collId):
-    return self.impl.rmDistanceLimit(collId)
+    self.impl.addDistanceLimit(deref(mbs.v), dlId, r1Index, r1BodyName, body1.impl, deref(X_op1_o1.impl), r2Index, r2BodyName, body2.impl, deref(X_op2_o2.impl), di, ds, damping, dampingOff)
+  def rmDistanceLimit(self, int dlId):
+    return self.impl.rmDistanceLimit(dlId)
   def rmDistanceLimit(self):
     return self.impl.nrDistanceLimits()
   def reset(self):
