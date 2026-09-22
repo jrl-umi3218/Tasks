@@ -6,3 +6,5 @@ CMakeLists.txt.user*
 build/
 .direnv/
 result*
+.cache/
+compile_commands.json
