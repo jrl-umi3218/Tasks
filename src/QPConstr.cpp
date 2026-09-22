@@ -308,6 +308,8 @@ double DamperJointLimitsConstr::computeDamping(double alpha, double dist, double
 double DamperJointLimitsConstr::computeDamper(double dist, double iDist, double sDist, double damping)
 { return damping * ((dist - sDist) / (iDist - sDist)); }
 
+CollisionConstr::CollisionConstr(const std::vector<rbd::MultiBody> & mbs, double step) : DistanceConstr(mbs, step) {};
+
 /**
  *													DistanceConstr
  */

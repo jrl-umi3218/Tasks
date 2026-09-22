@@ -461,10 +461,11 @@ private:
  *
  * Backward-compatible interface for CollisionConstr.
  */
-class TASKS_DLLAPI [[deprecated("Use DistanceConstr instead.")]] CollisionConstr : public DistanceConstr
+class TASKS_DLLAPI CollisionConstr : public DistanceConstr
 {
 public:
-  using DistanceConstr::DistanceConstr;
+  [[deprecated("Use DistanceConstr instead.")]]
+  CollisionConstr(const std::vector<rbd::MultiBody> & mbs, double step);
 
   void addCollision(const std::vector<rbd::MultiBody> & mbs,
                     int collId,
