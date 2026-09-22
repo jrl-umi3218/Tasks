@@ -126,7 +126,6 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 , <a class="el" href="classtasks_1_1PositionTask.html#a7d3a8ff6985e75f435c7fb37828bfaf7">tasks::PositionTask</a>
 , <a class="el" href="classtasks_1_1PostureTask.html#a2aa0643bd9456d8b976136327f491d59">tasks::PostureTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1BoundedSpeedConstr.html#aa85fbe1d319ff21386fc106b2979e621">tasks::qp::BoundedSpeedConstr</a>
-, <a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#aad283323a7817f32ba5983d0b58454dd">tasks::qp::CollisionConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a1110af78967fdbf83c6ad56c4ae99280">tasks::qp::CoMIncPlaneConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1CoMTask.html#a57b452d399ec19cc3bc7c0d8a75b8a3d">tasks::qp::CoMTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1Constraint.html#acaa7ba68e4d9fcbf627c048aef01dc43">tasks::qp::Constraint</a>
@@ -136,6 +135,7 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 , <a class="el" href="classtasks_1_1qp_1_1ContactSpeedConstr.html#a5efaf89905603ee2579a909bc1b6f215">tasks::qp::ContactSpeedConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1ContactTask.html#a90577acb68343fca1a43f2a04efb0297">tasks::qp::ContactTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html#a1d0a2b753ffc9366583f4b86ce909ab5">tasks::qp::DamperJointLimitsConstr</a>
+, <a class="el" href="classtasks_1_1qp_1_1DistanceConstr.html#a6ac504e4676ed44c9720729465f964e3">tasks::qp::DistanceConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1GazeTask.html#a9fd82b2acc7b7ed48635e4a6b5c9ef56">tasks::qp::GazeTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1GripperTorqueConstr.html#a42017c9a838cfb0dd9b189f10ad820a9">tasks::qp::GripperTorqueConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1GripperTorqueTask.html#aa676ad46571e3eef31643d510a609906">tasks::qp::GripperTorqueTask</a>
@@ -169,7 +169,7 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 , <a class="el" href="classtasks_1_1qp_1_1TransformTask.html#ac8882b864bde44ffa1fc142373fc85ce">tasks::qp::TransformTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html#aaa28325bddf2f915dfe0b43d43cf984b">tasks::qp::VectorOrientationTask</a>
 , <a class="el" href="classtasks_1_1RelativeDistTask.html#a1432afeef1ca0c5013e740c19fe11177">tasks::RelativeDistTask</a>
-, <a class="el" href="classtasks_1_1SurfaceOrientationTask.html#abbb14c2ef47665eefc63c560a5597859">tasks::SurfaceOrientationTask</a>
+, <a class="el" href="classtasks_1_1SurfaceOrientationTask.html#a79111bb3e3d585fb4dba52b9078ca68d">tasks::SurfaceOrientationTask</a>
 , <a class="el" href="classtasks_1_1SurfaceTransformTask.html#a5bce03f4d99d2ba3a40254a54269a002">tasks::SurfaceTransformTask</a>
 , <a class="el" href="classtasks_1_1TransformTask.html#a2cdf770b2c150f752ff44c9a049f31b2">tasks::TransformTask</a>
 , <a class="el" href="classtasks_1_1VectorOrientationTask.html#a0f73567b135c586035253002b91fa65f">tasks::VectorOrientationTask</a>
@@ -216,6 +216,9 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 <li>updateNrCollisions()
 : <a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#a0f5c6818508abc7debd6f6d1673d7ede">tasks::qp::CollisionConstr</a>
 </li>
+<li>updateNrDistanceLimits()
+: <a class="el" href="classtasks_1_1qp_1_1DistanceConstr.html#a07cae299a3132112978a0fb54af02f07">tasks::qp::DistanceConstr</a>
+</li>
 <li>updateNrEq()
 : <a class="el" href="classtasks_1_1qp_1_1ContactConstr.html#ab48ef13bdf935a36c4561e39340adc20">tasks::qp::ContactConstr</a>
 </li>
@@ -224,12 +227,12 @@ $(document).ready(function(){initNavTree('functions_u.html',''); initResizable()
 </li>
 <li>updateNrVars()
 : <a class="el" href="classtasks_1_1qp_1_1BoundedSpeedConstr.html#a0f7f98fca4b36a6c87b724fb598698b0">tasks::qp::BoundedSpeedConstr</a>
-, <a class="el" href="classtasks_1_1qp_1_1CollisionConstr.html#ad0c21cf42a3f36765645661d7ee32ddc">tasks::qp::CollisionConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1CoMIncPlaneConstr.html#a9ea58938e66c71938ee2837293441da8">tasks::qp::CoMIncPlaneConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1Constraint.html#a1d20144cd73582d7f597f4806bfdc132">tasks::qp::Constraint</a>
 , <a class="el" href="classtasks_1_1qp_1_1ContactConstr.html#a352528abbb9c6e56277ce59762644268">tasks::qp::ContactConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1ContactTask.html#a68bb42fab80a9d00569910598ee9fcfc">tasks::qp::ContactTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1DamperJointLimitsConstr.html#aa6a111694fc46b4f2f19418975ca7fa1">tasks::qp::DamperJointLimitsConstr</a>
+, <a class="el" href="classtasks_1_1qp_1_1DistanceConstr.html#ac729c277d40991db35e48ecf6f5cb87e">tasks::qp::DistanceConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1GripperTorqueConstr.html#abe6ec4a958f76661992909e5e78f9c27">tasks::qp::GripperTorqueConstr</a>
 , <a class="el" href="classtasks_1_1qp_1_1GripperTorqueTask.html#abdf08c1a2db0a554763ee6bea6769e5c">tasks::qp::GripperTorqueTask</a>
 , <a class="el" href="classtasks_1_1qp_1_1ImageConstr.html#a0fd49c0ccf725afd398d3448fd4bfa72">tasks::qp::ImageConstr</a>

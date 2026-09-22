@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['type_3006',['Type',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Geometry.html#a91ba6c5a035011ff6a22120b1c26c71f',1,'rbd::parsers::Geometry::Type()'],['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#afff99e26b5eeb3d899af433df385f4fd',1,'rbd::Joint::Type()'],['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Material.html#ae6eac1997c9928f2ff6338a3e0b15b3c',1,'rbd::parsers::Material::Type()']]]
+  ['s_5fobjecttype_3046',['S_ObjectType',['/usr/local/share/doc/sch-core/doxygen-html/classsch_1_1S__Object.html#abe9b175195c12ac74eb9ee1dbf620482',1,'sch::S_Object']]],
+  ['stp_5ffeaturetype_3047',['STP_Featuretype',['/usr/local/share/doc/sch-core/doxygen-html/namespacesch.html#aaa9a2e71c9a9687a84c75aa15b75f384',1,'sch']]]
 ];

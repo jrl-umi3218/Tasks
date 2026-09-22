@@ -5,9 +5,11 @@ digraph "tasks::qp::CollisionConstr"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="tasks::qp::CollisionConstr",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="tasks::qp::ConstraintFunction\l\< Inequality \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1ConstraintFunction.html",tooltip=" "];
+  Node2 [label="tasks::qp::DistanceConstr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1DistanceConstr.html",tooltip=" "];
   Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="tasks::qp::Constraint",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1Constraint.html",tooltip=" "];
-  Node4 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="Fun",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 [label="tasks::qp::ConstraintFunction\l\< Inequality \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1ConstraintFunction.html",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="tasks::qp::Constraint",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtasks_1_1qp_1_1Constraint.html",tooltip=" "];
+  Node5 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Fun",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

@@ -5,6 +5,7 @@ var namespacetasks_1_1qp =
     [ "GenQPSolver", "classtasks_1_1qp_1_1GenQPSolver.html", "classtasks_1_1qp_1_1GenQPSolver" ],
     [ "JointLimitsConstr", "classtasks_1_1qp_1_1JointLimitsConstr.html", "classtasks_1_1qp_1_1JointLimitsConstr" ],
     [ "DamperJointLimitsConstr", "classtasks_1_1qp_1_1DamperJointLimitsConstr.html", "classtasks_1_1qp_1_1DamperJointLimitsConstr" ],
+    [ "DistanceConstr", "classtasks_1_1qp_1_1DistanceConstr.html", "classtasks_1_1qp_1_1DistanceConstr" ],
     [ "CollisionConstr", "classtasks_1_1qp_1_1CollisionConstr.html", "classtasks_1_1qp_1_1CollisionConstr" ],
     [ "CoMIncPlaneConstr", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html", "classtasks_1_1qp_1_1CoMIncPlaneConstr" ],
     [ "GripperTorqueConstr", "classtasks_1_1qp_1_1GripperTorqueConstr.html", "classtasks_1_1qp_1_1GripperTorqueConstr" ],

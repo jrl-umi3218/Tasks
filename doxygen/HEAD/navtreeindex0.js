@@ -29,7 +29,7 @@ var NAVTREEINDEX0 =
 "QLDQPSolver_8h.html":[9,0,0,3],
 "QLDQPSolver_8h_source.html":[9,0,0,3],
 "QPConstr_8h.html":[9,0,0,0,2],
-"QPConstr_8h.html#a2887fd65f669f54a2aaaa911c724a089":[9,0,0,0,2,7],
+"QPConstr_8h.html#a2887fd65f669f54a2aaaa911c724a089":[9,0,0,0,2,9],
 "QPConstr_8h_source.html":[9,0,0,0,2],
 "QPContactConstr_8h.html":[9,0,0,0,3],
 "QPContactConstr_8h_source.html":[9,0,0,0,3],

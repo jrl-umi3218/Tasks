@@ -22,7 +22,9 @@ var hierarchy =
       ] ],
       [ "tasks::qp::ConstraintFunction< Inequality >", "classtasks_1_1qp_1_1ConstraintFunction.html", [
         [ "tasks::qp::CoMIncPlaneConstr", "classtasks_1_1qp_1_1CoMIncPlaneConstr.html", null ],
-        [ "tasks::qp::CollisionConstr", "classtasks_1_1qp_1_1CollisionConstr.html", null ],
+        [ "tasks::qp::DistanceConstr", "classtasks_1_1qp_1_1DistanceConstr.html", [
+          [ "tasks::qp::CollisionConstr", "classtasks_1_1qp_1_1CollisionConstr.html", null ]
+        ] ],
         [ "tasks::qp::GripperTorqueConstr", "classtasks_1_1qp_1_1GripperTorqueConstr.html", null ],
         [ "tasks::qp::ImageConstr", "classtasks_1_1qp_1_1ImageConstr.html", null ]
       ] ],
@@ -48,6 +50,7 @@ var hierarchy =
     [ "tasks::qp::MotionConstrCommon::ContactData", "structtasks_1_1qp_1_1MotionConstrCommon_1_1ContactData.html", null ],
     [ "tasks::qp::ContactId", "structtasks_1_1qp_1_1ContactId.html", null ],
     [ "tasks::qp::ContactConstr::ContactSideData", "structtasks_1_1qp_1_1ContactConstr_1_1ContactSideData.html", null ],
+    [ "tasks::qp::DistanceConstr::DistLimData", "structtasks_1_1qp_1_1DistanceConstr_1_1DistLimData.html", null ],
     [ "tasks::qp::Equality", "classtasks_1_1qp_1_1Equality.html", null ],
     [ "tasks::qp::FrictionCone", "structtasks_1_1qp_1_1FrictionCone.html", null ],
     [ "Fun", null, [

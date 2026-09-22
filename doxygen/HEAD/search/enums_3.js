@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['oldtype_3002',['OldType',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#ab948ec84d396e27779015bccdf303536',1,'rbd::Joint']]]
+  ['geometrytype_3043',['GeometryType',['/usr/local/share/doc/sch-core/doxygen-html/structsch_1_1Geometry.html#a589fcbf549a272b3a643c861b284d27f',1,'sch::Geometry']]]
 ];

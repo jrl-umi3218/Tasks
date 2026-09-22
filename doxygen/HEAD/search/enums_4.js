@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parserinput_3003',['ParserInput',['/usr/local/share/doc/RBDyn/doxygen-html/namespacerbd_1_1parsers.html#a8578b943029e74399e94ba9ec80992f4',1,'rbd::parsers']]]
+  ['oldtype_3044',['OldType',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1Joint.html#ab948ec84d396e27779015bccdf303536',1,'rbd::Joint']]]
 ];
