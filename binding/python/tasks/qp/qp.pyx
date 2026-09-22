@@ -1897,8 +1897,6 @@ cdef class DistanceConstr(Inequality):
     self.impl.addDistanceLimit(deref(mbs.v), dlId, r1Index, r1BodyName, body1.impl, deref(X_op1_o1.impl), r2Index, r2BodyName, body2.impl, deref(X_op2_o2.impl), di, ds, damping, dampingOff)
   def rmDistanceLimit(self, int dlId):
     return self.impl.rmDistanceLimit(dlId)
-  def rmDistanceLimit(self):
-    return self.impl.nrDistanceLimits()
   def reset(self):
     self.impl.reset()
   def updateNrDistanceLimits(self):
@@ -1914,6 +1912,8 @@ cdef class DistanceConstr(Inequality):
       self.__addToSolver(args[0])
   def removeFromSolver(self, QPSolver solver):
     self.impl.removeFromSolver(deref(solver.impl))
+  def nrDistanceLimits(self):
+    return self.impl.nrDistanceLimits()
 
 cdef DistanceConstr DistanceConstrFromPtr(c_qp.DistanceConstr * p):
     cdef DistanceConstr ret = DistanceConstr(None, 0, skip_alloc = True)

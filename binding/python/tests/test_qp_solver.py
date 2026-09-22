@@ -648,10 +648,10 @@ class TestQPAutoColl(unittest.TestCase):
         identity = sva.PTransformd.Identity()
         autoCollConstr = tasks.qp.DistanceConstr(mbs, 0.001)
         collId1 = 10
-        autoCollConstr.addCollision(
+        autoCollConstr.addDistanceLimit(
             mbs, collId1, 0, "b0", b0, identity, 0, "b3", b3, identity, 0.01, 0.005, 1
         )
-        self.assertEqual(autoCollConstr.nrCollisions(), 1)
+        self.assertEqual(autoCollConstr.nrDistanceLimits(), 1)
 
         solver.addInequalityConstraint(autoCollConstr)
         self.assertEqual(solver.nrInequalityConstraints(), 1)
@@ -676,8 +676,8 @@ class TestQPAutoColl(unittest.TestCase):
             rbdyn.forwardKinematics(mbs[0], mbcs[0])
             rbdyn.forwardVelocity(mbs[0], mbcs[0])
 
-        autoCollConstr.rmCollision(collId1)
-        self.assertEqual(autoCollConstr.nrCollisions(), 0)
+        autoCollConstr.rmDistanceLimit(collId1)
+        self.assertEqual(autoCollConstr.nrDistanceLimits(), 0)
 
 
 class TestQPStaticEnvColl(unittest.TestCase):
@@ -711,10 +711,10 @@ class TestQPStaticEnvColl(unittest.TestCase):
         identity = sva.PTransformd.Identity()
         seCollConstr = tasks.qp.DistanceConstr(mbs, 0.001)
         collId1 = 10
-        seCollConstr.addCollision(
+        seCollConstr.addDistanceLimit(
             mbs, collId1, 0, "b3", b3, identity, 1, "b0", b0, identity, 0.01, 0.005, 1
         )
-        self.assertEqual(seCollConstr.nrCollisions(), 1)
+        self.assertEqual(seCollConstr.nrDistanceLimits(), 1)
 
         solver.addInequalityConstraint(seCollConstr)
         self.assertEqual(solver.nrInequalityConstraints(), 1)
@@ -739,11 +739,11 @@ class TestQPStaticEnvColl(unittest.TestCase):
             rbdyn.forwardKinematics(mbs[0], mbcs[0])
             rbdyn.forwardVelocity(mbs[0], mbcs[0])
 
-        seCollConstr.rmCollision(collId1)
-        self.assertEqual(seCollConstr.nrCollisions(), 0)
+        seCollConstr.rmDistanceLimit(collId1)
+        self.assertEqual(seCollConstr.nrDistanceLimits(), 0)
 
         # Test damping computation
-        seCollConstr.addCollision(
+        seCollConstr.addDistanceLimit(
             mbs,
             collId1,
             0,
@@ -759,7 +759,7 @@ class TestQPStaticEnvColl(unittest.TestCase):
             0,
             0.1,
         )
-        self.assertEqual(seCollConstr.nrCollisions(), 1)
+        self.assertEqual(seCollConstr.nrDistanceLimits(), 1)
         posTask.position(mbcInit.bodyPosW[bodyI].translation())
 
         mbcs[0] = mbcInit
@@ -774,8 +774,8 @@ class TestQPStaticEnvColl(unittest.TestCase):
             rbdyn.forwardKinematics(mbs[0], mbcs[0])
             rbdyn.forwardVelocity(mbs[0], mbcs[0])
 
-        seCollConstr.rmCollision(collId1)
-        self.assertEqual(seCollConstr.nrCollisions(), 0)
+        seCollConstr.rmDistanceLimit(collId1)
+        self.assertEqual(seCollConstr.nrDistanceLimits(), 0)
 
         solver.removeTask(posTaskSp)
         self.assertEqual(solver.nrTasks(), 0)
