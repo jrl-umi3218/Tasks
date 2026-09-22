@@ -394,6 +394,7 @@ private:
     Eigen::VectorXd selector;
   };
 
+public:
   struct DistLimData
   {
     enum class DampingType
@@ -429,7 +430,6 @@ private:
     int dlId;
   };
 
-public:
   /** Access the distance data computed by the constraint */
   const DistLimData & getDistanceData(int dlId) const;
 
@@ -456,7 +456,45 @@ private:
   DistanceConstr & operator=(const DistanceConstr &) = delete;
 };
 
-using CollisionConstr [[deprecated("Use DistanceConstr instead.")]] = DistanceConstr;
+/**
+ * \deprecated Use DistanceConstr instead.
+ *
+ * Backward-compatible interface for CollisionConstr.
+ */
+class TASKS_DLLAPI [[deprecated("Use DistanceConstr instead.")]] CollisionConstr : public DistanceConstr
+{
+public:
+  using DistanceConstr::DistanceConstr;
+
+  void addCollision(const std::vector<rbd::MultiBody> & mbs,
+                    int collId,
+                    int r1Index,
+                    const std::string & r1BodyName,
+                    sch::S_Object * body1,
+                    const sva::PTransformd & X_op1_o1,
+                    int r2Index,
+                    const std::string & r2BodyName,
+                    sch::S_Object * body2,
+                    const sva::PTransformd & X_op2_o2,
+                    double di,
+                    double ds,
+                    double damping,
+                    double dampingOff = 0.,
+                    const Eigen::VectorXd & r1Selector = Eigen::VectorXd::Zero(0),
+                    const Eigen::VectorXd & r2Selector = Eigen::VectorXd::Zero(0))
+  {
+    addDistanceLimit(mbs, collId, r1Index, r1BodyName, body1, X_op1_o1, r2Index, r2BodyName, body2, X_op2_o2, di, ds,
+                     damping, dampingOff, r1Selector, r2Selector);
+  }
+
+  bool rmCollision(int collId) { return rmDistanceLimit(collId); }
+
+  std::size_t nrCollisions() const { return nrDistanceLimits(); }
+
+  void updateNrCollisions() { updateNrDistanceLimits(); }
+
+  const DistLimData & getCollisionData(int collId) const { return getDistanceData(collId); }
+};
 
 /**
  * Prevent robot CoM to go out of a convex hull.
