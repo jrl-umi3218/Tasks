@@ -8,7 +8,7 @@ set(PROJECT_NAME Tasks)
 set(PROJECT_DESCRIPTION "...")
 set(PROJECT_URL "https://github.com/jrl-umi3218/Tasks")
 set(PROJECT_DEBUG_POSTFIX "_d")
-set(PROJECT_VERSION 1.9.0)
+set(PROJECT_VERSION 1.9.1)
 set(PROJECT_USE_CMAKE_EXPORT TRUE)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -47,6 +47,7 @@ include(${JRL_CMAKE_MODULES}/msvc-specific.cmake)
 
 project(
   Tasks
+  HOMEPAGE_URL "https://github.com/jrl-umi3218/Tasks"
   LANGUAGES CXX
   VERSION ${PROJECT_VERSION}
 )
