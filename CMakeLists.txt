@@ -45,7 +45,11 @@ include(${JRL_CMAKE_MODULES}/base.cmake)
 include(${JRL_CMAKE_MODULES}/cython/cython.cmake)
 include(${JRL_CMAKE_MODULES}/msvc-specific.cmake)
 
-project(Tasks CXX VERSION ${PROJECT_VERSION})
+project(
+  Tasks
+  LANGUAGES CXX
+  VERSION ${PROJECT_VERSION}
+)
 
 if(UNIX
    AND NOT EMSCRIPTEN
