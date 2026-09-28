@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CXX_DISABLE_WERROR True)
 set(DOXYGEN_USE_MATHJAX "YES")
 
+option(PYTHON_BINDING "Enable Python bindings" ON)
+
 # Check if the submodule cmake have been initialized
 set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
 if(EXISTS "${JRL_CMAKE_MODULES}/base.cmake")
