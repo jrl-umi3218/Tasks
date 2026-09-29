@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CXX_DISABLE_WERROR True)
 set(DOXYGEN_USE_MATHJAX "YES")
 
+option(PYTHON_BINDING "Enable Python bindings" ON)
+
 # Check if the submodule cmake have been initialized
 set(JRL_CMAKE_MODULES "${CMAKE_CURRENT_LIST_DIR}/cmake")
 if(EXISTS "${JRL_CMAKE_MODULES}/base.cmake")
@@ -35,15 +37,17 @@ else()
     FetchContent_Declare(
       "jrl-cmakemodules"
       GIT_REPOSITORY "https://github.com/jrl-umi3218/jrl-cmakemodules.git"
+      GIT_TAG c32298a98e736ac4d15a9540dcd1f22cd7f161db
     )
     FetchContent_MakeAvailable("jrl-cmakemodules")
     FetchContent_GetProperties("jrl-cmakemodules" SOURCE_DIR JRL_CMAKE_MODULES)
   endif()
 endif()
-
 include(${JRL_CMAKE_MODULES}/base.cmake)
-include(${JRL_CMAKE_MODULES}/cython/cython.cmake)
 include(${JRL_CMAKE_MODULES}/msvc-specific.cmake)
+if(${PYTHON_BINDING})
+  include(${JRL_CMAKE_MODULES}/cython/cython.cmake)
+endif()
 
 project(
   Tasks
