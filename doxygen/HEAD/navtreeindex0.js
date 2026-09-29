@@ -1,11 +1,5 @@
 var NAVTREEINDEX0 =
 {
-"":[7,0,0],
-"":[7,0,3],
-"":[7,0,3,0],
-"":[7,0,3,1],
-"":[7,0,3,2],
-"":[7,0,1,0],
 "Bounds_8h.html":[9,0,0,0,0],
 "Bounds_8h_source.html":[9,0,0,0,0],
 "GenQPSolver_8h.html":[9,0,0,0,1],
@@ -249,5 +243,11 @@ var NAVTREEINDEX0 =
 "classtasks_1_1TransformTaskCommon.html#adf5b5e49e0851fd720e33b1760e0e5c8":[8,0,0,10,2],
 "classtasks_1_1TransformTaskCommon.html#ae3014f0561c11ea6f3f9817a0e4c3743":[8,0,0,10,7],
 "classtasks_1_1TransformTaskCommon.html#ae6fc32df4b5ed9cf52e94a95db598708":[8,0,0,10,12],
-"classtasks_1_1TransformTaskCommon.html#af3c5c7d4e3e282c76d28c09563e6650d":[8,0,0,10,16]
+"classtasks_1_1TransformTaskCommon.html#af3c5c7d4e3e282c76d28c09563e6650d":[8,0,0,10,16],
+"classtasks_1_1VectorOrientationTask.html":[8,0,0,24],
+"classtasks_1_1VectorOrientationTask.html#a0122d38e08243f8d504435e793fd0088":[8,0,0,24,3],
+"classtasks_1_1VectorOrientationTask.html#a0f73567b135c586035253002b91fa65f":[8,0,0,24,10],
+"classtasks_1_1VectorOrientationTask.html#a14bf0b01a13e432d12dcdd51cc7b28fb":[8,0,0,24,2],
+"classtasks_1_1VectorOrientationTask.html#a2ac9e1a39dac7cf02bdac3727a9f980a":[8,0,0,24,7],
+"classtasks_1_1VectorOrientationTask.html#a2e7206a4e62167c039c50717eff8c6b5":[8,0,0,24,4]
 };
