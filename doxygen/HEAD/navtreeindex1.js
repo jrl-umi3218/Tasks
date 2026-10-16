@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"classtasks_1_1VectorOrientationTask.html#a2e7206a4e62167c039c50717eff8c6b5":[8,0,0,24,4],
 "classtasks_1_1VectorOrientationTask.html#a915b78ec72edfd554234c61c883dc99b":[8,0,0,24,0],
 "classtasks_1_1VectorOrientationTask.html#ac9144d9c534c55f126404bd78b876683":[8,0,0,24,5],
 "classtasks_1_1VectorOrientationTask.html#ac9688f4adf664318c90a22c3a82353a8":[8,0,0,24,9],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classtasks_1_1qp_1_1ImageConstr.html#a7e5134fd0d18fe23b8816474a8221ccb":[8,0,0,0,10,10],
 "classtasks_1_1qp_1_1ImageConstr.html#a8d48b45ff73d2cd041c6746cf9e942a9":[8,0,0,0,10,12],
 "classtasks_1_1qp_1_1ImageConstr.html#a985c69282468b3d03abdd56b5306a7fc":[8,0,0,0,10,0],
-"classtasks_1_1qp_1_1ImageConstr.html#acdf39d5bf2e7f92f8e55a709d8af7cff":[8,0,0,0,10,19],
-"classtasks_1_1qp_1_1ImageConstr.html#ad28102162a710241e4bef0b6f7555ade":[8,0,0,0,10,14]
+"classtasks_1_1qp_1_1ImageConstr.html#acdf39d5bf2e7f92f8e55a709d8af7cff":[8,0,0,0,10,19]
 };

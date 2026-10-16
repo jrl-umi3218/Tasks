@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('namespacetasks_1_1qp.html',''); initRe
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">tasks::qp Namespace Reference</div>  </div>
@@ -241,6 +242,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtasks_1_1qp_1_1VectorOrientationTask.html">VectorOrientationTask</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a81325c75122f8181ac619bafb76f50a7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a81325c75122f8181ac619bafb76f50a7">clock</a> = typename std::conditional&lt; std::chrono::high_resolution_clock::is_steady, std::chrono::high_resolution_clock, std::chrono::steady_clock &gt;::type</td></tr>
+<tr class="separator:a81325c75122f8181ac619bafb76f50a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a3acd478a67503f59d9247a42d049ccab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a3acd478a67503f59d9247a42d049ccab">fillQC</a> (const std::vector&lt; <a class="el" href="classtasks_1_1qp_1_1Task.html">Task</a> * &gt; &amp;tasks, int nrVars, Eigen::MatrixXd &amp;Q, Eigen::VectorXd &amp;C)</td></tr>
@@ -292,6 +298,22 @@ Functions</h2></td></tr>
 <tr class="memitem:a9d2ad288554eb8df94fadd7bfc77009d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetasks_1_1qp.html#a9d2ad288554eb8df94fadd7bfc77009d">compareDof</a> (const <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &amp;mb1, const <a class="elRef" href="/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1MultiBody.html">rbd::MultiBody</a> &amp;mb2)</td></tr>
 <tr class="separator:a9d2ad288554eb8df94fadd7bfc77009d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a81325c75122f8181ac619bafb76f50a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81325c75122f8181ac619bafb76f50a7">&#9670;&nbsp;</a></span>clock</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacetasks_1_1qp.html#a81325c75122f8181ac619bafb76f50a7">tasks::qp::clock</a> = typedef typename std::conditional&lt;std::chrono::high_resolution_clock::is_steady, std::chrono::high_resolution_clock, std::chrono::steady_clock&gt;::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>clock is a clock that is always steady and thus suitable for performance measurements </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a9d2ad288554eb8df94fadd7bfc77009d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d2ad288554eb8df94fadd7bfc77009d">&#9670;&nbsp;</a></span>compareDof()</h2>

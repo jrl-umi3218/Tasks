@@ -40,6 +40,7 @@ var NAVTREEINDEX0 =
 "QPSolverData_8h.html":[9,0,0,0,7],
 "QPSolverData_8h_source.html":[9,0,0,0,7],
 "QPSolver_8h.html":[9,0,0,0,6],
+"QPSolver_8h.html#a81325c75122f8181ac619bafb76f50a7":[9,0,0,0,6,13],
 "QPSolver_8h_source.html":[9,0,0,0,6],
 "QPTasks_8h.html":[9,0,0,0,8],
 "QPTasks_8h_source.html":[9,0,0,0,8],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "classtasks_1_1VectorOrientationTask.html#a0122d38e08243f8d504435e793fd0088":[8,0,0,24,3],
 "classtasks_1_1VectorOrientationTask.html#a0f73567b135c586035253002b91fa65f":[8,0,0,24,10],
 "classtasks_1_1VectorOrientationTask.html#a14bf0b01a13e432d12dcdd51cc7b28fb":[8,0,0,24,2],
-"classtasks_1_1VectorOrientationTask.html#a2ac9e1a39dac7cf02bdac3727a9f980a":[8,0,0,24,7],
-"classtasks_1_1VectorOrientationTask.html#a2e7206a4e62167c039c50717eff8c6b5":[8,0,0,24,4]
+"classtasks_1_1VectorOrientationTask.html#a2ac9e1a39dac7cf02bdac3727a9f980a":[8,0,0,24,7]
 };

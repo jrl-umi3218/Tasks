@@ -269,6 +269,13 @@
     <namespace>rbd</namespace>
     <namespace>tasks</namespace>
     <namespace>tasks::qp</namespace>
+    <member kind="typedef">
+      <type>typename std::conditional&lt; std::chrono::high_resolution_clock::is_steady, std::chrono::high_resolution_clock, std::chrono::steady_clock &gt;::type</type>
+      <name>clock</name>
+      <anchorfile>namespacetasks_1_1qp.html</anchorfile>
+      <anchor>a81325c75122f8181ac619bafb76f50a7</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>QPSolverData.h</name>
@@ -5895,6 +5902,13 @@
   <compound kind="class">
     <name>tasks::qp::QPSolver</name>
     <filename>classtasks_1_1qp_1_1QPSolver.html</filename>
+    <member kind="typedef">
+      <type>clock::duration</type>
+      <name>Duration</name>
+      <anchorfile>classtasks_1_1qp_1_1QPSolver.html</anchorfile>
+      <anchor>afe3c34c12da3154c6742a32f2328ef03</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>QPSolver</name>
@@ -6190,17 +6204,17 @@
       <arglist>(const ContactId &amp;cId) const</arglist>
     </member>
     <member kind="function">
-      <type>boost::timer::cpu_times</type>
+      <type>Duration</type>
       <name>solveTime</name>
       <anchorfile>classtasks_1_1qp_1_1QPSolver.html</anchorfile>
-      <anchor>ac009e655ee4124cb099c1d6170980bc8</anchor>
+      <anchor>ae0ef9f18412d7377ca01fd4565a032a8</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function">
-      <type>boost::timer::cpu_times</type>
+      <type>Duration</type>
       <name>solveAndBuildTime</name>
       <anchorfile>classtasks_1_1qp_1_1QPSolver.html</anchorfile>
-      <anchor>a2ff4e607e4d85cdf16172310e112b1ec</anchor>
+      <anchor>ae68f7424fd52f737a22ffa78c65a0fad</anchor>
       <arglist>() const</arglist>
     </member>
     <member kind="function" protection="protected">
@@ -8416,6 +8430,13 @@
     <class kind="class">tasks::qp::OrientationTrackingTask</class>
     <class kind="class">tasks::qp::RelativeDistTask</class>
     <class kind="class">tasks::qp::VectorOrientationTask</class>
+    <member kind="typedef">
+      <type>typename std::conditional&lt; std::chrono::high_resolution_clock::is_steady, std::chrono::high_resolution_clock, std::chrono::steady_clock &gt;::type</type>
+      <name>clock</name>
+      <anchorfile>namespacetasks_1_1qp.html</anchorfile>
+      <anchor>a81325c75122f8181ac619bafb76f50a7</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function">
       <type>void</type>
       <name>fillQC</name>

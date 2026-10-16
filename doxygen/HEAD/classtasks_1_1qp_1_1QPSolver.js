@@ -1,5 +1,6 @@
 var classtasks_1_1qp_1_1QPSolver =
 [
+    [ "Duration", "classtasks_1_1qp_1_1QPSolver.html#afe3c34c12da3154c6742a32f2328ef03", null ],
     [ "QPSolver", "classtasks_1_1qp_1_1QPSolver.html#a3dc6ee572596111c1fd7a90e70bac431", null ],
     [ "~QPSolver", "classtasks_1_1qp_1_1QPSolver.html#abf17142db1a5e1f0cd77bdf57cede049", null ],
     [ "addBoundConstraint", "classtasks_1_1qp_1_1QPSolver.html#aea99c8e6fb55de731fdb1717994c0c4d", null ],
@@ -36,11 +37,11 @@ var classtasks_1_1qp_1_1QPSolver =
     [ "resetTasks", "classtasks_1_1qp_1_1QPSolver.html#a038c63bcc76e9ddc446a1b993d6e6d7f", null ],
     [ "result", "classtasks_1_1qp_1_1QPSolver.html#a2486c97839d9f0b2a60b0ebe6a49953d", null ],
     [ "solve", "classtasks_1_1qp_1_1QPSolver.html#a925c6ba27e4dc9f7f3ff35a9124e64c6", null ],
-    [ "solveAndBuildTime", "classtasks_1_1qp_1_1QPSolver.html#a2ff4e607e4d85cdf16172310e112b1ec", null ],
+    [ "solveAndBuildTime", "classtasks_1_1qp_1_1QPSolver.html#ae68f7424fd52f737a22ffa78c65a0fad", null ],
     [ "solveNoMbcUpdate", "classtasks_1_1qp_1_1QPSolver.html#a76f4a180008ecb981e5dd3cbd97e363a", null ],
     [ "solver", "classtasks_1_1qp_1_1QPSolver.html#a8138a8ef5929d227b0f07201920ef44f", null ],
     [ "solver", "classtasks_1_1qp_1_1QPSolver.html#aa813f55ac59255d31627483693db1766", null ],
-    [ "solveTime", "classtasks_1_1qp_1_1QPSolver.html#ac009e655ee4124cb099c1d6170980bc8", null ],
+    [ "solveTime", "classtasks_1_1qp_1_1QPSolver.html#ae0ef9f18412d7377ca01fd4565a032a8", null ],
     [ "updateConstrSize", "classtasks_1_1qp_1_1QPSolver.html#a01ef16a400b03ee96b693178f8f8c3c1", null ],
     [ "updateConstrsNrVars", "classtasks_1_1qp_1_1QPSolver.html#ad6508b961b3b4157ce91dc4908efb8bb", null ],
     [ "updateMbc", "classtasks_1_1qp_1_1QPSolver.html#acb62fe98d24d9060a38328f2f4b4c537", null ],

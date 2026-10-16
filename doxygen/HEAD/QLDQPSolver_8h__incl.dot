@@ -5,7 +5,7 @@ digraph "src/QLDQPSolver.h"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="src/QLDQPSolver.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
   Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="eigen-qld/QLD.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node2 [label="eigen-qld/QLD.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="/usr/local/share/doc/eigen-qld/doxygen-html/eigen-qld.doxytag$QLD_8h.html.html",tooltip=" "];
   Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="Tasks/GenQPSolver.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$GenQPSolver_8h.html",tooltip=" "];
   Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

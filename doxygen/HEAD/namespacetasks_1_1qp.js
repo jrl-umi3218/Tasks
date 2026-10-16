@@ -69,6 +69,7 @@ var namespacetasks_1_1qp =
     [ "OrientationTrackingTask", "classtasks_1_1qp_1_1OrientationTrackingTask.html", "classtasks_1_1qp_1_1OrientationTrackingTask" ],
     [ "RelativeDistTask", "classtasks_1_1qp_1_1RelativeDistTask.html", "classtasks_1_1qp_1_1RelativeDistTask" ],
     [ "VectorOrientationTask", "classtasks_1_1qp_1_1VectorOrientationTask.html", "classtasks_1_1qp_1_1VectorOrientationTask" ],
+    [ "clock", "namespacetasks_1_1qp.html#a81325c75122f8181ac619bafb76f50a7", null ],
     [ "compareDof", "namespacetasks_1_1qp.html#a9d2ad288554eb8df94fadd7bfc77009d", null ],
     [ "constrErrorMsg", "namespacetasks_1_1qp.html#a1d2dfd5d6e03be7321854fb1e2bc32df", null ],
     [ "createQPSolver", "namespacetasks_1_1qp.html#aada2800b4fa88d085376a20b1105b87e", null ],
