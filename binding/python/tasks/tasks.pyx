@@ -13,28 +13,6 @@ from cython.operator cimport dereference as deref
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
-cdef class cpu_times(object):
-  property wall:
-    def __get__(self):
-      return self.impl.wall
-    def __set__(self, value):
-      self.impl.wall = value
-  property user:
-    def __get__(self):
-      return self.impl.user
-    def __set__(self, value):
-      self.impl.user = value
-  property system:
-    def __get__(self):
-      return self.impl.system
-    def __set__(self, value):
-      self.impl.system = value
-
-cdef cpu_times cpu_timesFromC(const c_tasks.cpu_times & arg):
-  cdef cpu_times ret = cpu_times()
-  ret.impl = arg
-  return ret
-
 cdef class PositionTask(object):
   def __dealloc__(self):
     del self.impl

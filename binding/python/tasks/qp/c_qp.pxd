@@ -682,5 +682,3 @@ cdef extern from "<Tasks/QPSolver.h>" namespace "tasks::qp":
     VectorXd lambdaVec(int) const
     int contactLambdaPosition(const ContactId&) const
     SolverData data() const
-    c_tasks.cpu_times solveTime() const
-    c_tasks.cpu_times solveAndBuildTime() const

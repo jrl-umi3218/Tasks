@@ -3,10 +3,12 @@
 #
 
 from rbdyn.c_rbdyn cimport MultiBody
-from tasks.qp.c_qp cimport JointsSelector, HighLevelTask
+from tasks.qp.c_qp cimport JointsSelector, HighLevelTask, QPSolver
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
 cdef extern from "qp_wrapper.hpp" namespace "tasks::qp":
     JointsSelector* ActiveJoints2Ptr(const vector[MultiBody]&, int, HighLevelTask*, const vector[string])
     JointsSelector* UnactiveJoints2Ptr(const vector[MultiBody]&, int, HighLevelTask*, const vector[string])
+    double QPSolverSolveTime(const QPSolver&)
+    double QPSolverSolveAndBuildTime(const QPSolver&)

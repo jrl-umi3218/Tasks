@@ -33,13 +33,8 @@ if(${eigen-lssol_FOUND})
   list(APPEND PRIVATE_HEADERS LSSOLQPSolver.h)
 endif()
 
-add_project_dependency(Boost REQUIRED COMPONENTS timer)
-
 add_library(Tasks SHARED ${SOURCES} ${HEADERS} ${PRIVATE_HEADERS})
-target_link_libraries(
-  Tasks PUBLIC RBDyn::RBDyn sch-core::sch-core eigen-qld::eigen-qld Boost::timer
-               Boost::disable_autolinking Boost::dynamic_linking
-)
+target_link_libraries(Tasks PUBLIC RBDyn::RBDyn sch-core::sch-core eigen-qld::eigen-qld)
 if(${eigen-lssol_FOUND})
   target_link_libraries(Tasks PUBLIC eigen-lssol::eigen-lssol)
   target_compile_definitions(Tasks PRIVATE -DLSSOL_SOLVER_FOUND)

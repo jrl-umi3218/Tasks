@@ -5,11 +5,6 @@
 cimport tasks.c_tasks as c_tasks
 from libcpp.vector cimport vector
 
-cdef class cpu_times(object):
-  cdef c_tasks.cpu_times impl
-
-cdef cpu_times cpu_timesFromC(const c_tasks.cpu_times &)
-
 cdef class PositionTask(object):
   cdef c_tasks.PositionTask * impl
 
