@@ -6,11 +6,10 @@
 
 // includes
 // std
+#include <chrono>
 #include <memory>
+#include <type_traits>
 #include <vector>
-
-// boost
-#include <boost/timer/timer.hpp>
 
 // Eigen
 #include <Eigen/Core>
@@ -34,6 +33,11 @@ namespace tasks
 
 namespace qp
 {
+/** clock is a clock that is always steady and thus suitable for performance measurements */
+using clock = typename std::conditional<std::chrono::high_resolution_clock::is_steady,
+                                        std::chrono::high_resolution_clock,
+                                        std::chrono::steady_clock>::type;
+
 class Constraint;
 class Equality;
 class Inequality;
@@ -123,8 +127,10 @@ public:
 
   int contactLambdaPosition(const ContactId & cId) const;
 
-  boost::timer::cpu_times solveTime() const;
-  boost::timer::cpu_times solveAndBuildTime() const;
+  using Duration = clock::duration;
+
+  Duration solveTime() const;
+  Duration solveAndBuildTime() const;
 
 protected:
   void preUpdate(const std::vector<rbd::MultiBody> & mbs, const std::vector<rbd::MultiBodyConfig> & mbcs);
@@ -145,7 +151,8 @@ private:
 
   std::unique_ptr<GenQPSolver> solver_;
 
-  boost::timer::cpu_timer solverTimer_, solverAndBuildTimer_;
+  Duration solverTime_{};
+  Duration solverAndBuildTime_{};
 };
 
 class TASKS_DLLAPI Constraint

@@ -2235,9 +2235,9 @@ cdef class QPSolver(object):
   def data(self):
     return SolverDataFromC(self.impl.data())
   def solveTime(self):
-    return tasks.cpu_timesFromC(self.impl.solveTime())
+    return c_qp_private.QPSolverSolveTime(deref(self.impl))
   def solveAndBuildTime(self):
-    return tasks.cpu_timesFromC(self.impl.solveAndBuildTime())
+    return c_qp_private.QPSolverSolveAndBuildTime(deref(self.impl))
 
 cdef QPSolver QPSolverFromPtr(c_qp.QPSolver * p):
     cdef QPSolver ret = QPSolver(skip_alloc = True)

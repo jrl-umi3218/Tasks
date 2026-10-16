@@ -9,12 +9,6 @@ from sch.c_sch import *
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 
-cdef extern from "<boost/timer/timer.hpp>" namespace "boost::timer":
-  cdef cppclass cpu_times:
-    long long int wall
-    long long int user
-    long long int system
-
 cdef extern from "<Tasks/Tasks.h>" namespace "tasks":
   cdef cppclass PositionTask:
     PositionTask(const MultiBody&, const string&, const Vector3d&, const Vector3d&)
