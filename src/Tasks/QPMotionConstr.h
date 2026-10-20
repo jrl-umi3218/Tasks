@@ -92,6 +92,8 @@ public:
 
   // Update external torques value
   void setExternalTorques(const Eigen::VectorXd & torques);
+  // Removes external torques
+  void clearExternalTorques();
 
 protected:
   struct ContactData

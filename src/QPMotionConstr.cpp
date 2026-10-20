@@ -249,6 +249,9 @@ void MotionConstrCommon::setExternalTorques(const Eigen::VectorXd & torques)
   extTorque_->noalias() = torques;
 }
 
+void MotionConstrCommon::clearExternalTorques()
+{ extTorque_.reset(); };
+
 /**
  *															MotionConstr
  */
