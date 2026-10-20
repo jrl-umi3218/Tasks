@@ -1,3 +1,9 @@
+tasks (1.10.0-1debian1) unstable; urgency=medium
+
+  * New release: version 1.10.0
+
+ -- Arnaud TANGUY <arn.tanguy@gmail.com>  Tue, 20 Oct 2026 17:20:14 +0200
+
 tasks (1.9.2-1debian1) unstable; urgency=medium
 
   * New release: version 1.9.2
