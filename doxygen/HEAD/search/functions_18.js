@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y_2621',['Y',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1IDIM.html#aa99e315c9da1c0ef6da65e226dfd24cb',1,'rbd::IDIM']]]
+  ['y_2629',['Y',['/usr/local/share/doc/RBDyn/doxygen-html/classrbd_1_1IDIM.html#aa99e315c9da1c0ef6da65e226dfd24cb',1,'rbd::IDIM']]]
 ];

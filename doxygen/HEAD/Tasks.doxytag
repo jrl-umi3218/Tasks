@@ -3923,15 +3923,15 @@
       <type></type>
       <name>MotionConstr</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
-      <anchor>a5dc804e968c47791630468c06584d2d2</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb)</arglist>
+      <anchor>a9d38221c7dcc7ed82b854c4c1df0c2a6</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, std::optional&lt; Eigen::VectorXd &gt; externalTorque=std::nullopt)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>MotionConstr</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstr.html</anchorfile>
-      <anchor>a237ae18afb594776c638ff4c6d2b4e79</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt)</arglist>
+      <anchor>a2351e049f0250a0c14ff5b5932f12812</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, std::optional&lt; Eigen::VectorXd &gt; externalTorque=std::nullopt)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>
@@ -4013,8 +4013,8 @@
       <type></type>
       <name>MotionConstrCommon</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
-      <anchor>ae71be277b8002ce97fe338eab8d084af</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex)</arglist>
+      <anchor>af5f369de674a1a9a003dca7ae447cfd3</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, std::optional&lt; Eigen::VectorXd &gt; externalTorque=std::nullopt)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -4093,6 +4093,20 @@
       <anchor>acefc0f058dc1c8db1d2c9e593c6b5332</anchor>
       <arglist>() const override</arglist>
     </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setExternalTorques</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
+      <anchor>acc7076a694cda1c2de24852bf970dc41</anchor>
+      <arglist>(const Eigen::VectorXd &amp;torques)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clearExternalTorques</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
+      <anchor>aeb771dd404f3349e28d688293e736025</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="variable" protection="protected">
       <type>int</type>
       <name>robotIndex_</name>
@@ -4161,6 +4175,13 @@
       <name>curTorque_</name>
       <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
       <anchor>af8dfcd48202dd0d87d0daa621eab9277</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>std::optional&lt; Eigen::VectorXd &gt;</type>
+      <name>extTorque_</name>
+      <anchorfile>classtasks_1_1qp_1_1MotionConstrCommon.html</anchorfile>
+      <anchor>a51a485f760b78810840fd1641226418e</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="protected">
@@ -4241,15 +4262,15 @@
       <type></type>
       <name>MotionSpringConstr</name>
       <anchorfile>classtasks_1_1qp_1_1MotionSpringConstr.html</anchorfile>
-      <anchor>aae4c8dbb6054294ea28eda06f032219a</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const std::vector&lt; SpringJoint &gt; &amp;springs)</arglist>
+      <anchor>a5a7b47a959e4decd4765fcf98495a4e9</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const std::vector&lt; SpringJoint &gt; &amp;springs, std::optional&lt; Eigen::VectorXd &gt; externalTorque=std::nullopt)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>MotionSpringConstr</name>
       <anchorfile>classtasks_1_1qp_1_1MotionSpringConstr.html</anchorfile>
-      <anchor>ad0944797929973c29d8484bb07fa5325</anchor>
-      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, const std::vector&lt; SpringJoint &gt; &amp;springs)</arglist>
+      <anchor>a204e5982bc310c17f51e8205da45575d</anchor>
+      <arglist>(const std::vector&lt; rbd::MultiBody &gt; &amp;mbs, int robotIndex, const TorqueBound &amp;tb, const TorqueDBound &amp;tdb, double dt, const std::vector&lt; SpringJoint &gt; &amp;springs, std::optional&lt; Eigen::VectorXd &gt; externalTorque=std::nullopt)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual void</type>

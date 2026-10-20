@@ -1,7 +1,7 @@
 var classtasks_1_1qp_1_1MotionConstr =
 [
-    [ "MotionConstr", "classtasks_1_1qp_1_1MotionConstr.html#a5dc804e968c47791630468c06584d2d2", null ],
-    [ "MotionConstr", "classtasks_1_1qp_1_1MotionConstr.html#a237ae18afb594776c638ff4c6d2b4e79", null ],
+    [ "MotionConstr", "classtasks_1_1qp_1_1MotionConstr.html#a9d38221c7dcc7ed82b854c4c1df0c2a6", null ],
+    [ "MotionConstr", "classtasks_1_1qp_1_1MotionConstr.html#a2351e049f0250a0c14ff5b5932f12812", null ],
     [ "contactMatrix", "classtasks_1_1qp_1_1MotionConstr.html#a83f2bb42076faa8bb60ecec0edde0f9f", null ],
     [ "fd", "classtasks_1_1qp_1_1MotionConstr.html#a702864a9fbe23aea8234f16e0bbe4dc8", null ],
     [ "matrix", "classtasks_1_1qp_1_1MotionConstr.html#ac2e6cd33d0d97037b1e89443282203c1", null ],

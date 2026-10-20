@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['limits_1540',['Limits',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Limits.html',1,'rbd::parsers']]],
-  ['linvelocitytask_1541',['LinVelocityTask',['../classtasks_1_1LinVelocityTask.html',1,'tasks::LinVelocityTask'],['../classtasks_1_1qp_1_1LinVelocityTask.html',1,'tasks::qp::LinVelocityTask']]],
-  ['lssolqpsolver_1542',['LSSOLQPSolver',['../classtasks_1_1qp_1_1LSSOLQPSolver.html',1,'tasks::qp']]]
+  ['limits_1546',['Limits',['/usr/local/share/doc/RBDyn/doxygen-html/structrbd_1_1parsers_1_1Limits.html',1,'rbd::parsers']]],
+  ['linvelocitytask_1547',['LinVelocityTask',['../classtasks_1_1LinVelocityTask.html',1,'tasks::LinVelocityTask'],['../classtasks_1_1qp_1_1LinVelocityTask.html',1,'tasks::qp::LinVelocityTask']]],
+  ['lssolqpsolver_1548',['LSSOLQPSolver',['../classtasks_1_1qp_1_1LSSOLQPSolver.html',1,'tasks::qp']]]
 ];

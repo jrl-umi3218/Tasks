@@ -36,4 +36,6 @@ digraph "src/Tasks/QPMotionConstr.h"
   Node14 [label="QPSolverData.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$QPSolverData_8h.html",tooltip=" "];
   Node14 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node14 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="optional",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

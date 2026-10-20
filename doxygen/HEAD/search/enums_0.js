@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['archivetype_3065',['ArchiveType',['/usr/local/share/doc/sch-core/doxygen-html/namespacesch.html#aec0f4168a7c3d90bebc8db0c1f6c8fa9',1,'sch']]]
+  ['archivetype_3075',['ArchiveType',['/usr/local/share/doc/sch-core/doxygen-html/namespacesch.html#aec0f4168a7c3d90bebc8db0c1f6c8fa9',1,'sch']]]
 ];
