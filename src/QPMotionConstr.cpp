@@ -186,6 +186,7 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody> & mbs,
   // fill inertia matrix part
   A_.block(0, alphaDBegin_, nrDof_, nrDof_) = fd_.H();
 
+  A_.block(0, lambdaBegin_, nrDof_, A_.cols() - lambdaBegin_).setZero();
   for(std::size_t i = 0; i < cont_.size(); ++i)
   {
     const MatrixXd & jac = cont_[i].jac.bodyJacobian(mb, mbc);
@@ -205,7 +206,7 @@ void MotionConstrCommon::computeMatrix(const std::vector<rbd::MultiBody> & mbs,
 
       cd.jac.fullJacobian(mb, jacLambda_.block(0, 0, nrLambda, cd.jac.dof()), fullJacLambda_);
 
-      A_.block(0, cd.lambdaBegin + lambdaOffset, nrDof_, nrLambda).noalias() =
+      A_.block(0, cd.lambdaBegin + lambdaOffset, nrDof_, nrLambda).noalias() +=
           fullJacLambda_.block(0, 0, nrLambda, nrDof_).transpose();
       lambdaOffset += nrLambda;
     }
