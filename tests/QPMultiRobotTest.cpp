@@ -565,3 +565,65 @@ BOOST_AUTO_TEST_CASE(TorqueTaskTest)
   solver.removeTask(&posture2Task);
   solver.removeTask(&tt);
 }
+
+BOOST_AUTO_TEST_CASE(SelfContactMotionConstrTest)
+{
+  // A contact between two bodies of the same robot (e.g. the loop closure of a closed kinematic chain) appears twice
+  // in the robot's MotionConstr, once per body, with the same lambda. The two forces are equal and opposite at the
+  // same point, so they must cancel in the floating-base rows: an internal force cannot support the robot. Before the
+  // fix the second side overwrote the first, leaving a net "external" force in the floating-base equations.
+  using namespace Eigen;
+  using namespace sva;
+  using namespace rbd;
+  using namespace tasks;
+  namespace cst = boost::math::constants;
+
+  MultiBody mb;
+  MultiBodyConfig mbc;
+  std::tie(mb, mbc) = makeZXZArm(false);
+  // Floating base away from the origin and bent joints, so that b0 and b3 are apart and not aligned
+  Quaterniond baseOri(AngleAxisd(0.3, Vector3d::UnitX()) * AngleAxisd(-0.2, Vector3d::UnitZ()));
+  mbc.q[0] = {baseOri.w(), baseOri.x(), baseOri.y(), baseOri.z(), 0.1, 0.2, 0.3};
+  mbc.q[1] = {0.4};
+  mbc.q[2] = {0.7};
+  mbc.q[3] = {-0.5};
+  forwardKinematics(mb, mbc);
+  forwardVelocity(mb, mbc);
+
+  // Self contact b0 (r1) - b3 (r2) at b3's origin, with cones in several directions (bilateral)
+  const sva::PTransformd X_0_b0 = mbc.bodyPosW[static_cast<size_t>(mb.bodyIndexByName("b0"))];
+  const sva::PTransformd X_0_b3 = mbc.bodyPosW[static_cast<size_t>(mb.bodyIndexByName("b3"))];
+  const sva::PTransformd X_b0_b3 = X_0_b3 * X_0_b0.inv();
+  const Vector3d contactPoint = X_b0_b3.inv().translation(); // b3's origin in b0's frame
+  const int nrGen = 4;
+  std::vector<Vector3d> points(3, contactPoint);
+  std::vector<Matrix3d> frames = {Matrix3d::Identity(), Matrix3d(RotX(cst::pi<double>())),
+                                  Matrix3d(RotY(cst::pi<double>() / 2.))};
+  std::vector<qp::BilateralContact> selfContact = {
+      qp::BilateralContact({0, 0, "b0", "b3"}, points, frames, X_b0_b3, nrGen, 1.)};
+
+  std::vector<MultiBody> mbs = {mb};
+  std::vector<MultiBodyConfig> mbcs = {mbc};
+
+  const double Inf = std::numeric_limits<double>::infinity();
+  std::vector<std::vector<double>> torqueMin = {{0., 0., 0., 0., 0., 0.}, {-Inf}, {-Inf}, {-Inf}};
+  std::vector<std::vector<double>> torqueMax = {{0., 0., 0., 0., 0., 0.}, {Inf}, {Inf}, {Inf}};
+  qp::MotionConstr motion(mbs, 0, {torqueMin, torqueMax});
+
+  qp::QPSolver solver;
+  motion.addToSolver(solver);
+  solver.nrVars(mbs, {}, selfContact);
+  solver.updateConstrSize();
+  motion.update(mbs, mbcs, solver.data());
+
+  const MatrixXd & A = motion.AGenInEq();
+  const int lambdaBegin = solver.data().lambdaBegin();
+  const int nrLambda = solver.data().totalLambda();
+  BOOST_REQUIRE_EQUAL(nrLambda, 3 * nrGen);
+  // Floating-base rows (6) of the self contact's lambda columns: internal forces, no net wrench on the robot
+  BOOST_CHECK_SMALL(A.block(0, lambdaBegin, 6, nrLambda).norm(), 1e-8);
+  // Joint rows: the self contact does load the joints (the test is not vacuous)
+  BOOST_CHECK_GT(A.block(6, lambdaBegin, mb.nrDof() - 6, nrLambda).norm(), 1e-3);
+
+  motion.removeFromSolver(solver);
+}
